@@ -1,6 +1,6 @@
 insert a logo here
 
-# Unsung Anthem!
+# Unsung Anthem
 
 insert build status here
 
