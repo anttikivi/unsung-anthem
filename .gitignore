@@ -36,3 +36,6 @@ cmake-build-debug
 
 # IntelliJ
 .idea
+
+# Xcode
+unsung-anthem.xcodeproj
