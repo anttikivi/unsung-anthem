@@ -14,7 +14,6 @@ import os
 import re
 import sys
 import traceback
-import urllib
 
 from functools import reduce
 from multiprocessing import freeze_support
@@ -22,6 +21,8 @@ from multiprocessing import freeze_support
 from anthem_build_support.anthem_build_support import shell
 from anthem_build_support.anthem_build_support.variables import \
     ANTHEM_SOURCE_ROOT
+
+import requests
 
 SCRIPT_FILE = os.path.abspath(__file__)
 SCRIPT_DIR = os.path.dirname(SCRIPT_FILE)
@@ -355,7 +356,7 @@ def validate_config(config):
 
 def main():
     freeze_support()
-    parser = argparse.ArgumentParser(formatter_class=\
+    parser = argparse.ArgumentParser(formatter_class= \
                                          argparse.RawDescriptionHelpFormatter,
                                      description="""repositories.
                                      
@@ -441,6 +442,35 @@ By default, updates your checkouts of Unsung Anthem.""")
               "--scheme=foo")
         sys.exit(1)
 
+    # Download the dependencies which are not got by git.
+    if 'catch' not in args.skip_repository_list:
+
+        # Delete the old Catch directory.
+        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'catch'))
+
+        # Make a new Catch directory.
+        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, 'catch'))
+
+        url = 'https://api.github.com/repos/philsquared/Catch/releases/latest'
+        headers = {"User-Agent": "venturesomestone"}
+        catch_req = requests.get(url=url, headers=headers)
+
+        # print(catch_req.json()['assets'][0]['url'])
+
+        url = catch_req.json()['assets'][0]['url']
+        headers = {"User-Agent": "venturesomestone",
+                   "Accept": "application/octet-stream"}
+        catch_assets_req = requests.get(url=url, headers=headers, stream=True)
+
+        print(catch_req.headers)
+
+        local_filename = os.path.join(ANTHEM_SOURCE_ROOT, 'catch', 'catch.hpp')
+
+        with open(local_filename, 'wb') as f:
+            for chunk in catch_assets_req.iter_content(chunk_size=1024):
+                if chunk:  # filter out keep-alive new chunks
+                    f.write(chunk)
+
     clone = args.clone
     clone_with_ssh = args.clone_with_ssh
     skip_history = args.skip_history
@@ -484,6 +514,7 @@ By default, updates your checkouts of Unsung Anthem.""")
 
     update_results = update_all_repositories(args, config, scheme,
                                              cross_repos_pr)
+
     fail_count = 0
     fail_count += shell.check_parallel_results(clone_results, "CLONE")
     fail_count += shell.check_parallel_results(update_results, "UPDATE")
