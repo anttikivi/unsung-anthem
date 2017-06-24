@@ -20,6 +20,9 @@ import sys
 
 from anthem_build_support.anthem_build_support import (diagnostics, namespace)
 
+from anthem_build_support.anthem_build_support.call import \
+    call_without_sleeping
+
 from anthem_build_support.anthem_build_support.presets import \
     get_all_preset_names
 
