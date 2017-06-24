@@ -12,7 +12,7 @@ Unsung Anthem is a 2D video game with own game engine. It is written by using mo
 
 The goal of Unsung Anthem is to be a game that embraces different styles of play and preferences of people. This will be strengthened by the storytelling of Unsung Anthem:
 
-* Unsung Anthem is an open-world game.
+* Unsung Anthem is an open-air game.
 * It can still be progressed somewhat linearly if the player wants to follow thin story.
 * Player can discover a deeper story and lore hidden in the world, items, and dialogues of Unsung Anthem if they want to so the storytelling of Unsung Anthem resembles that of Dark Souls.
 
