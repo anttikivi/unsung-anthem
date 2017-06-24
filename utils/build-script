@@ -1,17 +1,52 @@
 #!/usr/bin/env python
+
 # utils/build-script ---------------------------------------------*- python -*-
 #
-# This source file is part of the Unsung Anthem open source project.
+# This source file is part of the Unsung Anthem open source project and is
+# adapted from the Swift.org open source project.
 #
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
 
+"""
+Usage:
+    build-script --preset <NAME>
+    build-script --show-presets
+"""
+
+import os
 import sys
+
+from anthem_build_support.anthem_build_support import (diagnostics, namespace)
+
+from anthem_build_support.anthem_build_support.variables import \
+    ANTHEM_SOURCE_ROOT
+
+from docopt import docopt
 
 
 def main():
-    print('Hello')
+    # First check if the root directory environment variable of the build is
+    # set.
+    if not ANTHEM_SOURCE_ROOT:
+        diagnostics.fatal("could not infer source root directory (forgot to "
+                          "set $ANTHEM_SOURCE_ROOT environment variable?)")
+
+    # Then check if the root directory of the build exists and is a directory.
+    if not os.path.isdir(ANTHEM_SOURCE_ROOT):
+        diagnostics.fatal("source root directory \'"
+                          + ANTHEM_SOURCE_ROOT
+                          + "\' does not exist (forgot to set "
+                            "$ANTHEM_SOURCE_ROOT environment variable?)")
+
+    # Set the raw options of the program parsed by docopt.
+    raw_opts = docopt(__doc__)
+
+    # Determine if the script is invoked in the preset mode and dispatch
+    # accordingly.
+    if lambda: raw_opts['--preset'] is not None or raw_opts['--show-presets']:
+        return 1
 
 
 if __name__ == '__main__':
