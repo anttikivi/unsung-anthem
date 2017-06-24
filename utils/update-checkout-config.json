@@ -1,28 +1,31 @@
 {
   "ssh-clone-pattern": "git@github.com:%s.git",
   "https-clone-pattern": "https://github.com/%s.git",
+  "api-url": "https://api.github.com",
   "repos": {
-    "anthem": {
-      "remote": {
-        "id": "venturesomestone/unsung-anthem"
-      }
-    },
     "ninja": {
       "remote": {
         "id": "ninja-build/ninja"
       }
+    },
+    "catch": {
+      "remote": {
+        "id": "philsquared/Catch"
+      }
     }
   },
-  "default-branch-scheme": "master",
+  "default-branch-scheme": "develop",
   "branch-schemes": {
     "master": {
-      "aliases": [
-        "master",
-        "stable"
-      ],
-      "repos": {
-        "anthem": "master",
-        "ninja": "release"
+      "versions": {
+        "ninja": "1.7.2",
+        "catch": "1.9.5"
+      }
+    },
+    "develop": {
+      "versions": {
+        "ninja": "1.7.2",
+        "catch": "1.9.5"
       }
     }
   }
