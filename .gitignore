@@ -39,3 +39,6 @@ cmake-build-debug
 
 # Xcode
 unsung-anthem.xcodeproj
+
+# Python
+*.pyc
