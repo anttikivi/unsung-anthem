@@ -11,3 +11,5 @@
 # utils/anthem_build_support/ directory as a module.
 #
 # ----------------------------------------------------------------------------
+
+__all__ = ['diagnostics']
