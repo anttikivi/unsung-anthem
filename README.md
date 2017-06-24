@@ -19,3 +19,7 @@ The goal of Unsung Anthem is to be a game that embraces different styles of play
 Unsung Anthem is supposed to be difficult and challenging but not punishing. Whenever the player does not overcome some challenge, they will not consistently blame the failure on Unsung Anthem but rather think how they could succeed by improving themselves.
 
 The difficulty of Unsung Anthem will not be scalable by game settings. It will instead change according to player's decisions. For example, long-range combat could feel easier in some situations so the player chooses it instead of close-range combat. Still, Unsung Anthem maintains its combat system in such manner that players who choose to use more demanding styles of play will feel rewarded once they master the skill.
+
+Also, one in-game solution, for example long-range combat, must not be viable in easing the player in every situation. The player has to find new and dissimilar strategies in different circumstances. The player will feel themselves clever for discovering these novel manoeuvres.
+
+
