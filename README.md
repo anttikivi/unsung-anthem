@@ -22,4 +22,6 @@ The difficulty of Unsung Anthem will not be scalable by game settings. It will i
 
 Also, one in-game solution, for example long-range combat, must not be viable in easing the player in every situation. The player has to find new and dissimilar strategies in different circumstances. The player will feel themselves clever for discovering these novel manoeuvres.
 
+Unsung Anthem encourages the player to venture and look actively for new things to discover. The player will usually be rewarded for undertaking something risky and trying to uncover some secrets.
 
+While Unsung Anthem is supposed to be challenging, writing it should not be. The code of Unsung Anthem follows clear and consistent rules for easier understanding of code. The code must always be well documented.
