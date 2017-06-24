@@ -1,0 +1,29 @@
+{
+  "ssh-clone-pattern": "git@github.com:%s.git",
+  "https-clone-pattern": "https://github.com/%s.git",
+  "repos": {
+    "anthem": {
+      "remote": {
+        "id": "venturesomestone/unsung-anthem"
+      }
+    },
+    "ninja": {
+      "remote": {
+        "id": "ninja-build/ninja"
+      }
+    }
+  },
+  "default-branch-scheme": "master",
+  "branch-schemes": {
+    "master": {
+      "aliases": [
+        "master",
+        "stable"
+      ],
+      "repos": {
+        "anthem": "master",
+        "ninja": "release"
+      }
+    }
+  }
+}
