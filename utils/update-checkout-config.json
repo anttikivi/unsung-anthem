@@ -1,31 +1,25 @@
 {
-  "ssh-clone-pattern": "git@github.com:%s.git",
-  "https-clone-pattern": "https://github.com/%s.git",
-  "api-url": "https://api.github.com",
-  "repos": {
+  "api_url": "https://api.github.com",
+  "dependencies": {
     "ninja": {
-      "remote": {
-        "id": "ninja-build/ninja"
+      "owner": "ninja-build",
+      "id": "ninja",
+      "version": "1.7.2",
+      "asset": {
+        "multiplatform": true,
+        "id": "ninja.zip",
+        "Darwin": "ninja-mac.zip",
+        "Linux": "ninja-linux.zip",
+        "Windows": "ninja-win.zip"
       }
     },
     "catch": {
-      "remote": {
-        "id": "philsquared/Catch"
-      }
-    }
-  },
-  "default-branch-scheme": "develop",
-  "branch-schemes": {
-    "master": {
-      "versions": {
-        "ninja": "1.7.2",
-        "catch": "1.9.5"
-      }
-    },
-    "develop": {
-      "versions": {
-        "ninja": "1.7.2",
-        "catch": "1.9.5"
+      "owner": "philsquared",
+      "id": "Catch",
+      "version": "1.9.5",
+      "asset": {
+        "multiplatform": false,
+        "id": "catch.hpp"
       }
     }
   }

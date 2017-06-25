@@ -164,6 +164,16 @@ def rmtree(path, dry_run=None, echo=True):
         shutil.rmtree(path)
 
 
+def rm(file, dry_run=None, echo=True):
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        _echo_command(dry_run, ['rm', file])
+    if dry_run:
+        return
+    if os.path.exists(file):
+        os.remove(file)
+
+
 def copytree(src, dest, dry_run=None, echo=True):
     dry_run = _coerce_dry_run(dry_run)
     if dry_run or echo:
