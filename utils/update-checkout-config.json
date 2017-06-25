@@ -1,25 +1,43 @@
 {
   "api_url": "https://api.github.com",
   "dependencies": {
+
     "ninja": {
+      "github": true,
       "owner": "ninja-build",
       "id": "ninja",
-      "version": "1.7.2",
+      "version": "v1.7.2",
       "asset": {
         "multiplatform": true,
+        "fallback": false,
         "id": "ninja.zip",
         "Darwin": "ninja-mac.zip",
         "Linux": "ninja-linux.zip",
         "Windows": "ninja-win.zip"
       }
     },
+
     "catch": {
+      "github": true,
       "owner": "philsquared",
       "id": "Catch",
-      "version": "1.9.5",
+      "version": "v1.9.5",
       "asset": {
         "multiplatform": false,
         "id": "catch.hpp"
+      }
+    },
+
+    "glfw": {
+      "github": true,
+      "owner": "glfw",
+      "id": "glfw",
+      "version": "3.2.1",
+      "asset": {
+        "multiplatform": true,
+        "fallback": true,
+        "id": "glfw-3.2.1.zip",
+        "Windows": "TODO"
       }
     }
   }

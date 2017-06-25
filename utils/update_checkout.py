@@ -86,16 +86,24 @@ By default, updates your checkouts of Unsung Anthem.""")
             if platform.system() in asset.keys():
                 github.download_asset(owner=dependency['owner'],
                                       repository=dependency['id'],
-                                      release_name='v' + dependency['version'],
+                                      release_name=dependency['version'],
                                       asset_name=asset[platform.system()],
                                       destination=os.path.join(key,
                                                                asset['id']))
             else:
-                print('Not supported')  # TODO
+                if asset['fallback']:
+                    github.download_asset(owner=dependency['owner'],
+                                          repository=dependency['id'],
+                                          release_name=dependency['version'],
+                                          asset_name=asset['id'],
+                                          destination=os.path.join(key,
+                                                                   asset['id']))
+                else:
+                    print('Not supported')  # TODO
         else:
             github.download_asset(owner=dependency['owner'],
                                   repository=dependency['id'],
-                                  release_name='v' + dependency['version'],
+                                  release_name=dependency['version'],
                                   asset_name=asset['id'],
                                   destination=os.path.join(key, asset['id']))
 
@@ -112,6 +120,27 @@ By default, updates your checkouts of Unsung Anthem.""")
 
             # Delete the archive as it is extracted.
             shell.rm(asset_file)
+
+    # Delete the temporary folder in case it exists.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+    # Move up the GLFW files to temporary folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
+                                'glfw',
+                                'glfw-'
+                                + config['dependencies']['glfw']['version']),
+                   os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+    # Delete the GLFW folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'glfw'))
+
+    # Copy the files from the temporary folder to the correct folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'),
+                   os.path.join(ANTHEM_SOURCE_ROOT, 'glfw'))
+
+    # Delete the temporary folder.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
 
 
 if __name__ == "__main__":
