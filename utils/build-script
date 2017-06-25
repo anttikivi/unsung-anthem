@@ -14,6 +14,7 @@ Usage:
     build-script --preset NAME [--preset-file PATH] [-n]
                  [--expand-build-script-invocation]
     build-script --show-presets
+    build-script [-n | --dry-run]
 
 Options:
     --preset NAME                       Use the specified option preset.
@@ -55,7 +56,8 @@ from docopt import docopt
 def main_preset(raw_options):
     # Set the names of the files from which the presets are looked up from.
     preset_file_names = [raw_options['--preset-file']] \
-        if (raw_options['--preset-file'] is not None) and not (len(raw_options['--preset-file']) == 0) \
+        if (raw_options['--preset-file'] is not None) and not (
+        len(raw_options['--preset-file']) == 0) \
         else [os.path.join(HOME, ".anthem-build-presets"),
               os.path.join(ANTHEM_SOURCE_ROOT,
                            ANTHEM_REPO_NAME,
@@ -85,7 +87,6 @@ def main_preset(raw_options):
         # A recursive function that compiles the arguments into an array from
         # the docopt parsed raw arguments.
         def assemble_arguments_implementation(arguments, index):
-
             # Return the arguments if the preset is already iterated through
             # or call the next index recursively.
             return arguments if len(preset_args) <= index \
@@ -116,6 +117,21 @@ def main_preset(raw_options):
     return 0
 
 
+def main_normal(raw_opts):
+    # Get the arguments of the script as a namespace.
+    args = namespace.Namespace(dry_run=raw_opts['--dry-run'],
+
+                               # TODO Add command line option for build
+                               # variants.
+                               anthem_build_variant='Debug',
+
+                               # TODO Add command line options for assertions.
+                               anthem_assertions=True)
+
+    # Set the dry run setting of the shell utilities.
+    shell.dry_run = args.dry_run
+
+
 def main():
     # First check if the root directory environment variable of the build is
     # set.
@@ -137,6 +153,8 @@ def main():
     # accordingly.
     if raw_opts['--preset'] is not None or raw_opts['--show-presets']:
         return main_preset(raw_opts)
+    else:
+        return main_normal(raw_opts)
 
 
 if __name__ == '__main__':
