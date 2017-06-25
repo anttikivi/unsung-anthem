@@ -17,12 +17,47 @@ import zipfile
 
 from multiprocessing import freeze_support
 
+import sys
+
 from anthem_build_support.anthem_build_support import (github, shell)
 from anthem_build_support.anthem_build_support.variables import \
     ANTHEM_SOURCE_ROOT
 
 SCRIPT_FILE = os.path.abspath(__file__)
 SCRIPT_DIR = os.path.dirname(SCRIPT_FILE)
+
+VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, 'versions')
+
+
+def move_glfw_files(config):
+    # Delete the temporary folder in case it exists.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+    # Move up the GLFW files to temporary folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
+                                'glfw',
+                                'glfw-'
+                                + config['dependencies']['glfw']['version']),
+                   os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+    # Delete the GLFW folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'glfw'))
+
+    # Copy the files from the temporary folder to the correct folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'),
+                   os.path.join(ANTHEM_SOURCE_ROOT, 'glfw'))
+
+    # Delete the temporary folder.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+
+def dump_version_info(versions):
+
+    # Write the versions to a JSON file so next time the script can download
+    # only the ones that are updated.
+    with open(os.path.join(ANTHEM_SOURCE_ROOT, 'versions'), 'w') as outfile:
+        json.dump(versions, outfile)
 
 
 def main():
@@ -48,7 +83,7 @@ By default, updates your checkouts of Unsung Anthem.""")
                         dest='scheme')
 
     parser.add_argument('--clean',
-                        help='Clean unrelated files from each repository.',
+                        help='Force to re-download every dependency.',
                         action='store_true')
 
     parser.add_argument("--config",
@@ -58,27 +93,33 @@ By default, updates your checkouts of Unsung Anthem.""")
 
     args = parser.parse_args()
 
-    scheme = args.scheme
-
     with open(args.config) as f:
         config = json.load(f)
 
+    # A dictionary that will contain the version for each dependency.
+    with open(VERSIONS_FILE) as f:
+        versions = json.load(f)
+
     dependencies = config['dependencies']
 
-    print(platform.system())
-
     for key in dependencies.keys():
-        # Delete the old directory.
-        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
-
-        # Make a new directory.
-        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
 
         # Set a shortcut to the dependency data.
         dependency = dependencies[key]
 
         # Set a shortcut to the asset data.
         asset = dependency['asset']
+
+        # Check if the dependency should be re-downloaded.
+        if (versions[key] == dependency['version']) and not args.clean:
+            print('' + key + ' should not be re-downloaded, skipping.')
+            continue
+
+        # Delete the old directory.
+        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+        # Make a new directory.
+        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
 
         # Check whether the asset has different version on different
         # platforms.
@@ -121,27 +162,18 @@ By default, updates your checkouts of Unsung Anthem.""")
             # Delete the archive as it is extracted.
             shell.rm(asset_file)
 
-    # Delete the temporary folder in case it exists.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+        # Do the manual tasks if this dependency requires them.
+        if 'glfw' == key:
+            move_glfw_files(config)
 
-    # Move up the GLFW files to temporary folder.
-    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
-                                'glfw',
-                                'glfw-'
-                                + config['dependencies']['glfw']['version']),
-                   os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+        # Add the version of the dependency to the dictionary.
+        versions[key] = dependency['version']
 
-    # Delete the GLFW folder so the files in the temporary folder can be
-    # copied.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'glfw'))
+    # Write the versions to the file.
+    dump_version_info(versions)
 
-    # Copy the files from the temporary folder to the correct folder.
-    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'),
-                   os.path.join(ANTHEM_SOURCE_ROOT, 'glfw'))
-
-    # Delete the temporary folder.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
