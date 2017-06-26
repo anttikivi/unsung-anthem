@@ -15,17 +15,12 @@ Represent whole source tree and the build directory
 import os.path
 
 
-class Workspace(object):
-    def __init__(self, source_root, build_root):
-        self.source_root = source_root
-        self.build_root = build_root
+def source_dir(source_root, path):
+    return os.path.join(source_root, path)
 
-    def source_dir(self, path):
-        return os.path.join(self.source_root, path)
 
-    def build_dir(self, deployment_target, product):
-        return os.path.join(self.build_root,
-                            '%s-%s' % (product, deployment_target))
+def build_dir(build_root, deployment_target, product):
+    return os.path.join(build_root, '%s-%s' % (product, deployment_target))
 
 
 def compute_build_subdir(args):

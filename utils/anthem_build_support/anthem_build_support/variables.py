@@ -34,6 +34,11 @@ def _get_default_source_root():
 ANTHEM_SOURCE_ROOT = os.environ.get("ANTHEM_SOURCE_ROOT",
                                     _get_default_source_root())
 
+# Set ANTHEM_BUILD_ROOT to a directory that will contain a subdirectory for
+# each build configuration
+ANTHEM_BUILD_ROOT = os.environ.get("ANTHEM_BUILD_ROOT",
+                                   os.path.join(ANTHEM_SOURCE_ROOT, "build"))
+
 
 def _get_default_anthem_repo_name():
     # Are we in an Unsung Anthem checkout? Start from this file and check its

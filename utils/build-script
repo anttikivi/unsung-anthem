@@ -14,7 +14,7 @@ Usage:
     build-script --preset NAME [--preset-file PATH] [-n]
                  [--expand-build-script-invocation]
     build-script --show-presets
-    build-script [-n | --dry-run]
+    build-script [-n | --dry-run] [-c | --clean]
 
 Options:
     --preset NAME                       Use the specified option preset.
@@ -28,15 +28,19 @@ Options:
                                         but do not run the preset.
 
     --show-presets                      List all presets and exit.
+
+    -c, --clean                         Do a clean build.
 """
 
 import os
 import sys
+import time
 
 from anthem_build_support.anthem_build_support import \
     (diagnostics,
      namespace,
-     shell)
+     shell,
+     workspace)
 
 from anthem_build_support.anthem_build_support.call import \
     call_without_sleeping
@@ -47,10 +51,45 @@ from anthem_build_support.anthem_build_support.presets import \
 
 from anthem_build_support.anthem_build_support.variables import \
     (HOME,
+     ANTHEM_BUILD_ROOT,
      ANTHEM_REPO_NAME,
      ANTHEM_SOURCE_ROOT)
 
+from anthem_build_support.anthem_build_support.products import \
+    (ninja)
+
 from docopt import docopt
+
+
+def initialize_runtime_environment():
+    """
+    Change the program environment for building.
+    """
+
+    # Set an appropriate default umask.
+    os.umask(0o022)
+
+    # Unset environment variables that might affect how tools behave.
+    for v in ['MAKEFLAGS']:
+        os.environ.pop(v, None)
+
+
+def clean_delay():
+    """
+    Provide a short delay so accidentally invoked clean builds can be
+    cancelled.
+
+    :return:
+    """
+
+    sys.stdout.write('Starting clean build in  ')
+
+    for i in range(3, 0, -1):
+        sys.stdout.write('\b%d' % i)
+        sys.stdout.flush()
+        time.sleep(1)
+
+    print('\b\b\b\bnow.')
 
 
 def main_preset(raw_options):
@@ -120,6 +159,11 @@ def main_preset(raw_options):
 def main_normal(raw_opts):
     # Get the arguments of the script as a namespace.
     args = namespace.Namespace(dry_run=raw_opts['--dry-run'],
+                               clean=raw_opts['--clean'],
+
+                               # TODO Add option for setting the build
+                               # subdirectory.
+                               build_subdir=None,
 
                                # TODO Add command line option for build
                                # variants.
@@ -130,6 +174,24 @@ def main_normal(raw_opts):
 
     # Set the dry run setting of the shell utilities.
     shell.dry_run = args.dry_run
+
+    # Set the build subdirectory.
+    build_subdir = workspace.compute_build_subdir(args) \
+        if args.build_subdir is None else args.build_subdir
+
+    # Set the name for the root of the sources.
+    source_root = ANTHEM_SOURCE_ROOT
+
+    # Set the name for the root of the sources.
+    build_root = os.path.join(ANTHEM_BUILD_ROOT, build_subdir)
+
+    # Clean build directory if requested.
+    if args.clean:
+        clean_delay()
+        shell.rmtree(build_root)
+
+    # Create the build directory.
+    shell.makedirs(build_root)
 
 
 def main():
