@@ -24,7 +24,7 @@ def ninja_bin_path(build_dir):
     return os.path.join(build_dir, 'ninja')
 
 
-def do_build(source_root, build_root):
+def do_build(source_root, build_root, args, toolchain):
     source_dir = workspace.source_dir(source_root, 'ninja')
     build_dir = workspace.build_dir(build_root, 'build', 'ninja')
 
@@ -35,24 +35,21 @@ def do_build(source_root, build_root):
 
     # TODO Add the environment configuration for Darwin.
 
-    # if platform.system() == "Darwin":
-    #     from .. import xcrun
-    #     sysroot = xcrun.sdk_path("macosx")
-    #     osx_version_min = self.args.darwin_deployment_version_osx
-    #     assert sysroot is not None
-    #     env = {
-    #         "CXX": self.toolchain.cxx,
-    #         "CFLAGS": (
-    #             "-isysroot {sysroot} -mmacosx-version-min={osx_version}"
-    #         ).format(sysroot=sysroot, osx_version=osx_version_min),
-    #         "LDFLAGS": (
-    #             "-mmacosx-version-min={osx_version}"
-    #         ).format(osx_version=osx_version_min),
-    #     }
-    # elif self.toolchain.cxx:
-    #     env = {
-    #         "CXX": self.toolchain.cxx,
-    #     }
+    if platform.system() == 'Darwin':
+        from .. import xcrun
+        sysroot = xcrun.sdk_path('macosx')
+        osx_version_min = args.darwin_deployment_version
+        assert sysroot is not None
+        env = {'CXX': toolchain.cxx,
+               'CFLAGS':
+                   ('-isysroot {sysroot} -mmacosx-version-min='
+                    '{osx_version}').format(sysroot=sysroot,
+                                            osx_version=osx_version_min),
+               'LDFLAGS':
+                   '-mmacosx-version-min='
+                   '{osx_version}'.format(osx_version=osx_version_min)}
+    elif toolchain.cxx:
+        env = {'CXX': toolchain.cxx}
 
     # Ninja can only be built in-tree. Copy the source tree to the build
     # directory.
@@ -62,16 +59,12 @@ def do_build(source_root, build_root):
     with shell.pushd(build_dir):
         shell.call([sys.executable, 'configure.py', '--bootstrap'], env=env)
 
+    return ninja_bin_path
 
-def build_ninja(source_root, build_root, toolchain):
+
+def build_ninja(source_root, build_root, args, toolchain):
     if not os.path.exists(workspace.source_dir(source_root, "ninja")):
         diagnostics.fatal("can't find source directory for ninja (tried %s)"
                           % (workspace.source_dir(source_root, "ninja")))
 
-    ninja_build = products.Ninja(
-        args=self.args,
-        toolchain=self.toolchain,
-        source_dir=self.workspace.source_dir("ninja"),
-        build_dir=self.workspace.build_dir("build", "ninja"))
-    ninja_build.do_build(build_root)
-    self.toolchain.ninja = ninja_build.ninja_bin_path
+    toolchain.ninja = do_build(source_root, build_root, args, toolchain)

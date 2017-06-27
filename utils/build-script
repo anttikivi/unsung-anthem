@@ -15,6 +15,7 @@ Usage:
                  [--expand-build-script-invocation]
     build-script --show-presets
     build-script [-n | --dry-run] [-c | --clean]
+                 [--darwin-deployment-version VERSION]
 
 Options:
     --preset NAME                       Use the specified option preset.
@@ -30,6 +31,9 @@ Options:
     --show-presets                      List all presets and exit.
 
     -c, --clean                         Do a clean build.
+
+    --darwin-deployment-version VERSION The minimum deployment target version
+                                        for macOS in format MAJOR.MINOR.
 """
 
 import os
@@ -172,7 +176,7 @@ def main_normal(raw_opts):
 
                                # TODO Add command line option for CMake
                                # generator.
-                               cmake_generator = 'Ninja',
+                               cmake_generator='Ninja',
 
                                # TODO Add command line option for the
                                # C compiler.
@@ -185,6 +189,10 @@ def main_normal(raw_opts):
                                # TODO Add option for setting the build
                                # subdirectory.
                                build_subdir=None,
+
+                               darwin_deployment_version=
+                               str(raw_opts['--darwin-deployment-version'])
+                               if raw_opts['--darwin-deployment-version'] is not None else '10.9',
 
                                # TODO Add command line option for Darwin
                                # toolchain.
@@ -232,7 +240,7 @@ def main_normal(raw_opts):
 
     # Build ninja if required, which will update the toolchain.
     if args.cmake_generator == 'Ninja' or toolchain.ninja is None:
-        ninja.build_ninja(source_root, build_root, toolchain)
+        ninja.build_ninja(source_root, build_root, args, toolchain)
 
 
 def main():
