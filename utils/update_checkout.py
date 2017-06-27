@@ -97,8 +97,11 @@ By default, updates your checkouts of Unsung Anthem.""")
         config = json.load(f)
 
     # A dictionary that will contain the version for each dependency.
-    with open(VERSIONS_FILE) as f:
-        versions = json.load(f)
+    if os.path.isfile(VERSIONS_FILE):
+        with open(VERSIONS_FILE) as f:
+            versions = json.load(f)
+    else:
+        versions = {}
 
     dependencies = config['dependencies']
 
@@ -111,7 +114,8 @@ By default, updates your checkouts of Unsung Anthem.""")
         asset = dependency['asset']
 
         # Check if the dependency should be re-downloaded.
-        if (versions[key] == dependency['version']) and not args.clean:
+        if os.path.isfile(VERSIONS_FILE) and\
+                (versions[key] == dependency['version']) and not args.clean:
             print('' + key + ' should not be re-downloaded, skipping.')
             continue
 
