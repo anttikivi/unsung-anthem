@@ -186,6 +186,10 @@ def main_normal(raw_opts):
                                # C++ compiler.
                                host_cxx=None,
 
+                               # TODO Add command line option for the CMake
+                               # executable.
+                               cmake=None,
+
                                # TODO Add option for setting the build
                                # subdirectory.
                                build_subdir=None,
@@ -240,7 +244,10 @@ def main_normal(raw_opts):
 
     # Build ninja if required, which will update the toolchain.
     if args.cmake_generator == 'Ninja' or toolchain.ninja is None:
-        ninja.build_ninja(source_root, build_root, args, toolchain)
+        ninja.build_ninja(args=args,
+                          toolchain=toolchain,
+                          source_root=source_root,
+                          build_root=build_root)
 
 
 def main():
