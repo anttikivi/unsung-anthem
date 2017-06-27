@@ -63,7 +63,7 @@ def do_build(source_root, build_root):
         shell.call([sys.executable, 'configure.py', '--bootstrap'], env=env)
 
 
-def build_ninja(source_root, build_root):
+def build_ninja(source_root, build_root, toolchain):
     if not os.path.exists(workspace.source_dir(source_root, "ninja")):
         diagnostics.fatal("can't find source directory for ninja (tried %s)"
                           % (workspace.source_dir(source_root, "ninja")))

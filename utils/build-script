@@ -58,6 +58,8 @@ from anthem_build_support.anthem_build_support.variables import \
 from anthem_build_support.anthem_build_support.products import \
     (ninja)
 
+from anthem_build_support.anthem_build_support.toolchain import host_toolchain
+
 from docopt import docopt
 
 
@@ -161,19 +163,54 @@ def main_normal(raw_opts):
     args = namespace.Namespace(dry_run=raw_opts['--dry-run'],
                                clean=raw_opts['--clean'],
 
-                               # TODO Add option for setting the build
-                               # subdirectory.
-                               build_subdir=None,
-
                                # TODO Add command line option for build
                                # variants.
                                anthem_build_variant='Debug',
 
-                               # TODO Add command line options for assertions.
-                               anthem_assertions=True)
+                               # TODO Add command line option for assertions.
+                               anthem_assertions=True,
+
+                               # TODO Add command line option for CMake
+                               # generator.
+                               cmake_generator = 'Ninja',
+
+                               # TODO Add command line option for the
+                               # C compiler.
+                               host_cc=None,
+
+                               # TODO Add command line option for the
+                               # C++ compiler.
+                               host_cxx=None,
+
+                               # TODO Add option for setting the build
+                               # subdirectory.
+                               build_subdir=None,
+
+                               # TODO Add command line option for Darwin
+                               # toolchain.
+                               darwin_xcrun_toolchain='default')
 
     # Set the dry run setting of the shell utilities.
     shell.dry_run = args.dry_run
+
+    # Prepare and validate the toolchain.
+    toolchain = host_toolchain(xcrun_toolchain=args.darwin_xcrun_toolchain)
+    os.environ['TOOLCHAINS'] = args.darwin_xcrun_toolchain
+
+    if args.host_cc is not None:
+        toolchain.cc = args.host_cc
+
+    if args.host_cxx is not None:
+        toolchain.cxx = args.host_cxx
+
+    # if args.host_lipo is not None:
+    #     toolchain.lipo = args.host_lipo
+
+    # if args.host_libtool is not None:
+    #     toolchain.libtool = args.host_libtool
+
+    if args.cmake is not None:
+        toolchain.cmake = args.cmake
 
     # Set the build subdirectory.
     build_subdir = workspace.compute_build_subdir(args) \
@@ -192,6 +229,10 @@ def main_normal(raw_opts):
 
     # Create the build directory.
     shell.makedirs(build_root)
+
+    # Build ninja if required, which will update the toolchain.
+    if args.cmake_generator == 'Ninja' or toolchain.ninja is None:
+        ninja.build_ninja(source_root, build_root, toolchain)
 
 
 def main():
