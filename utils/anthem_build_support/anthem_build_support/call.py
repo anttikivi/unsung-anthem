@@ -19,7 +19,7 @@ def call_without_sleeping(command, env=None, dry_run=False, echo=False):
     # Disable system sleep, if possible.
     if platform.system() == 'Darwin':
         # Don't mutate the caller's copy of the arguments.
-        call_command = ["caffeinate"] + list(command)
+        call_command = ['caffeinate'] + list(command)
     else:
         call_command = command
 
