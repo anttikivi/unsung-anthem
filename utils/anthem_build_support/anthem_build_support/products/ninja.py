@@ -54,7 +54,7 @@ class Ninja(product.Product):
                        env=env)
 
 
-def build_ninja(args, toolchain, source_root, build_root):
+def build(args, toolchain, source_root, build_root):
     if not os.path.exists(workspace.source_dir(source_root, 'ninja')):
         diagnostics.fatal('cannot find source directory for ninja (tried %s)'
                           % (workspace.source_dir(source_root, 'ninja')))

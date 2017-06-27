@@ -60,7 +60,7 @@ from anthem_build_support.anthem_build_support.variables import \
      ANTHEM_SOURCE_ROOT)
 
 from anthem_build_support.anthem_build_support.products import \
-    (ninja)
+    (glfw, ninja)
 
 from anthem_build_support.anthem_build_support.toolchain import host_toolchain
 
@@ -212,8 +212,12 @@ def main_normal(raw_opts):
     if args.host_cc is not None:
         toolchain.cc = args.host_cc
 
+    diagnostics.note('The host C compiler is set to ' + toolchain.cc)
+
     if args.host_cxx is not None:
         toolchain.cxx = args.host_cxx
+
+    diagnostics.note('The host C++ compiler is set to ' + toolchain.cxx)
 
     # if args.host_lipo is not None:
     #     toolchain.lipo = args.host_lipo
@@ -223,6 +227,8 @@ def main_normal(raw_opts):
 
     if args.cmake is not None:
         toolchain.cmake = args.cmake
+
+    diagnostics.note('CMake is set to ' + toolchain.cmake)
 
     # Set the build subdirectory.
     build_subdir = workspace.compute_build_subdir(args) \
@@ -244,10 +250,16 @@ def main_normal(raw_opts):
 
     # Build ninja if required, which will update the toolchain.
     if args.cmake_generator == 'Ninja' or toolchain.ninja is None:
-        ninja.build_ninja(args=args,
-                          toolchain=toolchain,
-                          source_root=source_root,
-                          build_root=build_root)
+        ninja.build(args=args,
+                    toolchain=toolchain,
+                    source_root=source_root,
+                    build_root=build_root)
+
+    # FIXME Just as an initial test, build GLFW.
+    glfw.build(args=args,
+               toolchain=toolchain,
+               source_root=source_root,
+               build_root=build_root)
 
 
 def main():
