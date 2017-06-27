@@ -45,7 +45,7 @@ class Ninja(product.Product):
         elif self.toolchain.cxx:
             env = {'CXX': self.toolchain.cxx}
 
-        # Ninja can only be built in-tree.  Copy the source tree to the build
+        # Ninja can only be built in-tree. Copy the source tree to the build
         # directory.
         shell.rmtree(self.build_dir)
         shell.copytree(self.source_dir, self.build_dir)
@@ -56,7 +56,7 @@ class Ninja(product.Product):
 
 def build_ninja(args, toolchain, source_root, build_root):
     if not os.path.exists(workspace.source_dir(source_root, 'ninja')):
-        diagnostics.fatal("can't find source directory for ninja (tried %s)"
+        diagnostics.fatal('cannot find source directory for ninja (tried %s)'
                           % (workspace.source_dir(source_root, 'ninja')))
 
     ninja_build = Ninja(args=args,
