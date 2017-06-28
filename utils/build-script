@@ -275,6 +275,10 @@ def main_normal(raw_opts):
     # Build Unsung Anthem and its dependencies.
     build.execute(args=args, toolchain=toolchain, workspace_obj=workspace_obj)
 
+    # TODO Add tests.
+
+    return 0
+
 
 def main():
     # First check if the root directory environment variable of the build is

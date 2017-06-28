@@ -6,7 +6,7 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-from products import glfw
+from products import (anthem, glfw)
 
 
 def execute(args, toolchain, workspace_obj):
@@ -17,4 +17,9 @@ def execute(args, toolchain, workspace_obj):
     # Start by building the dependencies of Unsung Anthem.
 
     # Build GLFW.
-    glfw.build(args, toolchain, workspace_obj)
+    glfw.build(args=args, toolchain=toolchain, workspace_obj=workspace_obj)
+
+    # Rest of the dependencies are either pre-compiled or header-only.
+
+    # Build Unsung Anthem.
+    anthem.build(args=args, toolchain=toolchain, workspace_obj=workspace_obj)
