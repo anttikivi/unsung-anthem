@@ -30,26 +30,22 @@ class Anthem(product.Product):
         shell.makedirs(self.build_dir)
 
         # Change the working directory to the out-of-tree build directory.
-        os.chdir(self.build_dir)
+        with shell.pushd(self.build_dir):
+            # Generate the files to build Unsung Anthem from.
+            call_without_sleeping([self.toolchain.cmake,
+                                   self.source_dir,
+                                   '-G',
+                                   self.args.cmake_generator,
+                                   '-DANTHEM_INSTALL_PREFIX='
+                                   + self.workspace_obj.install_root])
 
-        # Generate the files to build Unsung Anthem from.
-        call_without_sleeping([self.toolchain.cmake,
-                               self.source_dir,
-                               '-G',
-                               self.args.cmake_generator,
-                               '-DANTHEM_INSTALL_PREFIX='
-                               + self.workspace_obj.install_root])
-
-        # Build.
-        if self.args.cmake_generator == 'Ninja':
-            call_ninja()
-            call_ninja_install()
-        elif self.args.cmake_generator == 'Unix Makefiles':
-            call_make()
-            call_make_install()
-
-        # Change the working directory back to the root directory.
-        os.chdir(ANTHEM_SOURCE_ROOT)
+            # Build.
+            if self.args.cmake_generator == 'Ninja':
+                call_ninja()
+                call_ninja_install()
+            elif self.args.cmake_generator == 'Unix Makefiles':
+                call_make()
+                call_make_install()
 
 
 def build(args, toolchain, workspace_obj):
