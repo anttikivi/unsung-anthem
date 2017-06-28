@@ -9,6 +9,7 @@
       "version": "v1.7.2",
       "asset": {
         "multiplatform": true,
+        "source": false,
         "fallback": false,
         "id": "ninja.zip",
         "Darwin": "ninja-mac.zip",
@@ -24,6 +25,7 @@
       "version": "v1.9.5",
       "asset": {
         "multiplatform": false,
+        "source": false,
         "id": "catch.hpp"
       }
     },
@@ -35,9 +37,21 @@
       "version": "3.2.1",
       "asset": {
         "multiplatform": true,
+        "source": false,
         "fallback": true,
         "id": "glfw-3.2.1.zip",
         "Windows": "TODO"
+      }
+    },
+
+    "spdlog": {
+      "github": true,
+      "owner": "gabime",
+      "id": "spdlog",
+      "version": "Version 0.13.0",
+      "asset": {
+        "multiplatform": false,
+        "source": true
       }
     }
   }

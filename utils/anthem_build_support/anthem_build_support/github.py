@@ -220,3 +220,94 @@ def download_asset(owner, repository, release_name, asset_name, destination):
                           'returned invalid code ('
                           + str(asset_request.status_code)
                           + ')')
+
+
+def download_source(owner, repository, release_name, destination):
+    """
+    Downloads a single source archive from the GitHub releases.
+
+    :param owner: The owner of the repository.
+    :param repository: The name of the repository.
+    :param release_name: The name of the release.
+    :param destination: TODO
+    :return: The short SHA of the release tag commit.
+    """
+
+    # Start by getting the URL of the tarball of the release source.
+    tarball_url = get(url='/repos/' + owner + '/' + repository + '/releases',
+                      key='tarball_url',
+                      check_key='name',
+                      value=release_name)
+
+    tarball_request = requests.get(url=tarball_url,
+                                   headers=GITHUB_DEFAULT_HEADERS)
+
+    # Set the full path to the destination file.
+    local_filename = os.path.join(ANTHEM_SOURCE_ROOT, destination)
+
+    # Stream the file to the final destination.
+    with open(local_filename, 'wb') as f:
+        for chunk in tarball_request.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+
+    print_rest('Finished streaming from '
+               + tarball_url
+               + ' to '
+               + str(local_filename))
+
+
+def get_release_sha(owner, repository, release_name):
+    """
+    Gets the SHA of the given release.
+
+    :param owner: The owner of the repository.
+    :param repository: The name of the repository.
+    :param release_name: The name of the release.
+    :return: The SHA of the release tag commit.
+    """
+
+    # Start by getting the name of the tag of the release for getting the
+    # SHA of the tag.
+    tag_name = get(url='/repos/' + owner + '/' + repository + '/releases',
+                   key='tag_name',
+                   check_key='name',
+                   value=release_name)
+
+    # Get the tag JSON for getting the tag SHA.
+    tag = get_json(url='/repos/' + owner + '/' + repository + '/tags',
+                   key='name',
+                   value=tag_name)
+
+    # Return the SHA of the tag commit.
+    return tag['commit']['sha']
+
+
+def get_release_short_sha(owner, repository, release_name):
+    """
+    Gets the SHA of the given release.
+
+    :param owner: The owner of the repository.
+    :param repository: The name of the repository.
+    :param release_name: The name of the release.
+    :return: The short 7-character SHA of the release tag commit.
+    """
+
+    # Start by getting the SHA of the tag.
+    sha = get_release_sha(owner, repository, release_name)
+
+    short_sha_list = []
+
+    # Not-very-Pythonic hack.
+    loop_count = 0
+
+    for c in str(sha):
+        short_sha_list += [c]
+        loop_count += 1
+        if 7 == loop_count:
+            break
+
+    # Create a string for the short SHA.
+    short_sha = ''.join(short_sha_list)
+
+    return short_sha

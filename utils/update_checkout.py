@@ -13,6 +13,7 @@ import contextlib
 import json
 import os
 import platform
+import tarfile
 import zipfile
 
 from multiprocessing import freeze_support
@@ -27,6 +28,28 @@ SCRIPT_FILE = os.path.abspath(__file__)
 SCRIPT_DIR = os.path.dirname(SCRIPT_FILE)
 
 VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, 'versions')
+
+
+def move_source_files(key, owner, repository, sha):
+    # Delete the temporary folder in case it exists.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+    # Move up the source files to temporary folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
+                                key,
+                                owner + '-' + repository + '-' + sha),
+                   os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+    # Delete the old folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Copy the files from the temporary folder to the correct folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'),
+                   os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Delete the temporary folder.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
 
 
 def move_glfw_files(config):
@@ -53,7 +76,6 @@ def move_glfw_files(config):
 
 
 def dump_version_info(versions):
-
     # Write the versions to a JSON file so next time the script can download
     # only the ones that are updated.
     with open(os.path.join(ANTHEM_SOURCE_ROOT, 'versions'), 'w') as outfile:
@@ -114,8 +136,10 @@ By default, updates your checkouts of Unsung Anthem.""")
         asset = dependency['asset']
 
         # Check if the dependency should be re-downloaded.
-        if os.path.isfile(VERSIONS_FILE) and\
-                (versions[key] == dependency['version']) and not args.clean:
+        if os.path.isfile(VERSIONS_FILE) \
+                and key in versions \
+                and (versions[key] == dependency['version']) \
+                and not args.clean:
             print('' + key + ' should not be re-downloaded, skipping.')
             continue
 
@@ -146,29 +170,67 @@ By default, updates your checkouts of Unsung Anthem.""")
                 else:
                     print('Not supported')  # TODO
         else:
-            github.download_asset(owner=dependency['owner'],
-                                  repository=dependency['id'],
-                                  release_name=dependency['version'],
-                                  asset_name=asset['id'],
-                                  destination=os.path.join(key, asset['id']))
+            if asset['source']:
+                github.download_source(owner=dependency['owner'],
+                                       repository=dependency['id'],
+                                       release_name=dependency['version'],
+                                       destination=os.path.join(key,
+                                                                key
+                                                                + '.tar.gz'))
+            else:
+                github.download_asset(owner=dependency['owner'],
+                                      repository=dependency['id'],
+                                      release_name=dependency['version'],
+                                      asset_name=asset['id'],
+                                      destination=os.path.join(key,
+                                                               asset['id']))
 
-        # Set the asset file for the processing of the file.
-        asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, asset['id'])
+        if asset['source']:
+            # Set the asset file for the processing of the file to the
+            # downloaded source tarball.
+            asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.tar.gz')
 
-        # Check if the downloaded asset is a zip archive.
-        if '.zip' in asset_file:
-            print('The downloaded asset is a zip archive. Extracting now.')
+            # Open the archive.
+            tar = tarfile.open(asset_file, "r:gz")
 
-            # Use Python to extract the archive.
-            with contextlib.closing(zipfile.ZipFile(asset_file, 'r')) as z:
-                z.extractall(os.path.join(ANTHEM_SOURCE_ROOT, key))
+            # Extract the archive to the correct subdirectory.
+            tar.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+            # Close the open file.
+            tar.close()
 
             # Delete the archive as it is extracted.
             shell.rm(asset_file)
 
-        # Do the manual tasks if this dependency requires them.
-        if 'glfw' == key:
-            move_glfw_files(config)
+            # Get the short SHA of the tag for handling the downloaded files.
+            sha = github.get_release_short_sha(owner=dependency['owner'],
+                                               repository=dependency['id'],
+                                               release_name=
+                                               dependency['version'])
+
+            # Manually move the downloaded sources to the actual directory.
+            move_source_files(key=key,
+                              owner=dependency['owner'],
+                              repository=dependency['id'],
+                              sha=sha)
+        else:
+            # Set the asset file for the processing of the file.
+            asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, asset['id'])
+
+            # Check if the downloaded asset is a zip archive.
+            if '.zip' in asset_file:
+                print('The downloaded asset is a zip archive. Extracting now.')
+
+                # Use Python to extract the archive.
+                with contextlib.closing(zipfile.ZipFile(asset_file, 'r')) as z:
+                    z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+                # Delete the archive as it is extracted.
+                shell.rm(asset_file)
+
+            # Do the manual tasks if this dependency requires them.
+            if 'glfw' == key:
+                move_glfw_files(config)
 
         # Add the version of the dependency to the dictionary.
         versions[key] = dependency['version']
