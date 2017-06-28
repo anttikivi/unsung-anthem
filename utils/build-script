@@ -41,7 +41,8 @@ import sys
 import time
 
 from anthem_build_support.anthem_build_support import \
-    (diagnostics,
+    (build,
+     diagnostics,
      namespace,
      shell,
      workspace)
@@ -59,8 +60,7 @@ from anthem_build_support.anthem_build_support.variables import \
      ANTHEM_REPO_NAME,
      ANTHEM_SOURCE_ROOT)
 
-from anthem_build_support.anthem_build_support.products import \
-    (glfw, ninja)
+from anthem_build_support.anthem_build_support.products import ninja
 
 from anthem_build_support.anthem_build_support.toolchain import host_toolchain
 from anthem_build_support.anthem_build_support.targets import DeploymentTarget
@@ -272,10 +272,8 @@ def main_normal(raw_opts):
                     toolchain=toolchain,
                     workspace_obj=workspace_obj)
 
-    # FIXME Just as an initial test, build GLFW.
-    glfw.build(args=args,
-               toolchain=toolchain,
-               workspace_obj=workspace_obj)
+    # Build Unsung Anthem and its dependencies.
+    build.execute(args=args, toolchain=toolchain, workspace_obj=workspace_obj)
 
 
 def main():
