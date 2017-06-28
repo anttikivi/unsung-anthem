@@ -63,6 +63,7 @@ from anthem_build_support.anthem_build_support.products import \
     (glfw, ninja)
 
 from anthem_build_support.anthem_build_support.toolchain import host_toolchain
+from anthem_build_support.anthem_build_support.targets import DeploymentTarget
 
 from docopt import docopt
 
@@ -167,6 +168,9 @@ def main_normal(raw_opts):
     args = namespace.Namespace(dry_run=raw_opts['--dry-run'],
                                clean=raw_opts['--clean'],
 
+                               # TODO Add command line option for host target.
+                               host_target=DeploymentTarget.host_target().name,
+
                                # TODO Add command line option for build
                                # variants.
                                anthem_build_variant='Debug',
@@ -193,6 +197,10 @@ def main_normal(raw_opts):
                                # TODO Add option for setting the build
                                # subdirectory.
                                build_subdir=None,
+
+                               # TODO Add option for setting the installation
+                               # subdirectory.
+                               install_subdir=None,
 
                                darwin_deployment_version=
                                str(raw_opts['--darwin-deployment-version'])
@@ -234,32 +242,40 @@ def main_normal(raw_opts):
     build_subdir = workspace.compute_build_subdir(args) \
         if args.build_subdir is None else args.build_subdir
 
-    # Set the name for the root of the sources.
-    source_root = ANTHEM_SOURCE_ROOT
+    # Set the installation subdirectory.
+    install_subdir = workspace.compute_install_subdir(args) \
+        if args.install_subdir is None else args.install_subdir
 
-    # Set the name for the root of the sources.
-    build_root = os.path.join(ANTHEM_BUILD_ROOT, build_subdir)
+    # Create the workspace object containing the build-related directories.
+    workspace_obj = \
+        workspace.Workspace(source_root=ANTHEM_SOURCE_ROOT,
+                            build_root=os.path.join(ANTHEM_BUILD_ROOT,
+                                                    build_subdir),
+                            install_root=os.path.join(ANTHEM_BUILD_ROOT,
+                                                      install_subdir))
 
     # Clean build directory if requested.
     if args.clean:
         clean_delay()
-        shell.rmtree(build_root)
+        shell.rmtree(workspace_obj.build_root)
+        shell.rmtree(workspace_obj.install_root)
 
     # Create the build directory.
-    shell.makedirs(build_root)
+    shell.makedirs(workspace_obj.build_root)
+
+    # Create the install directory.
+    shell.makedirs(workspace_obj.install_root)
 
     # Build ninja if required, which will update the toolchain.
     if args.cmake_generator == 'Ninja' or toolchain.ninja is None:
         ninja.build(args=args,
                     toolchain=toolchain,
-                    source_root=source_root,
-                    build_root=build_root)
+                    workspace_obj=workspace_obj)
 
     # FIXME Just as an initial test, build GLFW.
     glfw.build(args=args,
                toolchain=toolchain,
-               source_root=source_root,
-               build_root=build_root)
+               workspace_obj=workspace_obj)
 
 
 def main():

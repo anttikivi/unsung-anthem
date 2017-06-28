@@ -24,3 +24,25 @@ def call_without_sleeping(command, env=None, dry_run=False, echo=False):
         call_command = command
 
     shell.call(call_command, env=env, dry_run=dry_run, echo=echo)
+
+
+def call_ninja(env=None, dry_run=False, echo=False):
+    call_without_sleeping(['ninja'], env=env, dry_run=dry_run, echo=echo)
+
+
+def call_ninja_install(env=None, dry_run=False, echo=False):
+    call_without_sleeping(['ninja', 'install'],
+                          env=env,
+                          dry_run=dry_run,
+                          echo=echo)
+
+
+def call_make(env=None, dry_run=False, echo=False):
+    call_without_sleeping(['make'], env=env, dry_run=dry_run, echo=echo)
+
+
+def call_make_install(env=None, dry_run=False, echo=False):
+    call_without_sleeping(['make', 'install'],
+                          env=env,
+                          dry_run=dry_run,
+                          echo=echo)

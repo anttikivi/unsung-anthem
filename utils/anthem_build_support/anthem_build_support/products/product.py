@@ -35,9 +35,10 @@ class Product(object):
         return '{}-{}'.format(cls.product_name(),
                               host_target.name)
 
-    def __init__(self, args, toolchain, source_dir, build_dir):
+    def __init__(self, args, toolchain, workspace_obj, source_dir, build_dir):
         self.args = args
         self.toolchain = toolchain
+        self.workspace_obj = workspace_obj
         self.source_dir = source_dir
         self.build_dir = build_dir
         self.cmake_options = []
