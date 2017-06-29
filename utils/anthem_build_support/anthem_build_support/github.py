@@ -22,7 +22,7 @@ def print_rest(message):
     print('[GitHub REST API v3] ' + message)
 
 
-def get_json(url, key, value, headers=None):
+def get_json(url, key, value, headers=None, crash=True):
     """
     Retrieves the JSON node of the given key from the wanted list of
     JSON values of GitHub REST API v3.
@@ -103,7 +103,7 @@ def get_json(url, key, value, headers=None):
     return None
 
 
-def get(url, key, check_key, value, headers=None):
+def get(url, key, check_key, value, headers=None, crash=True):
     """
     Retrieves the JSON entry value of the given key from the wanted list of
     JSON values of GitHub REST API v3.
@@ -135,7 +135,11 @@ def get(url, key, check_key, value, headers=None):
 
     # Check if the JSON is got correctly.
     if json_node is None:
-        diagnostics.fatal('Unable to find the wanted JSON node.')
+        if crash:
+            diagnostics.fatal('Unable to find the wanted JSON node.')
+        else:
+            diagnostics.note('Unable to find the wanted JSON node.')
+            return None
 
     print_rest('The value of '
                + key
@@ -237,7 +241,15 @@ def download_source(owner, repository, release_name, destination):
     tarball_url = get(url='/repos/' + owner + '/' + repository + '/releases',
                       key='tarball_url',
                       check_key='name',
-                      value=release_name)
+                      value=release_name,
+                      crash=False)
+
+    # If there is no release with the given name, fall back to tags.
+    if tarball_url is None:
+        tarball_url = get(url='/repos/' + owner + '/' + repository + '/tags',
+                          key='tarball_url',
+                          check_key='name',
+                          value=release_name)
 
     tarball_request = requests.get(url=tarball_url,
                                    headers=GITHUB_DEFAULT_HEADERS)
@@ -272,7 +284,12 @@ def get_release_sha(owner, repository, release_name):
     tag_name = get(url='/repos/' + owner + '/' + repository + '/releases',
                    key='tag_name',
                    check_key='name',
-                   value=release_name)
+                   value=release_name,
+                   crash=False)
+
+    # If there is no release with the given name, fall back to tags.
+    if tag_name is None:
+        tag_name = release_name
 
     # Get the tag JSON for getting the tag SHA.
     tag = get_json(url='/repos/' + owner + '/' + repository + '/tags',

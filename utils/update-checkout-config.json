@@ -53,6 +53,17 @@
         "multiplatform": false,
         "source": true
       }
+    },
+
+    "docopt": {
+      "github": true,
+      "owner": "docopt",
+      "id": "docopt.cpp",
+      "version": "v0.6.2",
+      "asset": {
+        "multiplatform": false,
+        "source": true
+      }
     }
   }
 }
