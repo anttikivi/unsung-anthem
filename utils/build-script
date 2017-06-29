@@ -249,6 +249,12 @@ def main_normal(raw_opts):
 
     diagnostics.note('CMake is set to ' + toolchain.cmake)
 
+    # Tell the user that this set-up will not build the final product but
+    # rather only set it up for CLion.
+    if args.setup_clion:
+        diagnostics.note('The CLion set-up is enabled and thus the final '
+                         'Unsung Anthem executable will not be built')
+
     # Set the build subdirectory.
     build_subdir = compute_build_subdir(args) \
         if args.build_subdir is None else args.build_subdir
