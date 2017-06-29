@@ -16,11 +16,7 @@ import os
 
 from . import product
 from .. import (diagnostics, shell)
-from ..call import (call_without_sleeping,
-                    call_ninja,
-                    call_ninja_install,
-                    call_make,
-                    call_make_install)
+from ..call import (call_without_sleeping, call_ninja, call_make)
 from ..variables import ANTHEM_REPO_NAME
 
 
@@ -42,10 +38,8 @@ class Anthem(product.Product):
             # Build.
             if self.args.cmake_generator == 'Ninja':
                 call_ninja()
-                call_ninja_install()
             elif self.args.cmake_generator == 'Unix Makefiles':
                 call_make()
-                call_make_install()
 
 
 def build(args, toolchain, workspace):
