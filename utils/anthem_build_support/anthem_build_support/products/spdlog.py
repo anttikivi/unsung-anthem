@@ -20,8 +20,31 @@ from .. import (diagnostics, shell)
 
 class Spdlog(product.Product):
     def do_build(self):
+        # Delete the old build directory of spdlog.
+        shell.rmtree(self.build_dir)
+
         # Copy the files from the source directory to the build directory.
         shell.copytree(self.source_dir, self.build_dir)
+
+        # Check if the include directory already exists.
+        if not os.path.isdir(os.path.join(self.workspace.install_root,
+                                          'include')):
+            shell.makedirs(os.path.join(self.workspace.install_root,
+                                        'include'))
+        elif os.path.isdir(os.path.join(self.workspace.install_root,
+                                        'include',
+                                        'spdlog')):
+            # Otherwise check if there is a previous installation of spdlog
+            # and delete it.
+            shell.rmtree(os.path.join(self.workspace.install_root,
+                                      'include',
+                                      'spdlog'))
+
+        # Copy the spdlog directory to the include folder.
+        shell.copytree(os.path.join(self.build_dir, 'include', 'spdlog'),
+                       os.path.join(self.workspace.install_root,
+                                    'include',
+                                    'spdlog'))
 
 
 def build(args, toolchain, workspace):
