@@ -38,7 +38,13 @@ class Anthem(product.Product):
 
                       # Set the install prefix to the directory in which all of
                       # the dependencies are installed.
-                      '-DANTHEM_INSTALL_PREFIX=' + self.workspace.install_root]
+                      '-DANTHEM_INSTALL_PREFIX=' + self.workspace.install_root,
+
+                      # Set the name of the executable.
+                      '-DANTHEM_EXECUTABLE_NAME='
+                      + (self.args.executable_name
+                         if self.args.executable_name is not None
+                         else 'unsung-anthem-%s' % self.args.host_target)]
 
         if not self.args.setup_clion:
             # Change the working directory to the out-of-tree build directory.

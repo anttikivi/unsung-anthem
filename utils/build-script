@@ -16,6 +16,7 @@ Usage:
     build-script --show-presets
     build-script [-n | --dry-run] [-c | --clean]
                  [--darwin-deployment-version VERSION] [--setup-clion]
+                 [--executable-name NAME]
 
 Options:
     --preset NAME                       Use the specified option preset.
@@ -39,6 +40,10 @@ Options:
                                         CLion configuration and prints the
                                         necessary CMake arguments to set into
                                         CLion settings.
+
+    --executable-name NAME              The name of the Unsung Anthem
+                                        executable file (please not the this
+                                        is not a path).
 """
 
 import os
@@ -219,7 +224,9 @@ def main_normal(raw_opts):
                                # toolchain.
                                darwin_xcrun_toolchain='default',
 
-                               setup_clion=raw_opts['--setup-clion'])
+                               setup_clion=raw_opts['--setup-clion'],
+
+                               executable_name=raw_opts['--executable-name'])
 
     # Set the dry run setting of the shell utilities.
     shell.dry_run = args.dry_run
