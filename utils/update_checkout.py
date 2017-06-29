@@ -52,6 +52,26 @@ def move_source_files(key, owner, repository, sha):
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
 
 
+def move_dependency_files(key, directory):
+    # Delete the temporary folder in case it exists.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+    # Move up the source files to temporary folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, key, directory),
+                   os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+    # Delete the old folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Copy the files from the temporary folder to the correct folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'),
+                   os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Delete the temporary folder.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+
+
 def move_glfw_files(config):
     # Delete the temporary folder in case it exists.
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
@@ -202,17 +222,26 @@ By default, updates your checkouts of Unsung Anthem.""")
             # Delete the archive as it is extracted.
             shell.rm(asset_file)
 
-            # Get the short SHA of the tag for handling the downloaded files.
-            sha = github.get_release_short_sha(owner=dependency['owner'],
-                                               repository=dependency['id'],
-                                               release_name=
-                                               dependency['version'])
+            if 'docopt' == key:
+                # Manually move the source file via the custom function for
+                # docopt.
+                move_dependency_files(key,
+                                      os.listdir(
+                                          os.path.join(ANTHEM_SOURCE_ROOT,
+                                                       key))[0])
+            else:
+                # Get the short SHA of the tag for handling the downloaded
+                # files.
+                sha = github.get_release_short_sha(owner=dependency['owner'],
+                                                   repository=dependency['id'],
+                                                   release_name=
+                                                   dependency['version'])
 
-            # Manually move the downloaded sources to the actual directory.
-            move_source_files(key=key,
-                              owner=dependency['owner'],
-                              repository=dependency['id'],
-                              sha=sha)
+                # Manually move the downloaded sources to the actual directory.
+                move_source_files(key=key,
+                                  owner=dependency['owner'],
+                                  repository=dependency['id'],
+                                  sha=sha)
         else:
             # Set the asset file for the processing of the file.
             asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, asset['id'])
