@@ -269,10 +269,6 @@ def main_normal(raw_opts):
     # Create the install directory.
     shell.makedirs(workspace.install_root)
 
-    # Check whether the toolchain has found ninja on the host platform.
-    if toolchain.ninja is None and ninja.is_ninja_prebuilt(workspace):
-        toolchain.ninja = ninja.ninja_binary(workspace)
-
     # Build ninja if required, which will update the toolchain.
     if args.cmake_generator == 'Ninja' or toolchain.ninja is None:
         ninja.build(args=args,

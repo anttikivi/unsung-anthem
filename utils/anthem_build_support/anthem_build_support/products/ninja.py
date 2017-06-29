@@ -20,10 +20,6 @@ from . import product
 from .. import (cache_util, diagnostics, shell)
 
 
-def build_directory(workspace):
-    return workspace.build_dir('build', 'ninja')
-
-
 def is_ninja_prebuilt(workspace):
     return os.path.exists(os.path.join(build_directory(workspace),
                                        'ninja')) or \
@@ -31,27 +27,20 @@ def is_ninja_prebuilt(workspace):
                                        'ninja.exe'))
 
 
-def ninja_binary(workspace):
-    if platform.system() == 'Darwin':
-        return os.path.join(build_directory(workspace), 'ninja')
-    elif platform.system() == 'Linux':
-        return os.path.join(build_directory(workspace), 'ninja')
-    elif platform.system() == 'FreeBSD':
-        return os.path.join(build_directory(workspace), 'ninja')
-    elif platform.system().startswith('CYGWIN'):
-        return os.path.join(build_directory(workspace), 'ninja.exe')
-    elif platform.system() == 'Windows':
-        return os.path.join(build_directory(workspace), 'ninja.exe')
-    else:
-        return None
-
-
 class Ninja(product.Product):
     @cache_util.reify
     def ninja_bin_path(self):
-        return os.path.join(self.build_dir, 'ninja')
+        return os.path.join(self.build_dir, 'ninja.exe') \
+            if platform.system() == 'Windows' \
+            else os.path.join(self.build_dir, 'ninja')
 
     def do_build(self):
+        # Ninja can only be built in-tree. Copy the source tree to the build
+        # directory.
+        shell.rmtree(self.build_dir)
+        shell.copytree(self.source_dir, self.build_dir)
+
+        # Check whether the ninja executable is pre-built and already exists.
         if os.path.exists(self.ninja_bin_path):
             return
 
@@ -71,10 +60,6 @@ class Ninja(product.Product):
         elif self.toolchain.cxx:
             env = {'CXX': self.toolchain.cxx}
 
-        # Ninja can only be built in-tree. Copy the source tree to the build
-        # directory.
-        shell.rmtree(self.build_dir)
-        shell.copytree(self.source_dir, self.build_dir)
         with shell.pushd(self.build_dir):
             shell.call([sys.executable, 'configure.py', '--bootstrap'],
                        env=env)
@@ -89,6 +74,6 @@ def build(args, toolchain, workspace):
                         toolchain=toolchain,
                         workspace=workspace,
                         source_dir=workspace.source_dir('ninja'),
-                        build_dir=build_directory(workspace))
+                        build_dir=workspace.build_dir('build', 'ninja'))
     ninja_build.do_build()
     toolchain.ninja = ninja_build.ninja_bin_path
