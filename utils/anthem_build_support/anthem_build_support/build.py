@@ -6,7 +6,7 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-from products import (anthem, catch, glfw, spdlog)
+from products import (anthem, catch, docopt, glfw, spdlog)
 
 
 def execute(args, toolchain, workspace):
@@ -18,6 +18,9 @@ def execute(args, toolchain, workspace):
 
     # Build GLFW.
     glfw.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    # Build docopt.
+    docopt.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Catch.
     catch.build(args=args, toolchain=toolchain, workspace=workspace)
