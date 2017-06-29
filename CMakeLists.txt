@@ -80,6 +80,15 @@ else()
 
 endif()
 
+# Add the Unsung Anthem headers to includes.
+include_directories(include)
+
+# The variable containing the source files of the project.
+set(ANTHEM_INCLUDES)
+
+# Add the source files of the project into single variable from the source directory.
+add_subdirectory(include)
+
 # Check whether the build is the actual executable or tests.
 if (${ANTHEM_EXECUTABLE_TYPE} STREQUAL anthem)
 
@@ -90,7 +99,7 @@ if (${ANTHEM_EXECUTABLE_TYPE} STREQUAL anthem)
   add_subdirectory(src)
 
   # Add the actual executable with the sources.
-  add_executable(${ANTHEM_EXECUTABLE_NAME} ${ANTHEM_SOURCES})
+  add_executable(${ANTHEM_EXECUTABLE_NAME} ${ANTHEM_INCLUDES} ${ANTHEM_SOURCES})
 
 elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
   message(STATUS "This CMake list does not support building tests yet")
