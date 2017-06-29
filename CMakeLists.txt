@@ -21,8 +21,67 @@ endif()
 
 message(STATUS "The executable name (ANTHEM_EXECUTABLE_NAME) is set to ${ANTHEM_EXECUTABLE_NAME}")
 
+# Check if the C++ Standard version is set.
+if(NOT DEFINED ANTHEM_CPP_VERSION)
+  message(FATAL_ERROR "The C++ Standard version (ANTHEM_CPP_VERSION) is not set – the possible values are c++17, \
+  c++1z, c++14, c++1y, and c++11")
+endif()
+
+message(STATUS "The C++ Standard version (ANTHEM_CPP_VERSION) is set to ${ANTHEM_CPP_VERSION}")
+
+# Set the preprocessor definitions according to the C++ Standard version.
+if(${ANTHEM_CPP_VERSION} STREQUAL c++17)
+
+  # Add the definition denoting that C++17 is used.
+  add_definitions(-DANTHEM_CPP17)
+
+elseif(${ANTHEM_CPP_VERSION} STREQUAL c++1z)
+
+  # Add the definition denoting that C++1z is used.
+  add_definitions(-DANTHEM_CPP17_DRAFT)
+
+  # Add the definition for the disabled newer version of C++ Standard.
+  add_definitions(-DANTHEM_DISABLE_CPP17)
+
+elseif(${ANTHEM_CPP_VERSION} STREQUAL c++14)
+
+  # Add the definition denoting that C++14 is used.
+  add_definitions(-DANTHEM_CPP14)
+
+  # Add the definition for the disabled newer version of C++ Standard.
+  add_definitions(-DANTHEM_DISABLE_CPP17)
+  add_definitions(-DANTHEM_DISABLE_CPP17_DRAFT)
+
+elseif(${ANTHEM_CPP_VERSION} STREQUAL c++1y)
+
+  # Add the definition denoting that C++1y is used.
+  add_definitions(-DANTHEM_CPP14_DRAFT)
+
+  # Add the definition for the disabled newer version of C++ Standard.
+  add_definitions(-DANTHEM_DISABLE_CPP17)
+  add_definitions(-DANTHEM_DISABLE_CPP17_DRAFT)
+  add_definitions(-DANTHEM_DISABLE_CPP14)
+
+elseif(${ANTHEM_CPP_VERSION} STREQUAL c++11)
+
+  # Add the definition denoting that C++11 is used.
+  add_definitions(-DANTHEM_CPP11)
+
+  # Add the definition for the disabled newer version of C++ Standard.
+  add_definitions(-DANTHEM_DISABLE_CPP17)
+  add_definitions(-DANTHEM_DISABLE_CPP17_DRAFT)
+  add_definitions(-DANTHEM_DISABLE_CPP14)
+  add_definitions(-DANTHEM_DISABLE_CPP14_DRAFT)
+
+else()
+
+  message(FATAL_ERROR "The C++ Standard version (ANTHEM_CPP_VERSION) is set to ${ANTHEM_CPP_VERSION} and thus it is \
+          invalid – the possible values are c++17, c++1z, c++14, c++1y, and c++11")
+
+endif()
+
 # Check whether the build is the actual executable or tests.
-if (${ANTHEM_EXECUTABLE_TYPE} MATCHES anthem)
+if (${ANTHEM_EXECUTABLE_TYPE} STREQUAL anthem)
 
   # The variable containing the source files of the project.
   set(ANTHEM_SOURCES)
@@ -33,7 +92,7 @@ if (${ANTHEM_EXECUTABLE_TYPE} MATCHES anthem)
   # Add the actual executable with the sources.
   add_executable(${ANTHEM_EXECUTABLE_NAME} ${ANTHEM_SOURCES})
 
-elseif(${ANTHEM_EXECUTABLE_TYPE} MATCHES test)
+elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
   message(STATUS "This CMake list does not support building tests yet")
 else()
   message(FATAL_ERROR "The value of the executable type (ANTHEM_EXECUTABLE_TYPE) is ${ANTHEM_EXECUTABLE_TYPE} and thus \
