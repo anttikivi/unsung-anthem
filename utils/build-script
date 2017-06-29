@@ -15,7 +15,7 @@ Usage:
                  [--expand-build-script-invocation]
     build-script --show-presets
     build-script [-n | --dry-run] [-c | --clean]
-                 [--darwin-deployment-version VERSION]
+                 [--darwin-deployment-version VERSION] [--setup-clion]
 
 Options:
     --preset NAME                       Use the specified option preset.
@@ -34,6 +34,11 @@ Options:
 
     --darwin-deployment-version VERSION The minimum deployment target version
                                         for macOS in format MAJOR.MINOR.
+
+    --setup-clion                       Installs only the dependencies for
+                                        CLion configuration and prints the
+                                        necessary CMake arguments to set into
+                                        CLion settings.
 """
 
 import os
@@ -212,7 +217,9 @@ def main_normal(raw_opts):
 
                                # TODO Add command line option for Darwin
                                # toolchain.
-                               darwin_xcrun_toolchain='default')
+                               darwin_xcrun_toolchain='default',
+
+                               setup_clion=raw_opts['--setup-clion'])
 
     # Set the dry run setting of the shell utilities.
     shell.dry_run = args.dry_run

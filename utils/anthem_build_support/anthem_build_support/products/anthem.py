@@ -25,21 +25,38 @@ class Anthem(product.Product):
         # Make the directory for the out-of-tree build.
         shell.makedirs(self.build_dir)
 
-        # Change the working directory to the out-of-tree build directory.
-        with shell.pushd(self.build_dir):
-            # Generate the files to build Unsung Anthem from.
-            call_without_sleeping([self.toolchain.cmake,
-                                   self.source_dir,
-                                   '-G',
-                                   self.args.cmake_generator,
-                                   '-DANTHEM_INSTALL_PREFIX='
-                                   + self.workspace.install_root])
+        # Create CMake call.
+        cmake_call = [self.toolchain.cmake,
+                      self.source_dir,
 
-            # Build.
-            if self.args.cmake_generator == 'Ninja':
-                call_ninja()
-            elif self.args.cmake_generator == 'Unix Makefiles':
-                call_make()
+                      # Set the CMake generator.
+                      '-G', self.args.cmake_generator,
+
+                      #  Set the executable type to 'anthem' as it will build
+                      # the actual executable.
+                      '-DANTHEM_EXECUTABLE_TYPE=anthem',
+
+                      # Set the install prefix to the directory in which all of
+                      # the dependencies are installed.
+                      '-DANTHEM_INSTALL_PREFIX=' + self.workspace.install_root]
+
+        if not self.args.setup_clion:
+            # Change the working directory to the out-of-tree build directory.
+            with shell.pushd(self.build_dir):
+                # Generate the files to build Unsung Anthem from.
+                call_without_sleeping(cmake_call)
+
+                # Build.
+                if self.args.cmake_generator == 'Ninja':
+                    call_ninja()
+                elif self.args.cmake_generator == 'Unix Makefiles':
+                    call_make()
+        else:
+            diagnostics.note('CMake would be called with the following '
+                             'command:')
+            shell.print_command(cmake_call)
+            diagnostics.note('You can copy the options into your CLion '
+                             'settings')
 
 
 def build(args, toolchain, workspace):

@@ -192,6 +192,12 @@ def copy(src, dest, dry_run=None, echo=True):
     shutil.copy(src, dest)
 
 
+def print_command(command, dry_run=None, env=None, prompt="+ "):
+    _echo_command(dry_run=_coerce_dry_run(dry_run),
+                  command=command,
+                  env=env, prompt=prompt)
+
+
 # Initialized later
 lock = None
 
