@@ -41,7 +41,7 @@ class Catch(product.Product):
                                   'catch.hpp'))
 
         # Copy the header to the include folder.
-        shell.copy(os.path.join(self.source_dir, 'catch.hpp'),
+        shell.copy(os.path.join(self.build_dir, 'catch.hpp'),
                    os.path.join(self.workspace.install_root,
                                 'include',
                                 'catch.hpp'))
