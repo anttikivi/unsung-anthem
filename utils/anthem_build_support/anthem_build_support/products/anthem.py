@@ -40,6 +40,9 @@ class Anthem(product.Product):
                       # the dependencies are installed.
                       '-DANTHEM_INSTALL_PREFIX=' + self.workspace.install_root,
 
+                      # Set the C++ Standard version as it is required.
+                      '-DANTHEM_CPP_VERSION=' + self.args.std,
+
                       # Set the name of the executable.
                       '-DANTHEM_EXECUTABLE_NAME='
                       + (self.args.executable_name
