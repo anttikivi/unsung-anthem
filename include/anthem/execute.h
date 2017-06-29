@@ -15,6 +15,7 @@
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
+//
 //===----------------------------------------------------------------------===//
 
 #ifndef ANTHEM_EXECUTE_H
