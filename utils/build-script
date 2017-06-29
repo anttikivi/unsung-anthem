@@ -14,7 +14,7 @@ Usage:
     build-script --preset NAME [--preset-file PATH] [-n]
                  [--expand-build-script-invocation]
     build-script --show-presets
-    build-script [-n | --dry-run] [-c | --clean]
+    build-script [-n | --dry-run] [-c | --clean] [--ninja | --make | --xcode]
                  [--darwin-deployment-version VERSION] [--setup-clion]
                  [--executable-name NAME]
 
@@ -32,6 +32,13 @@ Options:
     --show-presets                      List all presets and exit.
 
     -c, --clean                         Do a clean build.
+
+    --ninja                             Use the Ninja generator of CMake
+                                        (default is Ninja).
+    -m, --make                          Use the Unix Makefile generator of
+                                        CMake (default is Ninja).
+    -x, --xcode                         Use the Xcode generator of CMake
+                                        (default is Ninja).
 
     --darwin-deployment-version VERSION The minimum deployment target version
                                         for macOS in format MAJOR.MINOR.
@@ -52,6 +59,7 @@ import time
 
 from anthem_build_support.anthem_build_support import \
     (build,
+     cmake,
      diagnostics,
      namespace,
      shell)
@@ -191,9 +199,8 @@ def main_normal(raw_opts):
                                # TODO Add command line option for assertions.
                                anthem_assertions=True,
 
-                               # TODO Add command line option for CMake
-                               # generator.
-                               cmake_generator='Ninja',
+                               cmake_generator=
+                               cmake.resolve_cmake_generator(raw_opts),
 
                                # TODO Add command line option for the
                                # C compiler.
