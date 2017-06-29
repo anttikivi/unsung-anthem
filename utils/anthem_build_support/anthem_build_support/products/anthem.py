@@ -21,7 +21,7 @@ from ..call import (call_without_sleeping,
                     call_ninja_install,
                     call_make,
                     call_make_install)
-from ..variables import (ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME)
+from ..variables import ANTHEM_REPO_NAME
 
 
 class Anthem(product.Product):
@@ -37,7 +37,7 @@ class Anthem(product.Product):
                                    '-G',
                                    self.args.cmake_generator,
                                    '-DANTHEM_INSTALL_PREFIX='
-                                   + self.workspace_obj.install_root])
+                                   + self.workspace.install_root])
 
             # Build.
             if self.args.cmake_generator == 'Ninja':
@@ -48,17 +48,17 @@ class Anthem(product.Product):
                 call_make_install()
 
 
-def build(args, toolchain, workspace_obj):
-    if not os.path.exists(workspace_obj.source_dir(ANTHEM_REPO_NAME)):
+def build(args, toolchain, workspace):
+    if not os.path.exists(workspace.source_dir(ANTHEM_REPO_NAME)):
         diagnostics.fatal('cannot find source directory for Unsung Anthem '
                           '(tried %s)'
-                          % (workspace_obj.source_dir(ANTHEM_REPO_NAME)))
+                          % (workspace.source_dir(ANTHEM_REPO_NAME)))
 
     anthem_build = Anthem(args=args,
                           toolchain=toolchain,
-                          workspace_obj=workspace_obj,
-                          source_dir=workspace_obj.source_dir(ANTHEM_REPO_NAME),
-                          build_dir=workspace_obj.build_dir(args.host_target,
-                                                            'anthem'))
+                          workspace=workspace,
+                          source_dir=workspace.source_dir(ANTHEM_REPO_NAME),
+                          build_dir=workspace.build_dir(args.host_target,
+                                                        'anthem'))
 
     anthem_build.do_build()

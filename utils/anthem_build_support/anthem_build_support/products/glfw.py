@@ -21,7 +21,6 @@ from ..call import (call_without_sleeping,
                     call_ninja_install,
                     call_make,
                     call_make_install)
-from ..variables import ANTHEM_SOURCE_ROOT
 
 
 class Glfw(product.Product):
@@ -37,7 +36,7 @@ class Glfw(product.Product):
                                    '-G',
                                    self.args.cmake_generator,
                                    '-DCMAKE_INSTALL_PREFIX='
-                                   + self.workspace_obj.install_root])
+                                   + self.workspace.install_root])
 
             # Build the library.
             if self.args.cmake_generator == 'Ninja':
@@ -48,16 +47,15 @@ class Glfw(product.Product):
                 call_make_install()
 
 
-def build(args, toolchain, workspace_obj):
-    if not os.path.exists(workspace_obj.source_dir('glfw')):
+def build(args, toolchain, workspace):
+    if not os.path.exists(workspace.source_dir('glfw')):
         diagnostics.fatal('cannot find source directory for GLFW (tried %s)'
-                          % (workspace_obj.source_dir('glfw')))
+                          % (workspace.source_dir('glfw')))
 
     glfw_build = Glfw(args=args,
                       toolchain=toolchain,
-                      workspace_obj=workspace_obj,
-                      source_dir=workspace_obj.source_dir('glfw'),
-                      build_dir=workspace_obj.build_dir(args.host_target,
-                                                        'glfw'))
+                      workspace=workspace,
+                      source_dir=workspace.source_dir('glfw'),
+                      build_dir=workspace.build_dir(args.host_target, 'glfw'))
 
     glfw_build.do_build()

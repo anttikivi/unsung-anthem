@@ -44,8 +44,7 @@ from anthem_build_support.anthem_build_support import \
     (build,
      diagnostics,
      namespace,
-     shell,
-     workspace)
+     shell)
 
 from anthem_build_support.anthem_build_support.call import \
     call_without_sleeping
@@ -62,8 +61,12 @@ from anthem_build_support.anthem_build_support.variables import \
 
 from anthem_build_support.anthem_build_support.products import ninja
 
-from anthem_build_support.anthem_build_support.toolchain import host_toolchain
 from anthem_build_support.anthem_build_support.targets import DeploymentTarget
+from anthem_build_support.anthem_build_support.toolchain import host_toolchain
+from anthem_build_support.anthem_build_support.workspace import \
+    (Workspace,
+     compute_build_subdir,
+     compute_install_subdir)
 
 from docopt import docopt
 
@@ -204,7 +207,8 @@ def main_normal(raw_opts):
 
                                darwin_deployment_version=
                                str(raw_opts['--darwin-deployment-version'])
-                               if raw_opts['--darwin-deployment-version'] is not None else '10.9',
+                               if raw_opts['--darwin-deployment-version']
+                               is not None else '10.9',
 
                                # TODO Add command line option for Darwin
                                # toolchain.
@@ -239,41 +243,44 @@ def main_normal(raw_opts):
     diagnostics.note('CMake is set to ' + toolchain.cmake)
 
     # Set the build subdirectory.
-    build_subdir = workspace.compute_build_subdir(args) \
+    build_subdir = compute_build_subdir(args) \
         if args.build_subdir is None else args.build_subdir
 
     # Set the installation subdirectory.
-    install_subdir = workspace.compute_install_subdir(args) \
+    install_subdir = compute_install_subdir(args) \
         if args.install_subdir is None else args.install_subdir
 
     # Create the workspace object containing the build-related directories.
-    workspace_obj = \
-        workspace.Workspace(source_root=ANTHEM_SOURCE_ROOT,
-                            build_root=os.path.join(ANTHEM_BUILD_ROOT,
-                                                    build_subdir),
-                            install_root=os.path.join(ANTHEM_BUILD_ROOT,
-                                                      install_subdir))
+    workspace = Workspace(source_root=ANTHEM_SOURCE_ROOT,
+                          build_root=os.path.join(ANTHEM_BUILD_ROOT,
+                                                  build_subdir),
+                          install_root=os.path.join(ANTHEM_BUILD_ROOT,
+                                                    install_subdir))
 
     # Clean build directory if requested.
     if args.clean:
         clean_delay()
-        shell.rmtree(workspace_obj.build_root)
-        shell.rmtree(workspace_obj.install_root)
+        shell.rmtree(workspace.build_root)
+        shell.rmtree(workspace.install_root)
 
     # Create the build directory.
-    shell.makedirs(workspace_obj.build_root)
+    shell.makedirs(workspace.build_root)
 
     # Create the install directory.
-    shell.makedirs(workspace_obj.install_root)
+    shell.makedirs(workspace.install_root)
+
+    # Check whether the toolchain has found ninja on the host platform.
+    if toolchain.ninja is None and ninja.is_ninja_prebuilt(workspace):
+        toolchain.ninja = ninja.ninja_binary(workspace)
 
     # Build ninja if required, which will update the toolchain.
     if args.cmake_generator == 'Ninja' or toolchain.ninja is None:
         ninja.build(args=args,
                     toolchain=toolchain,
-                    workspace_obj=workspace_obj)
+                    workspace=workspace)
 
     # Build Unsung Anthem and its dependencies.
-    build.execute(args=args, toolchain=toolchain, workspace_obj=workspace_obj)
+    build.execute(args=args, toolchain=toolchain, workspace=workspace)
 
     # TODO Add tests.
 
