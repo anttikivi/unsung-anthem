@@ -59,3 +59,17 @@ def build(args, toolchain, workspace):
                       build_dir=workspace.build_dir(args.host_target, 'glfw'))
 
     glfw_build.do_build()
+
+
+def bazel(args, toolchain, workspace):
+    if not os.path.exists(workspace.source_dir('glfw')):
+        diagnostics.fatal('cannot find source directory for GLFW (tried %s)'
+                          % (workspace.source_dir('glfw')))
+
+    glfw_build = Glfw(args=args,
+                      toolchain=toolchain,
+                      workspace=workspace,
+                      source_dir=workspace.source_dir('glfw'),
+                      build_dir=workspace.build_dir(args.host_target, 'glfw'))
+
+    glfw_build.bazel()

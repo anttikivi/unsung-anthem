@@ -30,8 +30,14 @@ class Workspace(object):
 
 
 def compute_build_subdir(args):
+    build_subdir = ''
+
+    if 'bazel' == args.build_system:
+        # Create a name for the build directory.
+        build_subdir += 'Bazel-'
+
     # Create a name for the build directory.
-    build_subdir = args.cmake_generator.replace(" ", "_")
+    build_subdir += args.cmake_generator.replace(' ', '_')
 
     anthem_build_dir_label = args.anthem_build_variant
     if args.anthem_assertions:
@@ -43,8 +49,14 @@ def compute_build_subdir(args):
 
 
 def compute_install_subdir(args):
+    install_subdir = ''
+
+    if 'bazel' == args.build_system:
+        # Create a name for the installation directory.
+        install_subdir += 'Bazel-'
+
     # Create a name for the installation directory.
-    install_subdir = args.cmake_generator.replace(" ", "_")
+    install_subdir += args.cmake_generator.replace(' ', '_')
 
     install_subdir += '-install'
 

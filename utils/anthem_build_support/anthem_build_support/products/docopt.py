@@ -60,3 +60,18 @@ def build(args, toolchain, workspace):
                                                         'docopt'))
 
     docopt_build.do_build()
+
+
+def bazel(args, toolchain, workspace):
+    if not os.path.exists(workspace.source_dir('docopt')):
+        diagnostics.fatal('cannot find source directory for docopt (tried %s)'
+                          % (workspace.source_dir('docopt')))
+
+    docopt_build = Docopt(args=args,
+                          toolchain=toolchain,
+                          workspace=workspace,
+                          source_dir=workspace.source_dir('docopt'),
+                          build_dir=workspace.build_dir(args.host_target,
+                                                        'docopt'))
+
+    docopt_build.bazel()

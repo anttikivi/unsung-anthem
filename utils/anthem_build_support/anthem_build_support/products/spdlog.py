@@ -60,3 +60,18 @@ def build(args, toolchain, workspace):
                                                         'spdlog'))
 
     spdlog_build.do_build()
+
+
+def bazel(args, toolchain, workspace):
+    if not os.path.exists(workspace.source_dir('spdlog')):
+        diagnostics.fatal('cannot find source directory for spdlog (tried %s)'
+                          % (workspace.source_dir('spdlog')))
+
+    spdlog_build = Spdlog(args=args,
+                          toolchain=toolchain,
+                          workspace=workspace,
+                          source_dir=workspace.source_dir('spdlog'),
+                          build_dir=workspace.build_dir(args.host_target,
+                                                        'spdlog'))
+
+    spdlog_build.bazel()

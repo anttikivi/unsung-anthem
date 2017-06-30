@@ -77,3 +77,16 @@ def build(args, toolchain, workspace):
                         build_dir=workspace.build_dir('build', 'ninja'))
     ninja_build.do_build()
     toolchain.ninja = ninja_build.ninja_bin_path
+
+
+def bazel(args, toolchain, workspace):
+    if not os.path.exists(workspace.source_dir('ninja')):
+        diagnostics.fatal('cannot find source directory for ninja (tried %s)'
+                          % (workspace.source_dir('ninja')))
+
+    ninja_build = Ninja(args=args,
+                        toolchain=toolchain,
+                        workspace=workspace,
+                        source_dir=workspace.source_dir('ninja'),
+                        build_dir=workspace.build_dir('build', 'ninja'))
+    ninja_build.bazel()

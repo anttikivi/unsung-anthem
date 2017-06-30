@@ -60,3 +60,18 @@ def build(args, toolchain, workspace):
                                                       'catch'))
 
     catch_build.do_build()
+
+
+def bazel(args, toolchain, workspace):
+    if not os.path.exists(workspace.source_dir('catch')):
+        diagnostics.fatal('cannot find source directory for Catch (tried %s)'
+                          % (workspace.source_dir('catch')))
+
+    catch_build = Catch(args=args,
+                        toolchain=toolchain,
+                        workspace=workspace,
+                        source_dir=workspace.source_dir('catch'),
+                        build_dir=workspace.build_dir(args.host_target,
+                                                      'catch'))
+
+    catch_build.bazel()

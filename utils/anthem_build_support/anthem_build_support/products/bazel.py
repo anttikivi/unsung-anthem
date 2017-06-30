@@ -20,10 +20,6 @@ import sys
 from . import product
 from .. import (cache_util, diagnostics, shell)
 
-from ..call import call_without_sleeping
-
-from ..variables import ANTHEM_SOURCE_ROOT
-
 from update_checkout import SCRIPT_DIR
 
 
@@ -55,9 +51,8 @@ class Bazel(product.Product):
         # Set the permission for calling the installation script.
         shell.call(['chmod', '+x', os.path.join(self.build_dir, install_name)])
 
-        with shell.pushd(self.build_dir):
-            shell.call([install_name,
-                        '--prefix=' + self.workspace.install_root])
+        shell.call([os.path.join(self.build_dir, install_name),
+                    '--prefix=' + self.workspace.install_root])
 
 
 def build(args, toolchain, workspace):

@@ -8,6 +8,8 @@
 #
 # ----------------------------------------------------------------------------
 
+from .. import shell
+
 
 class Product(object):
     @classmethod
@@ -42,3 +44,8 @@ class Product(object):
         self.source_dir = source_dir
         self.build_dir = build_dir
         self.cmake_options = []
+
+    def bazel(self):
+        # Copy the source tree to the build directory.
+        shell.rmtree(self.build_dir)
+        shell.copytree(self.source_dir, self.build_dir)

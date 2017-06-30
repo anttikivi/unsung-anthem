@@ -357,14 +357,19 @@ def main_normal(raw_opts):
         ninja.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Unsung Anthem and its dependencies.
-    build.execute(args=args, toolchain=toolchain, workspace=workspace)
+    if 'bazel' == args.build_system:
+        build.bazel(args=args, toolchain=toolchain, workspace=workspace)
 
-    # Run tests.
-    if args.test:
-        with shell.pushd(workspace.build_dir(args.host_target, 'anthem-test')):
-            call_without_sleeping([os.path.join(
-                workspace.build_dir(args.host_target, 'anthem-test'),
-                args.test_executable_name)])
+    elif 'cmake' == args.build_system:
+        build.cmake(args=args, toolchain=toolchain, workspace=workspace)
+
+        # Run tests.
+        if args.test:
+            with shell.pushd(workspace.build_dir(args.host_target,
+                                                 'anthem-test')):
+                call_without_sleeping([os.path.join(
+                    workspace.build_dir(args.host_target, 'anthem-test'),
+                    args.test_executable_name)])
 
     return 0
 

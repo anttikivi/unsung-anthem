@@ -80,3 +80,19 @@ def build(args, toolchain, workspace):
                                                         'anthem'))
 
     anthem_build.do_build()
+
+
+def bazel(args, toolchain, workspace):
+    if not os.path.exists(workspace.source_dir(ANTHEM_REPO_NAME)):
+        diagnostics.fatal('cannot find source directory for Unsung Anthem '
+                          '(tried %s)'
+                          % (workspace.source_dir(ANTHEM_REPO_NAME)))
+
+    anthem_build = Anthem(args=args,
+                          toolchain=toolchain,
+                          workspace=workspace,
+                          source_dir=workspace.source_dir(ANTHEM_REPO_NAME),
+                          build_dir=workspace.build_dir(args.host_target,
+                                                        'anthem'))
+
+    anthem_build.bazel()
