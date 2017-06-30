@@ -1,8 +1,7 @@
 add_subdirectory(util)
 
-set(ANTHEM_SOURCES ${ANTHEM_SOURCES}
+set(ANTHEM_TEST_SOURCES ${ANTHEM_TEST_SOURCES}
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/execute.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 
     PARENT_SCOPE)

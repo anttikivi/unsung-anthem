@@ -17,7 +17,7 @@ Usage:
   build-script [-n | --dry-run] [-c | --clean] [--ninja | --make | --xcode]
                [--std VERSION | --c++17 | --c++14 | --c++11]
                [--darwin-deployment-version VERSION] [--setup-clion]
-               [--executable-name NAME]
+               [--executable-name NAME --test-executable-name NAME]
 
 Options:
   --preset NAME         Use the specified option preset.
@@ -55,6 +55,9 @@ Options:
   --executable-name NAME
                         The name of the Unsung Anthem executable file (please
                         note that this is not a path).
+  --test-executable-name NAME
+                        The name of the Unsung Anthem test executable file
+                        (please note that this is not a path).
 """
 
 import os
@@ -240,10 +243,24 @@ def main_normal(raw_opts):
 
                                setup_clion=raw_opts['--setup-clion'],
 
-                               executable_name=raw_opts['--executable-name'])
+                               executable_name=raw_opts['--executable-name'],
+
+                               test_executable_name=raw_opts[
+                                   '--test-executable-name'],
+
+                               # TODO Add command line option for tests.
+                               test=True)
 
     # Set the dry run setting of the shell utilities.
     shell.dry_run = args.dry_run
+
+    # Set the executable name.
+    if args.executable_name is None:
+        args.executable_name = 'unsung-anthem-%s' % args.host_target
+
+    # Set the test executable name.
+    if args.test_executable_name is None:
+        args.test_executable_name = 'test-%s' % args.executable_name
 
     # Prepare and validate the toolchain.
     toolchain = host_toolchain(xcrun_toolchain=args.darwin_xcrun_toolchain)
@@ -312,7 +329,12 @@ def main_normal(raw_opts):
     # Build Unsung Anthem and its dependencies.
     build.execute(args=args, toolchain=toolchain, workspace=workspace)
 
-    # TODO Add tests.
+    # Run tests.
+    if args.test:
+        with shell.pushd(workspace.build_dir(args.host_target, 'anthem-test')):
+            call_without_sleeping([os.path.join(
+                workspace.build_dir(args.host_target, 'anthem-test'),
+                args.test_executable_name)])
 
     return 0
 

@@ -1,3 +1,5 @@
+add_subdirectory(util)
+
 set(ANTHEM_INCLUDES ${ANTHEM_INCLUDES}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/execute.h

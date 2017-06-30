@@ -25,6 +25,15 @@ endif()
 message(STATUS "The executable name (ANTHEM_EXECUTABLE_NAME) is set to \
 ${ANTHEM_EXECUTABLE_NAME}")
 
+# Check if the test executable name variable is set and if it is not set, set
+# it to some stupid default value.
+if(NOT DEFINED ANTHEM_TEST_EXECUTABLE_NAME)
+  set(ANTHEM_TEST_EXECUTABLE_NAME test-${ANTHEM_EXECUTABLE_NAME})
+endif()
+
+message(STATUS "The test executable name (ANTHEM_TEST_EXECUTABLE_NAME) is set \
+to ${ANTHEM_TEST_EXECUTABLE_NAME}")
+
 # Check if the C++ Standard version is set.
 if(NOT DEFINED ANTHEM_CPP_VERSION)
   message(FATAL_ERROR "The C++ Standard version (ANTHEM_CPP_VERSION) is not \
@@ -108,21 +117,47 @@ set(ANTHEM_INCLUDES)
 # directory.
 add_subdirectory(include)
 
+# The variable containing the source files of the project.
+set(ANTHEM_SOURCES)
+
+# Add the source files of the project into single variable from the source
+# directory.
+add_subdirectory(src)
+
 # Check whether the build is the actual executable or tests.
 if (${ANTHEM_EXECUTABLE_TYPE} STREQUAL anthem)
-
-  # The variable containing the source files of the project.
-  set(ANTHEM_SOURCES)
-
-  # Add the source files of the project into single variable from the source
-  # directory.
-  add_subdirectory(src)
 
   # Add the actual executable with the sources.
   add_executable(${ANTHEM_EXECUTABLE_NAME} ${ANTHEM_INCLUDES} ${ANTHEM_SOURCES})
 
 elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
-  message(STATUS "This CMake list does not support building tests yet")
+
+  # The variable containing the source files of the project tests.
+  set(ANTHEM_TEST_SOURCES)
+
+  # Add the source files of the project into single variable from the source
+  # directory.
+  add_subdirectory(test)
+
+  list(REMOVE_ITEM ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+
+  # Add the actual executable with the sources.
+  add_executable(${ANTHEM_TEST_EXECUTABLE_NAME} ${ANTHEM_INCLUDES} ${ANTHEM_TEST_SOURCES} ${ANTHEM_SOURCES})
+
+elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL clion)
+
+  # The variable containing the source files of the project tests.
+  set(ANTHEM_TEST_SOURCES)
+
+  # Add the source files of the project into single variable from the source
+  # directory.
+  add_subdirectory(test)
+
+  list(REMOVE_ITEM ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+
+  # Add the actual executable with the sources.
+  add_executable(${ANTHEM_TEST_EXECUTABLE_NAME} ${ANTHEM_INCLUDES} ${ANTHEM_TEST_SOURCES} ${ANTHEM_SOURCES})
+
 else()
   message(FATAL_ERROR "The value of the executable type \
   (ANTHEM_EXECUTABLE_TYPE) is ${ANTHEM_EXECUTABLE_TYPE} and thus invalid – \

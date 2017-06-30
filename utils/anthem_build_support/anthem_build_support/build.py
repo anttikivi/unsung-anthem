@@ -6,7 +6,7 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-from products import (anthem, catch, docopt, glfw, spdlog)
+from products import (anthem, catch, docopt, glfw, spdlog, test)
 
 
 def execute(args, toolchain, workspace):
@@ -30,3 +30,6 @@ def execute(args, toolchain, workspace):
 
     # Build Unsung Anthem.
     anthem.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    # Build tests.
+    test.build(args=args, toolchain=toolchain, workspace=workspace)
