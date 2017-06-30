@@ -9,6 +9,15 @@
 from products import (anthem, catch, docopt, glfw, spdlog, test)
 
 
+def resolve_build_system(raw_opts):
+    if raw_opts['--bazel']:
+        return 'bazel'
+    elif raw_opts['--cmake']:
+        return 'cmake'
+    else:
+        return raw_opts['--build-system']
+
+
 def execute(args, toolchain, workspace):
     """
     Executes the build of Unsung Anthem and its dependencies.

@@ -15,14 +15,6 @@ Represent whole source tree and the build directory
 import os.path
 
 
-# def source_dir(source_root, path):
-#     return os.path.join(source_root, path)
-
-
-# def build_dir(build_root, deployment_target, product):
-#     return os.path.join(build_root, '%s-%s' % (product, deployment_target))
-
-
 class Workspace(object):
     def __init__(self, source_root, build_root, install_root):
         self.source_root = source_root
@@ -60,6 +52,6 @@ def compute_install_subdir(args):
     if args.anthem_assertions:
         anthem_build_dir_label += "Assert"
 
-        install_subdir += "+anthem-" + anthem_build_dir_label
+    install_subdir += "+anthem-" + anthem_build_dir_label
 
     return install_subdir

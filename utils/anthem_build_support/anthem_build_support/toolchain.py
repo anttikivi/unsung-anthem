@@ -53,6 +53,7 @@ else:
 
 _register('ninja', 'ninja', 'ninja-build')
 _register('cmake', 'cmake')
+_register('bazel', 'bazel')
 
 
 # _register('llvm_profdata', 'llvm-profdata')

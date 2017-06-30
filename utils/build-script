@@ -14,7 +14,9 @@ Usage:
   build-script --preset NAME [--preset-file PATH] [-n]
                [--expand-build-script-invocation]
   build-script --show-presets
-  build-script [-n | --dry-run] [-c | --clean] [--ninja | --make | --xcode]
+  build-script [-n | --dry-run] [--clean | --clean-checkout | --clean-build]
+               [--build-system NAME | --bazel | --cmake]
+               [--ninja | --make | --xcode]
                [--std VERSION | --c++17 | --c++14 | --c++11]
                [--darwin-deployment-version VERSION] [--setup-clion]
                [--executable-name NAME --test-executable-name NAME]
@@ -33,6 +35,14 @@ Options:
   --show-presets        List all presets and exit.
 
   -c, --clean           Do a clean build.
+  --clean-checkout      Re-download the dependencies before the build.
+  --clean-build         Delete the build directory before the build.
+
+  --build-system NAME   Set the build system to be used to build Unsung Anthem.
+                        Possible values are bazel and cmake [default: bazel].
+  --bazel               Use Bazel to build Unsung Anthem and tests.
+  --cmake               Use CMake to generate files with which Unsung Anthem
+                        and tests are built.
 
   --ninja               Use the Ninja generator of CMake (default is Ninja).
   -m, --make            Use the Unix Makefile generator of CMake (default is
@@ -59,7 +69,7 @@ Options:
                         The name of the Unsung Anthem test executable file
                         (please note that this is not a path).
 """
-
+import json
 import os
 import sys
 import time
@@ -85,7 +95,7 @@ from anthem_build_support.anthem_build_support.variables import \
      ANTHEM_REPO_NAME,
      ANTHEM_SOURCE_ROOT)
 
-from anthem_build_support.anthem_build_support.products import ninja
+from anthem_build_support.anthem_build_support.products import (bazel, ninja)
 
 from anthem_build_support.anthem_build_support.targets import DeploymentTarget
 from anthem_build_support.anthem_build_support.toolchain import host_toolchain
@@ -197,6 +207,12 @@ def main_normal(raw_opts):
     args = namespace.Namespace(dry_run=raw_opts['--dry-run'],
                                clean=raw_opts['--clean'],
 
+                               clean_checkout=raw_opts['--clean'] or raw_opts[
+                                   '--clean-checkout'],
+
+                               clean_build=raw_opts['--clean'] or raw_opts[
+                                   '--clean-build'],
+
                                # TODO Add command line option for host target.
                                host_target=DeploymentTarget.host_target().name,
 
@@ -206,6 +222,9 @@ def main_normal(raw_opts):
 
                                # TODO Add command line option for assertions.
                                anthem_assertions=True,
+
+                               build_system=
+                               build.resolve_build_system(raw_opts),
 
                                cmake_generator=
                                cmake.resolve_cmake_generator(raw_opts),
@@ -254,45 +273,6 @@ def main_normal(raw_opts):
     # Set the dry run setting of the shell utilities.
     shell.dry_run = args.dry_run
 
-    # Set the executable name.
-    if args.executable_name is None:
-        args.executable_name = 'unsung-anthem-%s' % args.host_target
-
-    # Set the test executable name.
-    if args.test_executable_name is None:
-        args.test_executable_name = 'test-%s' % args.executable_name
-
-    # Prepare and validate the toolchain.
-    toolchain = host_toolchain(xcrun_toolchain=args.darwin_xcrun_toolchain)
-    os.environ['TOOLCHAINS'] = args.darwin_xcrun_toolchain
-
-    if args.host_cc is not None:
-        toolchain.cc = args.host_cc
-
-    diagnostics.note('The host C compiler is set to ' + toolchain.cc)
-
-    if args.host_cxx is not None:
-        toolchain.cxx = args.host_cxx
-
-    diagnostics.note('The host C++ compiler is set to ' + toolchain.cxx)
-
-    # if args.host_lipo is not None:
-    #     toolchain.lipo = args.host_lipo
-
-    # if args.host_libtool is not None:
-    #     toolchain.libtool = args.host_libtool
-
-    if args.cmake is not None:
-        toolchain.cmake = args.cmake
-
-    diagnostics.note('CMake is set to ' + toolchain.cmake)
-
-    # Tell the user that this set-up will not build the final product but
-    # rather only set it up for CLion.
-    if args.setup_clion:
-        diagnostics.note('The CLion set-up is enabled and thus the final '
-                         'Unsung Anthem executable will not be built')
-
     # Set the build subdirectory.
     build_subdir = compute_build_subdir(args) \
         if args.build_subdir is None else args.build_subdir
@@ -309,10 +289,34 @@ def main_normal(raw_opts):
                                                     install_subdir))
 
     # Clean build directory if requested.
-    if args.clean:
+    if args.clean_build:
         clean_delay()
         shell.rmtree(workspace.build_root)
         shell.rmtree(workspace.install_root)
+
+    # Make the call of update-checkout.
+    update_checkout = [os.path.join(ANTHEM_SOURCE_ROOT,
+                                    ANTHEM_REPO_NAME,
+                                    'utils',
+                                    'update-checkout')]
+
+    if args.clean_checkout:
+        update_checkout += ['--clean']
+
+    if not ('bazel' == args.build_system):
+        update_checkout += ['--skip-repository']
+        update_checkout += ['bazel']
+
+    # Call the update-checkout script.
+    call_without_sleeping(update_checkout)
+
+    # Set the executable name.
+    if args.executable_name is None:
+        args.executable_name = 'unsung-anthem-%s' % args.host_target
+
+    # Set the test executable name.
+    if args.test_executable_name is None:
+        args.test_executable_name = 'test-%s' % args.executable_name
 
     # Create the build directory.
     shell.makedirs(workspace.build_root)
@@ -320,11 +324,37 @@ def main_normal(raw_opts):
     # Create the install directory.
     shell.makedirs(workspace.install_root)
 
-    # Build ninja if required, which will update the toolchain.
-    if args.cmake_generator == 'Ninja' or toolchain.ninja is None:
-        ninja.build(args=args,
-                    toolchain=toolchain,
-                    workspace=workspace)
+    # Prepare and validate the toolchain.
+    toolchain = host_toolchain(xcrun_toolchain=args.darwin_xcrun_toolchain)
+    os.environ['TOOLCHAINS'] = args.darwin_xcrun_toolchain
+
+    if args.host_cc is not None:
+        toolchain.cc = args.host_cc
+
+    diagnostics.note('The host C compiler is set to ' + toolchain.cc)
+
+    if args.host_cxx is not None:
+        toolchain.cxx = args.host_cxx
+
+    diagnostics.note('The host C++ compiler is set to ' + toolchain.cxx)
+
+    if args.cmake is not None:
+        toolchain.cmake = args.cmake
+
+    diagnostics.note('CMake is set to ' + toolchain.cmake)
+
+    # Tell the user that this set-up will not build the final product but
+    # rather only set it up for CLion.
+    if args.setup_clion:
+        diagnostics.note('The CLion set-up is enabled and thus the final '
+                         'Unsung Anthem executable will not be built')
+
+    # Build Bazel if required, which will update the toolchain.
+    if 'bazel' == args.build_system:
+        bazel.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    elif args.cmake_generator == 'Ninja' or toolchain.ninja is None:
+        ninja.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Unsung Anthem and its dependencies.
     build.execute(args=args, toolchain=toolchain, workspace=workspace)

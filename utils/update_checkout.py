@@ -117,13 +117,6 @@ By default, updates your checkouts of Unsung Anthem.""")
                         dest='skip_repository_list',
                         action="append")
 
-    parser.add_argument("--scheme",
-                        help='Use branches from the specified branch-scheme. '
-                             'A "branch-scheme" is a list of (repo, branch) '
-                             'pairs.',
-                        metavar='BRANCH-SCHEME',
-                        dest='scheme')
-
     parser.add_argument('--clean',
                         help='Force to re-download every dependency.',
                         action='store_true')
@@ -148,6 +141,10 @@ By default, updates your checkouts of Unsung Anthem.""")
     dependencies = config['dependencies']
 
     for key in dependencies.keys():
+
+        # Check if the dependency should be skipped.
+        if key in args.skip_repository_list:
+            continue
 
         # Set a shortcut to the dependency data.
         dependency = dependencies[key]
@@ -243,23 +240,27 @@ By default, updates your checkouts of Unsung Anthem.""")
                                   repository=dependency['id'],
                                   sha=sha)
         else:
-            # Set the asset file for the processing of the file.
-            asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, asset['id'])
+            # If the current dependency is Bazel, continue as it should not be
+            # extracted.
+            if not ('bazel' == key):
+                # Set the asset file for the processing of the file.
+                asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, asset['id'])
 
-            # Check if the downloaded asset is a zip archive.
-            if '.zip' in asset_file:
-                print('The downloaded asset is a zip archive. Extracting now.')
+                # Check if the downloaded asset is a zip archive.
+                if '.zip' in asset_file:
+                    print('The downloaded asset is a zip archive. Extracting '
+                          'now.')
 
-                # Use Python to extract the archive.
-                with contextlib.closing(zipfile.ZipFile(asset_file, 'r')) as z:
-                    z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+                    # Use Python to extract the archive.
+                    with contextlib.closing(zipfile.ZipFile(asset_file, 'r')) as z:
+                        z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
 
-                # Delete the archive as it is extracted.
-                shell.rm(asset_file)
+                    # Delete the archive as it is extracted.
+                    shell.rm(asset_file)
 
-            # Do the manual tasks if this dependency requires them.
-            if 'glfw' == key:
-                move_glfw_files(config)
+                # Do the manual tasks if this dependency requires them.
+                if 'glfw' == key:
+                    move_glfw_files(config)
 
         # Add the version of the dependency to the dictionary.
         versions[key] = dependency['version']
