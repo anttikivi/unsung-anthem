@@ -331,17 +331,36 @@ def main_normal(raw_opts):
     if args.host_cc is not None:
         toolchain.cc = args.host_cc
 
-    diagnostics.note('The host C compiler is set to ' + toolchain.cc)
-
     if args.host_cxx is not None:
         toolchain.cxx = args.host_cxx
-
-    diagnostics.note('The host C++ compiler is set to ' + toolchain.cxx)
 
     if args.cmake is not None:
         toolchain.cmake = args.cmake
 
-    diagnostics.note('CMake is set to ' + toolchain.cmake)
+    # Check the required items of the toolchain so they exist.
+    if toolchain.cc is None:
+        diagnostics.note('TODO toolchain C compiler is None')
+
+    diagnostics.note('The host C compiler is set to ' + str(toolchain.cc))
+
+    if toolchain.cxx is None:
+        diagnostics.note('TODO toolchain C++ compiler is None')
+
+    diagnostics.note('The host C++ compiler is set to ' + str(toolchain.cxx))
+
+    if toolchain.cmake is None:
+        diagnostics.note('TODO toolchain CMake is None')
+
+    diagnostics.note('CMake is set to ' + str(toolchain.cmake))
+
+    if toolchain.bazel is None:
+        if os.path.exists(os.path.join(workspace.install_root, 'bin')):
+            toolchain.bazel = os.path.join(workspace.install_root, 'bin')
+            diagnostics.note('Bazel is set to ' + str(toolchain.bazel))
+        else:
+            diagnostics.note('Bazel is set to None')
+    else:
+        diagnostics.note('Bazel is set to ' + str(toolchain.bazel))
 
     # Tell the user that this set-up will not build the final product but
     # rather only set it up for CLion.
@@ -350,7 +369,7 @@ def main_normal(raw_opts):
                          'Unsung Anthem executable will not be built')
 
     # Build Bazel if required, which will update the toolchain.
-    if 'bazel' == args.build_system:
+    if 'bazel' == args.build_system and toolchain.bazel is None:
         bazel.build(args=args, toolchain=toolchain, workspace=workspace)
 
     elif args.cmake_generator == 'Ninja' or toolchain.ninja is None:
