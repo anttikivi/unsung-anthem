@@ -34,7 +34,7 @@ def bazel(args, toolchain, workspace):
         ninja.bazel(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Unsung Anthem.
-    # anthem.build(args=args, toolchain=toolchain, workspace=workspace)
+    anthem.bazel(args=args, toolchain=toolchain, workspace=workspace)
 
     # TODO Build tests.
     # test.build(args=args, toolchain=toolchain, workspace=workspace)

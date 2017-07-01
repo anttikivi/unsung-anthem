@@ -12,6 +12,7 @@ Unsung Anthem build
 """
 # ----------------------------------------------------------------------------
 
+import json
 import os
 
 from . import product
@@ -64,6 +65,56 @@ class Anthem(product.Product):
             shell.print_command(cmake_call)
             diagnostics.note('You can copy the options into your CLion '
                              'settings')
+
+    def build_value_file(self):
+        return os.path.join(self.build_dir, 'bazel_tokens')
+
+    def bazel(self):
+        # Read the values of the last build and check whether the build should
+        # be clean.
+        if os.path.isfile(self.build_value_file()):
+            with open(self.build_value_file()) as f:
+                build_value_json = json.load(f)
+        else:
+            build_value_json = {}
+
+        build_values = {'ANTHEM_EXECUTABLE_NAME': self.args.executable_name,
+                        'ANTHEM_CPP_VERSION': self.args.std,
+                        'ANTHEM_INSTALL_PREFIX': self.workspace.install_root}
+
+        if not (build_values == build_value_json):
+            # Start by copying the files to the build directory.
+            shell.rmtree(self.build_dir)
+            shell.copytree(self.source_dir, self.build_dir)
+
+            # Read the build file and save its contents after replacing the
+            # tokens.
+            new_lines = []
+            with open(os.path.join(self.source_dir, 'BUILD'), 'r') as f:
+                for line in f.readlines():
+                    new_line = line
+
+                    for token_key in build_values.keys():
+                        new_line = new_line.replace(token_key,
+                                                    build_values[token_key])
+
+                    new_lines.append(new_line)
+
+            # Delete the old Bazel build script so the new one can be written.
+            shell.rm(os.path.join(self.build_dir, 'BUILD'))
+
+            with open(os.path.join(self.build_dir, 'BUILD'), 'w') as f:
+                for line in new_lines:
+                    f.write(line)
+
+            # Write the tokens to a JSON file so next time the script do not
+            # need to re-process the build script.
+            with open(self.build_value_file(), 'w') as outfile:
+                json.dump(build_values, outfile)
+
+        else:
+            diagnostics.note('The Bazel build script do not need to be '
+                             'updated')
 
 
 def build(args, toolchain, workspace):
