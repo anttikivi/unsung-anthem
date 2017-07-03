@@ -111,10 +111,15 @@ class Anthem(product.Product):
             # need to re-process the build script.
             with open(self.build_value_file(), 'w') as outfile:
                 json.dump(build_values, outfile)
-
         else:
             diagnostics.note('The Bazel build script do not need to be '
                              'updated')
+
+        # Run the Bazel command.
+        with shell.pushd(self.build_dir):
+            shell.call([self.toolchain.bazel,
+                        'build',
+                        ':' + self.args.executable_name])
 
 
 def build(args, toolchain, workspace):

@@ -355,7 +355,7 @@ def main_normal(raw_opts):
 
     if toolchain.bazel is None:
         if os.path.exists(os.path.join(workspace.install_root, 'bin')):
-            toolchain.bazel = os.path.join(workspace.install_root, 'bin')
+            toolchain.bazel = os.path.join(workspace.install_root, 'bin', 'bazel')
             diagnostics.note('Bazel is set to ' + str(toolchain.bazel))
         else:
             diagnostics.note('Bazel is set to None')

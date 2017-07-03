@@ -26,9 +26,9 @@ from update_checkout import SCRIPT_DIR
 class Bazel(product.Product):
     @cache_util.reify
     def bazel_bin_path(self):
-        return os.path.join(self.build_dir, 'ninja.exe') \
+        return os.path.join(self.workspace.install_root, 'bin', 'bazel.exe') \
             if platform.system() == 'Windows' \
-            else os.path.join(self.build_dir, 'ninja')
+            else os.path.join(self.workspace.install_root, 'bin', 'bazel')
 
     def do_build(self):
         # Copy the source tree to the build directory.

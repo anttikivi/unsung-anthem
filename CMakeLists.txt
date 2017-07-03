@@ -109,54 +109,76 @@ endif()
 
 # Add the Unsung Anthem headers to includes.
 include_directories(include)
+include_directories(src)
 
-# The variable containing the source files of the project.
+# The variable containing the library include files of the project.
+set(ANTHEM_LIB_INCLUDES)
+
+# The variable containing the include files of the project.
 set(ANTHEM_INCLUDES)
 
-# Add the source files of the project into single variable from the source
-# directory.
-add_subdirectory(include)
+# The variable containing the library source files of the project.
+set(ANTHEM_LIB_SOURCES)
+
+# The variable containing the source files of the project tests.
+set(ANTHEM_TEST_SOURCES)
 
 # The variable containing the source files of the project.
 set(ANTHEM_SOURCES)
 
 # Add the source files of the project into single variable from the source
 # directory.
+add_subdirectory(include)
+
+# Add the library source files of the project into single variable from the
+# library directory.
+add_subdirectory(lib)
+
+# Add the source files of the project into single variable from the source
+# directory.
 add_subdirectory(src)
+
+# Add the source files of the project into single variable from the source
+# directory.
+add_subdirectory(test)
 
 # Check whether the build is the actual executable or tests.
 if (${ANTHEM_EXECUTABLE_TYPE} STREQUAL anthem)
 
   # Add the actual executable with the sources.
-  add_executable(${ANTHEM_EXECUTABLE_NAME} ${ANTHEM_INCLUDES} ${ANTHEM_SOURCES})
+  add_executable(${ANTHEM_EXECUTABLE_NAME}
+      ${ANTHEM_LIB_INCLUDES}
+      ${ANTHEM_INCLUDES}
+      ${ANTHEM_LIB_SOURCES}
+      ${ANTHEM_SOURCES})
 
 elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
 
-  # The variable containing the source files of the project tests.
-  set(ANTHEM_TEST_SOURCES)
-
-  # Add the source files of the project into single variable from the source
-  # directory.
-  add_subdirectory(test)
-
+  # Remove the main function of the executable from the tests as the tests need
+  # their own main function.
   list(REMOVE_ITEM ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
   # Add the actual executable with the sources.
-  add_executable(${ANTHEM_TEST_EXECUTABLE_NAME} ${ANTHEM_INCLUDES} ${ANTHEM_TEST_SOURCES} ${ANTHEM_SOURCES})
+  add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}
+      ${ANTHEM_LIB_INCLUDES}
+      ${ANTHEM_INCLUDES}
+      ${ANTHEM_LIB_SOURCES}
+      ${ANTHEM_TEST_SOURCES}
+      ${ANTHEM_SOURCES})
 
 elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL clion)
 
-  # The variable containing the source files of the project tests.
-  set(ANTHEM_TEST_SOURCES)
-
-  # Add the source files of the project into single variable from the source
-  # directory.
-  add_subdirectory(test)
-
+  # Remove the main function of the executable from the tests as the tests need
+  # their own main function.
   list(REMOVE_ITEM ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
   # Add the actual executable with the sources.
-  add_executable(${ANTHEM_TEST_EXECUTABLE_NAME} ${ANTHEM_INCLUDES} ${ANTHEM_TEST_SOURCES} ${ANTHEM_SOURCES})
+  add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}
+      ${ANTHEM_LIB_INCLUDES}
+      ${ANTHEM_INCLUDES}
+      ${ANTHEM_LIB_SOURCES}
+      ${ANTHEM_TEST_SOURCES}
+      ${ANTHEM_SOURCES})
 
 else()
   message(FATAL_ERROR "The value of the executable type \

@@ -1,8 +1,12 @@
-add_subdirectory(util)
-
 set(ANTHEM_SOURCES ${ANTHEM_SOURCES}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/execute.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+
+    PARENT_SCOPE)
+
+set(ANTHEM_INCLUDES ${ANTHEM_INCLUDES}
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/execute.h
 
     PARENT_SCOPE)
