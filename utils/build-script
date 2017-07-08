@@ -19,6 +19,7 @@ Usage:
                [--std VERSION | --c++17 | --c++14 | --c++11]
                [--darwin-deployment-version VERSION] [--setup-clion]
                [--executable-name NAME --test-executable-name NAME]
+               [--travis]
 
 Options:
   --preset NAME         Use the specified option preset.
@@ -64,6 +65,8 @@ Options:
   --test-executable-name NAME
                         The name of the Unsung Anthem test executable file
                         (please note that this is not a path).
+
+  --travis              The build is done in a Travis CI environment.
 """
 import os
 import sys
@@ -263,7 +266,9 @@ def main_normal(raw_opts):
                                    '--test-executable-name'],
 
                                # TODO Add command line option for tests.
-                               test=True)
+                               test=True,
+
+                               travis=raw_opts['--travis'])
 
     # Set the dry run setting of the shell utilities.
     shell.dry_run = args.dry_run

@@ -1,7 +1,9 @@
 language: cpp
 
 dist: trusty
-
+compiler:
+ - gcc
+ - clang
 sudo: false
 
 install:
