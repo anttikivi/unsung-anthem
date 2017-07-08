@@ -211,40 +211,44 @@ def get_github_dependency(args, config, key, dependency, versions):
                 move_glfw_files(config)
 
 
-def get_llvm_dependency(key, id, version, url_format):
+def get_llvm_dependency(key, id, version, url_format, use_cmd_tar):
     # Set the full path to the destination file.
     local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, id + '.tar.xz')
 
+    # Delete the old directory.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Make a new directory.
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Create the correct URL for downloading the source code.
+    url = url_format % (version, id, version)
+
+    # Form the HTML GET call to stream the archive.
+    request = requests.get(url=url, stream=True)
+
+    # Stream the file to the final destination.
+    with open(local_file, 'wb') as f:
+        for chunk in request.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+
+    print('Finished streaming from ' + url + ' to ' + str(local_file))
+
     if 2 == sys.version_info.major:
-        print('Downloading LLVM projects is not supported in '
-              'Python 2. The script will only move the extracted '
-              'archive contents to the correct folder.')
+        if use_cmd_tar:
+            # TODO Use different command for Windows.
+            with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key)):
+                shell.call(['tar', '-xf', id + '.tar.xz'])
+        else:
+            print('Extracting the downloaded file is not allowed.')
+            return
     else:
-        # Delete the old directory.
-        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
-
-        # Make a new directory.
-        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
-
-        # Create the correct URL for downloading the source code.
-        url = url_format % (version, id, version)
-
-        # Form the HTML GET call to stream the archive.
-        request = requests.get(url=url, stream=True)
-
-        # Stream the file to the final destination.
-        with open(local_file, 'wb') as f:
-            for chunk in request.iter_content(chunk_size=1024):
-                if chunk:
-                    f.write(chunk)
-
-        print('Finished streaming from ' + url + ' to ' + str(local_file))
-
         with tarfile.open(local_file) as f:
             f.extractall(os.path.join(ANTHEM_SOURCE_ROOT, key))
 
-        # Delete the archive as it is extracted.
-        shell.rm(local_file)
+    # Delete the archive as it is extracted.
+    shell.rm(local_file)
 
     # Set the original subdirectory name.
     subdir_name = '%s-%s.src' % (id, version)
@@ -284,6 +288,11 @@ By default, updates your checkouts of Unsung Anthem.""")
                         default=os.path.join(SCRIPT_DIR,
                                              "update-checkout-config.json"),
                         help="Configuration file to use")
+
+    parser.add_argument('--disable-manual-tar',
+                        help='Set in Travis for correct handling of the '
+                             'dependency downloading.',
+                        action='store_true')
 
     args = parser.parse_args()
 
@@ -330,7 +339,9 @@ By default, updates your checkouts of Unsung Anthem.""")
                     get_llvm_dependency(key=project,
                                         id=project_json['id'],
                                         version=dependency['version'],
-                                        url_format=url_format)
+                                        url_format=url_format,
+                                        use_cmd_tar=(
+                                            not args.disable_manual_tar))
 
         # Add the version of the dependency to the dictionary.
         versions[key] = dependency['version']
