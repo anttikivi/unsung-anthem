@@ -20,13 +20,6 @@ from . import product
 from .. import (cache_util, diagnostics, shell)
 
 
-def is_ninja_prebuilt(workspace):
-    return os.path.exists(os.path.join(build_directory(workspace),
-                                       'ninja')) or \
-           os.path.exists(os.path.join(build_directory(workspace),
-                                       'ninja.exe'))
-
-
 class Ninja(product.Product):
     @cache_util.reify
     def ninja_bin_path(self):
@@ -77,6 +70,9 @@ def build(args, toolchain, workspace):
                         build_dir=workspace.build_dir('build', 'ninja'))
     ninja_build.do_build()
     toolchain.ninja = ninja_build.ninja_bin_path
+
+    # Add the executable permission to the Ninja binary.
+    shell.call(['chmod', '+x', str(ninja_build.ninja_bin_path)])
 
 
 def bazel(args, toolchain, workspace):

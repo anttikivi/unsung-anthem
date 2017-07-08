@@ -76,7 +76,10 @@ class Darwin(Toolchain):
                                sdk=self.xcrun_sdk,
                                toolchain=self.xcrun_toolchain)
             if found is not None:
+                print('Found: ' + str(found))
                 return found
+
+            print('Found: None')
         return None
 
 
@@ -110,6 +113,7 @@ class GenericUnix(Toolchain):
         for suffix in suffixes:
             ret = [which(t + suffix) for t in tools]
             if all(t is not None for t in ret):
+                print('Found: ' + str(ret))
                 return (ret, suffix)
         return None
 
@@ -129,7 +133,10 @@ class GenericUnix(Toolchain):
             else:
                 found = which(name)
             if found is not None:
+                print('Found: ' + str(found))
                 return found
+
+            print('Found: None')
         return None
 
 
@@ -186,7 +193,10 @@ class Windows(Toolchain):
         for name in names:
             found = which(name)
             if found is not None:
+                print('Found: ' + str(found))
                 return found
+
+            print('Found: None')
         return None
 
 
