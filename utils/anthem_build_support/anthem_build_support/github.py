@@ -14,15 +14,23 @@ from variables import ANTHEM_SOURCE_ROOT
 import requests
 
 GITHUB_API_URL = 'https://api.github.com'
-GITHUB_DEFAULT_HEADERS = {'User-Agent': 'venturesomestone',
-                          'Accept': 'application/vnd.github.v3+json'}
+
+
+def github_default_headers(travis=False):
+    if travis:
+        return {'User-Agent': 'venturesomestone',
+                'Accept': 'application/vnd.github.v3+json',
+                'Authorization': 'token %s' % str(os.environ['ANTHEM_TRAVIS_OAUTH'])}
+    else:
+        return {'User-Agent': 'venturesomestone',
+                'Accept': 'application/vnd.github.v3+json'}
 
 
 def print_rest(message):
     print('[GitHub REST API v3] ' + message)
 
 
-def get_json(url, key, value, headers=None, crash=True):
+def get_json(url, key, value, travis, headers=None):
     """
     Retrieves the JSON node of the given key from the wanted list of
     JSON values of GitHub REST API v3.
@@ -42,7 +50,7 @@ def get_json(url, key, value, headers=None, crash=True):
     call_url = GITHUB_API_URL + url
 
     # Set the headers for the call.
-    call_headers = GITHUB_DEFAULT_HEADERS
+    call_headers = github_default_headers(travis)
 
     # If there are additional headers, add them to the final headers used in
     # the call.
@@ -103,7 +111,7 @@ def get_json(url, key, value, headers=None, crash=True):
     return None
 
 
-def get(url, key, check_key, value, headers=None, crash=True):
+def get(url, key, check_key, value, travis, headers=None, crash=True):
     """
     Retrieves the JSON entry value of the given key from the wanted list of
     JSON values of GitHub REST API v3.
@@ -131,7 +139,7 @@ def get(url, key, check_key, value, headers=None, crash=True):
                + '.')
 
     # Get the wanted JSON node.
-    json_node = get_json(url=url, key=check_key, value=value, headers=headers)
+    json_node = get_json(url=url, key=check_key, value=value, travis=travis, headers=headers)
 
     # Check if the JSON is got correctly.
     if json_node is None:
@@ -157,7 +165,7 @@ def get(url, key, check_key, value, headers=None, crash=True):
     return json_node[key]
 
 
-def download_asset(owner, repository, release_name, asset_name, destination):
+def download_asset(owner, repository, release_name, asset_name, destination, travis):
     """
     Downloads a single file from the GitHub releases.
 
@@ -175,7 +183,8 @@ def download_asset(owner, repository, release_name, asset_name, destination):
     release_id = get(url='/repos/' + owner + '/' + repository + '/releases',
                      key='id',
                      check_key='name',
-                     value=release_name)
+                     value=release_name,
+                     travis=travis)
 
     # Get the asset URL of the wanted asset from the release.
     asset_url = get(url='/repos/'
@@ -187,7 +196,8 @@ def download_asset(owner, repository, release_name, asset_name, destination):
                         + '/assets',
                     key='url',
                     check_key='name',
-                    value=asset_name)
+                    value=asset_name,
+                    travis=travis)
 
     asset_call_headers = {'Accept': 'application/octet-stream'}
 
@@ -226,7 +236,7 @@ def download_asset(owner, repository, release_name, asset_name, destination):
                           + ')')
 
 
-def download_source(owner, repository, release_name, destination):
+def download_source(owner, repository, release_name, destination, travis):
     """
     Downloads a single source archive from the GitHub releases.
 
@@ -242,6 +252,7 @@ def download_source(owner, repository, release_name, destination):
                       key='tarball_url',
                       check_key='name',
                       value=release_name,
+                      travis=travis,
                       crash=False)
 
     # If there is no release with the given name, fall back to tags.
@@ -249,10 +260,11 @@ def download_source(owner, repository, release_name, destination):
         tarball_url = get(url='/repos/' + owner + '/' + repository + '/tags',
                           key='tarball_url',
                           check_key='name',
-                          value=release_name)
+                          value=release_name,
+                          travis=travis)
 
     tarball_request = requests.get(url=tarball_url,
-                                   headers=GITHUB_DEFAULT_HEADERS)
+                                   headers=github_default_headers(travis))
 
     # Set the full path to the destination file.
     local_filename = os.path.join(ANTHEM_SOURCE_ROOT, destination)
@@ -269,7 +281,7 @@ def download_source(owner, repository, release_name, destination):
                + str(local_filename))
 
 
-def get_release_sha(owner, repository, release_name):
+def get_release_sha(owner, repository, release_name, travis):
     """
     Gets the SHA of the given release.
 
@@ -285,6 +297,7 @@ def get_release_sha(owner, repository, release_name):
                    key='tag_name',
                    check_key='name',
                    value=release_name,
+                   travis=travis,
                    crash=False)
 
     # If there is no release with the given name, fall back to tags.
@@ -294,13 +307,14 @@ def get_release_sha(owner, repository, release_name):
     # Get the tag JSON for getting the tag SHA.
     tag = get_json(url='/repos/' + owner + '/' + repository + '/tags',
                    key='name',
-                   value=tag_name)
+                   value=tag_name,
+                   travis=travis)
 
     # Return the SHA of the tag commit.
     return tag['commit']['sha']
 
 
-def get_release_short_sha(owner, repository, release_name):
+def get_release_short_sha(owner, repository, release_name, travis):
     """
     Gets the SHA of the given release.
 
@@ -311,7 +325,7 @@ def get_release_short_sha(owner, repository, release_name):
     """
 
     # Start by getting the SHA of the tag.
-    sha = get_release_sha(owner, repository, release_name)
+    sha = get_release_sha(owner, repository, release_name, travis=travis)
 
     short_sha_list = []
 

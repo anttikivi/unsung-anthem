@@ -123,7 +123,8 @@ def get_github_dependency(args, config, key, dependency, versions):
                                   release_name=dependency['version'],
                                   asset_name=asset[platform.system()],
                                   destination=os.path.join(key,
-                                                           asset['id']))
+                                                           asset['id']),
+                                  travis=args.travis)
         else:
             if asset['fallback']:
                 github.download_asset(owner=dependency['owner'],
@@ -131,7 +132,8 @@ def get_github_dependency(args, config, key, dependency, versions):
                                       release_name=dependency['version'],
                                       asset_name=asset['id'],
                                       destination=os.path.join(key,
-                                                               asset['id']))
+                                                               asset['id']),
+                                      travis=args.travis)
             else:
                 print('Not supported')  # TODO
     else:
@@ -141,14 +143,16 @@ def get_github_dependency(args, config, key, dependency, versions):
                                    release_name=dependency['version'],
                                    destination=os.path.join(key,
                                                             key
-                                                            + '.tar.gz'))
+                                                            + '.tar.gz'),
+                                   travis=args.travis)
         else:
             github.download_asset(owner=dependency['owner'],
                                   repository=dependency['id'],
                                   release_name=dependency['version'],
                                   asset_name=asset['id'],
                                   destination=os.path.join(key,
-                                                           asset['id']))
+                                                           asset['id']),
+                                  travis=args.travis)
 
     if asset['source']:
         # Set the asset file for the processing of the file to the
@@ -180,7 +184,8 @@ def get_github_dependency(args, config, key, dependency, versions):
             sha = github.get_release_short_sha(owner=dependency['owner'],
                                                repository=dependency['id'],
                                                release_name=
-                                               dependency['version'])
+                                               dependency['version'],
+                                               travis=args.travis)
 
             # Manually move the downloaded sources to the actual directory.
             move_source_files(key=key,
@@ -369,6 +374,10 @@ By default, updates your checkouts of Unsung Anthem.""")
     parser.add_argument('--disable-manual-tar',
                         help='Set in Travis for correct handling of the '
                              'dependency downloading.',
+                        action='store_true')
+
+    parser.add_argument('--travis',
+                        help='TODO',
                         action='store_true')
 
     args = parser.parse_args()

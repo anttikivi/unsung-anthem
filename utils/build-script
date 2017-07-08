@@ -307,6 +307,9 @@ def main_normal(raw_opts):
         update_checkout += ['--skip-repository']
         update_checkout += ['bazel']
 
+    if args.travis:
+        update_checkout += ['--travis']
+
     # Call the update-checkout script.
     call_without_sleeping(update_checkout)
 
