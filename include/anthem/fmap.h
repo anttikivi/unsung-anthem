@@ -58,9 +58,9 @@ namespace anthem {
 
   template <class...> struct Functor;
 
-  template <class F, class Fx, class Fun=Functor<detail::cat<Fx>>>
-  auto fmap(F&& f, Fx&& fx) -> decltype(Fun::fmap(std::declval<F>(),
-                                                  std::declval<Fx>())) {
+  template <class F, class Fx, class Fun=Functor<detail::cat<Fx>>> auto
+  fmap(F&& f, Fx&& fx) -> decltype(Fun::fmap(std::declval<F>(),
+                                             std::declval<Fx>())) {
     return Fun::fmap(std::forward<F>(f), std::forward<Fx>(fx));
   }
 
@@ -82,7 +82,7 @@ namespace anthem {
     }
   };
 
-  template <> struct Functor<sequence_tag> {
+  template <> struct Functor<detail::sequence_tag> {
     template <class F, template <class...>
               class S,
               class X,
@@ -98,7 +98,7 @@ namespace anthem {
     }
   };
 
-  template <> struct Functor<pointer_tag> {
+  template <> struct Functor<detail::pointer_tag> {
     template <class F, template <class...>
               class Ptr,
               class X,

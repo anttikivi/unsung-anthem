@@ -49,6 +49,9 @@ if(${ANTHEM_CPP_VERSION} STREQUAL c++17)
   # Add the definition denoting that C++17 is used.
   add_definitions(-DANTHEM_CPP17)
 
+  # Add the variable for setting the C++ standard version to the compiler.
+  set(ANTHEM_STD c++1z)
+
 elseif(${ANTHEM_CPP_VERSION} STREQUAL c++1z)
 
   # Add the definition denoting that C++1z is used.
@@ -56,6 +59,9 @@ elseif(${ANTHEM_CPP_VERSION} STREQUAL c++1z)
 
   # Add the definition for the disabled newer version of C++ Standard.
   add_definitions(-DANTHEM_DISABLE_CPP17)
+
+  # Add the variable for setting the C++ standard version to the compiler.
+  set(ANTHEM_STD ${ANTHEM_CPP_VERSION})
 
 elseif(${ANTHEM_CPP_VERSION} STREQUAL c++14)
 
@@ -66,6 +72,9 @@ elseif(${ANTHEM_CPP_VERSION} STREQUAL c++14)
   add_definitions(-DANTHEM_DISABLE_CPP17)
   add_definitions(-DANTHEM_DISABLE_CPP17_DRAFT)
 
+  # Add the variable for setting the C++ standard version to the compiler.
+  set(ANTHEM_STD ${ANTHEM_CPP_VERSION})
+
 elseif(${ANTHEM_CPP_VERSION} STREQUAL c++1y)
 
   # Add the definition denoting that C++1y is used.
@@ -75,6 +84,9 @@ elseif(${ANTHEM_CPP_VERSION} STREQUAL c++1y)
   add_definitions(-DANTHEM_DISABLE_CPP17)
   add_definitions(-DANTHEM_DISABLE_CPP17_DRAFT)
   add_definitions(-DANTHEM_DISABLE_CPP14)
+
+  # Add the variable for setting the C++ standard version to the compiler.
+  set(ANTHEM_STD ${ANTHEM_CPP_VERSION})
 
 elseif(${ANTHEM_CPP_VERSION} STREQUAL c++11)
 
@@ -87,6 +99,9 @@ elseif(${ANTHEM_CPP_VERSION} STREQUAL c++11)
   add_definitions(-DANTHEM_DISABLE_CPP14)
   add_definitions(-DANTHEM_DISABLE_CPP14_DRAFT)
 
+  # Add the variable for setting the C++ standard version to the compiler.
+  set(ANTHEM_STD ${ANTHEM_CPP_VERSION})
+
 else()
 
   message(FATAL_ERROR "The C++ Standard version (ANTHEM_CPP_VERSION) is set \
@@ -94,6 +109,9 @@ else()
   c++17, c++1z, c++14, c++1y, and c++11")
 
 endif()
+
+# Set the C++ compiler flags.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD}")
 
 # Check the platform for setting the dependencies.
 if(UNIX)
