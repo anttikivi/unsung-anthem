@@ -15,8 +15,7 @@ Usage:
                [--expand-build-script-invocation]
   build-script --show-presets
   build-script [-n | --dry-run] [--clean | --clean-checkout | --clean-build]
-               [--build-system NAME | --bazel | --cmake]
-               [--ninja | --make | --xcode]
+               [--build-system NAME] [--ninja | --make | --xcode]
                [--std VERSION | --c++17 | --c++14 | --c++11]
                [--darwin-deployment-version VERSION] [--setup-clion]
                [--executable-name NAME --test-executable-name NAME]
@@ -39,10 +38,7 @@ Options:
   --clean-build         Delete the build directory before the build.
 
   --build-system NAME   Set the build system to be used to build Unsung Anthem.
-                        Possible values are bazel and cmake [default: bazel].
-  --bazel               Use Bazel to build Unsung Anthem and tests.
-  --cmake               Use CMake to generate files with which Unsung Anthem
-                        and tests are built.
+                        Possible values are bazel and cmake [default: cmake].
 
   --ninja               Use the Ninja generator of CMake (default is Ninja).
   -m, --make            Use the Unix Makefile generator of CMake (default is
@@ -223,8 +219,7 @@ def main_normal(raw_opts):
                                # TODO Add command line option for assertions.
                                anthem_assertions=True,
 
-                               build_system=
-                               build.resolve_build_system(raw_opts),
+                               build_system=raw_opts['--build-system'],
 
                                cmake_generator=
                                cmake.resolve_cmake_generator(raw_opts),
@@ -337,14 +332,17 @@ def main_normal(raw_opts):
     if args.cmake is not None:
         toolchain.cmake = args.cmake
 
+    # Build LLVM
+    build.build_llvm(args=args, toolchain=toolchain, workspace=workspace)
+
     # Check the required items of the toolchain so they exist.
     if toolchain.cc is None:
-        diagnostics.note('TODO toolchain C compiler is None')
+        toolchain.cc = os.path.join(workspace.install_root, 'bin', 'clang')
 
     diagnostics.note('The host C compiler is set to ' + str(toolchain.cc))
 
     if toolchain.cxx is None:
-        diagnostics.note('TODO toolchain C++ compiler is None')
+        toolchain.cxx = os.path.join(workspace.install_root, 'bin', 'clang++')
 
     diagnostics.note('The host C++ compiler is set to ' + str(toolchain.cxx))
 

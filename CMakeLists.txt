@@ -36,12 +36,21 @@ to ${ANTHEM_TEST_EXECUTABLE_NAME}")
 
 # Check if the C++ Standard version is set.
 if(NOT DEFINED ANTHEM_CPP_VERSION)
-  message(FATAL_ERROR "The C++ Standard version (ANTHEM_CPP_VERSION) is not \
+  message(FATAL_ERROR "The C++ standard version (ANTHEM_CPP_VERSION) is not \
   set – the possible values are c++17, c++1z, c++14, c++1y, and c++11")
 endif()
 
-message(STATUS "The C++ Standard version (ANTHEM_CPP_VERSION) is set to \
+message(STATUS "The C++ standard version (ANTHEM_CPP_VERSION) is set to \
 ${ANTHEM_CPP_VERSION}")
+
+# Check if the C++ standard library is set.
+if(NOT DEFINED ANTHEM_STDLIB)
+  message(FATAL_ERROR "The C++ standard library (ANTHEM_STDLIB) is not set – \
+  the possible values are libc++ and libstdc++")
+endif()
+
+message(STATUS "The C++ standard library (ANTHEM_STDLIB) is set to \
+${ANTHEM_STDLIB}")
 
 # Set the preprocessor definitions according to the C++ Standard version.
 if(${ANTHEM_CPP_VERSION} STREQUAL c++17)
@@ -104,14 +113,27 @@ elseif(${ANTHEM_CPP_VERSION} STREQUAL c++11)
 
 else()
 
-  message(FATAL_ERROR "The C++ Standard version (ANTHEM_CPP_VERSION) is set \
+  message(FATAL_ERROR "The C++ standard version (ANTHEM_CPP_VERSION) is set \
   to ${ANTHEM_CPP_VERSION} and thus it is invalid – the possible values are \
   c++17, c++1z, c++14, c++1y, and c++11")
 
 endif()
 
 # Set the C++ compiler flags.
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD} \
+-stdlib=${ANTHEM_STDLIB} \
+-nostdinc++ \
+-I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 \
+-L${ANTHEM_INSTALL_PREFIX}/lib \
+-Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
+
+message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
+message(STATUS "The C++ compiler flag is set to ${CMAKE_CXX_COMPILER}")
+
+message(STATUS "The C compiler environment variable is set to $ENV{CC}")
+message(STATUS "The C++ compiler environment variable is set to $ENV{CXX}")
+
+message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
 
 # Check the platform for setting the dependencies.
 if(UNIX)

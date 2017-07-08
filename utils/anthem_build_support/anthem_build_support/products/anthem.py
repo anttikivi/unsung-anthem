@@ -42,17 +42,29 @@ class Anthem(product.Product):
                       # the dependencies are installed.
                       '-DANTHEM_INSTALL_PREFIX=' + self.workspace.install_root,
 
-                      # Set the C++ Standard version as it is required.
+                      # Set the C++ standard version as it is required.
                       '-DANTHEM_CPP_VERSION=' + self.args.std,
+
+                      # Set the C++ standard library as it is required.
+                      '-DANTHEM_STDLIB=' + 'libc++',
 
                       # Set the name of the executable.
                       '-DANTHEM_EXECUTABLE_NAME=' + self.args.executable_name]
+
+        # Create the dictionary of environment variables for the CMake call.
+        cmake_env = {
+            # Set the C compiler.
+            'CC': self.toolchain.cc,
+
+            # Set the C++ compiler.
+            'CXX': self.toolchain.cxx
+        }
 
         if not self.args.setup_clion:
             # Change the working directory to the out-of-tree build directory.
             with shell.pushd(self.build_dir):
                 # Generate the files to build Unsung Anthem from.
-                call_without_sleeping(cmake_call)
+                call_without_sleeping(cmake_call, env=cmake_env)
 
                 # Build.
                 if self.args.cmake_generator == 'Ninja':
@@ -61,10 +73,10 @@ class Anthem(product.Product):
                     call_make()
         else:
             diagnostics.note('CMake would be called with the following '
-                             'command:')
-            shell.print_command(cmake_call)
-            diagnostics.note('You can copy the options into your CLion '
-                             'settings')
+                             'command and environment variables:')
+            shell.print_command(command=cmake_call, env=cmake_env)
+            diagnostics.note('You can copy the options and variables into your '
+                             'CLion settings')
 
     def build_value_file(self):
         return os.path.join(self.build_dir, 'bazel_tokens')
