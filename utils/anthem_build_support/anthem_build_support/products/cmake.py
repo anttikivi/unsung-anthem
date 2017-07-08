@@ -50,7 +50,7 @@ class CMake(product.Product):
             return
 
         shell.copytree(self.source_dir,
-                       os.path.join(self.workspace.install_root, 'bin'))
+                       os.path.join(self.workspace.install_root))
 
 
 def build(args, toolchain, workspace):
@@ -65,9 +65,6 @@ def build(args, toolchain, workspace):
                         build_dir=workspace.build_dir('build', 'cmake'))
     cmake_build.do_build()
     toolchain.cmake = cmake_build.cmake_bin_path
-
-    with shell.pushd(os.path.join(workspace.install_root, 'bin')):
-        shell.call(['ls', '.'])
 
 
 def resolve_cmake_generator(raw_opts):
