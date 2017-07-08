@@ -51,6 +51,9 @@ class Anthem(product.Product):
                       # Set the name of the executable.
                       '-DANTHEM_EXECUTABLE_NAME=' + self.args.executable_name]
 
+        if self.args.cmake_generator == 'Ninja':
+            cmake_call += ['-DCMAKE_MAKE_PROGRAM=%s' % self.toolchain.ninja]
+
         # Create the dictionary of environment variables for the CMake call.
         cmake_env = {
             # Set the C compiler.

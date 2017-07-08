@@ -332,6 +332,13 @@ def main_normal(raw_opts):
     if args.cmake is not None:
         toolchain.cmake = args.cmake
 
+    # Build Bazel if required, which will update the toolchain.
+    if 'bazel' == args.build_system and toolchain.bazel is None:
+        bazel.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    elif args.cmake_generator == 'Ninja' or toolchain.ninja is None:
+        ninja.build(args=args, toolchain=toolchain, workspace=workspace)
+
     # Build CMake.
     build.build_cmake(args=args, toolchain=toolchain, workspace=workspace)
 
@@ -357,13 +364,6 @@ def main_normal(raw_opts):
     if args.setup_clion:
         diagnostics.note('The CLion set-up is enabled and thus the final '
                          'Unsung Anthem executable will not be built')
-
-    # Build Bazel if required, which will update the toolchain.
-    if 'bazel' == args.build_system and toolchain.bazel is None:
-        bazel.build(args=args, toolchain=toolchain, workspace=workspace)
-
-    elif args.cmake_generator == 'Ninja' or toolchain.ninja is None:
-        ninja.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Unsung Anthem and its dependencies.
     if 'bazel' == args.build_system:

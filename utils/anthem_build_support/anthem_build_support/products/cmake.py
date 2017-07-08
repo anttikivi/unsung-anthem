@@ -34,7 +34,6 @@ class CMake(product.Product):
             return os.path.join(self.workspace.install_root, 'bin', 'cmake')
         elif 'Darwin' == platform.system():
             return os.path.join(self.workspace.install_root,
-                                'bin',
                                 'CMake.app',
                                 'Contents',
                                 'bin',
