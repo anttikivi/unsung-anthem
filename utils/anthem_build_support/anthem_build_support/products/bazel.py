@@ -15,7 +15,6 @@ Bazel build
 import json
 import os.path
 import platform
-import sys
 
 from . import product
 from .. import (cache_util, diagnostics, shell)

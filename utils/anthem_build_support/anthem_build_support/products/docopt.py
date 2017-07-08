@@ -40,8 +40,8 @@ class Docopt(product.Product):
 
             # Build the library.
             if self.args.cmake_generator == 'Ninja':
-                call_ninja()
-                call_ninja_install()
+                call_ninja(self.toolchain)
+                call_ninja_install(self.toolchain)
             elif self.args.cmake_generator == 'Unix Makefiles':
                 call_make()
                 call_make_install()

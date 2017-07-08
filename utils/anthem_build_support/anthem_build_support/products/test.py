@@ -66,7 +66,7 @@ class Test(product.Product):
 
             # Build.
             if self.args.cmake_generator == 'Ninja':
-                call_ninja()
+                call_ninja(self.toolchain)
             elif self.args.cmake_generator == 'Unix Makefiles':
                 call_make()
 
