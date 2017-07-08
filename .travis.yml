@@ -4,6 +4,9 @@ dist: trusty
 
 sudo: false
 
+install:
+ - pip install requests
+
 script:
  - cd $TRAVIS_BUILD_DIR/..
  - unsung-anthem/utils/build-script
