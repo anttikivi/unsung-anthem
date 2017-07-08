@@ -13,18 +13,38 @@ LLVM build
 # ----------------------------------------------------------------------------
 
 import os
+import platform
 
 from . import product
-from .. import (diagnostics, shell)
-from ..call import (call_without_sleeping,
-                    call_ninja,
+from .. import (cache_util, diagnostics, shell)
+from ..call import (call_ninja,
                     call_ninja_install,
                     call_make,
                     call_make_install)
 
 
 class LLVM(product.Product):
+    @cache_util.reify
+    def clang_bin_path(self):
+        if 'Windows' == platform.system():
+            # TODO
+            return os.path.join(self.workspace.install_root, 'bin', 'clang')
+        else:
+            return os.path.join(self.workspace.install_root, 'bin', 'clang')
+
+    @cache_util.reify
+    def clang_cpp_bin_path(self):
+        if 'Windows' == platform.system():
+            # TODO
+            return os.path.join(self.workspace.install_root, 'bin', 'clang++')
+        else:
+            return os.path.join(self.workspace.install_root, 'bin', 'clang++')
+
     def do_build(self):
+        # Check whether the ninja executable is pre-built and already exists.
+        if os.path.exists(self.clang_bin_path):
+            return
+
         # Make the directory for the out-of-tree build.
         shell.makedirs(self.build_dir)
 
@@ -59,3 +79,5 @@ def build(args, toolchain, workspace):
                       build_dir=workspace.build_dir(args.host_target, 'llvm'))
 
     llvm_build.do_build()
+    toolchain.cc = llvm_build.clang_bin_path
+    toolchain.cxx = llvm_build.clang_cpp_bin_path

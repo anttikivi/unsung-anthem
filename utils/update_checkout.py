@@ -265,6 +265,83 @@ def get_llvm_dependency(key, id, version, url_format, use_cmd_tar):
     move_dependency_files(key=key, directory=subdir_name)
 
 
+def get_cmake(key, version, url_format):
+    # Set the full path to the destination file.
+    if 'Windows' == platform.system():
+        local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.zip')
+    else:
+        local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.tar.gz')
+
+    # Delete the old directory.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Make a new directory.
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Set the full version of the CMake release.
+    full_version = '%s.%s.%s' \
+                   % (version['major'], version['minor'], version['patch'])
+
+    # Set the version containing the major and minor version numbers of the
+    # CMake release.
+    major_minor_version = '%s.%s' % (version['major'], version['minor'])
+
+    # Set the platform name for the CMake download.
+    if 'Windows' == platform.system():
+        cmake_platform = 'win32-x86'
+    elif 'Linux' == platform.system():
+        cmake_platform = 'Linux-x86_64'
+    elif 'Darwin' == platform.system():
+        cmake_platform = 'Darwin-x86_64'
+    else:
+        print('CMake will not be downloaded as the platform is not supported.')
+        return
+
+    # Set the file extension according to the system.
+    if 'Windows' == platform.system():
+        archive_extension = '.zip'
+    else:
+        archive_extension = '.tar.gz'
+
+    # Create the correct URL for downloading the source code.
+    url = url_format % (
+        major_minor_version, full_version, cmake_platform, archive_extension)
+
+    # Form the HTML GET call to stream the archive.
+    request = requests.get(url=url, stream=True)
+
+    # Stream the file to the final destination.
+    with open(local_file, 'wb') as f:
+        for chunk in request.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+
+    print('Finished streaming from ' + url + ' to ' + str(local_file))
+
+    if 'Windows' == platform.system():
+        print('TODO')
+    else:
+        # Open the archive.
+        tar = tarfile.open(local_file, "r:gz")
+
+        # Extract the archive to the correct subdirectory.
+        tar.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+        # Close the open file.
+        tar.close()
+
+    # Delete the archive as it is extracted.
+    shell.rm(local_file)
+
+    # Set the original subdirectory name.
+    subdir_name = 'cmake-%s-%s' % (full_version, cmake_platform)
+
+    print('The name of the CMake subdirectory is ' + subdir_name)
+
+    # Manually move the source files to the folder root.
+    move_dependency_files(key=key, directory=subdir_name)
+
+
 def main():
     freeze_support()
     parser = argparse.ArgumentParser(formatter_class= \
@@ -318,12 +395,18 @@ By default, updates your checkouts of Unsung Anthem.""")
         dependency = dependencies[key]
 
         # Check if the dependency should be re-downloaded.
-        if os.path.isfile(VERSIONS_FILE) \
-                and key in versions \
-                and (versions[key] == dependency['version']) \
-                and not args.clean:
-            print('' + key + ' should not be re-downloaded, skipping.')
-            continue
+        if os.path.isfile(VERSIONS_FILE) and key in versions and not args.clean:
+            if 'cmake' == key:
+                full_version = '%s.%s.%s' % (
+                    dependency['version']['major'], dependency['version']['minor'],
+                    dependency['version']['patch'])
+                if versions[key] == full_version:
+                    print('' + key + ' should not be re-downloaded, skipping.')
+                    continue
+            else:
+                if versions[key] == dependency['version']:
+                    print('' + key + ' should not be re-downloaded, skipping.')
+                    continue
 
         if dependency['github']:
             get_github_dependency(args, config, key, dependency, versions)
@@ -342,9 +425,18 @@ By default, updates your checkouts of Unsung Anthem.""")
                                         url_format=url_format,
                                         use_cmd_tar=(
                                             not args.disable_manual_tar))
+            elif 'cmake' == key:
+                get_cmake(key=key,
+                          version=dependency['version'],
+                          url_format=dependency['asset']['format'])
 
         # Add the version of the dependency to the dictionary.
-        versions[key] = dependency['version']
+        if 'cmake' == key:
+            version_json = dependency['version']
+            versions[key] = '%s.%s.%s' % (
+            version_json['major'], version_json['minor'], version_json['patch'])
+        else:
+            versions[key] = dependency['version']
 
     # Write the versions to the file.
     dump_version_info(versions)

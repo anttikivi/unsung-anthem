@@ -6,8 +6,13 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-from products import (anthem, catch, clang, docopt, glfw, libcxx, llvm, ninja,
-                      spdlog, test)
+from products import (anthem, catch, clang, cmake, docopt, glfw, libcxx, llvm,
+                      ninja, spdlog, test)
+
+
+def build_cmake(args, toolchain, workspace):
+    # Build CMake.
+    cmake.build(args=args, toolchain=toolchain, workspace=workspace)
 
 
 def build_llvm(args, toolchain, workspace):
@@ -17,7 +22,7 @@ def build_llvm(args, toolchain, workspace):
     llvm.build(args=args, toolchain=toolchain, workspace=workspace)
 
 
-def bazel(args, toolchain, workspace):
+def bazel_build(args, toolchain, workspace):
     """
     Executes the build of Unsung Anthem and its dependencies using Bazel.
     """
@@ -39,7 +44,7 @@ def bazel(args, toolchain, workspace):
     # test.build(args=args, toolchain=toolchain, workspace=workspace)
 
 
-def cmake(args, toolchain, workspace):
+def cmake_build(args, toolchain, workspace):
     """
     Executes the build of Unsung Anthem and its dependencies CMake.
     """

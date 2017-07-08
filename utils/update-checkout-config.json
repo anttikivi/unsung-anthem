@@ -24,6 +24,18 @@
       }
     },
 
+    "cmake": {
+      "github": false,
+      "version": {
+        "major": 3,
+        "minor": 8,
+        "patch": 2
+      },
+      "asset": {
+        "format": "https://cmake.org/files/v%s/cmake-%s-%s%s"
+      }
+    },
+
     "bazel": {
       "github": true,
       "owner": "bazelbuild",
