@@ -170,6 +170,8 @@ def rm(file, dry_run=None, echo=True):
         _echo_command(dry_run, ['rm', file])
     if dry_run:
         return
+    if os.path.islink(file):
+        os.unlink(file)
     if os.path.exists(file):
         os.remove(file)
 

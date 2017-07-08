@@ -2,6 +2,28 @@
   "api_url": "https://api.github.com",
   "dependencies": {
 
+    "llvm": {
+      "github": false,
+      "version": "4.0.1",
+      "asset": {
+        "format": "http://releases.llvm.org/%s/%s-%s.src.tar.xz"
+      },
+      "projects": {
+        "llvm": {
+          "id": "llvm"
+        },
+        "clang": {
+          "id": "cfe"
+        },
+        "libc++": {
+          "id": "libcxx"
+        },
+        "libc++abi": {
+          "id": "libcxxabi"
+        }
+      }
+    },
+
     "bazel": {
       "github": true,
       "owner": "bazelbuild",

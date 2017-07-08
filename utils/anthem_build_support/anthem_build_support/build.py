@@ -6,7 +6,8 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-from products import (anthem, catch, docopt, glfw, ninja, spdlog, test)
+from products import (anthem, catch, clang, docopt, glfw, libcxx, llvm, ninja,
+                      spdlog, test)
 
 
 def resolve_build_system(raw_opts):
@@ -22,6 +23,12 @@ def bazel(args, toolchain, workspace):
     """
     Executes the build of Unsung Anthem and its dependencies using Bazel.
     """
+
+    # Build LLVM and Clang.
+
+    clang.build(args=args, toolchain=toolchain, workspace=workspace)
+    libcxx.build(args=args, toolchain=toolchain, workspace=workspace)
+    llvm.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Set up the dependencies for the Bazel build.
 

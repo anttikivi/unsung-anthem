@@ -20,6 +20,8 @@ from multiprocessing import freeze_support
 
 import sys
 
+import requests
+
 from anthem_build_support.anthem_build_support import (github, shell)
 from anthem_build_support.anthem_build_support.variables import \
     ANTHEM_SOURCE_ROOT
@@ -102,6 +104,163 @@ def dump_version_info(versions):
         json.dump(versions, outfile)
 
 
+def get_github_dependency(args, config, key, dependency, versions):
+    # Set a shortcut to the asset data.
+    asset = dependency['asset']
+
+    # Delete the old directory.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Make a new directory.
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+    # Check whether the asset has different version on different
+    # platforms.
+    if asset['multiplatform']:
+        if platform.system() in asset.keys():
+            github.download_asset(owner=dependency['owner'],
+                                  repository=dependency['id'],
+                                  release_name=dependency['version'],
+                                  asset_name=asset[platform.system()],
+                                  destination=os.path.join(key,
+                                                           asset['id']))
+        else:
+            if asset['fallback']:
+                github.download_asset(owner=dependency['owner'],
+                                      repository=dependency['id'],
+                                      release_name=dependency['version'],
+                                      asset_name=asset['id'],
+                                      destination=os.path.join(key,
+                                                               asset['id']))
+            else:
+                print('Not supported')  # TODO
+    else:
+        if asset['source']:
+            github.download_source(owner=dependency['owner'],
+                                   repository=dependency['id'],
+                                   release_name=dependency['version'],
+                                   destination=os.path.join(key,
+                                                            key
+                                                            + '.tar.gz'))
+        else:
+            github.download_asset(owner=dependency['owner'],
+                                  repository=dependency['id'],
+                                  release_name=dependency['version'],
+                                  asset_name=asset['id'],
+                                  destination=os.path.join(key,
+                                                           asset['id']))
+
+    if asset['source']:
+        # Set the asset file for the processing of the file to the
+        # downloaded source tarball.
+        asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.tar.gz')
+
+        # Open the archive.
+        tar = tarfile.open(asset_file, "r:gz")
+
+        # Extract the archive to the correct subdirectory.
+        tar.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+        # Close the open file.
+        tar.close()
+
+        # Delete the archive as it is extracted.
+        shell.rm(asset_file)
+
+        if 'docopt' == key:
+            # Manually move the source file via the custom function for
+            # docopt.
+            move_dependency_files(key,
+                                  os.listdir(
+                                      os.path.join(ANTHEM_SOURCE_ROOT,
+                                                   key))[0])
+        else:
+            # Get the short SHA of the tag for handling the downloaded
+            # files.
+            sha = github.get_release_short_sha(owner=dependency['owner'],
+                                               repository=dependency['id'],
+                                               release_name=
+                                               dependency['version'])
+
+            # Manually move the downloaded sources to the actual directory.
+            move_source_files(key=key,
+                              owner=dependency['owner'],
+                              repository=dependency['id'],
+                              sha=sha)
+    else:
+        # If the current dependency is Bazel, continue as it should not be
+        # extracted.
+        if not ('bazel' == key):
+            # Set the asset file for the processing of the file.
+            asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, asset['id'])
+
+            # Check if the downloaded asset is a zip archive.
+            if '.zip' in asset_file:
+                print('The downloaded asset is a zip archive. Extracting '
+                      'now.')
+
+                # Use Python to extract the archive.
+                with contextlib.closing(zipfile.ZipFile(asset_file, 'r')) as z:
+                    z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+                # Delete the archive as it is extracted.
+                shell.rm(asset_file)
+
+            # Do the manual tasks if this dependency requires them.
+            if 'glfw' == key:
+                move_glfw_files(config)
+
+
+def get_llvm_dependency(key, id, version, url_format):
+    # Set the full path to the destination file.
+    local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, id + '.tar.xz')
+
+    if 2 == sys.version_info.major:
+        print('Downloading LLVM projects is not supported in '
+              'Python 2. The script will only move the extracted '
+              'archive contents to the correct folder.')
+    else:
+        # Delete the old directory.
+        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+        # Make a new directory.
+        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+        # Create the correct URL for downloading the source code.
+        url = url_format % (version, id, version)
+
+        # Form the HTML GET call to stream the archive.
+        request = requests.get(url=url, stream=True)
+
+        # Stream the file to the final destination.
+        with open(local_file, 'wb') as f:
+            for chunk in request.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+
+        print('Finished streaming from ' + url + ' to ' + str(local_file))
+
+        with tarfile.open(local_file) as f:
+            f.extractall(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+        # Delete the archive as it is extracted.
+        shell.rm(local_file)
+
+    # Set the original subdirectory name.
+    subdir_name = '%s-%s.src' % (id, version)
+
+    print('The name of the LLVM subdirectory is ' + subdir_name)
+
+    if 'libc++' == key:
+        shell.rm(
+            os.path.join(ANTHEM_SOURCE_ROOT, key, subdir_name, 'test', 'std',
+                         'experimental', 'filesystem', 'Inputs',
+                         'static_test_env', 'bad_symlink'))
+
+    # Manually move the source files to the folder root.
+    move_dependency_files(key=key, directory=subdir_name)
+
+
 def main():
     freeze_support()
     parser = argparse.ArgumentParser(formatter_class= \
@@ -149,9 +308,6 @@ By default, updates your checkouts of Unsung Anthem.""")
         # Set a shortcut to the dependency data.
         dependency = dependencies[key]
 
-        # Set a shortcut to the asset data.
-        asset = dependency['asset']
-
         # Check if the dependency should be re-downloaded.
         if os.path.isfile(VERSIONS_FILE) \
                 and key in versions \
@@ -160,107 +316,21 @@ By default, updates your checkouts of Unsung Anthem.""")
             print('' + key + ' should not be re-downloaded, skipping.')
             continue
 
-        # Delete the old directory.
-        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
-
-        # Make a new directory.
-        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
-
-        # Check whether the asset has different version on different
-        # platforms.
-        if asset['multiplatform']:
-            if platform.system() in asset.keys():
-                github.download_asset(owner=dependency['owner'],
-                                      repository=dependency['id'],
-                                      release_name=dependency['version'],
-                                      asset_name=asset[platform.system()],
-                                      destination=os.path.join(key,
-                                                               asset['id']))
-            else:
-                if asset['fallback']:
-                    github.download_asset(owner=dependency['owner'],
-                                          repository=dependency['id'],
-                                          release_name=dependency['version'],
-                                          asset_name=asset['id'],
-                                          destination=os.path.join(key,
-                                                                   asset['id']))
-                else:
-                    print('Not supported')  # TODO
+        if dependency['github']:
+            get_github_dependency(args, config, key, dependency, versions)
         else:
-            if asset['source']:
-                github.download_source(owner=dependency['owner'],
-                                       repository=dependency['id'],
-                                       release_name=dependency['version'],
-                                       destination=os.path.join(key,
-                                                                key
-                                                                + '.tar.gz'))
-            else:
-                github.download_asset(owner=dependency['owner'],
-                                      repository=dependency['id'],
-                                      release_name=dependency['version'],
-                                      asset_name=asset['id'],
-                                      destination=os.path.join(key,
-                                                               asset['id']))
+            if 'llvm' == key:
+                # Set the URL format of the LLVM downloads.
+                url_format = dependency['asset']['format']
 
-        if asset['source']:
-            # Set the asset file for the processing of the file to the
-            # downloaded source tarball.
-            asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.tar.gz')
+                for project in dependency['projects'].keys():
+                    # Set the project.
+                    project_json = dependency['projects'][project]
 
-            # Open the archive.
-            tar = tarfile.open(asset_file, "r:gz")
-
-            # Extract the archive to the correct subdirectory.
-            tar.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
-
-            # Close the open file.
-            tar.close()
-
-            # Delete the archive as it is extracted.
-            shell.rm(asset_file)
-
-            if 'docopt' == key:
-                # Manually move the source file via the custom function for
-                # docopt.
-                move_dependency_files(key,
-                                      os.listdir(
-                                          os.path.join(ANTHEM_SOURCE_ROOT,
-                                                       key))[0])
-            else:
-                # Get the short SHA of the tag for handling the downloaded
-                # files.
-                sha = github.get_release_short_sha(owner=dependency['owner'],
-                                                   repository=dependency['id'],
-                                                   release_name=
-                                                   dependency['version'])
-
-                # Manually move the downloaded sources to the actual directory.
-                move_source_files(key=key,
-                                  owner=dependency['owner'],
-                                  repository=dependency['id'],
-                                  sha=sha)
-        else:
-            # If the current dependency is Bazel, continue as it should not be
-            # extracted.
-            if not ('bazel' == key):
-                # Set the asset file for the processing of the file.
-                asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, asset['id'])
-
-                # Check if the downloaded asset is a zip archive.
-                if '.zip' in asset_file:
-                    print('The downloaded asset is a zip archive. Extracting '
-                          'now.')
-
-                    # Use Python to extract the archive.
-                    with contextlib.closing(zipfile.ZipFile(asset_file, 'r')) as z:
-                        z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
-
-                    # Delete the archive as it is extracted.
-                    shell.rm(asset_file)
-
-                # Do the manual tasks if this dependency requires them.
-                if 'glfw' == key:
-                    move_glfw_files(config)
+                    get_llvm_dependency(key=project,
+                                        id=project_json['id'],
+                                        version=dependency['version'],
+                                        url_format=url_format)
 
         # Add the version of the dependency to the dictionary.
         versions[key] = dependency['version']

@@ -35,8 +35,8 @@ class Glfw(product.Product):
                                    self.source_dir,
                                    '-G',
                                    self.args.cmake_generator,
-                                   '-DCMAKE_INSTALL_PREFIX='
-                                   + self.workspace.install_root])
+                                   "-DCMAKE_INSTALL_PREFIX=%s"
+                                   % self.workspace.install_root])
 
             # Build the library.
             if self.args.cmake_generator == 'Ninja':
