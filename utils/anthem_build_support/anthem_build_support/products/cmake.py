@@ -66,6 +66,9 @@ def build(args, toolchain, workspace):
     cmake_build.do_build()
     toolchain.cmake = cmake_build.cmake_bin_path
 
+    with shell.pushd(os.path.join(workspace.install_root, 'bin')):
+        shell.call(['ls', '.'])
+
 
 def resolve_cmake_generator(raw_opts):
     if raw_opts['--ninja']:

@@ -46,7 +46,7 @@ class Anthem(product.Product):
                       '-DANTHEM_CPP_VERSION=' + self.args.std,
 
                       # Set the C++ standard library as it is required.
-                      '-DANTHEM_STDLIB=' + 'libc++',
+                      '-DANTHEM_STDLIB=libc++',
 
                       # Set the name of the executable.
                       '-DANTHEM_EXECUTABLE_NAME=' + self.args.executable_name]

@@ -40,17 +40,29 @@ class Test(product.Product):
                       # the dependencies are installed.
                       '-DANTHEM_INSTALL_PREFIX=' + self.workspace.install_root,
 
-                      # Set the C++ Standard version as it is required.
+                      # Set the C++ standard version as it is required.
                       '-DANTHEM_CPP_VERSION=' + self.args.std,
+
+                      # Set the C++ standard library as it is required.
+                      '-DANTHEM_STDLIB=libc++',
 
                       # Set the name of the executable.
                       '-DANTHEM_TEST_EXECUTABLE_NAME='
                       + self.args.test_executable_name]
 
+        # Create the dictionary of environment variables for the CMake call.
+        cmake_env = {
+            # Set the C compiler.
+            'CC': self.toolchain.cc,
+
+            # Set the C++ compiler.
+            'CXX': self.toolchain.cxx
+        }
+
         # Change the working directory to the out-of-tree build directory.
         with shell.pushd(self.build_dir):
             # Generate the files to build Unsung Anthem from.
-            call_without_sleeping(cmake_call)
+            call_without_sleeping(cmake_call, env=cmake_env)
 
             # Build.
             if self.args.cmake_generator == 'Ninja':

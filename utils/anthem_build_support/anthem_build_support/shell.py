@@ -14,6 +14,7 @@ Centralized command line and file system interface for the build script.
 
 from __future__ import print_function
 
+import distutils.dir_util
 import os
 import pipes
 import shutil
@@ -182,7 +183,10 @@ def copytree(src, dest, dry_run=None, echo=True):
         _echo_command(dry_run, ['cp', '-r', src, dest])
     if dry_run:
         return
-    shutil.copytree(src, dest)
+    if os.path.exists(dest):
+        distutils.dir_util.copy_tree(src, dest)
+    else:
+        shutil.copytree(src, dest)
 
 
 def copy(src, dest, dry_run=None, echo=True):

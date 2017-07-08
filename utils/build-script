@@ -373,7 +373,7 @@ def main_normal(raw_opts):
         build.cmake_build(args=args, toolchain=toolchain, workspace=workspace)
 
         # Run tests.
-        if args.test:
+        if args.test and not args.setup_clion:
             with shell.pushd(workspace.build_dir(args.host_target,
                                                  'anthem-test')):
                 call_without_sleeping([os.path.join(

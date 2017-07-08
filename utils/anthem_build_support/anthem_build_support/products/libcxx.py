@@ -13,14 +13,27 @@ libc++ build
 # ----------------------------------------------------------------------------
 
 import os
+import platform
 
 from . import product
-from .. import (diagnostics, shell)
+from .. import (cache_util, diagnostics, shell)
 from ..variables import ANTHEM_SOURCE_ROOT
 
 
 class Libcxx(product.Product):
+    @cache_util.reify
+    def clang_bin_path(self):
+        if 'Windows' == platform.system():
+            # TODO
+            return os.path.join(self.workspace.install_root, 'bin', 'clang')
+        else:
+            return os.path.join(self.workspace.install_root, 'bin', 'clang')
+
     def do_build(self):
+        # Check whether the ninja executable is pre-built and already exists.
+        if os.path.exists(self.clang_bin_path):
+            return
+
         # Delete the libc++ tree from the LLVM tree.
         shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT,
                                   'llvm',
