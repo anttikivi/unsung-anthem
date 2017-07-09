@@ -40,8 +40,6 @@ def compute_build_subdir(args):
     build_subdir += args.cmake_generator.replace(' ', '_')
 
     anthem_build_dir_label = args.anthem_build_variant
-    if args.anthem_assertions:
-        anthem_build_dir_label += "Assert"
 
     build_subdir += "+anthem-" + anthem_build_dir_label
 
@@ -61,8 +59,6 @@ def compute_install_subdir(args):
     install_subdir += '-install'
 
     anthem_build_dir_label = args.anthem_build_variant
-    if args.anthem_assertions:
-        anthem_build_dir_label += "Assert"
 
     install_subdir += "+anthem-" + anthem_build_dir_label
 

@@ -64,14 +64,3 @@ def build(args, toolchain, workspace):
                         build_dir=workspace.build_dir('build', 'cmake'))
     cmake_build.do_build()
     toolchain.cmake = cmake_build.cmake_bin_path
-
-
-def resolve_cmake_generator(raw_opts):
-    if raw_opts['--ninja']:
-        return 'Ninja'
-    elif raw_opts['--make']:
-        return 'Unix Makefile'
-    elif raw_opts['--xcode']:
-        return 'Xcode'
-    else:
-        return 'Ninja'

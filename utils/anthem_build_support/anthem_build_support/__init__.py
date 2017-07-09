@@ -12,4 +12,4 @@
 #
 # ----------------------------------------------------------------------------
 
-__all__ = ['diagnostics', 'toolchain', 'which', 'xcrun']
+__all__ = ['diagnostics', 'migration', 'toolchain', 'which', 'xcrun']
