@@ -40,7 +40,7 @@ matrix:
    # Linux: Ubuntu Trusty C++14 Clang 3.5
    - os: linux
      compiler: clang
-     dest: trusty
+     dist: trusty
      env: ANTHEM_BUILD_PRESET=travis_linux_clang35_cpp14
      addons:
       apt:
