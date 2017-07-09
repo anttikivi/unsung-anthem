@@ -3,6 +3,7 @@
   "dependencies": {
 
     "llvm": {
+      "travis": false,
       "github": false,
       "version": "4.0.1",
       "asset": {
@@ -25,6 +26,7 @@
     },
 
     "cmake": {
+      "travis": true,
       "github": false,
       "version": {
         "major": 3,
@@ -37,6 +39,7 @@
     },
 
     "bazel": {
+      "travis": false,
       "github": true,
       "owner": "bazelbuild",
       "id": "bazel",
@@ -53,6 +56,7 @@
     },
 
     "ninja": {
+      "travis": true,
       "github": true,
       "owner": "ninja-build",
       "id": "ninja",
@@ -69,6 +73,7 @@
     },
 
     "catch": {
+      "travis": true,
       "github": true,
       "owner": "philsquared",
       "id": "Catch",
@@ -81,6 +86,7 @@
     },
 
     "glfw": {
+      "travis": true,
       "github": true,
       "owner": "glfw",
       "id": "glfw",
@@ -95,6 +101,7 @@
     },
 
     "spdlog": {
+      "travis": true,
       "github": true,
       "owner": "gabime",
       "id": "spdlog",
@@ -106,6 +113,7 @@
     },
 
     "docopt": {
+      "travis": true,
       "github": true,
       "owner": "docopt",
       "id": "docopt.cpp",

@@ -22,7 +22,8 @@ import sys
 
 import requests
 
-from anthem_build_support.anthem_build_support import (github, shell)
+from anthem_build_support.anthem_build_support import \
+    (diagnostics, github, shell)
 from anthem_build_support.anthem_build_support.variables import \
     ANTHEM_SOURCE_ROOT
 
@@ -398,10 +399,17 @@ By default, updates your checkouts of Unsung Anthem.""")
 
         # Check if the dependency should be skipped.
         if key in args.skip_repository_list:
+            diagnostics.note('' + key + ' is on the list of repositories to '
+                                        'be skipped')
             continue
 
         # Set a shortcut to the dependency data.
         dependency = dependencies[key]
+
+        # Check if the dependency should not be downloaded on Travis CI.
+        if dependency['travis'] and args.travis:
+            diagnostics.note('' + key + 'should not be downloaded on Travis')
+            continue
 
         # Check if the dependency should be re-downloaded.
         if os.path.isfile(VERSIONS_FILE) and key in versions and not args.clean:
