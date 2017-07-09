@@ -165,27 +165,18 @@ def main_preset(raw_options):
                                      preset_file_names,
                                      raw_options['--preset'])
 
-    # A function which compiles the new call to which the preset expands to.
-    def assemble_arguments():
+    new_preset_args = []
 
-        # A recursive function that compiles the arguments into an array from
-        # the docopt parsed raw arguments.
-        def assemble_arguments_implementation(arguments, index):
-            # Return the arguments if the preset is already iterated through
-            # or call the next index recursively.
-            return arguments if len(preset_args) <= index \
-                else assemble_arguments_implementation(list(arguments)
-                                                       + [preset_args[index]],
-                                                       index + 1)
 
-        # Return the recursive function with or without the --dry-run options
-        # whether or not it is set.
-        return assemble_arguments_implementation([sys.argv[0],
-                                                  '--dry-run'], 0) \
-            if raw_options['--dry-run'] \
-            else assemble_arguments_implementation([sys.argv[0]], 0)
 
-    build_script_args = assemble_arguments()
+    build_script_args = [sys.argv[0]]
+
+    if raw_options['--dry-run']:
+        build_script_args += ["--dry-run"]
+
+    # build_script_args += preset_args
+    for a in preset_args:
+        build_script_args += [a]
 
     diagnostics.note("using preset '"
                      + raw_options['--preset']
