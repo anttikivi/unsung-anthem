@@ -22,13 +22,8 @@ import sys
 
 import requests
 
-from anthem_build_support.anthem_build_support import \
-    (diagnostics, github, shell)
-from anthem_build_support.anthem_build_support.variables import \
-    ANTHEM_SOURCE_ROOT
-
-SCRIPT_FILE = os.path.abspath(__file__)
-SCRIPT_DIR = os.path.dirname(SCRIPT_FILE)
+from . import (diagnostics, github, shell)
+from variables import ANTHEM_SOURCE_ROOT
 
 VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, 'versions')
 
@@ -338,42 +333,10 @@ def get_cmake(key, version, url_format):
     move_dependency_files(key=key, directory=subdir_name)
 
 
-def main():
+def update(args):
     freeze_support()
-    parser = argparse.ArgumentParser(formatter_class= \
-                                         argparse.RawDescriptionHelpFormatter,
-                                     description="""repositories.
-                                     
-By default, updates your checkouts of Unsung Anthem.""")
 
-    parser.add_argument("--skip-repository",
-                        metavar="DIRECTORY",
-                        default=[],
-                        help="Skip the specified repository",
-                        dest='skip_repository_list',
-                        action="append")
-
-    parser.add_argument('--clean',
-                        help='Force to re-download every dependency.',
-                        action='store_true')
-
-    parser.add_argument("--config",
-                        default=os.path.join(SCRIPT_DIR,
-                                             "update-checkout-config.json"),
-                        help="Configuration file to use")
-
-    parser.add_argument('--disable-manual-tar',
-                        help='Set in Travis for correct handling of the '
-                             'dependency downloading.',
-                        action='store_true')
-
-    parser.add_argument('--travis',
-                        help='TODO',
-                        action='store_true')
-
-    args = parser.parse_args()
-
-    with open(args.config) as f:
+    with open(args.checkout_config) as f:
         config = json.load(f)
 
     # A dictionary that will contain the version for each dependency.
@@ -402,10 +365,12 @@ By default, updates your checkouts of Unsung Anthem.""")
             continue
 
         # Check if the dependency should be re-downloaded.
-        if os.path.isfile(VERSIONS_FILE) and key in versions and not args.clean:
+        if os.path.isfile(
+                VERSIONS_FILE) and key in versions and not args.clean_checkout:
             if 'cmake' == key:
                 full_version = '%s.%s.%s' % (
-                    dependency['version']['major'], dependency['version']['minor'],
+                    dependency['version']['major'],
+                    dependency['version']['minor'],
                     dependency['version']['patch'])
                 if versions[key] == full_version:
                     print('' + key + ' should not be re-downloaded, skipping.')
@@ -441,7 +406,8 @@ By default, updates your checkouts of Unsung Anthem.""")
         if 'cmake' == key:
             version_json = dependency['version']
             versions[key] = '%s.%s.%s' % (
-            version_json['major'], version_json['minor'], version_json['patch'])
+                version_json['major'], version_json['minor'],
+                version_json['patch'])
         else:
             versions[key] = dependency['version']
 
@@ -449,7 +415,3 @@ By default, updates your checkouts of Unsung Anthem.""")
     dump_version_info(versions)
 
     return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())

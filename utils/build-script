@@ -18,6 +18,7 @@ import time
 from anthem_build_support.anthem_build_support import \
     (arguments,
      build,
+     checkout,
      diagnostics,
      migration,
      shell)
@@ -43,6 +44,10 @@ from anthem_build_support.anthem_build_support.workspace import \
     (Workspace,
      compute_build_subdir,
      compute_install_prefix)
+
+
+SCRIPT_FILE = os.path.abspath(__file__)
+SCRIPT_DIR = os.path.dirname(SCRIPT_FILE)
 
 
 def exit_rejecting_arguments(message, parser=None):
@@ -126,6 +131,10 @@ def apply_default_arguments(args):
     # Propagate the --skip-build-llvm
     if args.skip_build_llvm:
         args.build_llvm = False
+
+    # Skip Bazel on checkout update if the build system is not Bazel.
+    if not ('bazel' == args.build_system):
+        args.skip_repository_list += ['bazel']
 
     # Set the build subdirectory.
     if args.build_subdir is None:
@@ -575,6 +584,26 @@ def main_normal():
         help="skip building LLVM",
         action=arguments.action.optional_bool)
 
+    checkout_group = parser.add_argument_group(title="Update checkout")
+    checkout_group.add_argument(
+        "--skip-repository",
+        metavar="DIRECTORY",
+        default=[],
+        help="skip the specified repository",
+        dest='skip_repository_list',
+        action="append")
+
+    checkout_group.add_argument(
+        "--checkout-config",
+        default=os.path.join(SCRIPT_DIR, "update-checkout-config.json"),
+        help="checkout configuration file to use")
+
+    parser.add_argument(
+        '--disable-manual-tar',
+        help='disable calling the "tar" executable on some archives on older '
+             'Python versions',
+        action='store_true')
+
     parser.add_argument(
         "--build-subdir",
         help="name of the directory under $ANTHEM_BUILD_ROOT where the build "
@@ -677,24 +706,8 @@ def main_normal():
         shell.rmtree(workspace.build_root)
         shell.rmtree(workspace.install_root)
 
-    # Make the call of update-checkout.
-    update_checkout = [os.path.join(ANTHEM_SOURCE_ROOT,
-                                    ANTHEM_REPO_NAME,
-                                    'utils',
-                                    'update-checkout')]
-
-    if args.clean_checkout:
-        update_checkout += ['--clean']
-
-    if not ('bazel' == args.build_system):
-        update_checkout += ['--skip-repository']
-        update_checkout += ['bazel']
-
-    if args.travis:
-        update_checkout += ['--travis']
-
-    # Call the update-checkout script.
-    call_without_sleeping(update_checkout)
+    # Update the checkout.
+    checkout.update(args)
 
     # Create the build directory.
     shell.makedirs(workspace.build_root)
