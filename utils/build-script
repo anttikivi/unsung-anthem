@@ -53,6 +53,11 @@ def exit_rejecting_arguments(message, parser=None):
 
 
 def apply_default_arguments(args):
+    # Make the name of the build system lower case as it is supposed to be
+    # case insensitive.
+    if args.build_system is not None:
+        args.build_system = args.build_system.lower()
+
     # Default is to build LLVM when not in a Travis CI environment.
     if not args.travis:
         args.build_llvm = True
@@ -735,7 +740,7 @@ def main_normal():
             diagnostics.note('Bazel is set to ' + str(toolchain.bazel))
         else:
             diagnostics.note('Bazel is set to None')
-    else:
+    elif 'bazel' == args.build_system:
         diagnostics.note('Bazel is set to ' + str(toolchain.bazel))
 
     # Tell the user that this set-up will not build the final product but

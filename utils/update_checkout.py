@@ -172,27 +172,17 @@ def get_github_dependency(args, config, key, dependency, versions):
         # Delete the archive as it is extracted.
         shell.rm(asset_file)
 
-        if 'docopt' == key:
-            # Manually move the source file via the custom function for
-            # docopt.
-            move_dependency_files(key,
-                                  os.listdir(
-                                      os.path.join(ANTHEM_SOURCE_ROOT,
-                                                   key))[0])
-        else:
-            # Get the short SHA of the tag for handling the downloaded
-            # files.
-            sha = github.get_release_short_sha(owner=dependency['owner'],
-                                               repository=dependency['id'],
-                                               release_name=
-                                               dependency['version'],
-                                               travis=args.travis)
+        # Get the short SHA of the tag for handling the downloaded  files.
+        sha = github.get_release_short_sha(owner=dependency['owner'],
+                                           repository=dependency['id'],
+                                           release_name=dependency['version'],
+                                           travis=args.travis)
 
-            # Manually move the downloaded sources to the actual directory.
-            move_source_files(key=key,
-                              owner=dependency['owner'],
-                              repository=dependency['id'],
-                              sha=sha)
+        # Manually move the downloaded sources to the actual directory.
+        move_source_files(key=key,
+                          owner=dependency['owner'],
+                          repository=dependency['id'],
+                          sha=sha)
     else:
         # If the current dependency is Bazel, continue as it should not be
         # extracted.

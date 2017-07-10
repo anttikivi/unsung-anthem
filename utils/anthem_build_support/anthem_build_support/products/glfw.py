@@ -28,15 +28,19 @@ class Glfw(product.Product):
         # Make the directory for the out-of-tree build.
         shell.makedirs(self.build_dir)
 
+        cmake_call = [self.toolchain.cmake,
+                      self.source_dir,
+                      '-G',
+                      self.args.cmake_generator,
+                      "-DCMAKE_INSTALL_PREFIX={}".format(self.workspace.install_root)]
+
+        if self.args.cmake_generator == 'Ninja':
+            cmake_call += ['-DCMAKE_MAKE_PROGRAM={}'.format(self.toolchain.ninja)]
+
         # Change the working directory to the out-of-tree build directory.
         with shell.pushd(self.build_dir):
             # Generate the files to build GLFW from.
-            call_without_sleeping([self.toolchain.cmake,
-                                   self.source_dir,
-                                   '-G',
-                                   self.args.cmake_generator,
-                                   "-DCMAKE_INSTALL_PREFIX=%s"
-                                   % self.workspace.install_root])
+            call_without_sleeping(cmake_call)
 
             # Build the library.
             if self.args.cmake_generator == 'Ninja':
@@ -49,8 +53,7 @@ class Glfw(product.Product):
 
 def build(args, toolchain, workspace):
     if not os.path.exists(workspace.source_dir('glfw')):
-        diagnostics.fatal('cannot find source directory for GLFW (tried %s)'
-                          % (workspace.source_dir('glfw')))
+        diagnostics.fatal('cannot find source directory for GLFW (tried {})'.format(workspace.source_dir('glfw')))
 
     glfw_build = Glfw(args=args,
                       toolchain=toolchain,
@@ -63,8 +66,7 @@ def build(args, toolchain, workspace):
 
 def bazel(args, toolchain, workspace):
     if not os.path.exists(workspace.source_dir('glfw')):
-        diagnostics.fatal('cannot find source directory for GLFW (tried %s)'
-                          % (workspace.source_dir('glfw')))
+        diagnostics.fatal('cannot find source directory for GLFW (tried {})'.format(workspace.source_dir('glfw')))
 
     glfw_build = Glfw(args=args,
                       toolchain=toolchain,
