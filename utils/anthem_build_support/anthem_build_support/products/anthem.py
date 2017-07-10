@@ -36,7 +36,7 @@ class Anthem(product.Product):
                       #  Set the executable type to 'anthem' as it will build
                       # the actual executable.
                       '-DANTHEM_EXECUTABLE_TYPE='
-                      + ('clion' if self.args.setup_clion else 'anthem'),
+                      + ('clion' if self.args.clion else 'anthem'),
 
                       # Set the install prefix to the directory in which all of
                       # the dependencies are installed.
@@ -63,7 +63,7 @@ class Anthem(product.Product):
             'CXX': self.toolchain.cxx
         }
 
-        if not self.args.setup_clion:
+        if not self.args.clion:
             # Change the working directory to the out-of-tree build directory.
             with shell.pushd(self.build_dir):
                 # Generate the files to build Unsung Anthem from.
