@@ -407,7 +407,7 @@ By default, updates your checkouts of Unsung Anthem.""")
         dependency = dependencies[key]
 
         # Check if the dependency should not be downloaded on Travis CI.
-        if dependency['travis'] and args.travis:
+        if not dependency['travis'] and args.travis:
             diagnostics.note('' + key + ' should not be downloaded on Travis')
             continue
 
