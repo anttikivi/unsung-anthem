@@ -26,6 +26,16 @@ def github_default_headers(travis=False):
                 'Accept': 'application/vnd.github.v3+json'}
 
 
+def github_default_asset_call_headers(travis=False):
+    if travis:
+        return {'User-Agent': 'venturesomestone',
+                'Accept': 'application/octet-stream',
+                'Authorization': 'token %s' % str(os.environ['ANTHEM_TRAVIS_OAUTH'])}
+    else:
+        return {'User-Agent': 'venturesomestone',
+                'Accept': 'application/octet-stream'}
+
+
 def print_rest(message):
     print('[GitHub REST API v3] ' + message)
 
@@ -199,11 +209,9 @@ def download_asset(owner, repository, release_name, asset_name, destination, tra
                     value=asset_name,
                     travis=travis)
 
-    asset_call_headers = {'Accept': 'application/octet-stream'}
-
     # Get the asset with the URL.
     asset_request = requests.get(asset_url,
-                                 headers=asset_call_headers,
+                                 headers=github_default_asset_call_headers(travis),
                                  stream=True)
 
     # Check whether or not the request is redirected.
