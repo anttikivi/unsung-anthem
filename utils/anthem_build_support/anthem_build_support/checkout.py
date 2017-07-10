@@ -356,6 +356,8 @@ def update(args):
 
     protocol = 'https' if not args.travis else 'http'
 
+    diagnostics.note('Using {} protocol to make the HTTP calls'.format(protocol))
+
     for key in dependencies.keys():
 
         # Check if the dependency should be skipped.
