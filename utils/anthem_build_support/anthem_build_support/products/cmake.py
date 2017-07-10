@@ -12,15 +12,11 @@ CMake build
 """
 # ----------------------------------------------------------------------------
 
-import json
 import os.path
 import platform
-import sys
 
 from . import product
 from .. import (cache_util, diagnostics, shell)
-
-from update_checkout import SCRIPT_DIR
 
 
 class CMake(product.Product):

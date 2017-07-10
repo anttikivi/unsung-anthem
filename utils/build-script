@@ -34,7 +34,8 @@ from anthem_build_support.anthem_build_support.variables import \
     (HOME,
      ANTHEM_BUILD_ROOT,
      ANTHEM_REPO_NAME,
-     ANTHEM_SOURCE_ROOT)
+     ANTHEM_SOURCE_ROOT,
+     SCRIPT_DIR)
 
 from anthem_build_support.anthem_build_support.products import (bazel, ninja)
 
@@ -44,10 +45,6 @@ from anthem_build_support.anthem_build_support.workspace import \
     (Workspace,
      compute_build_subdir,
      compute_install_prefix)
-
-
-SCRIPT_FILE = os.path.abspath(__file__)
-SCRIPT_DIR = os.path.dirname(SCRIPT_FILE)
 
 
 def exit_rejecting_arguments(message, parser=None):
@@ -135,6 +132,10 @@ def apply_default_arguments(args):
     # Skip Bazel on checkout update if the build system is not Bazel.
     if not ('bazel' == args.build_system):
         args.skip_repository_list += ['bazel']
+
+    # Skip LLVM on the checkout update if LLVM will not be built.
+    if not args.build_llvm:
+        args.skip_repository_list += ['llvm']
 
     # Set the build subdirectory.
     if args.build_subdir is None:
@@ -238,6 +239,19 @@ def main_preset():
              "them",
         action="store_true",
         default=False)
+    clean_group = parser.add_mutually_exclusive_group(required=False)
+    clean_group.add_argument(
+        "-c", "--clean",
+        help="do a clean build",
+        action="store_true")
+    clean_group.add_argument(
+        "--clean-checkout",
+        help="redownload all of the dependencies before build",
+        action="store_true")
+    clean_group.add_argument(
+        "--clean-build",
+        help="do a clean build but do not redownload the dependencies",
+        action="store_true")
     parser.add_argument(
         "--preset-file",
         help="load presets from the specified file",
@@ -299,6 +313,12 @@ def main_preset():
     build_script_args = [sys.argv[0]]
     if args.dry_run:
         build_script_args += ["--dry-run"]
+    if args.clean:
+        build_script_args += ["--clean"]
+    elif args.clean_checkout:
+        build_script_args += ['--clean-checkout']
+    elif args.clean_build:
+        build_script_args += ["--clean-build"]
     build_script_args += preset_args
     if args.build_jobs:
         build_script_args += ["--jobs", str(args.build_jobs)]

@@ -64,3 +64,6 @@ def _get_default_anthem_repo_name():
 # Anthem directory name that is used.
 ANTHEM_REPO_NAME = os.environ.get("ANTHEM_REPO_NAME",
                                   _get_default_anthem_repo_name())
+
+
+SCRIPT_DIR = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, 'utils')

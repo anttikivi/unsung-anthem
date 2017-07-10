@@ -19,7 +19,7 @@ import platform
 from . import product
 from .. import (cache_util, diagnostics, shell)
 
-from update_checkout import SCRIPT_DIR
+from ..variables import SCRIPT_DIR
 
 
 class Bazel(product.Product):
