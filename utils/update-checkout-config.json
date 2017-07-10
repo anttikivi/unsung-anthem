@@ -1,5 +1,5 @@
 {
-  "api_url": "https://api.github.com",
+  "api_url": "{}://api.github.com",
   "dependencies": {
 
     "llvm": {
@@ -7,7 +7,7 @@
       "github": false,
       "version": "4.0.1",
       "asset": {
-        "format": "http://releases.llvm.org/%s/%s-%s.src.tar.xz"
+        "format": "{}://releases.llvm.org/{}/{}-{}.src.tar.xz"
       },
       "projects": {
         "llvm": {
@@ -34,7 +34,7 @@
         "patch": 2
       },
       "asset": {
-        "format": "https://cmake.org/files/v%s/cmake-%s-%s%s"
+        "format": "{}://cmake.org/files/v{}/cmake-{}-{}{}"
       }
     },
 

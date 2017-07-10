@@ -100,7 +100,7 @@ def dump_version_info(versions):
         json.dump(versions, outfile)
 
 
-def get_github_dependency(args, config, key, dependency, versions):
+def get_github_dependency(args, config, key, dependency, versions, protocol):
     # Set a shortcut to the asset data.
     asset = dependency['asset']
 
@@ -120,7 +120,8 @@ def get_github_dependency(args, config, key, dependency, versions):
                                   asset_name=asset[platform.system()],
                                   destination=os.path.join(key,
                                                            asset['id']),
-                                  travis=args.travis)
+                                  travis=args.travis,
+                                  protocol=protocol)
         else:
             if asset['fallback']:
                 github.download_asset(owner=dependency['owner'],
@@ -129,7 +130,8 @@ def get_github_dependency(args, config, key, dependency, versions):
                                       asset_name=asset['id'],
                                       destination=os.path.join(key,
                                                                asset['id']),
-                                      travis=args.travis)
+                                      travis=args.travis,
+                                      protocol=protocol)
             else:
                 print('Not supported')  # TODO
     else:
@@ -140,7 +142,8 @@ def get_github_dependency(args, config, key, dependency, versions):
                                    destination=os.path.join(key,
                                                             key
                                                             + '.tar.gz'),
-                                   travis=args.travis)
+                                   travis=args.travis,
+                                   protocol=protocol)
         else:
             github.download_asset(owner=dependency['owner'],
                                   repository=dependency['id'],
@@ -148,7 +151,8 @@ def get_github_dependency(args, config, key, dependency, versions):
                                   asset_name=asset['id'],
                                   destination=os.path.join(key,
                                                            asset['id']),
-                                  travis=args.travis)
+                                  travis=args.travis,
+                                  protocol=protocol)
 
     if asset['source']:
         # Set the asset file for the processing of the file to the
@@ -171,7 +175,8 @@ def get_github_dependency(args, config, key, dependency, versions):
         sha = github.get_release_short_sha(owner=dependency['owner'],
                                            repository=dependency['id'],
                                            release_name=dependency['version'],
-                                           travis=args.travis)
+                                           travis=args.travis,
+                                           protocol=protocol)
 
         # Manually move the downloaded sources to the actual directory.
         move_source_files(key=key,
@@ -202,7 +207,7 @@ def get_github_dependency(args, config, key, dependency, versions):
                 move_glfw_files(config)
 
 
-def get_llvm_dependency(key, id, version, url_format, use_cmd_tar):
+def get_llvm_dependency(key, id, version, url_format, use_cmd_tar, protocol):
     # Set the full path to the destination file.
     local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, id + '.tar.xz')
 
@@ -213,7 +218,7 @@ def get_llvm_dependency(key, id, version, url_format, use_cmd_tar):
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
 
     # Create the correct URL for downloading the source code.
-    url = url_format % (version, id, version)
+    url = url_format.format(protocol, version, id, version)
 
     # Form the HTML GET call to stream the archive.
     request = requests.get(url=url, stream=True)
@@ -242,7 +247,7 @@ def get_llvm_dependency(key, id, version, url_format, use_cmd_tar):
     shell.rm(local_file)
 
     # Set the original subdirectory name.
-    subdir_name = '%s-%s.src' % (id, version)
+    subdir_name = '{}-{}.src'.format(id, version)
 
     print('The name of the LLVM subdirectory is ' + subdir_name)
 
@@ -256,7 +261,7 @@ def get_llvm_dependency(key, id, version, url_format, use_cmd_tar):
     move_dependency_files(key=key, directory=subdir_name)
 
 
-def get_cmake(key, version, url_format):
+def get_cmake(key, version, url_format, protocol):
     # Set the full path to the destination file.
     if 'Windows' == platform.system():
         local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.zip')
@@ -295,8 +300,9 @@ def get_cmake(key, version, url_format):
         archive_extension = '.tar.gz'
 
     # Create the correct URL for downloading the source code.
-    url = url_format % (
-        major_minor_version, full_version, cmake_platform, archive_extension)
+    url = url_format.format(
+        protocol, major_minor_version, full_version, cmake_platform,
+        archive_extension)
 
     # Form the HTML GET call to stream the archive.
     request = requests.get(url=url, stream=True)
@@ -348,6 +354,8 @@ def update(args):
 
     dependencies = config['dependencies']
 
+    protocol = 'https' if not args.travis else 'http'
+
     for key in dependencies.keys():
 
         # Check if the dependency should be skipped.
@@ -381,7 +389,8 @@ def update(args):
                     continue
 
         if dependency['github']:
-            get_github_dependency(args, config, key, dependency, versions)
+            get_github_dependency(args, config, key, dependency, versions,
+                                  protocol)
         else:
             if 'llvm' == key:
                 # Set the URL format of the LLVM downloads.
@@ -396,11 +405,13 @@ def update(args):
                                         version=dependency['version'],
                                         url_format=url_format,
                                         use_cmd_tar=(
-                                            not args.disable_manual_tar))
+                                            not args.disable_manual_tar),
+                                        protocol=protocol)
             elif 'cmake' == key:
                 get_cmake(key=key,
                           version=dependency['version'],
-                          url_format=dependency['asset']['format'])
+                          url_format=dependency['asset']['format'],
+                          protocol=protocol)
 
         # Add the version of the dependency to the dictionary.
         if 'cmake' == key:
