@@ -2,10 +2,6 @@ language: cpp
 
 sudo: false
 
-cache:
-  apt: true
-  pip: true
-
 matrix:
   include:
   # Linux: Ubuntu Precise C++11 GCC 4.8.4
@@ -42,8 +38,6 @@ matrix:
         packages:
           - clang-3.5
         sources: *sources
-
-
 
 install:
  - pip install --user requests
