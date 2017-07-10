@@ -67,5 +67,5 @@ def cmake_build(args, toolchain, workspace):
     anthem.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build tests.
-    if not args.setup_clion:
+    if args.build_test:
         test.build(args=args, toolchain=toolchain, workspace=workspace)

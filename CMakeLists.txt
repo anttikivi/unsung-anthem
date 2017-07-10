@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.4.3)
 project(anthem)
 
+option(ANTHEM_DEFAULT_COMPILER
+    "Option for using the default system compiler so the CMake script does not
+ give error when some of the definitions are missing"
+    OFF)
+
+option(ANTHEM_LLVM OFF)
+
 # Check if the executable type (executable or tests) variable is set.
 if(NOT DEFINED ANTHEM_EXECUTABLE_TYPE)
   message(FATAL_ERROR "The executable type (ANTHEM_EXECUTABLE_TYPE) is not \
@@ -44,7 +51,7 @@ message(STATUS "The C++ standard version (ANTHEM_CPP_VERSION) is set to \
 ${ANTHEM_CPP_VERSION}")
 
 # Check if the C++ standard library is set.
-if(NOT DEFINED ANTHEM_STDLIB)
+if(NOT ANTHEM_DEFAULT_COMPILER AND NOT DEFINED ANTHEM_STDLIB)
   message(FATAL_ERROR "The C++ standard library (ANTHEM_STDLIB) is not set – \
   the possible values are libc++ and libstdc++")
 endif()
@@ -120,12 +127,16 @@ else()
 endif()
 
 # Set the C++ compiler flags.
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD} \
+if(ANTHEM_DEFAULT_COMPILER)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD}")
+elseif(ANTHEM_LLVM)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD} \
 -stdlib=${ANTHEM_STDLIB} \
 -nostdinc++ \
 -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 \
 -L${ANTHEM_INSTALL_PREFIX}/lib \
 -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
+endif()
 
 message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
 message(STATUS "The C++ compiler flag is set to ${CMAKE_CXX_COMPILER}")

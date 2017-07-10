@@ -88,6 +88,16 @@ def apply_default_arguments(args):
         args.clean_build = True
         args.clean_checkout = True
 
+    # The tests are run by default.
+    if args.test is None:
+        args.test = True
+
+    if args.clion:
+        args.test = False
+        args.test_optimized = False
+        args.build_test = False
+        args.build_test_optimized = False
+
     # --test-optimized implies --test and --build-test-optimized.
     if args.test_optimized:
         args.test = True
@@ -110,7 +120,7 @@ def apply_default_arguments(args):
 
     # Propagate the --skip-build-llvm
     if args.skip_build_llvm:
-        args.skip_build_llvm = False
+        args.build_llvm = False
 
     # Set the build subdirectory.
     if args.build_subdir is None:
@@ -710,8 +720,9 @@ def main_normal():
     # Build CMake.
     build.build_cmake(args=args, toolchain=toolchain, workspace=workspace)
 
-    # Build LLVM
-    build.build_llvm(args=args, toolchain=toolchain, workspace=workspace)
+    # Build LLVM.
+    if args.build_llvm:
+        build.build_llvm(args=args, toolchain=toolchain, workspace=workspace)
 
     diagnostics.note('The host C compiler is set to ' + str(toolchain.cc))
     diagnostics.note('The host C++ compiler is set to ' + str(toolchain.cxx))
@@ -741,7 +752,7 @@ def main_normal():
         build.cmake_build(args=args, toolchain=toolchain, workspace=workspace)
 
         # Run tests.
-        if args.test and not args.clion:
+        if args.test:
             with shell.pushd(workspace.build_dir(args.host_target,
                                                  'anthem-test')):
                 call_without_sleeping([os.path.join(

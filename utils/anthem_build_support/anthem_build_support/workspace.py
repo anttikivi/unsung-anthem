@@ -29,17 +29,19 @@ class Workspace(object):
                             '%s-%s' % (product, deployment_target))
 
 
-def compute_build_subdir(args):
-    build_subdir = ''
+def compute_subdir(args):
+    subdir = ''
 
     if 'bazel' == args.build_system:
         # Create a name for the build directory.
-        build_subdir += 'Bazel-'
+        subdir += 'Bazel-'
     elif 'cmake' == args.build_system:
-        build_subdir += 'CMake-'
+        subdir += 'CMake-'
 
     # Create a name for the build directory.
-    build_subdir += args.cmake_generator.replace(" ", "_")
+    subdir += args.cmake_generator.replace(" ", "_")
+
+    subdir += '{}'
 
     llvm_build_dir_label = args.llvm_build_variant
     if args.llvm_assertions:
@@ -49,47 +51,25 @@ def compute_build_subdir(args):
     if args.anthem_assertions:
         anthem_build_dir_label += "Assert"
 
-    if (llvm_build_dir_label == anthem_build_dir_label):
+    if llvm_build_dir_label == anthem_build_dir_label and args.build_llvm:
         # Use a simple directory name if all projects use the same build type.
-        build_subdir += "-" + llvm_build_dir_label
+        subdir += "-" + llvm_build_dir_label
     else:
         # We do not know how to create a short name, so just mangle in all
         # the information.
-        build_subdir += "+llvm-" + llvm_build_dir_label
-        build_subdir += "+anthem-" + anthem_build_dir_label
+        if args.build_llvm:
+            subdir += "+llvm-" + llvm_build_dir_label
+            subdir += "+anthem-" + anthem_build_dir_label
+        else:
+            subdir += "-" + anthem_build_dir_label
+            subdir += "+no-llvm"
 
-    return build_subdir
+    return subdir
+
+
+def compute_build_subdir(args):
+    return compute_subdir(args).format('')
 
 
 def compute_install_prefix(args):
-    install_prefix = ''
-
-    if 'bazel' == args.build_system:
-        # Create a name for the build directory.
-        install_prefix += 'Bazel-'
-    elif 'cmake' == args.build_system:
-        install_prefix += 'CMake-'
-
-    # Create a name for the build directory.
-    install_prefix += args.cmake_generator.replace(" ", "_")
-
-    install_prefix += '-install'
-
-    llvm_build_dir_label = args.llvm_build_variant
-    if args.llvm_assertions:
-        llvm_build_dir_label += "Assert"
-
-    anthem_build_dir_label = args.anthem_build_variant
-    if args.anthem_assertions:
-        anthem_build_dir_label += "Assert"
-
-    if (llvm_build_dir_label == anthem_build_dir_label):
-        # Use a simple directory name if all projects use the same build type.
-        install_prefix += "-" + llvm_build_dir_label
-    else:
-        # We do not know how to create a short name, so just mangle in all
-        # the information.
-        install_prefix += "+llvm-" + llvm_build_dir_label
-        install_prefix += "+anthem-" + anthem_build_dir_label
-
-    return install_prefix
+    return compute_subdir(args).format('-install')
