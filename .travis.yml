@@ -47,7 +47,6 @@ matrix:
 
 install:
  - pip install --user requests
- - which gcc-5
 
 script:
  - cd $TRAVIS_BUILD_DIR/..
