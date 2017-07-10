@@ -27,15 +27,10 @@ matrix:
          - llvm-toolchain-precise-3.7
          - llvm-toolchain-precise-3.6
 
-   # Linux: Ubuntu Precise C++11 Clang 3.3
+   # Linux: Ubuntu Precise C++11 Clang 3.4
    - os: linux
      compiler: clang
-     env: ANTHEM_BUILD_PRESET=travis_linux_clang33_cpp11
-     addons:
-      apt:
-        packages:
-         - clang-3.3
-        sources: *sources
+     env: ANTHEM_BUILD_PRESET=travis_linux_clang34_cpp11
 
    # Linux: Ubuntu Trusty C++14 Clang 3.5
    - os: linux
@@ -52,6 +47,7 @@ matrix:
 
 install:
  - pip install --user requests
+ - which gcc-5
 
 script:
  - cd $TRAVIS_BUILD_DIR/..
