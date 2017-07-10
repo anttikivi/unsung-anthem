@@ -177,20 +177,6 @@ class DeploymentTarget(object):
         return cls._targets_by_name.get(name)
 
 
-def install_prefix():
-    """
-    Returns the default path at which built Unsung Anthem products (like bin,
-    lib, and include) will be installed, based on the host machine's operating
-    system.
-    """
-    # TODO Add Windows
-    if platform.system() == 'Darwin':
-        return '/Applications/Xcode.app/Contents/Developer/Toolchains/' + \
-               'XcodeDefault.xctoolchain/usr'
-    else:
-        return '/usr'
-
-
 def darwin_toolchain_prefix(darwin_install_prefix):
     """
     Given the install prefix for a Darwin system, and assuming that that path
