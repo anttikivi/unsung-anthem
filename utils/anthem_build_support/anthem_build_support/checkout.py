@@ -261,7 +261,7 @@ def get_llvm_dependency(key, id, version, url_format, use_cmd_tar, protocol):
     move_dependency_files(key=key, directory=subdir_name)
 
 
-def get_cmake(key, version, url_format, protocol, wget):
+def get_cmake(key, version, url_format, protocol, curl):
     # Set the full path to the destination file.
     if 'Windows' == platform.system():
         filename = key + '.zip'
@@ -307,8 +307,8 @@ def get_cmake(key, version, url_format, protocol, wget):
         archive_extension)
 
     # Form the HTML GET call to stream the archive.
-    if wget:
-        shell.call(['wget', '-O', filename, '--no-check-certificate', url])
+    if curl:
+        shell.call(['curl', '-o', filename, url])
     else:
         request = requests.get(url=url, stream=True)
 
@@ -419,7 +419,7 @@ def update(args):
                           version=dependency['version'],
                           url_format=dependency['asset']['format'],
                           protocol=protocol,
-                          wget=args.travis)
+                          curl=args.travis)
 
         # Add the version of the dependency to the dictionary.
         if 'cmake' == key:
