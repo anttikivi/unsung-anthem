@@ -261,11 +261,13 @@ def get_llvm_dependency(key, id, version, url_format, use_cmd_tar, protocol):
     move_dependency_files(key=key, directory=subdir_name)
 
 
-def get_cmake(key, version, url_format, protocol):
+def get_cmake(key, version, url_format, protocol, wget):
     # Set the full path to the destination file.
     if 'Windows' == platform.system():
+        filename = key + '.zip'
         local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.zip')
     else:
+        filename = key + '.tar.gz'
         local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.tar.gz')
 
     # Delete the old directory.
@@ -305,13 +307,16 @@ def get_cmake(key, version, url_format, protocol):
         archive_extension)
 
     # Form the HTML GET call to stream the archive.
-    request = requests.get(url=url, stream=True)
+    if wget:
+        shell.call(['wget', '-O', filename, url])
+    else:
+        request = requests.get(url=url, stream=True)
 
-    # Stream the file to the final destination.
-    with open(local_file, 'wb') as f:
-        for chunk in request.iter_content(chunk_size=1024):
-            if chunk:
-                f.write(chunk)
+        # Stream the file to the final destination.
+        with open(local_file, 'wb') as f:
+            for chunk in request.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
 
     print('Finished streaming from ' + url + ' to ' + str(local_file))
 
@@ -413,7 +418,8 @@ def update(args):
                 get_cmake(key=key,
                           version=dependency['version'],
                           url_format=dependency['asset']['format'],
-                          protocol=protocol)
+                          protocol=protocol,
+                          wget=args.travis)
 
         # Add the version of the dependency to the dictionary.
         if 'cmake' == key:
