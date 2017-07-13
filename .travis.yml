@@ -13,6 +13,7 @@ matrix:
         packages: &packages
          - xorg-dev
          - libglu1-mesa-dev
+         - build-essential
         sources: &sources
          - ubuntu-toolchain-r-test
          - llvm-toolchain-precise
@@ -29,6 +30,7 @@ matrix:
          - g++-5
          - xorg-dev
          - libglu1-mesa-dev
+         - build-essential
         sources: *sources
 
    # Linux: Ubuntu Precise C++11 Clang 3.4
@@ -51,6 +53,7 @@ matrix:
           - clang-3.5
           - xorg-dev
           - libglu1-mesa-dev
+          - build-essential
         sources: *sources
 
 install:
