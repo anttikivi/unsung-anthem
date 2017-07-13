@@ -95,6 +95,9 @@ def apply_default_arguments(args):
         args.clean_build = True
         args.clean_checkout = True
 
+    if args.skip_test:
+        args.test = False
+
     # The tests are run by default.
     if args.test is None:
         args.test = True
@@ -551,6 +554,10 @@ def main_normal():
     run_tests_group.add_argument(
         "--test",
         help="test Unsung Anthem after building (implies --build-test)",
+        action=arguments.action.optional_bool)
+    run_tests_group.add_argument(
+        "--skip-test",
+        help="do not test Unsung Anthem after building",
         action=arguments.action.optional_bool)
     run_tests_group.add_argument(
         "-o",
