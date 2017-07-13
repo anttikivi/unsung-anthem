@@ -44,11 +44,22 @@ class Test(product.Product):
                       '-DANTHEM_CPP_VERSION=' + self.args.std,
 
                       # Set the C++ standard library as it is required.
-                      '-DANTHEM_STDLIB=libc++',
+                      # '-DANTHEM_STDLIB=libc++',
 
                       # Set the name of the executable.
                       '-DANTHEM_TEST_EXECUTABLE_NAME='
                       + self.args.test_executable_name]
+
+        if self.args.cmake_generator == 'Ninja':
+            cmake_call += ['-DCMAKE_MAKE_PROGRAM=%s' % self.toolchain.ninja]
+
+        # Set the C++ standard library as it is required.
+        if self.args.build_llvm:
+            cmake_call += ['-DANTHEM_STDLIB=libc++']
+            cmake_call += ['-DANTHEM_LLVM=ON']
+        else:
+            cmake_call += ['-DANTHEM_DEFAULT_COMPILER=ON']
+            cmake_call += ['-DANTHEM_LLVM=OFF']
 
         # Create the dictionary of environment variables for the CMake call.
         cmake_env = {
