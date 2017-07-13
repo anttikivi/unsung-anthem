@@ -8,6 +8,16 @@ matrix:
    - os: linux
      compiler: gcc
      env: ANTHEM_BUILD_PRESET=travis_linux_gcc48_cpp11
+     addons:
+      apt:
+        packages: &packages
+         - xorg-dev
+         - libglu1-mesa-dev
+        sources: &sources
+         - ubuntu-toolchain-r-test
+         - llvm-toolchain-precise
+         - llvm-toolchain-precise-3.7
+         - llvm-toolchain-precise-3.6
 
    # Linux: Ubuntu Precise C++14 GCC 5
    - os: linux
@@ -15,18 +25,18 @@ matrix:
      env: ANTHEM_BUILD_PRESET=travis_linux_gcc5_cpp14
      addons:
       apt:
-        packages:
+        packages: *packages
          - g++-5
-        sources: &sources
-         - ubuntu-toolchain-r-test
-         - llvm-toolchain-precise
-         - llvm-toolchain-precise-3.7
-         - llvm-toolchain-precise-3.6
+        sources: *sources
 
    # Linux: Ubuntu Precise C++11 Clang 3.4
    - os: linux
      compiler: clang
      env: ANTHEM_BUILD_PRESET=travis_linux_clang34_cpp11
+     addons:
+      apt:
+        packages: *packages
+        sources: *sources
 
    # Linux: Ubuntu Trusty C++14 Clang 3.5
    - os: linux
@@ -35,7 +45,7 @@ matrix:
      env: ANTHEM_BUILD_PRESET=travis_linux_clang35_cpp14
      addons:
       apt:
-        packages:
+        packages: *packages
           - clang-3.5
         sources: *sources
 
