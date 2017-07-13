@@ -219,6 +219,13 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
 
 elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL clion)
 
+  # Add the actual executable with the sources.
+  add_executable(${ANTHEM_EXECUTABLE_NAME}
+      ${ANTHEM_LIB_INCLUDES}
+      ${ANTHEM_INCLUDES}
+      ${ANTHEM_LIB_SOURCES}
+      ${ANTHEM_SOURCES})
+
   # Remove the main function of the executable from the tests as the tests need
   # their own main function.
   list(REMOVE_ITEM ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
