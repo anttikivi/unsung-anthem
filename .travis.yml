@@ -54,6 +54,7 @@ matrix:
           - xorg-dev
           - libglu1-mesa-dev
           - build-essential
+          - libc++-dev
         sources: *sources
 
 install:

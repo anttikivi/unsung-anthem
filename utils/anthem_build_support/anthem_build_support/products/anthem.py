@@ -59,8 +59,7 @@ class Anthem(product.Product):
             cmake_call += ['-DANTHEM_DEFAULT_COMPILER=ON']
             cmake_call += ['-DANTHEM_LLVM=OFF']
 
-        # if 'clang' in self.toolchain.cc and self.args.travis:
-            # cmake_call += ['-DCMAKE_CXX_FLAGS=-stdlib=libc++ -I=']
+        cmake_call += self.args.extra_cmake_options
 
         # Create the dictionary of environment variables for the CMake call.
         cmake_env = {

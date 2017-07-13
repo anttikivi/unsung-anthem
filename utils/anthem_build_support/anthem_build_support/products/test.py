@@ -61,6 +61,8 @@ class Test(product.Product):
             cmake_call += ['-DANTHEM_DEFAULT_COMPILER=ON']
             cmake_call += ['-DANTHEM_LLVM=OFF']
 
+        cmake_call += self.args.extra_cmake_options
+
         # Create the dictionary of environment variables for the CMake call.
         cmake_env = {
             # Set the C compiler.
