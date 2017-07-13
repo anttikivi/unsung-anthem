@@ -308,7 +308,7 @@ def get_cmake(key, version, url_format, protocol, wget):
 
     # Form the HTML GET call to stream the archive.
     if wget:
-        shell.call(['wget', '-O', filename, url])
+        shell.call(['wget', '-O', filename, '--no-check-certificate', url])
     else:
         request = requests.get(url=url, stream=True)
 
