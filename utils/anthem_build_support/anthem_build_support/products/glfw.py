@@ -37,6 +37,9 @@ class Glfw(product.Product):
         if self.args.cmake_generator == 'Ninja':
             cmake_call += ['-DCMAKE_MAKE_PROGRAM={}'.format(self.toolchain.ninja)]
 
+        if 'clang' in self.toolchain.cc and self.args.travis:
+            cmake_call += ['-DCMAKE_CXX_FLAGS=-stdlib=libc++']
+
         # Change the working directory to the out-of-tree build directory.
         with shell.pushd(self.build_dir):
             # Generate the files to build GLFW from.
