@@ -359,7 +359,7 @@ def update(args):
 
     dependencies = config['dependencies']
 
-    protocol = 'https' if not args.travis else 'https'
+    protocol = 'https'  # if not args.travis else 'https'
 
     diagnostics.note('Using {} protocol to make the HTTP calls'.format(protocol))
 
