@@ -308,7 +308,7 @@ def get_cmake(key, version, url_format, protocol, curl):
 
     # Form the HTML GET call to stream the archive.
     if curl:
-        shell.call(['curl', '-o', filename, url])
+        shell.call(['curl', '-o', local_file, '--create-dirs', url])
     else:
         request = requests.get(url=url, stream=True)
 
