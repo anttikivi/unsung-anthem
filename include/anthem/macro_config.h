@@ -23,16 +23,12 @@
 
 #if defined(ANTHEM_DISABLE_CPP17)
 # define DISABLE_CPP17 1
-#elif defined(ANTHEM_DISABLE_CPP14)
-# define DISABLE_CPP14 1
 #endif
 
 #if defined(ANTHEM_CPP17)
 # define CPP17 1
 #elif defined(ANTHEM_CPP14)
 # define CPP14 1
-#elif defined(ANTHEM_CPP11)
-# define CPP11 1
 #endif
 
 #endif // !ANTHEM_MACRO_CONFIG_H

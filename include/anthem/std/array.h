@@ -24,15 +24,9 @@
 #define ANTHEM_ARRAY_H
 
 #include <array>
+#include <utility>
 
 #include "anthem/macro_config.h"
-
-#if defined(CPP11)
-
-# include "anthem/std/utility.h"
-# include "anthem/std/type_traits.h"
-
-#endif // defined(CPP11)
 
 namespace anthem {
 
@@ -46,41 +40,18 @@ namespace anthem {
 
   namespace detail {
 
-#if defined(CPP11)
-
-    template <class T, std::size_t N, std::size_t... I>
-    constexpr const std::array<remove_cv_t<T>, N>
-    to_array_impl(T (&a)[N], index_sequence<I...>) {
-      return {{a[I]...}};
-    }
-
-#else
-
     template <class T, std::size_t N, std::size_t... I>
     constexpr const std::array<std::remove_cv_t<T>, N>
     to_array_impl(T (&a)[N], std::index_sequence<I...>) {
       return {{a[I]...}};
     }
 
-#endif // !defined(CPP11)
-
   } // namespace detail
-
-#if defined(CPP11)
-
-  template <class T, std::size_t N>
-  constexpr const std::array<remove_cv_t<T>, N> to_array(T (&a)[N]) {
-    return detail::to_array_impl(a, make_index_sequence<N>{});
-  }
-
-#else
 
   template <class T, std::size_t N>
   constexpr const std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N]) {
     return detail::to_array_impl(a, std::make_index_sequence<N>{});
   }
-
-#endif // !defined(CPP11)
 
 } // namespace anthem
 
