@@ -6,7 +6,11 @@ cache: apt
 
 matrix:
   include:
-  # Linux: Ubuntu Precise 12.04 C++11 GCC 4.8
+   #==-----------------------------------------------------------------------==#
+   #==- Linux - GCC ---------------------------------------------------------==#
+   #==-----------------------------------------------------------------------==#
+
+   # Linux: Ubuntu Precise 12.04 C++11 GCC 4.8
    - os: linux
      dist: precise
      compiler: gcc
@@ -71,6 +75,11 @@ matrix:
          - libglu1-mesa-dev
          - build-essential
         sources: *sources
+
+
+   #==-----------------------------------------------------------------------==#
+   #==- Linux - Clang -------------------------------------------------------==#
+   #==-----------------------------------------------------------------------==#
 
    # Linux: Ubuntu Trusty 14.04 C++11 Clang 3.5
    - os: linux
@@ -176,6 +185,98 @@ matrix:
           - build-essential
           - libc++-dev
         sources: *sources
+
+   #==-----------------------------------------------------------------------==#
+   #==- macOS - GCC ---------------------------------------------------------==#
+   #==-----------------------------------------------------------------------==#
+
+   # Darwin: macOS 10.10 Xcode 6.4 C++11 GCC
+   - os: osx
+     osx_image: xcode6.4
+     compiler: gcc
+     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_macos_xcode64_gcc_cpp11
+
+   # Darwin: macOS 10.10 Xcode 6.4 C++14 GCC
+   - os: osx
+     osx_image: xcode6.4
+     compiler: gcc
+     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_macos_xcode64_gcc_cpp14
+
+   # Darwin: macOS 10.11 Xcode 7.3.1 C++14 GCC
+   - os: osx
+     osx_image: xcode7.3
+     compiler: gcc
+     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_macos_xcode73_gcc_cpp14
+
+   # Darwin: macOS 10.12 Xcode 8.3.3 C++14 GCC
+   - os: osx
+     osx_image: xcode8.3
+     compiler: gcc
+     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_macos_xcode83_gcc_cpp14
+
+   # Darwin: macOS 10.12 Xcode 8.3.3 C++17 GCC
+   - os: osx
+     osx_image: xcode8.3
+     compiler: gcc
+     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_macos_xcode83_gcc_cpp17
+
+   # Darwin: macOS 10.12 Xcode 9 beta 3 C++14 GCC
+   - os: osx
+     osx_image: xcode9
+     compiler: gcc
+     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_macos_xcode9_gcc_cpp14
+
+   # Darwin: macOS 10.12 Xcode 9 beta 3 C++17 GCC
+   - os: osx
+     osx_image: xcode9
+     compiler: gcc
+     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_macos_xcode9_gcc_cpp17
+
+   #==-----------------------------------------------------------------------==#
+   #==- macOS - Clang -------------------------------------------------------==#
+   #==-----------------------------------------------------------------------==#
+
+   # Darwin: macOS 10.10 Xcode 6.4 C++11 Clang
+   - os: osx
+     osx_image: xcode6.4
+     compiler: clang
+     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_macos_xcode64_clang_cpp11
+
+   # Darwin: macOS 10.10 Xcode 6.4 C++14 Clang
+   - os: osx
+     osx_image: xcode6.4
+     compiler: clang
+     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_macos_xcode64_clang_cpp14
+
+   # Darwin: macOS 10.11 Xcode 7.3.1 C++14 Clang
+   - os: osx
+     osx_image: xcode7.3
+     compiler: clang
+     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_macos_xcode73_clang_cpp14
+
+   # Darwin: macOS 10.12 Xcode 8.3.3 C++14 Clang
+   - os: osx
+     osx_image: xcode8.3
+     compiler: clang
+     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_macos_xcode83_clang_cpp14
+
+   # Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
+   - os: osx
+     osx_image: xcode8.3
+     compiler: clang
+     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_macos_xcode83_clang_cpp17
+
+   # Darwin: macOS 10.12 Xcode 9 beta 3 C++14 Clang
+   - os: osx
+     osx_image: xcode9
+     compiler: clang
+     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_macos_xcode9_clang_cpp14
+
+   # Darwin: macOS 10.12 Xcode 9 beta 3 C++17 Clang
+   - os: osx
+     osx_image: xcode9
+     compiler: clang
+     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_macos_xcode9_clang_cpp17
 
 install:
  - ${CC} --version
