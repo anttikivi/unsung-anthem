@@ -22,20 +22,34 @@
 #ifndef ANTHEM_ARGUMENTS_H
 #define ANTHEM_ARGUMENTS_H
 
+#include <array>
+
+#include "anthem/types.h"
+
 namespace anthem {
 
   ///
-  /// \class arguments
+  /// \struct arguments
   /// \brief Type of objects which hold parsed information of command line
   /// arguments.
   ///
-  class arguments final {
-  public:
-
+  struct arguments final {
     ///
     /// \brief Constructs an object of class \c arguments with no data.
     ///
-    constexpr arguments() noexcept = default;
+    arguments() noexcept = default;
+
+    ///
+    /// \brief Constructs an object of class \c arguments.
+    ///
+    /// \param window_width value of the starting width of the window.
+    /// \param window_height value of the starting height of the window.
+    ///
+    constexpr arguments(const pixel_count window_width,
+                        const pixel_count window_height) noexcept
+        : window_width{window_width}, window_height{window_height} {
+
+    }
 
     ///
     /// \brief Constructs an object of class \c arguments which has the same
@@ -57,7 +71,7 @@ namespace anthem {
     ///
     /// \brief Destructs an object of class \c arguments.
     ///
-    constexpr ~arguments() noexcept = default;
+    ~arguments() noexcept = default;
 
     ///
     /// \brief Copies the values of \c a and replaces the values of \c *this by
@@ -66,7 +80,7 @@ namespace anthem {
     /// \param a object of class \c arguments from which the values are copied.
     /// \return Reference to \c *this.
     ///
-    constexpr arguments& operator=(const arguments& a) noexcept = default;
+    constexpr arguments& operator=(const arguments& a) const noexcept = delete;
 
     ///
     /// \brief Moves the values of \c a and replaces the values of \c *this by
@@ -75,13 +89,44 @@ namespace anthem {
     /// \param a object of class \c arguments from which the values are moved.
     /// \return Reference to \c *this.
     ///
-    constexpr arguments& operator=(arguments&& a) noexcept = default;
+    constexpr arguments& operator=(arguments&& a) const noexcept = delete;
 
-  private:
+    ///
+    /// \brief The starting width of the window.
+    ///
+    const pixel_count window_width{0};
+
+    ///
+    /// \brief The starting height of the window.
+    ///
+    const pixel_count window_height{0};
   };
 
-  
+  ///
+  /// \brief Compares the two objects of class \c arguments.
+  /// \param lhs
+  /// \param rhs
+  /// \return \c true if the member values of the parameters are equal,
+  /// otherwise \c false.
+  ///
+  constexpr bool operator==(const arguments& lhs,
+                            const arguments& rhs) noexcept {
 
+    return lhs.window_width == rhs.window_width &&
+           lhs.window_height == rhs.window_height;
+  }
+
+  ///
+  /// \brief
+  /// \param argc
+  /// \param argv
+  /// \return
+  template <std::size_t N>
+  constexpr const arguments parse_arguments(const int argc,
+                                            const std::array<const char*, N> argv) noexcept {
+
+    return arguments{};
+  }
 }
 
 #endif // !ANTHEM_ARGUMENTS_H
