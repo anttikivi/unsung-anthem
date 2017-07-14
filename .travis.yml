@@ -190,17 +190,11 @@ matrix:
    #==- Darwin - GCC --------------------------------------------------------==#
    #==-----------------------------------------------------------------------==#
 
-   # Darwin: macOS 10.10 Xcode 6.4 C++11 GCC
+   # Darwin: macOS 10.11 Xcode 7.3.1 C++11 GCC
    - os: osx
-     osx_image: xcode6.4
+     osx_image: xcode7.3
      compiler: gcc
-     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_darwin_xcode64_gcc_cpp11
-
-   # Darwin: macOS 10.10 Xcode 6.4 C++14 GCC
-   - os: osx
-     osx_image: xcode6.4
-     compiler: gcc
-     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_darwin_xcode64_gcc_cpp14
+     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_darwin_xcode73_gcc_cpp11
 
    # Darwin: macOS 10.11 Xcode 7.3.1 C++14 GCC
    - os: osx
@@ -236,17 +230,11 @@ matrix:
    #==- Darwin - Clang ------------------------------------------------------==#
    #==-----------------------------------------------------------------------==#
 
-   # Darwin: macOS 10.10 Xcode 6.4 C++11 Clang
+   # Darwin: macOS 10.11 Xcode 7.3.1 C++11 Clang
    - os: osx
-     osx_image: xcode6.4
+     osx_image: xcode7.3
      compiler: clang
-     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_darwin_xcode64_clang_cpp11
-
-   # Darwin: macOS 10.10 Xcode 6.4 C++14 Clang
-   - os: osx
-     osx_image: xcode6.4
-     compiler: clang
-     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_darwin_xcode64_clang_cpp14
+     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_darwin_xcode73_clang_cpp11
 
    # Darwin: macOS 10.11 Xcode 7.3.1 C++14 Clang
    - os: osx
