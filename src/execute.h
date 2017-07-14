@@ -21,17 +21,22 @@
 #ifndef ANTHEM_EXECUTE_H
 #define ANTHEM_EXECUTE_H
 
+#include <memory>
+
+namespace anthem {
+  class game_state;
+}
+
 namespace anthem {
 
+  /// \brief Returns the object of type \c game_state after executing the
+  /// program with the given arguments.
   ///
-  /// \brief The main execution function of the game engine which eventually
-  /// runs the program.
+  /// \param argc the number of arguments passed in the execution.
+  /// \param argv array containing the arguments passed in the execution.
   ///
-  /// \param argc The number of command line arguments passed to the program.
-  /// \param argv An array containing the command line arguments passed to the
-  /// program.
-  ///
-  void execute(int argc, const char* argv[]);
+  /// \return The object of type \c game_state.
+  game_state execute(int argc, const char* argv[]);
 }
 
 #endif // !ANTHEM_EXECUTE_H
