@@ -32,7 +32,7 @@
 *.app
 
 # CLion CMake files
-cmake-build-debug
+cmake-build-*
 
 # IntelliJ
 .idea
