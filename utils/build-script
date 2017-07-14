@@ -163,7 +163,9 @@ def apply_default_arguments(args):
 
 def validate_arguments(args):
     # Check the validity of C++ standard version.
-    if not ('c++1z' == args.std or 'c++14' == args.std or 'c++11' == args.std):
+    if not ('c++17' == args.std or 'c++1z' == args.std or 'c++14' == args.std
+            or 'c++1y' == args.std or 'c++11' == args.std
+            or 'c++0x' == args.std):
         exit_rejecting_arguments('C++ standard version is set to an invalid '
                                  'value: ' + str(args.cmake_generator))
 
