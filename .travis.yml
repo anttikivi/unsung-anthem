@@ -54,6 +54,7 @@ matrix:
          - xorg-dev
          - libglu1-mesa-dev
          - build-essential
+         - libc++-dev
         sources: *sources
 
    # Linux: Ubuntu Trusty 14.04 C++14 Clang 3.5
@@ -68,6 +69,7 @@ matrix:
           - xorg-dev
           - libglu1-mesa-dev
           - build-essential
+          - libc++-dev
         sources: *sources
 
 install:
