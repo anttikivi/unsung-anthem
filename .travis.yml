@@ -10,30 +10,6 @@ matrix:
    #==- Linux - GCC ---------------------------------------------------------==#
    #==-----------------------------------------------------------------------==#
 
-   # Linux: Ubuntu Precise 12.04 C++11 GCC 4.8
-   - os: linux
-     dist: precise
-     compiler: gcc
-     env: COMPILER_NAME=gcc CXX=g++-4.8 CC=gcc-4.8 ANTHEM_BUILD_PRESET=travis_linux_gcc48_cpp11
-     addons:
-      apt:
-        packages:
-         - g++-4.8
-         - xorg-dev
-         - libglu1-mesa-dev
-         - build-essential
-        sources: &sources
-         - ubuntu-toolchain-r-test
-         - llvm-toolchain-trusty
-         - llvm-toolchain-trusty-4.0
-         - llvm-toolchain-trusty-3.9
-         - llvm-toolchain-precise
-         - llvm-toolchain-precise-3.9
-         - llvm-toolchain-precise-3.8
-         - llvm-toolchain-precise-3.7
-         - llvm-toolchain-precise-3.6
-         - llvm-toolchain-precise-3.5
-
    # Linux: Ubuntu Precise 12.04 C++14 GCC 5
    - os: linux
      dist: precise
@@ -46,7 +22,12 @@ matrix:
          - xorg-dev
          - libglu1-mesa-dev
          - build-essential
-        sources: *sources
+        sources: &sources
+         - ubuntu-toolchain-r-test
+         - llvm-toolchain-trusty
+         - llvm-toolchain-trusty-4.0
+         - llvm-toolchain-precise
+         - llvm-toolchain-precise-3.5
 
    # Linux: Ubuntu Trusty 14.04 C++17 GCC 7
    - os: linux
@@ -66,21 +47,6 @@ matrix:
    #==-----------------------------------------------------------------------==#
    #==- Linux - Clang -------------------------------------------------------==#
    #==-----------------------------------------------------------------------==#
-
-   # Linux: Ubuntu Trusty 14.04 C++11 Clang 3.5
-   - os: linux
-     dist: trusty
-     compiler: clang
-     env: COMPILER_NAME=clang CXX=clang++-3.5 CC=clang-3.5 ANTHEM_BUILD_PRESET=travis_linux_clang35_cpp11
-     addons:
-      apt:
-        packages:
-         - clang-3.5
-         - xorg-dev
-         - libglu1-mesa-dev
-         - build-essential
-         - libc++-dev
-        sources: *sources
 
    # Linux: Ubuntu Trusty 14.04 C++14 Clang 3.5
    - os: linux
@@ -113,36 +79,8 @@ matrix:
         sources: *sources
 
    #==-----------------------------------------------------------------------==#
-   #==- Darwin - GCC --------------------------------------------------------==#
-   #==-----------------------------------------------------------------------==#
-
-   # Darwin: macOS 10.11 Xcode 7.3.1 C++11 GCC
-   - os: osx
-     osx_image: xcode7.3
-     compiler: gcc
-     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_darwin_xcode73_gcc_cpp11
-
-   # Darwin: macOS 10.11 Xcode 7.3.1 C++14 GCC
-   - os: osx
-     osx_image: xcode7.3
-     compiler: gcc
-     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_darwin_xcode73_gcc_cpp14
-
-   # Darwin: macOS 10.12 Xcode 8.3.3 C++17 GCC
-   - os: osx
-     osx_image: xcode8.3
-     compiler: gcc
-     env: COMPILER_NAME=gcc CXX=g++ CC=gcc ANTHEM_BUILD_PRESET=travis_darwin_xcode83_gcc_cpp17
-
-   #==-----------------------------------------------------------------------==#
    #==- Darwin - Clang ------------------------------------------------------==#
    #==-----------------------------------------------------------------------==#
-
-   # Darwin: macOS 10.11 Xcode 7.3.1 C++11 Clang
-   - os: osx
-     osx_image: xcode7.3
-     compiler: clang
-     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_darwin_xcode73_clang_cpp11
 
    # Darwin: macOS 10.11 Xcode 7.3.1 C++14 Clang
    - os: osx
