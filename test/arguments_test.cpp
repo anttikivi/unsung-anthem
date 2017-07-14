@@ -29,7 +29,7 @@ TEST_CASE("Arguments are parsed correctly", "[arguments]") {
   constexpr int argc = 5;
   constexpr const char* argv[] = {"executable", "--window-width", "300", "--window-height", "15"};
 
-  constexpr auto result = anthem::parse_arguments(argc, anthem::to_array(argv));
+  const auto result{anthem::parse_arguments(argc, anthem::to_array(argv))};
 
   constexpr auto test = anthem::arguments{300, 15};
 

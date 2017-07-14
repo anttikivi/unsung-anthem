@@ -24,6 +24,7 @@
 
 #include <array>
 
+#include <anthem/std/optional.h>
 #include "anthem/types.h"
 
 namespace anthem {
@@ -117,15 +118,17 @@ namespace anthem {
   }
 
   ///
-  /// \brief
+  /// \brief Returns an object of class \c arguments which contains the values
+  /// set when executing the program from the command line.
+  ///
   /// \param argc
   /// \param argv
   /// \return
   template <std::size_t N>
-  constexpr const arguments parse_arguments(const int argc,
-                                            const std::array<const char*, N> argv) noexcept {
+  constexpr const std::experimental::optional<arguments> parse_arguments(const int argc,
+                                                                         const std::array<const char*, N> argv) noexcept {
 
-    return arguments{};
+    return std::experimental::optional<arguments>{arguments{}};
   }
 }
 
