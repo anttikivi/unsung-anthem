@@ -36,7 +36,7 @@ namespace anthem {
 /// \param i integer of pixels.
 /// \return The \c pixel literal.
 ///
-constexpr anthem::pixel_count operator""_px(const long double i) noexcept {
+constexpr anthem::pixel_count operator"" _px(const long double i) noexcept {
   return i;
 }
 
