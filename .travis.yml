@@ -2,6 +2,9 @@ language: cpp
 
 sudo: false
 
+cache:
+  apt: true
+
 matrix:
   include:
   # Linux: Ubuntu Precise 12.04 C++11 GCC 4.8
