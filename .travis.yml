@@ -71,7 +71,8 @@ matrix:
         sources: *sources
 
 install:
- - if [ ${COMPILER_NAME} == "clang" ]; then clang --version; else gcc --version; fi
+ - ${CC} --version
+ - ${CXX} --version
  - pip install --user requests
 
 script:
