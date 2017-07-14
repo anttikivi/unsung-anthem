@@ -68,6 +68,10 @@ def apply_default_arguments(args):
     if args.cmake_generator is None:
         args.cmake_generator = 'Ninja'
 
+    # The default CMake generator on CLion is make.
+    if args.clion:
+        args.cmake_generator = 'Unix Makefiles'
+
     # The default build variant is Debug.
     if args.build_variant is None:
         args.build_variant = 'Debug'
