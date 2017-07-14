@@ -59,6 +59,9 @@ endif()
 message(STATUS "The C++ standard library (ANTHEM_STDLIB) is set to \
 ${ANTHEM_STDLIB}")
 
+# Set the compiler flags which will be set if the build is done with LLVM.
+set(LLVM_CXX_FLAGS "-stdlib=${ANTHEM_STDLIB} -nostdinc++ -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 -L${ANTHEM_INSTALL_PREFIX}/lib -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
+
 # Set the preprocessor definitions according to the C++ Standard version.
 if(${ANTHEM_CPP_VERSION} STREQUAL c++17)
 
@@ -118,6 +121,10 @@ elseif(${ANTHEM_CPP_VERSION} STREQUAL c++11)
   # Add the variable for setting the C++ standard version to the compiler.
   set(ANTHEM_STD ${ANTHEM_CPP_VERSION})
 
+elseif(${ANTHEM_CPP_VERSION} STREQUAL all)
+
+  message(STATUS "The C++ standard version (ANTHEM_CPP_VERSION) is set to ${ANTHEM_CPP_VERSION} – the executable will be built against C++17, C++14, and C++11")
+
 else()
 
   message(FATAL_ERROR "The C++ standard version (ANTHEM_CPP_VERSION) is set \
@@ -126,16 +133,24 @@ else()
 
 endif()
 
-# Set the C++ compiler flags.
-if(ANTHEM_DEFAULT_COMPILER)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD}")
-elseif(ANTHEM_LLVM)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD} \
--stdlib=${ANTHEM_STDLIB} \
--nostdinc++ \
--I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 \
--L${ANTHEM_INSTALL_PREFIX}/lib \
--Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
+# Set the C++ compiler flags if the build is not done against all C++
+# standard versions.
+if(NOT ${ANTHEM_CPP_VERSION} STREQUAL all)
+  if(ANTHEM_DEFAULT_COMPILER)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD}")
+  elseif(ANTHEM_LLVM)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD} ${LLVM_CXX_FLAGS}")
+  endif()
+
+  message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
+else()
+  if(ANTHEM_LLVM)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXX_FLAGS}")
+  endif()
+
+  set(ANTHEM_CPP17_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z")
+  set(ANTHEM_CPP14_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+  set(ANTHEM_CPP11_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
@@ -143,8 +158,6 @@ message(STATUS "The C++ compiler flag is set to ${CMAKE_CXX_COMPILER}")
 
 message(STATUS "The C compiler environment variable is set to $ENV{CC}")
 message(STATUS "The C++ compiler environment variable is set to $ENV{CXX}")
-
-message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
 
 # Check the platform for setting the dependencies.
 if(UNIX)
@@ -194,14 +207,53 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 # Check whether the build is the actual executable or tests.
-if (${ANTHEM_EXECUTABLE_TYPE} STREQUAL anthem)
+if(${ANTHEM_EXECUTABLE_TYPE} STREQUAL anthem)
 
-  # Add the actual executable with the sources.
-  add_executable(${ANTHEM_EXECUTABLE_NAME}
-      ${ANTHEM_LIB_INCLUDES}
-      ${ANTHEM_INCLUDES}
-      ${ANTHEM_LIB_SOURCES}
-      ${ANTHEM_SOURCES})
+  if(${ANTHEM_CPP_VERSION} STREQUAL all)
+
+    # Add the actual executable with the sources and C++17 properties.
+    add_executable(${ANTHEM_EXECUTABLE_NAME}-cxx17
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_EXECUTABLE_NAME}-cxx17 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP17_FLAGS})
+
+    target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx17 PRIVATE ANTHEM_CPP17)
+
+    # Add the actual executable with the sources and C++14 properties.
+    add_executable(${ANTHEM_EXECUTABLE_NAME}-cxx14
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_EXECUTABLE_NAME}-cxx14 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP14_FLAGS})
+
+    target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx14 PRIVATE ANTHEM_CPP14 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT)
+
+    # Add the actual executable with the sources and C++11 properties.
+    add_executable(${ANTHEM_EXECUTABLE_NAME}-cxx11
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_EXECUTABLE_NAME}-cxx11 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP11_FLAGS})
+
+    target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx11 PRIVATE ANTHEM_CPP11 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT ANTHEM_DISABLE_CPP14 ANTHEM_DISABLE_CPP14_DRAFT)
+
+  else()
+
+    # Add the actual executable with the sources.
+    add_executable(${ANTHEM_EXECUTABLE_NAME}
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_SOURCES})
+
+  endif()
 
 elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
 
@@ -209,34 +261,156 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
   # their own main function.
   list(REMOVE_ITEM ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
-  # Add the actual executable with the sources.
-  add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}
-      ${ANTHEM_LIB_INCLUDES}
-      ${ANTHEM_INCLUDES}
-      ${ANTHEM_LIB_SOURCES}
-      ${ANTHEM_TEST_SOURCES}
-      ${ANTHEM_SOURCES})
+  if(${ANTHEM_CPP_VERSION} STREQUAL all)
+
+    # Add the actual executable with the sources and C++17 properties.
+    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx17
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx17 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP17_FLAGS})
+
+    target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx17 PRIVATE ANTHEM_CPP17)
+
+    # Add the actual executable with the sources and C++14 properties.
+    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx14
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx14 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP14_FLAGS})
+
+    target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx14 PRIVATE ANTHEM_CPP14 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT)
+
+    # Add the actual executable with the sources and C++11 properties.
+    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP11_FLAGS})
+
+    target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11 PRIVATE ANTHEM_CPP11 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT ANTHEM_DISABLE_CPP14 ANTHEM_DISABLE_CPP14_DRAFT)
+
+  else()
+
+    # Add the actual executable with the sources.
+    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_SOURCES})
+  endif()
 
 elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL clion)
 
-  # Add the actual executable with the sources.
-  add_executable(${ANTHEM_EXECUTABLE_NAME}
-      ${ANTHEM_LIB_INCLUDES}
-      ${ANTHEM_INCLUDES}
-      ${ANTHEM_LIB_SOURCES}
-      ${ANTHEM_SOURCES})
+  if(${ANTHEM_CPP_VERSION} STREQUAL all)
+
+    # Add the actual executable with the sources and C++17 properties.
+    add_executable(${ANTHEM_EXECUTABLE_NAME}-cxx17
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_EXECUTABLE_NAME}-cxx17 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP17_FLAGS})
+
+    target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx17 PRIVATE ANTHEM_CPP17)
+
+    # Add the actual executable with the sources and C++14 properties.
+    add_executable(${ANTHEM_EXECUTABLE_NAME}-cxx14
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_EXECUTABLE_NAME}-cxx14 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP14_FLAGS})
+
+    target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx14 PRIVATE ANTHEM_CPP14 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT)
+
+    # Add the actual executable with the sources and C++11 properties.
+    add_executable(${ANTHEM_EXECUTABLE_NAME}-cxx11
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_EXECUTABLE_NAME}-cxx11 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP11_FLAGS})
+
+    target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx11 PRIVATE ANTHEM_CPP11 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT ANTHEM_DISABLE_CPP14 ANTHEM_DISABLE_CPP14_DRAFT)
+
+  else()
+
+    # Add the actual executable with the sources.
+    add_executable(${ANTHEM_EXECUTABLE_NAME}
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_SOURCES})
+
+  endif()
 
   # Remove the main function of the executable from the tests as the tests need
   # their own main function.
   list(REMOVE_ITEM ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
-  # Add the actual executable with the sources.
-  add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}
-      ${ANTHEM_LIB_INCLUDES}
-      ${ANTHEM_INCLUDES}
-      ${ANTHEM_LIB_SOURCES}
-      ${ANTHEM_TEST_SOURCES}
-      ${ANTHEM_SOURCES})
+  if(${ANTHEM_CPP_VERSION} STREQUAL all)
+
+    # Add the actual executable with the sources and C++17 properties.
+    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx17
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx17 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP17_FLAGS})
+
+    target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx17 PRIVATE ANTHEM_CPP17)
+
+    # Add the actual executable with the sources and C++14 properties.
+    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx14
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx14 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP14_FLAGS})
+
+    target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx14 PRIVATE ANTHEM_CPP14 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT)
+
+    # Add the actual executable with the sources and C++11 properties.
+    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_SOURCES})
+
+    set_target_properties(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP11_FLAGS})
+
+    target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11 PRIVATE ANTHEM_CPP11 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT ANTHEM_DISABLE_CPP14 ANTHEM_DISABLE_CPP14_DRAFT)
+
+  else()
+
+    # Add the actual executable with the sources.
+    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_SOURCES})
+
+  endif()
 
 else()
   message(FATAL_ERROR "The value of the executable type \
