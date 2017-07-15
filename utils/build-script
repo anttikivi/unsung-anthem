@@ -107,7 +107,7 @@ def apply_default_arguments(args):
         args.test = False
 
     # CMake is built by default.
-    if args.build_cmake is None:
+    if not args.skip_build_cmake:
         args.build_cmake = True
 
     # The tests are run by default.
@@ -130,11 +130,11 @@ def apply_default_arguments(args):
         args.build_test = True
 
     # By default, Ninja is not built on AppVeyor.
-    if args.build_ninja is None and args.cmake_generator == 'Visual Studio 15':
+    if not args.build_ninja and args.cmake_generator == 'Visual Studio 15':
         args.build_ninja = False
 
     # Resolve whether Ninja should be built.
-    if args.build_ninja is None and args.cmake_generator == 'Ninja':
+    if not args.build_ninja and args.cmake_generator == 'Ninja':
         args.build_ninja = True
 
     # Propagate global --skip-build
@@ -157,6 +157,10 @@ def apply_default_arguments(args):
     # Propagate the --skip-build-cmake
     if args.skip_build_cmake:
         args.build_cmake = False
+
+    # Propagate the --skip-build-ninja
+    if args.skip_build_ninja:
+        args.build_ninja = False
 
     # Skip Bazel on checkout update if the build system is not Bazel.
     if not ('bazel' == args.build_system):
@@ -432,8 +436,7 @@ def main_normal():
     projects_group.add_argument(
         "--build-cmake",
         help="build CMake",
-        action="store_true",
-        dest="build_cmake")
+        action="store_true")
     projects_group.add_argument(
         "--build-test",
         help="build the Unsung Anthem tests",
@@ -661,6 +664,10 @@ def main_normal():
     run_build_group.add_argument(
         "--skip-build-cmake",
         help="skip building CMake",
+        action=arguments.action.optional_bool)
+    run_build_group.add_argument(
+        "--skip-build-ninja",
+        help="skip building Ninja",
         action=arguments.action.optional_bool)
 
     checkout_group = parser.add_argument_group(title="Update checkout")
