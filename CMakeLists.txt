@@ -94,42 +94,15 @@ elseif(${ANTHEM_CPP_VERSION} STREQUAL c++14)
   # Add the variable for setting the C++ standard version to the compiler.
   set(ANTHEM_STD ${ANTHEM_CPP_VERSION})
 
-elseif(${ANTHEM_CPP_VERSION} STREQUAL c++1y)
-
-  # Add the definition denoting that C++1y is used.
-  add_definitions(-DANTHEM_CPP14_DRAFT)
-
-  # Add the definition for the disabled newer version of C++ Standard.
-  add_definitions(-DANTHEM_DISABLE_CPP17)
-  add_definitions(-DANTHEM_DISABLE_CPP17_DRAFT)
-  add_definitions(-DANTHEM_DISABLE_CPP14)
-
-  # Add the variable for setting the C++ standard version to the compiler.
-  set(ANTHEM_STD ${ANTHEM_CPP_VERSION})
-
-elseif(${ANTHEM_CPP_VERSION} STREQUAL c++11)
-
-  # Add the definition denoting that C++11 is used.
-  add_definitions(-DANTHEM_CPP11)
-
-  # Add the definition for the disabled newer version of C++ Standard.
-  add_definitions(-DANTHEM_DISABLE_CPP17)
-  add_definitions(-DANTHEM_DISABLE_CPP17_DRAFT)
-  add_definitions(-DANTHEM_DISABLE_CPP14)
-  add_definitions(-DANTHEM_DISABLE_CPP14_DRAFT)
-
-  # Add the variable for setting the C++ standard version to the compiler.
-  set(ANTHEM_STD ${ANTHEM_CPP_VERSION})
-
 elseif(${ANTHEM_CPP_VERSION} STREQUAL all)
 
-  message(STATUS "The C++ standard version (ANTHEM_CPP_VERSION) is set to ${ANTHEM_CPP_VERSION} – the executable will be built against C++17, C++14, and C++11")
+  message(STATUS "The C++ standard version (ANTHEM_CPP_VERSION) is set to ${ANTHEM_CPP_VERSION} – the executable will be built against C++17 and C++14")
 
 else()
 
   message(FATAL_ERROR "The C++ standard version (ANTHEM_CPP_VERSION) is set \
   to ${ANTHEM_CPP_VERSION} and thus it is invalid – the possible values are \
-  c++17, c++1z, c++14, c++1y, and c++11")
+  c++17 and c++14")
 
 endif()
 
@@ -150,7 +123,6 @@ else()
 
   set(ANTHEM_CPP17_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z")
   set(ANTHEM_CPP14_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-  set(ANTHEM_CPP11_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
 message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
@@ -233,17 +205,6 @@ if(${ANTHEM_EXECUTABLE_TYPE} STREQUAL anthem)
 
     target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx14 PRIVATE ANTHEM_CPP14 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT)
 
-    # Add the actual executable with the sources and C++11 properties.
-    add_executable(${ANTHEM_EXECUTABLE_NAME}-cxx11
-        ${ANTHEM_LIB_INCLUDES}
-        ${ANTHEM_INCLUDES}
-        ${ANTHEM_LIB_SOURCES}
-        ${ANTHEM_SOURCES})
-
-    set_target_properties(${ANTHEM_EXECUTABLE_NAME}-cxx11 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP11_FLAGS})
-
-    target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx11 PRIVATE ANTHEM_CPP11 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT ANTHEM_DISABLE_CPP14 ANTHEM_DISABLE_CPP14_DRAFT)
-
   else()
 
     # Add the actual executable with the sources.
@@ -287,18 +248,6 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
 
     target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx14 PRIVATE ANTHEM_CPP14 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT)
 
-    # Add the actual executable with the sources and C++11 properties.
-    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11
-        ${ANTHEM_LIB_INCLUDES}
-        ${ANTHEM_INCLUDES}
-        ${ANTHEM_LIB_SOURCES}
-        ${ANTHEM_TEST_SOURCES}
-        ${ANTHEM_SOURCES})
-
-    set_target_properties(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP11_FLAGS})
-
-    target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11 PRIVATE ANTHEM_CPP11 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT ANTHEM_DISABLE_CPP14 ANTHEM_DISABLE_CPP14_DRAFT)
-
   else()
 
     # Add the actual executable with the sources.
@@ -335,17 +284,6 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL clion)
     set_target_properties(${ANTHEM_EXECUTABLE_NAME}-cxx14 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP14_FLAGS})
 
     target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx14 PRIVATE ANTHEM_CPP14 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT)
-
-    # Add the actual executable with the sources and C++11 properties.
-    add_executable(${ANTHEM_EXECUTABLE_NAME}-cxx11
-        ${ANTHEM_LIB_INCLUDES}
-        ${ANTHEM_INCLUDES}
-        ${ANTHEM_LIB_SOURCES}
-        ${ANTHEM_SOURCES})
-
-    set_target_properties(${ANTHEM_EXECUTABLE_NAME}-cxx11 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP11_FLAGS})
-
-    target_compile_definitions(${ANTHEM_EXECUTABLE_NAME}-cxx11 PRIVATE ANTHEM_CPP11 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT ANTHEM_DISABLE_CPP14 ANTHEM_DISABLE_CPP14_DRAFT)
 
   else()
 
@@ -387,18 +325,6 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL clion)
     set_target_properties(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx14 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP14_FLAGS})
 
     target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx14 PRIVATE ANTHEM_CPP14 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT)
-
-    # Add the actual executable with the sources and C++11 properties.
-    add_executable(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11
-        ${ANTHEM_LIB_INCLUDES}
-        ${ANTHEM_INCLUDES}
-        ${ANTHEM_LIB_SOURCES}
-        ${ANTHEM_TEST_SOURCES}
-        ${ANTHEM_SOURCES})
-
-    set_target_properties(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11 PROPERTIES COMPILE_FLAGS ${ANTHEM_CPP11_FLAGS})
-
-    target_compile_definitions(${ANTHEM_TEST_EXECUTABLE_NAME}-cxx11 PRIVATE ANTHEM_CPP11 ANTHEM_DISABLE_CPP17 ANTHEM_DISABLE_CPP17_DRAFT ANTHEM_DISABLE_CPP14 ANTHEM_DISABLE_CPP14_DRAFT)
 
   else()
 
