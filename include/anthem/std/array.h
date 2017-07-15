@@ -20,8 +20,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_ARRAY_H
-#define ANTHEM_ARRAY_H
+#ifndef ANTHEM_STD_ARRAY_H
+#define ANTHEM_STD_ARRAY_H
 
 #include <array>
 #include <utility>
@@ -42,12 +42,18 @@ namespace anthem {
 
     template <class T, std::size_t N, std::size_t... I>
     constexpr const std::array<std::remove_cv_t<T>, N>
-    to_array_impl(T (&a)[N], std::index_sequence<I...>) {
+    to_array_impl(T (&a)[N], std::index_sequence<I...> seq) {
       return {{a[I]...}};
     }
 
   } // namespace detail
 
+  ///
+  /// \brief Returns object of class \c std::array, the contents of which are
+  /// exact copies of the contents of passed array.
+  ///
+  /// \param a array, the contents of which are copied.
+  /// \return Constant object of class \c std::array<std::remove_cv_t<T>, N>.
   template <class T, std::size_t N>
   constexpr const std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N]) {
     return detail::to_array_impl(a, std::make_index_sequence<N>{});
@@ -55,4 +61,4 @@ namespace anthem {
 
 } // namespace anthem
 
-#endif // !ANTHEM_ARRAY_H
+#endif // !ANTHEM_STD_ARRAY_H

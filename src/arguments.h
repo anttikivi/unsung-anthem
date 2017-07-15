@@ -23,8 +23,9 @@
 #define ANTHEM_ARGUMENTS_H
 
 #include <array>
+#include <type_traits>
 
-#include <anthem/std/optional.h>
+#include "anthem/array.h"
 #include "anthem/types.h"
 
 namespace anthem {
@@ -121,14 +122,15 @@ namespace anthem {
   /// \brief Returns an object of class \c arguments which contains the values
   /// set when executing the program from the command line.
   ///
-  /// \param argc
-  /// \param argv
-  /// \return
+  /// \param args array containing the arguments passed to the program.
+  /// \return An object of class \c std::experimental::optional which may
+  /// contain an object of class \c arguments.
+  ///
   template <std::size_t N>
-  constexpr const std::experimental::optional<arguments> parse_arguments(const int argc,
-                                                                         const std::array<const char*, N> argv) noexcept {
+  constexpr const arguments parse_arguments(const std::array<const char*,
+                                                             N> args) noexcept {
 
-    return std::experimental::optional<arguments>{arguments{}};
+    return arguments{};
   }
 }
 
