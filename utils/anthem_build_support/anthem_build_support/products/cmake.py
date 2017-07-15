@@ -36,13 +36,13 @@ class CMake(product.Product):
                                 'cmake')
 
     def do_build(self):
-        # Copy the source tree to the build directory.
-        shell.rmtree(self.build_dir)
-        shell.copytree(self.source_dir, self.build_dir)
-
         # Check whether the ninja executable is pre-built and already exists.
         if os.path.exists(self.cmake_bin_path):
             return
+        
+        # Copy the source tree to the build directory.
+        shell.rmtree(self.build_dir)
+        shell.copytree(self.source_dir, self.build_dir)
 
         shell.copytree(self.source_dir,
                        os.path.join(self.workspace.install_root))
