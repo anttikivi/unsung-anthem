@@ -121,6 +121,12 @@ def apply_default_arguments(args):
     if args.test:
         args.build_test = True
 
+    # Resolve whether Ninja should be built.
+    if args.build_ninja is None:
+        if not (args.cmake_generator == 'Visual Studio 15'):
+            if args.cmake_generator == 'Ninja':
+                args.build_ninja = True
+
     # Propagate global --skip-build
     if args.skip_build:
         args.skip_build_linux = True
@@ -129,12 +135,18 @@ def apply_default_arguments(args):
         args.skip_build_cygwin = True
         args.skip_build_windows = True
         args.build_llvm = False
+        args.build_cmake = False
         args.build_test = False
         args.build_test_optimized = False
+        args.build_ninja = False
 
     # Propagate the --skip-build-llvm
     if args.skip_build_llvm:
         args.build_llvm = False
+
+    # Propagate the --skip-build-cmake
+    if args.skip_build_cmake:
+        args.build_cmake = False
 
     # Skip Bazel on checkout update if the build system is not Bazel.
     if not ('bazel' == args.build_system):
@@ -143,6 +155,14 @@ def apply_default_arguments(args):
     # Skip LLVM on the checkout update if LLVM will not be built.
     if not args.build_llvm:
         args.skip_repository_list += ['llvm']
+
+    # Skip CMake on the checkout update if CMake will not be built.
+    if not args.build_ninja:
+        args.skip_repository_list += ['cmake']
+
+    # Skip Ninja on the checkout update if Ninja will not be built.
+    if not args.build_llvm:
+        args.skip_repository_list += ['ninja']
 
     # Set the build subdirectory.
     if args.build_subdir is None:
@@ -366,6 +386,10 @@ def main_normal():
         "--travis",
         help="build in a Travis CI environment",
         action="store_true")
+    ci_group.add_argument(
+        "--appveyor",
+        help="build in an AppVeyor CI environment",
+        action="store_true")
 
     targets_group = parser.add_argument_group(
         title="Host and cross-compilation targets - These options do not have "
@@ -390,6 +414,11 @@ def main_normal():
         help="build LLVM",
         action="store_true",
         dest="build_llvm")
+    projects_group.add_argument(
+        "--build-cmake",
+        help="build CMake",
+        action="store_true",
+        dest="build_cmake")
     projects_group.add_argument(
         "--build-test",
         help="build the Unsung Anthem tests",
@@ -532,6 +561,12 @@ def main_normal():
         const="Unix Makefiles",
         dest="cmake_generator")
     cmake_generator_group.add_argument(
+        "--visual-studio",
+        help="use CMake's Visual Studio 2015 generator (default is Ninja)",
+        action="store_const",
+        const="Visual Studio 15",
+        dest="cmake_generator")
+    cmake_generator_group.add_argument(
         "-e", "--eclipse",
         help="use CMake's Eclipse generator (default is Ninja)",
         action="store_const",
@@ -607,6 +642,10 @@ def main_normal():
     run_build_group.add_argument(
         "--skip-build-llvm",
         help="skip building LLVM",
+        action=arguments.action.optional_bool)
+    run_build_group.add_argument(
+        "--skip-build-cmake",
+        help="skip building CMake",
         action=arguments.action.optional_bool)
 
     checkout_group = parser.add_argument_group(title="Update checkout")
@@ -757,8 +796,9 @@ def main_normal():
     if 'bazel' == args.build_system and toolchain.bazel is None:
         bazel.build(args=args, toolchain=toolchain, workspace=workspace)
 
-    elif args.cmake_generator == 'Ninja' or toolchain.ninja is None:
-        ninja.build(args=args, toolchain=toolchain, workspace=workspace)
+    elif not (args.cmake_generator == 'Visual Studio 15'):
+        if args.cmake_generator == 'Ninja' or toolchain.ninja is None:
+            ninja.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build CMake.
     build.build_cmake(args=args, toolchain=toolchain, workspace=workspace)

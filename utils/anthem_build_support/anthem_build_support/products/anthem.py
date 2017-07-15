@@ -70,7 +70,7 @@ class Anthem(product.Product):
             'CXX': self.toolchain.cxx
         }
 
-        if not self.args.clion:
+        if not self.args.clion and not self.args.appveyor:
             # Change the working directory to the out-of-tree build directory.
             with shell.pushd(self.build_dir):
                 # Generate the files to build Unsung Anthem from.
@@ -81,7 +81,7 @@ class Anthem(product.Product):
                     call_ninja(self.toolchain)
                 elif self.args.cmake_generator == 'Unix Makefiles':
                     call_make()
-        else:
+        elif self.args.clion:
             diagnostics.note('CMake would be called with the following '
                              'command and environment variables:')
             shell.print_command(command=cmake_call, env=cmake_env)
