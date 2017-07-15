@@ -110,6 +110,18 @@
         "multiplatform": false,
         "source": true
       }
+    },
+
+    "cat": {
+      "travis": true,
+      "github": true,
+      "owner": "awgn",
+      "id": "cat",
+      "version": "v1.3",
+      "asset": {
+        "multiplatform": false,
+        "source": true
+      }
     }
   }
 }

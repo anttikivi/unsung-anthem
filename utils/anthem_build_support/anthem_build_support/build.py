@@ -6,8 +6,8 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-from products import (anthem, catch, clang, cmake, glfw, libcxx, llvm, ninja,
-                      spdlog, test)
+from products import (anthem, cat, catch, clang, cmake, glfw, libcxx, llvm,
+                      ninja, spdlog, test)
 
 
 def build_cmake(args, toolchain, workspace):
@@ -32,6 +32,7 @@ def bazel_build(args, toolchain, workspace):
     glfw.bazel(args=args, toolchain=toolchain, workspace=workspace)
     catch.bazel(args=args, toolchain=toolchain, workspace=workspace)
     spdlog.bazel(args=args, toolchain=toolchain, workspace=workspace)
+    # cat.bazel(args=args, toolchain=toolchain, workspace=workspace)
 
     if 'Ninja' == args.cmake_generator:
         ninja.bazel(args=args, toolchain=toolchain, workspace=workspace)
@@ -58,6 +59,9 @@ def cmake_build(args, toolchain, workspace):
 
     # Build spdlog.
     spdlog.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    # Build cat.
+    cat.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Unsung Anthem.
     anthem.build(args=args, toolchain=toolchain, workspace=workspace)
