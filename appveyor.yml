@@ -12,3 +12,5 @@ configuration: Debug
 
 before_build:
  - pip install requests
+ - cd %APPVEYOR_BUILD_FOLDER%\..
+ - python unsung-anthem\utils\build-script --preset=appveyor_windows_vs15
