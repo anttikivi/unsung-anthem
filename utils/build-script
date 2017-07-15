@@ -60,6 +60,10 @@ def apply_default_arguments(args):
     if args.build_system is not None:
         args.build_system = args.build_system.lower()
 
+    # If the build is done in Travis or AppVeyor, CI is true.
+    if args.travis or args.appveyor:
+        args.ci = True
+
     # Default is to build LLVM when not in a CI environment.
     if not args.travis and not args.appveyor:
         args.build_llvm = True
@@ -101,6 +105,10 @@ def apply_default_arguments(args):
 
     if args.skip_test:
         args.test = False
+
+    # CMake is built by default.
+    if args.build_cmake is None:
+        args.build_cmake = True
 
     # The tests are run by default.
     if args.test is None:

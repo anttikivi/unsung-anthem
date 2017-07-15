@@ -120,7 +120,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
                                   asset_name=asset[platform.system()],
                                   destination=os.path.join(key,
                                                            asset['id']),
-                                  travis=args.travis,
+                                  ci=args.ci,
                                   protocol=protocol)
         else:
             if asset['fallback']:
@@ -130,7 +130,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
                                       asset_name=asset['id'],
                                       destination=os.path.join(key,
                                                                asset['id']),
-                                      travis=args.travis,
+                                      ci=args.ci,
                                       protocol=protocol)
             else:
                 print('Not supported')  # TODO
@@ -142,7 +142,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
                                    destination=os.path.join(key,
                                                             key
                                                             + '.tar.gz'),
-                                   travis=args.travis,
+                                   ci=args.ci,
                                    protocol=protocol)
         else:
             github.download_asset(owner=dependency['owner'],
@@ -151,7 +151,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
                                   asset_name=asset['id'],
                                   destination=os.path.join(key,
                                                            asset['id']),
-                                  travis=args.travis,
+                                  ci=args.ci,
                                   protocol=protocol)
 
     if asset['source']:
@@ -175,7 +175,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
         sha = github.get_release_short_sha(owner=dependency['owner'],
                                            repository=dependency['id'],
                                            release_name=dependency['version'],
-                                           travis=args.travis,
+                                           ci=args.ci,
                                            protocol=protocol)
 
         # Manually move the downloaded sources to the actual directory.
@@ -375,7 +375,7 @@ def update(args):
         dependency = dependencies[key]
 
         # Check if the dependency should not be downloaded on Travis CI.
-        if not dependency['travis'] and args.travis:
+        if not dependency['travis'] and args.ci:
             diagnostics.note('' + key + ' should not be downloaded on Travis')
             continue
 
@@ -419,7 +419,7 @@ def update(args):
                           version=dependency['version'],
                           url_format=dependency['asset']['format'],
                           protocol=protocol,
-                          curl=args.travis)
+                          curl=args.ci)
 
         # Add the version of the dependency to the dictionary.
         if 'cmake' == key:

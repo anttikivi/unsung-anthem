@@ -16,21 +16,21 @@ import requests
 GITHUB_API_URL = '{}://api.github.com'
 
 
-def github_default_headers(travis=False):
-    if travis:
+def github_default_headers(ci=False):
+    if ci:
         return {'User-Agent': 'venturesomestone',
                 'Accept': 'application/vnd.github.v3+json',
-                'Authorization': 'token %s' % str(os.environ['ANTHEM_TRAVIS_OAUTH'])}
+                'Authorization': 'token %s' % str(os.environ['ANTHEM_OAUTH'])}
     else:
         return {'User-Agent': 'venturesomestone',
                 'Accept': 'application/vnd.github.v3+json'}
 
 
-def github_default_asset_call_headers(travis=False):
-    if travis:
+def github_default_asset_call_headers(ci=False):
+    if ci:
         return {'User-Agent': 'venturesomestone',
                 'Accept': 'application/octet-stream',
-                'Authorization': 'token %s' % str(os.environ['ANTHEM_TRAVIS_OAUTH'])}
+                'Authorization': 'token %s' % str(os.environ['ANTHEM_OAUTH'])}
     else:
         return {'User-Agent': 'venturesomestone',
                 'Accept': 'application/octet-stream'}
@@ -40,7 +40,7 @@ def print_rest(message):
     print('[GitHub REST API v3] ' + message)
 
 
-def get_json(url, key, value, travis, protocol, headers=None):
+def get_json(url, key, value, ci, protocol, headers=None):
     """
     Retrieves the JSON node of the given key from the wanted list of
     JSON values of GitHub REST API v3.
@@ -60,7 +60,7 @@ def get_json(url, key, value, travis, protocol, headers=None):
     call_url = GITHUB_API_URL.format(protocol) + url
 
     # Set the headers for the call.
-    call_headers = github_default_headers(travis)
+    call_headers = github_default_headers(ci)
 
     # If there are additional headers, add them to the final headers used in
     # the call.
@@ -121,7 +121,7 @@ def get_json(url, key, value, travis, protocol, headers=None):
     return None
 
 
-def get(url, key, check_key, value, travis, protocol, headers=None, crash=True):
+def get(url, key, check_key, value, ci, protocol, headers=None, crash=True):
     """
     Retrieves the JSON entry value of the given key from the wanted list of
     JSON values of GitHub REST API v3.
@@ -149,7 +149,7 @@ def get(url, key, check_key, value, travis, protocol, headers=None, crash=True):
                + '.')
 
     # Get the wanted JSON node.
-    json_node = get_json(url=url, key=check_key, value=value, travis=travis, protocol=protocol, headers=headers)
+    json_node = get_json(url=url, key=check_key, value=value, ci=ci, protocol=protocol, headers=headers)
 
     # Check if the JSON is got correctly.
     if json_node is None:
@@ -176,7 +176,7 @@ def get(url, key, check_key, value, travis, protocol, headers=None, crash=True):
 
 
 def download_asset(owner, repository, release_name, asset_name, destination,
-                   travis, protocol):
+                   ci, protocol):
     """
     Downloads a single file from the GitHub releases.
 
@@ -195,7 +195,7 @@ def download_asset(owner, repository, release_name, asset_name, destination,
                      key='id',
                      check_key='name',
                      value=release_name,
-                     travis=travis,
+                     ci=ci,
                      protocol=protocol)
 
     # Get the asset URL of the wanted asset from the release.
@@ -209,12 +209,12 @@ def download_asset(owner, repository, release_name, asset_name, destination,
                     key='url',
                     check_key='name',
                     value=asset_name,
-                    travis=travis,
+                    ci=ci,
                     protocol=protocol).replace('https', protocol)
 
     # Get the asset with the URL.
     asset_request = requests.get(asset_url,
-                                 headers=github_default_asset_call_headers(travis),
+                                 headers=github_default_asset_call_headers(ci),
                                  stream=True)
 
     # Check whether or not the request is redirected.
@@ -247,7 +247,7 @@ def download_asset(owner, repository, release_name, asset_name, destination,
                           + ')')
 
 
-def download_source(owner, repository, release_name, destination, travis,
+def download_source(owner, repository, release_name, destination, ci,
                     protocol):
     """
     Downloads a single source archive from the GitHub releases.
@@ -264,7 +264,7 @@ def download_source(owner, repository, release_name, destination, travis,
                       key='tarball_url',
                       check_key='name',
                       value=release_name,
-                      travis=travis,
+                      ci=ci,
                       protocol=protocol,
                       crash=False)
 
@@ -274,11 +274,11 @@ def download_source(owner, repository, release_name, destination, travis,
                           key='tarball_url',
                           check_key='name',
                           value=release_name,
-                          travis=travis,
+                          ci=ci,
                           protocol=protocol)
 
     tarball_request = requests.get(url=tarball_url,
-                                   headers=github_default_headers(travis))
+                                   headers=github_default_headers(ci))
 
     # Set the full path to the destination file.
     local_filename = os.path.join(ANTHEM_SOURCE_ROOT, destination)
@@ -295,7 +295,7 @@ def download_source(owner, repository, release_name, destination, travis,
                + str(local_filename))
 
 
-def get_release_sha(owner, repository, release_name, travis, protocol):
+def get_release_sha(owner, repository, release_name, ci, protocol):
     """
     Gets the SHA of the given release.
 
@@ -311,7 +311,7 @@ def get_release_sha(owner, repository, release_name, travis, protocol):
                    key='tag_name',
                    check_key='name',
                    value=release_name,
-                   travis=travis,
+                   ci=ci,
                    protocol=protocol,
                    crash=False)
 
@@ -323,14 +323,14 @@ def get_release_sha(owner, repository, release_name, travis, protocol):
     tag = get_json(url='/repos/' + owner + '/' + repository + '/tags',
                    key='name',
                    value=tag_name,
-                   travis=travis,
+                   ci=ci,
                    protocol=protocol)
 
     # Return the SHA of the tag commit.
     return tag['commit']['sha']
 
 
-def get_release_short_sha(owner, repository, release_name, travis, protocol):
+def get_release_short_sha(owner, repository, release_name, ci, protocol):
     """
     Gets the SHA of the given release.
 
@@ -341,7 +341,7 @@ def get_release_short_sha(owner, repository, release_name, travis, protocol):
     """
 
     # Start by getting the SHA of the tag.
-    sha = get_release_sha(owner, repository, release_name, travis=travis,
+    sha = get_release_sha(owner, repository, release_name, ci=ci,
                           protocol=protocol)
 
     short_sha_list = []
