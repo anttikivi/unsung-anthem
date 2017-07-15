@@ -337,7 +337,12 @@ def main_preset():
     preset_args = get_preset_options(
         args.preset_substitutions, args.preset_file_names, args.preset)
 
-    build_script_args = [sys.argv[0]]
+    if 'APPVEYOR' in os.environ.keys() and os.environ['APPVEYOR']:
+        build_script_args = [sys.executable]
+        build_script_args += [sys.argv[0]]
+    else:
+        build_script_args = [sys.argv[0]]
+
     if args.dry_run:
         build_script_args += ["--dry-run"]
     if args.clean:
