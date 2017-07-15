@@ -4,10 +4,10 @@ insert a logo here
 
 | | **Unsung Anthem** |
 |---|:---:|
-|**macOS 10.11**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=master)](https://travis-ci.org/venturesomestone/unsung-anthem)|
-|**macOS 10.12**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=master)](https://travis-ci.org/venturesomestone/unsung-anthem)|
-|**Ubuntu 12.04**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=master)](https://travis-ci.org/venturesomestone/unsung-anthem)|
-|**Ubuntu 14.04**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=master)](https://travis-ci.org/venturesomestone/unsung-anthem)|
+|**macOS 10.11**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem)|
+|**macOS 10.12**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem)|
+|**Ubuntu 12.04**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem)|
+|**Ubuntu 14.04**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem)|
 |**Windows**|[![Build status](https://ci.appveyor.com/api/projects/status/h387p7t5hw89s8ty/branch/develop?svg=true)](https://ci.appveyor.com/project/venturesomestone/unsung-anthem/branch/develop)|
 
 **Welcome to Unsung Anthem!**
