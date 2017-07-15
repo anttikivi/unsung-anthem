@@ -60,8 +60,8 @@ def apply_default_arguments(args):
     if args.build_system is not None:
         args.build_system = args.build_system.lower()
 
-    # Default is to build LLVM when not in a Travis CI environment.
-    if not args.travis:
+    # Default is to build LLVM when not in a CI environment.
+    if not args.travis and not args.appveyor:
         args.build_llvm = True
 
     # The default CMake generator is Ninja.
