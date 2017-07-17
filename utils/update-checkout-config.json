@@ -96,7 +96,7 @@
         "source": false,
         "fallback": true,
         "id": "glfw-3.2.1.zip",
-        "Windows": "TODO"
+        "Windows": "glfw-3.2.1.bin.WIN32.zip"
       }
     },
 

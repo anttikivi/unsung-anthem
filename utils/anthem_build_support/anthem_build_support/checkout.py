@@ -75,11 +75,20 @@ def move_glfw_files(config):
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
 
     # Move up the GLFW files to temporary folder.
-    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
-                                'glfw',
-                                'glfw-'
-                                + config['dependencies']['glfw']['version']),
-                   os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+    if sys.platform() == 'Windows':
+        shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
+                                    'glfw',
+                                    'glfw-'
+                                    + config['dependencies']['glfw']['version']
+                                    + '.bin.WIN32'),
+                       os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+    else:
+        shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
+                                    'glfw',
+                                    'glfw-'
+                                    + config['dependencies']['glfw'][
+                                        'version']),
+                       os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
 
     # Delete the GLFW folder so the files in the temporary folder can be
     # copied.

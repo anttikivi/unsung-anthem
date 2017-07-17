@@ -13,6 +13,7 @@ GLFW build
 # ----------------------------------------------------------------------------
 
 import os
+import sys
 
 from . import product
 from .. import (diagnostics, shell)
@@ -24,6 +25,75 @@ from ..call import (call_without_sleeping,
 
 
 class Glfw(product.Product):
+    def do_build_windows(self):
+        # Delete the old build directory of cat.
+        shell.rmtree(self.build_dir)
+
+        # Copy the files from the source directory to the build directory.
+        shell.copytree(self.source_dir, self.build_dir)
+
+        # Check if the include directory already exists.
+        if not os.path.isdir(os.path.join(self.workspace.install_root,
+                                          'include')):
+            shell.makedirs(os.path.join(self.workspace.install_root,
+                                        'include'))
+        elif os.path.isdir(os.path.join(self.workspace.install_root,
+                                        'include',
+                                        'GLFW')):
+            # Otherwise check if there is a previous installation of cat and
+            # delete it.
+            shell.rmtree(os.path.join(self.workspace.install_root,
+                                      'include',
+                                      'GLFW'))
+
+        # Copy the cat directory to the include folder.
+        shell.copytree(os.path.join(self.build_dir, 'include', 'GLFW'),
+                       os.path.join(self.workspace.install_root,
+                                    'include',
+                                    'GLFW'))
+
+        # Check if the library directory already exists.
+        if not os.path.isdir(os.path.join(self.workspace.install_root,
+                                          'lib')):
+            shell.makedirs(os.path.join(self.workspace.install_root,
+                                        'lib'))
+        else:
+            if os.path.exists(os.path.join(self.workspace.install_root,
+                                           'lib',
+                                           'glfw3.dll')):
+                shell.rm(os.path.join(self.workspace.install_root,
+                                      'lib',
+                                      'glfw3.dll'))
+            
+            if os.path.exists(os.path.join(self.workspace.install_root,
+                                           'lib',
+                                           'glfw3.lib')):
+                shell.rm(os.path.join(self.workspace.install_root,
+                                      'lib',
+                                      'glfw3.lib'))
+
+            if os.path.exists(os.path.join(self.workspace.install_root,
+                                           'lib',
+                                           'glfw3dll.lib')):
+                shell.rm(os.path.join(self.workspace.install_root,
+                                      'lib',
+                                      'glfw3dll.lib'))
+
+        # Copy the libraries directory to the include folder.
+        shell.copy(os.path.join(self.build_dir, 'lib-vc2015', 'glfw3.dll'),
+                   os.path.join(self.workspace.install_root,
+                                'lib',
+                                'glfw3.dll'))
+        shell.copy(os.path.join(self.build_dir, 'lib-vc2015', 'glfw3.lib'),
+                   os.path.join(self.workspace.install_root,
+                                'lib',
+                                'glfw3.lib'))
+        shell.copy(os.path.join(self.build_dir, 'lib-vc2015', 'glfw3dll.lib'),
+                   os.path.join(self.workspace.install_root,
+                                'lib',
+                                'glfw3dll.lib'))
+
+
     def do_build(self):
         # Make the directory for the out-of-tree build.
         shell.makedirs(self.build_dir)
@@ -64,7 +134,10 @@ def build(args, toolchain, workspace):
                       source_dir=workspace.source_dir('glfw'),
                       build_dir=workspace.build_dir(args.host_target, 'glfw'))
 
-    glfw_build.do_build()
+    if sys.platform() == 'Windows':
+        glfw_build.do_build_windows()
+    else:
+        glfw_build.do_build()
 
 
 def bazel(args, toolchain, workspace):
