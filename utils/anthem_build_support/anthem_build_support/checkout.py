@@ -8,7 +8,6 @@
 
 from __future__ import print_function
 
-import argparse
 import contextlib
 import json
 import os
@@ -330,7 +329,9 @@ def get_cmake(key, version, url_format, protocol, curl):
     print('Finished streaming from ' + url + ' to ' + str(local_file))
 
     if 'Windows' == platform.system():
-        print('TODO')
+        # Extract the archive.
+        with contextlib.closing(zipfile.ZipFile(local_file, 'r')) as z:
+            z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
     else:
         # Open the archive.
         tar = tarfile.open(local_file, "r:gz")
