@@ -13,7 +13,7 @@ GLFW build
 # ----------------------------------------------------------------------------
 
 import os
-import sys
+import platform
 
 from . import product
 from .. import (diagnostics, shell)
@@ -134,7 +134,7 @@ def build(args, toolchain, workspace):
                       source_dir=workspace.source_dir('glfw'),
                       build_dir=workspace.build_dir(args.host_target, 'glfw'))
 
-    if sys.platform() == 'Windows':
+    if platform.system() == 'Windows':
         glfw_build.do_build_windows()
     else:
         glfw_build.do_build()
