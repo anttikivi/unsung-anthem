@@ -213,7 +213,8 @@ def apply_default_arguments(args):
 
 def validate_arguments(args):
     # Check the validity of C++ standard version.
-    if not ('c++17' == args.std or 'c++14' == args.std or 'all' == args.std):
+    if not ('latest' == args.std or 'c++17' == args.std or 'c++14' == args.std
+            or 'all' == args.std):
         exit_rejecting_arguments('C++ standard version is set to an invalid '
                                  'value: ' + str(args.cmake_generator))
 
@@ -517,6 +518,13 @@ def main_normal():
         "--std",
         help="build using the specified C++ standard version",
         default="c++14",
+        dest="std")
+    cpp_version_group.add_argument(
+        "--c++latest",
+        help="build using the latest features of the C++ standard version and"
+             "its drafts (default is C++14)",
+        action="store_const",
+        const="latest",
         dest="std")
     cpp_version_group.add_argument(
         "--c++17",
