@@ -24,7 +24,7 @@ before_build:
 
 build:
   parallel: true
-  project: "%APPVEYOR_BUILD_FOLDER%\..\build\CMake-%ANTHEM_CMAKE_GENERATOR%-DebugAssert+no-llvm\anthem-windows-x86_64\anthem.sln"
+  project: "%APPVEYOR_BUILD_FOLDER%\\..\\build\\CMake-%ANTHEM_CMAKE_GENERATOR%-DebugAssert+no-llvm\\anthem-windows-x86_64\\anthem.sln"
 
 after_build:
  - cd %APPVEYOR_BUILD_FOLDER%\..\build\CMake-%ANTHEM_CMAKE_GENERATOR%-DebugAssert+no-llvm\anthem-windows-x86_64
