@@ -15,10 +15,17 @@ environment:
     secure: 9v/VvJm25wmGY1pEfu1jKPfjlY0S3/XD+/V4QcNAs9p0sNUSkmzuAvYK8IobENjd
 
 before_build:
+ - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" SETX ANTHEM_CMAKE_GENERATOR Visual_Studio_14_2015
+ - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" SETX ANTHEM_CMAKE_GENERATOR Visual_Studio_15_2017
  - pip install requests
  - cd %APPVEYOR_BUILD_FOLDER%\..
  - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" python unsung-anthem\utils\build-script --preset=appveyor_windows_vs14
  - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" python unsung-anthem\utils\build-script --preset=appveyor_windows_vs15
- - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" cd %APPVEYOR_BUILD_FOLDER%\..\build\CMake-Visual_Studio_14_2015-DebugAssert+no-llvm\anthem-windows-x86_64
- - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" cd %APPVEYOR_BUILD_FOLDER%\..\build\CMake-Visual_Studio_14_2015-DebugAssert+no-llvm\anthem-windows-x86_64
- - dir /b/s *.sln
+
+build:
+  parallel: true
+  project: %APPVEYOR_BUILD_FOLDER%\..\build\CMake-%ANTHEM_CMAKE_GENERATOR%-DebugAssert+no-llvm\anthem-windows-x86_64\anthem.sln
+
+after_build:
+ - cd %APPVEYOR_BUILD_FOLDER%\..\build\CMake-%ANTHEM_CMAKE_GENERATOR%-DebugAssert+no-llvm\anthem-windows-x86_64
+ - dir /b/s *
