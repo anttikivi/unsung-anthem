@@ -62,15 +62,18 @@ class Anthem(product.Product):
         cmake_call += self.args.extra_cmake_options
 
         # Create the dictionary of environment variables for the CMake call.
-        cmake_env = {
-            # Set the C compiler.
-            'CC': self.toolchain.cc,
+        if not self.args.visual_studio:
+            cmake_env = {
+                # Set the C compiler.
+                'CC': self.toolchain.cc,
 
-            # Set the C++ compiler.
-            'CXX': self.toolchain.cxx
-        }
+                # Set the C++ compiler.
+                'CXX': self.toolchain.cxx
+            }
+        else:
+            cmake_env = {}
 
-        if not self.args.clion:
+        if not self.args.clion and not self.args.visual_studio:
             # Change the working directory to the out-of-tree build directory.
             with shell.pushd(self.build_dir):
                 # Generate the files to build Unsung Anthem from.
@@ -81,12 +84,17 @@ class Anthem(product.Product):
                     call_ninja(self.toolchain)
                 elif self.args.cmake_generator == 'Unix Makefiles':
                     call_make()
-        elif self.args.clion:
+        elif self.args.clion and not self.args.visual_studio:
             diagnostics.note('CMake would be called with the following '
                              'command and environment variables:')
             shell.print_command(command=cmake_call, env=cmake_env)
             diagnostics.note('You can copy the options and variables into your '
                              'CLion settings')
+        elif self.args.visual_studio:
+            # Change the working directory to the out-of-tree build directory.
+            with shell.pushd(self.build_dir):
+                # Generate the files to build Unsung Anthem from.
+                call_without_sleeping(cmake_call)
 
     def build_value_file(self):
         return os.path.join(self.build_dir, 'bazel_tokens')
