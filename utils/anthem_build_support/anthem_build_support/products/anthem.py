@@ -90,6 +90,9 @@ class Anthem(product.Product):
                 elif self.args.cmake_generator == 'Unix Makefiles':
                     call_make()
 
+                with open(os.path.join(self.build_dir, 'Debug', 'anthem.sln'), 'r') as fin:
+                    print(fin.read())
+
                 if self.args.visual_studio:
                     msbuild_args = ['anthem.sln']
 
