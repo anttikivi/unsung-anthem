@@ -94,9 +94,9 @@ class Anthem(product.Product):
                     msbuild_args = ['anthem.sln']
 
                     if self.args.msbuild_logger is not None:
-                        msbuild_args += ['/logger:"'
+                        msbuild_args += ['/logger:'
                                          + str(self.args.msbuild_logger)
-                                         + '"']
+                                         + '']
 
                     call_msbuild(self.toolchain, msbuild_args)
         elif self.args.clion and not self.args.visual_studio:
