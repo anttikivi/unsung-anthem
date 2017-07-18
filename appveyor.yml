@@ -29,5 +29,5 @@ build_script:
  - python unsung-anthem\utils\build-script --preset=%ANTHEM_PRESET% --build
 
 test_script:
- - cd %APPVEYOR_BUILD_FOLDER%\..\build\CMake-%ANTHEM_CMAKE_GENERATOR%-DebugAssert+no-llvm\anthem-windows-x86_64\%CONFIGURATION%
- - %APPVEYOR_BUILD_FOLDER%\..\build\CMake-%ANTHEM_CMAKE_GENERATOR%-DebugAssert+no-llvm\anthem-windows-x86_64\%CONFIGURATION%\test-unsung-anthem-windows-x86_64.exe
+ - cd %APPVEYOR_BUILD_FOLDER%\..\build\CMake-%ANTHEM_CMAKE_GENERATOR%-DebugAssert+no-llvm\anthem-test-windows-x86_64\%CONFIGURATION%
+ - "%APPVEYOR_BUILD_FOLDER%\\..\\build\\CMake-%ANTHEM_CMAKE_GENERATOR%-DebugAssert+no-llvm\\anthem-test-windows-x86_64\\%CONFIGURATION%\\test-unsung-anthem-windows-x86_64.exe"
