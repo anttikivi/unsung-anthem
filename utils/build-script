@@ -930,7 +930,8 @@ def main_normal():
 
     diagnostics.note('The host C compiler is set to ' + str(toolchain.cc))
     diagnostics.note('The host C++ compiler is set to ' + str(toolchain.cxx))
-    diagnostics.note('MSBuild is set to ' + str(toolchain.msbuild))
+    if args.visual_studio:
+        diagnostics.note('MSBuild is set to ' + str(toolchain.msbuild))
     diagnostics.note('CMake is set to ' + str(toolchain.cmake))
 
     if toolchain.bazel is None:
