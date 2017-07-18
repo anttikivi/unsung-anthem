@@ -95,8 +95,9 @@ class Anthem(product.Product):
 
                     if self.args.msbuild_logger is not None:
                         msbuild_args += ['/logger:'
-                                         + str(self.args.msbuild_logger)
-                                         + '']
+                                         + str(self.args.msbuild_logger)]
+
+                    msbuild_args += ['/p:Configuration=Debug']
 
                     call_msbuild(self.toolchain, msbuild_args)
         elif self.args.clion and not self.args.visual_studio:
