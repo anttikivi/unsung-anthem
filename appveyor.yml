@@ -7,7 +7,6 @@ image:
 platform:
  - x86
  - x64
- - Any CPU
 
 configuration: Debug
 
