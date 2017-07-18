@@ -103,3 +103,7 @@ install:
 script:
  - cd $TRAVIS_BUILD_DIR/..
  - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
+ - if [ "${TRAVIS_OS_NAME}" == "osx" ] cd $TRAVIS_BUILD_DIR/../build/CMake-Ninja-DebugAssert+no-llvm/anthem-test-macos-x86_64 fi
+ - if [ "${TRAVIS_OS_NAME}" == "linux" ] cd $TRAVIS_BUILD_DIR/../build/CMake-Ninja-DebugAssert+no-llvm/anthem-test-linux-x86_64 fi
+ - if [ "${TRAVIS_OS_NAME}" == "osx" ] ./test-unsung-anthem-macos-x86_64 fi
+ - if [ "${TRAVIS_OS_NAME}" == "linux" ] ./test-unsung-anthem-linux-x86_64 fi
