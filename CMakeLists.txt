@@ -109,10 +109,15 @@ endif()
 # Set the C++ compiler flags if the build is not done against all C++
 # standard versions.
 if(NOT ${ANTHEM_CPP_VERSION} STREQUAL all)
-  if(ANTHEM_DEFAULT_COMPILER)
+
+  if (WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std=${ANTHEM_STD}")
+  else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD}")
-  elseif(ANTHEM_LLVM)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD} ${LLVM_CXX_FLAGS}")
+  endif()
+
+  if(ANTHEM_LLVM)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXX_FLAGS}")
   endif()
 
   message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
@@ -120,6 +125,8 @@ else()
   if(ANTHEM_LLVM)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXX_FLAGS}")
   endif()
+
+    # TODO Windows
 
   set(ANTHEM_CPP17_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z")
   set(ANTHEM_CPP14_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
