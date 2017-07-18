@@ -17,4 +17,5 @@ environment:
 before_build:
  - pip install requests
  - cd %APPVEYOR_BUILD_FOLDER%\..
- - python unsung-anthem\utils\build-script --preset=appveyor_windows_vs15
+ - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" python unsung-anthem\utils\build-script --preset=appveyor_windows_vs14
+ - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" python unsung-anthem\utils\build-script --preset=appveyor_windows_vs15

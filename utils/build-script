@@ -74,7 +74,7 @@ def apply_default_arguments(args):
 
     # The default CMake generator on AppVeyor is Visual Studio.
     if args.cmake_generator is None and args.appveyor:
-        args.cmake_generator = 'Visual Studio 15'
+        args.cmake_generator = 'Visual Studio 14 2015'
 
     # The default CMake generator on CLion is make.
     if args.clion:
@@ -134,7 +134,7 @@ def apply_default_arguments(args):
         args.build_test = True
 
     # By default, Ninja is not built on AppVeyor.
-    if not args.build_ninja and args.cmake_generator == 'Visual Studio 15':
+    if not args.build_ninja and args.cmake_generator == 'Visual Studio 14 2015':
         args.build_ninja = False
 
     # Resolve whether Ninja should be built.
@@ -200,7 +200,7 @@ def apply_default_arguments(args):
 
     # Set the Visual Studio option to true if the CMake generator is Visual
     # Studio.
-    if args.cmake_generator == 'Visual Studio 15':
+    if args.cmake_generator == 'Visual Studio 14 2015':
         args.visual_studio = True
     else:
         args.visual_studio = False
@@ -590,10 +590,28 @@ def main_normal():
         const="Unix Makefiles",
         dest="cmake_generator")
     cmake_generator_group.add_argument(
-        "--visual-studio",
+        "--visual-studio-14",
         help="use CMake's Visual Studio 2015 generator (default is Ninja)",
         action="store_const",
-        const="Visual Studio 15",
+        const="Visual Studio 14 2015",
+        dest="cmake_generator")
+    cmake_generator_group.add_argument(
+        "--visual-studio-2015",
+        help="use CMake's Visual Studio 2015 generator (default is Ninja)",
+        action="store_const",
+        const="Visual Studio 14 2015",
+        dest="cmake_generator")
+    cmake_generator_group.add_argument(
+        "--visual-studio-15",
+        help="use CMake's Visual Studio 2017 generator (default is Ninja)",
+        action="store_const",
+        const="Visual Studio 15 2017",
+        dest="cmake_generator")
+    cmake_generator_group.add_argument(
+        "--visual-studio-2017",
+        help="use CMake's Visual Studio 2017 generator (default is Ninja)",
+        action="store_const",
+        const="Visual Studio 15 2017",
         dest="cmake_generator")
     cmake_generator_group.add_argument(
         "-e", "--eclipse",
