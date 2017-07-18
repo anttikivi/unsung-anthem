@@ -70,7 +70,7 @@ class Anthem(product.Product):
             'CXX': self.toolchain.cxx
         }
 
-        if not self.args.clion and not self.args.appveyor:
+        if not self.args.clion:
             # Change the working directory to the out-of-tree build directory.
             with shell.pushd(self.build_dir):
                 # Generate the files to build Unsung Anthem from.

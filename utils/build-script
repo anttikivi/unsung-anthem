@@ -69,8 +69,12 @@ def apply_default_arguments(args):
         args.build_llvm = True
 
     # The default CMake generator is Ninja.
-    if args.cmake_generator is None:
+    if args.cmake_generator is None and not args.appveyor:
         args.cmake_generator = 'Ninja'
+
+    # The default CMake generator on AppVeyor is Visual Studio.
+    if args.cmake_generator is None and args.appveyor:
+        args.cmake_generator = 'Visual Studio 15'
 
     # The default CMake generator on CLion is make.
     if args.clion:
@@ -193,6 +197,11 @@ def apply_default_arguments(args):
     # Set the test executable name.
     if args.test_executable_name is None:
         args.test_executable_name = 'test-%s' % args.executable_name
+
+    # Set the Visual Studio option to true if the CMake generator is Visual
+    # Studio.
+    if args.cmake_generator == 'Visual Studio 15':
+        args.visual_studio = True
 
 
 def validate_arguments(args):
@@ -804,6 +813,21 @@ def main_normal():
     # Prepare and validate the toolchain.
     toolchain = host_toolchain(xcrun_toolchain=args.darwin_xcrun_toolchain)
     os.environ['TOOLCHAINS'] = args.darwin_xcrun_toolchain
+
+    # TODO Obviously, this should not be hardcoded.
+    if args.visual_studio:
+        toolchain.cc = os.path.join('c:',
+                                    'Program Files (x86)',
+                                    'MSBuild',
+                                    '14.0',
+                                    'Bin',
+                                    'MSBuild.exe')
+        toolchain.cxx = os.path.join('c:',
+                                     'Program Files (x86)',
+                                     'MSBuild',
+                                     '14.0',
+                                     'Bin',
+                                     'MSBuild.exe')
 
     if args.host_cc is not None:
         toolchain.cc = args.host_cc

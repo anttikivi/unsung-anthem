@@ -15,8 +15,6 @@ environment:
     secure: 9v/VvJm25wmGY1pEfu1jKPfjlY0S3/XD+/V4QcNAs9p0sNUSkmzuAvYK8IobENjd
 
 before_build:
- - echo %PATH%
- - where /r c:\ msbuild*
  - pip install requests
  - cd %APPVEYOR_BUILD_FOLDER%\..
  - python unsung-anthem\utils\build-script --preset=appveyor_windows_vs15
