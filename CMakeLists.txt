@@ -142,13 +142,16 @@ message(STATUS "The C++ compiler environment variable is set to $ENV{CXX}")
 if(UNIX)
 
   # Add the dependency includes.
-  include_directories(${ANTHEM_INSTALL_PREFIX}/include)
+  # include_directories(${ANTHEM_INSTALL_PREFIX}/include)
 
   if(APPLE)
   else()
   endif()
 else()
 endif()
+
+# Add the dependency includes.
+include_directories(${ANTHEM_INSTALL_PREFIX}/include)
 
 # Add the Unsung Anthem headers to includes.
 include_directories(include)
