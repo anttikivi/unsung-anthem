@@ -98,7 +98,8 @@ install:
  - ${CC} --version
  - ${CXX} --version
  - pip install --user requests
+ - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
 
 script:
  - cd $TRAVIS_BUILD_DIR/..
- - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
+ - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build

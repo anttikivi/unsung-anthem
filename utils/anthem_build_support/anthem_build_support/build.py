@@ -7,7 +7,7 @@
 # Licensed under GNU Affero General Public License v3.0
 
 from products import (anthem, cat, catch, clang, cmake, glfw, libcxx, llvm,
-                      ninja, spdlog, test)
+                      ninja, spdlog)
 
 
 def build_cmake(args, toolchain, workspace):
@@ -28,17 +28,18 @@ def bazel_build(args, toolchain, workspace):
     """
 
     # Set up the dependencies for the Bazel build.
-
-    glfw.bazel(args=args, toolchain=toolchain, workspace=workspace)
-    catch.bazel(args=args, toolchain=toolchain, workspace=workspace)
-    spdlog.bazel(args=args, toolchain=toolchain, workspace=workspace)
-    # cat.bazel(args=args, toolchain=toolchain, workspace=workspace)
+    if not args.build_only:
+        glfw.bazel(args=args, toolchain=toolchain, workspace=workspace)
+        catch.bazel(args=args, toolchain=toolchain, workspace=workspace)
+        spdlog.bazel(args=args, toolchain=toolchain, workspace=workspace)
+        # cat.bazel(args=args, toolchain=toolchain, workspace=workspace)
 
     if 'Ninja' == args.cmake_generator:
         ninja.bazel(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Unsung Anthem.
-    anthem.bazel(args=args, toolchain=toolchain, workspace=workspace)
+    if not args.install_only:
+        anthem.bazel(args=args, toolchain=toolchain, workspace=workspace)
 
     # TODO Build tests.
     # test.build(args=args, toolchain=toolchain, workspace=workspace)
@@ -50,22 +51,24 @@ def cmake_build(args, toolchain, workspace):
     """
 
     # Start by building the dependencies of Unsung Anthem.
+    if not args.build_only:
+        # Build GLFW.
+        glfw.build(args=args, toolchain=toolchain, workspace=workspace)
 
-    # Build GLFW.
-    glfw.build(args=args, toolchain=toolchain, workspace=workspace)
+        # Build Catch.
+        catch.build(args=args, toolchain=toolchain, workspace=workspace)
 
-    # Build Catch.
-    catch.build(args=args, toolchain=toolchain, workspace=workspace)
+        # Build spdlog.
+        spdlog.build(args=args, toolchain=toolchain, workspace=workspace)
 
-    # Build spdlog.
-    spdlog.build(args=args, toolchain=toolchain, workspace=workspace)
-
-    # Build cat.
-    cat.build(args=args, toolchain=toolchain, workspace=workspace)
+        # Build cat.
+        cat.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Unsung Anthem.
-    anthem.build(args=args, toolchain=toolchain, workspace=workspace)
+    if not args.install_only:
+        anthem.build(args=args, toolchain=toolchain, workspace=workspace)
 
-    # Build tests.
-    if args.build_test:
-        test.build(args=args, toolchain=toolchain, workspace=workspace)
+        # Build tests.
+        if args.build_test:
+            anthem.build(args=args, toolchain=toolchain, workspace=workspace,
+                         tests=True)

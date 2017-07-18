@@ -17,12 +17,12 @@ import os
 
 from . import product
 from .. import (diagnostics, shell)
-from ..call import (call_without_sleeping, call_ninja, call_make)
+from ..call import (call_without_sleeping, call_ninja, call_make, call_msbuild)
 from ..variables import ANTHEM_REPO_NAME
 
 
 class Anthem(product.Product):
-    def do_build(self):
+    def do_build(self, tests=False):
         # Make the directory for the out-of-tree build.
         shell.makedirs(self.build_dir)
 
@@ -33,11 +33,6 @@ class Anthem(product.Product):
                       # Set the CMake generator.
                       '-G', self.args.cmake_generator,
 
-                      #  Set the executable type to 'anthem' as it will build
-                      # the actual executable.
-                      '-DANTHEM_EXECUTABLE_TYPE='
-                      + ('clion' if self.args.clion else 'anthem'),
-
                       # Set the install prefix to the directory in which all of
                       # the dependencies are installed.
                       '-DANTHEM_INSTALL_PREFIX=' + self.workspace.install_root,
@@ -46,7 +41,17 @@ class Anthem(product.Product):
                       '-DANTHEM_CPP_VERSION=' + self.args.std,
 
                       # Set the name of the executable.
-                      '-DANTHEM_EXECUTABLE_NAME=' + self.args.executable_name]
+                      '-DANTHEM_EXECUTABLE_NAME=' + self.args.executable_name,
+
+                      # Set the name of the executable.
+                      '-DANTHEM_TEST_EXECUTABLE_NAME='
+                      + self.args.test_executable_name]
+
+        if not tests:
+            cmake_call += ['-DANTHEM_EXECUTABLE_TYPE='
+                           + ('clion' if self.args.clion else 'anthem')]
+        else:
+            cmake_call += ['-DANTHEM_EXECUTABLE_TYPE=test']
 
         if self.args.cmake_generator == 'Ninja':
             cmake_call += ['-DCMAKE_MAKE_PROGRAM=%s' % self.toolchain.ninja]
@@ -73,7 +78,7 @@ class Anthem(product.Product):
         else:
             cmake_env = {}
 
-        if not self.args.clion and not self.args.visual_studio:
+        if not self.args.clion:
             # Change the working directory to the out-of-tree build directory.
             with shell.pushd(self.build_dir):
                 # Generate the files to build Unsung Anthem from.
@@ -84,17 +89,24 @@ class Anthem(product.Product):
                     call_ninja(self.toolchain)
                 elif self.args.cmake_generator == 'Unix Makefiles':
                     call_make()
+
+                if self.args.visual_studio:
+                    msbuild_args = ['anthem.sln']
+
+                    if self.args.msbuild_logger is not None:
+                        msbuild_args += ['/logger:"'
+                                         + str(self.args.msbuild_logger)
+                                         + '"']
+
+                    msbuild_args += ['/std:' + self.args.std]
+
+                    call_msbuild(self.toolchain, msbuild_args)
         elif self.args.clion and not self.args.visual_studio:
             diagnostics.note('CMake would be called with the following '
                              'command and environment variables:')
             shell.print_command(command=cmake_call, env=cmake_env)
             diagnostics.note('You can copy the options and variables into your '
                              'CLion settings')
-        elif self.args.visual_studio:
-            # Change the working directory to the out-of-tree build directory.
-            with shell.pushd(self.build_dir):
-                # Generate the files to build Unsung Anthem from.
-                call_without_sleeping(cmake_call)
 
     def build_value_file(self):
         return os.path.join(self.build_dir, 'bazel_tokens')
@@ -152,20 +164,22 @@ class Anthem(product.Product):
                         ':' + self.args.executable_name])
 
 
-def build(args, toolchain, workspace):
+def build(args, toolchain, workspace, tests=False):
     if not os.path.exists(workspace.source_dir(ANTHEM_REPO_NAME)):
         diagnostics.fatal('cannot find source directory for Unsung Anthem '
                           '(tried %s)'
                           % (workspace.source_dir(ANTHEM_REPO_NAME)))
 
+    build_dir = workspace.build_dir(args.host_target, 'anthem')\
+        if not tests else workspace.build_dir(args.host_target, 'anthem-test')
+
     anthem_build = Anthem(args=args,
                           toolchain=toolchain,
                           workspace=workspace,
                           source_dir=workspace.source_dir(ANTHEM_REPO_NAME),
-                          build_dir=workspace.build_dir(args.host_target,
-                                                        'anthem'))
+                          build_dir=build_dir)
 
-    anthem_build.do_build()
+    anthem_build.do_build(tests=tests)
 
 
 def bazel(args, toolchain, workspace):

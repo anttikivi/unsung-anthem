@@ -47,6 +47,7 @@ def _register(name, *tool):
 if platform.system() == 'Windows':
     _register('cc', 'clang-cl')
     _register('cxx', 'clang-cl')
+    _register('msbuild', 'msbuild')
 else:
     _register('cc', 'clang')
     _register('cxx', 'clang++')

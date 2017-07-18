@@ -49,3 +49,9 @@ def call_make_install(env=None, dry_run=False, echo=False):
                           env=env,
                           dry_run=dry_run,
                           echo=echo)
+
+
+def call_msbuild(toolchain, args, env=None, dry_run=False, echo=False):
+    call = [str(toolchain.msbuild)]
+    call += args
+    call_without_sleeping(call, env=env, dry_run=dry_run, echo=echo)

@@ -60,6 +60,11 @@ def apply_default_arguments(args):
     if args.build_system is not None:
         args.build_system = args.build_system.lower()
 
+    if args.install_only:
+        args.build_only = False
+    elif args.build_only:
+        args.install_only = False
+
     # If the build is done in Travis or AppVeyor, CI is true.
     if args.travis or args.appveyor:
         args.ci = True
@@ -319,6 +324,19 @@ def main_preset():
         "--show-presets",
         help="list all presets and exit",
         action=arguments.action.optional_bool)
+
+    build_actions_group = parser.add_mutually_exclusive_group(required=False)
+    build_actions_group.add_argument(
+        "--install",
+        help="only install the project dependencies",
+        action="store_true",
+        dest="install_only")
+    build_actions_group.add_argument(
+        "--build",
+        help="build the project without installing the dependencies",
+        action="store_true",
+        dest="build_only")
+
     parser.add_argument(
         "-j", "--jobs",
         help="the number of parallel build jobs to use",
@@ -376,6 +394,10 @@ def main_preset():
         build_script_args += ['--clean-checkout']
     elif args.clean_build:
         build_script_args += ["--clean-build"]
+    if args.install_only:
+        build_script_args += ["--install"]
+    elif args.build_only:
+        build_script_args += ['--build']
     build_script_args += preset_args
     if args.build_jobs:
         build_script_args += ["--jobs", str(args.build_jobs)]
@@ -462,6 +484,18 @@ def main_normal():
         "--build-ninja",
         help="build the Ninja tool",
         action=arguments.action.optional_bool)
+
+    build_actions_group = parser.add_mutually_exclusive_group(required=False)
+    build_actions_group.add_argument(
+        "--install",
+        help="only install the project dependencies",
+        action="store_true",
+        dest="install_only")
+    build_actions_group.add_argument(
+        "--build",
+        help="build the project without installing the dependencies",
+        action="store_true",
+        dest="build_only")
 
     extra_actions_group = parser.add_argument_group(
         title="Extra actions to perform before or in addition to building")
@@ -707,7 +741,6 @@ def main_normal():
         help="skip the specified repository",
         dest='skip_repository_list',
         action="append")
-
     checkout_group.add_argument(
         "--checkout-config",
         default=os.path.join(SCRIPT_DIR, "update-checkout-config.json"),
@@ -767,6 +800,18 @@ def main_normal():
              "platform. Default is auto detected.",
         type=arguments.type.executable,
         metavar="PATH")
+    parser.add_argument(
+        "--msbuild",
+        help="the absolute path to MSBuild, the Microsoft Visual Studio "
+             "compiler for the host platform. Default is auto detected.",
+        type=arguments.type.executable,
+        metavar="PATH")
+
+    msbuild_group = parser.add_argument_group(title="MSBuild options")
+    msbuild_group.add_argument(
+        "--msbuild-logger",
+        help="the absolute path to MSBuild logger",
+        metavar="PATH")
 
     parser.add_argument(
         "--executable-name",
@@ -816,13 +861,19 @@ def main_normal():
                                                     args.install_prefix))
 
     # Clean build directory if requested.
-    if args.clean_build:
+    if args.clean:
         clean_delay()
-        shell.rmtree(workspace.build_root)
-        shell.rmtree(workspace.install_root)
 
-    # Update the checkout.
-    checkout.update(args)
+    # Clean build directory if requested.
+    if args.clean_build:
+        shell.rmtree(workspace.build_root)
+
+        if not args.build_only:
+            shell.rmtree(workspace.install_root)
+
+    # Update the checkout if the dependencies are installed.
+    if not args.build_only:
+        checkout.update(args)
 
     # Create the build directory.
     shell.makedirs(workspace.build_root)
@@ -836,24 +887,21 @@ def main_normal():
 
     # TODO Obviously, this should not be hardcoded.
     if args.visual_studio:
-        toolchain.cc = os.path.join('c:',
-                                    'Program Files (x86)',
-                                    'MSBuild',
-                                    '14.0',
-                                    'Bin',
-                                    'MSBuild.exe')
-        toolchain.cxx = os.path.join('c:',
-                                     'Program Files (x86)',
-                                     'MSBuild',
-                                     '14.0',
-                                     'Bin',
-                                     'MSBuild.exe')
+        toolchain.msbuild = os.path.join('c:',
+                                         'Program Files (x86)',
+                                         'MSBuild',
+                                         '14.0',
+                                         'Bin',
+                                         'MSBuild.exe')
 
     if args.host_cc is not None:
         toolchain.cc = args.host_cc
 
     if args.host_cxx is not None:
         toolchain.cxx = args.host_cxx
+
+    if args.msbuild is not None:
+        toolchain.msbuild = args.msbuild
 
     if args.cmake is not None:
         toolchain.cmake = args.cmake
@@ -874,6 +922,7 @@ def main_normal():
 
     diagnostics.note('The host C compiler is set to ' + str(toolchain.cc))
     diagnostics.note('The host C++ compiler is set to ' + str(toolchain.cxx))
+    diagnostics.note('MSBuild is set to ' + str(toolchain.msbuild))
     diagnostics.note('CMake is set to ' + str(toolchain.cmake))
 
     if toolchain.bazel is None:
