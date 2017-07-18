@@ -19,6 +19,6 @@ before_build:
  - cd %APPVEYOR_BUILD_FOLDER%\..
  - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" python unsung-anthem\utils\build-script --preset=appveyor_windows_vs14
  - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" python unsung-anthem\utils\build-script --preset=appveyor_windows_vs15
- - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" cd %APPVEYOR_BUILD_FOLDER%\..\CMake-Visual_Studio_14_2015-DebugAssert+no-llvm\anthem-windows-x86_64
- - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" cd %APPVEYOR_BUILD_FOLDER%\..\CMake-Visual_Studio_14_2015-DebugAssert+no-llvm\anthem-windows-x86_64
+ - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" cd %APPVEYOR_BUILD_FOLDER%\..\build\CMake-Visual_Studio_14_2015-DebugAssert+no-llvm\anthem-windows-x86_64
+ - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" cd %APPVEYOR_BUILD_FOLDER%\..\build\CMake-Visual_Studio_14_2015-DebugAssert+no-llvm\anthem-windows-x86_64
  - dir /b/s *.sln
