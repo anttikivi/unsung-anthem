@@ -98,8 +98,6 @@ class Anthem(product.Product):
                                          + str(self.args.msbuild_logger)
                                          + '"']
 
-                    msbuild_args += ['/std:' + self.args.std]
-
                     call_msbuild(self.toolchain, msbuild_args)
         elif self.args.clion and not self.args.visual_studio:
             diagnostics.note('CMake would be called with the following '
