@@ -1,4 +1,4 @@
-# anthem_build_support/variables.py -------------------------------*- python -*-
+# anthem_build_support/variables.py ------------------------------*- python -*-
 #
 # This source file is part of the Unsung Anthem open source project and is
 # adapted from the Swift.org open source project.
