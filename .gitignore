@@ -40,6 +40,11 @@ cmake-build-*
 # Xcode
 unsung-anthem.xcodeproj
 
+# Visual Studio
+*.sln
+*.mdproj
+*.userprefs
+
 # Visual Studio Code
 .vscode
 
