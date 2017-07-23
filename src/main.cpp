@@ -21,6 +21,7 @@
 #include "execute.h"
 #include "game_state.h"
 
+///
 /// \brief Returns the execution status of the program with the arguments
 /// passed in.
 ///
@@ -28,6 +29,7 @@
 /// \param argv array containing the arguments passed in the execution.
 ///
 /// \return \c 0.
+///
 int main(int argc, const char* argv[]) {
 
   const auto final_state = anthem::execute(argc, argv);
