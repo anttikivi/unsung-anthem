@@ -8,11 +8,13 @@
 # Licensed under GNU Affero General Public License v3.0
 
 import argparse
+import multiprocessing
 import os
 import sys
+import time
 
 from anthem_build_support.anthem_build_support import \
-    arguments, diagnostics, shell
+    arguments, diagnostics, migration, shell
 
 from anthem_build_support.anthem_build_support.presets import \
     get_all_preset_names, get_preset_options
@@ -21,7 +23,215 @@ from anthem_build_support.anthem_build_support.shell import \
     call_without_sleeping
 
 from anthem_build_support.anthem_build_support.variables import \
-    HOME, ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
+    HOME, ANTHEM_BUILD_ROOT, ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, SCRIPT_DIR
+
+from anthem_build_support.anthem_build_support.targets import DeploymentTarget
+
+from anthem_build_support.anthem_build_support.workspace import \
+    Workspace, compute_build_subdir, compute_install_prefix
+
+
+def exit_rejecting_arguments(message, parser=None):
+    print(message)  # TODO , file=sys.stderr)
+    if parser:
+        parser.print_usage(sys.stderr)
+    sys.exit(2)  # 2 is the same as `argparse` error exit code.
+
+
+def apply_default_arguments(args):
+    if args.install_only:
+        args.build_only = False
+    elif args.build_only:
+        args.install_only = False
+
+    # If the build is done in Travis or AppVeyor, CI is true.
+    if args.travis or args.appveyor:
+        args.ci = True
+
+    # Build LLVM if any LLVM-related options were specified.
+    if args.llvm_build_variant is not None or args.llvm_assertions is not None:
+        args.build_lldb = True
+
+    # The default build variant is Debug.
+    if args.build_variant is None:
+        args.build_variant = 'Debug'
+
+    # Propagate the build variant.
+    if args.llvm_build_variant is None:
+        args.llvm_build_variant = args.build_variant
+
+    if args.anthem_build_variant is None:
+        args.anthem_build_variant = args.build_variant
+
+    if args.glfw_build_variant is None:
+        args.glfw_build_variant = args.build_variant
+
+    # Assertions are enabled by default.
+    if args.assertions is None:
+        args.assertions = True
+
+    # Propagate the assertion option.
+    if args.llvm_assertions is None:
+        args.llvm_assertions = args.assertions
+
+    if args.anthem_assertions is None:
+        args.anthem_assertions = args.assertions
+
+    # The default CMake generator is Ninja.
+    if args.cmake_generator is None:
+        args.cmake_generator = 'Ninja'
+
+    # The default CMake generator on CLion is make.
+    if args.clion:
+        args.cmake_generator = 'Unix Makefiles'
+
+    # Propagate --clean.
+    if args.clean:
+        args.clean_build = True
+
+    if args.clion:
+        args.test = False
+        args.test_optimized = False
+        args.build_test = False
+        args.build_test_optimized = False
+
+    # --test-optimized implies --test and --build-test-optimized.
+    if args.test_optimized:
+        args.test = True
+        args.build_test_optimized = True
+
+    # --test implies --build-test.
+    if args.test:
+        args.build_test = True
+
+    # By default, Ninja is not built on AppVeyor.
+    if not args.build_ninja and args.cmake_generator == 'Visual Studio 14 2015':
+        args.build_ninja = False
+
+    # Propagate global --skip-build
+    if args.skip_build:
+        args.skip_build_anthem = True
+        args.build_llvm = False
+        args.build_cmake = False
+        args.build_ninja = False
+        args.build_test = False
+        args.build_test_optimized = False
+
+    # Skip LLVM on the checkout update if LLVM will not be built.
+    if not args.build_llvm:
+        args.skip_repository_list += ['llvm']
+
+    # Skip CMake on the checkout update if CMake will not be built.
+    if not args.build_cmake:
+        args.skip_repository_list += ['cmake']
+
+    # Skip Ninja on the checkout update if Ninja will not be built.
+    if not args.build_ninja:
+        args.skip_repository_list += ['ninja']
+
+    # Set the build subdirectory.
+    if args.build_subdir is None:
+        args.build_subdir = compute_build_subdir(args)
+
+    # Set the installation subdirectory.
+    if args.install_prefix is None:
+        args.install_prefix = compute_install_prefix(args)
+
+    # Set the executable name.
+    if args.executable_name is None:
+        args.executable_name = 'unsung-anthem-%s' % args.host_target
+
+    # Set the test executable name.
+    if args.test_executable_name is None:
+        args.test_executable_name = 'test-%s' % args.executable_name
+
+    # Set the Visual Studio option to true if the CMake generator is Visual
+    # Studio.
+    if args.cmake_generator.startsWith('Visual Studio'):
+        args.visual_studio = True
+    else:
+        args.visual_studio = False
+
+
+def validate_arguments(args):
+    # Check the validity of C++ standard version.
+    if not ('latest' == args.std
+            or 'c++latest' == args.std
+            or 'c++17' == args.std
+            or 'c++14' == args.std):
+        exit_rejecting_arguments('C++ standard version is set to an invalid '
+                                 'value: ' + str(args.cmake_generator))
+
+    # Check the validity of CMake generator.
+    if not ('Ninja' == args.cmake_generator
+            or 'Unix Makefiles' == args.cmake_generator
+            or 'Xcode' == args.cmake_generator
+            or 'Visual Studio 14 2015' == args.cmake_generator
+            or 'Visual Studio 15 2017' == args.cmake_generator
+            or 'Eclipse CDT4 - Ninja' == args.cmake_generator):
+        exit_rejecting_arguments('CMake generator is set to an invalid value: '
+                                 + str(args.cmake_generator))
+
+    # Check the validity of the collective build variant.
+    if not ('Debug' == args.build_variant
+            or 'RelWithDebInfo' == args.build_variant
+            or 'Release' == args.build_variant):
+        exit_rejecting_arguments('Build variant is set to an invalid value: '
+                                 + str(args.build_variant))
+
+    # Check the validity of the LLVM build variant.
+    if not ('Debug' == args.llvm_build_variant
+            or 'RelWithDebInfo' == args.llvm_build_variant
+            or 'Release' == args.llvm_build_variant):
+        exit_rejecting_arguments('LLVM build variant is set to an invalid '
+                                 'value: ' + str(args.llvm_build_variant))
+
+    # Check the validity of the Unsung Anthem build variant.
+    if not ('Debug' == args.anthem_build_variant
+            or 'RelWithDebInfo' == args.anthem_build_variant
+            or 'Release' == args.anthem_build_variant):
+        exit_rejecting_arguments('Unsung Anthem build variant is set to an '
+                                 'invalid value: '
+                                 + str(args.anthem_build_variant))
+
+    # Check the validity of the GLFW build variant.
+    if not ('Debug' == args.glfw_build_variant
+            or 'RelWithDebInfo' == args.glfw_build_variant
+            or 'Release' == args.glfw_build_variant):
+        exit_rejecting_arguments('GLFW build variant is set to an '
+                                 'invalid value: '
+                                 + str(args.anthem_build_variant))
+
+
+def initialize_runtime_environment():
+    """
+    Change the program environment for building.
+    """
+
+    # Set an appropriate default umask.
+    os.umask(0o022)
+
+    # Unset environment variables that might affect how tools behave.
+    for v in ['MAKEFLAGS']:
+        os.environ.pop(v, None)
+
+
+def clean_delay():
+    """
+    Provide a short delay so accidentally invoked clean builds can be
+    cancelled.
+
+    :return:
+    """
+
+    sys.stdout.write('Starting clean build in  ')
+
+    for i in range(3, 0, -1):
+        sys.stdout.write('\b%d' % i)
+        sys.stdout.flush()
+        time.sleep(1)
+
+    print('\b\b\b\bnow.')
 
 
 def main_preset():
@@ -161,11 +371,6 @@ def main_normal():
              "them",
         action="store_true",
         default=False)
-    parser.add_argument(
-        "--no-legacy-impl", dest="legacy_impl",
-        help="avoid legacy implementation",
-        action="store_false",
-        default=True)
 
     ci_group = parser.add_argument_group(title="Continuous integration")
     ci_group.add_argument(
@@ -201,13 +406,17 @@ def main_normal():
         title="Options to select projects")
     projects_group.add_argument(
         "-l", "--llvm",
-        help="build LLVM",
+        help="build LLVM and use the built LLVM",
         action="store_true",
         dest="build_llvm")
     projects_group.add_argument(
         "--build-cmake",
         help="build CMake",
         action="store_true")
+    projects_group.add_argument(
+        "--build-ninja",
+        help="build the Ninja tool",
+        action=arguments.action.optional_bool)
     projects_group.add_argument(
         "--build-test",
         help="build the Unsung Anthem tests",
@@ -218,10 +427,6 @@ def main_normal():
         help="build the Unsung Anthem tests with optimization",
         action="store_true",
         dest="build_test_optimized")
-    projects_group.add_argument(
-        "--build-ninja",
-        help="build the Ninja tool",
-        action=arguments.action.optional_bool)
 
     build_actions_group = parser.add_mutually_exclusive_group(required=False)
     build_actions_group.add_argument(
@@ -240,10 +445,6 @@ def main_normal():
     extra_actions_group.add_argument(
         "-c", "--clean",
         help="do a clean build",
-        action="store_true")
-    extra_actions_group.add_argument(
-        "--clean-checkout",
-        help="redownload all of the dependencies before build",
         action="store_true")
     extra_actions_group.add_argument(
         "--clean-build",
@@ -311,6 +512,12 @@ def main_normal():
         action="store_const",
         const="Debug",
         dest="anthem_build_variant")
+    build_variant_override_group.add_argument(
+        "--debug-glfw",
+        help="build the Debug variant of GLFW",
+        action="store_const",
+        const="Debug",
+        dest="glfw_build_variant")
 
     assertions_group = parser.add_mutually_exclusive_group(required=False)
     assertions_group.add_argument(
@@ -415,10 +622,6 @@ def main_normal():
         help="test Unsung Anthem after building (implies --build-test)",
         action=arguments.action.optional_bool)
     run_tests_group.add_argument(
-        "--skip-test",
-        help="do not test Unsung Anthem after building",
-        action=arguments.action.optional_bool)
-    run_tests_group.add_argument(
         "-o",
         help="run the test suite in optimized mode too (implies --test and "
              "--build-test-optimized)",
@@ -445,37 +648,8 @@ def main_normal():
         action="store_true")
 
     run_build_group.add_argument(
-        "--skip-build-linux",
-        help="skip building Unsung Anthem for Linux",
-        action=arguments.action.optional_bool)
-    run_build_group.add_argument(
-        "--skip-build-macos",
-        help="skip building Unsung Anthem for macOS",
-        action=arguments.action.optional_bool)
-    run_build_group.add_argument(
-        "--skip-build-freebsd",
-        help="skip building Unsung Anthem for FreeBSD",
-        action=arguments.action.optional_bool)
-    run_build_group.add_argument(
-        "--skip-build-cygwin",
-        help="skip building Unsung Anthem for Cygwin",
-        action=arguments.action.optional_bool)
-    run_build_group.add_argument(
-        "--skip-build-windows",
-        help="skip building Unsung Anthem for Windows",
-        action=arguments.action.optional_bool)
-
-    run_build_group.add_argument(
-        "--skip-build-llvm",
-        help="skip building LLVM",
-        action=arguments.action.optional_bool)
-    run_build_group.add_argument(
-        "--skip-build-cmake",
-        help="skip building CMake",
-        action=arguments.action.optional_bool)
-    run_build_group.add_argument(
-        "--skip-build-ninja",
-        help="skip building Ninja",
+        "--skip-build-anthem",
+        help="skip building Unsung Anthem",
         action=arguments.action.optional_bool)
 
     checkout_group = parser.add_argument_group(title="Update checkout")
@@ -516,13 +690,6 @@ def main_normal():
         default=multiprocessing.cpu_count())
 
     parser.add_argument(
-        "--build-system",
-        help="set the build system to be used to build Unsung Anthem, "
-             "possible values are bazel and cmake (case insensitive)",
-        metavar="NAME",
-        default='cmake')
-
-    parser.add_argument(
         "--darwin-xcrun-toolchain",
         help="the name of the toolchain to use on Darwin",
         default="default")
@@ -535,13 +702,13 @@ def main_normal():
 
     parser.add_argument(
         "--host-cc",
-        help="the absolute path to CC, the 'clang' compiler for the host "
-             "platform. Default is auto detected.",
+        help="the absolute path to CC, the C compiler for the host platform. "
+             "Default is auto detected.",
         type=arguments.type.executable,
         metavar="PATH")
     parser.add_argument(
         "--host-cxx",
-        help="the absolute path to CXX, the 'clang++' compiler for the host "
+        help="the absolute path to CXX, the C++ compiler for the host "
              "platform. Default is auto detected.",
         type=arguments.type.executable,
         metavar="PATH")
@@ -589,6 +756,27 @@ def main_normal():
              "\"Ninja\".",
         type=arguments.type.shell_split,
         default=[])
+
+    args = migration.parse_args(parser, sys.argv[1:])
+
+    # Set the dry run setting of the shell utilities.
+    shell.dry_run = args.dry_run
+
+    # Apple the default values of the arguments to the args namespace.
+    apply_default_arguments(args=args)
+
+    validate_arguments(args=args)
+
+    # Create the workspace object containing the build-related directories.
+    workspace = Workspace(source_root=ANTHEM_SOURCE_ROOT,
+                          build_root=os.path.join(ANTHEM_BUILD_ROOT,
+                                                  args.build_subdir),
+                          install_root=os.path.join(ANTHEM_BUILD_ROOT,
+                                                    args.install_prefix))
+
+    # Clean build directory if requested.
+    if args.clean:
+        clean_delay()
 
 
 def main():

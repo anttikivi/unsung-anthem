@@ -38,23 +38,6 @@
       }
     },
 
-    "bazel": {
-      "travis": false,
-      "github": true,
-      "owner": "bazelbuild",
-      "id": "bazel",
-      "version": "0.5.2",
-      "asset": {
-        "multiplatform": true,
-        "source": false,
-        "fallback": false,
-        "id": "bazel-0.5.2-installer.sh",
-        "Darwin": "bazel-0.5.2-installer-darwin-x86_64.sh",
-        "Linux": "bazel-0.5.2-installer-linux-x86_64.sh",
-        "Windows": "TODO"
-      }
-    },
-
     "ninja": {
       "travis": true,
       "github": true,
