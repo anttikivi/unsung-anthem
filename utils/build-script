@@ -14,7 +14,7 @@ import sys
 import time
 
 from anthem_build_support.anthem_build_support import \
-    arguments, diagnostics, migration, shell
+    arguments, checkout, diagnostics, migration, shell
 
 from anthem_build_support.anthem_build_support.presets import \
     get_all_preset_names, get_preset_options
@@ -26,6 +26,9 @@ from anthem_build_support.anthem_build_support.variables import \
     HOME, ANTHEM_BUILD_ROOT, ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, SCRIPT_DIR
 
 from anthem_build_support.anthem_build_support.targets import DeploymentTarget
+
+from anthem_build_support.anthem_build_support.toolchain import \
+    register_tools, host_toolchain
 
 from anthem_build_support.anthem_build_support.workspace import \
     Workspace, compute_build_subdir, compute_install_prefix
@@ -139,11 +142,11 @@ def apply_default_arguments(args):
 
     # Set the executable name.
     if args.executable_name is None:
-        args.executable_name = 'unsung-anthem-%s' % args.host_target
+        args.executable_name = 'unsung-anthem-{}'.format(args.host_target)
 
     # Set the test executable name.
     if args.test_executable_name is None:
-        args.test_executable_name = 'test-%s' % args.executable_name
+        args.test_executable_name = 'test-{}'.format(args.executable_name)
 
     # Set the Visual Studio option to true if the CMake generator is Visual
     # Studio.
@@ -200,6 +203,13 @@ def validate_arguments(args):
             or 'Release' == args.glfw_build_variant):
         exit_rejecting_arguments('GLFW build variant is set to an '
                                  'invalid value: '
+                                 + str(args.anthem_build_variant))
+
+    # Check the validity of the compiler tool to be looked for.
+    if not ('clang' == args.main_tool
+            or 'gcc' == args.main_tool
+            or 'msbuild' == args.main_tool):
+        exit_rejecting_arguments('The main tool is set to an invalid value: '
                                  + str(args.anthem_build_variant))
 
 
@@ -718,6 +728,12 @@ def main_normal():
              "compiler for the host platform. Default is auto detected.",
         type=arguments.type.executable,
         metavar="PATH")
+    parser.add_argument(
+        "--main-tool",
+        help="the name of the main tool to be looked by the script. The "
+             "default is clang.",
+        metavar="NAME",
+        default='clang')
 
     msbuild_group = parser.add_argument_group(title="MSBuild options")
     msbuild_group.add_argument(
@@ -794,6 +810,23 @@ def main_normal():
 
     # Create the install directory.
     shell.makedirs(workspace.install_root)
+
+    # Prepare and validate the toolchain.
+    toolchain = host_toolchain(xcrun_toolchain=args.darwin_xcrun_toolchain)
+    os.environ['TOOLCHAINS'] = args.darwin_xcrun_toolchain
+    register_tools(args=args)
+
+    if args.host_cc is not None:
+        toolchain.cc = args.host_cc
+
+    if args.host_cxx is not None:
+        toolchain.cxx = args.host_cxx
+
+    if args.msbuild is not None:
+        toolchain.msbuild = args.msbuild
+
+    if args.cmake is not None:
+        toolchain.cmake = args.cmake
 
 
 def main():
