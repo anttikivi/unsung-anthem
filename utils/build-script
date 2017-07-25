@@ -778,6 +778,23 @@ def main_normal():
     if args.clean:
         clean_delay()
 
+    # Clean build directory if requested.
+    if args.clean_build:
+        shell.rmtree(workspace.build_root)
+
+        if not args.build_only:
+            shell.rmtree(workspace.install_root)
+
+    # Update the checkout if the dependencies are installed.
+    if not args.build_only:
+        checkout.update(args)
+
+    # Create the build directory.
+    shell.makedirs(workspace.build_root)
+
+    # Create the install directory.
+    shell.makedirs(workspace.install_root)
+
 
 def main():
     """

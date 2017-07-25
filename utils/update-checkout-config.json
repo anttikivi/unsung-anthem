@@ -3,7 +3,6 @@
   "dependencies": {
 
     "llvm": {
-      "travis": false,
       "github": false,
       "version": "4.0.1",
       "asset": {
@@ -26,7 +25,6 @@
     },
 
     "cmake": {
-      "travis": true,
       "github": false,
       "version": {
         "major": 3,
@@ -39,7 +37,6 @@
     },
 
     "ninja": {
-      "travis": true,
       "github": true,
       "owner": "ninja-build",
       "id": "ninja",
@@ -56,7 +53,6 @@
     },
 
     "catch": {
-      "travis": true,
       "github": true,
       "owner": "philsquared",
       "id": "Catch",
@@ -69,7 +65,6 @@
     },
 
     "glfw": {
-      "travis": true,
       "github": true,
       "owner": "glfw",
       "id": "glfw",
@@ -84,7 +79,6 @@
     },
 
     "spdlog": {
-      "travis": true,
       "github": true,
       "owner": "gabime",
       "id": "spdlog",
@@ -96,7 +90,6 @@
     },
 
     "cat": {
-      "travis": true,
       "github": true,
       "owner": "awgn",
       "id": "cat",
