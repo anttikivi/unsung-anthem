@@ -63,6 +63,15 @@ endif()
 message(STATUS "The C++ standard library (ANTHEM_STDLIB) is set to \
 ${ANTHEM_STDLIB}")
 
+# Check if the main build tool is set.
+if(NOT DEFINED ANTHEM_MAIN_COMPILER_TOOL)
+  message(FATAL_ERROR "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) \
+is not set – the possible values are clang, gcc, and msbuild")
+endif()
+
+message(STATUS "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) is set \
+to ${ANTHEM_MAIN_COMPILER_TOOL}")
+
 # Set the compiler flags which will be set if the build is done with LLVM.
 set(LLVM_CXX_FLAGS "-stdlib=${ANTHEM_STDLIB} -nostdinc++ -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 -L${ANTHEM_INSTALL_PREFIX}/lib -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
 
