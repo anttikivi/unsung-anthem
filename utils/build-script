@@ -19,9 +19,6 @@ from anthem_build_support.anthem_build_support import \
 from anthem_build_support.anthem_build_support.presets import \
     get_all_preset_names, get_preset_options
 
-from anthem_build_support.anthem_build_support.shell import \
-    call_without_sleeping
-
 from anthem_build_support.anthem_build_support.variables import \
     HOME, ANTHEM_BUILD_ROOT, ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, SCRIPT_DIR
 
@@ -34,7 +31,7 @@ from anthem_build_support.anthem_build_support.workspace import \
     Workspace, compute_build_subdir, compute_install_prefix
 
 from anthem_build_support.anthem_build_support.products import \
-    cmake, llvm, ninja
+    cat, cmake, glfw, llvm, ninja, spdlog
 
 
 def exit_rejecting_arguments(message, parser=None):
@@ -371,7 +368,7 @@ def main_preset():
     if args.expand_build_script_invocation:
         return 0
 
-    call_without_sleeping(build_script_args)
+    shell.call_without_sleeping(build_script_args)
     return 0
 
 
@@ -857,6 +854,17 @@ def main_normal():
     if args.clion:
         diagnostics.note('The CLion set-up is enabled and, thus, the final '
                          'Unsung Anthem executable will not be built')
+
+    # Build GLFW.
+    if not args.build_only:
+        # Build GLFW.
+        glfw.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    # Copy the files of the Unsung Anthem dependencies to the correct
+    # directories.
+    if not args.build_only:
+        cat.build(args=args, toolchain=toolchain, workspace=workspace)
+        spdlog.build(args=args, toolchain=toolchain, workspace=workspace)
 
 
 def main():
