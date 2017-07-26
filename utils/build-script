@@ -46,12 +46,19 @@ def apply_default_arguments(args):
     if args.install_only:
         args.build_only = False
         args.test_only = False
+        args.update_checkout_only = False
     elif args.build_only:
         args.install_only = False
         args.test_only = False
+        args.update_checkout_only = False
     elif args.test_only:
         args.build_only = False
         args.install_only = False
+        args.update_checkout_only = False
+    elif args.update_checkout_only:
+        args.build_only = False
+        args.install_only = False
+        args.test_only = False
 
     # If the build is done in Travis or AppVeyor, CI is true.
     if args.travis or args.appveyor:
@@ -390,6 +397,11 @@ def main_preset():
              "the project",
         action="store_true",
         dest="test_only")
+    build_actions_group.add_argument(
+        "--update-checkout",
+        help="only update the checkout",
+        action="store_true",
+        dest="update_checkout_only")
 
     parser.add_argument(
         "-j", "--jobs",
@@ -454,6 +466,8 @@ def main_preset():
         build_script_args += ['--build']
     elif args.test_only:
         build_script_args += ['--run-test']
+    elif args.update_checkout_only:
+        build_script_args += ['--update-checkout']
     build_script_args += preset_args
     if args.build_jobs:
         build_script_args += ["--jobs", str(args.build_jobs)]
@@ -552,6 +566,11 @@ def main_normal():
              "the project",
         action="store_true",
         dest="test_only")
+    build_actions_group.add_argument(
+        "--update-checkout",
+        help="only update the checkout",
+        action="store_true",
+        dest="update_checkout_only")
 
     extra_actions_group = parser.add_argument_group(
         title="Extra actions to perform before or in addition to building")
@@ -1005,6 +1024,10 @@ def main_normal():
     # Update the checkout.
     if not args.build_only and not args.test_only:
         checkout.update(args)
+
+    # Do not continue further if the script should only update the checkout.
+    if args.update_checkout_only:
+        return 0
 
     # Build ninja if required, which will update the toolchain.
     if (args.build_ninja
