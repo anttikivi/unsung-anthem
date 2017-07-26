@@ -17,9 +17,6 @@
         },
         "libc++": {
           "id": "libcxx"
-        },
-        "libc++abi": {
-          "id": "libcxxabi"
         }
       }
     },
