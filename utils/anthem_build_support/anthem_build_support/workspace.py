@@ -88,4 +88,4 @@ def compute_build_subdir(args):
 
 
 def compute_install_prefix(args):
-    return os.path.join(compute_build_subdir(args), 'install')
+    return os.path.join(compute_build_subdir(args), 'local')
