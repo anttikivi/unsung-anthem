@@ -1003,7 +1003,7 @@ def main_normal():
     apply_default_checkout_skip_arguments(args=args, toolchain=toolchain)
 
     # Update the checkout.
-    if not args.build_only or not args.test_only:
+    if not args.build_only and not args.test_only:
         checkout.update(args)
 
     # Build ninja if required, which will update the toolchain.
