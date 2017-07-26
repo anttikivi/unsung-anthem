@@ -45,7 +45,12 @@ def exit_rejecting_arguments(message, parser=None):
 def apply_default_arguments(args):
     if args.install_only:
         args.build_only = False
+        args.test_only = False
     elif args.build_only:
+        args.install_only = False
+        args.test_only = False
+    elif args.test_only:
+        args.build_only = False
         args.install_only = False
 
     # If the build is done in Travis or AppVeyor, CI is true.
@@ -88,6 +93,11 @@ def apply_default_arguments(args):
     # The default CMake generator on CLion is make.
     if args.clion:
         args.cmake_generator = 'Unix Makefiles'
+
+    # Propagate --run-test.
+    if args.test_only:
+        args.clean = False
+        args.clean_build = False
 
     # Propagate --clean.
     if args.clean:
@@ -374,6 +384,12 @@ def main_preset():
         help="build the project without installing the dependencies",
         action="store_true",
         dest="build_only")
+    build_actions_group.add_argument(
+        "--run-test",
+        help="run the tests without installing the dependencies or building "
+             "the project",
+        action="store_true",
+        dest="test_only")
 
     parser.add_argument(
         "-j", "--jobs",
@@ -436,6 +452,8 @@ def main_preset():
         build_script_args += ["--install"]
     elif args.build_only:
         build_script_args += ['--build']
+    elif args.test_only:
+        build_script_args += ['--run-test']
     build_script_args += preset_args
     if args.build_jobs:
         build_script_args += ["--jobs", str(args.build_jobs)]
@@ -528,6 +546,12 @@ def main_normal():
         help="build the project without installing the dependencies",
         action="store_true",
         dest="build_only")
+    build_actions_group.add_argument(
+        "--run-test",
+        help="run the tests without installing the dependencies or building "
+             "the project",
+        action="store_true",
+        dest="test_only")
 
     extra_actions_group = parser.add_argument_group(
         title="Extra actions to perform before or in addition to building")
@@ -979,20 +1003,21 @@ def main_normal():
     apply_default_checkout_skip_arguments(args=args, toolchain=toolchain)
 
     # Update the checkout.
-    if not args.build_only:
+    if not args.build_only or not args.test_only:
         checkout.update(args)
 
     # Build ninja if required, which will update the toolchain.
-    if args.build_ninja or (args.cmake_generator == 'Ninja'
-                            and toolchain.ninja is None):
+    if (args.build_ninja
+        or (args.cmake_generator == 'Ninja'
+            and toolchain.ninja is None)) and not args.test_only:
         ninja.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build CMake.
-    if args.build_cmake or toolchain.cmake is None:
+    if (args.build_cmake or toolchain.cmake is None) and not args.test_only:
         cmake.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build LLVM, Clang, and libc++.
-    if args.build_llvm:
+    if args.build_llvm and not args.test_only:
         llvm.build(args=args, toolchain=toolchain, workspace=workspace)
 
     diagnostics.note('The host C compiler is set to ' + str(toolchain.cc))
@@ -1008,34 +1033,34 @@ def main_normal():
                          'Unsung Anthem executable will not be built')
 
     # Build GLFW.
-    if not args.build_only:
+    if not args.build_only and not args.test_only:
         # Build GLFW.
         glfw.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Copy the files of the Unsung Anthem dependencies to the correct
     # directories.
-    if not args.build_only:
+    if not args.build_only and not args.test_only:
         cat.build(args=args, toolchain=toolchain, workspace=workspace)
         spdlog.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Unsung Anthem.
-    if not args.install_only:
+    if not args.install_only and not args.test_only:
         anthem.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Copy the files of the Unsung Anthem test dependencies to the correct
     # directories.
-    if args.build_test and not args.build_only:
+    if args.build_test and not args.build_only and not args.test_only:
         catch.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build the Unsung Anthem tests.
-    if args.build_test and not args.install_only:
+    if args.build_test and not args.install_only and not args.test_only:
         anthem.build(args=args,
                      toolchain=toolchain,
                      workspace=workspace,
                      tests=True)
 
     # Run the tests.
-    if args.test:
+    if args.test or args.test_only:
         with shell.pushd(workspace.build_dir(args.host_target, 'anthem-test')):
             shell.call_without_sleeping([os.path.join(
                 workspace.build_dir(args.host_target, 'anthem-test'),
