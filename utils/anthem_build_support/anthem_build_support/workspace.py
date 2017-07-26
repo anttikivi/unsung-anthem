@@ -22,20 +22,19 @@ class Workspace(object):
         self.build_root = build_root
         self.install_root = install_root
 
-    def source_dir(self, path):
+    def source_dir(self, path, include_version=True):
         return os.path.join(self.source_root,
                             path,
                             self.args.version_info[path]) \
-            if 'anthem' not in path \
-            else os.path.join(self.source_root, path)
+            if include_version else os.path.join(self.source_root, path)
 
-    def build_dir(self, deployment_target, product):
+    def build_dir(self, deployment_target, product, include_version=True):
         return os.path.join(self.build_root,
                             '%s-%s' % (product, deployment_target),
                             self.args.version_info[product]) \
-            if 'anthem' not in product \
-            else os.path.join(self.build_root,
-                              '%s-%s' % (product, deployment_target))
+            if include_version else os.path.join(self.build_root,
+                                                 '%s-%s' % (product,
+                                                            deployment_target))
 
 
 def compute_subdir(args):

@@ -119,13 +119,15 @@ def build(args, toolchain, workspace, tests=False):
                           '(tried %s)'
                           % (workspace.source_dir(ANTHEM_REPO_NAME)))
 
-    build_dir = workspace.build_dir(args.host_target, 'anthem')\
-        if not tests else workspace.build_dir(args.host_target, 'anthem-test')
+    build_dir = workspace.build_dir(args.host_target, 'anthem', False)\
+        if not tests \
+        else workspace.build_dir(args.host_target, 'anthem-test', False)
 
     anthem_build = Anthem(args=args,
                           toolchain=toolchain,
                           workspace=workspace,
-                          source_dir=workspace.source_dir(ANTHEM_REPO_NAME),
+                          source_dir=workspace.source_dir(ANTHEM_REPO_NAME,
+                                                          False),
                           build_dir=build_dir)
 
     anthem_build.do_build(tests=tests)
