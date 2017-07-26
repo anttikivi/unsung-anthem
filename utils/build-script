@@ -321,6 +321,11 @@ def validate_arguments(args):
         exit_rejecting_arguments('The main tool is set to an invalid value: '
                                  + str(args.anthem_build_variant))
 
+    # Check that both LLVM and GCC are not built at the same time.
+    if args.build_llvm and args.build_gcc:
+        exit_rejecting_arguments('Both LLVM and GCC cannot be built at the '
+                                 'same time')
+
 
 def initialize_runtime_environment():
     """
