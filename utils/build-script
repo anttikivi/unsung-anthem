@@ -1020,6 +1020,14 @@ def main_normal():
     if args.build_llvm and not args.test_only:
         llvm.build(args=args, toolchain=toolchain, workspace=workspace)
 
+    # If the main tool for build is MSBuild and CC and CXX are set to None,
+    # set them as the MSBuild executable.
+    if args.main_tool == 'msbuild':
+        if toolchain.cc is None:
+            toolchain.cc = toolchain.msbuild
+        if toolchain.cxx is None:
+            toolchain.cxx = toolchain.msbuild
+
     diagnostics.note('The host C compiler is set to ' + str(toolchain.cc))
     diagnostics.note('The host C++ compiler is set to ' + str(toolchain.cxx))
     diagnostics.note('MSBuild is set to ' + str(toolchain.msbuild))
