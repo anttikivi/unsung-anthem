@@ -1070,7 +1070,8 @@ def main_normal():
                      tests=True)
 
     # Run the tests.
-    if (args.test or args.test_only) and not args.build_only:
+    if (args.test
+        or args.test_only) and not args.build_only and not args.install_only:
         with shell.pushd(workspace.build_dir(args.host_target, 'anthem-test')):
             shell.call_without_sleeping([os.path.join(
                 workspace.build_dir(args.host_target, 'anthem-test'),
