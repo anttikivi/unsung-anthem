@@ -150,7 +150,7 @@ def apply_default_arguments(args):
 
     # Set the Visual Studio option to true if the CMake generator is Visual
     # Studio.
-    if args.cmake_generator.startsWith('Visual Studio'):
+    if args.cmake_generator.startswith('Visual Studio'):
         args.visual_studio = True
     else:
         args.visual_studio = False
