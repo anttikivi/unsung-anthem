@@ -16,7 +16,17 @@ import os
 import platform
 
 from . import clang, libcxx, product
-from .. import (cache_util, diagnostics, shell)
+from .. import cache_util, diagnostics, shell
+
+from ..variables import ANTHEM_SOURCE_ROOT
+
+
+def get_temp_directory(project):
+    os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', 'temp', project)
+
+
+def get_project_directory(args, project):
+    os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', args.version_info['llvm'], project)
 
 
 class LLVM(product.Product):

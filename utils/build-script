@@ -925,7 +925,8 @@ def main_normal():
         args.std = 'c++latest'
 
     # Create the workspace object containing the build-related directories.
-    workspace = Workspace(source_root=ANTHEM_SOURCE_ROOT,
+    workspace = Workspace(args=args,
+                          source_root=ANTHEM_SOURCE_ROOT,
                           build_root=os.path.join(ANTHEM_BUILD_ROOT,
                                                   args.build_subdir),
                           install_root=os.path.join(ANTHEM_BUILD_ROOT,

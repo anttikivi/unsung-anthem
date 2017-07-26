@@ -20,83 +20,85 @@ import sys
 
 import requests
 
-from . import (diagnostics, github, shell)
+from . import diagnostics, github, shell
+
+from products import llvm
+
 from variables import ANTHEM_SOURCE_ROOT
 
 VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, 'versions')
 
 
-def move_source_files(key, owner, repository, sha):
-    # Delete the temporary folder in case it exists.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+def move_source_files(key, version, owner, repository, sha):
+    # Delete the old folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
 
-    # Move up the source files to temporary folder.
+    # Copy the files from the temporary folder to the correct folder.
     shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
                                 key,
+                                'temp',
                                 owner + '-' + repository + '-' + sha),
-                   os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
-
-    # Delete the old folder so the files in the temporary folder can be
-    # copied.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
-
-    # Copy the files from the temporary folder to the correct folder.
-    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'),
-                   os.path.join(ANTHEM_SOURCE_ROOT, key))
+                   os.path.join(ANTHEM_SOURCE_ROOT, key, version))
 
     # Delete the temporary folder.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
 
 
-def move_dependency_files(key, directory):
-    # Delete the temporary folder in case it exists.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
-
-    # Move up the source files to temporary folder.
-    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, key, directory),
-                   os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
-
+def move_llvm_files(args, key, directory):
     # Delete the old folder so the files in the temporary folder can be
     # copied.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+    shell.rmtree(llvm.get_project_directory(args, key))
 
     # Copy the files from the temporary folder to the correct folder.
-    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'),
-                   os.path.join(ANTHEM_SOURCE_ROOT, key))
+    shell.copytree(os.path.join(llvm.get_temp_directory(key), directory),
+                   llvm.get_project_directory(args, key))
 
     # Delete the temporary folder.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+    shell.rmtree(llvm.get_temp_directory(key))
 
 
-def move_glfw_files(args, config):
-    # Delete the temporary folder in case it exists.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+def move_cmake_files(args, key, directory):
+    # Delete the old folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, args.cmake_version))
 
-    # Move up the GLFW files to temporary folder.
+    # Copy the files from the temporary folder to the correct folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp', directory),
+                   os.path.join(ANTHEM_SOURCE_ROOT, key, args.cmake_version))
+
+    # Delete the temporary folder.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
+
+
+def move_glfw_files(args):
+    # Delete the GLFW folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'glfw', args.glfw_version))
+
+    # Copy the files from the temporary folder to the correct folder.
     if platform.system() == 'Windows':
         shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
                                     'glfw',
+                                    'temp',
                                     'glfw-'
                                     + args.glfw_version
                                     + '.bin.WIN32'),
-                       os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+                       os.path.join(ANTHEM_SOURCE_ROOT,
+                                    'glfw',
+                                    args.glfw_version))
     else:
         shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
                                     'glfw',
+                                    'temp',
                                     'glfw-'
                                     + args.glfw_version),
-                       os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
-
-    # Delete the GLFW folder so the files in the temporary folder can be
-    # copied.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'glfw'))
-
-    # Copy the files from the temporary folder to the correct folder.
-    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'),
-                   os.path.join(ANTHEM_SOURCE_ROOT, 'glfw'))
+                       os.path.join(ANTHEM_SOURCE_ROOT,
+                                    'glfw',
+                                    args.glfw_version))
 
     # Delete the temporary folder.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'glfw', 'temp'))
 
 
 def dump_version_info(versions):
@@ -110,13 +112,16 @@ def get_github_dependency(args, config, key, dependency, protocol):
     # Set a shortcut to the asset data.
     asset = dependency['asset']
 
+    version = args.version_info[key]
+    version_with_prefix = dependency['version_prefix'] + version
+
     # Delete the old directory.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
 
     # Make a new directory.
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
-
-    version = dependency['version_prefix'] + args.version_info[key]
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
 
     # Check whether the asset has different version on different
     # platforms.
@@ -124,9 +129,10 @@ def get_github_dependency(args, config, key, dependency, protocol):
         if platform.system() in asset.keys():
             github.download_asset(owner=dependency['owner'],
                                   repository=dependency['id'],
-                                  release_name=version,
+                                  release_name=version_with_prefix,
                                   asset_name=asset[platform.system()],
                                   destination=os.path.join(key,
+                                                           'temp',
                                                            asset['id']),
                                   ci=args.ci,
                                   protocol=protocol)
@@ -134,9 +140,10 @@ def get_github_dependency(args, config, key, dependency, protocol):
             if asset['fallback']:
                 github.download_asset(owner=dependency['owner'],
                                       repository=dependency['id'],
-                                      release_name=version,
+                                      release_name=version_with_prefix,
                                       asset_name=asset['id'],
                                       destination=os.path.join(key,
+                                                               'temp',
                                                                asset['id']),
                                       ci=args.ci,
                                       protocol=protocol)
@@ -146,8 +153,9 @@ def get_github_dependency(args, config, key, dependency, protocol):
         if asset['source']:
             github.download_source(owner=dependency['owner'],
                                    repository=dependency['id'],
-                                   release_name=version,
+                                   release_name=version_with_prefix,
                                    destination=os.path.join(key,
+                                                            'temp',
                                                             key
                                                             + '.tar.gz'),
                                    ci=args.ci,
@@ -155,9 +163,10 @@ def get_github_dependency(args, config, key, dependency, protocol):
         else:
             github.download_asset(owner=dependency['owner'],
                                   repository=dependency['id'],
-                                  release_name=version,
+                                  release_name=version_with_prefix,
                                   asset_name=asset['id'],
                                   destination=os.path.join(key,
+                                                           'temp',
                                                            asset['id']),
                                   ci=args.ci,
                                   protocol=protocol)
@@ -165,13 +174,16 @@ def get_github_dependency(args, config, key, dependency, protocol):
     if asset['source']:
         # Set the asset file for the processing of the file to the
         # downloaded source tarball.
-        asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.tar.gz')
+        asset_file = os.path.join(ANTHEM_SOURCE_ROOT,
+                                  key,
+                                  'temp',
+                                  key + '.tar.gz')
 
         # Open the archive.
         tar = tarfile.open(asset_file, "r:gz")
 
         # Extract the archive to the correct subdirectory.
-        tar.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+        tar.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
 
         # Close the open file.
         tar.close()
@@ -182,44 +194,54 @@ def get_github_dependency(args, config, key, dependency, protocol):
         # Get the short SHA of the tag for handling the downloaded  files.
         sha = github.get_release_short_sha(owner=dependency['owner'],
                                            repository=dependency['id'],
-                                           release_name=version,
+                                           release_name=version_with_prefix,
                                            ci=args.ci,
                                            protocol=protocol)
 
         # Manually move the downloaded sources to the actual directory.
         move_source_files(key=key,
+                          version=version,
                           owner=dependency['owner'],
                           repository=dependency['id'],
                           sha=sha)
     else:
         # Set the asset file for the processing of the file.
-        asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, asset['id'])
+        asset_file = os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp', asset['id'])
 
         # Check if the downloaded asset is a zip archive.
         if '.zip' in asset_file:
-            print('The downloaded asset is a zip archive. Extracting now.')
+            diagnostics.note('The downloaded asset is a zip archive. '
+                             'Extracting now.')
 
             # Use Python to extract the archive.
             with contextlib.closing(zipfile.ZipFile(asset_file, 'r')) as z:
-                z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+                z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT,
+                                               key,
+                                               version))
 
             # Delete the archive as it is extracted.
             shell.rm(asset_file)
 
         # Do the manual tasks if this dependency requires them.
         if 'glfw' == key:
-            move_glfw_files(args, config)
+            move_glfw_files(args)
 
 
-def get_llvm_dependency(key, id, version, url_format, use_cmd_tar, protocol):
+def get_llvm_dependency(args,
+                        key,
+                        id,
+                        version,
+                        url_format,
+                        use_cmd_tar,
+                        protocol):
     # Set the full path to the destination file.
-    local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, id + '.tar.xz')
+    local_file = os.path.join(llvm.get_temp_directory(key), id + '.tar.xz')
 
     # Delete the old directory.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+    shell.rmtree(llvm.get_project_directory(args, key))
 
     # Make a new directory.
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
+    shell.makedirs(llvm.get_project_directory(args, key))
 
     # Create the correct URL for downloading the source code.
     url = url_format.format(protocol, version, id, version)
@@ -238,14 +260,14 @@ def get_llvm_dependency(key, id, version, url_format, use_cmd_tar, protocol):
     if 2 == sys.version_info.major:
         if use_cmd_tar:
             # TODO Use different command for Windows.
-            with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key)):
+            with shell.pushd(llvm.get_temp_directory(key)):
                 shell.call(['tar', '-xf', id + '.tar.xz'])
         else:
             print('Extracting the downloaded file is not allowed.')
             return
     else:
         with tarfile.open(local_file) as f:
-            f.extractall(os.path.join(ANTHEM_SOURCE_ROOT, key))
+            f.extractall(llvm.get_temp_directory(key))
 
     # Delete the archive as it is extracted.
     shell.rm(local_file)
@@ -257,33 +279,32 @@ def get_llvm_dependency(key, id, version, url_format, use_cmd_tar, protocol):
 
     if 'libc++' == key:
         shell.rm(
-            os.path.join(ANTHEM_SOURCE_ROOT, key, subdir_name, 'test', 'std',
-                         'experimental', 'filesystem', 'Inputs',
+            os.path.join(llvm.get_temp_directory(key), subdir_name, 'test',
+                         'std', 'experimental', 'filesystem', 'Inputs',
                          'static_test_env', 'bad_symlink'))
 
     # Manually move the source files to the folder root.
-    move_dependency_files(key=key, directory=subdir_name)
+    move_llvm_files(args=args, key=key, directory=subdir_name)
 
 
-def get_cmake(key, version, url_format, protocol, curl):
+def get_cmake(args, key, version, url_format, protocol, curl):
     # Set the full path to the destination file.
     if 'Windows' == platform.system():
-        filename = key + '.zip'
-        local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.zip')
+        local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp', key + '.zip')
     else:
-        filename = key + '.tar.gz'
-        local_file = os.path.join(ANTHEM_SOURCE_ROOT, key, key + '.tar.gz')
+        local_file = os.path.join(ANTHEM_SOURCE_ROOT,
+                                  key,
+                                  'temp',
+                                  key + '.tar.gz')
 
     # Delete the old directory.
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, args.cmake_version))
 
     # Make a new directory.
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, args.cmake_version))
 
     # Set the full version of the CMake release.
-    full_version = '{}.{}.{}'.format(version['major'],
-                                     version['minor'],
-                                     version['patch'])
+    full_version = args.cmake_version
 
     # Set the version containing the major and minor version numbers of the
     # CMake release.
@@ -328,13 +349,13 @@ def get_cmake(key, version, url_format, protocol, curl):
     if 'Windows' == platform.system():
         # Extract the archive.
         with contextlib.closing(zipfile.ZipFile(local_file, 'r')) as z:
-            z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+            z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
     else:
         # Open the archive.
         tar = tarfile.open(local_file, "r:gz")
 
         # Extract the archive to the correct subdirectory.
-        tar.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key))
+        tar.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
 
         # Close the open file.
         tar.close()
@@ -348,7 +369,7 @@ def get_cmake(key, version, url_format, protocol, curl):
     print('The name of the CMake subdirectory is ' + subdir_name)
 
     # Manually move the source files to the folder root.
-    move_dependency_files(key=key, directory=subdir_name)
+    move_dependency_files(args=args, key=key, directory=subdir_name)
 
 
 def update(args):
@@ -383,7 +404,7 @@ def update(args):
         dependency = dependencies[key]
 
         # Check if the dependency should be re-downloaded.
-        if os.path.isfile(VERSIONS_FILE) and key in versions and not args.clean:
+        if key in versions and not args.clean:
             if versions[key] == args.version_info[key]:
                 print('' + key + ' should not be re-downloaded, skipping.')
                 continue
@@ -409,7 +430,8 @@ def update(args):
                     llvm_version = \
                         dependency['version_prefix'] + args.llvm_version
 
-                    get_llvm_dependency(key=project,
+                    get_llvm_dependency(args=args,
+                                        key=project,
                                         id=project_json['id'],
                                         version=llvm_version,
                                         url_format=url_format,
@@ -417,7 +439,8 @@ def update(args):
                                             not args.disable_manual_tar),
                                         protocol=protocol)
             elif 'cmake' == key:
-                get_cmake(key=key,
+                get_cmake(args=args,
+                          key=key,
                           version=args.version_info['cmake_info'],
                           url_format=dependency['asset']['format'],
                           protocol=protocol,

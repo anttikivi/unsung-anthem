@@ -16,17 +16,21 @@ import os.path
 
 
 class Workspace(object):
-    def __init__(self, source_root, build_root, install_root):
+    def __init__(self, args, source_root, build_root, install_root):
+        self.args = args
         self.source_root = source_root
         self.build_root = build_root
         self.install_root = install_root
 
     def source_dir(self, path):
-        return os.path.join(self.source_root, path)
+        return os.path.join(self.source_root,
+                            path,
+                            self.args.version_info[path])
 
     def build_dir(self, deployment_target, product):
         return os.path.join(self.build_root,
-                            '%s-%s' % (product, deployment_target))
+                            '%s-%s' % (product, deployment_target),
+                            self.args.version_info[product])
 
 
 def compute_subdir(args):
@@ -79,4 +83,4 @@ def compute_build_subdir(args):
 
 
 def compute_install_prefix(args):
-    return compute_subdir(args).format('-install')
+    return os.path.join(compute_build_subdir(args), 'install')
