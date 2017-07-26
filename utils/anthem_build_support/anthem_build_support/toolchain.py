@@ -17,6 +17,7 @@ from __future__ import absolute_import
 import platform
 
 from . import cache_util
+from . import diagnostics
 from . import shell
 from . import xcrun
 from .which import which
@@ -71,17 +72,19 @@ class Darwin(Toolchain):
 
     def find_tool(self, *names):
         for name in names:
+            diagnostics.note('Looking for ' + str(name))
             # NOTE: xcrun searches from developer tools directory *and* from
             #       PATH. Relatively slow, but we don't need `which` for
             #       Darwin.
             found = xcrun.find(name,
                                sdk=self.xcrun_sdk,
                                toolchain=self.xcrun_toolchain)
+
+            diagnostics.note('Found ' + str(found))
+
             if found is not None:
-                print('Found: ' + str(found))
                 return found
 
-            print('Found: None')
         return None
 
 
@@ -113,10 +116,18 @@ class GenericUnix(Toolchain):
 
     def find_clang(self, tools, suffixes):
         for suffix in suffixes:
+            diagnostics.note('Looking for '
+                             + str(tools)
+                             + ' with the suffix '
+                             + str(suffix))
+
             ret = [which(t + suffix) for t in tools]
+
+            diagnostics.note('Found ' + str(ret))
+
             if all(t is not None for t in ret):
-                print('Found: ' + str(ret))
                 return (ret, suffix)
+
         return None
 
     def find_llvm_tool(self, tool):
@@ -130,15 +141,18 @@ class GenericUnix(Toolchain):
 
     def find_tool(self, *names):
         for name in names:
+            diagnostics.note('Looking for ' + str(name))
+
             if name.startswith('llvm-'):
                 found = self.find_llvm_tool(name)
             else:
                 found = which(name)
+
+            diagnostics.note('Found ' + str(found))
+
             if found is not None:
-                print('Found: ' + str(found))
                 return found
 
-            print('Found: None')
         return None
 
 
@@ -193,12 +207,15 @@ class Cygwin(Linux):
 class Windows(Toolchain):
     def find_tool(self, *names):
         for name in names:
+            diagnostics.note('Looking for ' + str(name))
+
             found = which(name)
+
+            diagnostics.note('Found ' + str(found))
+
             if found is not None:
-                print('Found: ' + str(found))
                 return found
 
-            print('Found: None')
         return None
 
 
