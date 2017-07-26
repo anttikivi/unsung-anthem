@@ -349,8 +349,6 @@ def main_preset():
         build_script_args += ["--dry-run"]
     if args.clean:
         build_script_args += ["--clean"]
-    elif args.clean_checkout:
-        build_script_args += ['--clean-checkout']
     elif args.clean_build:
         build_script_args += ["--clean-build"]
     if args.install_only:
