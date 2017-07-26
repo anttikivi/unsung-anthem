@@ -71,6 +71,19 @@ def move_llvm_files(args, key, directory):
     shell.rmtree(llvm.get_temp_directory(key))
 
 
+def move_gcc_files(args, directory):
+    # Delete the old folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', args.gcc_version))
+
+    # Copy the files from the temporary folder to the correct folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', 'temp', directory),
+                   os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', args.gcc_version))
+
+    # Delete the temporary folder.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', 'temp'))
+
+
 def move_cmake_files(args, key, directory):
     # Delete the old folder so the files in the temporary folder can be
     # copied.
@@ -303,6 +316,118 @@ def get_llvm_dependency(args,
     move_llvm_files(args=args, key=key, directory=subdir_name)
 
 
+def get_gcc(args, gcc_node, url_format, use_cmd_tar):
+    version = args.gcc_version
+
+    # Set the full path to the destination file.
+    local_file = os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', 'temp', 'gcc.tar.xz')
+
+    # Delete the old directory.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', version))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', 'temp'))
+
+    # Make a new directory.
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', version))
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', 'temp'))
+
+    # Create the correct URL for downloading the source code.
+    url = url_format.format(gcc_node['asset']['default_mirror'],
+                            version,
+                            version,
+                            'xz')
+
+    # Form the HTML GET call to stream the archive.
+    request = requests.get(url=url, stream=True)
+
+    # Stream the file to the final destination.
+    with open(local_file, 'wb') as f:
+        for chunk in request.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+
+    print('Finished streaming from ' + url + ' to ' + str(local_file))
+
+    if 2 == sys.version_info.major:
+        if use_cmd_tar:
+            # TODO Use different command for Windows.
+            with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', 'temp')):
+                shell.call(['tar', '-xf', 'gcc.tar.xz'])
+        else:
+            print('Extracting the downloaded file is not allowed.')
+            return
+    else:
+        with tarfile.open(local_file) as f:
+            f.extractall(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', 'temp'))
+
+    # Delete the archive as it is extracted.
+    shell.rm(local_file)
+
+    # Set the original subdirectory name.
+    subdir_name = 'gcc-{}'.format(version)
+
+    print('The name of the GCC subdirectory is ' + subdir_name)
+
+    # Manually move the source files to the folder root.
+    move_gcc_files(args=args, directory=subdir_name)
+
+    # Set permissions to the custom wget.
+    shell.call('chmod', '+x', os.path.join(ANTHEM_SOURCE_ROOT,
+                                           'unsung-anthem',
+                                           'utils',
+                                           'wget'))
+
+    # Replace the wget calls in the download script of GCC to the alias.
+    shell.copy(os.path.join(ANTHEM_SOURCE_ROOT,
+                            'gcc',
+                            version,
+                            'contrib',
+                            'download_prerequisites'),
+               os.path.join(ANTHEM_SOURCE_ROOT,
+                            'gcc',
+                            version,
+                            'contrib',
+                            'download_prerequisites_copy'))
+
+    shell.rm(os.path.join(ANTHEM_SOURCE_ROOT,
+                          'gcc',
+                          version,
+                          'contrib',
+                          'download_prerequisites'))
+
+    with open(os.path.join(ANTHEM_SOURCE_ROOT,
+                           'gcc',
+                           version,
+                           'contrib',
+                           'download_prerequisites_copy'), "rt") as fin:
+        with open(os.path.join(ANTHEM_SOURCE_ROOT,
+                               'gcc',
+                               version,
+                               'contrib',
+                               'download_prerequisites'), "wt") as fout:
+            for line in fin:
+                fout.write(line.replace('wget', os.path.join(ANTHEM_SOURCE_ROOT,
+                                                             'unsung-anthem',
+                                                             'utils',
+                                                             'wget')))
+
+    shell.rm(os.path.join(ANTHEM_SOURCE_ROOT,
+                          'gcc',
+                          version,
+                          'contrib',
+                          'download_prerequisites_copy'))
+
+    # Set permissions to the copied file just to be sure.
+    shell.call('chmod', '+x', os.path.join(ANTHEM_SOURCE_ROOT,
+                                           'gcc',
+                                           version,
+                                           'contrib',
+                                           'download_prerequisites'))
+
+    # Download the prerequisites.
+    with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', version)):
+        shell.call(str(os.path.join('contrib', 'download_prerequisites')))
+
+
 def get_cmake(args, key, version, url_format, protocol, curl):
     # Set the full path to the destination file.
     if 'Windows' == platform.system():
@@ -456,6 +581,14 @@ def update(args):
                                         use_cmd_tar=(
                                             not args.disable_manual_tar),
                                         protocol=protocol)
+            elif key == 'gcc':
+                # Set the URL format of the LLVM downloads.
+                url_format = dependency['asset']['format']
+
+                get_gcc(args=args,
+                        gcc_node=dependency,
+                        url_format=url_format,
+                        use_cmd_tar=not args.disable_manual_tar)
             elif 'cmake' == key:
                 get_cmake(args=args,
                           key=key,

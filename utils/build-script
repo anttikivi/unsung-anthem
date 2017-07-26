@@ -66,7 +66,7 @@ def apply_default_arguments(args):
 
     # Build LLVM if any LLVM-related options were specified.
     if args.llvm_build_variant is not None or args.llvm_assertions is not None:
-        args.build_lldb = True
+        args.build_llvm = True
 
     # The default build variant is Debug.
     if args.build_variant is None:
@@ -133,6 +133,7 @@ def apply_default_arguments(args):
     if args.skip_build:
         args.skip_build_anthem = True
         args.build_llvm = False
+        args.build_gcc = False
         args.build_cmake = False
         args.build_ninja = False
         args.build_test = False
@@ -173,6 +174,12 @@ def apply_default_version_arguments(args):
         args.llvm_version = llvm_node['default_version']
 
     args.version_info['llvm'] = args.llvm_version
+
+    if args.gcc_version == 'default':
+        gcc_node = dependencies['gcc']
+        args.gcc_version = gcc_node['default_version']
+
+    args.version_info['gcc'] = args.gcc_version
 
     cmake_node = dependencies['cmake']
 
@@ -240,6 +247,10 @@ def apply_default_checkout_skip_arguments(args, toolchain):
     # Skip LLVM on the checkout update if LLVM will not be built.
     if not args.build_llvm:
         args.skip_repository_list += ['llvm']
+
+    # Skip GCC on the checkout update if GCC will not be built.
+    if not args.build_gcc:
+        args.skip_repository_list += ['gcc']
 
     # Skip CMake on the checkout update if CMake will not be built.
     if not args.build_cmake and toolchain.cmake is not None:
@@ -531,6 +542,11 @@ def main_normal():
         action="store_true",
         dest="build_llvm")
     projects_group.add_argument(
+        "--build-gcc",
+        help="build GNU Compiler Collection and use the built compiler",
+        action="store_true",
+        dest="build_gcc")
+    projects_group.add_argument(
         "--build-cmake",
         help="build CMake",
         action="store_true")
@@ -805,6 +821,11 @@ def main_normal():
         metavar="MAJOR.MINOR.PATCH",
         default='default',
         help="the LLVM version")
+    version_group.add_argument(
+        "--gcc-version",
+        metavar="MAJOR.MINOR.PATCH",
+        default='default',
+        help="the GNU Compiler Collection version")
     version_group.add_argument(
         "--cmake-major-version",
         metavar="MAJOR",

@@ -22,6 +22,47 @@
       }
     },
 
+    "gcc": {
+      "github": false,
+      "default_version": "6.4.0",
+      "version_prefix": "",
+      "asset": {
+        "_comment": "mirror, version, version, gz or xz",
+        "default_mirror": "nl.mirror.babylon.network/gcc",
+        "format": "http://{}/releases/gcc-{}/gcc-{}.tar.{}"
+      },
+      "dependencies": {
+        "gmp": {
+          "default_version": "6.1.2",
+          "version_prefix": "",
+          "asset": {
+            "format": "https://gmplib.org/download/gmp/gmp-{}.tar.xz"
+          }
+        },
+        "mpfr": {
+          "default_version": "3.1.5",
+          "version_prefix": "",
+          "asset": {
+            "_comment": "version, version",
+            "format": "http://www.mpfr.org/mpfr-{}/mpfr-{}.tar.xz"
+          }
+        },
+        "mpc": {
+          "default_version": "1.0.3",
+          "version_prefix": "",
+          "asset": {
+            "format": "ftp://ftp.gnu.org/gnu/mpc/mpc-{}.tar.gz"
+          }
+        },
+        "isl": {
+          "default_version": "0.16.1",
+          "asset": {
+            "format": "ftp://gcc.gnu.org/pub/gcc/infrastructure//isl-{}.tar.bz2"
+          }
+        }
+      }
+    },
+
     "cmake": {
       "github": false,
       "default_version": {
