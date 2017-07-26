@@ -235,8 +235,8 @@ def get_github_dependency(args, config, key, dependency, protocol):
             # Delete the archive as it is extracted.
             shell.rm(asset_file)
 
-            if not ('glfw' == key):
-                move_files(key=key, version=version)
+        if not ('glfw' == key):
+            move_files(key=key, version=version)
 
         # Do the manual tasks if this dependency requires them.
         if 'glfw' == key:
