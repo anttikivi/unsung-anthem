@@ -209,12 +209,12 @@ class Windows(Toolchain):
         for name in names:
             diagnostics.note('Looking for ' + str(name))
 
-            found = which(name).replace('/c/', 'C:\\').replace('/', '\\')
+            found = which(name)
 
             diagnostics.note('Found ' + str(found))
 
             if found is not None:
-                return found
+                return found.replace('/c/', 'C:\\').replace('/', '\\')
 
         return None
 
