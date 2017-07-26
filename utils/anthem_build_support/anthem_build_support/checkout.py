@@ -315,9 +315,11 @@ def get_cmake(args, key, version, url_format, protocol, curl):
 
     # Delete the old directory.
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, args.cmake_version))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
 
     # Make a new directory.
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, args.cmake_version))
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
 
     # Set the full version of the CMake release.
     full_version = args.cmake_version

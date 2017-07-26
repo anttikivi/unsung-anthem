@@ -121,18 +121,6 @@ def apply_default_arguments(args):
         args.build_test = False
         args.build_test_optimized = False
 
-    # Skip LLVM on the checkout update if LLVM will not be built.
-    if not args.build_llvm:
-        args.skip_repository_list += ['llvm']
-
-    # Skip CMake on the checkout update if CMake will not be built.
-    if not args.build_cmake:
-        args.skip_repository_list += ['cmake']
-
-    # Skip Ninja on the checkout update if Ninja will not be built.
-    if not args.build_ninja:
-        args.skip_repository_list += ['ninja']
-
     # Set the build subdirectory.
     if args.build_subdir is None:
         args.build_subdir = compute_build_subdir(args)
@@ -229,6 +217,20 @@ def apply_default_version_arguments(args):
         args.cat_version = cat_node['default_version']
 
     args.version_info['cat'] = args.cat_version
+
+
+def apply_default_checkout_skip_arguments(args, toolchain):
+    # Skip LLVM on the checkout update if LLVM will not be built.
+    if not args.build_llvm:
+        args.skip_repository_list += ['llvm']
+
+    # Skip CMake on the checkout update if CMake will not be built.
+    if not args.build_cmake and toolchain.cmake is not None:
+        args.skip_repository_list += ['cmake']
+
+    # Skip Ninja on the checkout update if Ninja will not be built.
+    if not args.build_ninja and toolchain.ninja is not None:
+        args.skip_repository_list += ['ninja']
 
 
 def validate_arguments(args):
@@ -943,10 +945,6 @@ def main_normal():
         if not args.build_only:
             shell.rmtree(workspace.install_root)
 
-    # Update the checkout if the dependencies are installed.
-    if not args.build_only:
-        checkout.update(args)
-
     # Create the build directory.
     shell.makedirs(workspace.build_root)
 
@@ -971,6 +969,14 @@ def main_normal():
 
     if args.cmake is not None:
         toolchain.cmake = args.cmake
+
+    # Apply the default checkout skipping options after the script knows which
+    # tools are on the system already.
+    apply_default_checkout_skip_arguments(args=args, toolchain=toolchain)
+
+    # Update the checkout.
+    if not args.build_only:
+        checkout.update(args)
 
     # Build ninja if required, which will update the toolchain.
     if args.build_ninja or (args.cmake_generator == 'Ninja'
