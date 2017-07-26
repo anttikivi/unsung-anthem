@@ -8,6 +8,7 @@
 # Licensed under GNU Affero General Public License v3.0
 
 import argparse
+import json
 import multiprocessing
 import os
 import sys
@@ -154,6 +155,80 @@ def apply_default_arguments(args):
         args.visual_studio = True
     else:
         args.visual_studio = False
+
+
+def apply_default_version_arguments(args):
+    with open(args.checkout_config) as f:
+        config = json.load(f)
+
+    dependencies = config['dependencies']
+
+    if args.llvm_version == 'default':
+        llvm_node = dependencies['llvm']
+        args.llvm_version = llvm_node['default_version']
+
+    args.version_info['llvm'] = args.llvm_version
+
+    cmake_node = dependencies['cmake']
+
+    if args.cmake_version == 'default':
+        if args.cmake_major_version == 'default':
+            args.cmake_major_version = \
+                str(cmake_node['default_version']['major'])
+
+        if args.cmake_minor_version == 'default':
+            args.cmake_minor_version = \
+                str(cmake_node['default_version']['minor'])
+
+        if args.cmake_patch_version == 'default':
+            args.cmake_patch_version = \
+                str(cmake_node['default_version']['patch'])
+
+        args.cmake_version = "{}.{}.{}".format(args.cmake_major_version,
+                                               args.cmake_minor_version,
+                                               args.cmake_patch_version)
+    else:
+        args.cmake_major_version = args.cmake_version.split('.')[0]
+        args.cmake_minor_version = args.cmake_version.split('.')[1]
+        args.cmake_patch_version = args.cmake_version.split('.')[2]
+
+    args.version_info['cmake'] = args.cmake_version
+
+    args.version_info['cmake_info'] = {
+        'major': args.cmake_major_version,
+        'minor': args.cmake_minor_version,
+        'patch': args.cmake_patch_version
+    }
+
+    if args.ninja_version == 'default':
+        ninja_node = dependencies['ninja']
+        args.ninja_version = ninja_node['default_version']
+
+    args.version_info['ninja'] = args.ninja_version
+
+    if args.catch_version == 'default':
+        catch_node = dependencies['catch']
+        args.catch_version = catch_node['default_version']
+
+    args.version_info['catch'] = args.catch_version
+
+    if args.glfw_version == 'default':
+        glfw_node = dependencies['glfw']
+        args.glfw_version = glfw_node['default_version']
+
+    args.version_info['glfw'] = args.glfw_version
+
+    if args.spdlog_version == 'default':
+        spdlog_node = dependencies['spdlog']
+        args.spdlog_version = spdlog_node['default_version']
+
+    args.version_info['spdlog'] = args.spdlog_version
+
+    if args.cat_version == 'default':
+        cat_node = dependencies['cat']
+        args.cat_version = cat_node['default_version']
+
+    args.version_info['cat'] = args.cat_version
 
 
 def validate_arguments(args):
@@ -674,6 +749,60 @@ def main_normal():
         default=os.path.join(SCRIPT_DIR, "update-checkout-config.json"),
         help="checkout configuration file to use")
 
+    version_group = parser.add_argument_group(title="Dependency and project "
+                                                    "version information")
+    version_group.add_argument(
+        "--llvm-version",
+        metavar="MAJOR.MINOR.PATCH",
+        default='default',
+        help="the LLVM version")
+    version_group.add_argument(
+        "--cmake-major-version",
+        metavar="MAJOR",
+        default='default',
+        help="the CMake major version")
+    version_group.add_argument(
+        "--cmake-minor-version",
+        metavar="MINOR",
+        default='default',
+        help="the CMake minor version")
+    version_group.add_argument(
+        "--cmake-patch-version",
+        metavar="PATCH",
+        default='default',
+        help="the CMake patch version")
+    version_group.add_argument(
+        "--cmake-version",
+        metavar="MAJOR.MINOR.PATCH",
+        default='default',
+        help="the CMake version. Overrides the major, minor, and patch "
+             "settings if set")
+    version_group.add_argument(
+        "--ninja-version",
+        metavar="MAJOR.MINOR.PATCH",
+        default='default',
+        help="the Ninja version")
+    version_group.add_argument(
+        "--catch-version",
+        metavar="MAJOR.MINOR.PATCH",
+        default='default',
+        help="the Catch version")
+    version_group.add_argument(
+        "--glfw-version",
+        metavar="MAJOR.MINOR.PATCH",
+        default='default',
+        help="the GLFW version")
+    version_group.add_argument(
+        "--spdlog-version",
+        metavar="MAJOR.MINOR.PATCH",
+        default='default',
+        help="the spdlog version")
+    version_group.add_argument(
+        "--cat-version",
+        metavar="MAJOR.MINOR",
+        default='default',
+        help="the cat library version")
+
     parser.add_argument(
         '--disable-manual-tar',
         help='disable calling the "tar" executable on some archives on older '
@@ -779,6 +908,12 @@ def main_normal():
 
     # Apple the default values of the arguments to the args namespace.
     apply_default_arguments(args=args)
+
+    # Create a dictionary for saving the version also by simple strings.
+    args.version_info = {}
+
+    # Apply the default versions of the dependencies.
+    apply_default_version_arguments(args=args)
 
     # Check the validity of the arguments.
     validate_arguments(args=args)

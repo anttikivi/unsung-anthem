@@ -4,7 +4,8 @@
 
     "llvm": {
       "github": false,
-      "version": "4.0.1",
+      "default_version": "4.0.1",
+      "version_prefix": "",
       "asset": {
         "format": "{}://releases.llvm.org/{}/{}-{}.src.tar.xz"
       },
@@ -23,11 +24,12 @@
 
     "cmake": {
       "github": false,
-      "version": {
+      "default_version": {
         "major": 3,
         "minor": 8,
         "patch": 2
       },
+      "version_prefix": "",
       "asset": {
         "format": "{}://cmake.org/files/v{}/cmake-{}-{}{}"
       }
@@ -37,7 +39,8 @@
       "github": true,
       "owner": "ninja-build",
       "id": "ninja",
-      "version": "v1.7.2",
+      "default_version": "1.7.2",
+      "version_prefix": "v",
       "asset": {
         "multiplatform": true,
         "source": false,
@@ -53,7 +56,8 @@
       "github": true,
       "owner": "philsquared",
       "id": "Catch",
-      "version": "v1.9.5",
+      "default_version": "1.9.5",
+      "version_prefix": "v",
       "asset": {
         "multiplatform": false,
         "source": false,
@@ -65,7 +69,8 @@
       "github": true,
       "owner": "glfw",
       "id": "glfw",
-      "version": "3.2.1",
+      "default_version": "3.2.1",
+      "version_prefix": "",
       "asset": {
         "multiplatform": true,
         "source": false,
@@ -79,7 +84,8 @@
       "github": true,
       "owner": "gabime",
       "id": "spdlog",
-      "version": "Version 0.13.0",
+      "default_version": "0.13.0",
+      "version_prefix": "Version ",
       "asset": {
         "multiplatform": false,
         "source": true
@@ -90,7 +96,8 @@
       "github": true,
       "owner": "awgn",
       "id": "cat",
-      "version": "v1.3",
+      "default_version": "1.3",
+      "version_prefix": "v",
       "asset": {
         "multiplatform": false,
         "source": true

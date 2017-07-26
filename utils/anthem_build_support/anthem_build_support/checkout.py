@@ -68,7 +68,7 @@ def move_dependency_files(key, directory):
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
 
 
-def move_glfw_files(config):
+def move_glfw_files(args, config):
     # Delete the temporary folder in case it exists.
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
 
@@ -77,15 +77,14 @@ def move_glfw_files(config):
         shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
                                     'glfw',
                                     'glfw-'
-                                    + config['dependencies']['glfw']['version']
+                                    + args.glfw_version
                                     + '.bin.WIN32'),
                        os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
     else:
         shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
                                     'glfw',
                                     'glfw-'
-                                    + config['dependencies']['glfw'][
-                                        'version']),
+                                    + args.glfw_version),
                        os.path.join(ANTHEM_SOURCE_ROOT, 'temp'))
 
     # Delete the GLFW folder so the files in the temporary folder can be
@@ -107,7 +106,7 @@ def dump_version_info(versions):
         json.dump(versions, outfile)
 
 
-def get_github_dependency(args, config, key, dependency, versions, protocol):
+def get_github_dependency(args, config, key, dependency, protocol):
     # Set a shortcut to the asset data.
     asset = dependency['asset']
 
@@ -117,13 +116,15 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
     # Make a new directory.
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
 
+    version = dependency['version_prefix'] + args.version_info[key]
+
     # Check whether the asset has different version on different
     # platforms.
     if asset['multiplatform']:
         if platform.system() in asset.keys():
             github.download_asset(owner=dependency['owner'],
                                   repository=dependency['id'],
-                                  release_name=dependency['version'],
+                                  release_name=version,
                                   asset_name=asset[platform.system()],
                                   destination=os.path.join(key,
                                                            asset['id']),
@@ -133,7 +134,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
             if asset['fallback']:
                 github.download_asset(owner=dependency['owner'],
                                       repository=dependency['id'],
-                                      release_name=dependency['version'],
+                                      release_name=version,
                                       asset_name=asset['id'],
                                       destination=os.path.join(key,
                                                                asset['id']),
@@ -145,7 +146,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
         if asset['source']:
             github.download_source(owner=dependency['owner'],
                                    repository=dependency['id'],
-                                   release_name=dependency['version'],
+                                   release_name=version,
                                    destination=os.path.join(key,
                                                             key
                                                             + '.tar.gz'),
@@ -154,7 +155,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
         else:
             github.download_asset(owner=dependency['owner'],
                                   repository=dependency['id'],
-                                  release_name=dependency['version'],
+                                  release_name=version,
                                   asset_name=asset['id'],
                                   destination=os.path.join(key,
                                                            asset['id']),
@@ -181,7 +182,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
         # Get the short SHA of the tag for handling the downloaded  files.
         sha = github.get_release_short_sha(owner=dependency['owner'],
                                            repository=dependency['id'],
-                                           release_name=dependency['version'],
+                                           release_name=version,
                                            ci=args.ci,
                                            protocol=protocol)
 
@@ -207,7 +208,7 @@ def get_github_dependency(args, config, key, dependency, versions, protocol):
 
         # Do the manual tasks if this dependency requires them.
         if 'glfw' == key:
-            move_glfw_files(config)
+            move_glfw_files(args, config)
 
 
 def get_llvm_dependency(key, id, version, url_format, use_cmd_tar, protocol):
@@ -383,21 +384,12 @@ def update(args):
 
         # Check if the dependency should be re-downloaded.
         if os.path.isfile(VERSIONS_FILE) and key in versions and not args.clean:
-            if 'cmake' == key:
-                version_info = dependency['version']
-                full_version = '{}.{}.{}'.format(version_info['major'],
-                                                 version_info['minor'],
-                                                 version_info['patch'])
-            else:
-                full_version = dependency['version']
-
-            if versions[key] == full_version:
+            if versions[key] == args.version_info[key]:
                 print('' + key + ' should not be re-downloaded, skipping.')
                 continue
 
         if dependency['github']:
-            get_github_dependency(args, config, key, dependency, versions,
-                                  protocol)
+            get_github_dependency(args, config, key, dependency, protocol)
         else:
             if 'llvm' == key:
                 # Set the URL format of the LLVM downloads.
@@ -414,30 +406,25 @@ def update(args):
                     # Set the project.
                     project_json = dependency['projects'][project]
 
+                    llvm_version = \
+                        dependency['version_prefix'] + args.llvm_version
+
                     get_llvm_dependency(key=project,
                                         id=project_json['id'],
-                                        version=dependency['version'],
+                                        version=llvm_version,
                                         url_format=url_format,
                                         use_cmd_tar=(
                                             not args.disable_manual_tar),
                                         protocol=protocol)
             elif 'cmake' == key:
                 get_cmake(key=key,
-                          version=dependency['version'],
+                          version=args.version_info['cmake_info'],
                           url_format=dependency['asset']['format'],
                           protocol=protocol,
                           curl=args.ci)
 
         # Add the version of the dependency to the dictionary.
-        if 'cmake' == key:
-            version_json = dependency['version']
-            full_version = '{}.{}.{}'.format(version_json['major'],
-                                             version_json['minor'],
-                                             version_json['patch'])
-        else:
-            full_version = dependency['version']
-
-        versions[key] = full_version
+        versions[key] = args.version_info[key]
 
     # Write the versions to the file.
     dump_version_info(versions)
