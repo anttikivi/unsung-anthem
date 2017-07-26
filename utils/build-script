@@ -1043,14 +1043,16 @@ def main_normal():
         cat.build(args=args, toolchain=toolchain, workspace=workspace)
         spdlog.build(args=args, toolchain=toolchain, workspace=workspace)
 
+    # Copy the files of the Unsung Anthem test dependencies to the correct
+    # directories.
+    if args.clion or (args.build_test
+                      and not args.build_only
+                      and not args.test_only):
+        catch.build(args=args, toolchain=toolchain, workspace=workspace)
+
     # Build Unsung Anthem.
     if not args.install_only and not args.test_only:
         anthem.build(args=args, toolchain=toolchain, workspace=workspace)
-
-    # Copy the files of the Unsung Anthem test dependencies to the correct
-    # directories.
-    if args.build_test and not args.build_only and not args.test_only:
-        catch.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build the Unsung Anthem tests.
     if args.build_test and not args.install_only and not args.test_only:
