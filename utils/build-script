@@ -232,6 +232,10 @@ def apply_default_checkout_skip_arguments(args, toolchain):
     if not args.build_ninja and toolchain.ninja is not None:
         args.skip_repository_list += ['ninja']
 
+    # Skip Catch on the checkout update if the tests are not built.
+    if not args.build_test:
+        args.skip_repository_list += ['catch']
+
 
 def validate_arguments(args):
     # Check the validity of C++ standard version.
