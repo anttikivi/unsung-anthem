@@ -371,61 +371,27 @@ def get_gcc(args, gcc_node, url_format, use_cmd_tar):
     move_gcc_files(args=args, directory=subdir_name)
 
     # Set permissions to the custom wget.
-    shell.call('chmod', '+x', os.path.join(ANTHEM_SOURCE_ROOT,
-                                           'unsung-anthem',
-                                           'utils',
-                                           'wget'))
+    if platform.system() == 'Darwin':
+        shell.call(['chmod', '+x', os.path.join(ANTHEM_SOURCE_ROOT,
+                                                'unsung-anthem',
+                                                'utils',
+                                                'wget')])
 
-    # Replace the wget calls in the download script of GCC to the alias.
-    shell.copy(os.path.join(ANTHEM_SOURCE_ROOT,
-                            'gcc',
-                            version,
-                            'contrib',
-                            'download_prerequisites'),
-               os.path.join(ANTHEM_SOURCE_ROOT,
-                            'gcc',
-                            version,
-                            'contrib',
-                            'download_prerequisites_copy'))
+        # Download the prerequisites.
+        with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', version)):
+            env = {'PATH': '{}:{}'.format(os.environ['PATH'],
+                                      os.path.join(ANTHEM_SOURCE_ROOT,
+                                                   'unsung-anthem',
+                                                   'utils'))}
+            shell.call([str(os.path.join('contrib',
+                                         'download_prerequisites'))],
+                       env=env)
 
-    shell.rm(os.path.join(ANTHEM_SOURCE_ROOT,
-                          'gcc',
-                          version,
-                          'contrib',
-                          'download_prerequisites'))
-
-    with open(os.path.join(ANTHEM_SOURCE_ROOT,
-                           'gcc',
-                           version,
-                           'contrib',
-                           'download_prerequisites_copy'), "rt") as fin:
-        with open(os.path.join(ANTHEM_SOURCE_ROOT,
-                               'gcc',
-                               version,
-                               'contrib',
-                               'download_prerequisites'), "wt") as fout:
-            for line in fin:
-                fout.write(line.replace('wget', os.path.join(ANTHEM_SOURCE_ROOT,
-                                                             'unsung-anthem',
-                                                             'utils',
-                                                             'wget')))
-
-    shell.rm(os.path.join(ANTHEM_SOURCE_ROOT,
-                          'gcc',
-                          version,
-                          'contrib',
-                          'download_prerequisites_copy'))
-
-    # Set permissions to the copied file just to be sure.
-    shell.call('chmod', '+x', os.path.join(ANTHEM_SOURCE_ROOT,
-                                           'gcc',
-                                           version,
-                                           'contrib',
-                                           'download_prerequisites'))
-
-    # Download the prerequisites.
-    with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', version)):
-        shell.call(str(os.path.join('contrib', 'download_prerequisites')))
+    else:
+        # Download the prerequisites.
+        with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', version)):
+            shell.call([str(os.path.join('contrib',
+                                         'download_prerequisites'))])
 
 
 def get_cmake(args, key, version, url_format, protocol, curl):
