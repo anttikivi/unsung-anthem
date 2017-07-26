@@ -47,8 +47,9 @@ class LLVM(product.Product):
             return os.path.join(self.workspace.install_root, 'bin', 'clang++')
 
     def do_build(self):
-        # Check whether the ninja executable is pre-built and already exists.
-        if os.path.exists(self.clang_bin_path):
+        # Check whether the clang executable is pre-built and already exists.
+        if os.path.exists(self.clang_bin_path) \
+                and os.path.exists(self.build_dir):
             return
 
         # Copy the clang files to the correct directory for the build.

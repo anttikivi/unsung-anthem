@@ -17,24 +17,37 @@ import platform
 import sys
 
 from . import product
-from .. import (cache_util, diagnostics, shell)
+from .. import cache_util, diagnostics, shell
 
 
 class Ninja(product.Product):
     @cache_util.reify
-    def ninja_bin_path(self):
+    def ninja_build_bin_path(self):
         return os.path.join(self.build_dir, 'ninja.exe') \
             if platform.system() == 'Windows' \
             else os.path.join(self.build_dir, 'ninja')
 
+    @cache_util.reify
+    def ninja_bin_path(self):
+        return os.path.join(self.workspace.install_root, 'bin', 'ninja.exe') \
+            if platform.system() == 'Windows' \
+            else os.path.join(self.workspace.install_root, 'bin', 'ninja')
+
     def do_build(self):
+        # Check whether the ninja executable is built and already exists.
+        if os.path.exists(self.ninja_bin_path) \
+                and os.path.exists(self.build_dir):
+            return
+
         # Ninja can only be built in-tree. Copy the source tree to the build
         # directory.
         shell.rmtree(self.build_dir)
         shell.copytree(self.source_dir, self.build_dir)
 
         # Check whether the ninja executable is pre-built and already exists.
-        if os.path.exists(self.ninja_bin_path):
+        if os.path.exists(self.ninja_build_bin_path):
+            shell.rm(self.ninja_bin_path)
+            shell.copy(self.ninja_build_bin_path, self.ninja_bin_path)
             return
 
         env = None
@@ -56,6 +69,9 @@ class Ninja(product.Product):
         with shell.pushd(self.build_dir):
             shell.call([sys.executable, 'configure.py', '--bootstrap'],
                        env=env)
+
+        shell.rm(self.ninja_bin_path)
+        shell.copy(self.ninja_build_bin_path, self.ninja_bin_path)
 
 
 def build(args, toolchain, workspace):

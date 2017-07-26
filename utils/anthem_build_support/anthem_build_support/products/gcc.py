@@ -47,8 +47,8 @@ class GCC(product.Product):
             return os.path.join(self.workspace.install_root, 'bin', 'g++')
 
     def do_build(self):
-        # Check whether the ninja executable is pre-built and already exists.
-        if os.path.exists(self.gcc_bin_path):
+        # Check whether the gcc executable is built and already exists.
+        if os.path.exists(self.gcc_bin_path) and os.path.exists(self.build_dir):
             return
 
         # Make the directory for the out-of-tree build.

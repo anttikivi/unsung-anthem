@@ -20,6 +20,14 @@ from .. import diagnostics, shell
 
 class Spdlog(product.Product):
     def do_build(self):
+        # Check whether the headers are already installed.
+        if os.path.exists(os.path.join(self.workspace.install_root,
+                                       'include',
+                                       'spdlog',
+                                       'spdlog.h')) \
+                and os.path.exists(self.build_dir):
+            return
+
         # Delete the old build directory of spdlog.
         shell.rmtree(self.build_dir)
 

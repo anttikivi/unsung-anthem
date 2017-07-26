@@ -20,6 +20,14 @@ from .. import diagnostics, shell
 
 class Cat(product.Product):
     def do_build(self):
+        # Check whether the headers of the current version are already
+        # installed.
+        if os.path.exists(os.path.join(self.workspace.install_root,
+                                       'include',
+                                       'cat')) \
+                and os.path.exists(self.build_dir):
+            return
+
         # Delete the old build directory of cat.
         shell.rmtree(self.build_dir)
 

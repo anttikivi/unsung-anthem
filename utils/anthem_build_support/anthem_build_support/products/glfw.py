@@ -21,6 +21,14 @@ from .. import diagnostics, shell
 
 class Glfw(product.Product):
     def do_build_windows(self):
+        # Check whether the libraries of the current version are already
+        # installed.
+        if os.path.exists(os.path.join(self.workspace.install_root,
+                                       'lib',
+                                       'glfw3.lib')) \
+                and os.path.exists(self.build_dir):
+            return
+
         # Delete the old build directory of cat.
         shell.rmtree(self.build_dir)
 
@@ -89,6 +97,14 @@ class Glfw(product.Product):
                                 'glfw3dll.lib'))
 
     def do_build(self):
+        # Check whether the libraries of the current version are already
+        # installed.
+        if os.path.exists(os.path.join(self.workspace.install_root,
+                                       'lib',
+                                       'libglfw3.a')) \
+                and os.path.exists(self.build_dir):
+            return
+
         # Make the directory for the out-of-tree build.
         shell.makedirs(self.build_dir)
 

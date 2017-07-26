@@ -36,8 +36,9 @@ class CMake(product.Product):
                                 'cmake')
 
     def do_build(self):
-        # Check whether the ninja executable is pre-built and already exists.
-        if os.path.exists(self.cmake_bin_path):
+        # Check whether the cmake executable is pre-built and already exists.
+        if os.path.exists(self.cmake_bin_path) \
+                and os.path.exists(self.build_dir):
             return
 
         # Copy the source tree to the build directory.
