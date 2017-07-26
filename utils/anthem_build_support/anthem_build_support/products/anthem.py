@@ -48,7 +48,11 @@ class Anthem(product.Product):
 
                       # Set the name of the executable.
                       '-DANTHEM_TEST_EXECUTABLE_NAME='
-                      + self.args.test_executable_name]
+                      + self.args.test_executable_name,
+
+                      # Set the main tool for some CMake configurations.
+                      '-DANTHEM_MAIN_COMPILER_TOOL='
+                      '{}'.format(self.args.main_tool)]
 
         if self.args.anthem_assertions:
             cmake_call += ['-DANTHEM_ENABLE_ASSERTIONS=ON']

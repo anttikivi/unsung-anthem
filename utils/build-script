@@ -470,7 +470,7 @@ def main_normal():
         help="build using the latest features of the C++ standard version and"
              "its drafts (default is C++14)",
         action="store_const",
-        const="latest",
+        const="c++latest",
         dest="std")
     cpp_version_group.add_argument(
         "--c++17",
@@ -779,7 +779,14 @@ def main_normal():
     # Apple the default values of the arguments to the args namespace.
     apply_default_arguments(args=args)
 
+    # Check the validity of the arguments.
     validate_arguments(args=args)
+
+    # Set the C++ standard version to c++latest if it is set to latest so the
+    # script does not have to deal with two different values for the same
+    # functionality.
+    if args.std == 'latest':
+        args.std = 'c++latest'
 
     # Create the workspace object containing the build-related directories.
     workspace = Workspace(source_root=ANTHEM_SOURCE_ROOT,
