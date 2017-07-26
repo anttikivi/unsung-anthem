@@ -33,6 +33,9 @@ from anthem_build_support.anthem_build_support.toolchain import \
 from anthem_build_support.anthem_build_support.workspace import \
     Workspace, compute_build_subdir, compute_install_prefix
 
+from anthem_build_support.anthem_build_support.products import \
+    cmake, llvm, ninja
+
 
 def exit_rejecting_arguments(message, parser=None):
     print(message)  # TODO , file=sys.stderr)
@@ -811,10 +814,12 @@ def main_normal():
     # Create the install directory.
     shell.makedirs(workspace.install_root)
 
+    # Register the tools to the toolchain.
+    register_tools(args=args)
+
     # Prepare and validate the toolchain.
     toolchain = host_toolchain(xcrun_toolchain=args.darwin_xcrun_toolchain)
     os.environ['TOOLCHAINS'] = args.darwin_xcrun_toolchain
-    register_tools(args=args)
 
     if args.host_cc is not None:
         toolchain.cc = args.host_cc
@@ -827,6 +832,31 @@ def main_normal():
 
     if args.cmake is not None:
         toolchain.cmake = args.cmake
+
+    # Build ninja if required, which will update the toolchain.
+    if args.build_ninja or (args.cmake_generator == 'Ninja'
+                            and toolchain.ninja is None):
+        ninja.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    # Build CMake.
+    if args.build_cmake or toolchain.cmake is None:
+        cmake.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    # Build LLVM, Clang, and libc++.
+    if args.build_llvm:
+        llvm.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    diagnostics.note('The host C compiler is set to ' + str(toolchain.cc))
+    diagnostics.note('The host C++ compiler is set to ' + str(toolchain.cxx))
+    diagnostics.note('MSBuild is set to ' + str(toolchain.msbuild))
+    diagnostics.note('Ninja is set to ' + str(toolchain.ninja))
+    diagnostics.note('CMake is set to ' + str(toolchain.cmake))
+
+    # Tell the user that this set-up will not build the final product but
+    # rather only set it up for CLion.
+    if args.clion:
+        diagnostics.note('The CLion set-up is enabled and, thus, the final '
+                         'Unsung Anthem executable will not be built')
 
 
 def main():

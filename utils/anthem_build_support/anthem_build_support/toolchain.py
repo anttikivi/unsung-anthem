@@ -1,4 +1,4 @@
-# anthem_build_support/toolchain.py ------------------------------*- python -*-
+# anthem_build_support/toolchain.py -------------------------------*- python -*-
 #
 # This source file is part of the Unsung Anthem open source project and is
 # adapted from the Swift.org open source project.
@@ -14,7 +14,6 @@ Represent toolchain - the versioned executables.
 
 from __future__ import absolute_import
 
-import os
 import platform
 
 from . import cache_util

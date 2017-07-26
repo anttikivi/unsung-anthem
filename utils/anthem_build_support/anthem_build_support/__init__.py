@@ -12,4 +12,4 @@
 #
 # ----------------------------------------------------------------------------
 
-__all__ = ['diagnostics', 'migration']
+__all__ = ['diagnostics', 'migration', 'toolchain']

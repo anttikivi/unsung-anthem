@@ -294,3 +294,34 @@ def call_without_sleeping(command, env=None, dry_run=False, echo=False):
         call_command = command
 
     call(call_command, env=env, dry_run=dry_run, echo=echo)
+
+
+def ninja(toolchain, env=None, dry_run=False, echo=False):
+    call_without_sleeping([str(toolchain.ninja)],
+                          env=env,
+                          dry_run=dry_run,
+                          echo=echo)
+
+
+def ninja_install(toolchain, env=None, dry_run=False, echo=False):
+    call_without_sleeping([str(toolchain.ninja), 'install'],
+                          env=env,
+                          dry_run=dry_run,
+                          echo=echo)
+
+
+def make(env=None, dry_run=False, echo=False):
+    call_without_sleeping(['make'], env=env, dry_run=dry_run, echo=echo)
+
+
+def make_install(env=None, dry_run=False, echo=False):
+    call_without_sleeping(['make', 'install'],
+                          env=env,
+                          dry_run=dry_run,
+                          echo=echo)
+
+
+def msbuild(toolchain, args, env=None, dry_run=False, echo=False):
+    call_command = [str(toolchain.msbuild)]
+    call_command += args
+    call_without_sleeping(call_command, env=env, dry_run=dry_run, echo=echo)
