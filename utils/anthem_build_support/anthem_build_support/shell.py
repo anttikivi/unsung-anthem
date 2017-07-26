@@ -51,11 +51,13 @@ def _coerce_dry_run(dry_run_override):
         return dry_run_override
 
 
-def _echo_command(dry_run, command, env=None, prompt="+ "):
+def _echo_command(dry_run, command, env=None, prompt="+ ", separate_env=False):
     output = []
     if env is not None:
         output += ['env'] + [_quote("%s=%s" % (k, v))
                              for (k, v) in sorted(env.items())]
+    if separate_env:
+        output += ['\n\n']
     output += [_quote(arg) for arg in command]
     file = sys.stderr
     if dry_run:
@@ -202,7 +204,9 @@ def copy(src, dest, dry_run=None, echo=True):
 def print_command(command, dry_run=None, env=None, prompt="+ "):
     _echo_command(dry_run=_coerce_dry_run(dry_run),
                   command=command,
-                  env=env, prompt=prompt)
+                  env=env,
+                  prompt=prompt,
+                  separate_env=True)
 
 
 # Initialized later
