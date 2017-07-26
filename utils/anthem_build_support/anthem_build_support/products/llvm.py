@@ -108,3 +108,5 @@ def build(args, toolchain, workspace):
     llvm_build.do_build()
     toolchain.cc = llvm_build.clang_bin_path
     toolchain.cxx = llvm_build.clang_cxx_bin_path
+
+    args.main_tool = 'clang'

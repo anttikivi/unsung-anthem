@@ -82,3 +82,5 @@ def build(args, toolchain, workspace):
     gcc_build.do_build()
     toolchain.cc = gcc_build.gcc_bin_path
     toolchain.cxx = gcc_build.gxx_bin_path
+
+    args.main_tool = 'gcc'
