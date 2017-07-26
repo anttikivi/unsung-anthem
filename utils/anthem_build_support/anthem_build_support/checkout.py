@@ -29,6 +29,19 @@ from variables import ANTHEM_SOURCE_ROOT
 VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, 'versions')
 
 
+def move_files(key, version):
+    # Delete the old folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+
+    # Copy the files from the temporary folder to the correct folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'),
+                   os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+
+    # Delete the temporary folder.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
+
+
 def move_source_files(key, version, owner, repository, sha):
     # Delete the old folder so the files in the temporary folder can be
     # copied.
@@ -217,10 +230,13 @@ def get_github_dependency(args, config, key, dependency, protocol):
             with contextlib.closing(zipfile.ZipFile(asset_file, 'r')) as z:
                 z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT,
                                                key,
-                                               version))
+                                               'temp'))
 
             # Delete the archive as it is extracted.
             shell.rm(asset_file)
+
+            if not ('glfw' == key):
+                move_files(key=key, version=version)
 
         # Do the manual tasks if this dependency requires them.
         if 'glfw' == key:
@@ -369,7 +385,7 @@ def get_cmake(args, key, version, url_format, protocol, curl):
     print('The name of the CMake subdirectory is ' + subdir_name)
 
     # Manually move the source files to the folder root.
-    move_dependency_files(args=args, key=key, directory=subdir_name)
+    move_cmake_files(args=args, key=key, directory=subdir_name)
 
 
 def update(args):
