@@ -404,6 +404,13 @@ def update(args):
                 url_format = dependency['asset']['format']
 
                 for project in dependency['projects'].keys():
+                    # Check if the specific LLVM project should be skipped.
+                    if "{}-{}".format(key,
+                                      project) in args.skip_repository_list:
+                        diagnostics.note('{}-{} is on the list of repositories '
+                                         'to be skipped'.format(key, project))
+                        continue
+
                     # Set the project.
                     project_json = dependency['projects'][project]
 

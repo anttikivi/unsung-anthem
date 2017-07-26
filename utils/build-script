@@ -665,7 +665,8 @@ def main_normal():
         "--skip-repository",
         metavar="DIRECTORY",
         default=[],
-        help="skip the specified repository",
+        help="skip the specified repository. To skip a specific LLVM project, "
+             "add the prefix llvm- to the name of the project.",
         dest='skip_repository_list',
         action="append")
     checkout_group.add_argument(
