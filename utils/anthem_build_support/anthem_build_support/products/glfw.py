@@ -96,9 +96,10 @@ class Glfw(product.Product):
                       self.source_dir,
                       '-G',
                       self.args.cmake_generator,
-                      "-DCMAKE_INSTALL_PREFIX={}".format(
-                          self.workspace.install_root),
-                      '-DCMAKE_BUILD_TYPE={}'.format(self.args.glfw_build_type)]
+                      "-DCMAKE_INSTALL_PREFIX="
+                      "{}".format(self.workspace.install_root),
+                      '-DCMAKE_BUILD_TYPE='
+                      '{}'.format(self.args.glfw_build_variant)]
 
         if self.args.cmake_generator == 'Ninja':
             cmake_call += [
