@@ -57,7 +57,15 @@ class LLVM(product.Product):
         cmake_call = [self.toolchain.cmake,
                       self.source_dir,
                       '-G', self.args.cmake_generator,
-                      '-DCMAKE_INSTALL_PREFIX=%s' % self.workspace.install_root]
+                      '-DCMAKE_INSTALL_PREFIX='
+                      '{}'.format(self.workspace.install_root),
+                      '-DCMAKE_BUILD_TYPE='
+                      '{}'.format(self.args.llvm_build_variant)]
+
+        if self.args.llvm_assertions:
+            cmake_call += ['-DLLVM_ENABLE_ASSERTIONS=ON']
+        else:
+            cmake_call += ['-DLLVM_ENABLE_ASSERTIONS=OFF']
 
         if self.args.cmake_generator == 'Ninja':
             cmake_call += ['-DCMAKE_MAKE_PROGRAM=%s' % self.toolchain.ninja]
