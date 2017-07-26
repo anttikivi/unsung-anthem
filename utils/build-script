@@ -906,7 +906,7 @@ def main_normal():
     # Set the dry run setting of the shell utilities.
     shell.dry_run = args.dry_run
 
-    # Apple the default values of the arguments to the args namespace.
+    # Apply the default values of the arguments to the args namespace.
     apply_default_arguments(args=args)
 
     # Create a dictionary for saving the version also by simple strings.
