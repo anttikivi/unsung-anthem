@@ -31,7 +31,7 @@ from anthem_build_support.anthem_build_support.workspace import \
     Workspace, compute_build_subdir, compute_install_prefix
 
 from anthem_build_support.anthem_build_support.products import \
-    cat, cmake, glfw, llvm, ninja, spdlog
+    anthem, cat, catch, cmake, glfw, llvm, ninja, spdlog
 
 
 def exit_rejecting_arguments(message, parser=None):
@@ -865,6 +865,31 @@ def main_normal():
     if not args.build_only:
         cat.build(args=args, toolchain=toolchain, workspace=workspace)
         spdlog.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    # Build Unsung Anthem.
+    if not args.install_only:
+        anthem.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    # Copy the files of the Unsung Anthem test dependencies to the correct
+    # directories.
+    if args.build_test and not args.build_only:
+        catch.build(args=args, toolchain=toolchain, workspace=workspace)
+
+    # Build the Unsung Anthem tests.
+    if args.build_test and not args.install_only:
+        anthem.build(args=args,
+                     toolchain=toolchain,
+                     workspace=workspace,
+                     tests=True)
+
+    # Run the tests.
+    if args.test:
+        with shell.pushd(workspace.build_dir(args.host_target, 'anthem-test')):
+            shell.call_without_sleeping([os.path.join(
+                workspace.build_dir(args.host_target, 'anthem-test'),
+                args.test_executable_name)])
+
+    return 0
 
 
 def main():

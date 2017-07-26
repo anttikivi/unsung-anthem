@@ -55,6 +55,8 @@ def register_tools(args):
         _register('cc', 'gcc')
         _register('cxx', 'g++')
     elif args.main_tool == 'msbuild':
+        _register('cc', 'msbuild')
+        _register('cxx', 'msbuild')
         _register('msbuild', 'msbuild')
 
     if args.cmake_generator == 'Ninja':
