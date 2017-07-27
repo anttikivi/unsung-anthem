@@ -1209,6 +1209,20 @@ def main_normal():
     if args.cmake is not None:
         toolchain.cmake = args.cmake
 
+    # If the main build tool is clang and the C and C++ compiler are not found,
+    # build LLVM.
+    if args.host_cc is None \
+            and args.host_cxx is None and args.main_tool == 'clang' \
+            and not args.build_gcc:
+        args.build_llvm = True
+
+    # If the main build tool is gcc and the C and C++ compiler are not found,
+    # build GCC.
+    if args.host_cc is None \
+            and args.host_cxx is None and args.main_tool == 'gcc' \
+            and not args.build_llvm:
+        args.build_gcc = True
+
     # Apply the default checkout skipping options after the script knows which
     # tools are on the system already.
     apply_default_checkout_skip_arguments(args=args, toolchain=toolchain)
