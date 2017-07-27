@@ -139,6 +139,14 @@ def apply_default_arguments(args):
         args.build_test = False
         args.build_test_optimized = False
 
+    # Set the default GCC mirror.
+    if args.gcc_mirror == 'default':
+        with open(args.checkout_config) as f:
+            config = json.load(f)
+
+        asset_node = config['dependencies']['gcc']['asset']
+        args.gcc_mirror = asset_node['default_mirror']
+
     # Set the Visual Studio option to true if the CMake generator is Visual
     # Studio.
     if args.cmake_generator.startswith('Visual Studio'):
@@ -939,6 +947,12 @@ def main_normal():
              "default is clang.",
         metavar="NAME",
         default='clang')
+
+    parser.add_argument(
+        "--gcc-mirror",
+        help="the mirror from which GCC is downloaded if it is built",
+        metavar="URL",
+        default='default')
 
     msbuild_group = parser.add_argument_group(title="MSBuild options")
     msbuild_group.add_argument(

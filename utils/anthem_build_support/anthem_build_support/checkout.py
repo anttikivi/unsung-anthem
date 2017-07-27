@@ -330,7 +330,7 @@ def get_gcc(args, gcc_node, url_format, use_cmd_tar):
 
     # Create the correct URL for downloading the source code.
     url = url_format.format(protocol='http',
-                            mirror=gcc_node['asset']['default_mirror'],
+                            mirror=args.gcc_mirror,
                             version=version,
                             extension='xz')
 
