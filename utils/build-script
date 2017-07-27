@@ -549,7 +549,7 @@ def main_normal():
         action="store_true",
         dest="build_llvm")
     projects_group.add_argument(
-        "--build-gcc",
+        "-g", "--gcc",
         help="build GNU Compiler Collection and use the built compiler",
         action="store_true",
         dest="build_gcc")
