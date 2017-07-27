@@ -54,6 +54,13 @@ class Anthem(product.Product):
                       '-DANTHEM_MAIN_COMPILER_TOOL='
                       '{}'.format(self.args.main_tool)]
 
+        if self.args.sdl:
+            cmake_call += ['-DANTHEM_SDL=ON']
+            cmake_call += ['-DANTHEM_GLFW=OFF']
+        elif self.args.glfw:
+            cmake_call += ['-DANTHEM_SDL=OFF']
+            cmake_call += ['-DANTHEM_GLFW=ON']
+
         if self.args.anthem_assertions:
             cmake_call += ['-DANTHEM_ENABLE_ASSERTIONS=ON']
         else:
@@ -99,7 +106,9 @@ class Anthem(product.Product):
                         msbuild_args += ['/logger:'
                                          + str(self.args.msbuild_logger)]
 
-                    msbuild_args += ['/p:Configuration={}'.format(self.args.anthem_build_variant)]
+                    msbuild_args +=\
+                        ['/p:Configuration='
+                         '{}'.format(self.args.anthem_build_variant)]
 
                     if platform.system() == 'Windows':
                         msbuild_args += ['/p:Platform=Win32']

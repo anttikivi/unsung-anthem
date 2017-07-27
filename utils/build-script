@@ -323,6 +323,7 @@ def validate_arguments(args):
     # Check the validity of C++ standard version.
     if not ('latest' == args.std
             or 'c++latest' == args.std
+            or 'c++2a' == args.std
             or 'c++17' == args.std
             or 'c++14' == args.std):
         exit_rejecting_arguments('C++ standard version is set to an invalid '
@@ -701,6 +702,12 @@ def main_normal():
              "its drafts (default is C++14)",
         action="store_const",
         const="c++latest",
+        dest="std")
+    cpp_version_group.add_argument(
+        "--c++2a",
+        help="build using the next C++ standard draft (default is C++14)",
+        action="store_const",
+        const="c++2a",
         dest="std")
     cpp_version_group.add_argument(
         "--c++17",

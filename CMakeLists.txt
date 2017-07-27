@@ -12,6 +12,9 @@ option(ANTHEM_LLVM "Option for using the buildscript-built LLVM for compiling
 
 option(ANTHEM_ENABLE_ASSERTIONS "Option for enabling assertions in the code" ON)
 
+option(ANTHEM_SDL "Use SDL to build Unsung Anthem" OFF)
+option(ANTHEM_GLFW "Use GLFW to build Unsung Anthem" OFF)
+
 # Check if the executable type (executable or tests) variable is set.
 if(NOT DEFINED ANTHEM_EXECUTABLE_TYPE)
   message(FATAL_ERROR "The executable type (ANTHEM_EXECUTABLE_TYPE) is not \
@@ -48,7 +51,7 @@ to ${ANTHEM_TEST_EXECUTABLE_NAME}")
 # Check if the C++ Standard version is set.
 if(NOT DEFINED ANTHEM_CXX_VERSION)
   message(FATAL_ERROR "The C++ standard version (ANTHEM_CXX_VERSION) is not
- set – the possible values are c++17, c++14, and c++latest")
+ set – the possible values are c++2a, c++17, c++14, and c++latest")
 endif()
 
 message(STATUS "The C++ standard version (ANTHEM_CXX_VERSION) is set to \
@@ -72,13 +75,25 @@ endif()
 message(STATUS "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) is set \
 to ${ANTHEM_MAIN_COMPILER_TOOL}")
 
+# Check if the executable type (executable or tests) variable is set.
+if(NOT DEFINED ANTHEM_SDL AND NOT DEFINED ANTHEM_GLFW)
+  message(FATAL_ERROR "The neither SDL nor GLFW (ANTHEM_SDL and ANTHEM_GLFW) \
+is not set")
+elseif(ANTHEM_SDL AND ANTHEM_GLFW)
+  message(FATAL_ERROR "The both SDL and GLFW (ANTHEM_SDL and ANTHEM_GLFW) are \
+used")
+elseif(NOT ANTHEM_SDL AND NOT ANTHEM_GLFW)
+  message(FATAL_ERROR "The neither SDL nor GLFW (ANTHEM_SDL and ANTHEM_GLFW) \
+is used")
+endif()
+
 # Set the compiler flags which will be set if the build is done with LLVM.
 set(LLVM_CXX_FLAGS "-stdlib=${ANTHEM_STDLIB} -nostdinc++ -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 -L${ANTHEM_INSTALL_PREFIX}/lib -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
 
-# Set the preprocessor definitions according to the C++ Standard version.
+# Set the preprocessor definitions according to the C++ standard version.
 if(${ANTHEM_CXX_VERSION} STREQUAL c++latest)
 
-  # Add the definition denoting that C++17 is used.
+  # Add the definition denoting C++17 is used.
   add_definitions(-DANTHEM_CXX17)
 
   # Add the variable for setting the C++ standard version to the compiler.
@@ -90,9 +105,22 @@ if(${ANTHEM_CXX_VERSION} STREQUAL c++latest)
     set(ANTHEM_STD c++1z)
   endif()
 
+elseif(${ANTHEM_CXX_VERSION} STREQUAL c++2a)
+
+  # Add the definition denoting the next C++ standard draft is used.
+  add_definitions(-DANTHEM_CXX2A)
+
+  # Add the variable for setting the C++ standard version to the compiler.
+  # TODO Any compiler does not implement C++2a yet.
+  if(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL clang)
+    set(ANTHEM_STD c++1z)
+  else()
+    set(ANTHEM_STD c++17)
+  endif()
+
 elseif(${ANTHEM_CXX_VERSION} STREQUAL c++17)
 
-  # Add the definition denoting that C++17 is used.
+  # Add the definition denoting C++17 is used.
   add_definitions(-DANTHEM_CXX17)
 
   # Add the variable for setting the C++ standard version to the compiler.
@@ -104,7 +132,7 @@ elseif(${ANTHEM_CXX_VERSION} STREQUAL c++17)
 
 elseif(${ANTHEM_CXX_VERSION} STREQUAL c++14)
 
-  # Add the definition denoting that C++14 is used.
+  # Add the definition denoting C++14 is used.
   add_definitions(-DANTHEM_CXX14)
 
   # Add the definition for the disabled newer version of C++ Standard.
@@ -115,9 +143,9 @@ elseif(${ANTHEM_CXX_VERSION} STREQUAL c++14)
 
 else()
 
-  message(FATAL_ERROR "The C++ standard version (ANTHEM_CXX_VERSION) is set
- to ${ANTHEM_CXX_VERSION} and thus it is invalid – the possible values are
- c++17, c++14, and c++latest")
+  message(FATAL_ERROR "The C++ standard version (ANTHEM_CXX_VERSION) is set \
+to ${ANTHEM_CXX_VERSION} and thus it is invalid – the possible values are \
+c++2a, c++17, c++14, and c++latest")
 
 endif()
 
