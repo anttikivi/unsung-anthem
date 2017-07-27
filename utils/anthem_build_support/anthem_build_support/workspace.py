@@ -17,17 +17,21 @@ import platform
 
 
 class Workspace(object):
-    def __init__(self, args, source_root, build_root, install_root):
+    def __init__(self, args, source_root, build_root, tool_build_root,
+                 install_root):
         self.args = args
         self.source_root = source_root
         self.build_root = build_root
+        self.tool_build_root = tool_build_root
         self.install_root = install_root
 
-    def source_dir(self, path, include_version=True):
+    def source_dir(self, path):
         return os.path.join(self.source_root,
                             path,
-                            self.args.version_info[path]) \
-            if include_version else os.path.join(self.source_root, path)
+                            self.args.version_info[path])
+
+    def anthem_source_dir(self, path):
+        return os.path.join(self.source_root, path)
 
     def llvm_source_dir(self, path):
         return os.path.join(self.source_root,
@@ -35,21 +39,24 @@ class Workspace(object):
                             self.args.llvm_version,
                             path)
 
-    def build_dir(self, deployment_target, product, include_version=True):
-        return os.path.join(self.build_root,
+    def build_dir(self, deployment_target, product):
+        return os.path.join(self.tool_build_root,
                             '%s-%s' % (product, deployment_target),
-                            self.args.version_info[product]) \
-            if include_version else os.path.join(self.build_root,
-                                                 '%s-%s' % (product,
-                                                            deployment_target))
+                            self.args.version_info[product])
+
+    def anthem_build_dir(self, deployment_target, product):
+        return os.path.join(self.build_root, '%s-%s' % (product,
+                                                        deployment_target))
 
     def llvm_build_dir(self, deployment_target, product):
-        return os.path.join(self.build_root,
+        return os.path.join(self.tool_build_root,
                             '%s-%s' % (product, deployment_target),
                             self.args.llvm_version)
 
 
 def compute_subdir(args):
+    version_subdir = "{}"
+
     if args.build_llvm:
         llvm_build_dir_label = args.llvm_build_variant
         if args.llvm_assertions:
@@ -89,12 +96,23 @@ def compute_subdir(args):
 
     subdir += "-" + anthem_build_dir_label
 
-    return os.path.join(compiler_subdir, framework_subdir, subdir)
+    return os.path.join(version_subdir,
+                        compiler_subdir,
+                        framework_subdir,
+                        subdir)
 
 
 def compute_build_subdir(args):
-    return compute_subdir(args)
+    return compute_subdir(args).format(str(args.anthem_version))
 
 
 def compute_install_prefix(args):
     return os.path.join(compute_build_subdir(args), 'local')
+
+
+def compute_shared_build_subdir(args):
+    return compute_subdir(args=args).format('shared')
+
+
+def compute_shared_install_prefix(args):
+    return os.path.join(compute_shared_build_subdir(args), 'local')

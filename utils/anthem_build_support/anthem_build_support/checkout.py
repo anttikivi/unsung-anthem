@@ -577,7 +577,7 @@ def get_sdl(args, asset, curl):
 def update(args):
     freeze_support()
 
-    with open(args.checkout_config) as f:
+    with open(args.build_config) as f:
         config = json.load(f)
 
     # A dictionary that will contain the version for each dependency.

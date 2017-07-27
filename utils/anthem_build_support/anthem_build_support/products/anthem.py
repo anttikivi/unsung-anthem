@@ -114,20 +114,20 @@ class Anthem(product.Product):
 
 
 def build(args, toolchain, workspace, tests=False):
-    if not os.path.exists(workspace.source_dir(ANTHEM_REPO_NAME, False)):
+    if not os.path.exists(workspace.anthem_source_dir(ANTHEM_REPO_NAME)):
         diagnostics.fatal('cannot find source directory for Unsung Anthem '
                           '(tried %s)'
-                          % (workspace.source_dir(ANTHEM_REPO_NAME, False)))
+                          % (workspace.anthem_source_dir(ANTHEM_REPO_NAME)))
 
-    build_dir = workspace.build_dir(args.host_target, 'anthem', False)\
+    build_dir = workspace.anthem_build_dir(args.host_target, 'anthem')\
         if not tests \
-        else workspace.build_dir(args.host_target, 'anthem-test', False)
+        else workspace.anthem_build_dir(args.host_target, 'anthem-test')
 
     anthem_build = Anthem(args=args,
                           toolchain=toolchain,
                           workspace=workspace,
-                          source_dir=workspace.source_dir(ANTHEM_REPO_NAME,
-                                                          False),
+                          source_dir=
+                          workspace.anthem_source_dir(ANTHEM_REPO_NAME),
                           build_dir=build_dir)
 
     anthem_build.do_build(tests=tests)
