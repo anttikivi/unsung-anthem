@@ -47,6 +47,13 @@ class Ninja(product.Product):
         # Check whether the ninja executable is pre-built and already exists.
         if os.path.exists(self.ninja_build_bin_path):
             shell.rm(self.ninja_bin_path)
+
+            # Create the binary installation directory if it does not exist.
+            if not os.path.isdir(os.path.join(self.workspace.install_root,
+                                              'bin')):
+                shell.makedirs(os.path.join(self.workspace.install_root,
+                                            'bin'))
+
             shell.copy(self.ninja_build_bin_path, self.ninja_bin_path)
             return
 
@@ -56,7 +63,8 @@ class Ninja(product.Product):
             sysroot = xcrun.sdk_path('macosx')
             osx_version_min = self.args.darwin_deployment_version
             assert sysroot is not None
-            env = {'CXX': self.toolchain.cxx,
+            env = {'CC': self.toolchain.cc,
+                   'CXX': self.toolchain.cxx,
                    'CFLAGS': (
                        '-isysroot {sysroot} -mmacosx-version-min={osx_version}'
                    ).format(sysroot=sysroot, osx_version=osx_version_min),
@@ -64,7 +72,8 @@ class Ninja(product.Product):
                        '-mmacosx-version-min='
                        '{osx_version}'.format(osx_version=osx_version_min)}
         elif self.toolchain.cxx:
-            env = {'CXX': self.toolchain.cxx}
+            env = {'CC': self.toolchain.cc,
+                   'CXX': self.toolchain.cxx}
 
         with shell.pushd(self.build_dir):
             shell.call([sys.executable, 'configure.py', '--bootstrap'],
