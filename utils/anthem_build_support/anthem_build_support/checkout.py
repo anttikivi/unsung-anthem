@@ -632,10 +632,10 @@ def update(args):
 
     dependencies = config['dependencies']
 
-    protocol = 'https'  # if not args.travis else 'https'
+    protocol = 'https' if not args.ci else 'http'
 
     diagnostics.note('Using {} protocol to make the HTTP '
-                     'calls'.format(protocol))
+                     'calls'.format(protocol.upper()))
 
     for key in dependencies.keys():
 
