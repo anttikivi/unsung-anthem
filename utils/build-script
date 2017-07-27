@@ -139,22 +139,6 @@ def apply_default_arguments(args):
         args.build_test = False
         args.build_test_optimized = False
 
-    # Set the build subdirectory.
-    if args.build_subdir is None:
-        args.build_subdir = compute_build_subdir(args)
-
-    # Set the installation subdirectory.
-    if args.install_prefix is None:
-        args.install_prefix = compute_install_prefix(args)
-
-    # Set the executable name.
-    if args.executable_name is None:
-        args.executable_name = 'unsung-anthem-{}'.format(args.host_target)
-
-    # Set the test executable name.
-    if args.test_executable_name is None:
-        args.test_executable_name = 'test-{}'.format(args.executable_name)
-
     # Set the Visual Studio option to true if the CMake generator is Visual
     # Studio.
     if args.cmake_generator.startswith('Visual Studio'):
@@ -263,6 +247,24 @@ def apply_default_checkout_skip_arguments(args, toolchain):
     # Skip Catch on the checkout update if the tests are not built.
     if not args.build_test:
         args.skip_repository_list += ['catch']
+
+
+def apply_default_file_arguments(args):
+    # Set the build subdirectory.
+    if args.build_subdir is None:
+        args.build_subdir = compute_build_subdir(args)
+
+    # Set the installation subdirectory.
+    if args.install_prefix is None:
+        args.install_prefix = compute_install_prefix(args)
+
+    # Set the executable name.
+    if args.executable_name is None:
+        args.executable_name = 'unsung-anthem-{}'.format(args.host_target)
+
+    # Set the test executable name.
+    if args.test_executable_name is None:
+        args.test_executable_name = 'test-{}'.format(args.executable_name)
 
 
 def validate_arguments(args):
@@ -989,6 +991,10 @@ def main_normal():
 
     # Apply the default versions of the dependencies.
     apply_default_version_arguments(args=args)
+
+    # Apply the default paths and filename after the default versions as the
+    # version information is required in the filenames.
+    apply_default_file_arguments(args=args)
 
     # Check the validity of the arguments.
     validate_arguments(args=args)
