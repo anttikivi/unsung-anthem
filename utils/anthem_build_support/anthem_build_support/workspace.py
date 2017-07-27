@@ -54,8 +54,8 @@ class Workspace(object):
                             self.args.llvm_version)
 
 
-def compute_subdir(args):
-    version_subdir = "{}"
+def compute_subdir(args, shared, install):
+    version_subdir = args.anthem_version
 
     if args.build_llvm:
         llvm_build_dir_label = args.llvm_build_variant
@@ -67,7 +67,6 @@ def compute_subdir(args):
 
     elif args.build_gcc:
         compiler_subdir = "gcc-" + args.gcc_version
-
     else:
         compiler_subdir = "system-" + args.main_tool
 
@@ -96,23 +95,29 @@ def compute_subdir(args):
 
     subdir += "-" + anthem_build_dir_label
 
-    return os.path.join(version_subdir,
-                        compiler_subdir,
-                        framework_subdir,
-                        subdir)
+    dir = os.path.join(version_subdir,
+                       compiler_subdir,
+                       framework_subdir,
+                       subdir) \
+        if not shared else 'shared'
+
+    if install:
+        return os.path.join(dir, 'local')
+    else:
+        return dir
 
 
 def compute_build_subdir(args):
-    return compute_subdir(args).format(str(args.anthem_version))
+    return compute_subdir(args, False, False)
 
 
 def compute_install_prefix(args):
-    return os.path.join(compute_build_subdir(args), 'local')
+    return compute_subdir(args, False, True)
 
 
 def compute_shared_build_subdir(args):
-    return compute_subdir(args=args).format('shared')
+    return compute_subdir(args, True, False)
 
 
 def compute_shared_install_prefix(args):
-    return os.path.join(compute_shared_build_subdir(args), 'local')
+    return compute_subdir(args, True, True)
