@@ -33,7 +33,7 @@ from anthem_build_support.anthem_build_support.workspace import \
     compute_shared_build_subdir, compute_shared_install_prefix
 
 from anthem_build_support.anthem_build_support.products import \
-    anthem, cat, catch, cmake, gcc, glfw, llvm, ninja, sdl, spdlog
+    anthem, cat, catch, cmake, docs, gcc, glfw, llvm, ninja, sdl, spdlog
 
 
 def exit_rejecting_arguments(message, parser=None):
@@ -669,6 +669,11 @@ def main_normal():
         help="build the Ninja tool",
         action=arguments.action.optional_bool)
     projects_group.add_argument(
+        "--build-docs",
+        help="build the Unsung Anthem documentation",
+        action="store_true",
+        dest="build_docs")
+    projects_group.add_argument(
         "--build-test",
         help="build the Unsung Anthem tests",
         action="store_true",
@@ -1300,6 +1305,10 @@ def main_normal():
             shell.call_without_sleeping([os.path.join(
                 workspace.anthem_build_dir(args.host_target, 'anthem-test'),
                 args.test_executable_name)])
+
+    # Build the documentation.
+    if args.build_docs and not args.test_only and not args.install_only:
+        docs.build(args=args, toolchain=toolchain, workspace=workspace)
 
     return 0
 
