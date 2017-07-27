@@ -36,6 +36,138 @@ from anthem_build_support.anthem_build_support.products import \
     anthem, cat, catch, cmake, docs, gcc, glfw, llvm, ninja, sdl, spdlog
 
 
+program_description = """
+Use this tool to build, test, and prepare binary distribution archives of 
+Unsung Anthem.
+
+Builds Unsung Anthem and its dependencies, incrementally, optionally testing 
+Unsung Anthem thereafter. Different build configurations are maintained in 
+parallel."""
+
+program_epilogue = """
+Using option presets:
+
+  --preset-file=PATH    load presets from the specified file
+
+  --preset=NAME         use the specified option preset
+
+  The preset mode is mutually exclusive with other options. It is not possible
+  to add ad-hoc customizations to a preset. This is a deliberate design
+  decision. (Rationale: a preset is a certain important set of options that is
+  wanted to be kept in a centralized location. If one needs to customize it,
+  one should create another preset in a centralized location, rather than
+  scattering the knowledge about the build across the system.)
+
+  Presets support substitutions for controlled customizations. Substitutions
+  are defined in the preset file. Values for substitutions are supplied using
+  the name=value syntax on the command line.
+
+
+Environment variables
+---------------------
+
+This script respects a few environment variables, should one choose to set
+them:
+
+ANTHEM_SOURCE_ROOT: a directory containing the source for Unsung Anthem. If
+                    this script is located in an Unsung Anthem source
+                    directory, the location of ANTHEM_SOURCE_ROOT will be
+                    inferred if the variable is not set.
+
+'build-script' expects the sources to be laid out in the following way:
+
+   $ANTHEM_SOURCE_ROOT/unsung-anthem (the directory name does not matter)
+
+ANTHEM_SOURCE_ROOT: a directory in which to create out-of-tree builds. Defaults
+                    to "$ANTHEM_SOURCE_ROOT/build/".
+
+Preparing to run this script
+----------------------------
+
+Make sure that your system has C and C++ compiler.
+
+That's it; you're ready to go!
+
+Examples
+--------
+
+Given the above layout of sources, the simplest invocation of 'build-script' is
+just:
+
+  [~/src/s]$ ./unsung-anthem/utils/build-script
+
+This builds Unsung Anthem, its dependencies and the tools required to build in
+debug mode.
+
+All builds are incremental. To incrementally build changed files, repeat the
+same 'build-script' command.
+
+Typical uses of 'build-script'
+------------------------------
+
+To build everything with optimization without debug information:
+
+  [~/src/s]$ ./unsung-anthem/utils/build-script -R
+
+To run tests, add '-t':
+
+  [~/src/s]$ ./unsung-anthem/utils/build-script -R -t
+
+To build dependencies and tools with optimization without debug information,
+and debuggable Unsung Anthem:
+
+  [~/src/s]$ ./unsung-anthem/utils/build-script -R --debug-anthem
+
+To use 'make' instead of 'ninja', use '-m':
+
+  [~/src/s]$ ./unsung-anthem/utils/build-script -m -R
+
+To create Xcode projects that can build Unsung Anthem, use '-x':
+
+  [~/src/s]$ ./unsung-anthem/utils/build-script -x -R
+
+Preset mode in build-script
+---------------------------
+
+All buildbots and automated environments use 'build-script' in *preset mode*.
+In preset mode, the command line only specifies the preset name and allows
+limited customization (extra output paths). The actual options come from the
+selected preset in 'utils/build-presets.ini'.
+
+If you have your own favourite set of options, you can create your own, local,
+preset. For example, let us create a preset called 'dua' (which stands for
+Debug Unsung Anthem):
+
+  $ cat > ~/.anthem-build-presets
+  [preset: dua]
+  release
+  debug-anthem
+  test
+  build-subdir=dua
+
+To use it, specify the '--preset=' argument:
+
+  [~/src/s]$ ./unsung-anthem/utils/build-script --preset=dua
+  ./unsung-anthem/utils/build-script: using preset 'dua', which expands to
+  ./unsung-anthem/utils/build-script --release --debug-anthem --test \
+--build-subdir=dua --
+  ...
+
+Philosophy
+----------
+
+While one can invoke CMake directly to build Unsung Anthem, this tool will save
+one's time by taking away the mechanical parts of the process, providing one
+the controls for the important options.
+
+For all automated build environments, this tool is regarded as *the* *only* way
+to build Unsung Anthem. This is not a technical limitation of the Unsung Anthem
+build system. It is a policy decision aimed at making the builds uniform across
+all environments and easily reproducible by engineers who are not familiar with
+the details of the setups of other systems or automated environments.
+"""
+
+
 def exit_rejecting_arguments(message, parser=None):
     print(message)  # TODO , file=sys.stderr)
     if parser:
@@ -602,7 +734,13 @@ def main_preset():
 
 def main_normal():
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.RawDescriptionHelpFormatter)
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        usage="""
+  %(prog)s [-h | --help] [OPTION...]
+  %(prog)s --preset=NAME [SUBSTITUTION...]
+        """,
+        description=program_description,
+        epilog=program_epilogue)
     parser.add_argument(
         "-n", "--dry-run",
         help="print the commands that would be executed, but do not execute "
