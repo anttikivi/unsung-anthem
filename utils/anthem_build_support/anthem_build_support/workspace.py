@@ -13,6 +13,7 @@ Represent whole source tree and the build directory
 # ----------------------------------------------------------------------------
 
 import os.path
+import platform
 
 
 class Workspace(object):
@@ -49,14 +50,12 @@ class Workspace(object):
 
 
 def compute_subdir(args):
-    compiler_subdir = None
-
     if args.build_llvm:
         llvm_build_dir_label = args.llvm_build_variant
         if args.llvm_assertions:
             llvm_build_dir_label += "Assert"
 
-        compiler_subdir = "llvm-"\
+        compiler_subdir = "llvm-" \
                           + args.llvm_version + '-' + llvm_build_dir_label
 
     elif args.build_gcc:
@@ -65,6 +64,22 @@ def compute_subdir(args):
     else:
         compiler_subdir = "system-" + args.main_tool
 
+    if args.sdl:
+        if platform.system() == "Windows":
+            sdl_build_dir_label = "visual-c++"
+        else:
+            sdl_build_dir_label = args.sdl_build_variant
+
+        framework_subdir = "sdl-" \
+                           + args.sdl_version + "-" + sdl_build_dir_label
+
+    else:
+        # It is not possible to set assertions to GLFW at least for now.
+        glfw_build_dir_label = args.glfw_build_variant
+
+        framework_subdir = "glfw-" \
+                           + args.glfw_version + "-" + glfw_build_dir_label
+
     # Create a name for the build directory.
     subdir = args.cmake_generator.replace(" ", "_")
 
@@ -72,24 +87,9 @@ def compute_subdir(args):
     if args.anthem_assertions:
         anthem_build_dir_label += "Assert"
 
-    # It is not possible to set assertions to GLFW at least for now.
-    glfw_build_dir_label = args.glfw_build_variant
+    subdir += "-" + anthem_build_dir_label
 
-    if anthem_build_dir_label == glfw_build_dir_label:
-        # Use a simple directory name if all projects use the same build
-        # type.
-        subdir += "-" + anthem_build_dir_label
-    elif anthem_build_dir_label != glfw_build_dir_label:
-        # GLFW build type differs.
-        subdir += "-" + anthem_build_dir_label
-        subdir += "+glfw-" + glfw_build_dir_label
-    else:
-        # We don't know how to create a short name, so just mangle in all
-        # the information.
-        subdir += "+anthem-" + anthem_build_dir_label
-        subdir += "+glfw-" + glfw_build_dir_label
-
-    return os.path.join(compiler_subdir, subdir)
+    return os.path.join(compiler_subdir, framework_subdir, subdir)
 
 
 def compute_build_subdir(args):

@@ -84,6 +84,9 @@ def apply_default_arguments(args):
     if args.anthem_build_variant is None:
         args.anthem_build_variant = args.build_variant
 
+    if args.sdl_build_variant is None:
+        args.sdl_build_variant = args.build_variant
+
     if args.glfw_build_variant is None:
         args.glfw_build_variant = args.build_variant
 
@@ -333,6 +336,14 @@ def validate_arguments(args):
             or 'Release' == args.anthem_build_variant):
         exit_rejecting_arguments('Unsung Anthem build variant is set to an '
                                  'invalid value: '
+                                 + str(args.anthem_build_variant))
+
+    # Check the validity of the SDL build variant.
+    if not ('Debug' == args.sdl_build_variant
+            or 'RelWithDebInfo' == args.sdl_build_variant
+            or 'Release' == args.sdl_build_variant):
+        exit_rejecting_arguments('SDL build variant is set to an invalid '
+                                 'value: '
                                  + str(args.anthem_build_variant))
 
     # Check the validity of the GLFW build variant.
@@ -707,6 +718,12 @@ def main_normal():
         action="store_const",
         const="Debug",
         dest="anthem_build_variant")
+    build_variant_override_group.add_argument(
+        "--debug-sdl",
+        help="build the Debug variant of SDL",
+        action="store_const",
+        const="Debug",
+        dest="sdl_build_variant")
     build_variant_override_group.add_argument(
         "--debug-glfw",
         help="build the Debug variant of GLFW",
