@@ -256,10 +256,11 @@ def get_github_dependency(args, config, key, dependency, protocol):
             move_glfw_files(args)
 
 
-def get_llvm_dependency(args, key, id, url_format, use_cmd_tar, protocol):
+def get_llvm_dependency(args, key, project_id, url_format, use_cmd_tar):
     version = args.llvm_version
+
     # Set the full path to the destination file.
-    local_file = os.path.join(llvm.get_temp_directory(key), id + '.tar.xz')
+    local_file = os.path.join(llvm.get_temp_directory(key), project_id + '.tar.xz')
 
     # Delete the old directory.
     shell.rmtree(llvm.get_project_directory(args, key))
@@ -270,7 +271,7 @@ def get_llvm_dependency(args, key, id, url_format, use_cmd_tar, protocol):
     shell.makedirs(llvm.get_temp_directory(key))
 
     # Create the correct URL for downloading the source code.
-    url = url_format.format('http', version, id, version)
+    url = url_format.format(protocol='http', version=version, id=project_id)
 
     # Form the HTML GET call to stream the archive.
     request = requests.get(url=url, stream=True)
@@ -287,7 +288,7 @@ def get_llvm_dependency(args, key, id, url_format, use_cmd_tar, protocol):
         if use_cmd_tar:
             # TODO Use different command for Windows.
             with shell.pushd(llvm.get_temp_directory(key)):
-                shell.call(['tar', '-xf', id + '.tar.xz'])
+                shell.call(['tar', '-xf', project_id + '.tar.xz'])
         else:
             print('Extracting the downloaded file is not allowed.')
             return
@@ -299,7 +300,7 @@ def get_llvm_dependency(args, key, id, url_format, use_cmd_tar, protocol):
     shell.rm(local_file)
 
     # Set the original subdirectory name.
-    subdir_name = '{}-{}.src'.format(id, version)
+    subdir_name = '{}-{}.src'.format(project_id, version)
 
     print('The name of the LLVM subdirectory is ' + subdir_name)
 
@@ -328,10 +329,10 @@ def get_gcc(args, gcc_node, url_format, use_cmd_tar):
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', 'temp'))
 
     # Create the correct URL for downloading the source code.
-    url = url_format.format(gcc_node['asset']['default_mirror'],
-                            version,
-                            version,
-                            'xz')
+    url = url_format.format(protocol='http',
+                            mirror=gcc_node['asset']['default_mirror'],
+                            version=version,
+                            extension='xz')
 
     # Form the HTML GET call to stream the archive.
     request = requests.get(url=url, stream=True)
@@ -429,14 +430,16 @@ def get_cmake(args, key, version, url_format, protocol, curl):
 
     # Set the file extension according to the system.
     if 'Windows' == platform.system():
-        archive_extension = '.zip'
+        archive_extension = 'zip'
     else:
-        archive_extension = '.tar.gz'
+        archive_extension = 'tar.gz'
 
     # Create the correct URL for downloading the source code.
-    url = url_format.format(
-        protocol, major_minor_version, full_version, cmake_platform,
-        archive_extension)
+    url = url_format.format(protocol=protocol,
+                            major_minor=major_minor_version,
+                            version=full_version,
+                            platform=cmake_platform,
+                            extension=archive_extension)
 
     # Form the HTML GET call to stream the archive.
     if curl:
@@ -535,11 +538,10 @@ def update(args):
 
                     get_llvm_dependency(args=args,
                                         key=project,
-                                        id=project_json['id'],
+                                        project_id=project_json['id'],
                                         url_format=url_format,
                                         use_cmd_tar=(
-                                            not args.disable_manual_tar),
-                                        protocol=protocol)
+                                            not args.disable_manual_tar))
             elif key == 'gcc':
                 # Set the URL format of the LLVM downloads.
                 url_format = dependency['asset']['format']

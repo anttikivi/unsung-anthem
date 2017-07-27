@@ -6,7 +6,7 @@
       "github": false,
       "default_version": "4.0.1",
       "asset": {
-        "format": "{}://releases.llvm.org/{}/{}-{}.src.tar.xz"
+        "format": "{protocol}://releases.llvm.org/{version}/{id}-{version}.src.tar.xz"
       },
       "projects": {
         "llvm": {
@@ -24,11 +24,9 @@
     "gcc": {
       "github": false,
       "default_version": "6.4.0",
-      "version_prefix": "",
       "asset": {
-        "_comment": "mirror, version, version, gz or xz",
         "default_mirror": "nl.mirror.babylon.network/gcc",
-        "format": "http://{}/releases/gcc-{}/gcc-{}.tar.{}"
+        "format": "{protocol}://{mirror}/releases/gcc-{version}/gcc-{version}.tar.{extension}"
       }
     },
 
@@ -39,9 +37,8 @@
         "minor": 8,
         "patch": 2
       },
-      "version_prefix": "",
       "asset": {
-        "format": "{}://cmake.org/files/v{}/cmake-{}-{}{}"
+        "format": "{protocol}://cmake.org/files/v{major_minor}/cmake-{version}-{platform}.{extension}"
       }
     },
 

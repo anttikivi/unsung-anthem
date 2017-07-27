@@ -62,6 +62,9 @@ def compute_subdir(args):
     elif args.build_gcc:
         compiler_subdir = "gcc-" + args.gcc_version
 
+    else:
+        compiler_subdir = "system-" + args.main_tool
+
     # Create a name for the build directory.
     subdir = args.cmake_generator.replace(" ", "_")
 
@@ -86,10 +89,7 @@ def compute_subdir(args):
         subdir += "+anthem-" + anthem_build_dir_label
         subdir += "+glfw-" + glfw_build_dir_label
 
-    if compiler_subdir is not None:
-        return os.path.join(compiler_subdir, subdir)
-    else:
-        return subdir
+    return os.path.join(compiler_subdir, subdir)
 
 
 def compute_build_subdir(args):
