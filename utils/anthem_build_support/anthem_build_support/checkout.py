@@ -472,13 +472,13 @@ def get_cmake(args, key, version, url_format, protocol, curl):
         if args.cmake_major_version < 3:
             cmake_platform = 'Darwin-universal'
         else:
-            if args.cmake_minor_version < 1:
-                cmake_platform = 'Darwin-universal'
-            else:
+            if args.cmake_minor_version <= 1:
                 if args.cmake_patch_version < 1:
                     cmake_platform = 'Darwin-universal'
                 else:
                     cmake_platform = 'Darwin-x86_64'
+            else:
+                cmake_platform = 'Darwin-x86_64'
     else:
         diagnostics.note('CMake will not be downloaded as the platform is not '
                          'supported.')
