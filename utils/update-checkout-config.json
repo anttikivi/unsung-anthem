@@ -72,6 +72,15 @@
       }
     },
 
+    "sdl": {
+      "github": false,
+      "default_version": "2.0.5",
+      "asset": {
+        "format": "{protocol}://www.libsdl.org/release/SDL2-{version}.{extension}",
+        "windows_format": "{protocol}://www.libsdl.org/release/SDL2-devel-{version}-{type}.{extension}"
+      }
+    },
+
     "glfw": {
       "github": true,
       "owner": "glfw",

@@ -97,6 +97,19 @@ def move_cmake_files(args, key, directory):
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
 
 
+def move_sdl_files(args, key, directory):
+    # Delete the old folder so the files in the temporary folder can be
+    # copied.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, args.sdl_version))
+
+    # Copy the files from the temporary folder to the correct folder.
+    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp', directory),
+                   os.path.join(ANTHEM_SOURCE_ROOT, key, args.sdl_version))
+
+    # Delete the temporary folder.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
+
+
 def move_glfw_files(args):
     # Delete the GLFW folder so the files in the temporary folder can be
     # copied.
@@ -481,6 +494,86 @@ def get_cmake(args, key, version, url_format, protocol, curl):
     move_cmake_files(args=args, key=key, directory=subdir_name)
 
 
+def get_sdl(args, asset, curl):
+    key = 'sdl'
+    version = args.sdl_version
+
+    # Delete the old directory.
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
+
+    # Make a new directory.
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
+
+    # Set the file extension according to the system.
+    if platform.system() == 'Windows':
+        archive_extension = 'zip'
+    else:
+        archive_extension = 'tar.gz'
+
+    # Set the URL according to the system.
+    if platform.system() == 'Windows':
+        url_format = asset['windows_format']
+
+        url = url_format.format(protocol='https',
+                                version=version,
+                                type='VC',
+                                extension=archive_extension)
+    else:
+        url_format = asset['format']
+
+        url = url_format.format(protocol='https',
+                                version=version,
+                                extension=archive_extension)
+
+    local_file = os.path.join(ANTHEM_SOURCE_ROOT, key,
+                              'temp',
+                              key + '.' + archive_extension)
+
+    # Form the HTML GET call to stream the archive.
+    if curl:
+        shell.call(['curl', '-o', local_file, '--create-dirs', url])
+    else:
+        request = requests.get(url=url, stream=True)
+
+        # Stream the file to the final destination.
+        with open(local_file, 'wb') as f:
+            for chunk in request.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+
+    diagnostics.note('Finished streaming from '
+                     + url
+                     + ' to '
+                     + str(local_file))
+
+    if 'Windows' == platform.system():
+        # Extract the archive.
+        with contextlib.closing(zipfile.ZipFile(local_file, 'r')) as z:
+            z.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
+    else:
+        # Open the archive.
+        tar = tarfile.open(local_file, "r:gz")
+
+        # Extract the archive to the correct subdirectory.
+        tar.extractall(path=os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
+
+        # Close the open file.
+        tar.close()
+
+    # Delete the archive as it is extracted.
+    shell.rm(local_file)
+
+    # Set the original subdirectory name.
+    subdir_name = 'SDL2-{}'.format(version)
+
+    diagnostics.note('The name of the SDL subdirectory is ' + subdir_name)
+
+    # Manually move the source files to the folder root.
+    move_sdl_files(args=args, key=key, directory=subdir_name)
+
+
 def update(args):
     freeze_support()
 
@@ -543,7 +636,7 @@ def update(args):
                                         use_cmd_tar=(
                                             not args.disable_manual_tar))
             elif key == 'gcc':
-                # Set the URL format of the LLVM downloads.
+                # Set the URL format of the GCC downloads.
                 url_format = dependency['asset']['format']
 
                 get_gcc(args=args,
@@ -557,6 +650,8 @@ def update(args):
                           url_format=dependency['asset']['format'],
                           protocol=protocol,
                           curl=args.ci)
+            elif key == 'sdl':
+                get_sdl(args=args, asset=dependency['asset'], curl=args.ci)
 
         # Add the version of the dependency to the dictionary.
         versions[key] = args.version_info[key]

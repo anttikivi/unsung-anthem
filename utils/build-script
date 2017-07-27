@@ -64,6 +64,11 @@ def apply_default_arguments(args):
     if args.travis or args.appveyor:
         args.ci = True
 
+    # If SDL or GLFW is not explicitly specified, use GLFW.
+    if not args.sdl and not args.glfw:
+        args.sdl = False
+        args.glfw = True
+
     # Build LLVM if any LLVM-related options were specified.
     if args.llvm_build_variant is not None or args.llvm_assertions is not None:
         args.build_llvm = True
@@ -216,6 +221,12 @@ def apply_default_version_arguments(args):
 
     args.version_info['catch'] = args.catch_version
 
+    if args.sdl_version == 'default':
+        sdl_node = dependencies['sdl']
+        args.sdl_version = sdl_node['default_version']
+
+    args.version_info['sdl'] = args.sdl_version
+
     if args.glfw_version == 'default':
         glfw_node = dependencies['glfw']
         args.glfw_version = glfw_node['default_version']
@@ -255,6 +266,14 @@ def apply_default_checkout_skip_arguments(args, toolchain):
     # Skip Catch on the checkout update if the tests are not built.
     if not args.build_test:
         args.skip_repository_list += ['catch']
+
+    # Skip SDL on the checkout update if it is not used.
+    if not args.sdl:
+        args.skip_repository_list += ['sdl']
+
+    # Skip GLFW on the checkout update if it is not used.
+    if not args.glfw:
+        args.skip_repository_list += ['glfw']
 
 
 def apply_default_file_arguments(args):
@@ -334,6 +353,11 @@ def validate_arguments(args):
     # Check that both LLVM and GCC are not built at the same time.
     if args.build_llvm and args.build_gcc:
         exit_rejecting_arguments('Both LLVM and GCC cannot be built at the '
+                                 'same time')
+
+    # Check that both SDL and GLFW cannot be used at the same time.
+    if args.sdl and args.glfw:
+        exit_rejecting_arguments('Both SDL and GLFW cannot be used at the '
                                  'same time')
 
 
@@ -561,6 +585,14 @@ def main_normal():
         help="build GNU Compiler Collection and use the built compiler",
         action="store_true",
         dest="build_gcc")
+    projects_group.add_argument(
+        "--sdl",
+        help="build and use SDL (default GLFW)",
+        action="store_true")
+    projects_group.add_argument(
+        "--glfw",
+        help="build and use GLFW",
+        action="store_true")
     projects_group.add_argument(
         "--build-cmake",
         help="build CMake",
@@ -872,6 +904,11 @@ def main_normal():
         metavar="MAJOR.MINOR.PATCH",
         default='default',
         help="the Catch version")
+    version_group.add_argument(
+        "--sdl-version",
+        metavar="MAJOR.MINOR.PATCH",
+        default='default',
+        help="the SDL version")
     version_group.add_argument(
         "--glfw-version",
         metavar="MAJOR.MINOR.PATCH",
