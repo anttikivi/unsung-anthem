@@ -89,9 +89,32 @@ def move_cmake_files(args, key, directory):
     # copied.
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, args.cmake_version))
 
-    # Copy the files from the temporary folder to the correct folder.
-    shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp', directory),
-                   os.path.join(ANTHEM_SOURCE_ROOT, key, args.cmake_version))
+    # On Darwin, the CMake.app may have some other name so it has to be renamed
+    # to CMake.app.
+    if platform.system() == 'Darwin':
+        cmake_app = os.listdir(os.path.join(ANTHEM_SOURCE_ROOT,
+                                            key,
+                                            'temp',
+                                            directory))[0]
+
+        shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
+                                    key,
+                                    'temp',
+                                    directory,
+                                    cmake_app),
+                       os.path.join(ANTHEM_SOURCE_ROOT,
+                                    key,
+                                    args.cmake_version,
+                                    'CMake.app'))
+    else:
+        # Copy the files from the temporary folder to the correct folder.
+        shell.copytree(os.path.join(ANTHEM_SOURCE_ROOT,
+                                    key,
+                                    'temp',
+                                    directory),
+                       os.path.join(ANTHEM_SOURCE_ROOT,
+                                    key,
+                                    args.cmake_version))
 
     # Delete the temporary folder.
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, 'temp'))
@@ -434,11 +457,31 @@ def get_cmake(args, key, version, url_format, protocol, curl):
     if 'Windows' == platform.system():
         cmake_platform = 'win32-x86'
     elif 'Linux' == platform.system():
-        cmake_platform = 'Linux-x86_64'
+        # Starting at CMake 3.1.0 'Linux-x86_64' variant is available, before
+        # that the only option is 'Linux-i386'.
+        if args.cmake_major_version < 3:
+            cmake_platform = 'Linux-i386'
+        else:
+            if args.cmake_minor_version < 1:
+                cmake_platform = 'Linux-i386'
+            else:
+                cmake_platform = 'Linux-x86_64'
     elif 'Darwin' == platform.system():
-        cmake_platform = 'Darwin-x86_64'
+        # Starting at CMake 3.1.1 'Darwin-x86_64' variant is available, before
+        # that the only option is 'Darwin-universal'.
+        if args.cmake_major_version < 3:
+            cmake_platform = 'Darwin-universal'
+        else:
+            if args.cmake_minor_version < 1:
+                cmake_platform = 'Darwin-universal'
+            else:
+                if args.cmake_patch_version < 1:
+                    cmake_platform = 'Darwin-universal'
+                else:
+                    cmake_platform = 'Darwin-x86_64'
     else:
-        print('CMake will not be downloaded as the platform is not supported.')
+        diagnostics.note('CMake will not be downloaded as the platform is not '
+                         'supported.')
         return
 
     # Set the file extension according to the system.
@@ -488,7 +531,7 @@ def get_cmake(args, key, version, url_format, protocol, curl):
     # Set the original subdirectory name.
     subdir_name = 'cmake-{}-{}'.format(full_version, cmake_platform)
 
-    print('The name of the CMake subdirectory is ' + subdir_name)
+    diagnostics.note('The name of the CMake subdirectory is ' + subdir_name)
 
     # Manually move the source files to the folder root.
     move_cmake_files(args=args, key=key, directory=subdir_name)

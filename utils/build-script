@@ -198,23 +198,50 @@ def apply_default_version_arguments(args):
     if args.cmake_version == 'default':
         if args.cmake_major_version == 'default':
             args.cmake_major_version = \
-                str(cmake_node['default_version']['major'])
+                int(cmake_node['default_version']['major'])
 
         if args.cmake_minor_version == 'default':
             args.cmake_minor_version = \
-                str(cmake_node['default_version']['minor'])
+                int(cmake_node['default_version']['minor'])
 
         if args.cmake_patch_version == 'default':
             args.cmake_patch_version = \
-                str(cmake_node['default_version']['patch'])
+                int(cmake_node['default_version']['patch'])
 
-        args.cmake_version = "{}.{}.{}".format(args.cmake_major_version,
-                                               args.cmake_minor_version,
-                                               args.cmake_patch_version)
+        if args.cmake_minor_patch_version == 'default':
+            if "minor_patch" in cmake_node['default_version']:
+                try:
+                    minor_patch = \
+                        int(cmake_node['default_version']['minor_patch'])
+
+                    if minor_patch == 0:
+                        args.cmake_minor_patch_version = None
+                    else:
+                        args.cmake_minor_patch_version = minor_patch
+                except ValueError:
+                    args.cmake_minor_patch_version = None
+
+        if args.cmake_minor_patch_version is None:
+            args.cmake_version = "{}.{}.{}".format(args.cmake_major_version,
+                                                   args.cmake_minor_version,
+                                                   args.cmake_patch_version)
+        else:
+            args.cmake_version = "{}.{}." \
+                                 "{}.{}".format(args.cmake_major_version,
+                                                args.cmake_minor_version,
+                                                args.cmake_patch_version,
+                                                args.cmake_minor_patch_version)
     else:
-        args.cmake_major_version = args.cmake_version.split('.')[0]
-        args.cmake_minor_version = args.cmake_version.split('.')[1]
-        args.cmake_patch_version = args.cmake_version.split('.')[2]
+        if len(args.cmake_version.split('.')) == 3:
+            args.cmake_major_version = int(args.cmake_version.split('.')[0])
+            args.cmake_minor_version = int(args.cmake_version.split('.')[1])
+            args.cmake_patch_version = int(args.cmake_version.split('.')[2])
+        elif len(args.cmake_version.split('.')) == 4:
+            args.cmake_major_version = int(args.cmake_version.split('.')[0])
+            args.cmake_minor_version = int(args.cmake_version.split('.')[1])
+            args.cmake_patch_version = int(args.cmake_version.split('.')[2])
+            args.cmake_minor_patch_version = \
+                int(args.cmake_version.split('.')[3])
 
     args.version_info['cmake'] = args.cmake_version
 
@@ -946,11 +973,16 @@ def main_normal():
         default='default',
         help="the CMake patch version")
     version_group.add_argument(
-        "--cmake-version",
-        metavar="MAJOR.MINOR.PATCH",
+        "--cmake-minor-patch-version",
+        metavar="MINOR_PATCH",
         default='default',
-        help="the CMake version. Overrides the major, minor, and patch "
-             "settings if set")
+        help="the CMake minor patch version")
+    version_group.add_argument(
+        "--cmake-version",
+        metavar="MAJOR.MINOR.PATCH(.MINOR_PATCH)",
+        default='default',
+        help="the CMake version. Overrides the major, minor, patch, and minor "
+             "patch settings if set")
     version_group.add_argument(
         "--ninja-version",
         metavar="MAJOR.MINOR.PATCH",

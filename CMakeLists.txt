@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4.3)
+cmake_minimum_required(VERSION 2.8.12)
 project(anthem)
 
 option(ANTHEM_DEFAULT_COMPILER
@@ -17,17 +17,14 @@ option(ANTHEM_GLFW "Use GLFW to build Unsung Anthem" OFF)
 
 # Check if the executable type (executable or tests) variable is set.
 if(NOT DEFINED ANTHEM_EXECUTABLE_TYPE)
-  message(FATAL_ERROR "The executable type (ANTHEM_EXECUTABLE_TYPE) is not \
-  set – the possible values are 'anthem' and 'test'")
+  message(FATAL_ERROR "The executable type (ANTHEM_EXECUTABLE_TYPE) is not set – the possible values are 'anthem' and 'test'")
 else()
-  message(STATUS "The executable type (ANTHEM_EXECUTABLE_TYPE) is set to \
-  ${ANTHEM_EXECUTABLE_TYPE}")
+  message(STATUS "The executable type (ANTHEM_EXECUTABLE_TYPE) is set to ${ANTHEM_EXECUTABLE_TYPE}")
 endif()
 
 # Check if the installation directory prefix is set.
 if(DEFINED ANTHEM_INSTALL_PREFIX)
-  message(STATUS "The dependency installation directory \
-  (ANTHEM_INSTALL_PREFIX) is set to ${ANTHEM_INSTALL_PREFIX}")
+  message(STATUS "The dependency installation directory (ANTHEM_INSTALL_PREFIX) is set to ${ANTHEM_INSTALL_PREFIX}")
 endif()
 
 # Check if the executable name variable is set and if it is not set, set it to
@@ -36,8 +33,7 @@ if(NOT DEFINED ANTHEM_EXECUTABLE_NAME)
   set(ANTHEM_EXECUTABLE_NAME unsung-anthem-executable_name_not_set)
 endif()
 
-message(STATUS "The executable name (ANTHEM_EXECUTABLE_NAME) is set to \
-${ANTHEM_EXECUTABLE_NAME}")
+message(STATUS "The executable name (ANTHEM_EXECUTABLE_NAME) is set to ${ANTHEM_EXECUTABLE_NAME}")
 
 # Check if the test executable name variable is set and if it is not set, set
 # it to some stupid default value.
@@ -45,46 +41,36 @@ if(NOT DEFINED ANTHEM_TEST_EXECUTABLE_NAME)
   set(ANTHEM_TEST_EXECUTABLE_NAME test-${ANTHEM_EXECUTABLE_NAME})
 endif()
 
-message(STATUS "The test executable name (ANTHEM_TEST_EXECUTABLE_NAME) is set \
-to ${ANTHEM_TEST_EXECUTABLE_NAME}")
+message(STATUS "The test executable name (ANTHEM_TEST_EXECUTABLE_NAME) is set to ${ANTHEM_TEST_EXECUTABLE_NAME}")
 
 # Check if the C++ Standard version is set.
 if(NOT DEFINED ANTHEM_CXX_VERSION)
-  message(FATAL_ERROR "The C++ standard version (ANTHEM_CXX_VERSION) is not
- set – the possible values are c++2a, c++17, c++14, and c++latest")
+  message(FATAL_ERROR "The C++ standard version (ANTHEM_CXX_VERSION) is not set – the possible values are c++2a, c++17, c++14, and c++latest")
 endif()
 
-message(STATUS "The C++ standard version (ANTHEM_CXX_VERSION) is set to \
-${ANTHEM_CXX_VERSION}")
+message(STATUS "The C++ standard version (ANTHEM_CXX_VERSION) is set to ${ANTHEM_CXX_VERSION}")
 
 # Check if the C++ standard library is set.
 if(NOT ANTHEM_DEFAULT_COMPILER AND NOT DEFINED ANTHEM_STDLIB)
-  message(FATAL_ERROR "The C++ standard library (ANTHEM_STDLIB) is not set –
- the possible values are libc++ and libstdc++")
+  message(FATAL_ERROR "The C++ standard library (ANTHEM_STDLIB) is not set – the possible values are libc++ and libstdc++")
 endif()
 
-message(STATUS "The C++ standard library (ANTHEM_STDLIB) is set to \
-${ANTHEM_STDLIB}")
+message(STATUS "The C++ standard library (ANTHEM_STDLIB) is set to ${ANTHEM_STDLIB}")
 
 # Check if the main build tool is set.
 if(NOT DEFINED ANTHEM_MAIN_COMPILER_TOOL)
-  message(FATAL_ERROR "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) \
-is not set – the possible values are clang, gcc, and msbuild")
+  message(FATAL_ERROR "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) is not set – the possible values are clang, gcc, and msbuild")
 endif()
 
-message(STATUS "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) is set \
-to ${ANTHEM_MAIN_COMPILER_TOOL}")
+message(STATUS "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) is set to ${ANTHEM_MAIN_COMPILER_TOOL}")
 
 # Check if the executable type (executable or tests) variable is set.
 if(NOT DEFINED ANTHEM_SDL AND NOT DEFINED ANTHEM_GLFW)
-  message(FATAL_ERROR "The neither SDL nor GLFW (ANTHEM_SDL and ANTHEM_GLFW) \
-is not set")
+  message(FATAL_ERROR "The neither SDL nor GLFW (ANTHEM_SDL and ANTHEM_GLFW) is not set")
 elseif(ANTHEM_SDL AND ANTHEM_GLFW)
-  message(FATAL_ERROR "The both SDL and GLFW (ANTHEM_SDL and ANTHEM_GLFW) are \
-used")
+  message(FATAL_ERROR "The both SDL and GLFW (ANTHEM_SDL and ANTHEM_GLFW) are used")
 elseif(NOT ANTHEM_SDL AND NOT ANTHEM_GLFW)
-  message(FATAL_ERROR "The neither SDL nor GLFW (ANTHEM_SDL and ANTHEM_GLFW) \
-is used")
+  message(FATAL_ERROR "The neither SDL nor GLFW (ANTHEM_SDL and ANTHEM_GLFW) is used")
 endif()
 
 # Set the compiler flags which will be set if the build is done with LLVM.
@@ -143,9 +129,7 @@ elseif(${ANTHEM_CXX_VERSION} STREQUAL c++14)
 
 else()
 
-  message(FATAL_ERROR "The C++ standard version (ANTHEM_CXX_VERSION) is set \
-to ${ANTHEM_CXX_VERSION} and thus it is invalid – the possible values are \
-c++2a, c++17, c++14, and c++latest")
+  message(FATAL_ERROR "The C++ standard version (ANTHEM_CXX_VERSION) is set to ${ANTHEM_CXX_VERSION} and thus it is invalid – the possible values are c++2a, c++17, c++14, and c++latest")
 
 endif()
 
@@ -266,7 +250,5 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL clion)
       ${ANTHEM_SOURCES})
 
 else()
-  message(FATAL_ERROR "The value of the executable type \
-  (ANTHEM_EXECUTABLE_TYPE) is ${ANTHEM_EXECUTABLE_TYPE} and thus invalid – \
-  please set it to either 'anthem' or 'test'")
+  message(FATAL_ERROR "The value of the executable type (ANTHEM_EXECUTABLE_TYPE) is ${ANTHEM_EXECUTABLE_TYPE} and thus invalid – please set it to either 'anthem' or 'test'")
 endif()

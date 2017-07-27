@@ -34,9 +34,11 @@
     "cmake": {
       "github": false,
       "default_version": {
-        "major": 3,
+        "major": 2,
         "minor": 8,
-        "patch": 2
+        "patch": 12,
+        "minor_patch": 0,
+        "_comment": "Set the minor patch to 0 or a string which does not parse to an integer to disable it. Deleting it also works."
       },
       "asset": {
         "format": "{protocol}://cmake.org/files/v{major_minor}/cmake-{version}-{platform}.{extension}"
