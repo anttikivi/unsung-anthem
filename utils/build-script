@@ -180,18 +180,27 @@ def apply_default_arguments(args):
         args.build_only = False
         args.test_only = False
         args.update_checkout_only = False
+        args.docs_only = False
     elif args.build_only:
         args.install_only = False
         args.test_only = False
         args.update_checkout_only = False
+        args.docs_only = False
     elif args.test_only:
         args.build_only = False
         args.install_only = False
         args.update_checkout_only = False
+        args.docs_only = False
     elif args.update_checkout_only:
         args.build_only = False
         args.install_only = False
         args.test_only = False
+        args.docs_only = False
+    elif args.docs_only:
+        args.build_only = False
+        args.install_only = False
+        args.test_only = False
+        args.update_checkout_only = False
 
     # If the build is done in Travis or AppVeyor, CI is true.
     if args.travis or args.appveyor:
@@ -649,6 +658,11 @@ def main_preset():
         help="only update the checkout",
         action="store_true",
         dest="update_checkout_only")
+    build_actions_group.add_argument(
+        "--docs",
+        help="build only the documentation",
+        action="store_true",
+        dest="docs_only")
 
     parser.add_argument(
         "-j", "--jobs",
@@ -715,6 +729,8 @@ def main_preset():
         build_script_args += ['--build']
     elif args.test_only:
         build_script_args += ['--run-test']
+    elif args.docs_only:
+        build_script_args += ['--docs']
     elif args.update_checkout_only:
         build_script_args += ['--update-checkout']
     build_script_args += preset_args
@@ -844,6 +860,11 @@ def main_normal():
         help="only update the checkout",
         action="store_true",
         dest="update_checkout_only")
+    build_actions_group.add_argument(
+        "--docs",
+        help="build only the documentation",
+        action="store_true",
+        dest="docs_only")
 
     extra_actions_group = parser.add_argument_group(
         title="Extra actions to perform before or in addition to building")
@@ -1357,7 +1378,7 @@ def main_normal():
     apply_default_checkout_skip_arguments(args=args, toolchain=toolchain)
 
     # Update the checkout.
-    if not args.build_only and not args.test_only:
+    if not args.build_only and not args.test_only and not args.docs_only:
         checkout.update(args)
 
     # Do not continue further if the script should only update the checkout.
@@ -1365,21 +1386,23 @@ def main_normal():
         return 0
 
     # Build ninja if required, which will update the toolchain.
-    if (args.build_ninja
-        or (args.cmake_generator == 'Ninja'
-            and toolchain.ninja is None)) and not args.test_only:
+    if ((args.build_ninja
+         or (args.cmake_generator == 'Ninja'
+             and toolchain.ninja is None)) and not args.test_only
+            and not args.docs_only):
         ninja.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build CMake.
-    if (args.build_cmake or toolchain.cmake is None) and not args.test_only:
+    if ((args.build_cmake or toolchain.cmake is None) and not args.test_only
+            and not args.docs_only):
         cmake.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build LLVM, Clang, and libc++.
-    if args.build_llvm and not args.test_only:
+    if args.build_llvm and not args.test_only and not args.docs_only:
         llvm.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build GCC.
-    if args.build_gcc and not args.test_only:
+    if args.build_gcc and not args.test_only and not args.docs_only:
         gcc.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # If the main tool for build is MSBuild and CC and CXX are set to None,
@@ -1402,7 +1425,7 @@ def main_normal():
         diagnostics.note('The CLion set-up is enabled and, thus, the final '
                          'Unsung Anthem executable will not be built')
 
-    if not args.build_only and not args.test_only:
+    if not args.build_only and not args.test_only and not args.docs_only:
         if args.sdl:
             # Build SDL.
             sdl.build(args=args, toolchain=toolchain, workspace=workspace)
@@ -1412,7 +1435,7 @@ def main_normal():
 
     # Copy the files of the Unsung Anthem dependencies to the correct
     # directories.
-    if not args.build_only and not args.test_only:
+    if not args.build_only and not args.test_only and not args.docs_only:
         cat.build(args=args, toolchain=toolchain, workspace=workspace)
         spdlog.build(args=args, toolchain=toolchain, workspace=workspace)
 
@@ -1420,15 +1443,17 @@ def main_normal():
     # directories.
     if args.clion or (args.build_test
                       and not args.build_only
-                      and not args.test_only):
+                      and not args.test_only
+                      and not args.docs_only):
         catch.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build Unsung Anthem.
-    if not args.install_only and not args.test_only:
+    if not args.install_only and not args.test_only and not args.docs_only:
         anthem.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build the Unsung Anthem tests.
-    if args.build_test and not args.install_only and not args.test_only:
+    if args.build_test and not args.install_only and not args.test_only \
+            and not args.docs_only:
         anthem.build(args=args,
                      toolchain=toolchain,
                      workspace=workspace,
@@ -1437,7 +1462,8 @@ def main_normal():
     # Run the tests.
     if (args.test
             or args.test_only) \
-            and not args.build_only and not args.install_only:
+            and not args.build_only and not args.install_only \
+            and not args.docs_only:
         with shell.pushd(workspace.anthem_build_dir(args.host_target,
                                                     'anthem-test')):
             shell.call_without_sleeping([os.path.join(
@@ -1445,7 +1471,7 @@ def main_normal():
                 args.test_executable_name)])
 
     # Build the documentation.
-    if args.build_docs and not args.test_only and not args.install_only:
+    if args.build_docs or args.docs_only:
         docs.build(args=args, toolchain=toolchain, workspace=workspace)
 
     return 0
