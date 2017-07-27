@@ -22,11 +22,11 @@ from ..variables import ANTHEM_SOURCE_ROOT
 
 
 def get_temp_directory(project):
-    os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', 'temp', project)
+    return os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', 'temp', project)
 
 
 def get_project_directory(args, project):
-    os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', args.version_info['llvm'], project)
+    return os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', args.version_info['llvm'], project)
 
 
 class LLVM(product.Product):
