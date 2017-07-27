@@ -256,24 +256,21 @@ def get_github_dependency(args, config, key, dependency, protocol):
             move_glfw_files(args)
 
 
-def get_llvm_dependency(args,
-                        key,
-                        id,
-                        version,
-                        url_format,
-                        use_cmd_tar,
-                        protocol):
+def get_llvm_dependency(args, key, id, url_format, use_cmd_tar, protocol):
+    version = args.llvm_version
     # Set the full path to the destination file.
     local_file = os.path.join(llvm.get_temp_directory(key), id + '.tar.xz')
 
     # Delete the old directory.
     shell.rmtree(llvm.get_project_directory(args, key))
+    shell.rmtree(llvm.get_temp_directory(key))
 
     # Make a new directory.
     shell.makedirs(llvm.get_project_directory(args, key))
+    shell.makedirs(llvm.get_temp_directory(key))
 
     # Create the correct URL for downloading the source code.
-    url = url_format.format(protocol, version, id, version)
+    url = url_format.format('http', version, id, version)
 
     # Form the HTML GET call to stream the archive.
     request = requests.get(url=url, stream=True)
@@ -536,13 +533,9 @@ def update(args):
                     # Set the project.
                     project_json = dependency['projects'][project]
 
-                    llvm_version = \
-                        dependency['version_prefix'] + args.llvm_version
-
                     get_llvm_dependency(args=args,
                                         key=project,
                                         id=project_json['id'],
-                                        version=llvm_version,
                                         url_format=url_format,
                                         use_cmd_tar=(
                                             not args.disable_manual_tar),

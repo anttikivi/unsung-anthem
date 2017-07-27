@@ -5,7 +5,6 @@
     "llvm": {
       "github": false,
       "default_version": "4.0.1",
-      "version_prefix": "",
       "asset": {
         "format": "{}://releases.llvm.org/{}/{}-{}.src.tar.xz"
       },

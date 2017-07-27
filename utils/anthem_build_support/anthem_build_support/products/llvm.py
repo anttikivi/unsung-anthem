@@ -96,15 +96,16 @@ class LLVM(product.Product):
 
 
 def build(args, toolchain, workspace):
-    if not os.path.exists(workspace.source_dir('llvm')):
+    if not os.path.exists(workspace.llvm_source_dir('llvm')):
         diagnostics.fatal('cannot find source directory for LLVM (tried %s)'
-                          % (workspace.source_dir('llvm')))
+                          % (workspace.llvm_source_dir('llvm')))
 
     llvm_build = LLVM(args=args,
                       toolchain=toolchain,
                       workspace=workspace,
-                      source_dir=workspace.source_dir('llvm'),
-                      build_dir=workspace.build_dir(args.host_target, 'llvm'))
+                      source_dir=workspace.llvm_source_dir('llvm'),
+                      build_dir=workspace.llvm_build_dir(args.host_target,
+                                                         'llvm'))
 
     llvm_build.do_build()
     toolchain.cc = llvm_build.clang_bin_path

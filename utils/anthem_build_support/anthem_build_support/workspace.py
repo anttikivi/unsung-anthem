@@ -28,6 +28,12 @@ class Workspace(object):
                             self.args.version_info[path]) \
             if include_version else os.path.join(self.source_root, path)
 
+    def llvm_source_dir(self, path):
+        return os.path.join(self.source_root,
+                            'llvm',
+                            self.args.llvm_version,
+                            path)
+
     def build_dir(self, deployment_target, product, include_version=True):
         return os.path.join(self.build_root,
                             '%s-%s' % (product, deployment_target),
@@ -35,6 +41,11 @@ class Workspace(object):
             if include_version else os.path.join(self.build_root,
                                                  '%s-%s' % (product,
                                                             deployment_target))
+
+    def llvm_build_dir(self, deployment_target, product):
+        return os.path.join(self.build_root,
+                            '%s-%s' % (product, deployment_target),
+                            self.args.llvm_version)
 
 
 def compute_subdir(args):

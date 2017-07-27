@@ -16,35 +16,32 @@ import os
 
 from . import product
 from .. import diagnostics, shell
-from ..variables import ANTHEM_SOURCE_ROOT
 
 
 class Libcxx(product.Product):
     def do_build(self):
         # Delete the libc++ tree from the LLVM tree.
-        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT,
-                                  'llvm',
+        shell.rmtree(os.path.join(self.workspace.llvm_source_dir('llvm'),
                                   'projects',
                                   'libcxx'))
 
         # Copy the libc++ tree to the LLVM tree for the build.
         shell.copytree(self.source_dir,
-                       os.path.join(ANTHEM_SOURCE_ROOT,
-                                    'llvm',
+                       os.path.join(self.workspace.llvm_source_dir('llvm'),
                                     'projects',
                                     'libcxx'))
 
 
 def build(args, toolchain, workspace):
-    if not os.path.exists(workspace.source_dir('libc++')):
+    if not os.path.exists(workspace.llvm_source_dir('libc++')):
         diagnostics.fatal('cannot find source directory for libc++ (tried %s)'
-                          % (workspace.source_dir('libc++')))
+                          % (workspace.llvm_source_dir('libc++')))
 
     libcxx_build = Libcxx(args=args,
                           toolchain=toolchain,
                           workspace=workspace,
-                          source_dir=workspace.source_dir('libc++'),
-                          build_dir=workspace.build_dir(args.host_target,
-                                                        'libc++'))
+                          source_dir=workspace.llvm_source_dir('libc++'),
+                          build_dir=workspace.llvm_build_dir(args.host_target,
+                                                             'libc++'))
 
     libcxx_build.do_build()
