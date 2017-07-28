@@ -241,17 +241,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.5 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -280,17 +274,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.5 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -319,17 +307,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.6 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -358,17 +340,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.6 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -397,17 +373,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.7 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -436,17 +406,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.7 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -475,17 +439,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.8 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -514,17 +472,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.8 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -553,17 +505,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.9 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -592,17 +538,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.9 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -631,17 +571,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-4.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -670,17 +604,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-4.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -709,17 +637,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-4.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -748,17 +670,11 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: |
         sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
         sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-        sudo apt-add-repository -y "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-4.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -775,8 +691,6 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-     - gcc48_cxx14_glfw
-     - gcc48_cxx14_sdl
      - gcc5_cxx14_glfw
      - gcc5_cxx14_sdl
      - gcc6_cxx14_glfw
