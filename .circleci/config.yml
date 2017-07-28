@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/anthem/anthem
     machine:
-    - image: "circleci/classic:latest"
+      image: circleci/classic:latest
     environment:
       ANTHEM_SOURCE_ROOT: /home/circleci/anthem
       ANTHEM_REPO_NAME: anthem
