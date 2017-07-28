@@ -17,7 +17,7 @@ default_apt_commands: &default_apt_commands
 - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
 
 jobs:
-  build:
+  build_gcc:
     <<: *defaults
     environment:
       <<: *default_variables
@@ -81,5 +81,5 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-     - build
+     - build_gcc
      - build_sdl
