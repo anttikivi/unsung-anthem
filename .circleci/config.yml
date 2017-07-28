@@ -1,13 +1,19 @@
 version: 2
 
+defaults: &defaults
+  working_directory: ~/anthem/anthem
+  machine:
+    image: circleci/classic:latest
+
+default_variables: &default_variables
+  ANTHEM_SOURCE_ROOT: /home/circleci/anthem
+  ANTHEM_REPO_NAME: anthem
+
 jobs:
   build:
-    working_directory: ~/anthem/anthem
-    machine:
-      image: circleci/classic:latest
+    <<: *defaults
     environment:
-      ANTHEM_SOURCE_ROOT: /home/circleci/anthem
-      ANTHEM_REPO_NAME: anthem
+      <<: *default_variables
       ANTHEM_BUILD_PRESET: circleci_linux_gcc5_cpp14
       COMPILER_NAME: gcc
       CXX: g++-5
