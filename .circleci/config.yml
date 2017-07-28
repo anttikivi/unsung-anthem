@@ -8,7 +8,7 @@ defaults: &defaults
 
 jobs:
   build:
-    working_directory: ~/anthem/anthem
+    working_directory: $HOME/anthem/anthem
     machine:
       image: circleci/classic:latest
     environment:
@@ -16,7 +16,8 @@ jobs:
       COMPILER_NAME: gcc
       CXX: g++-5
       CC: gcc-5
-      ANTHEM_ROOT: /home/circleci/anthem/anthem
+      ANTHEM_SOURCE_ROOT: $CIRCLE_WORKING_DIRECTORY
+      ANTHEM_REPO_NAME: anthem
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
@@ -24,19 +25,21 @@ jobs:
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5 xorg-dev libglu1-mesa-dev build-essential
     - run: echo $(pwd)
     - run: ls .
-    - run: chmod +x $ANTHEM_ROOT/utils/build-script
+    - run: |
+        cd $ANTHEM_SOURCE_ROOT/..
+        chmod +x $ANTHEM_REPO_NAME/utils/build-script
     - run: ${CC} --version
     - run: ${CXX} --version
     - run: pip install --user requests
     - run: |
-        cd $ANTHEM_ROOT/..
-        unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
+        cd $ANTHEM_SOURCE_ROOT/..
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
     - run: |
-        cd $ANTHEM_ROOT/..
-        unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
+        cd $ANTHEM_SOURCE_ROOT/..
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
     - run: |
-        cd $ANTHEM_ROOT/..
-        unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
+        cd $ANTHEM_SOURCE_ROOT/..
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
 
 workflows:
   version: 2
