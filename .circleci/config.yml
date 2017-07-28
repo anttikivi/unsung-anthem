@@ -1,20 +1,17 @@
 version: 2
 
 defaults: &defaults
-  working_directory: $HOME/anthem/anthem
+  working_directory: /home/circleci/anthem/anthem
   machine:
     - image: circleci/classic:latest
 
 default_variables: &default_variables
-  ANTHEM_SOURCE_ROOT: $CIRCLE_WORKING_DIRECTORY
+  ANTHEM_SOURCE_ROOT: /home/circleci/anthem
   ANTHEM_REPO_NAME: anthem
 
 jobs:
   build:
     <<: *defaults
-    working_directory: $HOME/anthem/anthem
-    machine:
-      image: circleci/classic:latest
     environment:
       <<: *default_variables
       ANTHEM_BUILD_PRESET: circleci_linux_gcc5_cpp14
@@ -29,19 +26,19 @@ jobs:
     - run: echo $(pwd)
     - run: ls .
     - run: |
-        cd $ANTHEM_SOURCE_ROOT/..
+        cd $CIRCLE_WORKING_DIRECTORY/..
         chmod +x $ANTHEM_REPO_NAME/utils/build-script
     - run: ${CC} --version
     - run: ${CXX} --version
     - run: pip install --user requests
     - run: |
-        cd $ANTHEM_SOURCE_ROOT/..
+        cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
     - run: |
-        cd $ANTHEM_SOURCE_ROOT/..
+        cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
     - run: |
-        cd $ANTHEM_SOURCE_ROOT/..
+        cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
 
 workflows:
