@@ -9,7 +9,7 @@ jobs:
       COMPILER_NAME: gcc
       CXX: g++-5
       CC: gcc-5
-      ANTHEM_ROOT: /home/ubuntu/unsung-anthem
+      ANTHEM_ROOT: $CIRCLE_WORKING_DIRECTORY/unsung-anthem
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
