@@ -1,7 +1,7 @@
 version: 2
 
 defaults: &defaults
-  working_directory: ~/anthem/anthem
+  working_directory: /home/circleci/anthem/anthem
   machine:
     image: circleci/classic:latest
 
