@@ -12,6 +12,8 @@ insert a logo here
 
 **Welcome to Unsung Anthem!**
 
+This README is not ready yet!
+
 Unsung Anthem is a 2D video game with own game engine. It is written by using modern C++ and functional programming paradigm.
 
 
