@@ -175,6 +175,34 @@ def exit_rejecting_arguments(message, parser=None):
     sys.exit(2)  # 2 is the same as `argparse` error exit code.
 
 
+def apply_default_ci_arguments(args):
+    # If the build is done in Travis, CircleCI, or AppVeyor, CI is true.
+    if args.travis or args.circleci or args.appveyor:
+        args.ci = True
+
+
+def apply_default_cxx_std_arguments(args):
+    # If the build is done in a CI environment and the compiler is Clang,
+    # default to libc++.
+    if args.stdlib is None and args.ci and args.main_tool == 'llvm':
+        args.stdlib = 'libc++'
+
+    # If LLVM is being built, the library should be set to libc++.
+    if args.build_llvm and args.stdlib is None:
+        args.stdlib = 'libc++'
+
+    # If GCC is being built, the library should be set to libstdc++.
+    if args.build_gcc and args.stdlib is None:
+        args.stdlib = 'libstdc++'
+
+    # Set the C++ standard library implementation and a flag denoting whether
+    # or not it is set.
+    if args.stdlib is None:
+        args.stdlib_set = False
+    else:
+        args.stdlib_set = True
+
+
 def apply_default_arguments(args):
     if args.install_only:
         args.build_only = False
@@ -201,10 +229,6 @@ def apply_default_arguments(args):
         args.install_only = False
         args.test_only = False
         args.update_checkout_only = False
-
-    # If the build is done in Travis, CircleCI, or AppVeyor, CI is true.
-    if args.travis or args.circleci or args.appveyor:
-        args.ci = True
 
     # If SDL or GLFW is not explicitly specified, use GLFW.
     if not args.sdl and not args.glfw:
@@ -497,6 +521,13 @@ def validate_arguments(args):
         exit_rejecting_arguments('C++ standard version is set to an invalid '
                                  'value: ' + str(args.cmake_generator))
 
+    # Check the validity of C++ standard library.
+    if args.stdlib_set:
+        if not (args.stdlib == 'libc++' or args.stdlib == 'libstdc++'):
+            exit_rejecting_arguments('C++ standard library implementation is '
+                                     'set to an invalid value: '
+                                     + str(args.cmake_generator))
+
     # Check the validity of CMake generator.
     if not ('Ninja' == args.cmake_generator
             or 'Unix Makefiles' == args.cmake_generator
@@ -547,6 +578,7 @@ def validate_arguments(args):
 
     # Check the validity of the compiler tool to be looked for.
     if not ('clang' == args.main_tool
+            or args.main_tool == 'llvm'
             or 'gcc' == args.main_tool
             or 'msbuild' == args.main_tool):
         exit_rejecting_arguments('The main tool is set to an invalid value: '
@@ -884,6 +916,11 @@ def main_normal():
         "--clean-shared",
         help="delete only the shared build",
         action="store_true")
+
+    parser.add_argument(
+        "--stdlib",
+        help="build using the specified C++ standard library implementation",
+        dest="stdlib")
 
     cpp_version_group = parser.add_mutually_exclusive_group(required=False)
     cpp_version_group.add_argument(
@@ -1250,9 +1287,9 @@ def main_normal():
     parser.add_argument(
         "--main-tool",
         help="the name of the main tool to be looked by the script. The "
-             "default is clang.",
+             "default is llvm.",
         metavar="NAME",
-        default='clang')
+        default='llvm')
     parser.add_argument(
         "--main-tool-version",
         help="the version of the main tool which will be used in the lookup "
@@ -1314,8 +1351,22 @@ def main_normal():
     # Set the dry run setting of the shell utilities.
     shell.dry_run = args.dry_run
 
+    diagnostics.note('The main tool is set to ' + str(args.main_tool))
+    diagnostics.note('The main tool version is set to '
+                     + str(args.main_tool_version))
+
+    # LLVM and Clang are synonyms as main tools.
+    if args.main_tool == 'clang':
+        args.main_tool = 'llvm'
+
+    # Apply the default continuous integration arguments.
+    apply_default_ci_arguments(args=args)
+
     # Apply the default values of the arguments to the args namespace.
     apply_default_arguments(args=args)
+
+    # Apply the default C++ standard-related arguments.
+    apply_default_cxx_std_arguments(args=args)
 
     # Create a dictionary for saving the version also by simple strings.
     args.version_info = {}
@@ -1363,10 +1414,6 @@ def main_normal():
 
     # Create the install directory.
     shell.makedirs(workspace.install_root)
-
-    diagnostics.note('The main tool is set to ' + str(args.main_tool))
-    diagnostics.note('The main tool version is set to '
-                     + str(args.main_tool_version))
 
     # Register the tools to the toolchain.
     register_tools(args=args)
@@ -1432,6 +1479,11 @@ def main_normal():
     diagnostics.note('MSBuild is set to ' + str(toolchain.msbuild))
     diagnostics.note('Ninja is set to ' + str(toolchain.ninja))
     diagnostics.note('CMake is set to ' + str(toolchain.cmake))
+
+    diagnostics.note('The C++ standard version is set to ' + args.std)
+
+    if args.stdlib_set:
+        diagnostics.note('The C++ standard library is set to ' + args.stdlib)
 
     # Tell the user that this set-up will not build the final product but
     # rather only set it up for CLion.

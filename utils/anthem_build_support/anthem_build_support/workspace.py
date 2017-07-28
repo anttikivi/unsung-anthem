@@ -68,7 +68,10 @@ def compute_subdir(args, shared, install):
     elif args.build_gcc:
         compiler_subdir = "gcc-" + args.gcc_version
     else:
-        compiler_subdir = "system-" + args.main_tool
+        if args.main_tool == 'clang' or args.main_tool == 'llvm':
+            compiler_subdir = "system-llvm"
+        else:
+            compiler_subdir = "system-" + args.main_tool
 
     if args.sdl:
         if platform.system() == "Windows":

@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(anthem)
 
-option(ANTHEM_DEFAULT_COMPILER
-    "Option for using the default system compiler so the CMake script does not
- give error when some of the definitions are missing"
-    OFF)
-
 option(ANTHEM_LLVM "Option for using the buildscript-built LLVM for compiling
  Unsung Anthem"
     OFF)
@@ -51,11 +46,9 @@ endif()
 message(STATUS "The C++ standard version (ANTHEM_CXX_VERSION) is set to ${ANTHEM_CXX_VERSION}")
 
 # Check if the C++ standard library is set.
-if(NOT ANTHEM_DEFAULT_COMPILER AND NOT DEFINED ANTHEM_STDLIB)
-  message(FATAL_ERROR "The C++ standard library (ANTHEM_STDLIB) is not set – the possible values are libc++ and libstdc++")
+if(DEFINED ANTHEM_STDLIB)
+  message(STATUS "The C++ standard library (ANTHEM_STDLIB) is set to ${ANTHEM_STDLIB}")
 endif()
-
-message(STATUS "The C++ standard library (ANTHEM_STDLIB) is set to ${ANTHEM_STDLIB}")
 
 # Check if the main build tool is set.
 if(NOT DEFINED ANTHEM_MAIN_COMPILER_TOOL)
@@ -140,6 +133,10 @@ if (WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std=${ANTHEM_STD}")
 else()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${ANTHEM_STD}")
+endif()
+
+if (DEFINED ANTHEM_STDLIB)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=${ANTHEM_STDLIB}")
 endif()
 
 if(ANTHEM_LLVM)

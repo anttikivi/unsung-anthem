@@ -76,12 +76,14 @@ class Anthem(product.Product):
             cmake_call += ['-DCMAKE_MAKE_PROGRAM=%s' % self.toolchain.ninja]
 
         # Set the C++ standard library as it is required.
-        if self.args.build_llvm:
-            cmake_call += ['-DANTHEM_STDLIB=libc++']
-            cmake_call += ['-DANTHEM_LLVM=ON']
+        if self.args.build_llvm or self.args.build_gcc:
+            cmake_call += ['-DANTHEM_SCRIPT_BUILT_COMPILER=ON']
         else:
-            cmake_call += ['-DANTHEM_DEFAULT_COMPILER=ON']
-            cmake_call += ['-DANTHEM_LLVM=OFF']
+            cmake_call += ['-DANTHEM_SCRIPT_BUILT_COMPILER=OFF']
+
+        # Set the C++ standard library explicitly.
+        if self.args.stdlib_set:
+            cmake_call += ['-DANTHEM_STDLIB={}'.format(self.args.stdlib)]
 
         cmake_call += self.args.extra_cmake_options
 

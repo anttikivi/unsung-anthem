@@ -47,7 +47,7 @@ def _register(name, *tool):
 
 
 def register_tools(args):
-    if args.main_tool == 'clang':
+    if args.main_tool == 'llvm':
         if platform.system() == 'Windows':
             _register('cc', 'clang-cl')
             _register('cxx', 'clang-cl')
