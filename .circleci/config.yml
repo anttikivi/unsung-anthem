@@ -4,7 +4,7 @@ defaults: &defaults
   working_directory: /home/circleci/anthem/anthem
   machine:
     image: circleci/classic:latest
-  parallelism: 4
+  parallelism: 1
 
 default_variables: &default_variables
   ANTHEM_SOURCE_ROOT: /home/circleci/anthem
