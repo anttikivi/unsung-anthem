@@ -1254,6 +1254,12 @@ def main_normal():
         metavar="NAME",
         default='clang')
     parser.add_argument(
+        "--main-tool-version",
+        help="the version of the main tool which will be used in the lookup "
+             "of the tool",
+        metavar="VERSION",
+        default='default')
+    parser.add_argument(
         '--disable-shared-tools',
         help='disallow sharing tools and dependencies between Unsung Anthem '
              'versions if the versions are the same',
@@ -1359,6 +1365,8 @@ def main_normal():
     shell.makedirs(workspace.install_root)
 
     diagnostics.note('The main tool is set to ' + str(args.main_tool))
+    diagnostics.note('The main tool version is set to '
+                     + str(args.main_tool_version))
 
     # Register the tools to the toolchain.
     register_tools(args=args)

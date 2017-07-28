@@ -52,11 +52,19 @@ def register_tools(args):
             _register('cc', 'clang-cl')
             _register('cxx', 'clang-cl')
         else:
-            _register('cc', 'clang')
-            _register('cxx', 'clang++')
+            if args.main_tool_version == 'default':
+                _register('cc', 'clang')
+                _register('cxx', 'clang++')
+            else:
+                _register('cc', 'clang-' + args.main_tool_version)
+                _register('cxx', 'clang++-' + args.main_tool_version)
     elif args.main_tool == 'gcc':
-        _register('cc', 'gcc')
-        _register('cxx', 'g++')
+        if args.main_tool_version == 'default':
+            _register('cc', 'gcc')
+            _register('cxx', 'g++')
+        else:
+            _register('cc', 'gcc-' + args.main_tool_version)
+            _register('cxx', 'g++-' + args.main_tool_version)
     elif args.main_tool == 'msbuild':
         _register('cc', 'msbuild')
         _register('cxx', 'msbuild')
@@ -96,25 +104,25 @@ class GenericUnix(Toolchain):
 
         # On these platforms, search 'clang', 'clang++' unconditionally.
         # To determine the llvm_suffix.
-        ret = self.find_clang(['clang', 'clang++'], suffixes)
-        if ret is None:
-            self.cc = None
-            self.cxx = None
+        # ret = self.find_clang(['clang', 'clang++'], suffixes)
+        # if ret is None:
+        #     self.cc = None
+        #     self.cxx = None
             # We don't have clang, then we do not have any LLVM tools.
-            self.llvm_suffixes = []
-        else:
-            found, suffix = ret
-            self.cc, self.cxx = found
+        #     self.llvm_suffixes = []
+        # else:
+        #     found, suffix = ret
+        #     self.cc, self.cxx = found
 
-            if suffix == '':
+        #     if suffix == '':
                 # Some platform may have `clang`, `clang++`, `llvm-cov-3.6`
                 # but not `llvm-cov`. In that case, we assume `clang` is
                 # corresponding to the best version of llvm tools found.
-                self.llvm_suffixes = suffixes
-            else:
+        #         self.llvm_suffixes = suffixes
+        #     else:
                 # Otherwise, we must have llvm tools with the same suffix as
                 # `clang` or `clang++`
-                self.llvm_suffixes = [suffix]
+        #         self.llvm_suffixes = [suffix]
 
     def find_clang(self, tools, suffixes):
         for suffix in suffixes:
