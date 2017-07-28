@@ -1,0 +1,32 @@
+machine:
+  environment:
+    ANTHEM_BUILD_PRESET: circleci_linux_gcc5_cpp14
+    COMPILER_NAME: gcc
+    CXX: g++-5
+    CC: gcc-5
+  post:
+   - ${CC} --version
+   - ${CXX} --version
+
+dependencies:
+  pre:
+  - sudo apt-add-repository "ppa:ubuntu-toolchain-r/test"
+  - sudo apt-get update
+  - sudo apt-get --no-install-suggests --no-install-recommends --force-yes install g++-5 xorg-dev libglu1-mesa-dev build-essential
+  override:
+  - sudo pip install requests
+  - echo $(pwd)
+  - cd ..
+  - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
+
+compile:
+  override:
+  - echo $(pwd)
+  - cd ..
+  - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
+
+test:
+  override:
+  - echo $(pwd)
+  - cd ..
+  - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
