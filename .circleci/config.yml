@@ -1,5 +1,11 @@
 version: 2
 
+defaults: &defaults
+  machine:
+    - image: circleci/classic:latest
+  environment:
+    ANTHEM_ROOT: $CIRCLE_WORKING_DIRECTORY/unsung-anthem
+
 jobs:
   build:
     machine:
@@ -15,6 +21,8 @@ jobs:
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5 xorg-dev libglu1-mesa-dev build-essential
+    - run: echo $(pwd)
+    - run: ls .
     - run: chmod +x $ANTHEM_ROOT/utils/build-script
     - run: ${CC} --version
     - run: ${CXX} --version
@@ -28,3 +36,10 @@ jobs:
     - run: |
         cd $ANTHEM_ROOT/..
         unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
+
+workflows:
+  version: 2
+  build_test:
+    jobs:
+    - build
+
