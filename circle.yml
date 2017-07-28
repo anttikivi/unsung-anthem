@@ -4,9 +4,6 @@ machine:
     COMPILER_NAME: gcc
     CXX: g++-5
     CC: gcc-5
-  post:
-   - ${CC} --version
-   - ${CXX} --version
 
 dependencies:
   pre:
@@ -18,6 +15,9 @@ dependencies:
   - echo $(pwd)
   - cd ..
   - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
+  post:
+  - ${CC} --version
+  - ${CXX} --version
 
 compile:
   override:
