@@ -12,7 +12,7 @@ configuration: Debug
 
 environment:
   ANTHEM_OAUTH:
-    secure: 9v/VvJm25wmGY1pEfu1jKPfjlY0S3/XD+/V4QcNAs9p0sNUSkmzuAvYK8IobENjd
+    secure: 4OCwwnyLZsHZxRdZm466OrFGcYaE+rcfNAoVZWhsvpA+pBzYoMeXbxzINJDwXBgv
 
 install:
  - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" SET ANTHEM_CMAKE_GENERATOR=Visual_Studio_14_2015
