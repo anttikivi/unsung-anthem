@@ -187,8 +187,8 @@ def apply_default_cxx_std_arguments(args):
     if args.stdlib is None and args.ci and args.main_tool == 'llvm':
         args.stdlib = 'libc++'
 
-    # If LLVM is being built, the library should be set to libc++.
-    if args.build_llvm and args.stdlib is None:
+    # If LLVM or libc++ is being built, the library should be set to libc++.
+    if (args.build_llvm or args.build_libcxx) and args.stdlib is None:
         args.stdlib = 'libc++'
 
     # If GCC is being built, the library should be set to libstdc++.
@@ -456,7 +456,10 @@ def apply_default_version_arguments(args):
 def apply_default_checkout_skip_arguments(args, toolchain):
     # Skip LLVM on the checkout update if LLVM will not be built.
     if not args.build_llvm:
-        args.skip_repository_list += ['llvm']
+        if not args.build_libcxx:
+            args.skip_repository_list += ['llvm']
+        else:
+            args.skip_repository_list += ['llvm-clang']
 
     # Skip GCC on the checkout update if GCC will not be built.
     if not args.build_gcc:
@@ -842,6 +845,16 @@ def main_normal():
         help="build GNU Compiler Collection and use the built compiler",
         action="store_true",
         dest="build_gcc")
+    projects_group.add_argument(
+        "--libc++",
+        help="build libc++ and use the built library to build the project",
+        action="store_true",
+        dest="build_libcxx")
+    projects_group.add_argument(
+        "--libcxx",
+        help="build libc++ and use the built library to build the project",
+        action="store_true",
+        dest="build_libcxx")
     projects_group.add_argument(
         "--sdl",
         help="build and use SDL (default GLFW)",
@@ -1459,7 +1472,8 @@ def main_normal():
         cmake.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build LLVM, Clang, and libc++.
-    if args.build_llvm and not args.test_only and not args.docs_only:
+    if (args.build_llvm or args.build_libcxx) \
+            and not args.test_only and not args.docs_only:
         llvm.build(args=args, toolchain=toolchain, workspace=workspace)
 
     # Build GCC.

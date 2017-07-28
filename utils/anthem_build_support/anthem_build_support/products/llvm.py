@@ -53,9 +53,10 @@ class LLVM(product.Product):
             return
 
         # Copy the clang files to the correct directory for the build.
-        clang.build(args=self.args,
-                    toolchain=self.toolchain,
-                    workspace=self.workspace)
+        if self.args.build_llvm:
+            clang.build(args=self.args,
+                        toolchain=self.toolchain,
+                        workspace=self.workspace)
 
         # Copy the libc++ files to the correct directory for the build.
         libcxx.build(args=self.args,
@@ -108,7 +109,9 @@ def build(args, toolchain, workspace):
                                                          'llvm'))
 
     llvm_build.do_build()
-    toolchain.cc = llvm_build.clang_bin_path
-    toolchain.cxx = llvm_build.clang_cxx_bin_path
 
-    args.main_tool = 'clang'
+    if args.build_llvm:
+        toolchain.cc = llvm_build.clang_bin_path
+        toolchain.cxx = llvm_build.clang_cxx_bin_path
+
+        args.main_tool = 'clang'

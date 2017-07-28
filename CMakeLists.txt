@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(anthem)
 
-option(ANTHEM_LLVM "Option for using the buildscript-built LLVM for compiling
- Unsung Anthem"
-    OFF)
+option(ANTHEM_CUSTOM_LIBCXX "Use alternative installation of libc++" OFF)
 
 option(ANTHEM_ENABLE_ASSERTIONS "Option for enabling assertions in the code" ON)
 
@@ -65,9 +63,6 @@ elseif(ANTHEM_SDL AND ANTHEM_GLFW)
 elseif(NOT ANTHEM_SDL AND NOT ANTHEM_GLFW)
   message(FATAL_ERROR "The neither SDL nor GLFW (ANTHEM_SDL and ANTHEM_GLFW) is used")
 endif()
-
-# Set the compiler flags which will be set if the build is done with LLVM.
-set(LLVM_CXX_FLAGS "-stdlib=${ANTHEM_STDLIB} -nostdinc++ -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 -L${ANTHEM_INSTALL_PREFIX}/lib -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
 
 # Set the preprocessor definitions according to the C++ standard version.
 if(${ANTHEM_CXX_VERSION} STREQUAL c++latest)
@@ -139,8 +134,8 @@ if (DEFINED ANTHEM_STDLIB)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=${ANTHEM_STDLIB}")
 endif()
 
-if(ANTHEM_LLVM)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LLVM_CXX_FLAGS}")
+if(ANTHEM_CUSTOM_LIBCXX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++ -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 -L${ANTHEM_INSTALL_PREFIX}/lib -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
 endif()
 
 message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
