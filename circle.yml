@@ -7,9 +7,9 @@ machine:
 
 dependencies:
   pre:
-  - sudo apt-add-repository "ppa:ubuntu-toolchain-r/test"
-  - sudo apt-get update
-  - sudo apt-get --no-install-suggests --no-install-recommends --force-yes install g++-5 xorg-dev libglu1-mesa-dev build-essential
+  - sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+  - sudo apt-get -y update
+  - sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5 xorg-dev libglu1-mesa-dev build-essential
   override:
   - sudo pip install requests
   - echo $(pwd)
