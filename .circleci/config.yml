@@ -4,7 +4,7 @@ defaults: &defaults
   machine:
     - image: circleci/classic:latest
   environment:
-    ANTHEM_ROOT: $CIRCLE_WORKING_DIRECTORY/unsung-anthem
+    ANTHEM_ROOT: /home/circleci/unsung-anthem
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
       COMPILER_NAME: gcc
       CXX: g++-5
       CC: gcc-5
-      ANTHEM_ROOT: ~/anthem/anthem
+      ANTHEM_ROOT: /home/circleci/anthem/anthem
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
