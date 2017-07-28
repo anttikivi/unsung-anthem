@@ -47,15 +47,6 @@ jobs:
 
 workflows:
   version: 2
-  build_test:
+  build_and_test:
     jobs:
-    - add_apt_sources
-    - apt_update:
-        requires:
-        - add_apt_sources
-    - install_default_packages:
-        requires:
-        - apt_update
-    - build_gcc_cpp14:
-        requires:
-        - install_default_packages
+    - build_gcc_cpp14
