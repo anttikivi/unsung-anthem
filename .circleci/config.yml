@@ -17,6 +17,14 @@ default_apt_commands: &default_apt_commands
 - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
 
 jobs:
+  system_installation:
+    <<: *defaults
+    steps:
+    - checkout
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-get -y update
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
+
   build_gcc:
     <<: *defaults
     environment:
@@ -27,9 +35,6 @@ jobs:
       CC: gcc-5
     steps:
     - checkout
-    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: sudo apt-get -y update
-    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
@@ -57,9 +62,6 @@ jobs:
       CC: gcc-5
     steps:
     - checkout
-    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: sudo apt-get -y update
-    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
@@ -81,5 +83,10 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-     - build_gcc
-     - build_sdl
+     - system_installation
+     - build_gcc:
+        requires:
+         - system_installation
+     - build_sdl:
+        requires:
+         - system_installation
