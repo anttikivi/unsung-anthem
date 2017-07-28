@@ -50,7 +50,7 @@ endif()
 
 # Check if the main build tool is set.
 if(NOT DEFINED ANTHEM_MAIN_COMPILER_TOOL)
-  message(FATAL_ERROR "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) is not set – the possible values are clang, gcc, and msbuild")
+  message(FATAL_ERROR "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) is not set – the possible values are llvm, gcc, and msbuild")
 endif()
 
 message(STATUS "The main tool for the build (ANTHEM_MAIN_COMPILER_TOOL) is set to ${ANTHEM_MAIN_COMPILER_TOOL}")
@@ -75,7 +75,7 @@ if(${ANTHEM_CXX_VERSION} STREQUAL c++latest)
     set(ANTHEM_STD c++latest)
   elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL gcc)
     set(ANTHEM_STD c++17)
-  elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL clang)
+  elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL llvm)
     set(ANTHEM_STD c++1z)
   endif()
 
@@ -86,7 +86,7 @@ elseif(${ANTHEM_CXX_VERSION} STREQUAL c++2a)
 
   # Add the variable for setting the C++ standard version to the compiler.
   # TODO Any compiler does not implement C++2a yet.
-  if(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL clang)
+  if(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL llvm)
     set(ANTHEM_STD c++1z)
   else()
     set(ANTHEM_STD c++17)
@@ -98,7 +98,7 @@ elseif(${ANTHEM_CXX_VERSION} STREQUAL c++17)
   add_definitions(-DANTHEM_CXX17)
 
   # Add the variable for setting the C++ standard version to the compiler.
-  if(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL clang)
+  if(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL llvm)
     set(ANTHEM_STD c++1z)
   else()
     set(ANTHEM_STD c++17)
