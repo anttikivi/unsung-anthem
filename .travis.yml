@@ -9,9 +9,9 @@ env:
 matrix:
   include:
 
-  #==------------------------------------------------------------------------==#
+  #===----------------------------------------------------------------------===#
   #==- Linux - GCC ----------------------------------------------------------==#
-  #==------------------------------------------------------------------------==#
+  #===----------------------------------------------------------------------===#
 
   # Linux: Ubuntu Precise 12.04 C++14 GCC 5
   - os: linux
@@ -21,7 +21,7 @@ matrix:
     - COMPILER_NAME=gcc
     - CXX=g++-5
     - CC=gcc-5
-    - ANTHEM_BUILD_PRESET=travis_linux_gcc5_cpp14
+    - ANTHEM_BUILD_PRESET=travis_linux_gcc5_cxx14
     addons:
       apt:
         packages:
@@ -44,7 +44,7 @@ matrix:
     - COMPILER_NAME=gcc
     - CXX=g++-7
     - CC=gcc-7
-    - ANTHEM_BUILD_PRESET=travis_linux_gcc7_cpp17
+    - ANTHEM_BUILD_PRESET=travis_linux_gcc7_cxx17
     addons:
       apt:
         packages:
@@ -54,9 +54,9 @@ matrix:
         - build-essential
         sources: *sources
 
-  #==------------------------------------------------------------------------==#
+  #===----------------------------------------------------------------------===#
   #==- Linux - Clang --------------------------------------------------------==#
-  #==------------------------------------------------------------------------==#
+  #===----------------------------------------------------------------------===#
 
   # Linux: Ubuntu Trusty 14.04 C++14 Clang 3.5
   - os: linux
@@ -66,7 +66,7 @@ matrix:
     - COMPILER_NAME=clang
     - CXX=clang++-3.5
     - CC=clang-3.5
-    - ANTHEM_BUILD_PRESET=travis_linux_clang35_cpp14
+    - ANTHEM_BUILD_PRESET=travis_linux_clang35_cxx14
     addons:
       apt:
         packages:
@@ -85,7 +85,7 @@ matrix:
     - COMPILER_NAME=clang
     - CXX=clang++-4.0
     - CC=clang-4.0
-    - ANTHEM_BUILD_PRESET=travis_linux_clang40_cpp17
+    - ANTHEM_BUILD_PRESET=travis_linux_clang40_cxx17
     addons:
       apt:
         packages:
@@ -96,9 +96,9 @@ matrix:
         - libc++-dev
         sources: *sources
 
-  #==------------------------------------------------------------------------==#
+  #===----------------------------------------------------------------------===#
   #==- Darwin - Apple Clang -------------------------------------------------==#
-  #==------------------------------------------------------------------------==#
+  #===----------------------------------------------------------------------===#
 
   # Darwin: macOS 10.11 Xcode 7.3.1 C++14 Clang
   - os: osx
@@ -108,7 +108,7 @@ matrix:
     - COMPILER_NAME=clang
     - CXX=clang++
     - CC=clang
-    - ANTHEM_BUILD_PRESET=travis_darwin_xcode73_clang_cpp14
+    - ANTHEM_BUILD_PRESET=travis_darwin_xcode73_clang_cxx14
 
   # Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
   - os: osx
@@ -118,7 +118,7 @@ matrix:
     - COMPILER_NAME=clang
     - CXX=clang++
     - CC=clang
-    - ANTHEM_BUILD_PRESET=travis_darwin_xcode83_clang_cpp17
+    - ANTHEM_BUILD_PRESET=travis_darwin_xcode83_clang_cxx17
 
 install:
 - ${CC} --version

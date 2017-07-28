@@ -202,8 +202,8 @@ def apply_default_arguments(args):
         args.test_only = False
         args.update_checkout_only = False
 
-    # If the build is done in Travis or AppVeyor, CI is true.
-    if args.travis or args.appveyor:
+    # If the build is done in Travis, CircleCI, or AppVeyor, CI is true.
+    if args.travis or args.circleci or args.appveyor:
         args.ci = True
 
     # If SDL or GLFW is not explicitly specified, use GLFW.
@@ -772,6 +772,10 @@ def main_normal():
     ci_group.add_argument(
         "--travis",
         help="build in a Travis CI environment",
+        action="store_true")
+    ci_group.add_argument(
+        "--circleci",
+        help="build in a CircleCI environment",
         action="store_true")
     ci_group.add_argument(
         "--appveyor",

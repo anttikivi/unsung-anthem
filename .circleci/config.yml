@@ -9,33 +9,26 @@ default_variables: &default_variables
   ANTHEM_SOURCE_ROOT: /home/circleci/anthem
   ANTHEM_REPO_NAME: anthem
 
-default_apt_commands: &default_apt_commands
-- run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-- run: sudo apt-add-repository -y "llvm-toolchain-trusty"
-- run: sudo apt-add-repository -y "llvm-toolchain-trusty-4.0"
-- run: sudo apt-get -y update
-- run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
-
 jobs:
-  system_installation:
+  #===----------------------------------------------------------------------===#
+  #==- GNU Compiler Collection ----------------------------------------------==#
+  #===----------------------------------------------------------------------===#
+
+  #==- C++14 GNU Compiler Collection 4.8 GLFW -------------------------------==#
+
+  gcc48_cxx14_glfw:
     <<: *defaults
+    environment:
+      <<: *default_variables
+      ANTHEM_BUILD_PRESET: circleci_linux_gcc48_cxx14_glfw
+      COMPILER_NAME: gcc
+      CXX: g++-4.8
+      CC: gcc-4.8
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
     - run: sudo apt-get -y update
-    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
-
-  build_gcc:
-    <<: *defaults
-    environment:
-      <<: *default_variables
-      ANTHEM_BUILD_PRESET: circleci_linux_gcc5_cpp14
-      COMPILER_NAME: gcc
-      CXX: g++-5
-      CC: gcc-5
-    steps:
-    - checkout
-    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-4.8 xorg-dev libglu1-mesa-dev build-essential
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         chmod +x $ANTHEM_REPO_NAME/utils/build-script
@@ -44,25 +37,24 @@ jobs:
     - run: pip install --user requests
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
-    - run: |
-        cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
-    - run: |
-        cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
 
-  build_sdl:
+
+  #==- C++14 GNU Compiler Collection 4.8 SDL --------------------------------==#
+
+  gcc48_cxx14_sdl:
     <<: *defaults
     environment:
       <<: *default_variables
-      ANTHEM_BUILD_PRESET: circleci_linux_gcc5_cpp14_sdl
+      ANTHEM_BUILD_PRESET: circleci_linux_gcc48_cxx14_sdl
       COMPILER_NAME: gcc
-      CXX: g++-5
-      CC: gcc-5
+      CXX: g++-4.8
+      CC: gcc-4.8
     steps:
     - checkout
-    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-get -y update
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-4.8 xorg-dev libglu1-mesa-dev build-essential
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         chmod +x $ANTHEM_REPO_NAME/utils/build-script
@@ -71,22 +63,174 @@ jobs:
     - run: pip install --user requests
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
+
+
+  #==- C++14 GNU Compiler Collection 5 GLFW ---------------------------------==#
+
+  gcc5_cxx14_glfw:
+    <<: *defaults
+    environment:
+      <<: *default_variables
+      ANTHEM_BUILD_PRESET: circleci_linux_gcc5_cxx14_glfw
+      COMPILER_NAME: gcc
+      CXX: g++-5
+      CC: gcc-5
+    steps:
+    - checkout
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-get -y update
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5 xorg-dev libglu1-mesa-dev build-essential
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
+        chmod +x $ANTHEM_REPO_NAME/utils/build-script
+    - run: ${CC} --version
+    - run: ${CXX} --version
+    - run: pip install --user requests
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
+
+
+  #==- C++14 GNU Compiler Collection 5 SDL ----------------------------------==#
+
+  gcc5_cxx14_sdl:
+    <<: *defaults
+    environment:
+      <<: *default_variables
+      ANTHEM_BUILD_PRESET: circleci_linux_gcc5_cxx14_sdl
+      COMPILER_NAME: gcc
+      CXX: g++-5
+      CC: gcc-5
+    steps:
+    - checkout
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-get -y update
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5 xorg-dev libglu1-mesa-dev build-essential
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        chmod +x $ANTHEM_REPO_NAME/utils/build-script
+    - run: ${CC} --version
+    - run: ${CXX} --version
+    - run: pip install --user requests
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
+
+
+
+  #==- C++14 GNU Compiler Collection 6 GLFW ---------------------------------==#
+
+  gcc6_cxx14_glfw:
+    <<: *defaults
+    environment:
+      <<: *default_variables
+      ANTHEM_BUILD_PRESET: circleci_linux_gcc6_cxx14_glfw
+      COMPILER_NAME: gcc
+      CXX: g++-6
+      CC: gcc-6
+    steps:
+    - checkout
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-get -y update
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-6 xorg-dev libglu1-mesa-dev build-essential
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        chmod +x $ANTHEM_REPO_NAME/utils/build-script
+    - run: ${CC} --version
+    - run: ${CXX} --version
+    - run: pip install --user requests
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
+
+
+  #==- C++14 GNU Compiler Collection 6 SDL ----------------------------------==#
+
+  gcc6_cxx14_sdl:
+    <<: *defaults
+    environment:
+      <<: *default_variables
+      ANTHEM_BUILD_PRESET: circleci_linux_gcc6_cxx14_sdl
+      COMPILER_NAME: gcc
+      CXX: g++-6
+      CC: gcc-6
+    steps:
+    - checkout
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-get -y update
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-6 xorg-dev libglu1-mesa-dev build-essential
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        chmod +x $ANTHEM_REPO_NAME/utils/build-script
+    - run: ${CC} --version
+    - run: ${CXX} --version
+    - run: pip install --user requests
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
+
+
+  #==- C++17 GNU Compiler Collection 7 GLFW ---------------------------------==#
+
+  gcc7_cxx17_glfw:
+    <<: *defaults
+    environment:
+      <<: *default_variables
+      ANTHEM_BUILD_PRESET: circleci_linux_gcc7_cxx17_glfw
+      COMPILER_NAME: gcc
+      CXX: g++-7
+      CC: gcc-7
+    steps:
+    - checkout
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-get -y update
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-7 xorg-dev libglu1-mesa-dev build-essential
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        chmod +x $ANTHEM_REPO_NAME/utils/build-script
+    - run: ${CC} --version
+    - run: ${CXX} --version
+    - run: pip install --user requests
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
+
+
+  #==- C++17 GNU Compiler Collection 7 SDL ----------------------------------==#
+
+  gcc7_cxx17_sdl:
+    <<: *defaults
+    environment:
+      <<: *default_variables
+      ANTHEM_BUILD_PRESET: circleci_linux_gcc7_cxx14_sdl
+      COMPILER_NAME: gcc
+      CXX: g++-7
+      CC: gcc-7
+    steps:
+    - checkout
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-get -y update
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-7 xorg-dev libglu1-mesa-dev build-essential
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        chmod +x $ANTHEM_REPO_NAME/utils/build-script
+    - run: ${CC} --version
+    - run: ${CXX} --version
+    - run: pip install --user requests
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-     - system_installation
-     - build_gcc:
-        requires:
-         - system_installation
-     - build_sdl:
-        requires:
-         - system_installation
+     - gcc48_cxx14_glfw
+     - gcc48_cxx14_sdl
+     - gcc5_cxx14_glfw
+     - gcc5_cxx14_sdl
+     - gcc6_cxx14_glfw
+     - gcc6_cxx14_sdl
+     - gcc7_cxx17_glfw
+     - gcc7_cxx17_sdl
