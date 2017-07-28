@@ -151,7 +151,7 @@ jobs:
     <<: *defaults
     environment:
       <<: *default_variables
-      ANTHEM_BUILD_PRESET: circleci_linux_gcc7_cxx14_sdl
+      ANTHEM_BUILD_PRESET: circleci_linux_gcc7_cxx17_sdl
       COMPILER_NAME: gcc
       CXX: g++-7
       CC: gcc-7
