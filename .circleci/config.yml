@@ -1,13 +1,10 @@
 version: 2
 
-defaults: &defaults
-  working_directory: /home/circleci/anthem/anthem
-  machine:
-    - image: circleci/classic:latest
-
 jobs:
   build:
-    <<: *defaults
+    working_directory: /home/circleci/anthem/anthem
+    machine:
+    - image: circleci/classic:latest
     environment:
       ANTHEM_SOURCE_ROOT: /home/circleci/anthem
       ANTHEM_REPO_NAME: anthem
