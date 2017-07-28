@@ -14,18 +14,15 @@ dependencies:
   - chmod +x $ANTHEM_ROOT/utils/build-script
   override:
   - sudo pip install requests
-  - cd $ANTHEM_ROOT/..
-  - ./unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
+  - cd $ANTHEM_ROOT/.. && unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
   post:
   - ${CC} --version
   - ${CXX} --version
 
 compile:
   override:
-  - cd $ANTHEM_ROOT/..
-  - ./unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
+  - cd $ANTHEM_ROOT/.. && unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
 
 test:
   override:
-  - cd $ANTHEM_ROOT/..
-  - ./unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
+  - cd $ANTHEM_ROOT/.. && unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
