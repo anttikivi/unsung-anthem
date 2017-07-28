@@ -1358,6 +1358,8 @@ def main_normal():
     # Create the install directory.
     shell.makedirs(workspace.install_root)
 
+    diagnostics.note('The main tool is set to ' + str(args.main_tool))
+
     # Register the tools to the toolchain.
     register_tools(args=args)
 
