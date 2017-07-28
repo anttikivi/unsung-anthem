@@ -40,6 +40,8 @@ def _register(name, *tool):
     def _getter(self):
         return self.find_tool(*tool)
 
+    diagnostics.note('Registering: ' + str(name) + ': ' + str(tool))
+
     _getter.__name__ = name
     setattr(Toolchain, name, cache_util.reify(_getter))
 
