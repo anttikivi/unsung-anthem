@@ -28,8 +28,6 @@ jobs:
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: sudo apt-add-repository -y "llvm-toolchain-trusty"
-    - run: sudo apt-add-repository -y "llvm-toolchain-trusty-4.0"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5
@@ -60,8 +58,6 @@ jobs:
       steps:
       - checkout
       - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-      - run: sudo apt-add-repository -y "llvm-toolchain-trusty"
-      - run: sudo apt-add-repository -y "llvm-toolchain-trusty-4.0"
       - run: sudo apt-get -y update
       - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
       - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5
