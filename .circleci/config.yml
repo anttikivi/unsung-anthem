@@ -10,7 +10,22 @@ default_variables: &default_variables
   ANTHEM_REPO_NAME: anthem
 
 jobs:
-  build:
+  add_apt_sources:
+    <<: *defaults
+    steps:
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-add-repository -y "llvm-toolchain-trusty"
+    - run: sudo apt-add-repository -y "llvm-toolchain-trusty-4.0"
+
+  apt_update:
+    <<: *defaults
+    steps:
+    - run: sudo apt-get -y update
+
+  install_default_packages:
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
+
+  build_gcc_cpp14:
     <<: *defaults
     environment:
       <<: *default_variables
@@ -20,11 +35,7 @@ jobs:
       CC: gcc-5
     steps:
     - checkout
-    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: sudo apt-get -y update
-    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5 xorg-dev libglu1-mesa-dev build-essential
-    - run: echo $(pwd)
-    - run: ls .
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         chmod +x $ANTHEM_REPO_NAME/utils/build-script
@@ -45,4 +56,13 @@ workflows:
   version: 2
   build_test:
     jobs:
-    - build
+    - add_apt_sources
+    - apt_update:
+        requires:
+        - add_apt_sources
+    - install_default_packages:
+        requires:
+        - apt_update
+    - build_gcc_cpp14:
+        requires:
+        - install_default_packages
