@@ -2,106 +2,132 @@ language: cpp
 
 sudo: false
 
-cache: apt
+env:
+  global:
+    secure: erCEE82Y/n+pFU9e9pAY6yJedCktMOznVPz2fLvsbR7T9KxXdKaB57LszVe2DSCVSs/1R+2Lnzq3PVB+cuZxgSVhRjTagekZl88OmncrhZfjKsyU2WqrzjKdwzhk67FdPXofwt/ZmM6cRjMu9WbRsoR1X+0jZ0S9el044QSR5Sv/71Shes0SEAvNw61NRTBKoDxJT1mY41aPSscxt8PugC/OReRV9q2m2Uuzg66qA6qi3Iqmii6t41yhDFWnl53vE308RY0dDvW+db+hbTUTLLMrmnvdx0zq5bd2rmL+4/VfxdgCrXs6fawzR/n4MtVdBrZP4iEEkTzTxOCCqFOhPpTKIhfLd8y1xRZQXJMaWs/J+01MFON4sPhqrHnF1roy7f8GpwYScMSTm7d6h9ghUAOEyb2GIEQqwWqJrVYk0RWC0+bDxvGJA2+O3xg2z7ETOMRtPtamQY8rPt6PapPCiXjH+Z8TAP59cA/lH94OjorCX2r/540j4krCPOhSyvo+74t9S+YLWSDzeaBma2WKC+GK9vk74JY4DCEF9wX2ZJhlS+dVhv8yzxa7IswcrdTS1DMf4bEjcXMl5XMocAdCJecolpXTh92mIb5lShLHgwwCY5D/yvQSsnCBG1QZknJvWJOMbHmuzmR2eyYo2V3BiHw69Wq6uRT+3A0BZ7p9+Yo=
 
 matrix:
   include:
-   #==-----------------------------------------------------------------------==#
-   #==- Linux - GCC ---------------------------------------------------------==#
-   #==-----------------------------------------------------------------------==#
 
-   # Linux: Ubuntu Precise 12.04 C++14 GCC 5
-   - os: linux
-     dist: precise
-     compiler: gcc
-     env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5 ANTHEM_BUILD_PRESET=travis_linux_gcc5_cpp14
-     addons:
+  #==------------------------------------------------------------------------==#
+  #==- Linux - GCC ----------------------------------------------------------==#
+  #==------------------------------------------------------------------------==#
+
+  # Linux: Ubuntu Precise 12.04 C++14 GCC 5
+  - os: linux
+    dist: precise
+    compiler: gcc
+    env:
+    - COMPILER_NAME=gcc
+    - CXX=g++-5
+    - CC=gcc-5
+    - ANTHEM_BUILD_PRESET=travis_linux_gcc5_cpp14
+    addons:
       apt:
         packages:
-         - g++-5
-         - xorg-dev
-         - libglu1-mesa-dev
-         - build-essential
+        - g++-5
+        - xorg-dev
+        - libglu1-mesa-dev
+        - build-essential
         sources: &sources
-         - ubuntu-toolchain-r-test
-         - llvm-toolchain-trusty
-         - llvm-toolchain-trusty-4.0
-         - llvm-toolchain-precise
-         - llvm-toolchain-precise-3.5
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-trusty
+        - llvm-toolchain-trusty-4.0
+        - llvm-toolchain-precise
+        - llvm-toolchain-precise-3.5
 
-   # Linux: Ubuntu Trusty 14.04 C++17 GCC 7
-   - os: linux
-     dist: trusty
-     compiler: gcc
-     env: COMPILER_NAME=gcc CXX=g++-7 CC=gcc-7 ANTHEM_BUILD_PRESET=travis_linux_gcc7_cpp17
-     addons:
+  # Linux: Ubuntu Trusty 14.04 C++17 GCC 7
+  - os: linux
+    dist: trusty
+    compiler: gcc
+    env:
+    - COMPILER_NAME=gcc
+    - CXX=g++-7
+    - CC=gcc-7
+    - ANTHEM_BUILD_PRESET=travis_linux_gcc7_cpp17
+    addons:
       apt:
         packages:
-         - g++-7
-         - xorg-dev
-         - libglu1-mesa-dev
-         - build-essential
+        - g++-7
+        - xorg-dev
+        - libglu1-mesa-dev
+        - build-essential
         sources: *sources
 
+  #==------------------------------------------------------------------------==#
+  #==- Linux - Clang --------------------------------------------------------==#
+  #==------------------------------------------------------------------------==#
 
-   #==-----------------------------------------------------------------------==#
-   #==- Linux - Clang -------------------------------------------------------==#
-   #==-----------------------------------------------------------------------==#
-
-   # Linux: Ubuntu Trusty 14.04 C++14 Clang 3.5
-   - os: linux
-     dist: trusty
-     compiler: clang
-     env: COMPILER_NAME=clang CXX=clang++-3.5 CC=clang-3.5 ANTHEM_BUILD_PRESET=travis_linux_clang35_cpp14
-     addons:
+  # Linux: Ubuntu Trusty 14.04 C++14 Clang 3.5
+  - os: linux
+    dist: trusty
+    compiler: clang
+    env:
+    - COMPILER_NAME=clang
+    - CXX=clang++-3.5
+    - CC=clang-3.5
+    - ANTHEM_BUILD_PRESET=travis_linux_clang35_cpp14
+    addons:
       apt:
         packages:
-          - clang-3.5
-          - xorg-dev
-          - libglu1-mesa-dev
-          - build-essential
-          - libc++-dev
+        - clang-3.5
+        - xorg-dev
+        - libglu1-mesa-dev
+        - build-essential
+        - libc++-dev
         sources: *sources
 
-   # Linux: Ubuntu Trusty 14.04 C++17 Clang 4.0
-   - os: linux
-     dist: trusty
-     compiler: clang
-     env: COMPILER_NAME=clang CXX=clang++-4.0 CC=clang-4.0 ANTHEM_BUILD_PRESET=travis_linux_clang40_cpp17
-     addons:
+  # Linux: Ubuntu Trusty 14.04 C++17 Clang 4.0
+  - os: linux
+    dist: trusty
+    compiler: clang
+    env:
+    - COMPILER_NAME=clang
+    - CXX=clang++-4.0
+    - CC=clang-4.0
+    - ANTHEM_BUILD_PRESET=travis_linux_clang40_cpp17
+    addons:
       apt:
         packages:
-          - clang-4.0
-          - xorg-dev
-          - libglu1-mesa-dev
-          - build-essential
-          - libc++-dev
+        - clang-4.0
+        - xorg-dev
+        - libglu1-mesa-dev
+        - build-essential
+        - libc++-dev
         sources: *sources
 
-   #==-----------------------------------------------------------------------==#
-   #==- Darwin - Clang ------------------------------------------------------==#
-   #==-----------------------------------------------------------------------==#
+  #==------------------------------------------------------------------------==#
+  #==- Darwin - Apple Clang -------------------------------------------------==#
+  #==------------------------------------------------------------------------==#
 
-   # Darwin: macOS 10.11 Xcode 7.3.1 C++14 Clang
-   - os: osx
-     osx_image: xcode7.3
-     compiler: clang
-     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_darwin_xcode73_clang_cpp14
+  # Darwin: macOS 10.11 Xcode 7.3.1 C++14 Clang
+  - os: osx
+    osx_image: xcode7.3
+    compiler: clang
+    env:
+    - COMPILER_NAME=clang
+    - CXX=clang++
+    - CC=clang
+    - ANTHEM_BUILD_PRESET=travis_darwin_xcode73_clang_cpp14
 
-   # Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
-   - os: osx
-     osx_image: xcode8.3
-     compiler: clang
-     env: COMPILER_NAME=clang CXX=clang++ CC=clang ANTHEM_BUILD_PRESET=travis_darwin_xcode83_clang_cpp17
+  # Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
+  - os: osx
+    osx_image: xcode8.3
+    compiler: clang
+    env:
+    - COMPILER_NAME=clang
+    - CXX=clang++
+    - CC=clang
+    - ANTHEM_BUILD_PRESET=travis_darwin_xcode83_clang_cpp17
 
 install:
- - ${CC} --version
- - ${CXX} --version
- - pip install --user requests
- - cd $TRAVIS_BUILD_DIR/..
- - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
+- ${CC} --version
+- ${CXX} --version
+- pip install --user requests
+- cd $TRAVIS_BUILD_DIR/..
+- unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
 
 script:
- - cd $TRAVIS_BUILD_DIR/..
- - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
- - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
+- cd $TRAVIS_BUILD_DIR/..
+- unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
+- unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
