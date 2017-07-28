@@ -12,12 +12,11 @@ dependencies:
   - sudo apt-get -y update
   - sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5 xorg-dev libglu1-mesa-dev build-essential
   - chmod +x $ANTHEM_ROOT/utils/build-script
-  override:
-  - sudo pip install requests
-  - cd $ANTHEM_ROOT/.. && unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
-  post:
   - ${CC} --version
   - ${CXX} --version
+  override:
+  - pip install --user requests
+  - cd $ANTHEM_ROOT/.. && unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
 
 compile:
   override:
