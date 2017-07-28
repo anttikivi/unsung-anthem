@@ -17,7 +17,7 @@ default_apt_commands: &default_apt_commands
 - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
 
 jobs:
-  build_gcc_cpp14:
+  build:
     <<: *defaults
     environment:
       <<: *default_variables
@@ -45,8 +45,37 @@ jobs:
         cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
 
+    build_sdl:
+      <<: *defaults
+      environment:
+        <<: *default_variables
+        ANTHEM_BUILD_PRESET: circleci_linux_gcc5_cpp14_sdl
+        COMPILER_NAME: gcc
+        CXX: g++-5
+        CC: gcc-5
+      steps:
+      - checkout
+      <<: *default_apt_commands
+      - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install g++-5
+      - run: |
+          cd $CIRCLE_WORKING_DIRECTORY/..
+          chmod +x $ANTHEM_REPO_NAME/utils/build-script
+      - run: ${CC} --version
+      - run: ${CXX} --version
+      - run: pip install --user requests
+      - run: |
+          cd $CIRCLE_WORKING_DIRECTORY/..
+          $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
+      - run: |
+          cd $CIRCLE_WORKING_DIRECTORY/..
+          $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
+      - run: |
+          cd $CIRCLE_WORKING_DIRECTORY/..
+          $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
+
 workflows:
   version: 2
   build_and_test:
     jobs:
-    - build_gcc_cpp14
+     - build
+     - build_sdl
