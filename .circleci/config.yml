@@ -5,15 +5,12 @@ defaults: &defaults
   machine:
     - image: circleci/classic:latest
 
-default_variables: &default_variables
-  ANTHEM_SOURCE_ROOT: /home/circleci/anthem
-  ANTHEM_REPO_NAME: anthem
-
 jobs:
   build:
     <<: *defaults
     environment:
-      <<: *default_variables
+      ANTHEM_SOURCE_ROOT: /home/circleci/anthem
+      ANTHEM_REPO_NAME: anthem
       ANTHEM_BUILD_PRESET: circleci_linux_gcc5_cpp14
       COMPILER_NAME: gcc
       CXX: g++-5
