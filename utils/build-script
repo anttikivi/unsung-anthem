@@ -1550,6 +1550,7 @@ def main_normal():
     diagnostics.note('MSBuild is set to ' + str(toolchain.msbuild))
     diagnostics.note('Ninja is set to ' + str(toolchain.ninja))
     diagnostics.note('CMake is set to ' + str(toolchain.cmake))
+    diagnostics.note('git is set to ' + str(toolchain.git))
 
     diagnostics.note('The C++ standard version is set to ' + args.std)
 
