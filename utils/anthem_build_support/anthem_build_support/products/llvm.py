@@ -25,11 +25,12 @@ def get_temp_directory(project):
     return os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', 'temp', project)
 
 
+def get_version_directory(args):
+    return os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', args.version_info['llvm'])
+
+
 def get_project_directory(args, project):
-    return os.path.join(ANTHEM_SOURCE_ROOT,
-                        'llvm',
-                        args.version_info['llvm'],
-                        project)
+    return os.path.join(get_version_directory(args), project)
 
 
 class LLVM(product.Product):

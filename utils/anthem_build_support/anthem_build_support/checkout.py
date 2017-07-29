@@ -292,11 +292,35 @@ def get_github_dependency(args, config, key, dependency, protocol):
             move_glfw_files(args)
 
 
-def get_llvm_dependency(args, key, project_id, url_format, use_cmd_tar):
+def get_llvm_dependency_git(args, key, git_url_format, project_git, toolchain):
+    # Delete the old directory.
+    shell.rmtree(llvm.get_project_directory(args, key))
+    shell.rmtree(llvm.get_temp_directory(key))
+
+    # Make a new version directory.
+    shell.makedirs(llvm.get_version_directory(args))
+
+    # Clone the git repository.
+    with shell.pushd(llvm.get_version_directory(args)):
+        shell.call([str(toolchain.git),
+                    'clone',
+                    git_url_format.format(project=project_git),
+                    key])
+
+    # If the version is 5, checkout to the branch of the release.
+    if args.llvm_version.startswith("5.0"):
+        with shell.pushd(llvm.get_project_directory(args, key)):
+            shell.call([str(toolchain.git), 'checkout', 'release_50'])
+
+    return
+
+
+def get_llvm_dependency_release(args, key, project_id, url_format, use_cmd_tar):
     version = args.llvm_version
 
     # Set the full path to the destination file.
-    local_file = os.path.join(llvm.get_temp_directory(key), project_id + '.tar.xz')
+    local_file = os.path.join(llvm.get_temp_directory(key),
+                              project_id + '.tar.xz')
 
     # Delete the old directory.
     shell.rmtree(llvm.get_project_directory(args, key))
@@ -348,6 +372,15 @@ def get_llvm_dependency(args, key, project_id, url_format, use_cmd_tar):
 
     # Manually move the source files to the folder root.
     move_llvm_files(args=args, key=key, directory=subdir_name)
+
+
+def get_llvm_dependency(args, key, project_id, url_format, git_url_format, project_git, use_cmd_tar, toolchain):
+    version = args.llvm_version
+
+    if version.startswith("6.0") or version.startswith("5.0"):
+        get_llvm_dependency_git(args=args, key=key, git_url_format=git_url_format, project_git=project_git, toolchain=toolchain)
+    else:
+        get_llvm_dependency_release(args=args, key=key, project_id=project_id, url_format=url_format, use_cmd_tar=use_cmd_tar)
 
 
 def get_gcc(args, gcc_node, url_format, use_cmd_tar):
@@ -617,7 +650,7 @@ def get_sdl(args, asset, curl):
     move_sdl_files(args=args, key=key, directory=subdir_name)
 
 
-def update(args):
+def update(args, toolchain):
     freeze_support()
 
     with open(args.build_config) as f:
@@ -661,6 +694,9 @@ def update(args):
                 # Set the URL format of the LLVM downloads.
                 url_format = dependency['asset']['format']
 
+                # Set the URL format of the LLVM git repositories.
+                git_url_format = dependency['git_format']
+
                 for project in dependency['projects'].keys():
                     # Check if the specific LLVM project should be skipped.
                     if "{}-{}".format(key,
@@ -672,12 +708,18 @@ def update(args):
                     # Set the project.
                     project_json = dependency['projects'][project]
 
+                    # Set the project git.
+                    project_git = project_json['git']
+
                     get_llvm_dependency(args=args,
                                         key=project,
                                         project_id=project_json['id'],
                                         url_format=url_format,
+                                        git_url_format=git_url_format,
+                                        project_git=project_git,
                                         use_cmd_tar=(
-                                            not args.disable_manual_tar))
+                                            not args.disable_manual_tar),
+                                        toolchain=toolchain)
 
                 # Finally, delete the master temp directory of LLVM.
                 shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', 'temp'))

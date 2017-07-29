@@ -72,6 +72,7 @@ def register_tools(args):
     _register('msbuild', 'msbuild')
     _register('ninja', 'ninja', 'ninja-build')
     _register('cmake', 'cmake')
+    _register('git', 'git')
 
 
 class Darwin(Toolchain):

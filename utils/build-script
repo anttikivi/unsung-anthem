@@ -362,6 +362,9 @@ def apply_default_version_arguments(args):
         llvm_node = dependencies['llvm']
         args.llvm_version = llvm_node['default_version']
 
+        if args.llvm_version == "git":
+            args.llvm_version = "6.0.0svn"
+
     args.version_info['llvm'] = args.llvm_version
 
     if args.gcc_version == 'default':
@@ -1323,6 +1326,12 @@ def main_normal():
              "Unsung Anthem",
         type=arguments.type.executable,
         metavar="PATH")
+    parser.add_argument(
+        "--git",
+        help="the path to a git executable that will be used to clone "
+             "possible git projects",
+        type=arguments.type.executable,
+        metavar="PATH")
 
     parser.add_argument(
         "--host-cc",
@@ -1492,13 +1501,16 @@ def main_normal():
     if args.cmake is not None:
         toolchain.cmake = args.cmake
 
+    if args.git is not None:
+        toolchain.git = args.git
+
     # Apply the default checkout skipping options after the script knows which
     # tools are on the system already.
     apply_default_checkout_skip_arguments(args=args, toolchain=toolchain)
 
     # Update the checkout.
     if not args.build_only and not args.test_only and not args.docs_only:
-        checkout.update(args)
+        checkout.update(args, toolchain)
 
     # Do not continue further if the script should only update the checkout.
     if args.update_checkout_only:
