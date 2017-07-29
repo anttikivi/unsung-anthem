@@ -53,6 +53,11 @@ class Workspace(object):
                             '%s-%s' % (product, deployment_target),
                             self.args.llvm_version)
 
+    def libcxx_build_dir(self, deployment_target, product):
+        return os.path.join(self.tool_build_root,
+                            '%s-%s' % (product, deployment_target),
+                            self.args.llvm_version)
+
 
 def compute_subdir(args, shared, install):
     version_subdir = args.anthem_version

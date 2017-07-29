@@ -20,6 +20,8 @@
 
 #include "execute.h"
 #include "game_state.h"
+#include <optional>
+#include <string_view>
 
 ///
 /// \brief Returns the execution status of the program with the arguments

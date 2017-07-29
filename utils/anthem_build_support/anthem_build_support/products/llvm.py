@@ -26,7 +26,10 @@ def get_temp_directory(project):
 
 
 def get_project_directory(args, project):
-    return os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', args.version_info['llvm'], project)
+    return os.path.join(ANTHEM_SOURCE_ROOT,
+                        'llvm',
+                        args.version_info['llvm'],
+                        project)
 
 
 class LLVM(product.Product):
@@ -48,20 +51,25 @@ class LLVM(product.Product):
 
     def do_build(self):
         # Check whether the clang executable is pre-built and already exists.
-        if os.path.exists(self.clang_bin_path) \
+        if not self.args.build_libcxx \
+                and os.path.exists(self.clang_bin_path) \
                 and os.path.exists(self.build_dir):
             return
 
-        # Copy the clang files to the correct directory for the build.
-        if self.args.build_llvm:
-            clang.build(args=self.args,
-                        toolchain=self.toolchain,
-                        workspace=self.workspace)
-
-        # Copy the libc++ files to the correct directory for the build.
+        # Copy the libc++ files to the correct directory for the build or build
+        # libc++.
         libcxx.build(args=self.args,
                      toolchain=self.toolchain,
                      workspace=self.workspace)
+
+        # If only libc++ is built, return.
+        if self.args.build_libcxx and not self.args.build_llvm:
+            return
+
+        # Copy the clang files to the correct directory for the build.
+        clang.build(args=self.args,
+                    toolchain=self.toolchain,
+                    workspace=self.workspace)
 
         # Make the directory for the out-of-tree build.
         shell.makedirs(self.build_dir)
@@ -78,6 +86,11 @@ class LLVM(product.Product):
             cmake_call += ['-DLLVM_ENABLE_ASSERTIONS=ON']
         else:
             cmake_call += ['-DLLVM_ENABLE_ASSERTIONS=OFF']
+
+        if self.args.libcxx_assertions:
+            cmake_call += ['-DLIBCXX_ENABLE_ASSERTIONS=ON']
+        else:
+            cmake_call += ['-DLIBCXX_ENABLE_ASSERTIONS=OFF']
 
         if self.args.cmake_generator == 'Ninja':
             cmake_call += ['-DCMAKE_MAKE_PROGRAM=%s' % self.toolchain.ninja]
@@ -97,7 +110,8 @@ class LLVM(product.Product):
 
 
 def build(args, toolchain, workspace):
-    if not os.path.exists(workspace.llvm_source_dir('llvm')):
+    if not os.path.exists(workspace.llvm_source_dir('llvm')) \
+            and args.build_llvm:
         diagnostics.fatal('cannot find source directory for LLVM (tried %s)'
                           % (workspace.llvm_source_dir('llvm')))
 

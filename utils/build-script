@@ -247,6 +247,9 @@ def apply_default_arguments(args):
     if args.llvm_build_variant is None:
         args.llvm_build_variant = args.build_variant
 
+    if args.libcxx_build_variant is None:
+        args.libcxx_build_variant = args.build_variant
+
     if args.anthem_build_variant is None:
         args.anthem_build_variant = args.build_variant
 
@@ -263,6 +266,9 @@ def apply_default_arguments(args):
     # Propagate the assertion option.
     if args.llvm_assertions is None:
         args.llvm_assertions = args.assertions
+
+    if args.libcxx_assertions is None:
+        args.libcxx_assertions = args.assertions
 
     if args.anthem_assertions is None:
         args.anthem_assertions = args.assertions
@@ -301,7 +307,8 @@ def apply_default_arguments(args):
         args.build_test = True
 
     # By default, Ninja is not built on AppVeyor.
-    if not args.build_ninja and args.cmake_generator == 'Visual Studio 14 2015':
+    if not args.build_ninja \
+            and args.cmake_generator == 'Visual Studio 14 2015':
         args.build_ninja = False
 
     # Propagate global --skip-build
@@ -309,10 +316,15 @@ def apply_default_arguments(args):
         args.skip_build_anthem = True
         args.build_llvm = False
         args.build_gcc = False
+        args.build_libcxx = False
         args.build_cmake = False
         args.build_ninja = False
         args.build_test = False
         args.build_test_optimized = False
+
+    # If the LLVM is built, there is no need for explicitly building libc++.
+    if args.build_llvm:
+        args.build_libcxx = False
 
     # Set the default GCC mirror.
     if args.gcc_mirror == 'default':
@@ -460,6 +472,7 @@ def apply_default_checkout_skip_arguments(args, toolchain):
             args.skip_repository_list += ['llvm']
         else:
             args.skip_repository_list += ['llvm-clang']
+            args.skip_repository_list += ['llvm-llvm']
 
     # Skip GCC on the checkout update if GCC will not be built.
     if not args.build_gcc:
@@ -555,6 +568,13 @@ def validate_arguments(args):
         exit_rejecting_arguments('LLVM build variant is set to an invalid '
                                  'value: ' + str(args.llvm_build_variant))
 
+    # Check the validity of the libc++ build variant.
+    if not ('Debug' == args.libcxx_build_variant
+            or 'RelWithDebInfo' == args.libcxx_build_variant
+            or 'Release' == args.libcxx_build_variant):
+        exit_rejecting_arguments('libc++ build variant is set to an invalid '
+                                 'value: ' + str(args.llvm_build_variant))
+
     # Check the validity of the Unsung Anthem build variant.
     if not ('Debug' == args.anthem_build_variant
             or 'RelWithDebInfo' == args.anthem_build_variant
@@ -590,6 +610,12 @@ def validate_arguments(args):
     # Check that both LLVM and GCC are not built at the same time.
     if args.build_llvm and args.build_gcc:
         exit_rejecting_arguments('Both LLVM and GCC cannot be built at the '
+                                 'same time')
+
+    # Check that both LLVM and libc++ are npt built at the same time as LLVM
+    # build anyway builds libc++.
+    if args.build_llvm and args.build_libcxx:
+        exit_rejecting_arguments('Both LLVM and libc++ cannot be built at the '
                                  'same time')
 
     # Check that both SDL and GLFW cannot be used at the same time.
@@ -997,6 +1023,13 @@ def main_normal():
         const="Debug",
         dest="llvm_build_variant")
     build_variant_override_group.add_argument(
+        "--debug-libcxx",
+        help="build the Debug variant of libc++. This has an effect only if "
+             "LLVM is not built",
+        action="store_const",
+        const="Debug",
+        dest="libcxx_build_variant")
+    build_variant_override_group.add_argument(
         "--debug-anthem",
         help="build the Debug variant of Unsung Anthem",
         action="store_const",
@@ -1043,6 +1076,18 @@ def main_normal():
         action="store_const",
         const=False,
         dest="llvm_assertions")
+    assertions_override_group.add_argument(
+        "--libcxx-assertions",
+        help="enable assertions in libc++",
+        action="store_const",
+        const=True,
+        dest="libcxx_assertions")
+    assertions_override_group.add_argument(
+        "--no-libcxx-assertions",
+        help="disable assertions in libc++",
+        action="store_const",
+        const=False,
+        dest="libcxx_assertions")
     assertions_override_group.add_argument(
         "--anthem-assertions",
         help="enable assertions in Unsung Anthem",
@@ -1419,7 +1464,7 @@ def main_normal():
         shell.rmtree(workspace.build_root)
 
     if args.share_tools and args.clean_shared:
-        shell.rmtree(workspace.tool_build_root)
+        shell.rmtree(workspace.tool_build_root, ignore_errors=True)
 
     # Create the build directory.
     shell.makedirs(workspace.build_root)

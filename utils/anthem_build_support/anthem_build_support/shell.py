@@ -158,14 +158,14 @@ def makedirs(path, dry_run=None, echo=True):
         os.makedirs(path)
 
 
-def rmtree(path, dry_run=None, echo=True):
+def rmtree(path, dry_run=None, echo=True, ignore_errors=False):
     dry_run = _coerce_dry_run(dry_run)
     if dry_run or echo:
         _echo_command(dry_run, ['rm', '-rf', path])
     if dry_run:
         return
     if os.path.exists(path):
-        shutil.rmtree(path)
+        shutil.rmtree(path, ignore_errors=ignore_errors)
 
 
 def rm(file, dry_run=None, echo=True):

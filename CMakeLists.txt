@@ -135,7 +135,8 @@ if (DEFINED ANTHEM_STDLIB)
 endif()
 
 if(ANTHEM_CUSTOM_LIBCXX)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++ -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 -L${ANTHEM_INSTALL_PREFIX}/lib -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++ -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1 -L${ANTHEM_INSTALL_PREFIX}/lib -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib -lc++")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1")
 endif()
 
 message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")

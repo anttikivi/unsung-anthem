@@ -678,6 +678,9 @@ def update(args):
                                         url_format=url_format,
                                         use_cmd_tar=(
                                             not args.disable_manual_tar))
+
+                # Finally, delete the master temp directory of LLVM.
+                shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, 'llvm', 'temp'))
             elif key == 'gcc':
                 # Set the URL format of the GCC downloads.
                 url_format = dependency['asset']['format']

@@ -13,13 +13,22 @@ libc++ build
 # ----------------------------------------------------------------------------
 
 import os
+import platform
 
 from . import product
-from .. import diagnostics, shell
+from .. import cache_util, diagnostics, shell
 
 
 class Libcxx(product.Product):
-    def do_build(self):
+    @cache_util.reify
+    def libcxx_bin_path(self):
+        if 'Windows' == platform.system():
+            # TODO
+            return os.path.join(self.workspace.install_root, 'lib', 'libc++.a')
+        else:
+            return os.path.join(self.workspace.install_root, 'lib', 'libc++.a')
+
+    def copy_files(self):
         # Delete the libc++ tree from the LLVM tree.
         shell.rmtree(os.path.join(self.workspace.llvm_source_dir('llvm'),
                                   'projects',
@@ -30,6 +39,50 @@ class Libcxx(product.Product):
                        os.path.join(self.workspace.llvm_source_dir('llvm'),
                                     'projects',
                                     'libcxx'))
+
+    def do_build(self):
+        # Check whether the libc++ binary already exists.
+        if self.args.build_libcxx and not self.args.build_llvm \
+                and os.path.exists(self.libcxx_bin_path) \
+                and os.path.exists(self.build_dir):
+            return
+
+        # If LLVM is built, copy only the files and exit.
+        if self.args.build_llvm and not self.args.build_libcxx:
+            self.copy_files()
+            return
+
+        # Make the directory for the out-of-tree build.
+        shell.makedirs(self.build_dir)
+
+        cmake_call = [self.toolchain.cmake,
+                      self.source_dir,
+                      '-G', self.args.cmake_generator,
+                      '-DCMAKE_INSTALL_PREFIX='
+                      '{}'.format(self.workspace.install_root),
+                      '-DCMAKE_BUILD_TYPE='
+                      '{}'.format(self.args.libcxx_build_variant)]
+
+        if self.args.libcxx_assertions:
+            cmake_call += ['-DLIBCXX_ENABLE_ASSERTIONS=ON']
+        else:
+            cmake_call += ['-DLIBCXX_ENABLE_ASSERTIONS=OFF']
+
+        if self.args.cmake_generator == 'Ninja':
+            cmake_call += ['-DCMAKE_MAKE_PROGRAM=%s' % self.toolchain.ninja]
+
+        # Change the working directory to the out-of-tree build directory.
+        with shell.pushd(self.build_dir):
+            # Generate the files to build libc++ from.
+            shell.call(cmake_call)
+
+            # Build it.
+            if self.args.cmake_generator == 'Ninja':
+                shell.ninja(self.toolchain)
+                shell.ninja_install(self.toolchain)
+            elif self.args.cmake_generator == 'Unix Makefiles':
+                shell.make()
+                shell.make_install()
 
 
 def build(args, toolchain, workspace):
