@@ -739,11 +739,26 @@ def update(args, toolchain):
         dependency = dependencies[key]
 
         # Check if the dependency should be re-downloaded.
-        if key in versions and not args.clean:
-            if versions[key] == args.version_info[key] \
-                    and versions[key] != "git":
-                print('' + key + ' should not be re-downloaded, skipping.')
-                continue
+        if key == 'llvm':
+            if args.build_llvm:
+                if key + '-llvm' in versions and not args.clean:
+                    if versions[key + '-llvm'] == args.version_info[key] \
+                            and versions[key + '-llvm'] != "git":
+                        print('' + key + ' should not be re-downloaded, '
+                                         'skipping.')
+                        continue
+            elif args.build_libcxx:
+                if key + '-libc++' in versions and not args.clean:
+                    if versions[key + '-libc++'] == args.version_info[key] \
+                            and versions[key + '-libc++'] != "git":
+                        print('libc++ should not be re-downloaded, skipping.')
+                        continue
+        else:
+            if key in versions and not args.clean:
+                if versions[key] == args.version_info[key] \
+                        and versions[key] != "git":
+                    print('' + key + ' should not be re-downloaded, skipping.')
+                    continue
 
         if dependency['github']:
             get_github_dependency(args, toolchain, key, dependency, protocol)
@@ -800,11 +815,21 @@ def update(args, toolchain):
                 get_sdl(args=args, asset=dependency['asset'], curl=args.ci)
 
         # Add the version of the dependency to the dictionary.
-        if is_commit(args.version_info[key]) \
-                or is_branch(args.version_info[key]):
-            versions[key] = parse_git_version(args.version_info[key])
+        if key == 'llvm':
+            version = parse_git_version(args.version_info[key])
+            if args.build_llvm:
+                versions[key] = version
+                versions[key + '-llvm'] = version
+                versions[key + '-clang'] = version
+                versions[key + '-libc++'] = version
+            elif args.build_libcxx:
+                versions[key + '-libc++'] = version
         else:
-            versions[key] = args.version_info[key]
+            if is_commit(args.version_info[key]) \
+                    or is_branch(args.version_info[key]):
+                versions[key] = parse_git_version(args.version_info[key])
+            else:
+                versions[key] = args.version_info[key]
 
     # Write the versions to the file.
     dump_version_info(versions)
