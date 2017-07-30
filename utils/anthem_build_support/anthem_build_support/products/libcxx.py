@@ -90,6 +90,11 @@ class Libcxx(product.Product):
             elif self.args.cmake_generator == 'Unix Makefiles':
                 shell.make()
                 shell.make_install()
+            elif self.args.cmake_generator == 'Xcode':
+                project_name = 'libcxx.xcodeproj'
+                shell.xcodebuild(project_name,
+                                 self.toolchain,
+                                 self.args.libcxx_build_variant)
 
 
 def build(args, toolchain, workspace):

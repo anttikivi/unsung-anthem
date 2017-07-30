@@ -62,6 +62,8 @@ class Workspace(object):
 def compute_subdir(args, shared, install):
     version_subdir = args.anthem_version
 
+    cmake_subdir = args.cmake_generator.replace(" ", "_")
+
     if args.build_llvm:
         llvm_build_dir_label = args.llvm_build_variant
         if args.llvm_assertions:
@@ -94,25 +96,23 @@ def compute_subdir(args, shared, install):
         framework_subdir = "glfw-" \
                            + args.glfw_version + "-" + glfw_build_dir_label
 
-    # Create a name for the build directory.
-    subdir = args.cmake_generator.replace(" ", "_")
-
     anthem_build_dir_label = args.anthem_build_variant
     if args.anthem_assertions:
         anthem_build_dir_label += "Assert"
 
-    subdir += "-" + anthem_build_dir_label
+    subdir = anthem_build_dir_label
 
-    dir = os.path.join(version_subdir,
-                       compiler_subdir,
-                       framework_subdir,
-                       subdir) \
-        if not shared else 'shared'
+    directory = os.path.join(version_subdir,
+                             cmake_subdir,
+                             compiler_subdir,
+                             framework_subdir,
+                             subdir) \
+        if not shared else os.path.join('shared', cmake_subdir)
 
     if install:
-        return os.path.join(dir, 'local')
+        return os.path.join(directory, 'local')
     else:
-        return dir
+        return directory
 
 
 def compute_build_subdir(args):

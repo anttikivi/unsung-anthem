@@ -115,6 +115,14 @@ class Anthem(product.Product):
                         msbuild_args += ['/p:Platform=Win32']
 
                     shell.msbuild(self.toolchain, msbuild_args)
+
+                elif self.args.cmake_generator == 'Xcode' \
+                        and not self.args.disable_xcodebuild:
+                    project_name = 'anthem.xcodeproj'
+                    shell.xcodebuild(project_name,
+                                     self.toolchain,
+                                     self.args.anthem_build_variant)
+
         elif self.args.clion and not self.args.visual_studio:
             diagnostics.note('CMake would be called with the following '
                              'command and environment variables:')

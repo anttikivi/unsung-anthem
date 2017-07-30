@@ -1319,6 +1319,12 @@ def main_normal():
         action='store_true')
 
     parser.add_argument(
+        '--disable-xcodebuild',
+        help='disable using xcodebuild to build the projects when using the '
+             'Xcode CMake generator',
+        action='store_true')
+
+    parser.add_argument(
         "--build-subdir",
         help="name of the directory under $ANTHEM_BUILD_ROOT where the build "
              "products will be placed",
@@ -1369,6 +1375,16 @@ def main_normal():
         "--host-cxx",
         help="the absolute path to CXX, the C++ compiler for the host "
              "platform. Default is auto detected.",
+        type=arguments.type.executable,
+        metavar="PATH")
+    parser.add_argument(
+        "--xcodebuild",
+        help="the absolute path to xcodebuild. Default is auto detected.",
+        type=arguments.type.executable,
+        metavar="PATH")
+    parser.add_argument(
+        "--xcpretty",
+        help="the absolute path to xcpretty. Default is auto detected.",
         type=arguments.type.executable,
         metavar="PATH")
     parser.add_argument(
@@ -1521,6 +1537,12 @@ def main_normal():
     if args.host_cxx is not None:
         toolchain.cxx = args.host_cxx
 
+    if args.xcodebuild is not None:
+        toolchain.xcodebuild = args.xcodebuild
+
+    if args.xcpretty is not None:
+        toolchain.xcpretty = args.xcpretty
+
     if args.msbuild is not None:
         toolchain.msbuild = args.msbuild
 
@@ -1582,6 +1604,10 @@ def main_normal():
     diagnostics.note('CMake is set to ' + str(toolchain.cmake))
     diagnostics.note('git is set to ' + str(toolchain.git))
 
+    if args.cmake_generator == 'Xcode' and not args.disable_xcodebuild:
+        diagnostics.note('xcodebuild is set to ' + str(toolchain.xcodebuild))
+        diagnostics.note('xcpretty is set to ' + str(toolchain.xcpretty))
+
     diagnostics.note('The C++ standard version is set to ' + args.std)
 
     if args.stdlib_set:
@@ -1632,11 +1658,19 @@ def main_normal():
             or args.test_only) \
             and not args.build_only and not args.install_only \
             and not args.docs_only:
-        with shell.pushd(workspace.anthem_build_dir(args.host_target,
-                                                    'anthem-test')):
-            shell.call_without_sleeping([os.path.join(
-                workspace.anthem_build_dir(args.host_target, 'anthem-test'),
-                args.test_executable_name)])
+        if args.cmake_generator == "Xcode":
+            with shell.pushd(workspace.anthem_build_dir(args.host_target,
+                                                        'anthem-test')):
+                shell.call_without_sleeping([os.path.join(
+                    workspace.anthem_build_dir(args.host_target, 'anthem-test'),
+                    args.anthem_build_variant,
+                    args.test_executable_name)])
+        else:
+            with shell.pushd(workspace.anthem_build_dir(args.host_target,
+                                                        'anthem-test')):
+                shell.call_without_sleeping([os.path.join(
+                    workspace.anthem_build_dir(args.host_target, 'anthem-test'),
+                    args.test_executable_name)])
 
     # Build the documentation.
     if args.build_docs or args.docs_only:

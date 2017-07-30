@@ -69,6 +69,10 @@ def register_tools(args):
         _register('cc', 'msbuild')
         _register('cxx', 'msbuild')
 
+    if args.cmake_generator == 'Xcode' and not args.disable_xcodebuild:
+        _register('xcodebuild', 'xcodebuild')
+        _register('xcpretty', 'xcpretty')
+
     _register('msbuild', 'msbuild')
     _register('ninja', 'ninja', 'ninja-build')
     _register('cmake', 'cmake')

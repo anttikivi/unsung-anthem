@@ -20,6 +20,49 @@ from .. import diagnostics, shell
 
 
 class Glfw(product.Product):
+    def copy_xcodebuild_files(self):
+        # Check if the include directory already exists.
+        if not os.path.isdir(os.path.join(self.workspace.install_root,
+                                          'include')):
+            shell.makedirs(os.path.join(self.workspace.install_root,
+                                        'include'))
+        elif os.path.isdir(os.path.join(self.workspace.install_root,
+                                        'include',
+                                        'GLFW')):
+            # Otherwise check if there is a previous installation of GLFW and
+            # delete it.
+            shell.rmtree(os.path.join(self.workspace.install_root,
+                                      'include',
+                                      'GLFW'))
+
+        # Copy the GLFW directory to the include folder.
+        shell.copytree(os.path.join(self.source_dir, 'include', 'GLFW'),
+                       os.path.join(self.workspace.install_root,
+                                    'include',
+                                    'GLFW'))
+
+        # Check if the library directory already exists.
+        if not os.path.isdir(os.path.join(self.workspace.install_root,
+                                          'lib')):
+            shell.makedirs(os.path.join(self.workspace.install_root,
+                                        'lib'))
+        else:
+            if os.path.exists(os.path.join(self.workspace.install_root,
+                                           'lib',
+                                           'libglfw3.a')):
+                shell.rm(os.path.join(self.workspace.install_root,
+                                      'lib',
+                                      'libglfw3.a'))
+
+        # Copy the library.
+        shell.copy(os.path.join(self.build_dir,
+                                'src',
+                                self.args.glfw_build_variant,
+                                'libglfw3.a'),
+                   os.path.join(self.workspace.install_root,
+                                'lib',
+                                'libglfw3.a'))
+
     def do_build_windows(self):
         # Check whether the libraries of the current version are already
         # installed.
@@ -43,13 +86,13 @@ class Glfw(product.Product):
         elif os.path.isdir(os.path.join(self.workspace.install_root,
                                         'include',
                                         'GLFW')):
-            # Otherwise check if there is a previous installation of cat and
+            # Otherwise check if there is a previous installation of GLFW and
             # delete it.
             shell.rmtree(os.path.join(self.workspace.install_root,
                                       'include',
                                       'GLFW'))
 
-        # Copy the cat directory to the include folder.
+        # Copy the GLFW directory to the include folder.
         shell.copytree(os.path.join(self.build_dir, 'include', 'GLFW'),
                        os.path.join(self.workspace.install_root,
                                     'include',
@@ -141,7 +184,14 @@ class Glfw(product.Product):
             elif self.args.cmake_generator == 'Unix Makefiles':
                 shell.make()
                 shell.make_install()
+            elif self.args.cmake_generator == 'Xcode':
+                project_name = 'GLFW.xcodeproj'
+                shell.xcodebuild(project_name,
+                                 self.toolchain,
+                                 self.args.glfw_build_variant)
 
+                # Copy the files manually to the installation directory.
+                self.copy_xcodebuild_files()
 
 def build(args, toolchain, workspace):
     if not os.path.exists(workspace.source_dir('glfw')):

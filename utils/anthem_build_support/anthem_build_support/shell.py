@@ -325,6 +325,17 @@ def make_install(env=None, dry_run=False, echo=False):
                           echo=echo)
 
 
+def xcodebuild(project,
+               toolchain,
+               build_type,
+               env=None,
+               dry_run=False,
+               echo=False):
+    call_command = [toolchain.xcodebuild, '-project', project]
+    call_command += ['-configuration', build_type]
+    call(call_command, env=env, dry_run=dry_run, echo=echo)
+
+
 def msbuild(toolchain, args, env=None, dry_run=False, echo=False):
     call_command = [str(toolchain.msbuild)]
     call_command += args
