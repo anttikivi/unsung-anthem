@@ -1547,7 +1547,8 @@ def main_normal():
 
     # Build ninja if required, which will update the toolchain.
     if ((args.build_ninja
-         or (args.cmake_generator == 'Ninja'
+         or ((args.cmake_generator == 'Ninja'
+              or args.cmake_generator == 'Xcode')
              and toolchain.ninja is None)) and not args.test_only
             and not args.docs_only):
         ninja.build(args=args, toolchain=toolchain, workspace=workspace)

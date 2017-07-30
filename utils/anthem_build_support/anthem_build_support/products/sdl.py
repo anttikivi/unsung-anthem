@@ -120,18 +120,22 @@ class SDL(product.Product):
         # Make the directory for the out-of-tree build.
         shell.makedirs(self.build_dir)
 
+        use_ninja = self.args.cmake_generator == 'Ninja' \
+            or self.args.cmake_generator == 'Xcode'
+
         cmake_call = [self.toolchain.cmake,
                       self.source_dir,
-                      '-G',
-                      self.args.cmake_generator,
                       "-DCMAKE_INSTALL_PREFIX="
                       "{}".format(self.workspace.install_root),
                       '-DCMAKE_BUILD_TYPE='
                       '{}'.format(self.args.sdl_build_variant)]
 
-        if self.args.cmake_generator == 'Ninja':
+        if use_ninja:
             cmake_call += [
                 '-DCMAKE_MAKE_PROGRAM={}'.format(self.toolchain.ninja)]
+            cmake_call += ['-G', 'Ninja']
+        else:
+            cmake_call += ['-G', self.args.cmake_generator]
 
         # Change the working directory to the out-of-tree build directory.
         with shell.pushd(self.build_dir):
@@ -140,7 +144,7 @@ class SDL(product.Product):
 
             # Build the library.
             # TODO MSBuild
-            if self.args.cmake_generator == 'Ninja':
+            if use_ninja:
                 shell.ninja(self.toolchain)
                 shell.ninja_install(self.toolchain)
             elif self.args.cmake_generator == 'Unix Makefiles':

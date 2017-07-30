@@ -55,9 +55,11 @@ class Libcxx(product.Product):
         # Make the directory for the out-of-tree build.
         shell.makedirs(self.build_dir)
 
+        use_ninja = self.args.cmake_generator == 'Ninja' \
+            or self.args.cmake_generator == 'Xcode'
+
         cmake_call = [self.toolchain.cmake,
                       self.source_dir,
-                      '-G', self.args.cmake_generator,
                       '-DCMAKE_INSTALL_PREFIX='
                       '{}'.format(self.workspace.install_root),
                       '-DCMAKE_BUILD_TYPE='
@@ -68,8 +70,12 @@ class Libcxx(product.Product):
         else:
             cmake_call += ['-DLIBCXX_ENABLE_ASSERTIONS=OFF']
 
-        if self.args.cmake_generator == 'Ninja':
-            cmake_call += ['-DCMAKE_MAKE_PROGRAM=%s' % self.toolchain.ninja]
+        if use_ninja:
+            cmake_call += [
+                '-DCMAKE_MAKE_PROGRAM={}'.format(self.toolchain.ninja)]
+            cmake_call += ['-G', 'Ninja']
+        else:
+            cmake_call += ['-G', self.args.cmake_generator]
 
         # Change the working directory to the out-of-tree build directory.
         with shell.pushd(self.build_dir):
@@ -77,7 +83,8 @@ class Libcxx(product.Product):
             shell.call(cmake_call)
 
             # Build it.
-            if self.args.cmake_generator == 'Ninja':
+            # TODO MSBuild
+            if use_ninja:
                 shell.ninja(self.toolchain)
                 shell.ninja_install(self.toolchain)
             elif self.args.cmake_generator == 'Unix Makefiles':
