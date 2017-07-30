@@ -64,6 +64,15 @@ elseif(NOT ANTHEM_SDL AND NOT ANTHEM_GLFW)
   message(FATAL_ERROR "The neither SDL nor GLFW (ANTHEM_SDL and ANTHEM_GLFW) is used")
 endif()
 
+# Set the preprocessor definition for the main tool.
+if(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL msbuild)
+  add_definitions(-DANTHEM_MSBUILD)
+elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL gcc)
+  add_definitions(-DANTHEM_GCC)
+elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL llvm)
+  add_definitions(-DANTHEM_CLANG)
+ endif()
+
 # Set the preprocessor definitions according to the C++ standard version.
 if(${ANTHEM_CXX_VERSION} STREQUAL c++latest)
 
