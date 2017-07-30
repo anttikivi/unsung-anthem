@@ -627,6 +627,32 @@ def validate_arguments(args):
                                  'same time')
 
 
+def parse_git_versions(args):
+    args.llvm_version = checkout.parse_git_version(args.llvm_version)
+    args.version_info['llvm'] = args.llvm_version
+
+    # GCC cannot be obtained via git.
+
+    # CMake cannot be obtained via git.
+
+    args.ninja_version = checkout.parse_git_version(args.ninja_version)
+    args.version_info['ninja'] = args.ninja_version
+
+    args.catch_version = checkout.parse_git_version(args.catch_version)
+    args.version_info['catch'] = args.catch_version
+
+    # SDL cannot be obtained via git.
+
+    args.glfw_version = checkout.parse_git_version(args.glfw_version)
+    args.version_info['glfw'] = args.glfw_version
+
+    args.spdlog_version = checkout.parse_git_version(args.spdlog_version)
+    args.version_info['spdlog'] = args.spdlog_version
+
+    args.cat_version = checkout.parse_git_version(args.cat_version)
+    args.version_info['cat'] = args.cat_version
+
+
 def initialize_runtime_environment():
     """
     Change the program environment for building.
@@ -636,8 +662,8 @@ def initialize_runtime_environment():
     os.umask(0o022)
 
     # Unset environment variables that might affect how tools behave.
-    for v in ['MAKEFLAGS']:
-        os.environ.pop(v, None)
+    for s in ['MAKEFLAGS']:
+        os.environ.pop(s, None)
 
 
 def clean_delay():
@@ -1515,6 +1541,9 @@ def main_normal():
     # Do not continue further if the script should only update the checkout.
     if args.update_checkout_only:
         return 0
+
+    # Parse the versions from git if any git versions were used.
+    parse_git_versions(args)
 
     # Build ninja if required, which will update the toolchain.
     if ((args.build_ninja

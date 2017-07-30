@@ -14,6 +14,7 @@ from variables import ANTHEM_SOURCE_ROOT
 import requests
 
 GITHUB_API_URL = '{}://api.github.com'
+GITHUB_GIT_URL = 'https://github.com/{owner}/{repo}.git'
 
 
 def github_default_headers(ci=False):

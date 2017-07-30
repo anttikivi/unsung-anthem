@@ -29,6 +29,40 @@ from variables import ANTHEM_SOURCE_ROOT
 VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, 'versions')
 
 
+def parse_git_version(version):
+    if version.startswith("commit:"):
+        ret = version.split(':')[1]
+    elif version.startswith("commit="):
+        ret = version.split('=')[1]
+    elif version.startswith("commit "):
+        ret = version.split(' ')[1]
+    elif version.startswith("branch:"):
+        ret = version.split(':')[1]
+    elif version.startswith("branch="):
+        ret = version.split('=')[1]
+    elif version.startswith("branch "):
+        ret = version.split(' ')[1]
+
+    if ret != version:
+        return ret
+    else:
+        return version
+
+
+def is_commit(version):
+    return version.startswith("commit:") or version.startswith("commit=") \
+        or version.startswith("commit ")
+
+
+def is_branch(version):
+    return version.startswith("branch:") or version.startswith("branch=") \
+        or version.startswith("branch ")
+
+
+def is_git_version(version):
+    return is_commit(version) or is_branch(version) or version == "git"
+
+
 def move_files(key, version):
     # Delete the old folder so the files in the temporary folder can be
     # copied.
@@ -170,7 +204,31 @@ def dump_version_info(versions):
         json.dump(versions, outfile)
 
 
-def get_github_dependency(args, config, key, dependency, protocol):
+def get_github_dependency(args, toolchain, key, dependency, protocol):
+    # If the dependency is cloned via git, the files will be automatically in
+    # the correct directory so the function can return after handling the cloning.
+    if is_git_version(args.version_info[key]):
+        version = parse_git_version(args.version_info[key])
+
+        # Delete the old directory if it exists.
+        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+
+        # Make the directory to which the git repository will be cloned to.
+        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key))
+
+        # Clone the repository to the directory.
+        with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key)):
+            shell.call([str(toolchain.git),
+                        'clone',
+                        github.GITHUB_GIT_URL.format(owner=dependency['owner'],
+                                                     repo=dependency['id']),
+                        version])
+
+        if is_commit(args.version_info[key]) \
+                or is_branch(args.version_info[key]):
+            with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, version)):
+                shell.call([str(toolchain.git), 'checkout', version])
+
     # Set a shortcut to the asset data.
     asset = dependency['asset']
 
@@ -284,11 +342,11 @@ def get_github_dependency(args, config, key, dependency, protocol):
             # Delete the archive as it is extracted.
             shell.rm(asset_file)
 
-        if not ('glfw' == key):
+        if key != 'glfw':
             move_files(key=key, version=version)
 
         # Do the manual tasks if this dependency requires them.
-        if 'glfw' == key:
+        if key == 'glfw':
             move_glfw_files(args)
 
 
@@ -414,7 +472,7 @@ def get_gcc(args, gcc_node, url_format, use_cmd_tar):
 
     print('Finished streaming from ' + url + ' to ' + str(local_file))
 
-    if 2 == sys.version_info.major:
+    if sys.version_info.major == 2:
         if use_cmd_tar:
             # TODO Use different command for Windows.
             with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, 'gcc', 'temp')):
@@ -683,14 +741,15 @@ def update(args, toolchain):
 
         # Check if the dependency should be re-downloaded.
         if key in versions and not args.clean:
-            if versions[key] == args.version_info[key]:
+            if versions[key] == args.version_info[key] \
+                    and versions[key] != "git":
                 print('' + key + ' should not be re-downloaded, skipping.')
                 continue
 
         if dependency['github']:
-            get_github_dependency(args, config, key, dependency, protocol)
+            get_github_dependency(args, toolchain, key, dependency, protocol)
         else:
-            if 'llvm' == key:
+            if key == 'llvm':
                 # Set the URL format of the LLVM downloads.
                 url_format = dependency['asset']['format']
 
@@ -731,7 +790,7 @@ def update(args, toolchain):
                         gcc_node=dependency,
                         url_format=url_format,
                         use_cmd_tar=not args.disable_manual_tar)
-            elif 'cmake' == key:
+            elif key == 'cmake':
                 get_cmake(args=args,
                           key=key,
                           version=args.version_info['cmake_info'],
@@ -742,7 +801,11 @@ def update(args, toolchain):
                 get_sdl(args=args, asset=dependency['asset'], curl=args.ci)
 
         # Add the version of the dependency to the dictionary.
-        versions[key] = args.version_info[key]
+        if is_commit(args.version_info[key]) \
+                or is_branch(args.version_info[key]):
+            versions[key] = parse_git_version(args.version_info[key])
+        else:
+            versions[key] = args.version_info[key]
 
     # Write the versions to the file.
     dump_version_info(versions)
