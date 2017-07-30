@@ -23,6 +23,8 @@
 
 #include <memory>
 
+#include "anthem/std/optional.h"
+
 namespace anthem {
   class game_state;
 }
@@ -36,7 +38,7 @@ namespace anthem {
   /// \param argv array containing the arguments passed in the execution.
   ///
   /// \return The object of type \c game_state.
-  game_state execute(int argc, const char* argv[]);
+  optional<game_state> execute(int argc, const char* argv[]);
 }
 
 #endif // !ANTHEM_EXECUTE_H

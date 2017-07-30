@@ -25,6 +25,7 @@
 #include <array>
 #include <type_traits>
 
+#include "anthem/std/optional.h"
 #include "anthem/array.h"
 #include "anthem/types.h"
 
@@ -82,7 +83,7 @@ namespace anthem {
     /// \param a object of class \c arguments from which the values are copied.
     /// \return Reference to \c *this.
     ///
-    constexpr arguments& operator=(const arguments& a) const noexcept = delete;
+    constexpr arguments& operator=(const arguments& a) const noexcept = default;
 
     ///
     /// \brief Moves the values of \c a and replaces the values of \c *this by
@@ -91,7 +92,7 @@ namespace anthem {
     /// \param a object of class \c arguments from which the values are moved.
     /// \return Reference to \c *this.
     ///
-    constexpr arguments& operator=(arguments&& a) const noexcept = delete;
+    constexpr arguments& operator=(arguments&& a) const noexcept = default;
 
     ///
     /// \brief The starting width of the window.
@@ -127,8 +128,8 @@ namespace anthem {
   /// contain an object of class \c arguments.
   ///
   template <std::size_t N>
-  constexpr const arguments parse_arguments(const std::array<const char*,
-                                                             N> args) noexcept {
+  constexpr const optional<arguments>
+  parse_arguments(const std::array<const char*, N> args) noexcept {
 
     return arguments{};
   }

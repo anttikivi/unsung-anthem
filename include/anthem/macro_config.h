@@ -21,14 +21,14 @@
 #ifndef ANTHEM_MACRO_CONFIG_H
 #define ANTHEM_MACRO_CONFIG_H
 
-#if defined(ANTHEM_DISABLE_CPP17)
-# define DISABLE_CPP17 1
+#if defined(ANTHEM_DISABLE_CXX17)
+# define DISABLE_CXX17 1
 #endif
 
-#if defined(ANTHEM_CPP17)
-# define CPP17 1
-#elif defined(ANTHEM_CPP14)
-# define CPP14 1
+#if defined(ANTHEM_CXX17)
+# define CXX17 1
+#elif defined(ANTHEM_CXX14)
+# define CXX14 1
 #endif
 
 #endif // !ANTHEM_MACRO_CONFIG_H

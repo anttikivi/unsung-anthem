@@ -164,6 +164,7 @@ include_directories(${ANTHEM_INSTALL_PREFIX}/include)
 
 # Add the Unsung Anthem headers to includes.
 include_directories(include)
+include_directories(lib)
 include_directories(src)
 
 # The variable containing the library include files of the project.
