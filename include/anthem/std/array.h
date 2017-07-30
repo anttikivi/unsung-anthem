@@ -26,7 +26,7 @@
 #include <array>
 #include <utility>
 
-#include "anthem/macro_config.h"
+#include "anthem/__config.h"
 
 namespace anthem {
 

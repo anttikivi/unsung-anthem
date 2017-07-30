@@ -1,3 +1,4 @@
+add_subdirectory(gsl)
 add_subdirectory(std)
 
 set(ANTHEM_TEST_SOURCES ${ANTHEM_TEST_SOURCES}

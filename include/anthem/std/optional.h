@@ -21,11 +21,11 @@
 #ifndef ANTHEM_STD_OPTIONAL_H
 #define ANTHEM_STD_OPTIONAL_H
 
-#include "anthem/macro_config.h"
+#include "anthem/__config.h"
 
-#if defined(CXX17)
+#if CXX17
 # include <optional>
-#elif defined(CXX14)
+#elif CXX14
 # include <experimental/optional>
 #endif
 
@@ -34,9 +34,9 @@ namespace anthem {
   ///
   /// \brief Alias of class template of optional objects.
   ///
-#if defined(CXX17)
+#if CXX17
   template <class T> using optional = std::optional<T>;
-#elif defined(CXX14)
+#elif CXX14
   template <class T> using optional = std::experimental::optional<T>;
 #endif
 }

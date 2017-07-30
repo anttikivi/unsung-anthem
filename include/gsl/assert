@@ -1,0 +1,117 @@
+//===--- assert -------------------------------------------------*- C++ -*-===//
+//
+// This source file is part of the Unsung Anthem open source project.
+//
+// Copyright (c) 2017 Venturesome Stone
+// Licensed under GNU Affero General Public License v3.0
+//
+//===----------------------------------------------------------------------===//
+//
+///
+/// \file view
+/// \brief Declarations of the Guideline Support Library assertions.
+/// \author Antti Kivi
+/// \date 30 July 2017
+/// \copyright Copyright (c) 2017 Venturesome Stone
+/// Licensed under GNU Affero General Public License v3.0
+///
+//
+//===----------------------------------------------------------------------===//
+
+#ifndef ANTHEM_GSL_ASSERT
+#define ANTHEM_GSL_ASSERT
+
+#include <exception>
+#include <stdexcept>
+
+//
+// There are three configuration options for this behaviour of GSL
+// implementation when pre-conditions or post-conditions on the GSL types are
+// violated:
+//
+// 1. GSL_TERMINATE_ON_CONTRACT_VIOLATION: std::terminate will be called
+// (default)
+// 2. GSL_THROW_ON_CONTRACT_VIOLATION: a gsl::fail_fast exception will be
+// thrown
+// 3. GSL_UNENFORCED_ON_CONTRACT_VIOLATION: nothing happens
+//
+#if !(defined(GSL_THROW_ON_CONTRACT_VIOLATION) || \
+  defined(GSL_TERMINATE_ON_CONTRACT_VIOLATION) || \
+  defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION))
+# define GSL_TERMINATE_ON_CONTRACT_VIOLATION
+#endif
+
+#define GSL_STRINGIFY_DETAIL(x) #x
+#define GSL_STRINGIFY(x) GSL_STRINGIFY_DETAIL(x)
+
+#if defined(__clang__) || defined(__GNUC__)
+# define GSL_LIKELY(x) __builtin_expect(!!(x), 1)
+# define GSL_UNLIKELY(x) __builtin_expect(!!(x), 0)
+#else
+# define GSL_LIKELY(x) (!!(x))
+# define GSL_UNLIKELY(x) (!!(x))
+#endif // !(defined(__clang__) || defined(__GNUC__))
+
+//
+// GSL_ASSUME(cond)
+//
+// Tells the optimizer that the predicate condition must hold. It is
+// unspecified whether or not condition is actually evaluated.
+//
+#if defined(_MSC_VER)
+#define GSL_ASSUME(cond) __assume(cond)
+#elif defined(__clang__)
+#define GSL_ASSUME(cond) __builtin_assume(cond)
+#elif defined(__GNUC__)
+#define GSL_ASSUME(cond) \
+  ((cond) ? static_cast<void>(0) : __builtin_unreachable())
+#else
+#define GSL_ASSUME(cond) static_cast<void>(!!(cond))
+#endif // !(defined(_MSC_VER) || defined(__clang__) || defined(__GNUC__))
+
+namespace gsl {
+
+  //////////////////////////////////////////////////////////////////////////////
+  // GSL.assert: Assertions ////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  ///
+  /// \brief Type of exception objects which are thrown by assertions whenever
+  /// \c GSL_THROW_ON_CONTRACT_VIOLATION is enabled.
+  ///
+  struct fail_fast final : public std::logic_error {
+
+    ///
+    /// \brief Constructs an object of type \c fail_fast.
+    ///
+    /// \param message description of the failure.
+    ///
+    explicit fail_fast(char const* const message) : std::logic_error(message) {
+
+    }
+  };
+
+} // namespace gsl
+
+#if defined(GSL_THROW_ON_CONTRACT_VIOLATION)
+
+# define GSL_CONTRACT_CHECK(type, cond) \
+  (GSL_LIKELY(cond) ? static_cast<void>(0) : \
+    throw gsl::fail_fast("GSL: " type " failure at " __FILE__ \
+                         ": " GSL_STRINGIFY(__LINE__)))
+
+#elif defined(GSL_TERMINATE_ON_CONTRACT_VIOLATION)
+
+# define GSL_CONTRACT_CHECK(type, cond) \
+  (GSL_LIKELY(cond) ? static_cast<void>(0) : std::terminate())
+
+#elif defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION)
+
+# define GSL_CONTRACT_CHECK(type, cond) GSL_ASSUME(cond)
+
+#endif // defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION)
+
+#define Expects(cond) GSL_CONTRACT_CHECK("Precondition", cond)
+#define Ensures(cond) GSL_CONTRACT_CHECK("Postcondition", cond)
+
+#endif // !ANTHEM_GSL_ASSERT

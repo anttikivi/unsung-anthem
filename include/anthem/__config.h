@@ -26,8 +26,12 @@
 #endif
 
 #if defined(ANTHEM_CXX17)
+# define CXX2A 0
 # define CXX17 1
+# define CXX14 0
 #elif defined(ANTHEM_CXX14)
+# define CXX2A 0
+# define CXX17 0
 # define CXX14 1
 #endif
 

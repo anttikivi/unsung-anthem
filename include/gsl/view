@@ -1,0 +1,339 @@
+//===--- view ---------------------------------------------------*- C++ -*-===//
+//
+// This source file is part of the Unsung Anthem open source project.
+//
+// Copyright (c) 2017 Venturesome Stone
+// Licensed under GNU Affero General Public License v3.0
+//
+//===----------------------------------------------------------------------===//
+//
+///
+/// \file view
+/// \brief Declarations of the Guideline Support Library types which allow
+/// distinction between owning and non-owning objects.
+/// \author Antti Kivi
+/// \date 30 July 2017
+/// \copyright Copyright (c) 2017 Venturesome Stone
+/// Licensed under GNU Affero General Public License v3.0
+///
+//
+//===----------------------------------------------------------------------===//
+
+#ifndef ANTHEM_GSL_VIEW
+#define ANTHEM_GSL_VIEW
+
+#include "anthem/std/type_traits.h"
+
+#if HAS_TYPE_TRAITS
+
+# include <type_traits>
+
+#elif HAS_EXPERIMENTAL_TYPE_TRAITS
+
+# include <experimental/type_traits>
+
+#endif // USE_EXPERIMENTAL_TYPE_TRAITS
+
+#include "gsl/assert"
+
+namespace gsl {
+
+  //////////////////////////////////////////////////////////////////////////////
+  // GSL.view: Views ///////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  ///
+  /// \brief Template of objects which hold owning pointer.
+  ///
+  /// Remarks: The lifetime of the pointer shall not be automatically handled.
+  ///
+  /// \tparam T a pointer type.
+  ///
+#if HAS_CXX17_TYPE_TRAITS
+
+  template <class T, class = std::enable_if_t<std::is_pointer_v<T>>>
+  using owner = T;
+
+#elif HAS_EXPERIMENTAL_TYPE_TRAITS
+
+  template <class T,
+            class = std::enable_if_t<std::experimental::is_pointer_v<T>>>
+  using owner = T;
+
+#else
+
+  template <class T, class = std::enable_if_t<std::is_pointer_v<T>::value>>
+  using owner = T;
+
+#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+
+  ///
+  /// \brief Class template of objects which hold pointer value which shall not
+  /// be equal to \c nullptr.
+  ///
+  /// \tparam T type of the object which shall be held by the object.
+  ///
+  template <class T> class not_null {
+  public:
+
+#if HAS_CXX17_TYPE_TRAITS
+
+    static_assert(std::is_assignable_v<T&, std::nullptr_t>,
+                  "T cannot be assigned nullptr.");
+
+#elif HAS_EXPERIMENTAL_TYPE_TRAITS
+
+    static_assert(std::experimental::is_assignable_v<T&, std::nullptr_t>,
+                  "T cannot be assigned nullptr.");
+
+#else
+
+    static_assert(std::is_assignable<T&, std::nullptr_t>::value,
+                  "T cannot be assigned nullptr.");
+
+#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+
+    ///
+    /// \brief Constructs an object of type \c not_null.
+    ///
+    /// \tparam U type of the object held by the constructed \c not_null.
+    /// \tparam D dummy template parameter which is used by the ‘Substitution
+    /// Failure Is Not An Error’ language feature.
+    ///
+    /// \param u object to be held by the constructed \c not_null.
+    ///
+#if HAS_CXX17_TYPE_TRAITS
+
+    template <typename U,
+              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
+    constexpr not_null(U&& u) : ptr(std::forward<U>(u)) {
+      Expects(ptr != nullptr);
+    }
+
+#elif HAS_EXPERIMENTAL_TYPE_TRAITS
+
+    template <typename U, typename D =
+              std::enable_if_t<std::experimental::is_convertible_v<U, T>>>
+    constexpr not_null(U&& u) : ptr(std::forward<U>(u)) {
+      Expects(ptr != nullptr);
+    }
+
+#else
+
+    template <typename U,
+              typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
+    constexpr not_null(U&& u) : ptr(std::forward<U>(u)) {
+      Expects(ptr != nullptr);
+    }
+
+#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+
+    ///
+    /// \brief Constructs an object of class \c not_null which has the same
+    /// value as the original object \c o.
+    ///
+    /// \param o object from which the value is copied into the constructed
+    /// object.
+    ///
+    constexpr not_null(const not_null& o) noexcept = default;
+
+    ///
+    /// \brief Constructs an object of class \c not_null which has the same
+    /// value as the original object \c o.
+    ///
+    /// \tparam U type of the object held by the constructed \c not_null.
+    /// \tparam D dummy template parameter which is used by the ‘Substitution
+    /// Failure Is Not An Error’ language feature.
+    ///
+    /// \param o object from which the value is copied into the constructed
+    /// object.
+    ///
+#if HAS_CXX17_TYPE_TRAITS
+
+    template <typename U,
+              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
+    constexpr not_null(const not_null<U>& o) noexcept : ptr(o.get()) {
+
+    }
+
+#elif HAS_EXPERIMENTAL_TYPE_TRAITS
+
+    template <typename U, typename D =
+              std::enable_if_t<std::experimental::is_convertible_v<U, T>>>
+    constexpr not_null(const not_null<U>& o) noexcept : ptr(o.get()) {
+
+    }
+
+#else
+
+    template <typename U,
+              typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
+    constexpr not_null(const not_null<U>& o) noexcept : ptr(o.get()) {
+
+    }
+
+#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+
+    ///
+    /// \brief Constructs an object of type \c not_null.
+    ///
+    /// \param o object to be held by the constructed \c not_null.
+    ///
+    constexpr not_null(std::nullptr_t o) noexcept = delete;
+
+    ///
+    /// \brief Constructs an object of class \c not_null and moves the value
+    /// of \c o to the constructed object.
+    ///
+    /// \param o object from which the value is moved into the constructed
+    /// object.
+    ///
+    constexpr not_null(not_null&& o) noexcept = default;
+
+    ///
+    /// TODO
+    ///
+    /// \brief Constructs an object of class \c not_null and moves the value
+    /// of \c o to the constructed object.
+    ///
+    /// \tparam U type of the object held by the constructed \c not_null.
+    /// \tparam D dummy template parameter which is used by the ‘Substitution
+    /// Failure Is Not An Error’ language feature.
+    ///
+    /// \param o object from which the value is moved into the constructed
+    /// object.
+    ///
+#if HAS_CXX17_TYPE_TRAITS
+
+    template <typename U,
+              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
+    constexpr not_null(not_null<U>&& o) noexcept = delete;
+
+#elif HAS_EXPERIMENTAL_TYPE_TRAITS
+
+    template <typename U, typename D =
+              std::enable_if_t<std::experimental::is_convertible_v<U, T>>>
+    constexpr not_null(not_null<U>&& o) noexcept = delete;
+
+#else
+
+    template <typename U,
+              typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
+    constexpr not_null(not_null<U>&& o) noexcept = delete;
+
+#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+
+    ///
+    /// \brief Constructs an object of type \c not_null.
+    ///
+    /// \param o object to be held by the constructed \c not_null.
+    ///
+    constexpr not_null(std::nullptr_t&& o) noexcept = delete;
+
+    ///
+    /// \brief Destructs an object of class \c not_null.
+    ///
+    ~not_null() noexcept = default;
+
+    ///
+    /// \brief Copies the values of \c o and replaces the value of \c *this by
+    /// it.
+    ///
+    /// \param o object of class \c not_null from which the value is copied.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    constexpr not_null& operator=(const not_null& o) noexcept = delete;
+
+    ///
+    /// \brief Copies the values of \c o and replaces the value of \c *this by
+    /// it.
+    ///
+    /// \param o object of type \c std::nullptr_t from which the value is
+    /// copied.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    constexpr not_null& operator=(std::nullptr_t o) noexcept = delete;
+
+    ///
+    /// \brief Moves the values of \c o and replaces the values of \c *this by
+    /// it.
+    ///
+    /// \param not_null object of class \c not_null from which the value is
+    /// moved.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    constexpr not_null& operator=(not_null&& o) noexcept = delete;
+
+    ///
+    /// \brief Moves the values of \c o and replaces the value of \c *this by
+    /// it.
+    ///
+    /// \param o object of type \c std::nullptr_t from which the value is
+    /// copied.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    constexpr not_null& operator=(std::nullptr_t&& o) noexcept = delete;
+
+    ///
+    /// \brief Type cast operator on object of class template \c not_null.
+    ///
+    /// \return the stored pointer.
+    ///
+    constexpr operator T() const {
+      return get();
+    }
+
+    ///
+    /// \brief Class member access operator on object of class template
+    /// \c not_null.
+    ///
+    /// \return the stored pointer.
+    ///
+    constexpr T operator->() const {
+      return get();
+    }
+
+    // TODO: Documentation for explicitly deleted operators.
+    not_null& operator++() = delete;
+    not_null& operator--() = delete;
+    not_null operator++(int) = delete;
+    not_null operator--(int) = delete;
+    not_null& operator+=(std::ptrdiff_t) = delete;
+    not_null& operator-=(std::ptrdiff_t) = delete;
+    void operator[](std::ptrdiff_t) const = delete;
+
+    ///
+    /// \brief  Dereference operator on object of class template \c not_null.
+    ///
+    /// \return the object pointed by the stored pointer.
+    ///
+    constexpr decltype(auto) operator*() const {
+      return *get();
+    }
+
+    ///
+    /// Gives the stored pointer.
+    ///
+    /// \return the stored pointer.
+    ///
+    constexpr T get() const {
+      Ensures(ptr != nullptr);
+      return ptr;
+    }
+
+  private:
+
+    ///
+    /// \brief Value held by the object.
+    ///
+    const T ptr;
+
+  }; // template <class T> class not_null
+
+} // namespace gsl
+
+#endif // !ANTHEM_GSL_VIEW
