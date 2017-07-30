@@ -62,7 +62,7 @@ namespace gsl {
 
 #else
 
-  template <class T, class = std::enable_if_t<std::is_pointer_v<T>::value>>
+  template <class T, class = std::enable_if_t<std::is_pointer<T>::value>>
   using owner = T;
 
 #endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
