@@ -42,9 +42,17 @@
 #   define HAS_EXPERIMENTAL_TYPE_TRAITS 0
 
 # else
+#   if EXPERIMENTAL_HEADERS
 
-#   define HAS_EXPERIMENTAL_TYPE_TRAITS 1
-#   define HAS_TYPE_TRAITS 0
+#     define HAS_EXPERIMENTAL_TYPE_TRAITS 1
+#     define HAS_TYPE_TRAITS 0
+
+#   else
+
+#     define HAS_EXPERIMENTAL_TYPE_TRAITS 0
+#     define HAS_TYPE_TRAITS 1
+
+#   endif
 
 # endif // !(defined(__clang__) && __clang_major__ <= 3 && __clang_minor__ <= 5)
 #endif // CXX14

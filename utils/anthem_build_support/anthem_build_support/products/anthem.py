@@ -84,6 +84,11 @@ class Anthem(product.Product):
         else:
             cmake_call += ['-DANTHEM_CUSTOM_LIBCXX=OFF']
 
+        if self.args.cxx_experimental:
+            cmake_call += ['-DANTHEM_USE_EXPERIMENTAL_HEADERS=ON']
+        else:
+            cmake_call += ['-DANTHEM_USE_EXPERIMENTAL_HEADERS=OFF']
+
         cmake_call += self.args.extra_cmake_options
 
         # Create the dictionary of environment variables for the CMake call.

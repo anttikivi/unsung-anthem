@@ -41,4 +41,10 @@
 # define DEFAULT_ASSIGNMENT default
 #endif
 
+#if defined(ANTHEM_EXPERIMENTAL_HEADERS)
+# define EXPERIMENTAL_HEADERS 1
+#else
+# define EXPERIMENTAL_HEADERS 0
+#endif
+
 #endif // !ANTHEM_MACRO_CONFIG_H

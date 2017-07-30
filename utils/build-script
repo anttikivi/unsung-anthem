@@ -990,6 +990,19 @@ def main_normal():
         help="build using the specified C++ standard library implementation",
         dest="stdlib")
 
+    parser.add_argument(
+        "--use-experimental-headers",
+        help="use the experimental headers instead of the ones in the current "
+             "C++ standard",
+        action="store_true",
+        dest="cxx_experimental")
+    parser.add_argument(
+        "--experimental-headers",
+        help="use the experimental headers instead of the ones in the current "
+             "C++ standard",
+        action="store_true",
+        dest="cxx_experimental")
+
     cpp_version_group = parser.add_mutually_exclusive_group(required=False)
     cpp_version_group.add_argument(
         "--std",

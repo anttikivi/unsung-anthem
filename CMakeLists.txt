@@ -8,6 +8,8 @@ option(ANTHEM_ENABLE_ASSERTIONS "Option for enabling assertions in the code" ON)
 option(ANTHEM_SDL "Use SDL to build Unsung Anthem" OFF)
 option(ANTHEM_GLFW "Use GLFW to build Unsung Anthem" OFF)
 
+option(ANTHEM_USE_EXPERIMENTAL_HEADERS "Use experimental C++ standard headers" OFF)
+
 # Check if the executable type (executable or tests) variable is set.
 if(NOT DEFINED ANTHEM_EXECUTABLE_TYPE)
   message(FATAL_ERROR "The executable type (ANTHEM_EXECUTABLE_TYPE) is not set – the possible values are 'anthem' and 'test'")
@@ -71,6 +73,10 @@ elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL gcc)
   add_definitions(-DANTHEM_GCC)
 elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL llvm)
   add_definitions(-DANTHEM_CLANG)
+endif()
+
+if(ANTHEM_USE_EXPERIMENTAL_HEADERS)
+  add_definitions(-DANTHEM_EXPERIMENTAL_HEADERS)
 endif()
 
 # Set the preprocessor definitions according to the C++ standard version.
