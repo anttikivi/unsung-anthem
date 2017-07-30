@@ -71,7 +71,7 @@ elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL gcc)
   add_definitions(-DANTHEM_GCC)
 elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL llvm)
   add_definitions(-DANTHEM_CLANG)
- endif()
+endif()
 
 # Set the preprocessor definitions according to the C++ standard version.
 if(${ANTHEM_CXX_VERSION} STREQUAL c++latest)
