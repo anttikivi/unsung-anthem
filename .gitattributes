@@ -1,8 +1,2 @@
-include/gsl/gsl linguist-language=C++
-include/gsl/gsl_algorithm linguist-language=C++
-include/gsl/gsl_assert linguist-language=C++
-include/gsl/gsl_byte linguist-language=C++
-include/gsl/gsl_util linguist-language=C++
-include/gsl/multi_span linguist-language=C++
-include/gsl/span linguist-language=C++
-include/gsl/string_span linguist-language=C++
+include/gsl/assert linguist-language=C++
+include/gsl/view linguist-language=C++
