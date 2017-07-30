@@ -42,11 +42,10 @@ def parse_git_version(version):
         ret = version.split('=')[1]
     elif version.startswith("branch "):
         ret = version.split(' ')[1]
-
-    if ret != version:
-        return ret
     else:
-        return version
+        ret = version
+
+    return ret
 
 
 def is_commit(version):
