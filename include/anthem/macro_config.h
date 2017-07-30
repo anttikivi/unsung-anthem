@@ -31,4 +31,10 @@
 # define CXX14 1
 #endif
 
+#if defined(ANTHEM_GCC)
+# define DEFAULT_ASSIGNMENT delete
+#else
+# define DEFAULT_ASSIGNMENT default
+#endif
+
 #endif // !ANTHEM_MACRO_CONFIG_H

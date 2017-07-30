@@ -83,7 +83,8 @@ namespace anthem {
     /// \param a object of class \c arguments from which the values are copied.
     /// \return Reference to \c *this.
     ///
-    constexpr arguments& operator=(const arguments& a) noexcept = delete;
+    constexpr arguments&
+    operator=(const arguments& a) noexcept = DEFAULT_ASSIGNMENT;
 
     ///
     /// \brief Moves the values of \c a and replaces the values of \c *this by
@@ -92,7 +93,7 @@ namespace anthem {
     /// \param a object of class \c arguments from which the values are moved.
     /// \return Reference to \c *this.
     ///
-    constexpr arguments& operator=(arguments&& a) noexcept = delete;
+    constexpr arguments& operator=(arguments&& a) noexcept = DEFAULT_ASSIGNMENT;
 
     ///
     /// \brief The starting width of the window.
