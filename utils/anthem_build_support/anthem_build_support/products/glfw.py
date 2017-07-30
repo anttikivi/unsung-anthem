@@ -171,10 +171,13 @@ class Glfw(product.Product):
         if 'clang' in self.toolchain.cc and self.args.travis:
             cmake_call += ['-DCMAKE_CXX_FLAGS=-stdlib=libc++']
 
+        # Create the dictionary of environment variables for the CMake call.
+        cmake_env = {'CC': self.toolchain.cc, 'CXX': self.toolchain.cxx}
+
         # Change the working directory to the out-of-tree build directory.
         with shell.pushd(self.build_dir):
             # Generate the files to build GLFW from.
-            shell.call_without_sleeping(cmake_call)
+            shell.call_without_sleeping(cmake_call, env=cmake_env)
 
             # Build the library.
             # TODO MSBuild
