@@ -37,11 +37,11 @@
 # define CXX14 1
 #endif
 
-#if defined(ANTHEM_GCC)
-# define DEFAULT_ASSIGNMENT delete
+#if CXX14
+# define CXX_INLINE_VARIABLES 0
 #else
-# define DEFAULT_ASSIGNMENT default
-#endif
+# define CXX_INLINE_VARIABLES 1
+#endif // !CXX14
 
 #if defined(ANTHEM_EXPERIMENTAL_HEADERS)
 # define EXPERIMENTAL_HEADERS 1

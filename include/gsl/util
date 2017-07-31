@@ -299,9 +299,18 @@ namespace gsl {
 
 #endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
 
+#if CXX_INLINE_VARIABLES
+
     template <typename T, typename U>
     inline constexpr bool is_same_signedness_v
       = is_same_signedness<T, U>::value;
+
+#else
+
+    template <typename T, typename U>
+    constexpr bool is_same_signedness_v = is_same_signedness<T, U>::value;
+
+#endif // !CXX_INLINE_VARIABLES
 
   } // namespace details
 
