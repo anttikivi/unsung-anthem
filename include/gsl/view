@@ -129,7 +129,7 @@ namespace gsl {
 #endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
 
     ///
-    /// \brief Constructs an object of class \c not_null which has the same
+    /// \brief Constructs an object of type \c not_null which has the same
     /// value as the original object \c o.
     ///
     /// \param o object from which the value is copied into the constructed
@@ -138,7 +138,7 @@ namespace gsl {
     constexpr not_null(const not_null& o) noexcept = default;
 
     ///
-    /// \brief Constructs an object of class \c not_null which has the same
+    /// \brief Constructs an object of type \c not_null which has the same
     /// value as the original object \c o.
     ///
     /// \tparam U type of the object held by the constructed \c not_null.
@@ -182,7 +182,7 @@ namespace gsl {
     constexpr not_null(std::nullptr_t o) noexcept = delete;
 
     ///
-    /// \brief Constructs an object of class \c not_null and moves the value
+    /// \brief Constructs an object of type \c not_null and moves the value
     /// of \c o to the constructed object.
     ///
     /// \param o object from which the value is moved into the constructed
@@ -191,7 +191,7 @@ namespace gsl {
     constexpr not_null(not_null&& o) noexcept = default;
 
     ///
-    /// \brief Constructs an object of class \c not_null and moves the value
+    /// \brief Constructs an object of type \c not_null and moves the value
     /// of \c o to the constructed object.
     ///
     /// \tparam U type of the object held by the constructed \c not_null.
@@ -235,7 +235,7 @@ namespace gsl {
     constexpr not_null(std::nullptr_t&& o) noexcept = delete;
 
     ///
-    /// \brief Destructs an object of class template \c not_null.
+    /// \brief Destructs an object of type \c not_null.
     ///
     ~not_null() noexcept = default;
 
