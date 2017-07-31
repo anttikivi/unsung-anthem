@@ -106,7 +106,7 @@ namespace gsl {
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(U&& u) : ptr(std::forward<U>(u)) {
+    constexpr not_null(U&& u) : ptr{std::forward<U>(u)} {
       Expects(ptr != nullptr);
     }
 
@@ -114,7 +114,7 @@ namespace gsl {
 
     template <typename U, typename D =
               std::enable_if_t<std::experimental::is_convertible_v<U, T>>>
-    constexpr not_null(U&& u) : ptr(std::forward<U>(u)) {
+    constexpr not_null(U&& u) : ptr{std::forward<U>(u)} {
       Expects(ptr != nullptr);
     }
 
@@ -122,7 +122,7 @@ namespace gsl {
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr not_null(U&& u) : ptr(std::forward<U>(u)) {
+    constexpr not_null(U&& u) : ptr{std::forward<U>(u)} {
       Expects(ptr != nullptr);
     }
 
@@ -152,7 +152,7 @@ namespace gsl {
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(const not_null<U>& o) noexcept : ptr(o.get()) {
+    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()} {
 
     }
 
@@ -160,7 +160,7 @@ namespace gsl {
 
     template <typename U, typename D =
               std::enable_if_t<std::experimental::is_convertible_v<U, T>>>
-    constexpr not_null(const not_null<U>& o) noexcept : ptr(o.get()) {
+    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()} {
 
     }
 
@@ -168,7 +168,7 @@ namespace gsl {
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr not_null(const not_null<U>& o) noexcept : ptr(o.get()) {
+    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()} {
 
     }
 
@@ -205,7 +205,7 @@ namespace gsl {
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(not_null<U>&& o) noexcept : ptr(std::move(o.ptr)) {
+    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)} {
 
     }
 
@@ -213,7 +213,7 @@ namespace gsl {
 
     template <typename U, typename D =
               std::enable_if_t<std::experimental::is_convertible_v<U, T>>>
-    constexpr not_null(not_null<U>&& o) noexcept : ptr(std::move(o.ptr)) {
+    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)} {
 
     }
 
@@ -221,7 +221,7 @@ namespace gsl {
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr not_null(not_null<U>&& o) noexcept : ptr(std::move(o.ptr)) {
+    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)} {
 
     }
 
