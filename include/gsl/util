@@ -21,7 +21,20 @@
 #ifndef ANTHEM_GSL_UTIL
 #define ANTHEM_GSL_UTIL
 
+#include "anthem/__config.h"
+
+#include <exception>
 #include <utility>
+
+#if HAS_TYPE_TRAITS
+
+# include <type_traits>
+
+#elif HAS_EXPERIMENTAL_TYPE_TRAITS
+
+# include <experimental/type_traits>
+
+#endif // USE_EXPERIMENTAL_TYPE_TRAITS
 
 #if defined(_MSC_VER)
 
@@ -202,6 +215,134 @@ namespace gsl {
     return static_cast<T>(std::forward<U>(u));
   }
 
+  //===--- narrowing_error ------------------------------------------------===//
+
+  struct narrowing_error final : public std::exception {
+
+    ///
+    /// \brief Constructs an object of class \c narrowing_error.
+    ///
+    narrowing_error() noexcept = default;
+
+    ///
+    /// \brief Constructs an object of class \c narrowing_error which has the
+    /// same values as the original object \c a.
+    ///
+    /// \param a object from which values are copied into the constructed
+    /// object.
+    ///
+    constexpr narrowing_error(const narrowing_error& a) noexcept = default;
+
+    ///
+    /// \brief Constructs an object of class \c narrowing_error and moves the
+    /// values of \c a to the constructed object.
+    ///
+    /// \param a object from which values are moved into the constructed object.
+    ///
+    constexpr narrowing_error(narrowing_error&& a) noexcept = default;
+
+    ///
+    /// \brief Destructs an object of class \c narrowing_error.
+    ///
+    ~narrowing_error() noexcept = default;
+
+    ///
+    /// \brief Copies the values of \c a and replaces the values of \c *this by
+    /// them.
+    ///
+    /// \param a object of class \c narrowing_error from which the values are
+    /// copied.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    narrowing_error& operator=(const narrowing_error& a) noexcept = default;
+
+    ///
+    /// \brief Moves the values of \c a and replaces the values of \c *this by
+    /// them.
+    ///
+    /// \param a object of class \c narrowing_error from which the values are
+    /// moved.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    narrowing_error& operator=(narrowing_error&& a) noexcept = default;
+  };
+
+  namespace details {
+
+#if HAS_CXX17_TYPE_TRAITS
+
+    template <class T, class U> struct is_same_signedness final
+    : public std::bool_constant<std::is_signed_v<T> == std::is_signed_v<U>> {
+
+    };
+
+#elif HAS_EXPERIMENTAL_TYPE_TRAITS
+
+    template <class T, class U> struct is_same_signedness final
+    : public std::integral_constant<bool,
+                                    std::experimental::is_signed_v<T>
+                                    == std::experimental::is_signed_v<U>> {
+
+    };
+
+#else
+
+    template <class T, class U> struct is_same_signedness final
+    : public std::integral_constant<bool, std::is_signed<T>::value
+                                          == std::is_signed<U>::value> {
+
+    };
+
+#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+
+    template <class T, class U>
+    inline constexpr bool is_same_signedness_v
+      = is_same_signedness<T, U>::value;
+
+  } // namespace details
+
+  //===--- narrow ---------------------------------------------------------===//
+
+  ///
+  /// \brief Performs a narrowing \c static_cast checking that the value does
+  /// not change in the cast.
+  ///
+  /// \tparam T a new, narrowed type.
+  /// \tparam U a type to narrow from.
+  ///
+  /// \param u an object, the type of which shall be narrowed.
+  ///
+  /// \return \c u, the type of which is cast to \c T.
+  ///
+  template <class T, class U> constexpr T narrow(U u) {
+
+    T t = narrow_cast<T>(u);
+
+    if (static_cast<U>(t) != u) {
+      throw narrowing_error();
+    }
+
+    if (!details::is_same_signedness_v<T, U> && ((t < T{}) != (u < U{}))) {
+      throw narrowing_error();
+    }
+
+    return t;
+  }
+
 } // namespace gsl
+
+#if defined(_MSC_VER)
+# if _MSC_VER < 1910
+
+#   undef constexpr
+#   pragma pop_macro("constexpr")
+
+# endif // _MSC_VER < 1910
+
+# pragma warning(pop)
+
+#endif // _MSC_VER
 
 #endif // !ANTHEM_GSL_UTIL
