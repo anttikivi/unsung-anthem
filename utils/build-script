@@ -281,11 +281,6 @@ def apply_default_arguments(args):
     if args.cmake_generator is None:
         args.cmake_generator = 'Ninja'
 
-    # If the code coverage is enabled, make is the only possible CMake
-    # generator.
-    if args.anthem_build_variant == 'Coverage':
-        args.cmake_generator = 'Unix Makefiles'
-
     # The default CMake generator on CLion is make.
     if args.clion:
         args.cmake_generator = 'Unix Makefiles'
@@ -590,8 +585,7 @@ def validate_arguments(args):
     # Check the validity of the Unsung Anthem build variant.
     if not ('Debug' == args.anthem_build_variant
             or 'RelWithDebInfo' == args.anthem_build_variant
-            or 'Release' == args.anthem_build_variant
-            or args.anthem_build_variant == 'Coverage'):
+            or 'Release' == args.anthem_build_variant):
         exit_rejecting_arguments('Unsung Anthem build variant is set to an '
                                  'invalid value: '
                                  + str(args.anthem_build_variant))
@@ -1013,6 +1007,12 @@ def main_normal():
         action="store_true",
         dest="cxx_experimental")
 
+    parser.add_argument(
+        "--enable-gcov",
+        help="use gcov and lcov to generate code coverage information",
+        action="store_true",
+        dest="enable_gcov")
+
     cpp_version_group = parser.add_mutually_exclusive_group(required=False)
     cpp_version_group.add_argument(
         "--std",
@@ -1086,13 +1086,6 @@ def main_normal():
         help="build the Debug variant of Unsung Anthem",
         action="store_const",
         const="Debug",
-        dest="anthem_build_variant")
-    build_variant_override_group.add_argument(
-        "--coverage-anthem",
-        help="build the Debug variant of Unsung Anthem with code coverage "
-             "enabled",
-        action="store_const",
-        const="Coverage",
         dest="anthem_build_variant")
     build_variant_override_group.add_argument(
         "--debug-sdl",
@@ -1410,11 +1403,6 @@ def main_normal():
     parser.add_argument(
         "--xcodebuild",
         help="the absolute path to xcodebuild. Default is auto detected.",
-        type=arguments.type.executable,
-        metavar="PATH")
-    parser.add_argument(
-        "--xcpretty",
-        help="the absolute path to xcpretty. Default is auto detected.",
         type=arguments.type.executable,
         metavar="PATH")
     parser.add_argument(

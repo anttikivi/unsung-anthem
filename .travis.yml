@@ -29,6 +29,7 @@ matrix:
         - xorg-dev
         - libglu1-mesa-dev
         - build-essential
+        - lcov
         sources: &sources
         - ubuntu-toolchain-r-test
         - llvm-toolchain-trusty

@@ -244,11 +244,8 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
   if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
 
     include(CodeCoverage)
-    setup_target_for_coverage(${ANTHEM_EXECUTABLE_NAME}_coverage
-      ${ANTHEM_TEST_EXECUTABLE_NAME}
-      coverage)
-
-    target_link_libraries(${ANTHEM_TEST_EXECUTABLE_NAME} gcov)
+    setup_target_for_coverage(NAME ${ANTHEM_EXECUTABLE_NAME}_coverage
+      EXECUTABLE ${ANTHEM_TEST_EXECUTABLE_NAME})
   endif()
 
 elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL clion)
