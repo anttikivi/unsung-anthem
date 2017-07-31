@@ -46,4 +46,6 @@ def build(args, toolchain, workspace):
                       build_dir=workspace.anthem_build_dir('build',
                                                            'anthem-docs'))
 
-    docs_build.do_build()
+    # docs_build.do_build()
+    diagnostics.note('Sorry, but building the documentation does not do '
+                     'anything yet')
