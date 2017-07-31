@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(anthem)
 
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
+
 option(ANTHEM_CUSTOM_LIBCXX "Use alternative installation of libc++" OFF)
 
 option(ANTHEM_ENABLE_ASSERTIONS "Option for enabling assertions in the code" ON)
@@ -154,6 +156,8 @@ if(ANTHEM_CUSTOM_LIBCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1")
 endif()
 
+message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")
+
 message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
 
 message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
@@ -236,6 +240,16 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
       ${ANTHEM_LIB_SOURCES}
       ${ANTHEM_TEST_SOURCES}
       ${ANTHEM_SOURCES})
+
+  if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
+
+    include(CodeCoverage)
+    setup_target_for_coverage(${ANTHEM_EXECUTABLE_NAME}_coverage
+      ${ANTHEM_TEST_EXECUTABLE_NAME}
+      coverage)
+
+    target_link_libraries(${ANTHEM_TEST_EXECUTABLE_NAME} gcov)
+  endif()
 
 elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL clion)
 

@@ -314,8 +314,14 @@ def ninja_install(toolchain, env=None, dry_run=False, echo=False):
                           echo=echo)
 
 
-def make(env=None, dry_run=False, echo=False):
-    call_without_sleeping(['make'], env=env, dry_run=dry_run, echo=echo)
+def make(target=None, env=None, dry_run=False, echo=False):
+    if target is not None:
+        call_without_sleeping(['make', target],
+                              env=env,
+                              dry_run=dry_run,
+                              echo=echo)
+    else:
+        call_without_sleeping(['make'], env=env, dry_run=dry_run, echo=echo)
 
 
 def make_install(env=None, dry_run=False, echo=False):

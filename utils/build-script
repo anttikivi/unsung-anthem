@@ -37,11 +37,11 @@ from anthem_build_support.anthem_build_support.products import \
 
 
 program_description = """
-Use this tool to build, test, and prepare binary distribution archives of 
+Use this tool to build, test, and prepare binary distribution archives of
 Unsung Anthem.
 
-Builds Unsung Anthem and its dependencies, incrementally, optionally testing 
-Unsung Anthem thereafter. Different build configurations are maintained in 
+Builds Unsung Anthem and its dependencies, incrementally, optionally testing
+Unsung Anthem thereafter. Different build configurations are maintained in
 parallel."""
 
 program_epilogue = """
@@ -245,19 +245,23 @@ def apply_default_arguments(args):
 
     # Propagate the build variant.
     if args.llvm_build_variant is None:
-        args.llvm_build_variant = args.build_variant
+        args.llvm_build_variant = args.build_variant \
+            if not args.build_variant == 'Coverage' else 'Debug'
 
     if args.libcxx_build_variant is None:
-        args.libcxx_build_variant = args.build_variant
+        args.libcxx_build_variant = args.build_variant \
+            if not args.build_variant == 'Coverage' else 'Debug'
 
     if args.anthem_build_variant is None:
         args.anthem_build_variant = args.build_variant
 
     if args.sdl_build_variant is None:
-        args.sdl_build_variant = args.build_variant
+        args.sdl_build_variant = args.build_variant \
+            if not args.build_variant == 'Coverage' else 'Debug'
 
     if args.glfw_build_variant is None:
-        args.glfw_build_variant = args.build_variant
+        args.glfw_build_variant = args.build_variant \
+            if not args.build_variant == 'Coverage' else 'Debug'
 
     # Assertions are enabled by default.
     if args.assertions is None:
@@ -276,6 +280,11 @@ def apply_default_arguments(args):
     # The default CMake generator is Ninja.
     if args.cmake_generator is None:
         args.cmake_generator = 'Ninja'
+
+    # If the code coverage is enabled, make is the only possible CMake
+    # generator.
+    if args.anthem_build_variant == 'Coverage':
+        args.cmake_generator = 'Unix Makefiles'
 
     # The default CMake generator on CLion is make.
     if args.clion:
@@ -581,7 +590,8 @@ def validate_arguments(args):
     # Check the validity of the Unsung Anthem build variant.
     if not ('Debug' == args.anthem_build_variant
             or 'RelWithDebInfo' == args.anthem_build_variant
-            or 'Release' == args.anthem_build_variant):
+            or 'Release' == args.anthem_build_variant
+            or args.anthem_build_variant == 'Coverage'):
         exit_rejecting_arguments('Unsung Anthem build variant is set to an '
                                  'invalid value: '
                                  + str(args.anthem_build_variant))
@@ -1076,6 +1086,13 @@ def main_normal():
         help="build the Debug variant of Unsung Anthem",
         action="store_const",
         const="Debug",
+        dest="anthem_build_variant")
+    build_variant_override_group.add_argument(
+        "--coverage-anthem",
+        help="build the Debug variant of Unsung Anthem with code coverage "
+             "enabled",
+        action="store_const",
+        const="Coverage",
         dest="anthem_build_variant")
     build_variant_override_group.add_argument(
         "--debug-sdl",

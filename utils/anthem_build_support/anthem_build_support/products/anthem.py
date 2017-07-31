@@ -32,10 +32,6 @@ class Anthem(product.Product):
                       # Set the CMake generator.
                       '-G', self.args.cmake_generator,
 
-                      # Set the build variant.
-                      '-DCMAKE_BUILD_TYPE='
-                      '{}'.format(self.args.anthem_build_variant),
-
                       # Set the install prefix to the directory in which all of
                       # the dependencies are installed.
                       '-DANTHEM_INSTALL_PREFIX=' + self.workspace.install_root,
@@ -53,6 +49,12 @@ class Anthem(product.Product):
                       # Set the main tool for some CMake configurations.
                       '-DANTHEM_MAIN_COMPILER_TOOL='
                       '{}'.format(self.args.main_tool)]
+
+        if self.args.anthem_build_variant == 'Coverage' and not tests:
+            cmake_call += ['-DCMAKE_BUILD_TYPE=Debug']
+        else:
+            cmake_call += ['-DCMAKE_BUILD_TYPE='
+                           '{}'.format(self.args.anthem_build_variant)]
 
         if self.args.sdl:
             cmake_call += ['-DANTHEM_SDL=ON']
@@ -103,8 +105,13 @@ class Anthem(product.Product):
                 # Build.
                 if self.args.cmake_generator == 'Ninja':
                     shell.ninja(self.toolchain)
+
                 elif self.args.cmake_generator == 'Unix Makefiles':
                     shell.make()
+
+                    if self.args.anthem_build_variant == 'Coverage' and tests:
+                        shell.make('anthem_coverage')
+
                 elif self.args.visual_studio:
                     msbuild_args = ['anthem.sln']
 
