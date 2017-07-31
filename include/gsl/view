@@ -334,6 +334,170 @@ namespace gsl {
 
   }; // template <class T> class not_null
 
+  ///
+  /// \brief Shift operator which inserts an object of class template
+  /// \c not_null into the stream.
+  ///
+  /// \tparam T type of the object which is held by the \c not_null.
+  ///
+  /// \param os object of type \c std::ostream to which the object is inserted.
+  /// \param val object of class template \c not_null to be inserted into the
+  /// stream.
+  ///
+  /// \return reference of the stream object.
+  ///
+  template <class T>
+  std::ostream& operator<<(std::ostream& os, const not_null<T>& val) {
+    os << val.get();
+    return os;
+  }
+
+  ///
+  /// \brief Comparison operator which compares two objects of class template
+  /// \c not_null for equality.
+  ///
+  /// \tparam T type of the object which is held by the left-hand side
+  /// \c not_null.
+  /// \tparam U type of the object which is held by the right-hand side
+  /// \c not_null.
+  ///
+  /// \param lhs an object of class template \c not_null.
+  /// \param rhs an object of class template \c not_null.
+  ///
+  /// \return \c lhs.get() == rhs.get().
+  ///
+  template <class T, class U>
+  auto operator==(const not_null<T>& lhs, const not_null<U>& rhs)
+  -> decltype(lhs.get() == rhs.get()) {
+    return lhs.get() == rhs.get();
+  }
+
+  ///
+  /// \brief Comparison operator which compares two objects of class template
+  /// \c not_null for inequality.
+  ///
+  /// \tparam T type of the object which is held by the left-hand side
+  /// \c not_null.
+  /// \tparam U type of the object which is held by the right-hand side
+  /// \c not_null.
+  ///
+  /// \param lhs an object of class template \c not_null.
+  /// \param rhs an object of class template \c not_null.
+  ///
+  /// \return \c lhs.get() != rhs.get().
+  ///
+  template <class T, class U>
+  auto operator!=(const not_null<T>& lhs, const not_null<U>& rhs)
+  -> decltype(lhs.get() != rhs.get()) {
+    return lhs.get() != rhs.get();
+  }
+
+  ///
+  /// \brief Comparison operator which compares two objects of class template
+  /// \c not_null.
+  ///
+  /// \tparam T type of the object which is held by the left-hand side
+  /// \c not_null.
+  /// \tparam U type of the object which is held by the right-hand side
+  /// \c not_null.
+  ///
+  /// \param lhs an object of class template \c not_null.
+  /// \param rhs an object of class template \c not_null.
+  ///
+  /// \return \c lhs.get() < rhs.get().
+  ///
+  template <class T, class U>
+  auto operator<(const not_null<T>& lhs, const not_null<U>& rhs)
+  -> decltype(lhs.get() < rhs.get()) {
+    return lhs.get() < rhs.get();
+  }
+
+  ///
+  /// \brief Comparison operator which compares two objects of class template
+  /// \c not_null.
+  ///
+  /// \tparam T type of the object which is held by the left-hand side
+  /// \c not_null.
+  /// \tparam U type of the object which is held by the right-hand side
+  /// \c not_null.
+  ///
+  /// \param lhs an object of class template \c not_null.
+  /// \param rhs an object of class template \c not_null.
+  ///
+  /// \return \c lhs.get() <= rhs.get().
+  ///
+  template <class T, class U>
+  auto operator<=(const not_null<T>& lhs, const not_null<U>& rhs)
+  -> decltype(lhs.get() <= rhs.get()) {
+    return lhs.get() <= rhs.get();
+  }
+
+  ///
+  /// \brief Comparison operator which compares two objects of class template
+  /// \c not_null.
+  ///
+  /// \tparam T type of the object which is held by the left-hand side
+  /// \c not_null.
+  /// \tparam U type of the object which is held by the right-hand side
+  /// \c not_null.
+  ///
+  /// \param lhs an object of class template \c not_null.
+  /// \param rhs an object of class template \c not_null.
+  ///
+  /// \return \c lhs.get() > rhs.get().
+  ///
+  template <class T, class U>
+  auto operator>(const not_null<T>& lhs, const not_null<U>& rhs)
+  -> decltype(lhs.get() > rhs.get()) {
+    return lhs.get() > rhs.get();
+  }
+
+  ///
+  /// \brief Comparison operator which compares two objects of class template
+  /// \c not_null.
+  ///
+  /// \tparam T type of the object which is held by the left-hand side
+  /// \c not_null.
+  /// \tparam U type of the object which is held by the right-hand side
+  /// \c not_null.
+  ///
+  /// \param lhs an object of class template \c not_null.
+  /// \param rhs an object of class template \c not_null.
+  ///
+  /// \return \c lhs.get() >= rhs.get().
+  ///
+  template <class T, class U>
+  auto operator>=(const not_null<T>& lhs, const not_null<U>& rhs)
+  -> decltype(lhs.get() >= rhs.get()) {
+    return lhs.get() >= rhs.get();
+  }
+
+  // TODO: Documentation for explicitly deleted operators.
+  template <class T, class U>
+  std::ptrdiff_t operator-(const not_null<T>&, const not_null<U>&) = delete;
+  template <class T>
+  not_null<T> operator-(const not_null<T>&, std::ptrdiff_t) = delete;
+  template <class T>
+  not_null<T> operator+(const not_null<T>&, std::ptrdiff_t) = delete;
+  template <class T>
+  not_null<T> operator+(std::ptrdiff_t, const not_null<T>&) = delete;
+
 } // namespace gsl
+
+namespace std {
+  template <class T> struct hash<gsl::not_null<T>> {
+    size_t operator()(const gsl::not_null<T>& value) const noexcept {
+      return hash<T>{}(value);
+    }
+  };
+
+} // namespace std
+
+#if defined(_MSC_VER) && _MSC_VER < 1910
+
+#undef constexpr
+#pragma pop_macro("constexpr")
+
+#endif // defined(_MSC_VER) && _MSC_VER < 1910
 
 #endif // !ANTHEM_GSL_VIEW
