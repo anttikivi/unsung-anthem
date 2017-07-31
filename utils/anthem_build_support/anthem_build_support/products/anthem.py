@@ -88,6 +88,11 @@ class Anthem(product.Product):
         else:
             cmake_call += ['-DANTHEM_USE_EXPERIMENTAL_HEADERS=OFF']
 
+        if self.args.enable_gcov:
+            cmake_call += ['-DANTHEM_ENABLE_GCOV=ON']
+        else:
+            cmake_call += ['-DANTHEM_ENABLE_GCOV=OFF']
+
         cmake_call += self.args.extra_cmake_options
 
         # Create the dictionary of environment variables for the CMake call.
@@ -108,6 +113,10 @@ class Anthem(product.Product):
 
                     if self.args.enable_gcov and tests:
                         shell.make(self.args.executable_name + '_coverage')
+
+                        shell.call(['coveralls',
+                                    '-t',
+                                    os.environ['ANTHEM_COVERALLS_REPO_TOKEN']])
 
                 elif self.args.visual_studio:
                     msbuild_args = ['anthem.sln']

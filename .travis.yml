@@ -5,6 +5,7 @@ sudo: false
 env:
   global:
     secure: erCEE82Y/n+pFU9e9pAY6yJedCktMOznVPz2fLvsbR7T9KxXdKaB57LszVe2DSCVSs/1R+2Lnzq3PVB+cuZxgSVhRjTagekZl88OmncrhZfjKsyU2WqrzjKdwzhk67FdPXofwt/ZmM6cRjMu9WbRsoR1X+0jZ0S9el044QSR5Sv/71Shes0SEAvNw61NRTBKoDxJT1mY41aPSscxt8PugC/OReRV9q2m2Uuzg66qA6qi3Iqmii6t41yhDFWnl53vE308RY0dDvW+db+hbTUTLLMrmnvdx0zq5bd2rmL+4/VfxdgCrXs6fawzR/n4MtVdBrZP4iEEkTzTxOCCqFOhPpTKIhfLd8y1xRZQXJMaWs/J+01MFON4sPhqrHnF1roy7f8GpwYScMSTm7d6h9ghUAOEyb2GIEQqwWqJrVYk0RWC0+bDxvGJA2+O3xg2z7ETOMRtPtamQY8rPt6PapPCiXjH+Z8TAP59cA/lH94OjorCX2r/540j4krCPOhSyvo+74t9S+YLWSDzeaBma2WKC+GK9vk74JY4DCEF9wX2ZJhlS+dVhv8yzxa7IswcrdTS1DMf4bEjcXMl5XMocAdCJecolpXTh92mIb5lShLHgwwCY5D/yvQSsnCBG1QZknJvWJOMbHmuzmR2eyYo2V3BiHw69Wq6uRT+3A0BZ7p9+Yo=
+    secure: 0XGde/2ZAsVkWQH63EuAoizqVk4qAfV86QF2pWwI45vaRL1IACakAebiCeXcG3u2vb8lYTtM3aoWQKu5ksbZQmaOvj/+u8CsTEMd0Y6GguRcQPBsd+4tIHXAvhGfyEr6QWxNDj0v9uP+R/okQwzNfFMzNwy/9KSrvgHlKbTd8AdOU5jtsRdhScaXLHTpd+okxbE99s16kzGlFgFyrkbVJ0THeyhBlLK5qnHIxefcO5K378hlqh1EgkAbX7ovU13eFVi07xV9jODjOB4lChBzCf02MQHYV6WrlN0qO8aipK4BCjjK3C0uJcu4pasbzbKF1/VNiHaPvrmzeVJqC+Bvys1rVbI+0FNHPMB1xf76cOnXo+ENZNnubKuFFAN86bQP81NXKyqse+Qs5gsLs4zSwjzSl3LvtCzqvgfjeFCV3AMIG5T4QOBCvKeKm9mOeJiYlQy7BimiUs7EQ5evE9oQ3vB9N5wYw0rA2J3nNCP24Q+3gM4SQbwh6BpC4BM2S+iqKsrzd7xXaVeLWkbTZMWR5BSn5WGV11ITjGXXacIs+Wa507KyVbQSSpfe1ZNCP5NP6La3+p6g6bNjyDR0p3RnLF0UuQiApltLbo+r6dqk9Vyc2WzznNLHPyH1uUJ3MvqHbabzRg4VOPo9xe4kvPIaDkFz2u21MhD93GavGJ05Odk=
 
 matrix:
   include:
@@ -22,6 +23,7 @@ matrix:
     - CXX=g++-5
     - CC=gcc-5
     - ANTHEM_BUILD_PRESET=travis_linux_gcc5_cxx14_coverage
+    - ANTHEM_COVERAGE=true
     addons:
       apt:
         packages:
@@ -46,6 +48,7 @@ matrix:
     - CXX=g++-7
     - CC=gcc-7
     - ANTHEM_BUILD_PRESET=travis_linux_gcc7_cxx17
+    - ANTHEM_COVERAGE=false
     addons:
       apt:
         packages:
@@ -68,6 +71,7 @@ matrix:
     - CXX=clang++-3.5
     - CC=clang-3.5
     - ANTHEM_BUILD_PRESET=travis_linux_clang35_cxx14
+    - ANTHEM_COVERAGE=false
     addons:
       apt:
         packages:
@@ -87,6 +91,7 @@ matrix:
     - CXX=clang++-4.0
     - CC=clang-4.0
     - ANTHEM_BUILD_PRESET=travis_linux_clang40_cxx17
+    - ANTHEM_COVERAGE=false
     addons:
       apt:
         packages:
@@ -110,6 +115,7 @@ matrix:
     - CXX=clang++
     - CC=clang
     - ANTHEM_BUILD_PRESET=travis_darwin_xcode73_clang_cxx14
+    - ANTHEM_COVERAGE=false
 
   # Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
   - os: osx
@@ -120,11 +126,13 @@ matrix:
     - CXX=clang++
     - CC=clang
     - ANTHEM_BUILD_PRESET=travis_darwin_xcode83_clang_cxx17
+    - ANTHEM_COVERAGE=false
 
 install:
 - ${CC} --version
 - ${CXX} --version
 - pip install --user requests
+- if [ "${ANTHEM_COVERAGE}" == "true" ]; then pip install --user cpp-coveralls fi
 - cd $TRAVIS_BUILD_DIR/..
 - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
 
@@ -132,3 +140,7 @@ script:
 - cd $TRAVIS_BUILD_DIR/..
 - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
 - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
+
+# after_success:
+# - if [ "${ANTHEM_COVERAGE}" == "true" ]; then pip install --user cpp-coveralls fi
+# - coveralls

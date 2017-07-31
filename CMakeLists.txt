@@ -12,6 +12,8 @@ option(ANTHEM_GLFW "Use GLFW to build Unsung Anthem" OFF)
 
 option(ANTHEM_USE_EXPERIMENTAL_HEADERS "Use experimental C++ standard headers" OFF)
 
+option(ANTHEM_ENABLE_GCOV "Add target for gcov code coverage" OFF)
+
 # Check if the executable type (executable or tests) variable is set.
 if(NOT DEFINED ANTHEM_EXECUTABLE_TYPE)
   message(FATAL_ERROR "The executable type (ANTHEM_EXECUTABLE_TYPE) is not set – the possible values are 'anthem' and 'test'")
@@ -241,7 +243,7 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
       ${ANTHEM_TEST_SOURCES}
       ${ANTHEM_SOURCES})
 
-  if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
+  if (ANTHEM_ENABLE_GCOV)
 
     include(CodeCoverage)
     setup_target_for_coverage(NAME ${ANTHEM_EXECUTABLE_NAME}_coverage

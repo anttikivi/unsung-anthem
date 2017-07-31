@@ -245,23 +245,19 @@ def apply_default_arguments(args):
 
     # Propagate the build variant.
     if args.llvm_build_variant is None:
-        args.llvm_build_variant = args.build_variant \
-            if not args.build_variant == 'Coverage' else 'Debug'
+        args.llvm_build_variant = args.build_variant
 
     if args.libcxx_build_variant is None:
-        args.libcxx_build_variant = args.build_variant \
-            if not args.build_variant == 'Coverage' else 'Debug'
+        args.libcxx_build_variant = args.build_variant
 
     if args.anthem_build_variant is None:
         args.anthem_build_variant = args.build_variant
 
     if args.sdl_build_variant is None:
-        args.sdl_build_variant = args.build_variant \
-            if not args.build_variant == 'Coverage' else 'Debug'
+        args.sdl_build_variant = args.build_variant
 
     if args.glfw_build_variant is None:
-        args.glfw_build_variant = args.build_variant \
-            if not args.build_variant == 'Coverage' else 'Debug'
+        args.glfw_build_variant = args.build_variant
 
     # Assertions are enabled by default.
     if args.assertions is None:
@@ -280,6 +276,10 @@ def apply_default_arguments(args):
     # The default CMake generator is Ninja.
     if args.cmake_generator is None:
         args.cmake_generator = 'Ninja'
+
+    # The only CMake generator with gcov is make.
+    if args.enable_gcov:
+        args.cmake_generator = 'Unix Makefiles'
 
     # The default CMake generator on CLion is make.
     if args.clion:
@@ -1558,9 +1558,6 @@ def main_normal():
     if args.xcodebuild is not None:
         toolchain.xcodebuild = args.xcodebuild
 
-    if args.xcpretty is not None:
-        toolchain.xcpretty = args.xcpretty
-
     if args.msbuild is not None:
         toolchain.msbuild = args.msbuild
 
@@ -1624,7 +1621,6 @@ def main_normal():
 
     if args.cmake_generator == 'Xcode' and not args.disable_xcodebuild:
         diagnostics.note('xcodebuild is set to ' + str(toolchain.xcodebuild))
-        diagnostics.note('xcpretty is set to ' + str(toolchain.xcpretty))
 
     diagnostics.note('The C++ standard version is set to ' + args.std)
 
