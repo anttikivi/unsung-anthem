@@ -132,7 +132,7 @@ install:
 - ${CC} --version
 - ${CXX} --version
 - pip install --user requests
-- if [ "${ANTHEM_COVERAGE}" == "true" ]; then pip install --user cpp-coveralls fi
+- if [ "${ANTHEM_COVERAGE}" == "true" ]; then pip install --user cpp-coveralls; fi
 - cd $TRAVIS_BUILD_DIR/..
 - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --install
 
@@ -140,7 +140,3 @@ script:
 - cd $TRAVIS_BUILD_DIR/..
 - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --build
 - unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET} --run-test
-
-# after_success:
-# - if [ "${ANTHEM_COVERAGE}" == "true" ]; then pip install --user cpp-coveralls fi
-# - coveralls
