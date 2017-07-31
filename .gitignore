@@ -50,3 +50,6 @@ unsung-anthem.xcodeproj
 
 # Python
 *.pyc
+
+# MS implementation of GSL
+ms_gsl
