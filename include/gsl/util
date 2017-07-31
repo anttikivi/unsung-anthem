@@ -1,0 +1,187 @@
+//===--- util ---------------------------------------------------*- C++ -*-===//
+//
+// This source file is part of the Unsung Anthem open source project.
+//
+// Copyright (c) 2017 Venturesome Stone
+// Licensed under GNU Affero General Public License v3.0
+//
+//===----------------------------------------------------------------------===//
+//
+///
+/// \file view
+/// \brief Declarations of the Guideline Support Library utility types.
+/// \author Antti Kivi
+/// \date 31 July 2017
+/// \copyright Copyright (c) 2017 Venturesome Stone
+/// Licensed under GNU Affero General Public License v3.0
+///
+//
+//===----------------------------------------------------------------------===//
+
+#ifndef ANTHEM_GSL_UTIL
+#define ANTHEM_GSL_UTIL
+
+#include <utility>
+
+#if defined(_MSC_VER)
+
+# pragma warning(push)
+# pragma warning(disable : 4127) // conditional expression is constant
+
+# if _MSC_VER < 1910
+#   pragma push_macro("constexpr")
+#   define constexpr /* constexpr */
+# endif // _MSC_VER < 1910
+#endif // _MSC_VER
+
+namespace gsl {
+
+  //////////////////////////////////////////////////////////////////////////////
+  // GSL.util: Utilities ///////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  ///
+  /// \brief Class template of objects which hold an object of a Callable type
+  /// and invoke it at the end of the current scope.
+  ///
+  /// \tparam F a Callable type.
+  ///
+  template <class F> class final_action final {
+  public:
+
+    ///
+    /// \brief Constructs an object of type \final_action.
+    ///
+    /// Remarks: This default constructor is explicit deleted as an object of
+    /// type \c final_action must hold a Callable object to be invoked at the
+    /// end of the current scope.
+    ///
+    constexpr final_action() noexcept = delete;
+
+    ///
+    /// \brief Constructs an object of type \final_action.
+    ///
+    /// \param f an object of a Callable type which shall be invoked at the end
+    /// of the current scope.
+    ///
+    constexpr explicit final_action(F f) noexcept
+    : f{std::move(f)}, invoke{true} {
+
+    }
+
+    ///
+    /// \brief Constructs an object of type \c final_action which has the same
+    /// value as the original object \c o.
+    ///
+    /// Remarks: This copy constructor is explicitly deleted to avoid
+    /// unintended duplicate invocation of the Callable object.
+    ///
+    /// \param o object from which the value is copied into the constructed
+    /// object.
+    ///
+    constexpr final_action(const final_action& o) noexcept = delete;
+
+    ///
+    /// \brief Constructs an object of type \c final_action and moves the value
+    /// of \c o to the constructed object.
+    ///
+    /// \param o object from which the value is moved into the constructed
+    /// object.
+    ///
+    constexpr final_action(final_action&& o) noexcept
+    : f{std::move(o.f)}, invoke{o.invoke} {
+
+      // Set the invocation of the other object to false as duplicate
+      // invocation of the Callable object is not desired.
+      o.invoke = false;
+    }
+
+    ///
+    /// \brief Destructs an object of type \c final_action.
+    ///
+    /// Remarks: Destruction of an object of type \c final_action invokes the
+    /// Callable object held by the object of type \c final_action as it is
+    /// guaranteed to be at the end of the current scope.
+    ///
+    ~final_action() noexcept {
+
+      // Invoke the Callable object here as it is guaranteed to be at the end
+      // of the current scope.
+      if (invoke) {
+        f();
+      }
+    }
+
+    ///
+    /// \brief Copies the values of \c o and replaces the value of \c *this by
+    /// it.
+    ///
+    /// Remarks: This assignment operator is explicitly deleted.
+    ///
+    /// \param o object of type \c final_action from which the value is copied.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    constexpr final_action& operator=(const final_action& o) noexcept = delete;
+
+    ///
+    /// \brief Moves the values of \c o and replaces the values of \c *this by
+    /// it.
+    ///
+    /// Remarks: This assignment operator is explicitly deleted.
+    ///
+    /// \param o object of type \c final_action from which the value is moved.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    constexpr final_action& operator=(final_action&& o) noexcept = delete;
+
+  private:
+
+    ///
+    /// \brief An action which shall be executed at the end of the current
+    /// scope.
+    ///
+    const F f;
+
+    ///
+    /// \brief Value describing whether or not the action shall be executed at
+    /// the end of the current scope.
+    ///
+    /// Remarks: Set to \c false if and only if the enclosing \c final_action
+    /// is moved.
+    ///
+    bool invoke;
+  };
+
+  ///
+  /// \brief Makes an object of type \c final_action.
+  ///
+  /// \tparam F a Callable type.
+  ///
+  /// \param f an object of a Callable type which shall be invoked at the end
+  /// of the current scope.
+  ///
+  /// \return A constructed object of type \c final_action.
+  ///
+  template <class F> constexpr final_action<F> finally(const F& f) noexcept {
+    return final_action<F>{f};
+  }
+
+  ///
+  /// \brief Makes an object of type \c final_action.
+  ///
+  /// \tparam F a Callable type.
+  ///
+  /// \param f an object of a Callable type which shall be invoked at the end
+  /// of the current scope.
+  ///
+  /// \return A constructed object of type \c final_action.
+  ///
+  template <class F> constexpr final_action<F> finally(F&& f) noexcept {
+    return final_action<F>{std::forward<F>(f)};
+  }
+
+} // namespace gsl
+
+#endif // !ANTHEM_GSL_UTIL
