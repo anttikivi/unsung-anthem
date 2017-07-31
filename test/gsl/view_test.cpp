@@ -1,4 +1,4 @@
-//===--- test_view.cpp -*- C++ -*-===//
+//===--- view_test.cpp ------------------------------------------*- C++ -*-===//
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -8,7 +8,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file test_view.cpp
+/// \file view_test.cpp
 /// \brief Tests of the implementations of Guideline Support Library types
 /// which allow distinction between owning and non-owning objects.
 /// \author Antti Kivi
