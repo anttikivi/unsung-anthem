@@ -305,12 +305,7 @@ namespace gsl {
     inline constexpr bool is_same_signedness_v
       = is_same_signedness<T, U>::value;
 
-#else
-
-    template <typename T, typename U>
-    constexpr bool is_same_signedness_v = is_same_signedness<T, U>::value;
-
-#endif // !CXX_INLINE_VARIABLES
+#endif // CXX_INLINE_VARIABLES
 
   } // namespace details
 
@@ -335,9 +330,19 @@ namespace gsl {
       throw narrowing_error();
     }
 
+#if CXX_INLINE_VARIABLES
+
     if (!details::is_same_signedness_v<T, U> && ((t < T{}) != (u < U{}))) {
       throw narrowing_error();
     }
+
+#else
+
+    if (!details::is_same_signedness<T, U>::value && ((t < T{}) != (u < U{}))) {
+      throw narrowing_error();
+    }
+
+#endif // CXX_INLINE_VARIABLES
 
     return t;
   }
