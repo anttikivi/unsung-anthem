@@ -1,4 +1,6 @@
-//===--- arguments_test.cpp -------------------------------------*- C++ -*-===//
+//===----------------------- arguments_test.cpp -----------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -24,10 +26,14 @@
 
 #include "anthem/std/array.h"
 
-TEST_CASE("Arguments are parsed correctly", "[arguments]") {
+TEST_CASE("arguments are parsed correctly", "[anthem::arguments]") {
 
   constexpr int argc = 5;
-  constexpr const char* argv[] = {"executable", "--window-width", "300", "--window-height", "15"};
+  constexpr const char* argv[] = {"executable",
+                                  "--window-width",
+                                  "300",
+                                  "--window-height",
+                                  "15"};
 
   const auto result{anthem::parse_arguments(anthem::to_array(argv))};
 
@@ -37,7 +43,7 @@ TEST_CASE("Arguments are parsed correctly", "[arguments]") {
 }
 
 TEST_CASE("Argument array is successfully transformed into a string array",
-          "[transform_to_strings]") {
+          "[anthem::transform_to_strings]") {
 
   constexpr const char* argv[]{"executable", "--window-width", "300", "--window-height", "15"};
   const std::array<std::string, 5> test{"executable", "--window-width", "300", "--window-height", "15"};

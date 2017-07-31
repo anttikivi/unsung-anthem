@@ -1,6 +1,6 @@
-//===--- util_test.cpp ------------------------------------------*- C++ -*-===//
+//===------------------------- util_test.h ----------------------*- C++ -*-===//
 //
-//                           Unsung Anthem
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -11,7 +11,7 @@
 //
 ///
 /// \file util_test.cpp
-/// \brief Tests of the implementations of Guideline Support Library utility
+/// \brief Tests of the implementations of Guideline support library utility
 /// types.
 /// \author Antti Kivi
 /// \date 31 July 2017
@@ -27,7 +27,7 @@
 
 #include "anthem/__config.h"
 
-TEST_CASE("the Callable of a final_action is invoked at the end of the scope",
+TEST_CASE("the Callable is invoked at the end of the scope",
           "[gsl::final_action]") {
 
   int i = 0;
@@ -67,7 +67,7 @@ TEST_CASE("the Callable is not invoked twice if final_action is moved",
   REQUIRE_FALSE(2 == i);
 }
 
-TEST_CASE("finally creates final_action which invokes the Callable correctly",
+TEST_CASE("final_action invoking the Callable correctly is created",
           "[gsl::finally]") {
 
   int i = 0;
@@ -86,7 +86,7 @@ TEST_CASE("finally creates final_action which invokes the Callable correctly",
   REQUIRE(1 == i);
 }
 
-TEST_CASE("narrow_cast casts as expected", "[gsl::narrow_cast]") {
+TEST_CASE("cast is done as expected", "[gsl::narrow_cast]") {
 
   int i = 0;
   auto j = gsl::narrow_cast<unsigned int>(i);
@@ -128,7 +128,7 @@ TEST_CASE("exception is not thrown when the cast does not change the value",
   REQUIRE_NOTHROW(gsl::narrow<unsigned int>(i));
 }
 
-TEST_CASE("narrow casts correctly", "[gsl::narrow]") {
+TEST_CASE("cast is done as expected", "[gsl::narrow]") {
 
   int i = 0;
   auto j = gsl::narrow<unsigned int>(i);

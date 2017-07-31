@@ -1,4 +1,6 @@
-//===--- main.cpp -----------------------------------------------*- C++ -*-===//
+//===------------------------ main_test.cpp ---------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -8,7 +10,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file main.cpp
+/// \file main_test.cpp
 /// \brief The main function of the Unsung Anthem tests.
 /// \author Antti Kivi
 /// \date 30 June 2017

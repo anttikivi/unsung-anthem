@@ -1,4 +1,6 @@
-//===--- view_test.cpp ------------------------------------------*- C++ -*-===//
+//===------------------------- view_test.h ----------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -9,7 +11,7 @@
 //
 ///
 /// \file view_test.cpp
-/// \brief Tests of the implementations of Guideline Support Library types
+/// \brief Tests of the implementations of Guideline support library types
 /// which allow distinction between owning and non-owning objects.
 /// \author Antti Kivi
 /// \date 30 July 2017
@@ -23,7 +25,7 @@
 
 #include "gsl/view"
 
-TEST_CASE("owner is equal to pointer", "[owner]") {
+TEST_CASE("is equal to pointer", "[gsl::owner]") {
 
 #if HAS_CXX17_TYPE_TRAITS
 
@@ -46,7 +48,7 @@ TEST_CASE("owner is equal to pointer", "[owner]") {
   REQUIRE_FALSE(b);
 }
 
-TEST_CASE("type cast operator of not_null works", "[not_null]") {
+TEST_CASE("type cast operator works", "[gsl::not_null]") {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n{s};
 
@@ -56,7 +58,7 @@ TEST_CASE("type cast operator of not_null works", "[not_null]") {
   delete s;
 }
 
-TEST_CASE("member access operator of not_null works", "[not_null]") {
+TEST_CASE("member access operator works", "[gsl::not_null]") {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n{s};
 
@@ -65,7 +67,7 @@ TEST_CASE("member access operator of not_null works", "[not_null]") {
   delete s;
 }
 
-TEST_CASE("dereference operator of not_null works", "[not_null]") {
+TEST_CASE("dereference operator works", "[gsl::not_null]") {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n{s};
 
@@ -74,7 +76,7 @@ TEST_CASE("dereference operator of not_null works", "[not_null]") {
   delete s;
 }
 
-TEST_CASE("get() of not_null works", "[not_null]") {
+TEST_CASE("get() works", "[gsl::not_null]") {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n{s};
 
@@ -84,7 +86,7 @@ TEST_CASE("get() of not_null works", "[not_null]") {
   delete s;
 }
 
-TEST_CASE("== operator of not_null works", "[not_null]") {
+TEST_CASE("== operator works", "[gsl::not_null]") {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n1{s};
   const gsl::not_null<std::string*> n2{s};
@@ -94,7 +96,7 @@ TEST_CASE("== operator of not_null works", "[not_null]") {
   delete s;
 }
 
-TEST_CASE("!= operator of not_null works", "[not_null]") {
+TEST_CASE("!= operator works", "[gsl::not_null]") {
   const auto s1 = new std::string("Hello, world!");
   const auto s2 = new std::string("!dlrow ,olleW");
   const gsl::not_null<std::string*> n1{s1};
@@ -106,7 +108,7 @@ TEST_CASE("!= operator of not_null works", "[not_null]") {
   delete s2;
 }
 
-TEST_CASE("hash function of not_null works", "[not_null]") {
+TEST_CASE("hash function works", "[gsl::not_null]") {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n1{s};
   const gsl::not_null<std::string*> n2{s};

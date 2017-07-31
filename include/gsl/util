@@ -1,4 +1,6 @@
-//===--- util ---------------------------------------------------*- C++ -*-===//
+//===---------------------------- util --------------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -8,8 +10,8 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file view
-/// \brief Declarations of the Guideline Support Library utility types.
+/// \file util
+/// \brief Declarations of the Guideline support library utility types.
 /// \author Antti Kivi
 /// \date 31 July 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
@@ -61,7 +63,7 @@ namespace gsl {
   ///
   /// \tparam F a Callable type.
   ///
-  template <class F> class final_action final {
+  template <typename F> class final_action final {
   public:
 
     ///
@@ -181,7 +183,7 @@ namespace gsl {
   ///
   /// \return A constructed object of type \c final_action.
   ///
-  template <class F> constexpr final_action<F> finally(const F& f) noexcept {
+  template <typename F> constexpr final_action<F> finally(const F& f) noexcept {
     return final_action<F>{f};
   }
 
@@ -195,7 +197,7 @@ namespace gsl {
   ///
   /// \return A constructed object of type \c final_action.
   ///
-  template <class F> constexpr final_action<F> finally(F&& f) noexcept {
+  template <typename F> constexpr final_action<F> finally(F&& f) noexcept {
     return final_action<F>{std::forward<F>(f)};
   }
 
@@ -211,7 +213,7 @@ namespace gsl {
   ///
   /// \return \c u, the type of which is cast to \c T.
   ///
-  template <class T, class U> constexpr T narrow_cast(U&& u) noexcept {
+  template <typename T, typename U> constexpr T narrow_cast(U&& u) noexcept {
     return static_cast<T>(std::forward<U>(u));
   }
 
@@ -273,14 +275,14 @@ namespace gsl {
 
 #if HAS_CXX17_TYPE_TRAITS
 
-    template <class T, class U> struct is_same_signedness final
+    template <typename T, typename U> struct is_same_signedness final
     : public std::bool_constant<std::is_signed_v<T> == std::is_signed_v<U>> {
 
     };
 
 #elif HAS_EXPERIMENTAL_TYPE_TRAITS
 
-    template <class T, class U> struct is_same_signedness final
+    template <typename T, typename U> struct is_same_signedness final
     : public std::integral_constant<bool,
                                     std::experimental::is_signed_v<T>
                                     == std::experimental::is_signed_v<U>> {
@@ -289,7 +291,7 @@ namespace gsl {
 
 #else
 
-    template <class T, class U> struct is_same_signedness final
+    template <typename T, typename U> struct is_same_signedness final
     : public std::integral_constant<bool, std::is_signed<T>::value
                                           == std::is_signed<U>::value> {
 
@@ -297,7 +299,7 @@ namespace gsl {
 
 #endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
 
-    template <class T, class U>
+    template <typename T, typename U>
     inline constexpr bool is_same_signedness_v
       = is_same_signedness<T, U>::value;
 
@@ -316,7 +318,7 @@ namespace gsl {
   ///
   /// \return \c u, the type of which is cast to \c T.
   ///
-  template <class T, class U> constexpr T narrow(U u) {
+  template <typename T, typename U> constexpr T narrow(U u) {
 
     T t = narrow_cast<T>(u);
 

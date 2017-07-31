@@ -1,4 +1,6 @@
-//===--- execute.h ----------------------------------------------*- C++ -*-===//
+//===-------------------------- execute.h -----------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -31,6 +33,7 @@ namespace anthem {
 
 namespace anthem {
 
+  ///
   /// \brief Returns the object of type \c game_state after executing the
   /// program with the given arguments.
   ///
@@ -38,7 +41,9 @@ namespace anthem {
   /// \param argv array containing the arguments passed in the execution.
   ///
   /// \return The object of type \c game_state.
+  ///
   optional<game_state> execute(int argc, const char* argv[]);
-}
+
+} // namespace anthem
 
 #endif // !ANTHEM_EXECUTE_H

@@ -1,4 +1,6 @@
-//===--- array.h ------------------------------------------------*- C++ -*-===//
+//===--------------------------- array.h ------------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -27,9 +29,9 @@
 namespace anthem {
   namespace array {
 
-    namespace detail {
+    namespace details {
 
-      template <class T, class O, std::size_t N>
+      template <typename T, typename O, std::size_t N>
       constexpr std::array<std::remove_cv_t<T>, N> change_type_impl(const std::array<O, N>& array) noexcept {
 
         std::array<std::remove_cv_t<T>, N> a{};
@@ -40,9 +42,9 @@ namespace anthem {
 
         return std::move(a);
       }
-    }
+    } // namespace details
 
-    template <class T, class O, std::size_t N>
+    template <typename T, typename O, std::size_t N>
     constexpr std::array<std::remove_cv_t<T>, N>
     change_type(const std::array<O, N>& array) noexcept {
 

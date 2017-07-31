@@ -1,4 +1,6 @@
-//===--- types.h ------------------------------------------------*- C++ -*-===//
+//===--------------------------- types.h ------------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -31,7 +33,7 @@ namespace anthem {
 } // namespace anthem
 
 ///
-/// \brief A \c pixel representing an integer of pixels.
+/// \brief A \c pixel value representing an integer of pixels.
 ///
 /// \param i integer of pixels.
 /// \return The \c pixel literal.

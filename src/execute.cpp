@@ -1,4 +1,6 @@
-//===--- execute.cpp --------------------------------------------*- C++ -*-===//
+//===------------------------- execute.cpp ----------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -28,4 +30,4 @@ namespace anthem {
 
     return game_state{};
   }
-}
+} // namespace anthem

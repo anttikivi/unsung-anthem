@@ -1,4 +1,6 @@
-//===--- optional.h ---------------------------------------------*- C++ -*-===//
+//===-------------------------- optional.h ----------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -30,15 +32,19 @@
 #endif
 
 namespace anthem {
-  
+
   ///
   /// \brief Alias of class template of optional objects.
   ///
+  /// The alias should be used for compatibility between different C++ standard
+  /// versions.
+  ///
 #if CXX17
-  template <class T> using optional = std::optional<T>;
+  template <typename T> using optional = std::optional<T>;
 #elif CXX14
-  template <class T> using optional = std::experimental::optional<T>;
+  template <typename T> using optional = std::experimental::optional<T>;
 #endif
-}
+
+} // namespace anthem
 
 #endif // !ANTHEM_STD_OPTIONAL_H

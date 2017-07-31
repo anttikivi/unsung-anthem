@@ -1,4 +1,6 @@
-//===--- macro_config.h -----------------------------------------*- C++ -*-===//
+//===-------------------------- __config.h ----------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -8,18 +10,18 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file macro_config.h
-/// \brief TODO Add short description.
+/// \file __config.h
+/// \brief Definition of the Unsung Anthem preprocessor macros.
 /// \author Antti Kivi
-/// \date 07 July 2017
+/// \date 7 July 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_MACRO_CONFIG_H
-#define ANTHEM_MACRO_CONFIG_H
+#ifndef ANTHEM_CONFIG_H
+#define ANTHEM_CONFIG_H
 
 #if defined(ANTHEM_DISABLE_CXX17)
 # define DISABLE_CXX17 1
@@ -47,4 +49,4 @@
 # define EXPERIMENTAL_HEADERS 0
 #endif
 
-#endif // !ANTHEM_MACRO_CONFIG_H
+#endif // !ANTHEM_CONFIG_H

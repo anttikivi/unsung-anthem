@@ -1,4 +1,6 @@
-//===--- arguments.cpp ------------------------------------------*- C++ -*-===//
+//===------------------------ arguments.cpp ---------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //

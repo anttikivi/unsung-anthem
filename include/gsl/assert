@@ -1,4 +1,6 @@
-//===--- assert -------------------------------------------------*- C++ -*-===//
+//===--------------------------- assert -------------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -8,8 +10,8 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file view
-/// \brief Declarations of the Guideline Support Library assertions.
+/// \file assert
+/// \brief Declarations of the Guideline support library assertions.
 /// \author Antti Kivi
 /// \date 30 July 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone

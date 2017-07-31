@@ -1,4 +1,6 @@
-//===--- array.h ------------------------------------------------*- C++ -*-===//
+//===--------------------------- array.h ------------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -30,32 +32,33 @@
 
 namespace anthem {
 
-  //////////////////////////////////////////////////////////////////////////////
-  // C++ Extensions for Library Fundamentals, Version 2 ////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  //===--------------------------------------------------------------------===//
+  //===--- C++ Extensions for Library Fundamentals, Version 2 -------------===//
+  //===--------------------------------------------------------------------===//
 
-  //////////////////////////////////////////////////////////////////////////////
-  // 9.2.2 array creation functions [container.array.creation] /////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  //===--------------------------------------------------------------------===//
+  //===--- 9.2.2 array creation functions [container.array.creation] ------===//
+  //===--------------------------------------------------------------------===//
 
-  namespace detail {
+  namespace details {
 
-    template <class T, std::size_t N, std::size_t... I>
+    template <typename T, std::size_t N, std::size_t... I>
     constexpr const std::array<std::remove_cv_t<T>, N>
     to_array_impl(T (&a)[N], std::index_sequence<I...> seq) {
       return {{a[I]...}};
     }
 
-  } // namespace detail
+  } // namespace details
 
   ///
   /// \brief Returns object of class \c std::array, the contents of which are
   /// exact copies of the contents of passed array.
   ///
   /// \param a array, the contents of which are copied.
-  /// \return Constant object of class \c std::array<std::remove_cv_t<T>, N>.
   ///
-  template <class T, std::size_t N>
+  /// \return constant object of class \c std::array<std::remove_cv_t<T>, N>.
+  ///
+  template <typename T, std::size_t N>
   constexpr const std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N]) {
     return detail::to_array_impl(a, std::make_index_sequence<N>{});
   }

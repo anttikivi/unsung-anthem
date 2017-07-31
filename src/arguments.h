@@ -1,4 +1,6 @@
-//===--- arguments.h --------------------------------------------*- C++ -*-===//
+//===------------------------- arguments.h ----------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -50,7 +52,7 @@ namespace anthem {
     ///
     constexpr arguments(const pixel_count window_width,
                         const pixel_count window_height) noexcept
-        : window_width{window_width}, window_height{window_height} {
+    : window_width{window_width}, window_height{window_height} {
 
     }
 
@@ -133,6 +135,7 @@ namespace anthem {
 
     return arguments{};
   }
-}
+
+} // namespace anthem
 
 #endif // !ANTHEM_ARGUMENTS_H

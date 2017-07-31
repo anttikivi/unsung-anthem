@@ -1,4 +1,6 @@
-//===--- type_traits.h ------------------------------------------*- C++ -*-===//
+//===------------------------ type_traits.h ---------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //

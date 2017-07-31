@@ -1,4 +1,6 @@
-//===--- array_test.cpp -----------------------------------------*- C++ -*-===//
+//===------------------------- array_test.h ---------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -23,7 +25,7 @@
 
 #include "anthem/std/array.h"
 
-TEST_CASE("to_array forms correct arrays", "[array]") {
+TEST_CASE("arrays are formed correctly", "[anthem::to_array]") {
 
   constexpr int a[]{2, 4, 5, 7, 11, 4321};
 

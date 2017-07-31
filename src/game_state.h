@@ -1,4 +1,6 @@
-//===--- game_state.h -------------------------------------------*- C++ -*-===//
+//===------------------------- game_state.h ---------------------*- C++ -*-===//
+//
+//                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
