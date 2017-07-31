@@ -128,7 +128,7 @@ TEST_CASE("exception is not thrown when the cast does not change the value",
   REQUIRE_NOTHROW(gsl::narrow<unsigned int>(i));
 }
 
-TEST_CASE("cast is done as expected", "[gsl::narrow]") {
+TEST_CASE("checked cast is done as expected", "[gsl::narrow]") {
 
   int i = 0;
   auto j = gsl::narrow<unsigned int>(i);

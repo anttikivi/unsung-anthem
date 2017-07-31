@@ -48,7 +48,7 @@ namespace anthem {
     constexpr std::array<std::remove_cv_t<T>, N>
     change_type(const std::array<O, N>& array) noexcept {
 
-      return detail::change_type_impl<T>(array);
+      return details::change_type_impl<T>(array);
     }
 
   } // namespace array

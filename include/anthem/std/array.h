@@ -60,7 +60,7 @@ namespace anthem {
   ///
   template <typename T, std::size_t N>
   constexpr const std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N]) {
-    return detail::to_array_impl(a, std::make_index_sequence<N>{});
+    return details::to_array_impl(a, std::make_index_sequence<N>{});
   }
 
 } // namespace anthem
