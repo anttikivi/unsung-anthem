@@ -38,9 +38,11 @@
 
 namespace gsl {
 
-  //////////////////////////////////////////////////////////////////////////////
-  // GSL.view: Views ///////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
+  //===--------------------------------------------------------------------===//
+  //===--- GSL.view: Views ------------------------------------------------===//
+  //===--------------------------------------------------------------------===//
+
+  //===--- owner ----------------------------------------------------------===//
 
   ///
   /// \brief Type template of objects which hold owning pointer.
@@ -67,13 +69,15 @@ namespace gsl {
 
 #endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
 
+  //===--- not_null -------------------------------------------------------===//
+
   ///
   /// \brief Class template of objects which hold pointer value which shall not
   /// be equal to \c nullptr.
   ///
   /// \tparam T type of the object which shall be held by the object.
   ///
-  template <class T> class not_null {
+  template <class T> class not_null final {
   public:
 
 #if HAS_CXX17_TYPE_TRAITS
