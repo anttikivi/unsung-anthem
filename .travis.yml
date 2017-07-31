@@ -13,7 +13,7 @@ matrix:
   #==- Linux - GCC ----------------------------------------------------------==#
   #===----------------------------------------------------------------------===#
 
-  # Linux: Ubuntu Precise 12.04 C++14 GCC 5
+  # Linux: Ubuntu Precise 12.04 C++14 GCC 5 + Coverage
   - os: linux
     dist: precise
     compiler: gcc
@@ -21,7 +21,7 @@ matrix:
     - COMPILER_NAME=gcc
     - CXX=g++-5
     - CC=gcc-5
-    - ANTHEM_BUILD_PRESET=travis_linux_gcc5_cxx14
+    - ANTHEM_BUILD_PRESET=travis_linux_gcc5_cxx14_coverage
     addons:
       apt:
         packages:
