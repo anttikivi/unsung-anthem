@@ -43,9 +43,9 @@ namespace gsl {
   //////////////////////////////////////////////////////////////////////////////
 
   ///
-  /// \brief Template of objects which hold owning pointer.
+  /// \brief Type template of objects which hold owning pointer.
   ///
-  /// Remarks: The lifetime of the pointer shall not be automatically handled.
+  /// Remarks: The lifetime of the pointer must be handled manually.
   ///
   /// \tparam T a pointer type.
   ///
@@ -235,7 +235,7 @@ namespace gsl {
     constexpr not_null(std::nullptr_t&& o) noexcept = delete;
 
     ///
-    /// \brief Destructs an object of class \c not_null.
+    /// \brief Destructs an object of class template \c not_null.
     ///
     ~not_null() noexcept = default;
 
@@ -243,7 +243,10 @@ namespace gsl {
     /// \brief Copies the values of \c o and replaces the value of \c *this by
     /// it.
     ///
-    /// \param o object of class \c not_null from which the value is copied.
+    /// Remarks: This assignment operator is explicitly deleted.
+    ///
+    /// \param o object of class template \c not_null from which the value is
+    /// copied.
     ///
     /// \return Reference to \c *this.
     ///
@@ -252,6 +255,8 @@ namespace gsl {
     ///
     /// \brief Copies the values of \c o and replaces the value of \c *this by
     /// it.
+    ///
+    /// Remarks: This assignment operator is explicitly deleted.
     ///
     /// \param o object of type \c std::nullptr_t from which the value is
     /// copied.
@@ -264,7 +269,9 @@ namespace gsl {
     /// \brief Moves the values of \c o and replaces the values of \c *this by
     /// it.
     ///
-    /// \param not_null object of class \c not_null from which the value is
+    /// Remarks: This assignment operator is explicitly deleted.
+    ///
+    /// \param o object of class template \c not_null from which the value is
     /// moved.
     ///
     /// \return Reference to \c *this.
@@ -274,6 +281,8 @@ namespace gsl {
     ///
     /// \brief Moves the values of \c o and replaces the value of \c *this by
     /// it.
+    ///
+    /// Remarks: This assignment operator is explicitly deleted.
     ///
     /// \param o object of type \c std::nullptr_t from which the value is
     /// copied.
@@ -499,8 +508,8 @@ namespace std {
 
 #if defined(_MSC_VER) && _MSC_VER < 1910
 
-#undef constexpr
-#pragma pop_macro("constexpr")
+# undef constexpr
+# pragma pop_macro("constexpr")
 
 #endif // defined(_MSC_VER) && _MSC_VER < 1910
 
