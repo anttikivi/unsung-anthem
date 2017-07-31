@@ -25,6 +25,8 @@
 
 #include "gsl/util"
 
+#include "anthem/__config.h"
+
 TEST_CASE("the Callable of a final_action is invoked at the end of the scope",
           "[gsl::final_action]") {
 
@@ -82,4 +84,30 @@ TEST_CASE("finally creates final_action which invokes the Callable correctly",
 
   REQUIRE_FALSE(0 == i);
   REQUIRE(1 == i);
+}
+
+TEST_CASE("narrow_cast casts as expected", "[gsl::narrow_cast]") {
+
+  int i = 0;
+  auto j = gsl::narrow_cast<unsigned int>(i);
+
+  #if HAS_CXX17_TYPE_TRAITS
+
+    constexpr bool a = std::is_same_v<decltype(j), unsigned int>;
+    constexpr bool b = std::is_same_v<decltype(j), int>;
+
+  #elif HAS_EXPERIMENTAL_TYPE_TRAITS
+
+    constexpr bool a = std::experimental::is_same_v<decltype(j), unsigned int>;
+    constexpr bool b = std::experimental::is_same_v<decltype(j), int>;
+
+  #else
+
+    constexpr bool a = std::is_same<decltype(j), unsigned int>::value;
+    constexpr bool b = std::is_same<decltype(j), int>::value;
+
+  #endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+
+  REQUIRE(a);
+  REQUIRE_FALSE(b);
 }
