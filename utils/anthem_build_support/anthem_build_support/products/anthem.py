@@ -90,8 +90,11 @@ class Anthem(product.Product):
 
         if self.args.enable_gcov:
             cmake_call += ['-DANTHEM_ENABLE_GCOV=ON']
+            cmake_call += ['-DCMAKE_BUILD_TYPE=Coverage']
         else:
             cmake_call += ['-DANTHEM_ENABLE_GCOV=OFF']
+            cmake_call += ['-DCMAKE_BUILD_TYPE='
+                           '{}'.format(self.args.anthem_build_variant)]
 
         cmake_call += self.args.extra_cmake_options
 
@@ -114,9 +117,11 @@ class Anthem(product.Product):
                     if self.args.enable_gcov and tests:
                         shell.make(self.args.executable_name + '_coverage')
 
-                        shell.call(['coveralls',
-                                    '-t',
-                                    os.environ['ANTHEM_COVERALLS_REPO_TOKEN']])
+                        if self.args.ci:
+                            shell.call(['coveralls',
+                                        '-t',
+                                        os.environ[
+                                            'ANTHEM_COVERALLS_REPO_TOKEN']])
 
                 elif self.args.visual_studio:
                     msbuild_args = ['anthem.sln']
