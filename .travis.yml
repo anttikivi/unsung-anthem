@@ -14,7 +14,7 @@ matrix:
   #==- Linux - GCC ----------------------------------------------------------==#
   #===----------------------------------------------------------------------===#
 
-  # Linux: Ubuntu Precise 12.04 C++14 GCC 5 + Coverage
+  # Linux: Ubuntu Precise 12.04 C++14 GCC 5
   - os: linux
     dist: precise
     compiler: gcc
@@ -23,7 +23,7 @@ matrix:
     - CXX=g++-5
     - CC=gcc-5
     - ANTHEM_BUILD_PRESET=travis_linux_gcc5_cxx14_coverage
-    - ANTHEM_COVERAGE=true
+    - ANTHEM_COVERAGE=false
     addons:
       apt:
         packages:
@@ -31,7 +31,6 @@ matrix:
         - xorg-dev
         - libglu1-mesa-dev
         - build-essential
-        - lcov
         sources: &sources
         - ubuntu-toolchain-r-test
         - llvm-toolchain-trusty
@@ -39,7 +38,7 @@ matrix:
         - llvm-toolchain-precise
         - llvm-toolchain-precise-3.5
 
-  # Linux: Ubuntu Trusty 14.04 C++17 GCC 7
+  # Linux: Ubuntu Trusty 14.04 C++17 GCC 7  + Coverage
   - os: linux
     dist: trusty
     compiler: gcc
@@ -47,8 +46,8 @@ matrix:
     - COMPILER_NAME=gcc
     - CXX=g++-7
     - CC=gcc-7
-    - ANTHEM_BUILD_PRESET=travis_linux_gcc7_cxx17
-    - ANTHEM_COVERAGE=false
+    - ANTHEM_BUILD_PRESET=travis_linux_gcc7_cxx17_coverage
+    - ANTHEM_COVERAGE=true
     addons:
       apt:
         packages:
@@ -56,6 +55,7 @@ matrix:
         - xorg-dev
         - libglu1-mesa-dev
         - build-essential
+        - lcov
         sources: *sources
 
   #===----------------------------------------------------------------------===#

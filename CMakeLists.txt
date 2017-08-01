@@ -247,7 +247,7 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
 
     include(CodeCoverage)
 
-    set(COVERAGE_EXCLUDES "${ANTHEM_INSTALL_PREFIX}/include" "/usr/include" "v1" "v1/experimental")
+    # set(COVERAGE_EXCLUDES "${ANTHEM_INSTALL_PREFIX}/include" "/usr/include" "v1" "v1/experimental")
 
     setup_target_for_coverage(NAME ${ANTHEM_EXECUTABLE_NAME}_coverage
       EXECUTABLE ${ANTHEM_TEST_EXECUTABLE_NAME})
