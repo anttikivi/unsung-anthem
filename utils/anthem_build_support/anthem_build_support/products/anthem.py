@@ -123,7 +123,7 @@ class Anthem(product.Product):
                                         os.environ[
                                             'ANTHEM_COVERALLS_REPO_TOKEN'],
                                         self.args.executable_name
-                                        + '_coverage.info'])
+                                        + '_coverage.info.cleaned'])
 
                 elif self.args.visual_studio:
                     msbuild_args = ['anthem.sln']
