@@ -2,13 +2,7 @@ insert a logo here
 
 # Unsung Anthem
 
-| | Travis CI | CircleCI | AppVeyor |
-|---|:---:|:---:|:---:|
-|**macOS 10.11**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem)|n/a|n/a|
-|**macOS 10.12**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem)|n/a|n/a|
-|**Ubuntu 12.04**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem)|n/a|n/a|
-|**Ubuntu 14.04**|[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem)|[![CircleCI](https://circleci.com/gh/venturesomestone/unsung-anthem/tree/develop.svg?style=svg)](https://circleci.com/gh/venturesomestone/unsung-anthem/tree/develop)|n/a|
-|**Windows**|n/a|n/a|[![Build status](https://ci.appveyor.com/api/projects/status/h387p7t5hw89s8ty/branch/develop?svg=true)](https://ci.appveyor.com/project/venturesomestone/unsung-anthem/branch/develop)|
+[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem) [![CircleCI](https://circleci.com/gh/venturesomestone/unsung-anthem/tree/develop.svg?style=svg)](https://circleci.com/gh/venturesomestone/unsung-anthem/tree/develop) [![Build status](https://ci.appveyor.com/api/projects/status/h387p7t5hw89s8ty/branch/develop?svg=true)](https://ci.appveyor.com/project/venturesomestone/unsung-anthem/branch/develop) [![Coverage Status](https://coveralls.io/repos/github/venturesomestone/unsung-anthem/badge.svg?branch=develop)](https://coveralls.io/github/venturesomestone/unsung-anthem?branch=develop)
 
 **Welcome to Unsung Anthem!**
 
@@ -27,15 +21,15 @@ To read the documentation, start by installing the TeX and LaTeX tools for your 
 Once complete, you can build the Unsung Anthem documentation by running the build script with documentation enabled
 
     ./unsung-anthem/utils/build-script --build-docs
-    
+
 Alternatively, you can build the documentation by running the build script with only documentation build enabled
 
     ./unsung-anthem/utils/build-script --docs
-    
+
 Finally, the last alternative for building the documentation is to change directory into [docs/sources](https://github.com/venturesomestone/unsung-anthem/tree/develop/docs/sources) (`cd ./unsung-anthem/docs/sources`) and typing the command
 
     latexmk -pdf anthem
-    
+
 This compiles the `.tex` files in the [docs/sources](https://github.com/venturesomestone/unsung-anthem/tree/develop/docs/sources) directory into a PDF in the `docs/sources` directory.
 
 
@@ -46,15 +40,15 @@ Install the [MacTeX distribution](http://tug.org/mactex).
 If you are on a slow network, you'll want to get the [BasicTeX package](http://tug.org/mactex/morepackages.html) instead, and after that run the following command to install the other packages that the documentation requires:
 
     sudo tlmgr install latexmk isodate substr relsize ulem fixme rsfs extract layouts enumitem
-    
-    
+
+
 ### Debian
 
 Install the following packages:
 
     sudo apt-get install latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
-    
-    
+
+
 ## Getting Started
 
 These instructions give the most direct path to a working Unsung Anthem development environment. Options for doing things differently are discussed below.
@@ -87,12 +81,12 @@ First create a directory for all of the Unsung Anthem sources:
 **Via SSH**  For those who plan on regularly making direct commits, cloning over SSH may provide a better experience (which requires [uploading SSH keys to GitHub](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/)):
 
     git clone git@github.com:venturesomestone/unsung-anthem.git
-    
+
 After cloning Unsung Anthem, the build script will download the sources and binaries for the dependencies automatically. If you want to, for some reason, download them beforehand, run
 
     ./unsung-anthem/utils/build-script --update-checkout
-    
-    
+
+
 #### CMake
 [CMake](https://cmake.org) is the core infrastructure used to configure builds of Unsung Anthem and its companion projects; at least version 2.8.12 is required.
 
@@ -120,8 +114,8 @@ On Linux, if you have not already installed the [development dependencies](#linu
 **[MacPorts](https://macports.org)**
 
     sudo port install cmake ninja
-    
-    
+
+
 ### Building Unsung Anthem
 
 The `build-script` is a high-level build automation script that supports basic options such as running tests after builds and more. It also supports presets, which you can define for common combinations of build options.
@@ -133,8 +127,8 @@ To find out more:
 A basic command to build Unsung Anthem with optimizations and run basic tests with Ninja:
 
     unsung-anthem/utils/build-script -R -t
-    
-    
+
+
 ## Developing Unsung Anthem in Xcode
 
 `build-script` can also generate Xcode projects:
