@@ -48,9 +48,9 @@ On Ubuntu Linux, the minimum prerequisites can be set up by running the followin
 
 In addition to these packages, `cmake` and `ninja-build` can be installed. However, if they are not installed manually, the build script will download them.
 
-### Getting the Sources
+### Building Unsung Anthem
 
-First, create a directory for the Unsung Sources and switch to it
+First, create a directory for the Unsung Anthem sources and switch to it
 
     mkdir anthem-sources
     cd anthem-sources
@@ -77,3 +77,31 @@ After cloning the source, run the following commands.
 *Windows:*
 
     python unsung-anthem\utils\build-script
+
+For more detailed information about building Unsung Anthem, see [BUILDING.md](https://github.com/venturesomestone/unsung-anthem/blob/develop/BUILDING.md) (it does not exists yet).
+
+### Developing Unsung Anthem
+
+The build script can be used to set up development environment of Unsung Anthem. Currently the build script supports Xcode and CLion.
+
+**Xcode:** To set up Xcode environment, run the following command
+
+    ./unsung-anthem/utils/build-script -x
+
+**CLion:** To set up CLion environment, run the following command
+
+    ./unsung-anthem/utils/build-script --clion
+
+The command will output list a CMake call from which the options can be copied to CLion.
+
+### Running the Tests
+
+The build script will automatically build and run tests when `-t` option is used. For more information, see [BUILDING.md](https://github.com/venturesomestone/unsung-anthem/blob/develop/BUILDING.md).
+
+## Contributing to Unsung Anthem
+
+Contributions to Unsung Anthem are welcomed and encouraged! Please see the [Contributing to Unsung Anthem guide](https://github.com/venturesomestone/unsung-anthem/blob/develop/CONTRIBUTING.md).
+
+To be a truly great community, [Unsung Anthem](https://github.com/venturesomestone/unsung-anthem/) needs to welcome developers from all walks of life, with different backgrounds, and with a wide range of experience. A diverse and friendly community will have more great ideas, more unique perspectives, and produce more great code. We will work diligently to make the Unsung Anthem community welcoming to everyone.
+
+To give clarity of what is expected of our members, Unsung Anthem has adopted the code of conduct defined by the Contributor Covenant. This document is used across many open source communities, and we think it articulates our values well. For more, see the [Code of Conduct](https://github.com/venturesomestone/unsung-anthem/blob/develop/CODE_OF_CONDUCT.md).
