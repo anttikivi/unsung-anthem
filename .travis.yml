@@ -38,6 +38,25 @@ matrix:
         - llvm-toolchain-precise
         - llvm-toolchain-precise-3.5
 
+  # Linux: Ubuntu Trusty 14.04 C++17 GCC 7
+  - os: linux
+    dist: trusty
+    compiler: gcc
+    env:
+    - COMPILER_NAME=gcc
+    - CXX=g++-7
+    - CC=gcc-7
+    - ANTHEM_BUILD_PRESET=travis_linux_gcc7_cxx17
+    - ANTHEM_COVERAGE=false
+    addons:
+      apt:
+        packages:
+        - g++-7
+        - xorg-dev
+        - libglu1-mesa-dev
+        - build-essential
+        sources: *sources
+
   # Linux: Ubuntu Trusty 14.04 C++17 GCC 7  + Coverage
   - os: linux
     dist: trusty
