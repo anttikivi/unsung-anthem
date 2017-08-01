@@ -118,10 +118,12 @@ class Anthem(product.Product):
                         shell.make(self.args.executable_name + '_coverage')
 
                         if self.args.ci:
-                            shell.call(['coveralls',
-                                        '-t',
+                            shell.call(['coveralls-lcov',
+                                        '--repo-token',
                                         os.environ[
-                                            'ANTHEM_COVERALLS_REPO_TOKEN']])
+                                            'ANTHEM_COVERALLS_REPO_TOKEN'],
+                                        self.args.executable_name
+                                        + '_coverage.info'])
 
                 elif self.args.visual_studio:
                     msbuild_args = ['anthem.sln']
