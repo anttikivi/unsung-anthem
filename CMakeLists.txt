@@ -250,7 +250,9 @@ elseif(${ANTHEM_EXECUTABLE_TYPE} STREQUAL test)
     set(COVERAGE_EXCLUDES
         ${ANTHEM_INSTALL_PREFIX}/include/*
         /usr/include/*
-        *v1/*)
+        /usr/include/c++*
+        *v1*
+        *7*)
 
     setup_target_for_coverage(NAME ${ANTHEM_EXECUTABLE_NAME}_coverage
         EXECUTABLE ${ANTHEM_TEST_EXECUTABLE_NAME})
