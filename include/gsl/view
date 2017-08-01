@@ -11,7 +11,7 @@
 //
 ///
 /// \file view
-/// \brief Declarations of the Guideline support library types which allow
+/// \brief Declarations of the guideline support library types which allow
 /// distinction between owning and non-owning objects.
 /// \author Antti Kivi
 /// \date 30 July 2017

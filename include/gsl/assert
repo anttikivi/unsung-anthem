@@ -11,7 +11,7 @@
 //
 ///
 /// \file assert
-/// \brief Declarations of the Guideline support library assertions.
+/// \brief Declarations of the guideline support library assertions.
 /// \author Antti Kivi
 /// \date 30 July 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone

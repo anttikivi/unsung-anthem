@@ -11,7 +11,7 @@
 //
 ///
 /// \file view_test.cpp
-/// \brief Tests of the implementations of Guideline support library types
+/// \brief Tests of the implementations of guideline support library types
 /// which allow distinction between owning and non-owning objects.
 /// \author Antti Kivi
 /// \date 30 July 2017

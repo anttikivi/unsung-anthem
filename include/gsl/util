@@ -11,7 +11,7 @@
 //
 ///
 /// \file util
-/// \brief Declarations of the Guideline support library utility types.
+/// \brief Declarations of the guideline support library utility types.
 /// \author Antti Kivi
 /// \date 31 July 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone

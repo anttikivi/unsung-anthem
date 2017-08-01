@@ -11,7 +11,7 @@
 //
 ///
 /// \file util_test.cpp
-/// \brief Tests of the implementations of Guideline support library utility
+/// \brief Tests of the implementations of guideline support library utility
 /// types.
 /// \author Antti Kivi
 /// \date 31 July 2017
