@@ -36,7 +36,7 @@ def _anthem_path():
     # Unsung Anthem checkout.
     (anthem_path, parent_dirname) = os.path.split(utils_path)
 
-    if parent_dirname != "utils-new":
+    if parent_dirname != "utils":
         return ""
 
     # The checkout has to have CMake Listfile.
