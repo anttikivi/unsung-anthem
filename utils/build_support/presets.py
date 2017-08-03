@@ -49,7 +49,7 @@ def _load_preset_files_impl(preset_file_names, substitutions=None):
 _PRESET_PREFIX = "preset: "
 
 
-def _get_preset_options_impl(config, substitutions, preset_name):
+def _impl_get_preset_options(config, substitutions, preset_name):
     """
     Concatenate the lists of options in the preset.
 
@@ -60,7 +60,7 @@ def _get_preset_options_impl(config, substitutions, preset_name):
     """
 
     def _get_value(option):
-        # A dirty hack.
+        # A dirty try-catch.
         try:
             value = config.get(section_name, option)
         except ConfigParser.InterpolationMissingOptionError:
@@ -69,99 +69,100 @@ def _get_preset_options_impl(config, substitutions, preset_name):
         if not value:
             return ""
 
-        diagnostics.debug("value of option " + option + " in presets is " + value)
-
         return value
 
-    def _parse_option(option):
-        value = _get_value(option)
+    def parse_option(option):
+        """
+        Parse single option of the preset and return its value.
 
-        if option in substitutions:
-            return None
+        option -- the option to parse.
+        """
+        def _impl(option):
+            value = _get_value(option)
 
-        if option == "mixin-preset":
-            # Mixins are handled separately.
-            return None
-        elif value == "":
-            return "--" + option
+            if not option == "mixin-preset":
+                if value == "":
+                    diagnostics.debug("'" + option + "' in preset '"
+                                      + preset_name + "' is set (to true)")
+                else:
+                    diagnostics.debug("'" + option + "' in preset '"
+                                      + preset_name + "' is set to '" + value
+                                      + "'")
+            else:
+                diagnostics.debug("skipping the mix-in preset option in this "
+                                  "phase")
 
-        return "--" + option + "=" + value
+            if option in substitutions:
+                diagnostics.debug(option + " was found from substitutions")
+                return None
 
-    def _parse_mixins(option):
-        value = _get_value(option)
+            if option == "mixin-preset":
+                # Mixins are handled separately.
+                return None
+            elif value == "":
+                return "--" + option
 
-        if option in substitutions:
-            return None
+            return "--" + option + "=" + value
 
-        if option == "mixin-preset":
+        return _impl(option)
+
+    def parse_mixins():
+        """
+        Parse mix-in presets of the preset and return the parsed options from
+        the mix-in presets.
+        """
+        def _impl():
+            value = _get_value("mixin-preset")
+
+            if "mixin-preset" in substitutions:
+                return None
+
             # Split on newlines and filter out empty lines.
             mixins = filter(None, [m.strip() for m in value.splitlines()])
-            mixin_opts = [_get_preset_options_impl(config, substitutions, m)
+            diagnostics.debug("found the following mix-in presets: "
+                              + str(mixins))
+            mixin_opts = [_impl_get_preset_options(config, substitutions, m)
                           for m in mixins]
-            return itertools.chain.from_iterable(mixin_opts)
 
-        return None
+            ret = list(itertools.chain.from_iterable(mixin_opts))
+
+            diagnostics.debug("mix-in preset(s) of '" + preset_name
+                              + "' (which are " + str(mixins) + ") yield(s): "
+                              + ", ".join(ret))
+
+            return ret
+
+        return _impl()
+
+    diagnostics.debug("now parsing " + preset_name)
 
     section_name = _PRESET_PREFIX + preset_name
 
     if section_name not in config.sections():
         return None
 
-    build_script_opts = filter(None, [_parse_option(opt)
+    build_script_opts = filter(None, [parse_option(opt)
                                       for opt in config.options(section_name)])
-    mixins = filter(None, [_parse_mixins(opt)
-                           for opt in config.options(section_name)])
 
-    return build_script_opts + mixins
+    diagnostics.debug_ok("build script options of '" + preset_name + "' are: "
+                         + ", ".join(build_script_opts))
 
+    mixin_opts = filter(None, [(opt if opt == "mixin-preset" else None)
+                               for opt in config.options(section_name)])
 
-def _get_missing_options_impl(config, substitutions, preset_name):
-    """
-    Concatenate the lists of options which are specified in the substitutions
-    but are not in the preset.
+    if mixin_opts:
+        diagnostics.debug("mix-in preset(s) found in '" + preset_name + "'")
+        mixins = filter(None, parse_mixins())
+    else:
+        diagnostics.debug("no mix-in presets found in '" + preset_name + "'")
+        mixins = []
 
-    config -- the preset file information.
-    substitutions -- the preset value substitutions.
-    preset_name -- the name of the preset.
-    parser -- the function used to parse the options.
-    """
+    ret = list(build_script_opts + mixins)
 
-    def _parse_missing_opts(option):
-        # A dirty hack.
-        try:
-            _ = config.get(section_name, option)
-        except ConfigParser.InterpolationMissingOptionError as err:
-            # err.reference contains the correctly formatted option.
-            return err.reference
+    diagnostics.debug_ok("option(s) of '" + preset_name + "' are: "
+                         + ", ".join(ret))
 
-        return None
-
-    def _parse_mixins(option):
-        value = _get_value(option)
-
-        if option in substitutions:
-            return None
-
-        if option == "mixin-preset":
-            # Split on newlines and filter out empty lines.
-            mixins = filter(None, [m.strip() for m in value.splitlines()])
-            mixin_opts = [_get_preset_options_impl(config, substitutions, m)
-                          for m in mixins]
-            return itertools.chain.from_iterable(mixin_opts)
-
-        return None
-
-    section_name = _PRESET_PREFIX + preset_name
-
-    if section_name not in config.sections():
-        return None
-
-    missing_opts = filter(None, [_parse_missing_opts(opt)
-                                 for opt in config.options(section_name)])
-    mixins = filter(None, [_parse_mixins(opt)
-                           for opt in config.options(section_name)])
-
-    return missing_opts + mixins
+    return ret
 
 
 def get_preset_options(substitutions, preset_file_names, preset_name):
@@ -172,20 +173,15 @@ def get_preset_options(substitutions, preset_file_names, preset_name):
     preset_file_names -- list of the names of the preset files.
     preset_name -- the name of the preset.
     """
-    def _get_opts(config, substitutions, preset_name):
-        return (_get_preset_options_impl(config, substitutions, preset_name),
-                _get_missing_options_impl(config, substitutions, preset_name))
+    diagnostics.debug("starting to get options from the preset " + preset_name)
 
     config = _load_preset_files_impl(preset_file_names, substitutions)
 
-    build_script_opts, missing_opts = \
-        _get_opts(config, substitutions, preset_name)
+    build_script_opts = \
+        _impl_get_preset_options(config, substitutions, preset_name)
 
     if not build_script_opts:
         diagnostics.fatal("preset '" + preset_name + "' not found")
-    if missing_opts:
-        diagnostics.fatal("missing option(s) for preset '" + preset_name
-                          + "': " + ", ".join(missing_opts))
 
     return build_script_opts + ["--"]
 
@@ -211,6 +207,8 @@ def parse_preset_substitutions(args):
 
     # Create a list of tuples from the split raw argument substitutions.
     subs = [tuple(x.split("=", 1)) for x in args.preset_substitutions_raw]
+
+    diagnostics.debug("preset substitutions are " + str(dict(subs)))
 
     # 'dict()' creates automatically a dictionary from list of tuples.
     return dict(subs)

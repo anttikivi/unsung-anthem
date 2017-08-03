@@ -49,6 +49,41 @@ def debug(message, print_script=False, show_type=False):
     sys.stdout.flush()
 
 
+def debug_ok(message, print_script=False, show_type=False):
+    """
+    Print a debug diagnostic notification to the standard output.
+
+    message -- the message to be printed.
+    print_script -- whether or not the script file should be printed.
+    show_type -- whether or not to print the type of the command before it.
+    """
+    executable = sys.argv[0] + ": " if print_script else ""
+    message_type = "debug: " if show_type else ""
+
+    print("{}{}{}{}{}".format(executable, OK_GREEN, message_type, message,
+                              ENDC))
+
+    sys.stdout.flush()
+
+
+def fine(message, print_script=False, show_type=False):
+    """
+    Print a diagnostic notification to the standard output notifying some step
+    is complete.
+
+    message -- the message to be printed.
+    print_script -- whether or not the script file should be printed.
+    show_type -- whether or not to print the type of the command before it.
+    """
+    executable = sys.argv[0] + ": " if print_script else ""
+    message_type = "note: " if show_type else ""
+
+    print("{}{}{}{}{}".format(executable, OK_BLUE, message_type, message,
+                              ENDC))
+
+    sys.stdout.flush()
+
+
 def note(message, print_script=False, show_type=False):
     """
     Print a diagnostic notification to the standard output.

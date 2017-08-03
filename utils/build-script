@@ -91,15 +91,15 @@ def main_preset():
     if args.show_presets:
         print("\n".join(sorted(get_all_preset_names(preset_files),
                                key=str.lower)))
-        # return 0
+        return 0
 
     if not args.preset:
         diagnostics.fatal("missing --preset option")
 
     preset_substitutions = parse_preset_substitutions(args)
 
-    preset_args = get_preset_options(
-        preset_substitutions, args.preset_file_names, args.preset)
+    preset_args = get_preset_options(preset_substitutions, preset_files,
+                                     args.preset)
 
     # Run the new script with the Python executable if the build is done on
     # AppVeyor.
@@ -108,43 +108,6 @@ def main_preset():
         build_script_args += [sys.argv[0]]
     else:
         build_script_args = [sys.argv[0]]
-
-    if args.dry_run:
-        build_script_args += ["--dry-run"]
-    if args.clean:
-        build_script_args += ["--clean"]
-    elif args.clean_build:
-        build_script_args += ["--clean-build"]
-    elif args.clean_shared:
-        build_script_args += ["--clean-shared"]
-    if args.install_only:
-        build_script_args += ["--install"]
-    elif args.build_only:
-        build_script_args += ['--build']
-    elif args.test_only:
-        build_script_args += ['--run-test']
-    elif args.docs_only:
-        build_script_args += ['--docs']
-    elif args.update_checkout_only:
-        build_script_args += ['--update-checkout']
-    build_script_args += preset_args
-    if args.build_jobs:
-        build_script_args += ["--jobs", str(args.build_jobs)]
-
-    def _quote(arg):
-        return pipes.quote(str(arg))
-
-    def quote_command(args):
-        """
-        quote_command(args) -> str
-
-        Quote the command for passing to a shell.
-        """
-        return ' '.join([_quote(a) for a in args])
-
-    diagnostics.note(
-        "using preset '" + args.preset + "', which expands to \n\n" +
-        quote_command(build_script_args) + "\n")
 
     if args.expand_build_script_invocation:
         return 0
