@@ -84,6 +84,23 @@ def fine(message, print_script=False, show_type=False):
     sys.stdout.flush()
 
 
+def head(message, print_script=False, show_type=False):
+    """
+    Print a header diagnostic notification to the standard output.
+
+    message -- the message to be printed.
+    print_script -- whether or not the script file should be printed.
+    show_type -- whether or not to print the type of the command before it.
+    """
+    executable = sys.argv[0] + ": " if print_script else ""
+    message_type = "note: " if show_type else ""
+
+    print("{}{}{}{}{}".format(executable, HEADER + BOLD, message_type, message,
+                              ENDC))
+
+    sys.stdout.flush()
+
+
 def note(message, print_script=False, show_type=False):
     """
     Print a diagnostic notification to the standard output.

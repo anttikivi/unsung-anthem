@@ -14,6 +14,8 @@ The support module containing script-related helpers.
 
 import argparse
 import os
+import platform
+import sys
 
 from .variables import HOME, ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
@@ -202,11 +204,6 @@ def create_preset_parser():
         action="store_true",
         dest="test_only")
     build_actions_group.add_argument(
-        "--update-checkout",
-        help="only update the checkout",
-        action="store_true",
-        dest="update_checkout_only")
-    build_actions_group.add_argument(
         "--docs-only",
         help="build only the documentation",
         action="store_true",
@@ -248,3 +245,27 @@ def preset_files(args):
         ret = args.preset_file_names
 
     return ret
+
+
+def get_new_invocation(args, preset_args):
+    """
+    Create the call for the actual build script invocation from the presets.
+
+    args -- the command line arguments.
+    preset_args -- the parsed preset arguments.
+    """
+    def _impl_exec():
+        return [(sys.executable \
+            if platform.system() == "Windows" else None), sys.argv[0]]
+
+    return filter(None, list(_impl_exec()
+                             + [("--dry-run" if args.dry_run else None),
+                                ("--clean" if args.clean else None),
+                                ("--install" if args.install_only else None),
+                                ("--build" if args.build_only else None),
+                                ("--run-test" if args.test_only else None),
+                                ("--docs-only" if args.docs_only else None)]
+                             + preset_args
+                             + [("--jobs" if args.build_jobs else None),
+                                (str(args.build_jobs) \
+                                    if args.build_jobs else None)]))
