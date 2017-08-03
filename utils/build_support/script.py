@@ -218,10 +218,10 @@ def create_preset_parser():
         type=int,
         dest="build_jobs")
     parser.add_argument(
-        "preset_substitutions_raw",
-        help="'name=value' pairs that are substituted in the preset",
+        "preset_defaults_raw",
+        help="'name=value' pairs that are default values in the preset",
         nargs="*",
-        metavar="SUBSTITUTION")
+        metavar="DEFAULTS")
     parser.add_argument(
         "--expand-build-script-invocation",
         help="Print the expanded build-script invocation generated "

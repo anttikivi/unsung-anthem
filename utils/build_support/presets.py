@@ -24,20 +24,20 @@ import itertools
 from . import diagnostics
 
 
-def _load_preset_files_impl(preset_file_names, substitutions=None):
+def _load_preset_files_impl(preset_file_names, defaults=None):
     """
     Load the presets in the preset files.
 
     preset_file_names -- the names of the files from which the presets are loaded.
-    substitutions -- key-value pair to be substituted in the presets.
+    defaults -- key-value pair to be default values in the presets.
     """
 
-    if substitutions is None:
-        subs = {}
+    if defaults is None:
+        defs = {}
     else:
-        subs = substitutions
+        defs = defaults
 
-    config = ConfigParser.SafeConfigParser(subs, allow_no_value=True)
+    config = ConfigParser.SafeConfigParser(defs, allow_no_value=True)
     if not config.read(preset_file_names):
         diagnostics.fatal("preset file not found (tried "
                           + str(preset_file_names)
@@ -49,12 +49,12 @@ def _load_preset_files_impl(preset_file_names, substitutions=None):
 _PRESET_PREFIX = "preset: "
 
 
-def _impl_get_preset_options(config, substitutions, preset_name):
+def _impl_get_preset_options(config, defaults, preset_name):
     """
     Concatenate the lists of options in the preset.
 
     config -- the preset file information.
-    substitutions -- the preset value substitutions.
+    defaults -- the preset default values.
     preset_name -- the name of the preset.
     parser -- the function used to parse the options.
     """
@@ -92,8 +92,8 @@ def _impl_get_preset_options(config, substitutions, preset_name):
                 diagnostics.debug("skipping the mix-in preset option in this "
                                   "phase")
 
-            if option in substitutions:
-                diagnostics.debug(option + " was found from substitutions")
+            if option in defaults:
+                diagnostics.debug(option + " was found from default values")
                 return None
 
             if option == "mixin-preset":
@@ -114,14 +114,14 @@ def _impl_get_preset_options(config, substitutions, preset_name):
         def _impl():
             value = _get_value("mixin-preset")
 
-            if "mixin-preset" in substitutions:
+            if "mixin-preset" in defaults:
                 return None
 
             # Split on newlines and filter out empty lines.
             mixins = filter(None, [m.strip() for m in value.splitlines()])
             diagnostics.debug("found the following mix-in presets: "
                               + str(mixins))
-            mixin_opts = [_impl_get_preset_options(config, substitutions, m)
+            mixin_opts = [_impl_get_preset_options(config, defaults, m)
                           for m in mixins]
 
             ret = list(itertools.chain.from_iterable(mixin_opts))
@@ -165,20 +165,20 @@ def _impl_get_preset_options(config, substitutions, preset_name):
     return ret
 
 
-def get_preset_options(substitutions, preset_file_names, preset_name):
+def get_preset_options(defaults, preset_file_names, preset_name):
     """
     Get a list of the options in the preset.
 
-    substitutions -- the preset value substitutions.
+    defaults -- the preset default values.
     preset_file_names -- list of the names of the preset files.
     preset_name -- the name of the preset.
     """
     diagnostics.debug("starting to get options from the preset " + preset_name)
 
-    config = _load_preset_files_impl(preset_file_names, substitutions)
+    config = _load_preset_files_impl(preset_file_names, defaults)
 
     build_script_opts = \
-        _impl_get_preset_options(config, substitutions, preset_name)
+        _impl_get_preset_options(config, defaults, preset_name)
 
     if not build_script_opts:
         diagnostics.fatal("preset '" + preset_name + "' not found")
@@ -197,18 +197,18 @@ def get_all_preset_names(preset_file_names):
             if name.startswith(_PRESET_PREFIX)]
 
 
-def parse_preset_substitutions(args):
+def parse_preset_defaults(args):
     """
-    Parse the preset substitutions from the parsed arguments and return them as
-    a dictionary.
+    Parse the preset default values from the parsed arguments and return them
+    as a dictionary.
 
     args -- the parsed arguments of the program in preset mode.
     """
 
-    # Create a list of tuples from the split raw argument substitutions.
-    subs = [tuple(x.split("=", 1)) for x in args.preset_substitutions_raw]
+    # Create a list of tuples from the split raw argument defaults.
+    defaults = [tuple(x.split("=", 1)) for x in args.preset_defaults_raw]
 
-    diagnostics.debug("preset substitutions are " + str(dict(subs)))
+    diagnostics.debug("preset default values are " + str(dict(defaults)))
 
     # 'dict()' creates automatically a dictionary from list of tuples.
-    return dict(subs)
+    return dict(defaults)

@@ -28,7 +28,7 @@ import time
 from build_support import diagnostics, script
 
 from build_support.presets import \
-    get_all_preset_names, parse_preset_substitutions, get_preset_options
+    get_all_preset_names, parse_preset_defaults, get_preset_options
 
 from build_support.variables import ANTHEM_SOURCE_ROOT
 
@@ -96,9 +96,9 @@ def main_preset():
     if not args.preset:
         diagnostics.fatal("missing --preset option")
 
-    preset_substitutions = parse_preset_substitutions(args)
+    preset_defaults = parse_preset_defaults(args)
 
-    preset_args = get_preset_options(preset_substitutions, preset_files,
+    preset_args = get_preset_options(preset_defaults, preset_files,
                                      args.preset)
 
     # Run the new script with the Python executable if the build is done on
