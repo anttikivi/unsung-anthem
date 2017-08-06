@@ -69,15 +69,23 @@ def clean_delay():
     Provide a short delay so accidentally invoked clean builds can be
     cancelled.
     """
-
-    sys.stdout.write(diagnostics.WARNING + "Starting a clean build in  ")
-
-    for i in range(3, 0, -1):
-        sys.stdout.write(diagnostics.WARNING + "\b%d" % i)
+    def _impl_write(index):
+        sys.stdout.write(diagnostics.WARNING + "\b{!s}".format(index)
+                         + diagnostics.ENDC)
         sys.stdout.flush()
         time.sleep(1)
+        return index
 
-    print(diagnostics.WARNING + "\b\b\b\bnow.")
+    sys.stdout.write(diagnostics.WARNING + "Starting a clean build in  "
+                     + diagnostics.ENDC)
+
+    # Use the somewhat 'monadic' way of writing the warning output of the clean
+    # build.
+    index_list = [_impl_write(i) for i in range(3, 0, -1)]
+
+    print(diagnostics.WARNING + "\b\b\b\bnow." + diagnostics.ENDC)
+
+    return index_list
 
 
 def main_preset():
