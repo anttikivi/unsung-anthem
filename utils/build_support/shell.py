@@ -24,22 +24,34 @@ from . import diagnostics
 
 
 def quote(arg):
-    def _impl():
-        return pipes.quote(str(arg))
+    """
+    Quote single argument of command for passing to a shell.
 
-    return _impl()
+    arg -- the argument to be quoted.
+    """
+    return pipes.quote(str(arg))
 
 
 def quote_command(args):
     """
-    quote_command(args) -> str
-
     Quote the command for passing to a shell.
+
+    args -- the command to be quoted.
     """
     return " ".join([quote(a) for a in args])
 
 
 def echo_command(dry_run, command, env=None, prompt="+ ", separate_env=False):
+    """
+    Print a command.
+
+    dry_run -- whether or not dry run is enabled.
+    command -- the command to be printed.
+    env -- custom environment variables of the command.
+    prompt -- the prompt to be printed before the command.
+    separate_env -- whether or not the environment information is separated
+    from the command by newlines.
+    """
     def _impl_env():
         return (["env"] + [quote("%s=%s" % (k, v))
                            for (k, v) in sorted(env.items())]) \
@@ -64,11 +76,14 @@ def echo_command(dry_run, command, env=None, prompt="+ ", separate_env=False):
 
 def call(command, stderr=None, env=None, dry_run=None, echo=True):
     """
-    call(command, ...) -> str
+    Execute the given command. This function will raise an exception on any
+    command failure.
 
-    Execute the given command.
-
-    This function will raise an exception on any command failure.
+    command -- the command to be run.
+    stderr -- stderr to be passed to the subprocess.
+    env -- custom environment variables of the command.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
     """
     def _impl_env():
         ret = os.environ
@@ -96,7 +111,12 @@ def call(command, stderr=None, env=None, dry_run=None, echo=True):
 def call_without_sleeping(command, env=None, dry_run=False, echo=False):
     """
     Execute a command during which system sleep is disabled.
-    By default, this ignores the state of the `shell.dry_run` flag.
+    By default, this ignores the state of the 'shell.dry_run' flag.
+
+    command -- the command to be run.
+    env -- custom environment variables of the command.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
     """
 
     # Disable system sleep, if possible.
