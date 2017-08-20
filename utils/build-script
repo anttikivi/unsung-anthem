@@ -125,6 +125,7 @@ def main_preset():
 
 
 def main_normal():
+    args = script.create_parser().parse_args()
     return 0
 
 

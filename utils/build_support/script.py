@@ -17,7 +17,27 @@ import os
 import platform
 import sys
 
+from . import script_options
+
 from .variables import HOME, ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
+
+
+# The usage of the program which is printed when the full program help option
+# is used or the program is called with invalid arguments.
+PROGRAM_USAGE = """
+  %(prog)s [-h | --help] [OPTION...]
+  %(prog)s --preset=NAME [SUBSTITUTION...]
+"""
+
+
+# The description which is printed when the full program help option is used.
+PROGRAM_DESCRIPTION = """
+Use this tool to build, test, and prepare binary distribution archives of
+Unsung Anthem.
+
+Builds Unsung Anthem and its dependencies, incrementally, optionally testing
+Unsung Anthem thereafter. Different build configurations are maintained in
+parallel."""
 
 
 # The epilogue which is printed when the full program help option is used.
@@ -224,6 +244,45 @@ def create_preset_parser():
         help="Print the expanded build-script invocation generated "
              "by the preset, but do not run the preset",
         action="store_true")
+
+    return parser
+
+
+
+def create_parser():
+    """
+    Create the argument parser to be used when the program is run in the
+    preset mode.
+
+    This function is not pure, as it modifies the parser object before
+    returning it.
+
+    This function returns an object of type ArgumentParser.
+    """
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        usage=PROGRAM_USAGE,
+        description=PROGRAM_DESCRIPTION,
+        epilog=PROGRAM_EPILOGUE)
+
+    script_options.script_options(parser)
+    script_options.ci_options(parser)
+    script_options.target_options(parser)
+    script_options.projects_options(parser)
+    script_options.build_action_options(parser)
+    script_options.extra_action_options(parser)
+    script_options.cxx_options(parser)
+    script_options.build_variant_options(parser)
+    script_options.assertion_options(parser)
+    script_options.cmake_options(parser)
+    script_options.test_options(parser)
+    script_options.build_options(parser)
+    script_options.checkout_options(parser)
+    script_options.version_options(parser)
+    script_options.system_options(parser)
+    script_options.msbuild_options(parser)
+    script_options.program_options(parser)
+    script_options.miscellaneous_options(parser)
 
     return parser
 
