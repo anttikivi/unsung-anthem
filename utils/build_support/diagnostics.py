@@ -33,130 +33,121 @@ OK_BLUE = "\033[94m"
 HEADER = "\033[95m"
 
 
-def debug(message, print_script=False, show_type=False):
+def printer(level, colour=None, do_print=True, print_script=False,
+            show_type=False):
+    """
+    Decorator for printing a diagnostic notification to the standard output.
+
+    level -- the level of the message.
+    colour -- the colour of the message.
+    do_print -- whether or not the message is printed.
+    print_script -- whether or not the script file should be printed.
+    show_type -- whether or not to print the type of the command before it.
+    """
+    def _printer_decorator(func):
+        def _wrapper(message):
+            executable = sys.argv[0] + ": " if print_script else ""
+            message_type = "{}: ".format(level) if show_type else ""
+
+            if colour is not None:
+                full_message = "{}{}{}{}{}".format(executable, colour,
+                                                   message_type, func(message),
+                                                   ENDC)
+            else:
+                full_message = "{}{}{}".format(executable, message_type,
+                                               func(message))
+
+            if do_print:
+                print(full_message)
+
+            sys.stdout.flush()
+
+            return full_message
+
+        return _wrapper
+
+    return _printer_decorator
+
+
+@printer(level="debug")
+def debug(message):
     """
     Print a debug diagnostic notification to the standard output.
 
     message -- the message to be printed.
-    print_script -- whether or not the script file should be printed.
-    show_type -- whether or not to print the type of the command before it.
     """
-    executable = sys.argv[0] + ": " if print_script else ""
-    message_type = "debug: " if show_type else ""
-
-    print("{}{}{}".format(executable, message_type, message))
-
-    sys.stdout.flush()
+    return message
 
 
-def debug_ok(message, print_script=False, show_type=False):
+@printer(level="debug", colour=OK_GREEN)
+def debug_ok(message):
     """
     Print a debug diagnostic notification to the standard output.
 
     message -- the message to be printed.
-    print_script -- whether or not the script file should be printed.
-    show_type -- whether or not to print the type of the command before it.
     """
-    executable = sys.argv[0] + ": " if print_script else ""
-    message_type = "debug: " if show_type else ""
-
-    print("{}{}{}{}{}".format(executable, OK_GREEN, message_type, message,
-                              ENDC))
-
-    sys.stdout.flush()
+    return message
 
 
-def fine(message, print_script=False, show_type=False):
+@printer(level="note", colour=OK_BLUE)
+def fine(message):
     """
     Print a diagnostic notification to the standard output notifying some step
     is complete.
 
     message -- the message to be printed.
-    print_script -- whether or not the script file should be printed.
-    show_type -- whether or not to print the type of the command before it.
     """
-    executable = sys.argv[0] + ": " if print_script else ""
-    message_type = "note: " if show_type else ""
-
-    print("{}{}{}{}{}".format(executable, OK_BLUE, message_type, message,
-                              ENDC))
-
-    sys.stdout.flush()
+    return message
 
 
-def head(message, print_script=False, show_type=False):
+@printer(level="note", colour=HEADER + BOLD)
+def head(message):
     """
     Print a header diagnostic notification to the standard output.
 
     message -- the message to be printed.
-    print_script -- whether or not the script file should be printed.
-    show_type -- whether or not to print the type of the command before it.
     """
-    executable = sys.argv[0] + ": " if print_script else ""
-    message_type = "note: " if show_type else ""
-
-    print("{}{}{}{}{}".format(executable, HEADER + BOLD, message_type, message,
-                              ENDC))
-
-    sys.stdout.flush()
+    return message
 
 
-def note(message, print_script=False, show_type=False):
+@printer(level="note")
+def note(message):
     """
     Print a diagnostic notification to the standard output.
 
     message -- the message to be printed.
-    print_script -- whether or not the script file should be printed.
-    show_type -- whether or not to print the type of the command before it.
     """
-    executable = sys.argv[0] + ": " if print_script else ""
-    message_type = "note: " if show_type else ""
-
-    print("{}{}{}".format(executable, message_type, message))
-
-    sys.stdout.flush()
+    return message
 
 
-def warn(message, print_script=False, show_type=False):
+@printer(level="warning", colour=WARNING)
+def warn(message):
     """
     Print a warning notification to the standard output.
 
     message -- the message to be printed.
-    print_script -- whether or not the script file should be printed.
-    show_type -- whether or not to print the type of the command before it.
     """
-
-    executable = sys.argv[0] + ": " if print_script else ""
-    message_type = "warning: " if show_type else ""
-
-    print("{}{}{}{}{}".format(executable, WARNING, message_type, message,
-                              ENDC))
-
-    sys.stdout.flush()
+    return message
 
 
-def warning(message, print_script=False, show_type=False):
+def warning(message):
     """
     Print a warning notification to the standard output.
 
     message -- the message to be printed.
-    print_script -- whether or not the script file should be printed.
-    show_type -- whether or not to print the type of the command before it.
     """
-    warn(message=message, print_script=print_script, show_type=show_type)
+    warn(message=message)
 
 
-def fatal(message, print_script=False, show_type=False):
+def fatal(message):
     """
     Raise a fatal error.
 
     message -- the message to be printed.
-    print_script -- whether or not the script file should be printed.
-    show_type -- whether or not to print the type of the command before it.
     """
 
-    executable = sys.argv[0] + ": " if print_script else ""
-    message_type = "fatal error: " if show_type else ""
+    @printer(level="fatal error", colour=BOLD + FAIL, do_print=False)
+    def _impl(message):
+        return message
 
-    raise SystemExit("{}{}{}{}{}".format(executable, FAIL, message_type,
-                                         message, ENDC))
+    raise SystemExit(_impl(message))
