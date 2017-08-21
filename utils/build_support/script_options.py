@@ -23,6 +23,11 @@ from .variables import SCRIPT_DIR
 
 
 def script_options(parser):
+    """
+    Add general command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     parser.add_argument(
         "-n", "--dry-run",
         help="print the commands that would be executed, but do not execute "
@@ -32,7 +37,13 @@ def script_options(parser):
 
     return parser
 
+
 def ci_options(parser):
+    """
+    Add continuous integration command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     ci_group = parser.add_argument_group(title="Continuous integration")
     ci_group.add_argument(
         "--ci",
@@ -53,7 +64,13 @@ def ci_options(parser):
 
     return parser
 
+
 def target_options(parser):
+    """
+    Add build target command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     targets_group = parser.add_argument_group(
         title="[not implemented] Host and cross-compilation targets")
     targets_group.add_argument(
@@ -72,7 +89,13 @@ def target_options(parser):
 
     return parser
 
+
 def projects_options(parser):
+    """
+    Add project command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     projects_group = parser.add_argument_group(
         title="Options to select projects")
     projects_group.add_argument(
@@ -129,7 +152,13 @@ def projects_options(parser):
 
     return parser
 
+
 def build_action_options(parser):
+    """
+    Add build action command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     build_actions_group = parser.add_mutually_exclusive_group(required=False)
     build_actions_group.add_argument(
         "--install",
@@ -155,7 +184,13 @@ def build_action_options(parser):
 
     return parser
 
+
 def extra_action_options(parser):
+    """
+    Add extra command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     extra_actions_group = parser.add_argument_group(
         title="Extra actions to perform before or in addition to building")
     extra_actions_group.add_argument(
@@ -170,7 +205,13 @@ def extra_action_options(parser):
 
     return parser
 
+
 def cxx_options(parser):
+    """
+    Add C++ command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     parser.add_argument(
         "--stdlib",
         help="build using the specified C++ standard library implementation",
@@ -212,7 +253,13 @@ def cxx_options(parser):
 
     return parser
 
+
 def build_variant_options(parser):
+    """
+    Add build variant command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     build_variant_group = parser.add_mutually_exclusive_group(required=False)
     build_variant_group.add_argument(
         "-d", "--debug",
@@ -270,7 +317,13 @@ def build_variant_options(parser):
 
     return parser
 
+
 def assertion_options(parser):
+    """
+    Add assertion command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     assertions_group = parser.add_mutually_exclusive_group(required=False)
     assertions_group.add_argument(
         "--assertions",
@@ -326,7 +379,13 @@ def assertion_options(parser):
 
     return parser
 
+
 def cmake_options(parser):
+    """
+    Add CMake command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     # FIXME This should perhaps be one option using choices=[...]
     cmake_generator_group = parser.add_argument_group(
         title="Select the CMake generator")
@@ -394,7 +453,13 @@ def cmake_options(parser):
 
     return parser
 
+
 def test_options(parser):
+    """
+    Add test-related command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     run_tests_group = parser.add_argument_group(
         title="Run tests")
 
@@ -425,7 +490,13 @@ def test_options(parser):
 
     return parser
 
+
 def build_options(parser):
+    """
+    Add build-related command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     run_build_group = parser.add_argument_group(title="Run build")
     run_build_group.add_argument(
         "-S", "--skip-build",
@@ -445,7 +516,13 @@ def build_options(parser):
 
     return parser
 
+
 def checkout_options(parser):
+    """
+    Add checkout command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     checkout_group = parser.add_argument_group(title="Update checkout")
     checkout_group.add_argument(
         "--skip-repository",
@@ -458,7 +535,13 @@ def checkout_options(parser):
 
     return parser
 
+
 def version_options(parser):
+    """
+    Add version-related command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     version_group = parser.add_argument_group(
         title="Dependency and project version information")
     version_group.add_argument(
@@ -535,7 +618,13 @@ def version_options(parser):
 
     return parser
 
+
 def system_options(parser):
+    """
+    Add system command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     parser.add_argument(
         "--build-config",
         default=os.path.join(SCRIPT_DIR, "anthem-config.json"),
@@ -627,7 +716,13 @@ def system_options(parser):
 
     return parser
 
+
 def msbuild_options(parser):
+    """
+    Add MSBuild command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     msbuild_group = parser.add_argument_group(title="MSBuild options")
     msbuild_group.add_argument(
         "--msbuild-logger",
@@ -636,7 +731,13 @@ def msbuild_options(parser):
 
     return parser
 
+
 def program_options(parser):
+    """
+    Add program-related command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     parser.add_argument(
         "--executable-name",
         help="the name of the Unsung Anthem executable",
@@ -648,7 +749,13 @@ def program_options(parser):
 
     return parser
 
+
 def miscellaneous_options(parser):
+    """
+    Add miscellaneous command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
     parser.add_argument(
         "--build-args",
         help="arguments to the build tool. This would be prepended to the "
