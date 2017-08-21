@@ -23,6 +23,16 @@ import sys
 from . import diagnostics
 
 
+DRY_RUN = False
+
+
+def _coerce_dry_run(dry_run_override):
+    if dry_run_override is None:
+        return DRY_RUN
+    else:
+        return dry_run_override
+
+
 def quote(arg):
     """
     Quote single argument of command for passing to a shell.
@@ -85,15 +95,17 @@ def call(command, stderr=None, env=None, dry_run=None, echo=True):
     dry_run -- whether or not to command is only printed.
     echo -- whether or not the command is echoed before the execution.
     """
+    is_dry_run = _coerce_dry_run(dry_run)
+
     def _impl_env():
         ret = os.environ
         # A bit of impurity.
         ret.update(env)
         return ret
 
-    if dry_run or echo:
-        echo_command(dry_run, command, env=env)
-    if dry_run:
+    if is_dry_run or echo:
+        echo_command(is_dry_run, command, env=env)
+    if is_dry_run:
         return
 
     call_env = _impl_env()
