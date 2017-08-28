@@ -14,6 +14,8 @@ The support module containing the configuration of the build.
 
 from build_support import mapping
 
+from build_support.products.llvm import llvm_subproducts
+
 from build_support.products.product_config import \
     product_config, version_config, github_config, asset, SOURCE_ASSET, \
     platform_specific_asset, platform_file_config
@@ -27,13 +29,18 @@ ANTHEM_PRODUCT = mapping.Mapping(
 PRODUCT_CONFIG = mapping.Mapping(
     anthem=ANTHEM_PRODUCT,
 
-    llvm=product_config(version="4.0.1"),
+    llvm=product_config(
+        version="4.0.1",
+        extra_data=llvm_subproducts("llvm", "libcxx", clang="cfe")
+    ),
+
+    # TODO: Should GCC be added?
 
     # format: {protocol}://cmake.org/files/v{major_minor}/cmake-{version}-{platform}.{extension}
     cmake=product_config(version=version_config(
         major=3,
         minor=9,
-        patch=0
+        patch=1
     )),
 
     ninja=product_config(

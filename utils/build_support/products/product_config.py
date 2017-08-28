@@ -16,14 +16,15 @@ build.
 from .. import mapping
 
 
-def product_config(version, github_data=None):
+def product_config(version, github_data=None, extra_data=None):
     """
     Create a mapping of the configuration of a product.
 
     version -- the version of the product.
     github_data -- the data with which the product is fetched. If the GitHub
-    data are not provided, a function in module wiht the name of the dependency
-    in the products is used.
+    data are not provided, a function in module with the name of the dependency
+    in the products is used to download the product.
+    extra_data -- extra data for the fetching and building of the product.
     """
 
     if isinstance(version, mapping.Mapping):
@@ -41,11 +42,20 @@ def product_config(version, github_data=None):
     if github_data:
         result.github_data = github_data
 
+    if extra_data:
+        result.extra_data = extra_data
+
     return result
 
 
 def version_config(major, minor, patch, patch_minor=0):
     """
+    Create a mapping representing the version of a product.
+
+    major -- the major version number of the product.
+    minor -- the minor version number of the product.
+    patch -- the patch version number of the product.
+    patch_minor -- the optional minor patch version number of the product.
     """
 
     return mapping.Mapping(major=major, minor=minor, patch=patch,

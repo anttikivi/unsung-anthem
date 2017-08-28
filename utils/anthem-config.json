@@ -11,20 +11,6 @@
       "git_format": "http://llvm.org/git/{project}",
       "asset": {
         "format": "{protocol}://releases.llvm.org/{version}/{id}-{version}.src.tar.xz"
-      },
-      "projects": {
-        "llvm": {
-          "id": "llvm",
-          "git": "llvm"
-        },
-        "clang": {
-          "id": "cfe",
-          "git": "clang"
-        },
-        "libc++": {
-          "id": "libcxx",
-          "git": "libcxx"
-        }
       }
     },
 
