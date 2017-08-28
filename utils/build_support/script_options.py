@@ -218,33 +218,33 @@ def cxx_options(parser):
         metavar="STDLIB",
         dest="stdlib")
 
-    cpp_version_group = parser.add_mutually_exclusive_group(required=False)
-    cpp_version_group.add_argument(
+    cxx_version_group = parser.add_mutually_exclusive_group(required=False)
+    cxx_version_group.add_argument(
         "--std",
         help="build using the specified C++ standard version",
         default="c++14",
         metavar="STANDARD",
         dest="std")
-    cpp_version_group.add_argument(
+    cxx_version_group.add_argument(
         "--c++latest",
         help="build using the latest features of the C++ standard version and"
              "its drafts (default is C++14)",
         action="store_const",
         const="c++latest",
         dest="std")
-    cpp_version_group.add_argument(
+    cxx_version_group.add_argument(
         "--c++2a",
         help="build using the next C++ standard draft (default is C++14)",
         action="store_const",
         const="c++2a",
         dest="std")
-    cpp_version_group.add_argument(
+    cxx_version_group.add_argument(
         "--c++17",
         help="build using the C++17 standard version (default is C++14)",
         action="store_const",
         const="c++17",
         dest="std")
-    cpp_version_group.add_argument(
+    cxx_version_group.add_argument(
         "--c++14",
         help="build using the C++14 standard version (default)",
         action="store_const",
@@ -647,6 +647,12 @@ def system_options(parser):
         help="The installation prefix. This is where built Unsung Anthem "
              "products (like bin, lib, and include) will be installed.",
         metavar="PATH")
+
+    parser.add_argument(
+        "--gcc-mirror",
+        help="the mirror from which GCC is downloaded if it is built",
+        metavar="URL",
+        default="default")
 
     parser.add_argument(
         "-j", "--jobs",

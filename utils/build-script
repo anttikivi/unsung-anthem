@@ -25,7 +25,7 @@ import os
 import sys
 import time
 
-from build_support import diagnostics, environment, script, shell
+from build_support import diagnostics, invocation, script, shell
 
 from build_support.presets import \
     get_all_preset_names, parse_preset_defaults, get_preset_options
@@ -131,7 +131,7 @@ def main_normal():
     parser = script.create_parser()
 
     # Set the arguments and set up the environment.
-    args = environment.set_up(parser)
+    args = invocation.set_up(parser)
 
     return 0
 

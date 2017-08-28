@@ -1,0 +1,40 @@
+{
+  "projects": {
+
+    "anthem": {
+      "version": "0.1.0-dev.1"
+    },
+
+    "llvm": {
+      "github": false,
+      "default_version": "4.0.1",
+      "git_format": "http://llvm.org/git/{project}",
+      "asset": {
+        "format": "{protocol}://releases.llvm.org/{version}/{id}-{version}.src.tar.xz"
+      },
+      "projects": {
+        "llvm": {
+          "id": "llvm",
+          "git": "llvm"
+        },
+        "clang": {
+          "id": "cfe",
+          "git": "clang"
+        },
+        "libc++": {
+          "id": "libcxx",
+          "git": "libcxx"
+        }
+      }
+    },
+
+    "gcc": {
+      "github": false,
+      "default_version": "6.4.0",
+      "asset": {
+        "default_mirror": "nl.mirror.babylon.network/gcc",
+        "format": "{protocol}://{mirror}/releases/gcc-{version}/gcc-{version}.tar.{extension}"
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-#===------------------------- environment.py ------------------*- python -*-===#
+#===------------------------- invocation.py -------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -8,7 +8,8 @@
 # Licensed under GNU Affero General Public License v3.0
 
 """
-The support module containing the utilities for setting up the environment.
+The support module containing the utilities for setting up the build
+invocation.
 """
 
 
@@ -17,7 +18,6 @@ import sys
 from . import defaults, diagnostics, migration, shell
 
 
-@defaults
 def set_up(parser):
     args = migration.parse_args(parser, sys.argv[1:])
 
@@ -27,5 +27,14 @@ def set_up(parser):
     diagnostics.note("The main tool is set to {}".format(args.main_tool))
     diagnostics.note("The main tool version is set to "
                      "{}".format(args.main_tool_version))
+
+    # Fix the main tool if it is set to 'clang'.
+    defaults.fix_main_tool(args)
+
+    # Apply the default arguments.
+    defaults.main_args(args)
+
+    # Apply the default C++ standard arguments.
+    defaults.cxx_std(args)
 
     return args
