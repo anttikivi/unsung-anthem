@@ -28,7 +28,8 @@ def _load_preset_files_impl(preset_file_names, defaults=None):
     """
     Load the presets in the preset files.
 
-    preset_file_names -- the names of the files from which the presets are loaded.
+    preset_file_names -- the names of the files from which the presets are
+    loaded.
     defaults -- key-value pair to be default values in the presets.
     """
 
@@ -39,9 +40,8 @@ def _load_preset_files_impl(preset_file_names, defaults=None):
 
     config = ConfigParser.SafeConfigParser(defs, allow_no_value=True)
     if not config.read(preset_file_names):
-        diagnostics.fatal("preset file not found (tried "
-                          + str(preset_file_names)
-                          + ")")
+        diagnostics.fatal(
+            "preset file not found (tried " + str(preset_file_names) + ")")
     diagnostics.debug("loaded preset config from " + str(preset_file_names))
     return config
 
@@ -77,62 +77,59 @@ def _impl_get_preset_options(config, defaults, preset_name):
 
         option -- the option to parse.
         """
-        def _impl(option):
-            value = _get_value(option)
 
-            if not option == "mixin-preset":
-                if value == "":
-                    diagnostics.debug("'" + option + "' in preset '"
-                                      + preset_name + "' is set (to true)")
-                else:
-                    diagnostics.debug("'" + option + "' in preset '"
-                                      + preset_name + "' is set to '" + value
-                                      + "'")
+        value = _get_value(option)
+
+        if not option == "mixin-preset":
+            if value == "":
+                diagnostics.debug(
+                    "'" + option + "' in preset '" + preset_name
+                    + "' is set (to true)")
             else:
-                diagnostics.debug("skipping the mix-in preset option in this "
-                                  "phase")
+                diagnostics.debug(
+                    "'" + option + "' in preset '" + preset_name
+                    + "' is set to '" + value + "'")
+        else:
+            diagnostics.debug(
+                "skipping the mix-in preset option in this phase")
 
-            if option in defaults:
-                diagnostics.debug(option + " was found from default values")
-                return None
+        if option in defaults:
+            diagnostics.debug(option + " was found from default values")
+            return None
 
-            if option == "mixin-preset":
-                # Mixins are handled separately.
-                return None
-            elif value == "":
-                return "--" + option
+        if option == "mixin-preset":
+            # Mixins are handled separately.
+            return None
+        elif value == "":
+            return "--" + option
 
-            return "--" + option + "=" + value
-
-        return _impl(option)
+        return "--" + option + "=" + value
 
     def parse_mixins():
         """
         Parse mix-in presets of the preset and return the parsed options from
         the mix-in presets.
         """
-        def _impl():
-            value = _get_value("mixin-preset")
 
-            if "mixin-preset" in defaults:
-                return None
+        value = _get_value("mixin-preset")
 
-            # Split on newlines and filter out empty lines.
-            mixins = filter(None, [m.strip() for m in value.splitlines()])
-            diagnostics.debug("found the following mix-in presets: "
-                              + str(mixins))
-            mixin_opts = [_impl_get_preset_options(config, defaults, m)
-                          for m in mixins]
+        if "mixin-preset" in defaults:
+            return None
 
-            ret = list(itertools.chain.from_iterable(mixin_opts))
+        # Split on newlines and filter out empty lines.
+        mixins = filter(None, [m.strip() for m in value.splitlines()])
+        diagnostics.debug(
+            "found the following mix-in presets: " + str(mixins))
+        mixin_opts = \
+            (_impl_get_preset_options(config, defaults, m) for m in mixins)
 
-            diagnostics.debug("mix-in preset(s) of '" + preset_name
-                              + "' (which are " + str(mixins) + ") yield(s): "
-                              + ", ".join(ret))
+        ret = list(itertools.chain.from_iterable(mixin_opts))
 
-            return ret
+        diagnostics.debug(
+            "mix-in preset(s) of '" + preset_name + "' (which are "
+            + str(mixins) + ") yield(s): " + ", ".join(ret))
 
-        return _impl()
+        return ret
 
     diagnostics.debug("now parsing " + preset_name)
 
@@ -141,14 +138,15 @@ def _impl_get_preset_options(config, defaults, preset_name):
     if section_name not in config.sections():
         return None
 
-    build_script_opts = filter(None, [parse_option(opt)
-                                      for opt in config.options(section_name)])
+    build_script_opts = filter(
+        None, [parse_option(opt) for opt in config.options(section_name)])
 
-    diagnostics.debug_ok("build script options of '" + preset_name + "' are: "
-                         + ", ".join(build_script_opts))
+    diagnostics.debug_ok(
+        "build script options of '" + preset_name + "' are: "
+        + ", ".join(build_script_opts))
 
-    mixin_opts = filter(None, [(opt if opt == "mixin-preset" else None)
-                               for opt in config.options(section_name)])
+    mixin_opts = \
+        [opt for opt in config.options(section_name) if opt == "mixin-preset"]
 
     if mixin_opts:
         diagnostics.debug("mix-in preset(s) found in '" + preset_name + "'")
@@ -159,8 +157,8 @@ def _impl_get_preset_options(config, defaults, preset_name):
 
     ret = list(build_script_opts + mixins)
 
-    diagnostics.debug_ok("option(s) of '" + preset_name + "' are: "
-                         + ", ".join(ret))
+    diagnostics.debug_ok(
+        "option(s) of '" + preset_name + "' are: " + ", ".join(ret))
 
     return ret
 
@@ -173,7 +171,9 @@ def get_preset_options(defaults, preset_file_names, preset_name):
     preset_file_names -- list of the names of the preset files.
     preset_name -- the name of the preset.
     """
-    diagnostics.debug("starting to get options from the preset " + preset_name)
+
+    diagnostics.debug(
+        "starting to get options from the preset " + preset_name)
 
     config = _load_preset_files_impl(preset_file_names, defaults)
 

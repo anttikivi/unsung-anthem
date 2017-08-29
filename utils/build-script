@@ -70,18 +70,18 @@ def clean_delay():
     cancelled.
     """
     def _impl_write(index):
-        sys.stdout.write(diagnostics.WARNING + "\b{!s}".format(index)
-                         + diagnostics.ENDC)
+        sys.stdout.write(
+            diagnostics.WARNING + "\b{!s}".format(index) + diagnostics.ENDC)
         sys.stdout.flush()
         time.sleep(1)
         return index
 
-    sys.stdout.write(diagnostics.WARNING + "Starting a clean build in  "
-                     + diagnostics.ENDC)
+    sys.stdout.write(
+        diagnostics.WARNING + "Starting a clean build in  "
+        + diagnostics.ENDC)
 
-    # Use the somewhat 'monadic' way of writing the warning output of the clean
-    # build.
-    index_list = [_impl_write(i) for i in range(3, 0, -1)]
+    # index_list = [_impl_write(i) for i in range(3, 0, -1)]
+    index_list = [_impl_write(i) for i in reversed(range(0, 3))]
 
     print(diagnostics.WARNING + "\b\b\b\bnow." + diagnostics.ENDC)
 
@@ -97,8 +97,8 @@ def main_preset():
     preset_files = script.preset_files(args)
 
     if args.show_presets:
-        print("\n".join(sorted(get_all_preset_names(preset_files),
-                               key=str.lower)))
+        print("\n".join(sorted(
+            get_all_preset_names(preset_files), key=str.lower)))
         return 0
 
     if not args.preset:
@@ -106,15 +106,15 @@ def main_preset():
 
     preset_defaults = parse_preset_defaults(args)
 
-    preset_args = get_preset_options(preset_defaults, preset_files,
-                                     args.preset)
+    preset_args = get_preset_options(
+        preset_defaults, preset_files, args.preset)
 
     # Get the invocation of the actual build script.
     build_script_invacation = script.get_new_invocation(args, preset_args)
 
-    diagnostics.head("using preset '" + args.preset
-                     + "' which expands to \n\n"
-                     + shell.quote_command(build_script_invacation) + "\n")
+    diagnostics.head(
+        "using preset '" + args.preset + "' which expands to \n\n"
+        + shell.quote_command(build_script_invacation) + "\n")
 
     if args.expand_build_script_invocation:
         return 0
@@ -144,16 +144,14 @@ def main():
     if not ANTHEM_SOURCE_ROOT:
         diagnostics.fatal(
             "could not infer source root directory (forgot to set "
-            "$ANTHEM_SOURCE_ROOT environment variable?)"
-        )
+            "$ANTHEM_SOURCE_ROOT environment variable?)")
 
     if not os.path.isdir(ANTHEM_SOURCE_ROOT):
         diagnostics.fatal(
             "source root directory \'"
             + ANTHEM_SOURCE_ROOT
             + "\' does not exist (forgot to set $ANTHEM_SOURCE_ROOT "
-            "environment variable?)"
-        )
+            "environment variable?)")
 
     # Determine if the script is invoked in the preset mode and dispatch
     # accordingly.

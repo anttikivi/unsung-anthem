@@ -56,14 +56,14 @@ def _get_default_source_root():
 
 # $ANTHEM_SOURCE_ROOT is resolved from the path of this file if the environment
 # variable is not set.
-ANTHEM_SOURCE_ROOT = os.environ.get("ANTHEM_SOURCE_ROOT",
-                                    _get_default_source_root())
+ANTHEM_SOURCE_ROOT = os.environ.get(
+    "ANTHEM_SOURCE_ROOT", _get_default_source_root())
 
 
 # $ANTHEM_BUILD_ROOT is resolved from $ANTHEM_SOURCE_ROOT if the environment
 # variable is not set.
-ANTHEM_BUILD_ROOT = os.environ.get("ANTHEM_BUILD_ROOT",
-                                   os.path.join(ANTHEM_SOURCE_ROOT, "build"))
+ANTHEM_BUILD_ROOT = os.environ.get(
+    "ANTHEM_BUILD_ROOT", os.path.join(ANTHEM_SOURCE_ROOT, "build"))
 
 
 def _get_default_anthem_repo_name():
@@ -78,8 +78,8 @@ def _get_default_anthem_repo_name():
 
 # $ANTHEM_REPO_NAME is resolved from the path of this file if the environment
 # variable is not set.
-ANTHEM_REPO_NAME = os.environ.get("ANTHEM_REPO_NAME",
-                                  _get_default_anthem_repo_name())
+ANTHEM_REPO_NAME = os.environ.get(
+    "ANTHEM_REPO_NAME", _get_default_anthem_repo_name())
 
 
 SCRIPT_DIR = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils")

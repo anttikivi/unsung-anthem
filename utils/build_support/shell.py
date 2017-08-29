@@ -29,8 +29,8 @@ DRY_RUN = False
 def _coerce_dry_run(dry_run_override):
     if dry_run_override is None:
         return DRY_RUN
-    else:
-        return dry_run_override
+
+    return dry_run_override
 
 
 def quote(arg):
@@ -62,26 +62,25 @@ def echo_command(dry_run, command, env=None, prompt="+ ", separate_env=False):
     separate_env -- whether or not the environment information is separated
     from the command by newlines.
     """
-    def _impl_env():
-        return (["env"] + [quote("%s=%s" % (k, v))
-                           for (k, v) in sorted(env.items())]) \
-            if env is not None else None
+    def _env():
+        return ["env"] + [quote(
+            "{}={}".format(k, v)) for k, v in sorted(env.items())]
 
-    def _impl_separate_env():
-        return "\n\n" if separate_env else None
+    def _env_separator():
+        return "\n\n"
 
-    def _impl_command():
+    def _command():
         return [quote(arg) for arg in command]
 
-    def _impl():
-        output = filter(None, list([_impl_env(), _impl_separate_env()]
-                                   + _impl_command()))
-        output_file = sys.stdout if dry_run else sys.stderr
-        print(prompt + " ".join(output), file=output_file)
-        file.flush()
-        return command
+    if separate_env:
+        output = [_env(), _env_separator()] + _command()
+    else:
+        output = _command()
 
-    return _impl()
+    output_file = sys.stdout if dry_run else sys.stderr
+    print(prompt + " ".join(output), file=output_file)
+    file.flush()
+    return command
 
 
 def call(command, stderr=None, env=None, dry_run=None, echo=True):
@@ -95,29 +94,30 @@ def call(command, stderr=None, env=None, dry_run=None, echo=True):
     dry_run -- whether or not to command is only printed.
     echo -- whether or not the command is echoed before the execution.
     """
-    is_dry_run = _coerce_dry_run(dry_run)
 
-    def _impl_env():
+    def _env():
         ret = os.environ
-        # A bit of impurity.
         ret.update(env)
         return ret
 
+    is_dry_run = _coerce_dry_run(dry_run)
+
     if is_dry_run or echo:
         echo_command(is_dry_run, command, env=env)
+
     if is_dry_run:
         return
 
-    call_env = _impl_env()
-
     try:
-        subprocess.check_call(command, env=call_env, stderr=stderr)
+        subprocess.check_call(command, env=_env(), stderr=stderr)
     except subprocess.CalledProcessError as err:
-        diagnostics.fatal("command terminated with a non-zero exit status "
-                          + str(err.returncode) + ", aborting")
+        diagnostics.fatal(
+            "command terminated with a non-zero exit status "
+            + str(err.returncode) + ", aborting")
     except OSError as err:
-        diagnostics.fatal("could not execute '" + quote_command(command)
-                          + "': " + err.strerror)
+        diagnostics.fatal(
+            "could not execute '" + quote_command(command)
+            + "': " + err.strerror)
 
 
 def call_without_sleeping(command, env=None, dry_run=False, echo=False):
@@ -132,7 +132,9 @@ def call_without_sleeping(command, env=None, dry_run=False, echo=False):
     """
 
     # Disable system sleep, if possible.
-    call_command = (["caffeinate"] + list(command)) \
-        if platform.system == "Darwin" else command
+    if platform.system == "Darwin":
+        call_command = ["caffeinate"] + list(command)
+    else:
+        call_command = command
 
     call(call_command, env=env, dry_run=dry_run, echo=echo)

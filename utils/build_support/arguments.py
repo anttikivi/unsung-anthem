@@ -49,8 +49,8 @@ def type_bool(string):
     if string in ["1", "true", "True"]:
         return True
 
-    raise argparse.ArgumentTypeError("{!r} is not a boolean "
-                                     "value".format(string))
+    raise argparse.ArgumentTypeError(
+        "{!r} is not a boolean value".format(string))
 
 
 _register(TYPE, "bool", type_bool)
@@ -97,12 +97,9 @@ ACTION = _Registry()
 
 
 class _UnavailableAction(argparse.Action):
-    def __init__(self,
-                 option_strings,
-                 dest=argparse.SUPPRESS,
-                 default=argparse.SUPPRESS,
-                 nargs="?",
-                 help=None):
+    def __init__(
+            self, option_strings, dest=argparse.SUPPRESS,
+            default=argparse.SUPPRESS, nargs="?", help=None):
         super(_UnavailableAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
@@ -135,12 +132,9 @@ _register(ACTION, "concat", _ConcatAction)
 
 
 class _OptionalBoolAction(argparse.Action):
-    def __init__(self,
-                 option_strings,
-                 dest,
-                 default=False,
-                 metavar="BOOL",
-                 help=None):
+    def __init__(
+            self, option_strings, dest, default=False, metavar="BOOL",
+            help=None):
         super(_OptionalBoolAction, self).__init__(
             option_strings=option_strings,
             dest=dest,

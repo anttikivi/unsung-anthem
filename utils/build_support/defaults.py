@@ -175,10 +175,7 @@ def main_args(args):
     def _visual_studio():
         # Set the Visual Studio option to true if the CMake generator is
         # Visual Studio.
-        if args.cmake_generator.startswith("Visual Studio"):
-            args.visual_studio = True
-        else:
-            args.visual_studio = False
+        args.visual_studio = args.cmake_generator.startswith("Visual Studio")
 
     # Add the build action arguments.
     _build_actions()

@@ -392,12 +392,13 @@ def cmake_options(parser):
     cmake_generator_group.add_argument(
         "-G",
         help="CMake's generator (default is Ninja)",
-        choices=["Ninja",
-                 "Xcode",
-                 "Unix Makefiles",
-                 "Visual Studio 14 2015",
-                 "Visual Studio 15 2017",
-                 "Eclipse CDT4 - Ninja"],
+        choices=[
+            "Ninja",
+            "Xcode",
+            "Unix Makefiles",
+            "Visual Studio 14 2015",
+            "Visual Studio 15 2017",
+            "Eclipse CDT4 - Ninja"],
         dest="cmake_generator")
     cmake_generator_group.add_argument(
         "-x", "--xcode",

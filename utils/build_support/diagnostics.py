@@ -50,12 +50,11 @@ def printer(level, colour=None, do_print=True, print_script=False,
             message_type = "{}: ".format(level) if show_type else ""
 
             if colour is not None:
-                full_message = "{}{}{}{}{}".format(executable, colour,
-                                                   message_type, func(message),
-                                                   ENDC)
+                full_message = "{}{}{}{}{}".format(
+                    executable, colour, message_type, func(message), ENDC)
             else:
-                full_message = "{}{}{}".format(executable, message_type,
-                                               func(message))
+                full_message = "{}{}{}".format(
+                    executable, message_type, func(message))
 
             if do_print:
                 print(full_message)

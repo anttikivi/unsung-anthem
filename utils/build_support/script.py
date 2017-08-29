@@ -75,8 +75,8 @@ ANTHEM_SOURCE_ROOT: a directory containing the source for Unsung Anthem. If
 
    $ANTHEM_SOURCE_ROOT/unsung-anthem (the directory name does not matter)
 
-ANTHEM_SOURCE_ROOT: a directory in which to create out-of-tree builds. Defaults
-                    to "$ANTHEM_SOURCE_ROOT/build/".
+ANTHEM_SOURCE_ROOT: a directory in which to create out-of-tree builds.
+                    Defaults to "$ANTHEM_SOURCE_ROOT/build/".
 
 Preparing to run this script
 ----------------------------
@@ -88,8 +88,8 @@ That's it; you're ready to go!
 Examples
 --------
 
-Given the above layout of sources, the simplest invocation of 'build-script' is
-just:
+Given the above layout of sources, the simplest invocation of 'build-script'
+is just:
 
   [~/src/s]$ ./unsung-anthem/utils/build-script
 
@@ -153,15 +153,16 @@ To use it, specify the '--preset=' argument:
 Philosophy
 ----------
 
-While one can invoke CMake directly to build Unsung Anthem, this tool will save
-one's time by taking away the mechanical parts of the process, providing one
-the controls for the important options.
+While one can invoke CMake directly to build Unsung Anthem, this tool will
+save one's time by taking away the mechanical parts of the process, providing
+one the controls for the important options.
 
-For all automated build environments, this tool is regarded as *the* *only* way
-to build Unsung Anthem. This is not a technical limitation of the Unsung Anthem
-build system. It is a policy decision aimed at making the builds uniform across
-all environments and easily reproducible by engineers who are not familiar with
-the details of the setups of other systems or automated environments.
+For all automated build environments, this tool is regarded as *the* *only*
+way to build Unsung Anthem. This is not a technical limitation of the Unsung
+Anthem build system. It is a policy decision aimed at making the builds
+uniform across all environments and easily reproducible by engineers who are
+not familiar with the details of the setups of other systems or automated
+environments.
 """
 
 
@@ -297,9 +298,10 @@ def preset_files(args):
     if not args.preset_file_names:
         ret = [
             os.path.join(HOME, ".anthem-build-presets"),
-            os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils",
-                         "build-presets.ini")
-        ]
+            os.path.join(
+                ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils",
+                "build-presets.ini")
+            ]
     else:
         ret = args.preset_file_names
 
@@ -317,14 +319,17 @@ def get_new_invocation(args, preset_args):
         return [(sys.executable \
             if platform.system() == "Windows" else None), sys.argv[0]]
 
-    return filter(None, list(_impl_exec()
-                             + [("--dry-run" if args.dry_run else None),
-                                ("--clean" if args.clean else None),
-                                ("--install" if args.install_only else None),
-                                ("--build" if args.build_only else None),
-                                ("--run-test" if args.test_only else None),
-                                ("--docs-only" if args.docs_only else None)]
-                             + preset_args
-                             + [("--jobs" if args.build_jobs else None),
-                                (str(args.build_jobs) \
-                                    if args.build_jobs else None)]))
+    return filter(None, list(
+        _impl_exec() + [
+            ("--dry-run" if args.dry_run else None),
+            ("--clean" if args.clean else None),
+            ("--install" if args.install_only else None),
+            ("--build" if args.build_only else None),
+            ("--run-test" if args.test_only else None),
+            ("--docs-only" if args.docs_only else None)
+        ]
+        + preset_args
+        + [
+            ("--jobs" if args.build_jobs else None),
+            (str(args.build_jobs) if args.build_jobs else None)
+        ]))

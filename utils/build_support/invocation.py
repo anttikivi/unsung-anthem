@@ -25,8 +25,8 @@ def set_up(parser):
     shell.DRY_RUN = args.dry_run
 
     diagnostics.note("The main tool is set to {}".format(args.main_tool))
-    diagnostics.note("The main tool version is set to "
-                     "{}".format(args.main_tool_version))
+    diagnostics.note(
+        "The main tool version is set to {}".format(args.main_tool_version))
 
     # Fix the main tool if it is set to 'clang'.
     defaults.fix_main_tool(args)
