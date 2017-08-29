@@ -23,7 +23,7 @@ from . import defaults, diagnostics, migration, shell
 
 from .mapping import Mapping
 
-from .toolchain import host_toolchain
+from .toolchain import host_toolchain, set_arguments_to_toolchain
 
 from .variables import ANTHEM_BUILD_ROOT, ANTHEM_SOURCE_ROOT
 
@@ -149,4 +149,21 @@ def set_up(parser):
     build_data.toolchain = host_toolchain(
         args=args, xcrun_toolchain=args.darwin_xcrun_toolchain)
 
-    return args
+    set_arguments_to_toolchain(args=args, toolchain=build_data.toolchain)
+
+    return build_data
+
+
+def invoke(build_data):
+    diagnostics.note("The host C compiler is set to {}".format(
+        str(build_data.toolchain.cc)))
+    diagnostics.note("The host C++ compiler is set to {}".format(
+        str(build_data.toolchain.cxx)))
+    diagnostics.note("MSBuild is set to {}".format(
+        str(build_data.toolchain.msbuild)))
+    diagnostics.note("Ninja is set to {}".format(
+        str(build_data.toolchain.ninja)))
+    diagnostics.note("CMake is set to {}".format(
+        str(build_data.toolchain.cmake)))
+    diagnostics.note("git is set to {}".format(
+        str(build_data.toolchain.git)))

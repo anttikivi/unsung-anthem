@@ -85,9 +85,8 @@ def main_normal():
     Run the build script.
     """
     parser = script.create_parser()
-
-    # Set the arguments and set up the environment.
     build_data = invocation.set_up(parser)
+    invocation.invoke(build_data)
 
     return 0
 

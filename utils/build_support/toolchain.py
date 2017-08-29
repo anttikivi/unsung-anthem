@@ -116,3 +116,16 @@ def host_toolchain(args, xcrun_toolchain="default"):
         raise NotImplementedError(
             "The platform '{}' does not have a defined "
             "toolchain.".format(sys))
+
+
+def set_arguments_to_toolchain(args, toolchain):
+    if args.host_cc is not None:
+        toolchain.cc = args.host_cc
+    if args.host_cxx is not None:
+        toolchain.cxx = args.host_cxx
+    if args.msbuild is not None:
+        toolchain.msbuild = args.msbuild
+    if args.cmake is not None:
+        toolchain.cmake = args.cmake
+    if args.git is not None:
+        toolchain.git = args.git
