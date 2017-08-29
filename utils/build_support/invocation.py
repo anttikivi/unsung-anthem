@@ -61,17 +61,17 @@ def validate_arguments(args):
                 "value: " + str(args.stdlib))
 
     if not (args.cmake_generator == "Ninja"
-            or not args.cmake_generator == "Unix Makefiles"
-            or not args.cmake_generator == "Xcode"
-            or not args.cmake_generator == "Visual Studio 14 2015"
-            or not args.cmake_generator == "Visual Studio 15 2017"
-            or not args.cmake_generator == "Eclipse CDT4 - Ninja"):
+            or args.cmake_generator == "Unix Makefiles"
+            or args.cmake_generator == "Xcode"
+            or args.cmake_generator == "Visual Studio 14 2015"
+            or args.cmake_generator == "Visual Studio 15 2017"
+            or args.cmake_generator == "Eclipse CDT4 - Ninja"):
         exit_rejecting_arguments('CMake generator is set to an invalid value: '
                                  + str(args.cmake_generator))
 
     if not (args.main_tool == "llvm"
-            or not args.main_tool == "gcc"
-            or not args.main_tool == "msbuild"):
+            or args.main_tool == "gcc"
+            or args.main_tool == "msbuild"):
         exit_rejecting_arguments(
             "The main tool is set to an invalid value: "
             + str(args.main_tool))
