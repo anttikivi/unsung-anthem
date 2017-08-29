@@ -12,7 +12,7 @@ The support module containing the configuration of the build.
 """
 
 
-from build_support import mapping
+from build_support.mapping import Mapping
 
 from build_support.products.llvm import llvm_subproducts
 
@@ -21,12 +21,10 @@ from build_support.products.product_config import \
     platform_specific_asset, platform_file_config
 
 
-ANTHEM_PRODUCT = mapping.Mapping(
-    version="0.1.0-dev.1"
-)
+ANTHEM_PRODUCT = Mapping(version="0.1.0-dev.1")
 
 
-PRODUCT_CONFIG = mapping.Mapping(
+PRODUCT_CONFIG = Mapping(
     anthem=ANTHEM_PRODUCT,
 
     # Git format: http://llvm.org/git/{project}

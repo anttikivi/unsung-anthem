@@ -13,7 +13,7 @@ build.
 """
 
 
-from .. import mapping
+from ..mapping import Mapping
 
 
 def product_config(version, github_data=None, extra_data=None):
@@ -27,17 +27,16 @@ def product_config(version, github_data=None, extra_data=None):
     extra_data -- extra data for the fetching and building of the product.
     """
 
-    if isinstance(version, mapping.Mapping):
+    if isinstance(version, Mapping):
         version_string = \
             "{}.{}.{}".format(version.major, version.minor, version.patch) \
             if version.patch_minor == 0 else \
             "{}.{}.{}.{}".format(
                 version.major, version.minor, version.patch,
                 version.patch_minor)
-        result = mapping.Mapping(
-            version=version_string, version_mapping=version)
+        result = Mapping(version=version_string, version_mapping=version)
     else:
-        result = mapping.Mapping(version=version)
+        result = Mapping(version=version)
 
     if github_data:
         result.github_data = github_data
@@ -58,8 +57,8 @@ def version_config(major, minor, patch, patch_minor=0):
     patch_minor -- the optional minor patch version number of the product.
     """
 
-    return mapping.Mapping(major=major, minor=minor, patch=patch,
-                           patch_minor=patch_minor)
+    return Mapping(
+        major=major, minor=minor, patch=patch, patch_minor=patch_minor)
 
 
 def github_config(owner, name, asset_data, version_prefix=None):
@@ -72,7 +71,7 @@ def github_config(owner, name, asset_data, version_prefix=None):
     version_prefix -- a prefix which is used before the version.
     """
 
-    result = mapping.Mapping(owner=owner, name=name, asset=asset_data)
+    result = Mapping(owner=owner, name=name, asset=asset_data)
 
     if version_prefix:
         result.version_prefix = version_prefix
@@ -87,12 +86,11 @@ def asset(asset_file):
     asset_file -- the name of the asset file which is downloaded.
     """
 
-    return mapping.Mapping(platform_specific=False, source=False,
-                           file=asset_file)
+    return Mapping(platform_specific=False, source=False, file=asset_file)
 
 
 # A simple mapping of the GitHub asset source code configuration of a product.
-SOURCE_ASSET = mapping.Mapping(platform_specific=False, source=True)
+SOURCE_ASSET = Mapping(platform_specific=False, source=True)
 
 
 def platform_specific_asset(asset_file, platform_files, fallback_file=None):
@@ -107,8 +105,9 @@ def platform_specific_asset(asset_file, platform_files, fallback_file=None):
     files are not available.
     """
 
-    result = mapping.Mapping(platform_specific=True, source=False,
-                             file=asset_file, platform_files=platform_files)
+    result = Mapping(
+        platform_specific=True, source=False, file=asset_file,
+        platform_files=platform_files)
 
     if fallback_file:
         result.fallback = True
@@ -126,4 +125,4 @@ def platform_file_config(darwin=None, windows=None, linux=None):
     linux -- the name of the file on Linux.
     """
 
-    return mapping.Mapping(Darwin=darwin, Windows=windows, Linux=linux)
+    return Mapping(Darwin=darwin, Windows=windows, Linux=linux)
