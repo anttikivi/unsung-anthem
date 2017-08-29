@@ -16,7 +16,7 @@ build.
 from ..mapping import Mapping
 
 
-def product_config(version, github_data=None, extra_data=None):
+def product_config(version, github_data=None, **kwargs):
     """
     Create a mapping of the configuration of a product.
 
@@ -27,24 +27,25 @@ def product_config(version, github_data=None, extra_data=None):
     extra_data -- extra data for the fetching and building of the product.
     """
 
-    if isinstance(version, Mapping):
-        version_string = \
-            "{}.{}.{}".format(version.major, version.minor, version.patch) \
-            if version.patch_minor == 0 else \
-            "{}.{}.{}.{}".format(
+    result = dict(**kwargs)
+
+    if isinstance(version, dict):
+        if version.patch_minor == 0:
+            version_string = "{}.{}.{}".format(
+                version.major, version.minor, version.patch)
+        else:
+            version_string = "{}.{}.{}.{}".format(
                 version.major, version.minor, version.patch,
                 version.patch_minor)
-        result = Mapping(version=version_string, version_mapping=version)
+        result["version"] = version_string
+        result["version_mapping"] = version
     else:
-        result = Mapping(version=version)
+        result["version"] = version
 
     if github_data:
-        result.github_data = github_data
+        result["github_data"] = github_data
 
-    if extra_data:
-        result.extra_data = extra_data
-
-    return result
+    return Mapping(result)
 
 
 def version_config(major, minor, patch, patch_minor=0):

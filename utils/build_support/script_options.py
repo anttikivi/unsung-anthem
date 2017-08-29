@@ -17,6 +17,8 @@ import os
 
 from . import arguments
 
+from .config import PRODUCT_CONFIG
+
 from .targets import host_target
 
 from .variables import SCRIPT_DIR
@@ -548,73 +550,52 @@ def version_options(parser):
     version_group.add_argument(
         "--anthem-version",
         metavar="MAJOR.MINOR.PATCH",
-        default="default",
+        default=PRODUCT_CONFIG.anthem.version,
         help="the Unsung Anthem version")
     version_group.add_argument(
         "--llvm-version",
         metavar="MAJOR.MINOR.PATCH",
-        default="default",
+        default=PRODUCT_CONFIG.llvm.version,
         help="the LLVM version")
     version_group.add_argument(
         "--gcc-version",
         metavar="MAJOR.MINOR.PATCH",
-        default="default",
+        default=PRODUCT_CONFIG.gcc.version,
         help="the GNU Compiler Collection version")
-    version_group.add_argument(
-        "--cmake-major-version",
-        metavar="MAJOR",
-        default="default",
-        help="the CMake major version")
-    version_group.add_argument(
-        "--cmake-minor-version",
-        metavar="MINOR",
-        default="default",
-        help="the CMake minor version")
-    version_group.add_argument(
-        "--cmake-patch-version",
-        metavar="PATCH",
-        default="default",
-        help="the CMake patch version")
-    version_group.add_argument(
-        "--cmake-minor-patch-version",
-        metavar="MINOR_PATCH",
-        default="default",
-        help="the CMake minor patch version")
     version_group.add_argument(
         "--cmake-version",
         metavar="MAJOR.MINOR.PATCH(.MINOR_PATCH)",
-        default="default",
-        help="the CMake version. Overrides the major, minor, patch, and minor "
-             "patch settings if set")
+        default=PRODUCT_CONFIG.cmake.version,
+        help="the CMake version")
     version_group.add_argument(
         "--ninja-version",
         metavar="MAJOR.MINOR.PATCH",
-        default="default",
+        default=PRODUCT_CONFIG.ninja.version,
         help="the Ninja version")
     version_group.add_argument(
         "--catch-version",
         metavar="MAJOR.MINOR.PATCH",
-        default="default",
+        default=PRODUCT_CONFIG.catch.version,
         help="the Catch version")
     version_group.add_argument(
         "--sdl-version",
         metavar="MAJOR.MINOR.PATCH",
-        default="default",
+        default=PRODUCT_CONFIG.sdl.version,
         help="the SDL version")
     version_group.add_argument(
         "--glfw-version",
         metavar="MAJOR.MINOR.PATCH",
-        default="default",
+        default=PRODUCT_CONFIG.glfw.version,
         help="the GLFW version")
     version_group.add_argument(
         "--spdlog-version",
         metavar="MAJOR.MINOR.PATCH",
-        default="default",
+        default=PRODUCT_CONFIG.spdlog.version,
         help="the spdlog version")
     version_group.add_argument(
         "--cat-version",
         metavar="MAJOR.MINOR",
-        default="default",
+        default=PRODUCT_CONFIG.cat.version,
         help="the cat library version")
 
     return parser
@@ -626,11 +607,6 @@ def system_options(parser):
 
     parser -- the parser to which the the options are added.
     """
-    parser.add_argument(
-        "--build-config",
-        default=os.path.join(SCRIPT_DIR, "anthem-config.json"),
-        metavar='PATH',
-        help="the build configuration file to use")
 
     parser.add_argument(
         "--build-subdir",

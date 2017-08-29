@@ -12,9 +12,10 @@ The support module containing the configuration of the build.
 """
 
 
-from build_support.mapping import Mapping
+__all__ = ["PRODUCT_CONFIG"]
 
-from build_support.products.llvm import llvm_subproducts
+
+from build_support.mapping import Mapping
 
 from build_support.products.product_config import \
     product_config, version_config, github_config, asset, SOURCE_ASSET, \
@@ -31,13 +32,17 @@ PRODUCT_CONFIG = Mapping(
     # format: {protocol}://releases.llvm.org/{version}/{id}-{version}.src.tar.xz
     llvm=product_config(
         version="4.0.1",
-        extra_data=llvm_subproducts("llvm", "libcxx", clang="cfe")
+        subproducts=Mapping(llvm="llvm", libcxx="libcxx", clang="cfe"),
+
+        # The version which is used when the version option of LLVM is set to
+        # 'git'.
+        git_version="6.0.0svn"
     ),
 
-    # default mirror: nl.mirror.babylon.network/gcc
     # format: {protocol}://{mirror}/releases/gcc-{version}/gcc-{version}.tar.{extension}
     gcc=product_config(
-        version="6.4.0"
+        version="6.4.0",
+        default_mirror="nl.mirror.babylon.network/gcc"
     ),
 
     # format: {protocol}://cmake.org/files/v{major_minor}/cmake-{version}-{platform}.{extension}

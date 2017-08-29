@@ -13,7 +13,8 @@ arguments.
 """
 
 
-import json
+from .config import PRODUCT_CONFIG
+from .products.product_config import version_config
 
 
 def fix_main_tool(args):
@@ -160,11 +161,7 @@ def main_args(args):
     def _gcc_mirror():
         # Set the default GCC mirror.
         if args.gcc_mirror == "default":
-            with open(args.build_config) as json_file:
-                config = json.load(json_file)
-
-            asset_node = config["dependencies"]["gcc"]["asset"]
-            args.gcc_mirror = asset_node["default_mirror"]
+            args.gcc_mirror = PRODUCT_CONFIG.gcc.default_mirror
 
     def _shared_builds():
         if args.disable_shared_builds:
@@ -238,141 +235,23 @@ def cxx_std(args):
         args.stdlib_set = True
 
 
-def add_version_info(args, name, dependencies):
-    """
-    Add version information to the arguments.
-    """
-    if getattr(args, "{}_version".format(name)) == "default":
-        node = dependencies[name]
-        setattr(args, "{}_version".format(name), node["default_version"])
-
-    # TODO This might be unnecessary:
-    # args.version_info["gcc"] = args.gcc_version
-
-
 def default_versions(args):
-    def _llvm():
-        if args.llvm_version == "default":
-            llvm_node = dependencies["llvm"]
-            args.llvm_version = llvm_node["default_version"]
+    """
+    Apply the default version argument values to the arguments.
 
-            if args.llvm_version == "git":
-                args.llvm_version = "6.0.0svn"
+    args -- the command line argument dictionary.
+    """
 
-        args.version_info["llvm"] = args.llvm_version
+    if args.llvm_version == "git":
+        args.llvm_version = PRODUCT_CONFIG.llvm.git_version
 
-    def _gcc():
-        if args.gcc_version == "default":
-            gcc_node = dependencies["gcc"]
-            args.gcc_version = gcc_node["default_version"]
+    args.cmake_version_mapping = version_config(
+        major=int(args.cmake_version.split(".")[0]),
+        minor=int(args.cmake_version.split(".")[1]),
+        patch=int(args.cmake_version.split(".")[2])
+    )
 
-        args.version_info["gcc"] = args.gcc_version
-
-    def _cmake():
-        def _version_branches():
-            if args.cmake_major_version == "default":
-                args.cmake_major_version = \
-                    int(cmake_node["default_version"]["major"])
-
-            if args.cmake_minor_version == "default":
-                args.cmake_minor_version = \
-                    int(cmake_node["default_version"]["minor"])
-
-            if args.cmake_patch_version == "default":
-                args.cmake_patch_version = \
-                    int(cmake_node["default_version"]["patch"])
-
-            if args.cmake_minor_patch_version == "default":
-                if "minor_patch" in cmake_node["default_version"]:
-                    try:
-                        minor_patch = \
-                            int(cmake_node["default_version"]["minor_patch"])
-
-                        if minor_patch == 0:
-                            args.cmake_minor_patch_version = None
-                        else:
-                            args.cmake_minor_patch_version = minor_patch
-                    except ValueError:
-                        args.cmake_minor_patch_version = None
-
-        cmake_node = dependencies["cmake"]
-
-        if args.cmake_version == "default":
-            _version_branches()
-
-            if args.cmake_minor_patch_version is None:
-                args.cmake_version = "{}.{}.{}".format(
-                    args.cmake_major_version,
-                    args.cmake_minor_version,
-                    args.cmake_patch_version)
-            else:
-                args.cmake_version = "{}.{}.{}.{}".format(
-                    args.cmake_major_version,
-                    args.cmake_minor_version,
-                    args.cmake_patch_version,
-                    args.cmake_minor_patch_version)
-        else:
-            if len(args.cmake_version.split(".")) == 3:
-                args.cmake_major_version = \
-                    int(args.cmake_version.split(".")[0])
-                args.cmake_minor_version = \
-                    int(args.cmake_version.split(".")[1])
-                args.cmake_patch_version = \
-                    int(args.cmake_version.split(".")[2])
-            elif len(args.cmake_version.split(".")) == 4:
-                args.cmake_major_version = \
-                    int(args.cmake_version.split(".")[0])
-                args.cmake_minor_version = \
-                    int(args.cmake_version.split(".")[1])
-                args.cmake_patch_version = \
-                    int(args.cmake_version.split(".")[2])
-                args.cmake_minor_patch_version = \
-                    int(args.cmake_version.split(".")[3])
-
-        args.version_info["cmake"] = args.cmake_version
-
-        args.version_info["cmake_info"] = {
-            "major": args.cmake_major_version,
-            "minor": args.cmake_minor_version,
-            "patch": args.cmake_patch_version
-        }
-
-    def _ninja():
-        if args.ninja_version == "default":
-            ninja_node = dependencies["ninja"]
-            args.ninja_version = ninja_node["default_version"]
-
-        args.version_info["ninja"] = args.ninja_version
-
-    def _catch():
-        if args.catch_version == "default":
-            catch_node = dependencies["catch"]
-            args.catch_version = catch_node["default_version"]
-
-        args.version_info["catch"] = args.catch_version
-
-    with open(args.build_config) as json_file:
-        config = json.load(json_file)
-
-    if args.anthem_version == "default":
-        args.anthem_version = config["version"]
-
-    args.version_info["anthem"] = args.anthem_version
-
-    dependencies = config["dependencies"]
-
-    add_version_info(args, "llvm", dependencies)
-    add_version_info(args, "gcc", dependencies)
-    add_version_info(args, "cmake", dependencies)
-    add_version_info(args, "ninja", dependencies)
-    add_version_info(args, "catch", dependencies)
-    add_version_info(args, "sdl", dependencies)
-    add_version_info(args, "glfw", dependencies)
-    add_version_info(args, "spdlog", dependencies)
-    add_version_info(args, "cat", dependencies)
-
-    _llvm()
-    _gcc()
-    _cmake()
-    _ninja()
-    _catch()
+    if len(args.cmake_version.split(".")) == 4:
+        args.cmake_version_mapping.patch_minor = int(
+            args.cmake_version.split(".")[3]
+        )

@@ -28,13 +28,12 @@ def set_up(parser):
     diagnostics.note(
         "The main tool version is set to {}".format(args.main_tool_version))
 
-    # Fix the main tool if it is set to 'clang'.
     defaults.fix_main_tool(args)
 
-    # Apply the default arguments.
     defaults.main_args(args)
 
-    # Apply the default C++ standard arguments.
     defaults.cxx_std(args)
+
+    defaults.default_versions(args)
 
     return args
