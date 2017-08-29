@@ -22,6 +22,9 @@ import time
 from . import defaults, diagnostics, migration, shell
 
 from .mapping import Mapping
+
+from .toolchain import host_toolchain
+
 from .variables import ANTHEM_BUILD_ROOT, ANTHEM_SOURCE_ROOT
 
 
@@ -141,5 +144,9 @@ def set_up(parser):
     shell.makedirs(build_data.build_root)
     shell.makedirs(build_data.shared_build_root)
     shell.makedirs(build_data.install_root)
+
+    os.environ["TOOLCHAINS"] = args.darwin_xcrun_toolchain
+    build_data.toolchain = host_toolchain(
+        args=args, xcrun_toolchain=args.darwin_xcrun_toolchain)
 
     return args

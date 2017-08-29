@@ -24,6 +24,9 @@ import sys
 from . import diagnostics
 
 
+DEVNULL = getattr(subprocess, "DEVNULL", subprocess.PIPE)
+
+
 DRY_RUN = False
 
 
@@ -119,6 +122,52 @@ def call(command, stderr=None, env=None, dry_run=None, echo=True):
         diagnostics.fatal(
             "could not execute '" + quote_command(command)
             + "': " + err.strerror)
+
+
+def capture(command, stderr=None, env=None, dry_run=None, echo=True,
+            optional=False, allow_non_zero_exit=False):
+    """
+    Execute the given command and return the standard output.
+
+    This function will raise an exception on any command failure.
+
+    command -- the command to be run.
+    stderr -- stderr to be passed to the subprocess.
+    env -- custom environment variables of the command.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    optional -- TODO
+    allow_non_zero_exit -- TODO
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        echo_command(dry_run, command, env=env)
+    if dry_run:
+        return
+
+    _env = None
+
+    if env is not None:
+        _env = dict(os.environ)
+        _env.update(env)
+    try:
+        out = subprocess.check_output(command, env=_env, stderr=stderr)
+        # Coerce to 'str' hack. Not py3 'byte', not py2 'unicode'.
+        return str(out.decode())
+    except subprocess.CalledProcessError as err:
+        if allow_non_zero_exit:
+            return err.output
+        if optional:
+            return None
+        diagnostics.fatal(
+            "command terminated with a non-zero exit status {}, "
+            "aborting".format(str(err.returncode)))
+    except OSError as err:
+        if optional:
+            return None
+        diagnostics.fatal(
+            "could not execute '{}': {}".format(
+                quote_command(command), str(err.strerror)))
 
 
 def makedirs(path, dry_run=None, echo=True):
