@@ -29,19 +29,27 @@ ANTHEM_PRODUCT = mapping.Mapping(
 PRODUCT_CONFIG = mapping.Mapping(
     anthem=ANTHEM_PRODUCT,
 
+    # Git format: http://llvm.org/git/{project}
+    # format: {protocol}://releases.llvm.org/{version}/{id}-{version}.src.tar.xz
     llvm=product_config(
         version="4.0.1",
         extra_data=llvm_subproducts("llvm", "libcxx", clang="cfe")
     ),
 
-    # TODO: Should GCC be added?
+    # default mirror: nl.mirror.babylon.network/gcc
+    # format: {protocol}://{mirror}/releases/gcc-{version}/gcc-{version}.tar.{extension}
+    gcc=product_config(
+        version="6.4.0"
+    ),
 
     # format: {protocol}://cmake.org/files/v{major_minor}/cmake-{version}-{platform}.{extension}
-    cmake=product_config(version=version_config(
-        major=3,
-        minor=9,
-        patch=1
-    )),
+    cmake=product_config(
+        version=version_config(
+            major=3,
+            minor=9,
+            patch=1
+        )
+    ),
 
     ninja=product_config(
         version="1.7.2",
