@@ -14,7 +14,12 @@ arguments.
 
 
 from .config import PRODUCT_CONFIG
+
 from .products.product_config import version_config
+
+from .workspace import \
+    compute_build_subdir, compute_install_prefix, \
+    compute_shared_build_subdir, compute_shared_install_prefix
 
 
 def fix_main_tool(args):
@@ -234,6 +239,9 @@ def cxx_std(args):
     else:
         args.stdlib_set = True
 
+    if args.std == "latest":
+        args.std = "c++latest"
+
 
 def default_versions(args):
     """
@@ -255,3 +263,31 @@ def default_versions(args):
         args.cmake_version_mapping.patch_minor = int(
             args.cmake_version.split(".")[3]
         )
+
+
+def file_arguments(args):
+    # Set the build subdirectory.
+    if args.build_subdir is None:
+        args.build_subdir = compute_build_subdir(args)
+
+    # Set the shared build subdirectory.
+    if not args.share_builds:
+        args.shared_build_subdir = args.build_subdir
+    else:
+        if args.shared_build_subdir is None:
+            args.shared_build_subdir = compute_shared_build_subdir(args)
+
+    # Set the installation subdirectory.
+    if args.install_prefix is None:
+        if not args.share_builds:
+            args.install_prefix = compute_install_prefix(args)
+        else:
+            args.install_prefix = compute_shared_install_prefix(args)
+
+    # Set the executable name.
+    if args.executable_name is None:
+        args.executable_name = "unsung-anthem-{}".format(args.host_target)
+
+    # Set the test executable name.
+    if args.test_executable_name is None:
+        args.test_executable_name = "test-{}".format(args.executable_name)
