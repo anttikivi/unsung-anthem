@@ -17,6 +17,7 @@ from __future__ import print_function
 import os
 import pipes
 import platform
+import shutil
 import subprocess
 import sys
 
@@ -79,7 +80,7 @@ def echo_command(dry_run, command, env=None, prompt="+ ", separate_env=False):
 
     output_file = sys.stdout if dry_run else sys.stderr
     print(prompt + " ".join(output), file=output_file)
-    file.flush()
+    output_file.flush()
     return command
 
 
@@ -118,6 +119,41 @@ def call(command, stderr=None, env=None, dry_run=None, echo=True):
         diagnostics.fatal(
             "could not execute '" + quote_command(command)
             + "': " + err.strerror)
+
+
+def makedirs(path, dry_run=None, echo=True):
+    """
+    Create a directory recursively.
+
+    path -- the directory to create.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        echo_command(dry_run, ['mkdir', '-p', path])
+    if dry_run:
+        return
+    if not os.path.isdir(path):
+        os.makedirs(path)
+
+
+def rmtree(path, dry_run=None, echo=True, ignore_errors=False):
+    """
+    Remove a directory.
+
+    path -- path to the directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    ignore_errors -- whether or not errors should be ignored.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        echo_command(dry_run, ['rm', '-rf', path])
+    if dry_run:
+        return
+    if os.path.exists(path):
+        shutil.rmtree(path, ignore_errors=ignore_errors)
 
 
 def call_without_sleeping(command, env=None, dry_run=False, echo=False):

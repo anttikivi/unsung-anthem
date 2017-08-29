@@ -291,3 +291,30 @@ def file_arguments(args):
     # Set the test executable name.
     if args.test_executable_name is None:
         args.test_executable_name = "test-{}".format(args.executable_name)
+
+
+def skip_repositories(args, toolchain):
+    if not args.build_llvm:
+        if not args.build_libcxx:
+            args.skip_repository_list += ["llvm"]
+        else:
+            args.skip_repository_list += ["llvm-clang"]
+            args.skip_repository_list += ["llvm-llvm"]
+
+    if not args.build_gcc:
+        args.skip_repository_list += ["gcc"]
+
+    if not args.build_cmake and toolchain.cmake is not None:
+        args.skip_repository_list += ["cmake"]
+
+    if not args.build_ninja and toolchain.ninja is not None:
+        args.skip_repository_list += ["ninja"]
+
+    if not args.build_test:
+        args.skip_repository_list += ["catch"]
+
+    if not args.sdl:
+        args.skip_repository_list += ["sdl"]
+
+    if not args.glfw:
+        args.skip_repository_list += ["glfw"]

@@ -15,9 +15,14 @@ invocation.
 
 from __future__ import print_function
 
+import os
 import sys
+import time
 
 from . import defaults, diagnostics, migration, shell
+
+from .mapping import Mapping
+from .variables import ANTHEM_BUILD_ROOT, ANTHEM_SOURCE_ROOT
 
 
 def exit_rejecting_arguments(message, parser=None):
@@ -81,10 +86,32 @@ def validate_arguments(args):
             "Both SDL and GLFW cannot be used at the same time")
 
 
+def clean_delay():
+    """
+    Provide a short delay so accidentally invoked clean builds can be
+    cancelled.
+    """
+    def _impl_write(index):
+        sys.stdout.write(
+            diagnostics.WARNING + "\b{!s}".format(index) + diagnostics.ENDC)
+        sys.stdout.flush()
+        time.sleep(1)
+        return index
+
+    sys.stdout.write(
+        diagnostics.WARNING + "Starting a clean build in  "
+        + diagnostics.ENDC)
+
+    index_list = [_impl_write(i) for i in reversed(range(0, 4))]
+
+    print(diagnostics.WARNING + "\b\b\b\bnow." + diagnostics.ENDC)
+
+    return index_list
+
+
 def set_up(parser):
     args = migration.parse_args(parser, sys.argv[1:])
 
-    # Set the dry run setting of the shell utilities.
     shell.DRY_RUN = args.dry_run
 
     diagnostics.note("The main tool is set to {}".format(args.main_tool))
@@ -98,5 +125,21 @@ def set_up(parser):
     defaults.file_arguments(args)
 
     validate_arguments(args)
+
+    build_data = Mapping(
+        source_root=ANTHEM_SOURCE_ROOT,
+        build_root=os.path.join(ANTHEM_BUILD_ROOT, args.build_subdir),
+        shared_build_root=os.path.join(
+            ANTHEM_BUILD_ROOT, args.shared_build_subdir),
+        install_root=os.path.join(ANTHEM_BUILD_ROOT, args.install_prefix))
+
+    if args.clean:
+        clean_delay()
+        shell.rmtree(path=build_data.build_root)
+        shell.rmtree(path=build_data.shared_build_root, ignore_errors=True)
+
+    shell.makedirs(build_data.build_root)
+    shell.makedirs(build_data.shared_build_root)
+    shell.makedirs(build_data.install_root)
 
     return args

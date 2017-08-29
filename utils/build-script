@@ -23,7 +23,6 @@ from __future__ import print_function
 
 import os
 import sys
-import time
 
 from build_support import diagnostics, invocation, script, shell
 
@@ -38,36 +37,11 @@ def initialize_runtime_environment():
     Change the program environment for building.
     """
 
-    # Set an appropriate default umask.
     os.umask(0o022)
 
     # Unset environment variables that might affect how tools behave.
     for flag in ["MAKEFLAGS"]:
         os.environ.pop(flag, None)
-
-
-def clean_delay():
-    """
-    Provide a short delay so accidentally invoked clean builds can be
-    cancelled.
-    """
-    def _impl_write(index):
-        sys.stdout.write(
-            diagnostics.WARNING + "\b{!s}".format(index) + diagnostics.ENDC)
-        sys.stdout.flush()
-        time.sleep(1)
-        return index
-
-    sys.stdout.write(
-        diagnostics.WARNING + "Starting a clean build in  "
-        + diagnostics.ENDC)
-
-    # index_list = [_impl_write(i) for i in range(3, 0, -1)]
-    index_list = [_impl_write(i) for i in reversed(range(0, 3))]
-
-    print(diagnostics.WARNING + "\b\b\b\bnow." + diagnostics.ENDC)
-
-    return index_list
 
 
 def main_preset():
@@ -113,7 +87,7 @@ def main_normal():
     parser = script.create_parser()
 
     # Set the arguments and set up the environment.
-    args = invocation.set_up(parser)
+    build_data = invocation.set_up(parser)
 
     return 0
 
