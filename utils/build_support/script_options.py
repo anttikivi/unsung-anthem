@@ -13,15 +13,12 @@ The support module containing the script options.
 
 
 import multiprocessing
-import os
 
 from . import arguments
 
 from .config import PRODUCT_CONFIG
 
 from .targets import host_target
-
-from .variables import SCRIPT_DIR
 
 
 def script_options(parser):
