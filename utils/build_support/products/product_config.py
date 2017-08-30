@@ -29,16 +29,20 @@ def anthem_config(version):
             name="Unsung Anthem", identifier="anthem"))
 
 
-def product_config(version, identifier, name, github_data=None, **kwargs):
+def product_config(version, identifier, name, allow_git_checkout=False,
+                   version_format=None, github_data=None, **kwargs):
     """
     Create a mapping of the configuration of a product.
 
     version -- the version of the product.
     name -- the display name of the product.
+    allow_git_checkout -- whether or not the product supports the version to be
+    set to 'git'.
+    version_format -- custom version format for the metavariable in the command
+    line options.
     github_data -- the data with which the product is fetched. If the GitHub
     data are not provided, a function in module with the name of the dependency
     in the products is used to download the product.
-    extra_data -- extra data for the fetching and building of the product.
     """
 
     result = dict(**kwargs)
@@ -55,6 +59,11 @@ def product_config(version, identifier, name, github_data=None, **kwargs):
         result["version_mapping"] = version
     else:
         result["version"] = version
+
+    result["allow_git_checkout"] = allow_git_checkout
+
+    if version_format:
+        result["version_format"] = version_format
 
     if github_data:
         result["github_data"] = github_data

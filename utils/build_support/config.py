@@ -41,6 +41,7 @@ PRODUCT_CONFIG = Mapping(
         version="4.0.1",
         name="LLVM",
         identifier="llvm",
+        allow_git_checkout=True,
         subproducts=Mapping(llvm="llvm", libcxx="libcxx", clang="cfe"),
         checkout_check=llvm.checkout_check,
 
@@ -52,7 +53,7 @@ PRODUCT_CONFIG = Mapping(
     # format: {protocol}://{mirror}/releases/gcc-{version}/gcc-{version}.tar.{extension}
     gcc=product_config(
         version="6.4.0",
-        name="GCC",
+        name="GNU Compiler Collection",
         identifier="gcc",
         default_mirror="nl.mirror.babylon.network/gcc"
     ),
@@ -66,12 +67,14 @@ PRODUCT_CONFIG = Mapping(
         ),
         name="CMake",
         identifier="cmake",
+        version_format="MAJOR.MINOR.PATCH(.MINOR_PATCH)"
     ),
 
     ninja=product_config(
         version="1.7.2",
         name="Ninja",
         identifier="ninja",
+        allow_git_checkout=True,
         github_data=github_config(
             owner="ninja-build",
             name="ninja",
@@ -91,6 +94,7 @@ PRODUCT_CONFIG = Mapping(
         version="1.9.5",
         name="Catch",
         identifier="catch",
+        allow_git_checkout=True,
         github_data=github_config(
             owner="philsquared",
             name="Catch",
@@ -104,12 +108,15 @@ PRODUCT_CONFIG = Mapping(
     sdl=product_config(
         version="2.0.5",
         name="SDL2",
-        identifier="sdl"),
+        identifier="sdl",
+        allow_git_checkout=True
+    ),
 
     glfw=product_config(
         version="3.2.1",
         name="GLFW3",
         identifier="glfw",
+        allow_git_checkout=True,
         github_data=github_config(
             owner="glfw",
             name="glfw",
@@ -127,6 +134,7 @@ PRODUCT_CONFIG = Mapping(
         version="0.13.0",
         name="spdlog",
         identifier="spdlog",
+        allow_git_checkout=True,
         github_data=github_config(
             owner="gabime",
             name="spdlog",
@@ -139,6 +147,8 @@ PRODUCT_CONFIG = Mapping(
         version="1.3",
         name="cat",
         identifier="cat",
+        allow_git_checkout=True,
+        version_format="MAJOR.MINOR",
         github_data=github_config(
             owner="awgn",
             name="cat",

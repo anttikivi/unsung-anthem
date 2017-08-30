@@ -544,63 +544,26 @@ def version_options(parser):
     """
     version_group = parser.add_argument_group(
         title="Dependency and project version information")
-    version_group.add_argument(
-        "--anthem-version",
-        metavar="MAJOR.MINOR.PATCH",
-        default=PRODUCT_CONFIG.anthem.version,
-        help="the Unsung Anthem version")
-    version_group.add_argument(
-        "--llvm-version",
-        metavar="MAJOR.MINOR.PATCH",
-        default=PRODUCT_CONFIG.llvm.version,
-        help="the LLVM version. If the version is set to 'git', the latest "
-             "commit of LLVM is used")
-    version_group.add_argument(
-        "--gcc-version",
-        metavar="MAJOR.MINOR.PATCH",
-        default=PRODUCT_CONFIG.gcc.version,
-        help="the GNU Compiler Collection version")
-    version_group.add_argument(
-        "--cmake-version",
-        metavar="MAJOR.MINOR.PATCH(.MINOR_PATCH)",
-        default=PRODUCT_CONFIG.cmake.version,
-        help="the CMake version")
-    version_group.add_argument(
-        "--ninja-version",
-        metavar="MAJOR.MINOR.PATCH",
-        default=PRODUCT_CONFIG.ninja.version,
-        help="the Ninja version. If the version is set to 'git', the latest "
-             "commit of ninja is used")
-    version_group.add_argument(
-        "--catch-version",
-        metavar="MAJOR.MINOR.PATCH",
-        default=PRODUCT_CONFIG.catch.version,
-        help="the Catch version. If the version is set to 'git', the latest "
-             "commit of Catch is used")
-    version_group.add_argument(
-        "--sdl-version",
-        metavar="MAJOR.MINOR.PATCH",
-        default=PRODUCT_CONFIG.sdl.version,
-        help="the SDL version. If the version is set to 'git', the latest "
-             "commit of SDL is used")
-    version_group.add_argument(
-        "--glfw-version",
-        metavar="MAJOR.MINOR.PATCH",
-        default=PRODUCT_CONFIG.glfw.version,
-        help="the GLFW version. If the version is set to 'git', the latest "
-             "commit of GLFW is used")
-    version_group.add_argument(
-        "--spdlog-version",
-        metavar="MAJOR.MINOR.PATCH",
-        default=PRODUCT_CONFIG.spdlog.version,
-        help="the spdlog version. If the version is set to 'git', the latest "
-             "commit of spdlog is used")
-    version_group.add_argument(
-        "--cat-version",
-        metavar="MAJOR.MINOR",
-        default=PRODUCT_CONFIG.cat.version,
-        help="the cat library version. If the version is set to 'git', the "
-             "latest commit of cat is used")
+
+    for key in PRODUCT_CONFIG.keys():
+        product = PRODUCT_CONFIG[key]
+        if "version_format" in product:
+            metavar = str(product.version_format)
+        else:
+            metavar = "MAJOR.MINOR.PATCH"
+        base_message = "the {} version".format(product.name)
+        if product.allow_git_checkout:
+            message = \
+                "{base}. If the version is set to 'git', the latest commit " \
+                "of {name} is used".format(
+                    base=base_message, name=product.name)
+        else:
+            message = base_message
+        version_group.add_argument(
+            "--{}-version".format(key),
+            metavar=metavar,
+            default=PRODUCT_CONFIG[key].version,
+            help=message)
 
     return parser
 
