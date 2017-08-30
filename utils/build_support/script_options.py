@@ -553,7 +553,8 @@ def version_options(parser):
         "--llvm-version",
         metavar="MAJOR.MINOR.PATCH",
         default=PRODUCT_CONFIG.llvm.version,
-        help="the LLVM version")
+        help="the LLVM version. If the version is set to 'git', the latest "
+             "commit of LLVM is used")
     version_group.add_argument(
         "--gcc-version",
         metavar="MAJOR.MINOR.PATCH",
@@ -568,32 +569,38 @@ def version_options(parser):
         "--ninja-version",
         metavar="MAJOR.MINOR.PATCH",
         default=PRODUCT_CONFIG.ninja.version,
-        help="the Ninja version")
+        help="the Ninja version. If the version is set to 'git', the latest "
+             "commit of ninja is used")
     version_group.add_argument(
         "--catch-version",
         metavar="MAJOR.MINOR.PATCH",
         default=PRODUCT_CONFIG.catch.version,
-        help="the Catch version")
+        help="the Catch version. If the version is set to 'git', the latest "
+             "commit of Catch is used")
     version_group.add_argument(
         "--sdl-version",
         metavar="MAJOR.MINOR.PATCH",
         default=PRODUCT_CONFIG.sdl.version,
-        help="the SDL version")
+        help="the SDL version. If the version is set to 'git', the latest "
+             "commit of SDL is used")
     version_group.add_argument(
         "--glfw-version",
         metavar="MAJOR.MINOR.PATCH",
         default=PRODUCT_CONFIG.glfw.version,
-        help="the GLFW version")
+        help="the GLFW version. If the version is set to 'git', the latest "
+             "commit of GLFW is used")
     version_group.add_argument(
         "--spdlog-version",
         metavar="MAJOR.MINOR.PATCH",
         default=PRODUCT_CONFIG.spdlog.version,
-        help="the spdlog version")
+        help="the spdlog version. If the version is set to 'git', the latest "
+             "commit of spdlog is used")
     version_group.add_argument(
         "--cat-version",
         metavar="MAJOR.MINOR",
         default=PRODUCT_CONFIG.cat.version,
-        help="the cat library version")
+        help="the cat library version. If the version is set to 'git', the "
+             "latest commit of cat is used")
 
     return parser
 
