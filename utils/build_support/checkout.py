@@ -25,6 +25,15 @@ VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, "versions")
 def get_product(build_data, key, versions):
     """
     """
+    product = build_data.products[key]
+    if product.github_data:
+        diagnostics.debug(
+            "{} is a GitHub project and it will be downloaded from "
+            "GitHub".format(product.repr))
+    else:
+        diagnostics.debug(
+            "GitHub data is not found from {} and, thus, a custom function "
+            "is used to download it".format(product.repr))
 
 
 def update(build_data):

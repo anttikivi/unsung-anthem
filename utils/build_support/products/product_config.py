@@ -61,13 +61,8 @@ def product_config(version, identifier, name, allow_git_checkout=False,
         result["version"] = version
 
     result["allow_git_checkout"] = allow_git_checkout
-
-    if version_format:
-        result["version_format"] = version_format
-
-    if github_data:
-        result["github_data"] = github_data
-
+    result["version_format"] = version_format
+    result["github_data"] = github_data
     result["name"] = name
     if name == identifier:
         result["repr"] = "{name}".format(name=name)

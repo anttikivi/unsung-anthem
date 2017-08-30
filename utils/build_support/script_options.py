@@ -547,7 +547,7 @@ def version_options(parser):
 
     for key in PRODUCT_CONFIG.keys():
         product = PRODUCT_CONFIG[key]
-        if "version_format" in product:
+        if product.version_format:
             metavar = str(product.version_format)
         else:
             metavar = "MAJOR.MINOR.PATCH"
