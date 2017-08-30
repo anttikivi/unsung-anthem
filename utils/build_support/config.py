@@ -12,17 +12,24 @@ The support module containing the configuration of the build.
 """
 
 
+from . import diagnostics
+
+from .mapping import Mapping
+
+from .products import llvm
+
+from .products.product_config import \
+    anthem_config, product_config, version_config, github_config, asset, \
+    SOURCE_ASSET, platform_specific_asset, platform_file_config
+
+
 __all__ = ["PRODUCT_CONFIG"]
 
 
-from build_support.mapping import Mapping
-
-from build_support.products.product_config import \
-    product_config, version_config, github_config, asset, SOURCE_ASSET, \
-    platform_specific_asset, platform_file_config
+PROTOCOL = "https"
 
 
-ANTHEM_PRODUCT = Mapping(version="0.1.0-dev.1")
+ANTHEM_PRODUCT = anthem_config(version="0.1.0-dev.1")
 
 
 PRODUCT_CONFIG = Mapping(
@@ -32,7 +39,10 @@ PRODUCT_CONFIG = Mapping(
     # format: {protocol}://releases.llvm.org/{version}/{id}-{version}.src.tar.xz
     llvm=product_config(
         version="4.0.1",
+        name="LLVM",
+        identifier="llvm",
         subproducts=Mapping(llvm="llvm", libcxx="libcxx", clang="cfe"),
+        checkout_check=llvm.checkout_check,
 
         # The version which is used when the version option of LLVM is set to
         # 'git'.
@@ -42,6 +52,8 @@ PRODUCT_CONFIG = Mapping(
     # format: {protocol}://{mirror}/releases/gcc-{version}/gcc-{version}.tar.{extension}
     gcc=product_config(
         version="6.4.0",
+        name="GCC",
+        identifier="gcc",
         default_mirror="nl.mirror.babylon.network/gcc"
     ),
 
@@ -51,11 +63,15 @@ PRODUCT_CONFIG = Mapping(
             major=3,
             minor=9,
             patch=1
-        )
+        ),
+        name="CMake",
+        identifier="cmake",
     ),
 
     ninja=product_config(
         version="1.7.2",
+        name="Ninja",
+        identifier="ninja",
         github_data=github_config(
             owner="ninja-build",
             name="ninja",
@@ -73,6 +89,8 @@ PRODUCT_CONFIG = Mapping(
 
     catch=product_config(
         version="1.9.5",
+        name="Catch",
+        identifier="catch",
         github_data=github_config(
             owner="philsquared",
             name="Catch",
@@ -83,10 +101,15 @@ PRODUCT_CONFIG = Mapping(
 
     # format: "{protocol}://www.libsdl.org/release/SDL2-{version}.{extension}"
     # Windows: "{protocol}://www.libsdl.org/release/SDL2-devel-{version}-{type}.{extension}"
-    sdl=product_config(version="2.0.5"),
+    sdl=product_config(
+        version="2.0.5",
+        name="SDL2",
+        identifier="sdl"),
 
     glfw=product_config(
         version="3.2.1",
+        name="GLFW3",
+        identifier="glfw",
         github_data=github_config(
             owner="glfw",
             name="glfw",
@@ -102,6 +125,8 @@ PRODUCT_CONFIG = Mapping(
 
     spdlog=product_config(
         version="0.13.0",
+        name="spdlog",
+        identifier="spdlog",
         github_data=github_config(
             owner="gabime",
             name="spdlog",
@@ -112,6 +137,8 @@ PRODUCT_CONFIG = Mapping(
 
     cat=product_config(
         version="1.3",
+        name="cat",
+        identifier="cat",
         github_data=github_config(
             owner="awgn",
             name="cat",
@@ -120,3 +147,22 @@ PRODUCT_CONFIG = Mapping(
         )
     )
 )
+
+
+def apply_versions(build_data):
+    """
+    """
+    for product in build_data.products.keys():
+        build_data.products[product].version = getattr(
+            build_data.args, "{}_version".format(product))
+        diagnostics.debug(
+            "Set the version {version} to the product {product} in build "
+            "data".format(
+                version=build_data.products[product].version,
+                product=product))
+
+    build_data.products.cmake.version_mapping = \
+        build_data.args.cmake_version_mapping
+
+    diagnostics.debug("Set the CMake version mapping to {}".format(
+        build_data.products.cmake.version_mapping))

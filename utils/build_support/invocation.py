@@ -19,7 +19,9 @@ import os
 import sys
 import time
 
-from . import defaults, diagnostics, migration, shell
+from . import checkout, config, defaults, diagnostics, migration, shell
+
+from .config import PRODUCT_CONFIG
 
 from .mapping import Mapping
 
@@ -130,13 +132,17 @@ def set_up(parser):
     validate_arguments(args)
 
     build_data = Mapping(
+        args=args,
         source_root=ANTHEM_SOURCE_ROOT,
         build_root=os.path.join(ANTHEM_BUILD_ROOT, args.build_subdir),
         shared_build_root=os.path.join(
             ANTHEM_BUILD_ROOT, args.shared_build_subdir),
-        install_root=os.path.join(ANTHEM_BUILD_ROOT, args.install_prefix))
+        install_root=os.path.join(ANTHEM_BUILD_ROOT, args.install_prefix),
+        products=PRODUCT_CONFIG)
 
-    if args.clean:
+    config.apply_versions(build_data=build_data)
+
+    if build_data.args.clean:
         clean_delay()
         shell.rmtree(path=build_data.build_root)
         shell.rmtree(path=build_data.shared_build_root, ignore_errors=True)
@@ -145,11 +151,15 @@ def set_up(parser):
     shell.makedirs(build_data.shared_build_root)
     shell.makedirs(build_data.install_root)
 
-    os.environ["TOOLCHAINS"] = args.darwin_xcrun_toolchain
+    os.environ["TOOLCHAINS"] = build_data.args.darwin_xcrun_toolchain
     build_data.toolchain = host_toolchain(
-        args=args, xcrun_toolchain=args.darwin_xcrun_toolchain)
+        args=build_data.args,
+        xcrun_toolchain=build_data.args.darwin_xcrun_toolchain)
 
-    set_arguments_to_toolchain(args=args, toolchain=build_data.toolchain)
+    set_arguments_to_toolchain(
+        args=build_data.args, toolchain=build_data.toolchain)
+
+    checkout.update(build_data=build_data)
 
     return build_data
 

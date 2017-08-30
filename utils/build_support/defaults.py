@@ -256,7 +256,8 @@ def default_versions(args):
     args.cmake_version_mapping = version_config(
         major=int(args.cmake_version.split(".")[0]),
         minor=int(args.cmake_version.split(".")[1]),
-        patch=int(args.cmake_version.split(".")[2])
+        patch=int(args.cmake_version.split(".")[2]),
+        patch_minor=0
     )
 
     if len(args.cmake_version.split(".")) == 4:

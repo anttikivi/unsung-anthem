@@ -16,11 +16,25 @@ build.
 from ..mapping import Mapping
 
 
-def product_config(version, github_data=None, **kwargs):
+def anthem_config(version):
+    """
+    Create a mapping of the configuration of Unsng Anthem.
+
+    version -- the version of the product.
+    """
+    return Mapping(
+        version=version,
+        name="Unsung Anthem",
+        repr="{name} ({identifier})".format(
+            name="Unsung Anthem", identifier="anthem"))
+
+
+def product_config(version, identifier, name, github_data=None, **kwargs):
     """
     Create a mapping of the configuration of a product.
 
     version -- the version of the product.
+    name -- the display name of the product.
     github_data -- the data with which the product is fetched. If the GitHub
     data are not provided, a function in module with the name of the dependency
     in the products is used to download the product.
@@ -44,6 +58,13 @@ def product_config(version, github_data=None, **kwargs):
 
     if github_data:
         result["github_data"] = github_data
+
+    result["name"] = name
+    if name == identifier:
+        result["repr"] = "{name}".format(name=name)
+    else:
+        result["repr"] = "{name} ({identifier})".format(
+            name=name, identifier=identifier)
 
     return Mapping(result)
 
