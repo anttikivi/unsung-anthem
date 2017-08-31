@@ -21,6 +21,8 @@ import shutil
 import subprocess
 import sys
 
+from contextlib import contextmanager
+
 from . import diagnostics
 
 
@@ -168,6 +170,28 @@ def capture(command, stderr=None, env=None, dry_run=None, echo=True,
         diagnostics.fatal(
             "could not execute '{}': {}".format(
                 quote_command(command), str(err.strerror)))
+
+
+@contextmanager
+def pushd(path, dry_run=None, echo=True):
+    """
+    A context manager that allows operating in a different working directory.
+
+    path -- the new working directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    old_dir = os.getcwd()
+    if dry_run or echo:
+        echo_command(dry_run, ["pushd", path])
+    if not dry_run:
+        os.chdir(path)
+    yield
+    if dry_run or echo:
+        echo_command(dry_run, ["popd"])
+    if not dry_run:
+        os.chdir(old_dir)
 
 
 def makedirs(path, dry_run=None, echo=True):

@@ -15,6 +15,7 @@ invocation.
 
 from __future__ import print_function
 
+import json
 import os
 import sys
 import time
@@ -164,6 +165,9 @@ def set_up(parser):
         build_data["github_token"] = str(os.environ['ANTHEM_OAUTH'])
     else:
         build_data["github_token"] = args.auth_token
+
+    diagnostics.trace("The build data is")
+    diagnostics.trace(str(build_data))
 
     checkout.update(build_data=build_data)
 

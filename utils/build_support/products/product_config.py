@@ -118,7 +118,8 @@ def asset(asset_file):
 
 
 # A simple mapping of the GitHub asset source code configuration of a product.
-SOURCE_ASSET = Mapping(platform_specific=False, source=True)
+SOURCE_ASSET = Mapping(
+    platform_specific=False, source=True, fallback=False, fallback_file=None)
 
 
 def platform_specific_asset(asset_file, platform_files, fallback_file=None):

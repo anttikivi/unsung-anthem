@@ -26,6 +26,19 @@ VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, "versions")
 def simple_asset(build_data, key):
     """
     """
+    product = build_data.products[key]
+    asset = build_data.products[key].github_data.asset
+    if asset.source:
+        diagnostics.trace("Entering the download of a source asset:")
+        diagnostics.trace_head(product.repr)
+        github.download_tag(build_data=build_data, key=key)
+    else:
+        diagnostics.trace("Entering the download of an asset:")
+        diagnostics.trace_head(asset.file)
+        github.download_asset(
+            build_data=build_data,
+            key=key,
+            asset_name=asset.file)
 
 
 def platform_specific_asset(build_data, key):
@@ -49,6 +62,9 @@ def platform_specific_asset(build_data, key):
             build_data=build_data,
             key=key,
             asset_name=asset.fallback_file)
+    else:
+        # TODO
+        diagnostics.warn("TODO")
 
 
 def github_dependency(build_data, key):
@@ -66,6 +82,8 @@ def github_dependency(build_data, key):
 
     if asset.platform_specific:
         platform_specific_asset(build_data=build_data, key=key)
+    else:
+        simple_asset(build_data=build_data, key=key)
 
 
 def get_product(build_data, key, versions):
