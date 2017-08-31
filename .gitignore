@@ -53,3 +53,6 @@ unsung-anthem.xcodeproj
 
 # MS implementation of GSL
 ms_gsl
+
+# GitHub Authorization Token
+token

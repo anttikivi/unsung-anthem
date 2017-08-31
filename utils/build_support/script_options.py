@@ -13,12 +13,15 @@ The support module containing the script options.
 
 
 import multiprocessing
+import os
 
 from . import arguments
 
 from .config import PRODUCT_CONFIG
 
 from .targets import host_target
+
+from .variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
 
 def script_options(parser):
@@ -696,6 +699,27 @@ def program_options(parser):
         "--test-executable-name",
         help="the name of the Unsung Anthem test executable",
         metavar="NAME")
+
+    return parser
+
+
+def authentication_options(parser):
+    """
+    Add authentication-related command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
+    authentication_group = parser.add_mutually_exclusive_group(required=False)
+    authentication_group.add_argument(
+        "--auth-token-file",
+        help="the file which contains the OAuth token which is used to "
+             "access the GitHub API",
+        default=os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "token"),
+        metavar="TOKEN")
+    parser.add_argument(
+        "--auth-token",
+        help="the OAuth token which is used to access the GitHub API",
+        metavar="TOKEN")
 
     return parser
 

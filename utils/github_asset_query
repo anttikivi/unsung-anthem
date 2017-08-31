@@ -1,0 +1,18 @@
+query { 
+  repository(owner:"{REPOSITORY_OWNER}", name:"{REPOSITORY_NAME}") {
+    releases(last:50) {
+      edges {
+        node {
+          name
+          releaseAssets(name:"{ASSET_NAME}", last:10) {
+            edges {
+              node {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

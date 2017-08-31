@@ -128,6 +128,7 @@ def set_up(parser):
     defaults.cxx_std(args)
     defaults.default_versions(args)
     defaults.file_arguments(args)
+    defaults.authorization(args)
 
     validate_arguments(args)
 
@@ -158,6 +159,11 @@ def set_up(parser):
 
     set_arguments_to_toolchain(
         args=build_data.args, toolchain=build_data.toolchain)
+
+    if build_data.args.ci:
+        build_data["github_token"] = str(os.environ['ANTHEM_OAUTH'])
+    else:
+        build_data["github_token"] = args.auth_token
 
     checkout.update(build_data=build_data)
 

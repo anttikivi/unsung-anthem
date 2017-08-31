@@ -68,6 +68,26 @@ def printer(level, colour=None, do_print=True, print_script=False,
     return _printer_decorator
 
 
+@printer(level="trace")
+def trace(message):
+    """
+    Print a trace diagnostic notification to the standard output.
+
+    message -- the message to be printed.
+    """
+    return message
+
+
+@printer(level="trace", colour=ORANGE)
+def trace_head(message):
+    """
+    Print a trace diagnostic notification to the standard output.
+
+    message -- the message to be printed.
+    """
+    return message
+
+
 @printer(level="debug")
 def debug(message):
     """

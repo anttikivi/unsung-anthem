@@ -283,6 +283,7 @@ def create_parser():
     parser = script_options.system_options(parser)
     parser = script_options.msbuild_options(parser)
     parser = script_options.program_options(parser)
+    parser = script_options.authentication_options(parser)
     parser = script_options.miscellaneous_options(parser)
 
     return parser

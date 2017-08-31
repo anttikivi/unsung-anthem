@@ -27,6 +27,7 @@ __all__ = ["PRODUCT_CONFIG"]
 
 
 PROTOCOL = "https"
+GITHUB_API_ENDPOINT = "https://api.github.com/graphql"
 
 
 ANTHEM_PRODUCT = anthem_config(version="0.1.0-dev.1")

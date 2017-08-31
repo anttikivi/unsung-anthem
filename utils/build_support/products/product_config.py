@@ -101,6 +101,8 @@ def github_config(owner, name, asset_data, version_prefix=None):
 
     if version_prefix:
         result.version_prefix = version_prefix
+    else:
+        result.version_prefix = None
 
     return result
 
@@ -138,6 +140,9 @@ def platform_specific_asset(asset_file, platform_files, fallback_file=None):
     if fallback_file:
         result.fallback = True
         result.fallback_file = fallback_file
+    else:
+        result.fallback = False
+        result.fallback_file = None
 
     return result
 

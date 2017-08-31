@@ -319,3 +319,9 @@ def skip_repositories(args, toolchain):
 
     if not args.glfw:
         args.skip_repository_list += ["glfw"]
+
+
+def authorization(args):
+    if not args.auth_token:
+        with open(args.auth_token_file) as token_file:
+            args.auth_token = str(token_file.read())
