@@ -16,7 +16,7 @@ from . import diagnostics
 
 from .mapping import Mapping
 
-from .products import llvm
+from .products import glfw, llvm
 
 from .products.product_config import \
     anthem_config, product_config, version_config, github_config, asset, \
@@ -128,7 +128,8 @@ PRODUCT_CONFIG = Mapping(
                 ),
                 fallback_file="glfw-3.2.1.zip"
             )
-        )
+        ),
+        post_checkout=glfw.move_checkout_files
     ),
 
     spdlog=product_config(

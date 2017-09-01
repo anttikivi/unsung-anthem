@@ -14,16 +14,22 @@ The support module containing the GLFW product helpers.
 
 import os
 
-from .. import shell
+from .. import diagnostics, shell
 
 from ..variables import ANTHEM_SOURCE_ROOT
 
 
 def move_checkout_files(build_data):
     """
+    Move the GLFW files from the default location of the checkout to the
+    correct location.
+
+    build_data -- the build data.
     """
     product = build_data.products.glfw
     version = product.version
+
+    diagnostics.debug("Moving {} files".format(product.repr))
 
     shell.copytree(
         os.path.join(
@@ -34,3 +40,5 @@ def move_checkout_files(build_data):
         os.path.join(ANTHEM_SOURCE_ROOT, "glfw", "temp"),
         os.path.join(ANTHEM_SOURCE_ROOT, "glfw", version))
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "glfw", "temp"))
+
+    diagnostics.debug_ok("Moved {} files".format(product.repr))

@@ -26,8 +26,6 @@ from .config import PRODUCT_CONFIG
 
 from .mapping import Mapping
 
-from .products import glfw
-
 from .toolchain import host_toolchain, set_arguments_to_toolchain
 
 from .variables import ANTHEM_BUILD_ROOT, ANTHEM_SOURCE_ROOT
@@ -172,8 +170,6 @@ def set_up(parser):
     diagnostics.trace(str(build_data))
 
     checkout.update(build_data=build_data)
-
-    glfw.move_checkout_files(build_data=build_data)
 
     return build_data
 

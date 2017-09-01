@@ -114,6 +114,9 @@ def get_product(build_data, key, versions):
             "GitHub data is not found from {} and, thus, a custom function "
             "is used to download it".format(product.repr))
 
+    version = product.version
+    versions[key] = version
+
 
 def update(build_data):
     if os.path.isfile(VERSIONS_FILE):
@@ -156,5 +159,15 @@ def update(build_data):
 
         get_product(build_data=build_data, key=key, versions=versions)
 
+        if "post_checkout" in product and product.post_checkout is not None:
+            product.post_checkout(build_data=build_data)
+
         diagnostics.debug_ok(
             "Checkout update of {} is complete".format(name))
+
+    with open(os.path.join(ANTHEM_SOURCE_ROOT, "versions"), "w") as outfile:
+        json.dump(versions, outfile)
+
+    diagnostics.debug_ok(
+        "Wrote the dependecy version information to {}".format(
+            os.path.join(ANTHEM_SOURCE_ROOT, "versions")))
