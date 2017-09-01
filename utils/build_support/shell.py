@@ -14,6 +14,7 @@ The support module containing shell helpers.
 
 from __future__ import print_function
 
+import distutils
 import os
 import pipes
 import platform
@@ -227,6 +228,42 @@ def rmtree(path, dry_run=None, echo=True, ignore_errors=False):
         return
     if os.path.exists(path):
         shutil.rmtree(path, ignore_errors=ignore_errors)
+
+def copytree(src, dest, dry_run=None, echo=True):
+    """
+    Copy a directory recursively.
+
+    src -- path to the directory.
+    dest -- the destination directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        echo_command(dry_run, ['cp', '-r', src, dest])
+    if dry_run:
+        return
+    if os.path.exists(dest):
+        distutils.dir_util.copy_tree(src, dest)
+    else:
+        shutil.copytree(src, dest)
+
+
+def copy(src, dest, dry_run=None, echo=True):
+    """
+    Copy a file.
+
+    path -- path to the file.
+    dest -- the destination directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        echo_command(dry_run, ['cp', src, dest])
+    if dry_run:
+        return
+    shutil.copy(src, dest)
 
 
 def call_without_sleeping(command, env=None, dry_run=False, echo=False):

@@ -15,6 +15,7 @@ The support module containing the utilities for setting up the checkout.
 import json
 import os
 import platform
+import zipfile
 
 from . import config, diagnostics, github, shell
 
@@ -28,10 +29,15 @@ def simple_asset(build_data, key):
     """
     product = build_data.products[key]
     asset = build_data.products[key].github_data.asset
+    version = product.version
     if asset.source:
         diagnostics.trace("Entering the download of a source asset:")
         diagnostics.trace_head(product.repr)
         github.download_tag(build_data=build_data, key=key)
+        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+        shell.copytree(
+            os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key),
+            os.path.join(ANTHEM_SOURCE_ROOT, key, version))
     else:
         diagnostics.trace("Entering the download of an asset:")
         diagnostics.trace_head(asset.file)
@@ -39,32 +45,38 @@ def simple_asset(build_data, key):
             build_data=build_data,
             key=key,
             asset_name=asset.file)
+        shell.copy(
+            os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", asset.file),
+            os.path.join(ANTHEM_SOURCE_ROOT, key, version, asset.file))
 
 
 def platform_specific_asset(build_data, key):
     """
     """
     asset = build_data.products[key].github_data.asset
+    version = build_data.products[key].version
     if platform.system() in asset.platform_files.keys() \
             and asset.platform_files[platform.system()] is not None:
         diagnostics.trace(
             "Entering the download of a platform-specific asset:")
-        diagnostics.trace_head(asset.platform_files[platform.system()])
-        github.download_asset(
-            build_data=build_data,
-            key=key,
-            asset_name=asset.platform_files[platform.system()])
+        asset_file = asset.platform_files[platform.system()]
     elif asset.fallback:
         diagnostics.trace(
             "Entering the download of a fallback asset:")
-        diagnostics.trace_head(asset.fallback_file)
-        github.download_asset(
-            build_data=build_data,
-            key=key,
-            asset_name=asset.fallback_file)
+        asset_file = asset.fallback_file
     else:
         # TODO
-        diagnostics.warn("TODO")
+        diagnostics.fatal("TODO")
+        asset_file = None
+    diagnostics.trace_head(asset_file)
+    github.download_asset(
+        build_data=build_data, key=key, asset_name=asset_file)
+    dest_file = asset.file
+    if dest_file.endswith(".zip"):
+        with zipfile.ZipFile(os.path.join(
+                ANTHEM_SOURCE_ROOT, key, "temp", dest_file)) as asset_zip:
+            asset_zip.extractall(
+                path=os.path.join(ANTHEM_SOURCE_ROOT, key, version))
 
 
 def github_dependency(build_data, key):
@@ -84,6 +96,8 @@ def github_dependency(build_data, key):
         platform_specific_asset(build_data=build_data, key=key)
     else:
         simple_asset(build_data=build_data, key=key)
+
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
 
 def get_product(build_data, key, versions):
