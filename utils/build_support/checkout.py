@@ -12,6 +12,7 @@ The support module containing the utilities for setting up the checkout.
 """
 
 
+import importlib
 import json
 import os
 import platform
@@ -19,7 +20,7 @@ import zipfile
 
 from . import config, diagnostics, github, shell
 
-from .variables import ANTHEM_SOURCE_ROOT
+from .variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
 VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, "versions")
 
@@ -113,9 +114,19 @@ def get_product(build_data, key, versions):
         diagnostics.debug(
             "GitHub data is not found from {} and, thus, a custom function "
             "is used to download it".format(product.repr))
+        package = "build_support.products.{}".format(key)
+        diagnostics.trace("Importing package {}".format(package))
+        product_module = importlib.import_module(package)
+        diagnostics.trace("Imported package {}".format(package))
 
-    version = product.version
-    versions[key] = version
+        product_module.get_dependency(build_data=build_data)
+
+    if "inject_version_info" in product \
+            and product.inject_version_info is not None:
+        product.inject_version_info(build_data=build_data, versions=versions)
+    else:
+        version = product.version
+        versions[key] = version
 
 
 def update(build_data):
@@ -144,9 +155,9 @@ def update(build_data):
             diagnostics.debug("{} is not downloaded in checkout".format(name))
             continue
         if not build_data.args.clean:
-            if "checkout_check" in product \
-                    and product.checkout_check is not None:
-                if product.checkout_check(
+            if "skip_checkout" in product \
+                    and product.skip_checkout is not None:
+                if product.skip_checkout(
                         build_data=build_data, versions=versions):
                     continue
             else:

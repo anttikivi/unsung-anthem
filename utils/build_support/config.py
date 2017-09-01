@@ -23,7 +23,7 @@ from .products.product_config import \
     SOURCE_ASSET, platform_specific_asset, platform_file_config
 
 
-__all__ = ["PRODUCT_CONFIG"]
+__all__ = ["PRODUCT_CONFIG", "PROTOCOL", "GITHUB_API_ENDPOINT"]
 
 
 PROTOCOL = "https"
@@ -36,15 +36,17 @@ ANTHEM_PRODUCT = anthem_config(version="0.1.0-dev.1")
 PRODUCT_CONFIG = Mapping(
     anthem=ANTHEM_PRODUCT,
 
-    # Git format: http://llvm.org/git/{project}
-    # format: {protocol}://releases.llvm.org/{version}/{id}-{version}.src.tar.xz
     llvm=product_config(
         version="4.0.1",
         name="LLVM",
         identifier="llvm",
         allow_git_checkout=True,
         subproducts=Mapping(llvm="llvm", libcxx="libcxx", clang="cfe"),
-        checkout_check=llvm.checkout_check,
+        skip_checkout=llvm.skip_checkout,
+        inject_version_info=llvm.inject_version_info,
+        git_format="http://llvm.org/git/{key}",
+        release_format="{protocol}://releases.llvm.org/{version}/{key}-"
+                       "{version}.src.tar.xz",
 
         # The version which is used when the version option of LLVM is set to
         # 'git'.

@@ -229,6 +229,26 @@ def rmtree(path, dry_run=None, echo=True, ignore_errors=False):
     if os.path.exists(path):
         shutil.rmtree(path, ignore_errors=ignore_errors)
 
+
+def rm(file, dry_run=None, echo=True):
+    """
+    Remove a file.
+
+    path -- path to the file.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        echo_command(dry_run, ['rm', file])
+    if dry_run:
+        return
+    if os.path.islink(file):
+        os.unlink(file)
+    if os.path.exists(file):
+        os.remove(file)
+
+
 def copytree(src, dest, dry_run=None, echo=True):
     """
     Copy a directory recursively.
