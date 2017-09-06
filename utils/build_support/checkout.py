@@ -20,9 +20,7 @@ import zipfile
 
 from . import config, diagnostics, github, shell
 
-from .variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
-
-VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, "versions")
+from .variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, VERSIONS_FILE
 
 
 def simple_asset(build_data, key):
@@ -140,6 +138,9 @@ def update(build_data):
 
     diagnostics.debug(
         "Using {} protocol to make the HTTP calls".format(protocol.upper()))
+
+    diagnostics.trace("The dependencies to be skipped are {}".format(
+        str(build_data.args.skip_repository_list)))
 
     for key in build_data.products.keys():
         product = build_data.products[key]

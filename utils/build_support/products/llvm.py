@@ -12,29 +12,44 @@ The support module containing the LLVM product helpers.
 """
 
 
+import json
 import os
+import sys
+import tarfile
 
 import requests
 
 from .. import diagnostics, shell
 
-from ..variables import ANTHEM_SOURCE_ROOT
+from ..variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
 
 
 def skip_checkout(build_data, versions):
     """
     """
-    args = build_data.args
-    product = build_data.products.llvm
-    if args.build_libcxx:
-        llvm_deps = ["libcxx"]
-    elif args.build_llvm:
-        llvm_deps = list(product.subproducts.keys())
-    llvm_version_node = versions["llvm"]
-    for dep in llvm_deps:
-        if llvm_version_node[dep] != product.version:
-            return False
-    return True
+    diagnostics.note(
+        "{} checkout check is done in the checkout process".format(
+            build_data.products.llvm.repr))
+    return False
+
+
+def skip_download(build_data, key):
+    """
+    """
+    if os.path.isfile(VERSIONS_FILE):
+        with open(VERSIONS_FILE) as json_file:
+            versions = json.load(json_file)
+    else:
+        versions = {}
+
+    if "llvm" in versions:
+        version_node = versions["llvm"]
+        if key in version_node:
+            if version_node[key] == build_data.products.llvm.version:
+                diagnostics.debug(
+                    "{} should not be re-downloaded, skipping".format(key))
+                return True
+    return False
 
 
 def inject_version_info(build_data, versions):
@@ -67,6 +82,14 @@ def remove_libcxx_bad_symlink():
         "bad_symlink"))
 
 
+def remove_libcxx_release_bad_symlink(subdir):
+    # FIXME: This is bad, this is hardcoded.
+    shell.rm(os.path.join(
+        ANTHEM_SOURCE_ROOT, "llvm", "temp", "libcxx", subdir, "test", "std",
+        "experimental", "filesystem", "Inputs", "static_test_env",
+        "bad_symlink"))
+
+
 def git_dependency(build_data, key):
     """
     """
@@ -95,10 +118,21 @@ def git_dependency(build_data, key):
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
 
 
+def move_release_files(build_data, key):
+    """
+    """
+    product = build_data.products.llvm
+    version = product.version
+    subdir = "{}-{}.src".format(key, version)
+    shell.copytree(
+        os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key, subdir),
+        os.path.join(ANTHEM_SOURCE_ROOT, "llvm", version, key))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
+
+
 def release_dependency(build_data, key):
     """
     """
-    diagnostics.warn("TODO")
     product = build_data.products.llvm
     version = product.version
     remove_old_checkout(build_data=build_data, key=key)
@@ -121,6 +155,24 @@ def release_dependency(build_data, key):
 
     diagnostics.debug_ok(
         "Finished streaming an asset to {}".format(destination))
+
+    if sys.version_info.major == 2:
+        # TODO Use different command for Windows.
+        with shell.pushd(
+                os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key)):
+            shell.call(["tar", "-xf", "{}.tar.xz".format(key)])
+    else:
+        with tarfile.open(destination) as archive:
+            archive.extractall(
+                os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
+    subdir = "{}-{}.src".format(key, version)
+    diagnostics.debug(
+        "The name of the {} subdirectory is {}".format(product.repr, subdir))
+    # FIXME: This is bad, this is hardcoded.
+    if key == "libcxx":
+        remove_libcxx_release_bad_symlink(subdir=subdir)
+    shell.rm(destination)
+    move_release_files(build_data=build_data, key=key)
 
 
 def single_dependency(build_data, key):
@@ -147,6 +199,7 @@ def get_dependency(build_data):
         llvm_deps = list(product.subproducts.keys())
 
     for dep in llvm_deps:
-        single_dependency(build_data=build_data, key=dep)
+        if not skip_download(build_data=build_data, key=dep):
+            single_dependency(build_data=build_data, key=dep)
 
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp"))

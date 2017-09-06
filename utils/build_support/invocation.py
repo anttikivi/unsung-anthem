@@ -160,6 +160,9 @@ def set_up(parser):
     set_arguments_to_toolchain(
         args=build_data.args, toolchain=build_data.toolchain)
 
+    defaults.skip_repositories(
+        args=build_data.args, toolchain=build_data.toolchain)
+
     if build_data.args.ci:
         build_data["github_token"] = str(os.environ['ANTHEM_OAUTH'])
     else:

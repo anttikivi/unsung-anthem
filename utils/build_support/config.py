@@ -61,7 +61,6 @@ PRODUCT_CONFIG = Mapping(
         default_mirror="nl.mirror.babylon.network/gcc"
     ),
 
-    # format: {protocol}://cmake.org/files/v{major_minor}/cmake-{version}-{platform}.{extension}
     cmake=product_config(
         version=version_config(
             major=3,
@@ -70,7 +69,9 @@ PRODUCT_CONFIG = Mapping(
         ),
         name="CMake",
         identifier="cmake",
-        version_format="MAJOR.MINOR.PATCH(.MINOR_PATCH)"
+        version_format="MAJOR.MINOR.PATCH(.MINOR_PATCH)",
+        url_format="{protocol}://cmake.org/files/v{major_minor}/cmake-"
+                   "{version}-{platform}.{extension}"
     ),
 
     ninja=product_config(

@@ -83,3 +83,6 @@ ANTHEM_REPO_NAME = os.environ.get(
 
 
 SCRIPT_DIR = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils")
+
+
+VERSIONS_FILE = os.path.join(ANTHEM_SOURCE_ROOT, "versions")
