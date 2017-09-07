@@ -36,7 +36,7 @@ def stream_asset(build_data, key, url):
         url=url,
         headers={
             "User-Agent": "venturesomestone",
-            "Accept": "application/json"},
+            "Accept": "application/octet-stream"},
         stream=True)
 
     with open(destination, "wb") as destination_file:

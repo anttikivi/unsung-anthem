@@ -106,11 +106,6 @@ def projects_options(parser):
         action="store_true",
         dest="build_llvm")
     projects_group.add_argument(
-        "-g", "--gcc",
-        help="build GNU Compiler Collection and use the built compiler",
-        action="store_true",
-        dest="build_gcc")
-    projects_group.add_argument(
         "--libc++",
         help="build libc++ and use the built library to build the project",
         action="store_true",
@@ -594,12 +589,6 @@ def system_options(parser):
         help="The installation prefix. This is where built Unsung Anthem "
              "products (like bin, lib, and include) will be installed.",
         metavar="PATH")
-
-    parser.add_argument(
-        "--gcc-mirror",
-        help="the mirror from which GCC is downloaded if it is built",
-        metavar="URL",
-        default="default")
 
     parser.add_argument(
         "-j", "--jobs",

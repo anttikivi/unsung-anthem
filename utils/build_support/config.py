@@ -53,14 +53,6 @@ PRODUCT_CONFIG = Mapping(
         git_version="6.0.0svn"
     ),
 
-    # format: {protocol}://{mirror}/releases/gcc-{version}/gcc-{version}.tar.{extension}
-    gcc=product_config(
-        version="6.4.0",
-        name="GNU Compiler Collection",
-        identifier="gcc",
-        default_mirror="nl.mirror.babylon.network/gcc"
-    ),
-
     cmake=product_config(
         version=version_config(
             major=3,
@@ -107,13 +99,15 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
-    # format: "{protocol}://www.libsdl.org/release/SDL2-{version}.{extension}"
-    # Windows: "{protocol}://www.libsdl.org/release/SDL2-devel-{version}-{type}.{extension}"
     sdl=product_config(
         version="2.0.5",
         name="SDL2",
         identifier="sdl",
-        allow_git_checkout=True
+        allow_git_checkout=True,
+        url_format="{protocol}://www.libsdl.org/release/"
+                   "SDL2-{version}.{extension}",
+        windows_format="{protocol}://www.libsdl.org/release/"
+                       "SDL2-devel-{version}-{type}.{extension}"
     ),
 
     glfw=product_config(

@@ -151,7 +151,6 @@ def main_args(args):
         if args.skip_build:
             args.skip_build_anthem = True
             args.build_llvm = False
-            args.build_gcc = False
             args.build_libcxx = False
             args.build_cmake = False
             args.build_ninja = False
@@ -162,11 +161,6 @@ def main_args(args):
         # libc++.
         if args.build_llvm:
             args.build_libcxx = False
-
-    def _gcc_mirror():
-        # Set the default GCC mirror.
-        if args.gcc_mirror == "default":
-            args.gcc_mirror = PRODUCT_CONFIG.gcc.default_mirror
 
     def _shared_builds():
         if args.disable_shared_builds:
@@ -179,37 +173,15 @@ def main_args(args):
         # Visual Studio.
         args.visual_studio = args.cmake_generator.startswith("Visual Studio")
 
-    # Add the build action arguments.
     _build_actions()
-
-    # Add the SDL vs. GLFW arguments.
     _sdl_glfw()
-
-    # Add the arguments for building LLVM implicitly.
     _implicit_llvm()
-
-    # Add the build variant options. The default build variant is 'Debug'.
     _build_variant("Debug")
-
-    # Add the assertion arguments. Assertions are enabled by default.
     _assertions(True)
-
-    # Add the CMake generator arguments. The default argument is 'Ninja'.
     _cmake_generator("Ninja")
-
-    # Add the test-enabling arguments.
     _tests()
-
-    # Add the arguments for deciding which projects are built.
     _building()
-
-    # Add the GCC mirror arguments.
-    _gcc_mirror()
-
-    # Add the shared builds arguments.
     _shared_builds()
-
-    # Add the Visual Studio arguments.
     _visual_studio()
 
 
@@ -227,10 +199,6 @@ def cxx_std(args):
     # If LLVM or libc++ is being built, the library should be set to libc++.
     if (args.build_llvm or args.build_libcxx) and args.stdlib is None:
         args.stdlib = "libc++"
-
-    # If GCC is being built, the library should be set to libstdc++.
-    if args.build_gcc and args.stdlib is None:
-        args.stdlib = "libstdc++"
 
     # Set the C++ standard library implementation and a flag denoting whether
     # or not it is set.
@@ -301,9 +269,6 @@ def skip_repositories(args, toolchain):
         else:
             args.skip_repository_list += ["llvm-clang"]
             args.skip_repository_list += ["llvm-llvm"]
-
-    if not args.build_gcc:
-        args.skip_repository_list += ["gcc"]
 
     if not args.build_cmake and toolchain.cmake is not None:
         args.skip_repository_list += ["cmake"]

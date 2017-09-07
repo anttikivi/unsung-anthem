@@ -15,11 +15,12 @@ The support module containing the LLVM product helpers.
 import json
 import os
 import sys
-import tarfile
 
 import requests
 
 from .. import diagnostics, shell
+
+from ..httpstream import stream_file
 
 from ..variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
 
@@ -140,31 +141,17 @@ def release_dependency(build_data, key):
     # TODO: protocol=build_data.connection_protocol
     url = product.release_format.format(
         protocol="http", version=version,
-        key=product.subproducts[key])
-    diagnostics.debug("Streaming an asset from {}".format(url))
-
-    responce = requests.get(url=url, stream=True)
-
+        key=product.subproducts[key]
+    )
     destination = os.path.join(
-        ANTHEM_SOURCE_ROOT, "llvm", "temp", key, "{}.tar.xz".format(key))
+        ANTHEM_SOURCE_ROOT, "llvm", "temp", key, "{}.tar.xz".format(key)
+    )
 
-    with open(destination, "wb") as destination_file:
-        for chunk in responce.iter_content(chunk_size=1024):
-            if chunk:
-                destination_file.write(chunk)
+    stream_file(url=url, destination=destination)
 
-    diagnostics.debug_ok(
-        "Finished streaming an asset to {}".format(destination))
-
-    if sys.version_info.major == 2:
-        # TODO Use different command for Windows.
-        with shell.pushd(
-                os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key)):
-            shell.call(["tar", "-xf", "{}.tar.xz".format(key)])
-    else:
-        with tarfile.open(destination) as archive:
-            archive.extractall(
-                os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
+    shell.tar(
+        path=destination,
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
     subdir = "{}-{}.src".format(key, version)
     diagnostics.debug(
         "The name of the {} subdirectory is {}".format(product.repr, subdir))

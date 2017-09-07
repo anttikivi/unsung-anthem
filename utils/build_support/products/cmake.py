@@ -14,12 +14,12 @@ The support module containing the CMake product helpers.
 
 import os
 import platform
-import tarfile
-import zipfile
 
 import requests
 
 from .. import diagnostics, shell
+
+from ..httpstream import stream_file
 
 from ..variables import ANTHEM_SOURCE_ROOT
 
@@ -72,10 +72,14 @@ def resolve_platform(build_data):
 def move_release_files(build_data):
     """
     """
-    version = build_data.products.cmake.version
+    product = build_data.products.cmake
+    version = product.version
     cmake_platform = resolve_platform(build_data)
     subdir = "cmake-{}-{}".format(version, cmake_platform)
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", version))
+
+    diagnostics.debug(
+        "The name of the {} subdirectory is {}".format(product.repr, subdir))
 
     if platform.system() == "Darwin":
         cmake_app = os.listdir(os.path.join(
@@ -95,7 +99,6 @@ def move_release_files(build_data):
 def get_dependency(build_data):
     """
     """
-    args = build_data.args
     product = build_data.products.cmake
     version = product.version
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", version))
@@ -117,31 +120,16 @@ def get_dependency(build_data):
     url = product.url_format.format(
         protocol="http", major_minor=major_minor, version=version,
         platform=cmake_platform, extension=archive_extension)
-
-    diagnostics.debug("Streaming an asset from {}".format(url))
-
-    responce = requests.get(url=url, stream=True)
-
     destination = os.path.join(
         ANTHEM_SOURCE_ROOT, "cmake", "temp", "cmake.{}".format(
-            archive_extension))
+            archive_extension)
+    )
 
-    with open(destination, "wb") as destination_file:
-        for chunk in responce.iter_content(chunk_size=1024):
-            if chunk:
-                destination_file.write(chunk)
+    stream_file(url=url, destination=destination)
 
-    diagnostics.debug_ok(
-        "Finished streaming an asset to {}".format(destination))
-
-    if archive_extension == "zip":
-        with zipfile.ZipFile(destination, "r") as archive:
-            archive.extractall(
-                os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
-    else:
-        with tarfile.open(destination) as archive:
-            archive.extractall(
-                os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
+    shell.tar(
+        path=destination,
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
     shell.rm(destination)
     move_release_files(build_data)
 

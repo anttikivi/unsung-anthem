@@ -28,8 +28,6 @@ def compute_subdir(args, shared, install):
 
         compiler_subdir = \
             "llvm-" + args.llvm_version + "-" + llvm_build_dir_label
-    elif args.build_gcc:
-        compiler_subdir = "gcc-" + args.gcc_version
     else:
         if args.main_tool == "clang" or args.main_tool == "llvm":
             compiler_subdir = "system-llvm"

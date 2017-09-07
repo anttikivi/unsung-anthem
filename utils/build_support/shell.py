@@ -21,6 +21,8 @@ import platform
 import shutil
 import subprocess
 import sys
+import tarfile
+import zipfile
 
 from contextlib import contextmanager
 
@@ -284,6 +286,77 @@ def copy(src, dest, dry_run=None, echo=True):
     if dry_run:
         return
     shutil.copy(src, dest)
+
+
+def unzip(path, dest=None, dry_run=None, echo=True):
+    """
+    Extract a zip archive.
+
+    path -- path to the archive.
+    dest -- the destination directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        if dest:
+            echo_command(dry_run, ["tar", "-xf", path, "-C", dest])
+        else:
+            echo_command(dry_run, ["tar", "-xf", path])
+    if dry_run:
+        return
+    with zipfile.ZipFile(path, "r") as archive:
+        if dest:
+            archive.extractall(dest)
+        else:
+            archive.extractall()
+
+
+def tar(path, dest=None, dry_run=None, echo=True):
+    """
+    Extract an archive.
+
+    path -- path to the archive.
+    dest -- the destination directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        if dest:
+            echo_command(dry_run, ["tar", "-xf", path, "-C", dest])
+        else:
+            echo_command(dry_run, ["tar", "-xf", path])
+    if dry_run:
+        return
+    if path.endswith(".zip"):
+        with zipfile.ZipFile(path, "r") as archive:
+            if dest:
+                archive.extractall(dest)
+            else:
+                archive.extractall()
+    else:
+        if path.endswith(".tar") or path.endswith(".tar.gz"):
+            with tarfile.open(path) as archive:
+                if dest:
+                    archive.extractall(dest)
+                else:
+                    archive.extractall()
+        else:
+            if sys.version_info.major == 2:
+                # TODO Use different command for Windows.
+                with pushd(os.path.dirname(path)):
+                    if dest:
+                        call(
+                            ["tar", "-xf", os.path.split(path)[1], "-C", dest])
+                    else:
+                        call(["tar", "-xf", os.path.split(path)[1]])
+            else:
+                with tarfile.open(path) as archive:
+                    if dest:
+                        archive.extractall(dest)
+                    else:
+                        archive.extractall()
 
 
 def call_without_sleeping(command, env=None, dry_run=False, echo=False):

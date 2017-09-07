@@ -16,11 +16,10 @@ import importlib
 import json
 import os
 import platform
-import zipfile
 
 from . import config, diagnostics, github, shell
 
-from .variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, VERSIONS_FILE
+from .variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
 
 
 def simple_asset(build_data, key):
@@ -71,11 +70,9 @@ def platform_specific_asset(build_data, key):
     github.download_asset(
         build_data=build_data, key=key, asset_name=asset_file)
     dest_file = asset.file
-    if dest_file.endswith(".zip"):
-        with zipfile.ZipFile(os.path.join(
-                ANTHEM_SOURCE_ROOT, key, "temp", dest_file)) as asset_zip:
-            asset_zip.extractall(
-                path=os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.tar(
+        path=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", dest_file),
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, key, version))
 
 
 def github_dependency(build_data, key):
