@@ -170,7 +170,8 @@ def set_up(parser):
 
     build_data.connection_protocol = config.PROTOCOL
 
-    checkout.update(build_data=build_data)
+    if not args.build_only and not args.test_only and not args.docs_only:
+        checkout.update(build_data=build_data)
 
     return build_data
 

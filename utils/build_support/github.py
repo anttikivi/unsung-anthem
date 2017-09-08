@@ -19,6 +19,8 @@ import requests
 
 from . import config, diagnostics, shell
 
+from .httpstream import stream_file
+
 from .variables import ANTHEM_SOURCE_ROOT, SCRIPT_DIR
 
 
@@ -30,22 +32,10 @@ def stream_asset(build_data, key, url):
     asset = github_data.asset
     destination = os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", asset.file)
 
-    diagnostics.debug("Streaming an asset from {}".format(url))
-
-    responce = requests.get(
-        url=url,
-        headers={
-            "User-Agent": "venturesomestone",
-            "Accept": "application/octet-stream"},
-        stream=True)
-
-    with open(destination, "wb") as destination_file:
-        for chunk in responce.iter_content(chunk_size=1024):
-            if chunk:
-                destination_file.write(chunk)
-
-    diagnostics.debug_ok(
-        "Finished streaming an asset to {}".format(destination))
+    stream_file(url=url, destination=destination, headers={
+        "User-Agent": "venturesomestone",
+        "Accept": "application/octet-stream"
+    })
 
 
 def download_asset(build_data, key, asset_name):

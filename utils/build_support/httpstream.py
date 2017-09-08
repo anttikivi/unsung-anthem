@@ -17,11 +17,14 @@ import requests
 from . import diagnostics
 
 
-def stream_file(url, destination):
+def stream_file(url, destination, headers=None):
     """
     """
     diagnostics.debug("Streaming an asset from {}".format(url))
-    responce = requests.get(url=url, stream=True)
+    if headers:
+        responce = requests.get(url=url, headers=headers, stream=True)
+    else:
+        responce = requests.get(url=url, stream=True)
     with open(destination, "wb") as destination_file:
         for chunk in responce.iter_content(chunk_size=1024):
             if chunk:
