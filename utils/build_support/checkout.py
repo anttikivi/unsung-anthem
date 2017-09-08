@@ -12,12 +12,11 @@ The support module containing the utilities for setting up the checkout.
 """
 
 
-import importlib
 import json
 import os
 import platform
 
-from . import config, diagnostics, github, shell
+from . import config, diagnostics, github, modules, shell
 
 from .variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
 
@@ -109,12 +108,7 @@ def get_product(build_data, key, versions):
         diagnostics.debug(
             "GitHub data is not found from {} and, thus, a custom function "
             "is used to download it".format(product.repr))
-        package = "build_support.products.{}".format(key)
-        diagnostics.trace("Importing package {}".format(package))
-        product_module = importlib.import_module(package)
-        diagnostics.trace("Imported package {}".format(package))
-
-        product_module.get_dependency(build_data=build_data)
+        modules.product_call(product, "get_dependency", build_data=build_data)
 
     if "inject_version_info" in product \
             and product.inject_version_info is not None:

@@ -15,12 +15,12 @@ invocation.
 
 from __future__ import print_function
 
-import importlib
 import os
 import sys
 import time
 
-from . import checkout, config, defaults, diagnostics, migration, shell
+from . import \
+    checkout, config, defaults, diagnostics, migration, modules, shell
 
 from .config import PRODUCT_CONFIG
 
@@ -193,11 +193,8 @@ def invoke(build_data):
         build_data.tools.set_up += ["ninja"]
 
     for tool in build_data.tools.set_up:
-        package = "build_support.products.{}".format(tool)
-        diagnostics.trace("Importing package {}".format(package))
-        product_module = importlib.import_module(package)
-        diagnostics.trace("Imported package {}".format(package))
-        product_module.set_up(build_data=build_data)
+        modules.product_call(
+            build_data.products[tool], "set_up", build_data=build_data)
 
     diagnostics.note("The host C compiler is set to {}".format(
         str(build_data.toolchain.cc)))
