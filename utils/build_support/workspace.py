@@ -26,13 +26,13 @@ def source_dir(product):
 
 
 def build_dir(build_data, product, target=None):
-    if target:
+    if target is not None:
         return os.path.join(
-            build_data.shared_buid_root,
+            build_data.shared_build_root,
             "{}-{}".format(product.identifier, target), product.version
         )
     return os.path.join(
-        build_data.shared_buid_root,
+        build_data.shared_build_root,
         "{}-{}".format(product.identifier, build_data.host_target),
         product.version
     )

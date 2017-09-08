@@ -181,6 +181,7 @@ def set_up(parser):
 def invoke(build_data):
     args = build_data.args
     toolchain = build_data.toolchain
+    build_data["tools"] = Mapping()
     build_data["tools"]["set_up"] = list()
     build_dependencies = not args.test_only and not args.docs_only
 
@@ -188,9 +189,12 @@ def invoke(build_data):
         args.build_ninja or \
         ((args.cmake_generator == "Ninja" or args.cmake_generator == "Xcode")
          and toolchain.ninja is None)
+    cmake_build_required = args.build_cmake or (toolchain.cmake is None)
 
     if ninja_build_required and build_dependencies:
         build_data.tools.set_up += ["ninja"]
+    if cmake_build_required and build_dependencies:
+        build_data.tools.set_up += ["cmake"]
 
     for tool in build_data.tools.set_up:
         modules.product_call(

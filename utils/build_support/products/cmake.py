@@ -15,9 +15,7 @@ The support module containing the CMake product helpers.
 import os
 import platform
 
-import requests
-
-from .. import diagnostics, shell
+from .. import diagnostics, shell, workspace
 
 from ..httpstream import stream_file
 
@@ -134,3 +132,51 @@ def get_dependency(build_data):
     move_release_files(build_data)
 
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
+
+
+def cmake_bin_path(build_data):
+    if platform.system() == "Windows":
+        return os.path.join(build_data.install_root, "bin", "cmake.exe")
+    elif platform.system() == "Linux":
+        return os.path.join(build_data.install_root, "bin", "cmake")
+    elif platform.system() == "Darwin":
+        return os.path.join(
+            build_data.install_root, "CMake.app", "Contents", "bin", "cmake")
+    diagnostics.fatal(
+        "{} is not supported for {}".format(
+            platform.system(), build_data.products.cmake.repr))
+
+
+def do_build(build_data):
+    product = build_data.products.cmake
+    bin_path = cmake_bin_path(build_data=build_data)
+    build_dir = workspace.build_dir(
+        build_data=build_data, product=product, target="build"
+    )
+    if os.path.exists(bin_path) and os.path.exists(build_dir):
+        diagnostics.debug(
+            "{} is already built and, thus, should not be re-built".format(
+                product.repr))
+        return
+    source_dir = workspace.source_dir(product=product)
+
+    shell.rmtree(build_dir)
+    shell.copytree(source_dir, build_dir)
+    if platform.system() == "Darwin":
+        shell.copytree(
+            os.path.join(source_dir, "CMake.app"),
+            os.path.join(build_data.install_root, "CMake.app"))
+    else:
+        shell.copytree(source_dir, build_data.install_root)
+
+
+def set_up(build_data):
+    """
+    """
+    product = build_data.products.cmake
+    if not os.path.exists(workspace.source_dir(product)):
+        diagnostics.fatal(
+            "cannot find source directory for {} (tried {})".format(
+                product.repr, workspace.source_dir(product)))
+    do_build(build_data=build_data)
+    build_data.toolchain.cmake = cmake_bin_path(build_data=build_data)
