@@ -16,6 +16,28 @@ import os
 import platform
 
 
+from .variables import ANTHEM_SOURCE_ROOT
+
+
+def source_dir(product):
+    return os.path.join(
+        ANTHEM_SOURCE_ROOT, product.identifier, product.version
+    )
+
+
+def build_dir(build_data, product, target=None):
+    if target:
+        return os.path.join(
+            build_data.shared_buid_root,
+            "{}-{}".format(product.identifier, target), product.version
+        )
+    return os.path.join(
+        build_data.shared_buid_root,
+        "{}-{}".format(product.identifier, build_data.host_target),
+        product.version
+    )
+
+
 def compute_subdir(args, shared, install):
     version_subdir = args.anthem_version
 

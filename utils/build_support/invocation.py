@@ -15,6 +15,7 @@ invocation.
 
 from __future__ import print_function
 
+import importlib
 import os
 import sys
 import time
@@ -139,7 +140,8 @@ def set_up(parser):
         shared_build_root=os.path.join(
             ANTHEM_BUILD_ROOT, args.shared_build_subdir),
         install_root=os.path.join(ANTHEM_BUILD_ROOT, args.install_prefix),
-        products=PRODUCT_CONFIG)
+        products=PRODUCT_CONFIG,
+        host_target=args.host_target)
 
     config.apply_versions(build_data=build_data)
 
@@ -177,6 +179,26 @@ def set_up(parser):
 
 
 def invoke(build_data):
+    args = build_data.args
+    toolchain = build_data.toolchain
+    build_data["tools"]["set_up"] = list()
+    build_dependencies = not args.test_only and not args.docs_only
+
+    ninja_build_required = \
+        args.build_ninja or \
+        ((args.cmake_generator == "Ninja" or args.cmake_generator == "Xcode")
+         and toolchain.ninja is None)
+
+    if ninja_build_required and build_dependencies:
+        build_data.tools.set_up += ["ninja"]
+
+    for tool in build_data.tools.set_up:
+        package = "build_support.products.{}".format(tool)
+        diagnostics.trace("Importing package {}".format(package))
+        product_module = importlib.import_module(package)
+        diagnostics.trace("Imported package {}".format(package))
+        product_module.set_up(build_data=build_data)
+
     diagnostics.note("The host C compiler is set to {}".format(
         str(build_data.toolchain.cc)))
     diagnostics.note("The host C++ compiler is set to {}".format(
