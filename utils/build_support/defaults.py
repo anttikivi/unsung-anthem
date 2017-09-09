@@ -287,6 +287,6 @@ def skip_repositories(args, toolchain):
 
 
 def authorization(args):
-    if not args.auth_token:
+    if not args.auth_token and not args.ci:
         with open(args.auth_token_file) as token_file:
             args.auth_token = str(token_file.read())
