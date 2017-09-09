@@ -232,8 +232,8 @@ def set_up(build_data):
     """
     """
     product = build_data.products.llvm
-    check_source(product=product, subproduct="llvm")
     if build_data.args.build_llvm:
+        check_source(product=product, subproduct="llvm")
         do_build(build_data=build_data)
         build_data.toolchain.cc = clang.clang_bin_path(build_data=build_data)
         build_data.toolchain.cxx = clang.clang_cxx_bin_path(
