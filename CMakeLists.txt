@@ -79,10 +79,6 @@ elseif(${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL llvm)
   add_definitions(-DANTHEM_CLANG)
 endif()
 
-if(ANTHEM_USE_EXPERIMENTAL_HEADERS)
-  add_definitions(-DANTHEM_EXPERIMENTAL_HEADERS)
-endif()
-
 # Set the preprocessor definitions according to the C++ standard version.
 if(${ANTHEM_CXX_VERSION} STREQUAL c++latest)
 
