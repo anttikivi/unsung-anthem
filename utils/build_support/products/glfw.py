@@ -97,7 +97,7 @@ def do_build(build_data):
 def build(build_data):
     """
     """
-    product = build_data.products.llvm
+    product = build_data.products.glfw
     check_source(product=product)
     if platform.system() == "Windows":
         do_build_windows(build_data=build_data)

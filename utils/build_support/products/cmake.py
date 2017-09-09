@@ -165,10 +165,10 @@ def do_build(build_data):
     shell.copytree(source_dir, build_dir)
     if platform.system() == "Darwin":
         shell.copytree(
-            os.path.join(source_dir, "CMake.app"),
+            os.path.join(build_dir, "CMake.app"),
             os.path.join(build_data.install_root, "CMake.app"))
     else:
-        shell.copytree(source_dir, build_data.install_root)
+        shell.copytree(build_dir, build_data.install_root)
 
 
 def set_up(build_data):
