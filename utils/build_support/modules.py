@@ -37,6 +37,12 @@ def product_function_exists(product, function):
     )
     product_module = importlib.import_module(package)
     diagnostics.trace("Imported package {}".format(package))
+    if hasattr(product_module, function):
+        diagnostics.trace(
+            "Package {} has function '{}'".format(package, function))
+    else:
+        diagnostics.trace(
+            "Package {} doesn't have function '{}'".format(package, function))
     return hasattr(product_module, function)
 
 
@@ -50,7 +56,14 @@ def product_exists(product):
             return importlib.find_loader(package) is not None
     import imp
     try:
-        result = imp.find_module(package)
-        return result
+        build_support_info = imp.find_module("build_support")
+        build_support = imp.load_module("build_support", *build_support_info)
+        diagnostics.trace("Found package {}".format("build_support"))
+        products_info = imp.find_module("products", build_support.__path__)
+        products = imp.load_module("products", *products_info)
+        diagnostics.trace("Found package {}".format("products"))
+        imp.find_module(product.identifier, products.__path__)
+        diagnostics.trace("Found package {}".format(product.identifier))
+        return True
     except ImportError:
         return False
