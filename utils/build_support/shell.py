@@ -62,7 +62,7 @@ def quote_command(args):
     return " ".join([quote(a) for a in args])
 
 
-def echo_command(dry_run, command, env=None, prompt="+ ", separate_env=False):
+def echo_command(dry_run, command, env=None, prompt="+ "):
     """
     Print a command.
 
@@ -77,19 +77,15 @@ def echo_command(dry_run, command, env=None, prompt="+ ", separate_env=False):
         return ["env"] + [quote(
             "{}={}".format(k, v)) for k, v in sorted(env.items())]
 
-    def _env_separator():
-        return "\n\n"
-
     def _command():
         return [quote(arg) for arg in command]
 
-    if separate_env:
-        output = [_env(), _env_separator()] + _command()
+    if env:
+        output = _env() + _command()
     else:
         output = _command()
-
     output_file = sys.stdout if dry_run else sys.stderr
-    print(prompt + " ".join(output), file=output_file)
+    print("{}{}".format(prompt, " ".join(output)), file=output_file)
     output_file.flush()
     return command
 
@@ -202,7 +198,7 @@ def pushd(path, dry_run=None, echo=True):
 def print_command(command, dry_run=None, env=None, prompt="+ "):
     echo_command(
         dry_run=_coerce_dry_run(dry_run), command=command, env=env,
-        prompt=prompt, separate_env=True
+        prompt=prompt
     )
 
 

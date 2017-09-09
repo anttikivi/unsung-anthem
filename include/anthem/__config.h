@@ -43,10 +43,4 @@
 # define CXX_INLINE_VARIABLES 1
 #endif // !CXX14
 
-#if defined(ANTHEM_EXPERIMENTAL_HEADERS)
-# define EXPERIMENTAL_HEADERS 1
-#else
-# define EXPERIMENTAL_HEADERS 0
-#endif
-
 #endif // !ANTHEM_CONFIG_H

@@ -48,10 +48,9 @@ def build(build_data, tests=False):
     source_dir = workspace.source_dir(product=product, name=ANTHEM_REPO_NAME)
 
     cmake_call = [
-        toolchain.cmake,
-        source_dir,
+        str(toolchain.cmake),
+        str(source_dir),
         "-G", args.cmake_generator,
-        "-DCMAKE_BUILD_TYPE={}".format(args.anthem_build_variant),
         "-DANTHEM_INSTALL_PREFIX={}".format(build_data.install_root),
         "-DANTHEM_CXX_VERSION={}".format(build_data.std),
         "-DANTHEM_EXECUTABLE_NAME={}".format(args.executable_name),
@@ -100,7 +99,7 @@ def build(build_data, tests=False):
 
     cmake_call += args.extra_cmake_options
 
-    cmake_env = {"CC": toolchain.cc, "CXX": toolchain.cxx}
+    cmake_env = {"CC": str(toolchain.cc), "CXX": str(toolchain.cxx)}
 
     if not args.clion:
         with shell.pushd(build_dir):
