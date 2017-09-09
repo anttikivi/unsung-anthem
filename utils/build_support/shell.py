@@ -26,6 +26,8 @@ import zipfile
 
 from contextlib import contextmanager
 
+from distutils import dir_util
+
 from . import diagnostics
 
 
@@ -273,7 +275,8 @@ def copytree(src, dest, dry_run=None, echo=True):
     if dry_run:
         return
     if os.path.exists(dest):
-        distutils.dir_util.copy_tree(src, dest)
+        # distutils.dir_util.copy_tree(src, dest)
+        dir_util.copy_tree(src, dest)
     else:
         shutil.copytree(src, dest)
 
