@@ -34,7 +34,7 @@ HEADER = "\033[95m"
 
 
 def printer(level, colour=None, do_print=True, print_script=False,
-            show_type=False):
+            show_type=True):
     """
     Decorator for printing a diagnostic notification to the standard output.
 

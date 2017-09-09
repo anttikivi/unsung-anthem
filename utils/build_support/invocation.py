@@ -204,9 +204,9 @@ def invoke(build_data):
         build_data.tools.set_up += ["llvm"]
 
     for tool in build_data.tools.set_up:
-        modules.product_call(
-            build_data.products[tool], "set_up", build_data=build_data
-        )
+        product = build_data.products[tool]
+        modules.product_call(product, "set_up", build_data=build_data)
+        diagnostics.debug_ok("{} is now built".format(product.repr))
 
     if args.main_tool == "msbuild":
         if not toolchain.cc:
@@ -288,3 +288,4 @@ def invoke(build_data):
             modules.product_call(
                 build_data.products[dependency], "build", build_data=build_data
             )
+        diagnostics.debug_ok("{} is now built".format(product.repr))

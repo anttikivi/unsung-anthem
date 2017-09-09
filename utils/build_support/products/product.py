@@ -117,7 +117,7 @@ def build_call(build_data, product, subproduct=None, cmake_args=None):
 
 def copy_build(build_data, product, subdir):
     check_source(product=product)
-    bin_path = workspace.lib_dir(build_data=build_data, product=product)
+    bin_path = workspace.include_dir(build_data=build_data, product=product)
     if binary_exists(build_data=build_data, product=product, path=bin_path):
         return
     build_dir = workspace.build_dir(build_data=build_data, product=product)
@@ -125,7 +125,7 @@ def copy_build(build_data, product, subdir):
     shell.rmtree(build_dir)
     shell.copytree(source_dir, build_dir)
     if not workspace.is_include_dir_made(build_data=build_data) \
-            and workspace.lib_dir_exists(
+            and workspace.include_dir_exists(
                 build_data=build_data, product=product):
         shell.rmtree(bin_path)
     if subdir:

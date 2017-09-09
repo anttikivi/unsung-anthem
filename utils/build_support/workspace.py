@@ -27,8 +27,31 @@ def is_include_dir_made(build_data):
     return False
 
 
-def lib_file(build_data, path):
+def include_file(build_data, path):
     return os.path.join(build_data.install_root, "include", path)
+
+
+def include_file_exists(build_data, path):
+    return os.path.isdir(include_file(build_data=build_data, path=path))
+
+
+def include_dir(build_data, product):
+    return include_file(build_data=build_data, path=product.identifier)
+
+
+def include_dir_exists(build_data, product):
+    return os.path.isdir(include_dir(build_data=build_data, product=product))
+
+
+def is_lib_dir_made(build_data):
+    if not os.path.isdir(os.path.join(build_data.install_root, "lib")):
+        shell.makedirs(os.path.join(build_data.install_root, "lib"))
+        return True
+    return False
+
+
+def lib_file(build_data, path):
+    return os.path.join(build_data.install_root, "lib", path)
 
 
 def lib_file_exists(build_data, path):
