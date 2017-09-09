@@ -250,6 +250,9 @@ def invoke(build_data):
         )
 
     build_dependencies = build_tools and not args.build_only
+    build_catch = args.clion \
+        or (args.build_test and not args.build_only and not args.test_only
+            and not args.docs_only)
     build_data["dependencies"] = Mapping()
     build_data["dependencies"]["build"] = list()
 
@@ -260,6 +263,8 @@ def invoke(build_data):
             build_data.dependencies.build += ["sdl"]
         elif args.glfw:
             build_data.dependencies.build += ["glfw"]
+    if build_catch:
+        build_data.dependencies.build += ["catch"]
 
     for dependency in build_data.dependencies.build:
         product = build_data.products[dependency]

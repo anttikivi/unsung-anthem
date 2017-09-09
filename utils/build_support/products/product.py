@@ -128,4 +128,7 @@ def copy_build(build_data, product, subdir):
             and workspace.lib_dir_exists(
                 build_data=build_data, product=product):
         shell.rmtree(bin_path)
-    shell.copytree(os.path.join(build_dir, subdir), bin_path)
+    if subdir:
+        shell.copytree(os.path.join(build_dir, subdir), bin_path)
+    else:
+        shell.copytree(build_dir, bin_path)
