@@ -125,7 +125,7 @@ def get_dependency(build_data):
             archive_extension)
     )
 
-    stream_file(url=url, destination=destination)
+    stream_file(build_data=build_data, url=url, destination=destination)
 
     shell.tar(
         path=destination,

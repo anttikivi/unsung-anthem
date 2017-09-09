@@ -148,7 +148,7 @@ def release_dependency(build_data, key):
         ANTHEM_SOURCE_ROOT, "llvm", "temp", key, "{}.tar.xz".format(key)
     )
 
-    stream_file(url=url, destination=destination)
+    stream_file(build_data=build_data, url=url, destination=destination)
 
     shell.tar(
         path=destination,

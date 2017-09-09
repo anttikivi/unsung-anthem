@@ -366,6 +366,13 @@ def tar(path, dest=None, dry_run=None, echo=True):
                         archive.extractall()
 
 
+def curl(url, dest, env=None, dry_run=False, echo=False):
+    call(
+        ["curl", "-o", dest, "--create-dirs", url], env=env, dry_run=dry_run,
+        echo=echo
+    )
+
+
 def call_without_sleeping(command, env=None, dry_run=False, echo=False):
     """
     Execute a command during which system sleep is disabled.

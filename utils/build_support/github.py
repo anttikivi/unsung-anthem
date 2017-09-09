@@ -32,10 +32,12 @@ def stream_asset(build_data, key, url):
     asset = github_data.asset
     destination = os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", asset.file)
 
-    stream_file(url=url, destination=destination, headers={
-        "User-Agent": "venturesomestone",
-        "Accept": "application/octet-stream"
-    })
+    stream_file(
+        build_data=build_data, url=url, destination=destination, headers={
+            "User-Agent": "venturesomestone",
+            "Accept": "application/octet-stream"
+        }
+    )
 
 
 def download_asset(build_data, key, asset_name):

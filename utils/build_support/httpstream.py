@@ -14,13 +14,16 @@ The support module containing helpers for streaming via HTTP.
 
 import requests
 
-from . import diagnostics
+from . import diagnostics, shell
 
 
-def stream_file(url, destination, headers=None):
+def stream_file(build_data, url, destination, headers=None):
     """
     """
     diagnostics.debug("Streaming an asset from {}".format(url))
+    if build_data.args.ci:
+        shell.curl(url, destination)
+        return
     if headers:
         responce = requests.get(url=url, headers=headers, stream=True)
     else:
