@@ -26,7 +26,7 @@
 
 namespace anthem {
 
-  optional<game_state> execute(int argc, const char* argv[]) {
+  game_state execute(int argc, const char* argv[]) {
 
     return game_state{};
   }

@@ -27,7 +27,6 @@
 #include <array>
 #include <type_traits>
 
-#include "anthem/std/optional.h"
 #include "anthem/array.h"
 #include "anthem/types.h"
 
@@ -130,7 +129,7 @@ namespace anthem {
   /// contain an object of class \c arguments.
   ///
   template <std::size_t N>
-  constexpr const optional<arguments>
+  constexpr const arguments
   parse_arguments(const std::array<const char*, N> args) noexcept {
 
     return arguments{};

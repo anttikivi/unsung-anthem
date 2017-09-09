@@ -25,8 +25,6 @@
 
 #include <memory>
 
-#include "anthem/std/optional.h"
-
 namespace anthem {
   class game_state;
 }
@@ -42,7 +40,7 @@ namespace anthem {
   ///
   /// \return The object of type \c game_state.
   ///
-  optional<game_state> execute(int argc, const char* argv[]);
+  game_state execute(int argc, const char* argv[]);
 
 } // namespace anthem
 
