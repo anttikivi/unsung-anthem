@@ -12,6 +12,8 @@ The support module containing the configuration of the build.
 """
 
 
+import os
+
 from . import diagnostics
 
 from .mapping import Mapping
@@ -134,6 +136,7 @@ PRODUCT_CONFIG = Mapping(
         name="spdlog",
         identifier="spdlog",
         allow_git_checkout=True,
+        build_subdir=os.path.join("include", "spdlog"),
         github_data=github_config(
             owner="gabime",
             name="spdlog",
@@ -147,6 +150,7 @@ PRODUCT_CONFIG = Mapping(
         name="cat",
         identifier="cat",
         allow_git_checkout=True,
+        build_subdir="cat",
         version_format="MAJOR.MINOR",
         github_data=github_config(
             owner="awgn",

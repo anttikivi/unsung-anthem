@@ -26,6 +26,8 @@ from .config import PRODUCT_CONFIG
 
 from .mapping import Mapping
 
+from .products.product import copy_build
+
 from .toolchain import host_toolchain, set_arguments_to_toolchain
 
 from .variables import ANTHEM_BUILD_ROOT, ANTHEM_SOURCE_ROOT
@@ -141,7 +143,9 @@ def set_up(parser):
             ANTHEM_BUILD_ROOT, args.shared_build_subdir),
         install_root=os.path.join(ANTHEM_BUILD_ROOT, args.install_prefix),
         products=PRODUCT_CONFIG,
-        host_target=args.host_target)
+        host_target=args.host_target,
+        std=args.std,
+        stdlib=args.stdlib)
 
     config.apply_versions(build_data=build_data)
 
@@ -183,7 +187,7 @@ def invoke(build_data):
     toolchain = build_data.toolchain
     build_data["tools"] = Mapping()
     build_data["tools"]["set_up"] = list()
-    build_dependencies = not args.test_only and not args.docs_only
+    build_tools = not args.test_only and not args.docs_only
 
     ninja_build_required = \
         args.build_ninja or \
@@ -192,28 +196,90 @@ def invoke(build_data):
     cmake_build_required = args.build_cmake or (toolchain.cmake is None)
     llvm_build_required = args.build_llvm or args.build_libcxx
 
-    if ninja_build_required and build_dependencies:
+    if ninja_build_required and build_tools:
         build_data.tools.set_up += ["ninja"]
-    if cmake_build_required and build_dependencies:
+    if cmake_build_required and build_tools:
         build_data.tools.set_up += ["cmake"]
-    if llvm_build_required and build_dependencies:
+    if llvm_build_required and build_tools:
         build_data.tools.set_up += ["llvm"]
 
     for tool in build_data.tools.set_up:
         modules.product_call(
-            build_data.products[tool], "set_up", build_data=build_data)
+            build_data.products[tool], "set_up", build_data=build_data
+        )
+
+    if args.main_tool == "msbuild":
+        if not toolchain.cc:
+            toolchain.cc = toolchain.msbuild
+        if not toolchain.cxx:
+            toolchain.cxx = toolchain.msbuild
 
     diagnostics.note("The host C compiler is set to {}".format(
-        str(build_data.toolchain.cc)))
+        str(build_data.toolchain.cc)
+    ))
     diagnostics.note("The host C++ compiler is set to {}".format(
-        str(build_data.toolchain.cxx)))
+        str(build_data.toolchain.cxx)
+    ))
     diagnostics.note("Make is set to {}".format(
-        str(build_data.toolchain.make)))
+        str(build_data.toolchain.make)
+    ))
     diagnostics.note("MSBuild is set to {}".format(
-        str(build_data.toolchain.msbuild)))
+        str(build_data.toolchain.msbuild)
+    ))
     diagnostics.note("Ninja is set to {}".format(
-        str(build_data.toolchain.ninja)))
+        str(build_data.toolchain.ninja)
+    ))
     diagnostics.note("CMake is set to {}".format(
-        str(build_data.toolchain.cmake)))
+        str(build_data.toolchain.cmake)
+    ))
     diagnostics.note("git is set to {}".format(
-        str(build_data.toolchain.git)))
+        str(build_data.toolchain.git)
+    ))
+
+    diagnostics.note("The C++ standard version is {}".format(build_data.std))
+
+    if build_data.stdlib:
+        diagnostics.note(
+            "The C++ standard library is {}".format(build_data.stdlib)
+        )
+
+    if args.clion:
+        diagnostics.note(
+            "The CLion set-up is enabled and, thus, the final {} executable "
+            "won't be built".format(build_data.products.anthem.repr)
+        )
+
+    build_dependencies = build_tools and not args.build_only
+    build_data["dependencies"] = Mapping()
+    build_data["dependencies"]["build"] = list()
+
+    if build_dependencies:
+        build_data.dependencies.build += ["cat"]
+        build_data.dependencies.build += ["spdlog"]
+        if args.sdl:
+            build_data.dependencies.build += ["sdl"]
+        elif args.glfw:
+            build_data.dependencies.build += ["glfw"]
+
+    for dependency in build_data.dependencies.build:
+        product = build_data.products[dependency]
+        diagnostics.trace("Entering the build of {}".format(product.repr))
+        if not modules.product_exists(product) \
+                or not modules.product_function_exists(
+                        product=product, function="build"):
+            diagnostics.trace(
+                "The product package of {} either doesn't exists or doesn't "
+                "contain function 'build'".format(product.repr)
+            )
+            diagnostics.trace(
+                "Thus, {} will be built using the default copy "
+                "function".format(product.repr)
+            )
+            copy_build(
+                build_data=build_data, product=product,
+                subdir=product.build_subdir
+            )
+        else:
+            modules.product_call(
+                build_data.products[dependency], "build", build_data=build_data
+            )

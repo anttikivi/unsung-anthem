@@ -25,12 +25,13 @@ def binary_exists(build_data, product, path, target=None, subproduct=None):
     if os.path.exists(path) and os.path.exists(build_dir):
         if subproduct:
             diagnostics.debug_note(
-                "{} ({}) is already built and, thus, should not be "
-                "re-built".format(subproduct, product.repr)
+                "{} ({}) is already built and should not be re-built".format(
+                    subproduct, product.repr
+                )
             )
         else:
             diagnostics.debug_note(
-                "{} is already built and, thus, should not be re-built".format(
+                "{} is already built and should not be re-built".format(
                     product.repr
                 )
             )
@@ -112,3 +113,19 @@ def build_call(build_data, product, subproduct=None, cmake_args=None):
         elif args.cmake_generator == "Unix Makefiles":
             shell.make(build_data=build_data)
             shell.make_install(build_data=build_data)
+
+
+def copy_build(build_data, product, subdir):
+    check_source(product=product)
+    bin_path = workspace.lib_dir(build_data=build_data, product=product)
+    if binary_exists(build_data=build_data, product=product, path=bin_path):
+        return
+    build_dir = workspace.build_dir(build_data=build_data, product=product)
+    source_dir = workspace.source_dir(product)
+    shell.rmtree(build_dir)
+    shell.copytree(source_dir, build_dir)
+    if not workspace.is_include_dir_made(build_data=build_data) \
+            and workspace.lib_dir_exists(
+                build_data=build_data, product=product):
+        shell.rmtree(bin_path)
+    shell.copytree(os.path.join(build_dir, subdir), bin_path)

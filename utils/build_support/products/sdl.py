@@ -76,3 +76,8 @@ def get_dependency(build_data):
     move_release_files(build_data=build_data)
 
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp"))
+
+
+def build(build_data):
+    """
+    """

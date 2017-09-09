@@ -42,3 +42,8 @@ def move_checkout_files(build_data):
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "glfw", "temp"))
 
     diagnostics.debug_ok("Moved {} files".format(product.repr))
+
+
+def build(build_data):
+    """
+    """

@@ -15,8 +15,24 @@ The support module containing the workspace utilities of the build.
 import os
 import platform
 
+from . import shell
 
 from .variables import ANTHEM_SOURCE_ROOT
+
+
+def is_include_dir_made(build_data):
+    if not os.path.isdir(os.path.join(build_data.install_root, "include")):
+        shell.makedirs(os.path.join(build_data.install_root, "include"))
+        return True
+    return False
+
+
+def lib_dir(build_data, product):
+    return os.path.join(build_data.install_root, "include", product.identifier)
+
+
+def lib_dir_exists(build_data, product):
+    return os.path.isdir(lib_dir(build_data=build_data, product=product))
 
 
 def source_dir(product, subproduct=None):
