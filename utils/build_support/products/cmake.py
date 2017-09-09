@@ -118,7 +118,7 @@ def get_dependency(build_data):
 
     # TODO: protocol=build_data.connection_protocol
     url = product.url_format.format(
-        protocol="http", major_minor=major_minor, version=version,
+        protocol="https", major_minor=major_minor, version=version,
         platform=cmake_platform, extension=archive_extension)
     destination = os.path.join(
         ANTHEM_SOURCE_ROOT, "cmake", "temp", "cmake.{}".format(
