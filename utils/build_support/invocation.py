@@ -26,6 +26,8 @@ from .config import PRODUCT_CONFIG
 
 from .mapping import Mapping
 
+from .products import anthem
+
 from .products.product import copy_build
 
 from .toolchain import host_toolchain, set_arguments_to_toolchain
@@ -214,6 +216,17 @@ def invoke(build_data):
         if not toolchain.cxx:
             toolchain.cxx = toolchain.msbuild
 
+    diagnostics.note(
+        "The executable name is set to {}".format(
+            str(build_data.args.executable_name)
+        )
+    )
+    diagnostics.note(
+        "The test executable name is set to {}".format(
+            str(build_data.args.test_executable_name)
+        )
+    )
+
     diagnostics.note("The host C compiler is set to {}".format(
         str(build_data.toolchain.cc)
     ))
@@ -289,3 +302,31 @@ def invoke(build_data):
                 build_data.products[dependency], "build", build_data=build_data
             )
         diagnostics.debug_ok("{} is now built".format(product.repr))
+
+    build_anthem = \
+        not args.install_only and not args.test_only and not args.docs_only
+
+    if build_anthem:
+        anthem.build(build_data=build_data, tests=False)
+
+    build_tests = \
+        args.build_test and not args.install_only and not args.test_only \
+        and not args.docs_only
+
+    if build_tests:
+        anthem.build(build_data=build_data, tests=True)
+
+    run_tests = \
+        (args.test or args.test_only) and not args.build_only \
+        and not args.install_only and not args.docs_only
+
+    if run_tests:
+        tests_build_dir = anthem.anthem_build_dir(
+            build_data=build_data, tests=True
+        )
+        with shell.pushd(tests_build_dir):
+            shell.call_without_sleeping([os.path.join(
+                tests_build_dir, args.test_executable_name
+            )])
+
+    return 0

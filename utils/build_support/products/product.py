@@ -39,7 +39,7 @@ def binary_exists(build_data, product, path, target=None, subproduct=None):
     return False
 
 
-def check_source(product, subproduct=None):
+def check_source(product, subproduct=None, name=None):
     if subproduct:
         source_dir = workspace.source_dir(
             product=product, subproduct=subproduct
@@ -48,6 +48,14 @@ def check_source(product, subproduct=None):
             diagnostics.fatal(
                 "Cannot find source directory for {} ({}) (tried {})".format(
                     subproduct, product.repr, source_dir
+                )
+            )
+    elif name:
+        source_dir = workspace.source_dir(product=product, name=name)
+        if not os.path.exists(source_dir):
+            diagnostics.fatal(
+                "Cannot find source directory for {} (tried {})".format(
+                    product.repr, source_dir
                 )
             )
     else:

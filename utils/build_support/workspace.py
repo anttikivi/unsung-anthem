@@ -66,11 +66,13 @@ def lib_dir_exists(build_data, product):
     return os.path.isdir(lib_dir(build_data=build_data, product=product))
 
 
-def source_dir(product, subproduct=None):
+def source_dir(product, subproduct=None, name=None):
     if subproduct:
         return os.path.join(
             ANTHEM_SOURCE_ROOT, product.identifier, product.version, subproduct
         )
+    if name:
+        return os.path.join(ANTHEM_SOURCE_ROOT, name)
     return os.path.join(
         ANTHEM_SOURCE_ROOT, product.identifier, product.version
     )

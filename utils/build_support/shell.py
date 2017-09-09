@@ -197,6 +197,13 @@ def pushd(path, dry_run=None, echo=True):
         os.chdir(old_dir)
 
 
+def print_command(command, dry_run=None, env=None, prompt="+ "):
+    echo_command(
+        dry_run=_coerce_dry_run(dry_run), command=command, env=env,
+        prompt=prompt, separate_env=True
+    )
+
+
 def makedirs(path, dry_run=None, echo=True):
     """
     Create a directory recursively.
@@ -409,3 +416,9 @@ def make_install(build_data, env=None, dry_run=False, echo=False):
         build_data=build_data, target="install", env=env, dry_run=dry_run,
         echo=echo
     )
+
+
+def msbuild(build_data, args, env=None, dry_run=False, echo=False):
+    call_command = [str(build_data.toolchain.msbuild)]
+    call_command += args
+    call_without_sleeping(call_command, env=env, dry_run=dry_run, echo=echo)

@@ -25,6 +25,7 @@ def anthem_config(version):
     return Mapping(
         version=version,
         name="Unsung Anthem",
+        identifier="anthem",
         repr="{name} ({identifier})".format(
             name="Unsung Anthem", identifier="anthem"))
 
