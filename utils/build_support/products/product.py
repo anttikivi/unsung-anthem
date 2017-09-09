@@ -17,24 +17,23 @@ import os
 from .. import diagnostics, shell, workspace
 
 
-def binary_exists(build_data, product, path, subproduct=None):
-    if subproduct:
-        build_dir = workspace.build_dir(
-            build_data=build_data, product=product, subproduct=subproduct
-        )
-        if os.path.exists(path) and os.path.exists(build_dir):
+def binary_exists(build_data, product, path, target=None, subproduct=None):
+    build_dir = workspace.build_dir(
+        build_data=build_data, target=target, product=product,
+        subproduct=subproduct
+    )
+    if os.path.exists(path) and os.path.exists(build_dir):
+        if subproduct:
             diagnostics.debug_note(
                 "{} ({}) is already built and, thus, should not be "
                 "re-built".format(subproduct, product.repr)
             )
-        return True
-    build_dir = workspace.build_dir(build_data=build_data, product=product)
-    if os.path.exists(path) and os.path.exists(build_dir):
-        diagnostics.debug_note(
-            "{} is already built and, thus, should not be re-built".format(
-                product.repr
+        else:
+            diagnostics.debug_note(
+                "{} is already built and, thus, should not be re-built".format(
+                    product.repr
+                )
             )
-        )
         return True
     return False
 

@@ -155,7 +155,9 @@ def do_build(build_data):
     build_dir = workspace.build_dir(
         build_data=build_data, product=product, target="build"
     )
-    if binary_exists(build_data=build_data, product=product, path=bin_path):
+    if binary_exists(
+            build_data=build_data, product=product, path=bin_path,
+            target="build"):
         return
     source_dir = workspace.source_dir(product=product)
 
