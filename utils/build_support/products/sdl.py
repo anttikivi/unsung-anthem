@@ -80,7 +80,7 @@ def get_dependency(build_data):
 
 def do_build_windows(build_data):
     product = build_data.products.sdl
-    bin_path = os.path.join(build_data.install_root, "lib", "SDL2.lib")
+    bin_path = workspace.lib_file(build_data=build_data, path="SDL2.lib")
     if binary_exists(build_data=build_data, product=product, path=bin_path):
         return
     build_dir = workspace.build_dir(build_data=build_data, product=product)
