@@ -190,11 +190,14 @@ def invoke(build_data):
         ((args.cmake_generator == "Ninja" or args.cmake_generator == "Xcode")
          and toolchain.ninja is None)
     cmake_build_required = args.build_cmake or (toolchain.cmake is None)
+    llvm_build_required = args.build_llvm or args.build_libcxx
 
     if ninja_build_required and build_dependencies:
         build_data.tools.set_up += ["ninja"]
     if cmake_build_required and build_dependencies:
         build_data.tools.set_up += ["cmake"]
+    if llvm_build_required and build_dependencies:
+        build_data.tools.set_up += ["llvm"]
 
     for tool in build_data.tools.set_up:
         modules.product_call(
@@ -204,6 +207,8 @@ def invoke(build_data):
         str(build_data.toolchain.cc)))
     diagnostics.note("The host C++ compiler is set to {}".format(
         str(build_data.toolchain.cxx)))
+    diagnostics.note("Make is set to {}".format(
+        str(build_data.toolchain.make)))
     diagnostics.note("MSBuild is set to {}".format(
         str(build_data.toolchain.msbuild)))
     diagnostics.note("Ninja is set to {}".format(

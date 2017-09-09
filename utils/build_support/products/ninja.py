@@ -16,6 +16,8 @@ import os
 import platform
 import sys
 
+from .product import binary_exists, check_source
+
 from .. import diagnostics, shell, workspace
 
 
@@ -46,7 +48,7 @@ def do_build(build_data):
     )
     source_dir = workspace.source_dir(product=product)
 
-    if os.path.exists(bin_path) and os.path.exists(build_dir):
+    if binary_exists(build_data=build_data, product=product, path=bin_path):
         return
 
     shell.rmtree(build_dir)
@@ -91,10 +93,7 @@ def set_up(build_data):
     """
     """
     product = build_data.products.ninja
-    if not os.path.exists(workspace.source_dir(product)):
-        diagnostics.fatal(
-            "cannot find source directory for {} (tried {})".format(
-                product.repr, workspace.source_dir(product)))
+    check_source(product=product)
     do_build(build_data=build_data)
     build_data.toolchain.ninja = ninja_bin_path(build_data=build_data)
     shell.call(["chmod", "+x", str(ninja_bin_path(build_data=build_data))])

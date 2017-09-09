@@ -108,6 +108,16 @@ def debug_ok(message):
     return message
 
 
+@printer(level="debug", colour=WARNING)
+def debug_note(message):
+    """
+    Print a debug diagnostic notification to the standard output.
+
+    message -- the message to be printed.
+    """
+    return message
+
+
 @printer(level="note", colour=OK_BLUE)
 def fine(message):
     """

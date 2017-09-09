@@ -49,6 +49,7 @@ def register_tools(args):
         tools.cc = "msbuild"
         tools.cxx = "msbuild"
 
+    tools.make = "make"
     tools.msbuild = "msbuild"
     tools.ninja = "ninja"
     tools.cmake = "cmake"
@@ -114,8 +115,7 @@ def host_toolchain(args, xcrun_toolchain="default"):
         return windows(tools=tools)
     else:
         raise NotImplementedError(
-            "The platform '{}' does not have a defined "
-            "toolchain.".format(sys))
+            "The platform '{}' does not have a defined toolchain.".format(sys))
 
 
 def set_arguments_to_toolchain(args, toolchain):
@@ -123,6 +123,8 @@ def set_arguments_to_toolchain(args, toolchain):
         toolchain.cc = args.host_cc
     if args.host_cxx is not None:
         toolchain.cxx = args.host_cxx
+    if args.make is not None:
+        toolchain.make = args.make
     if args.msbuild is not None:
         toolchain.msbuild = args.msbuild
     if args.cmake is not None:

@@ -14,11 +14,12 @@ The support module containing the LLVM product helpers.
 
 import json
 import os
-import sys
 
-import requests
+from . import clang, libcxx
 
-from .. import diagnostics, shell
+from .product import binary_exists, build_call, check_source
+
+from .. import diagnostics, shell, workspace
 
 from ..httpstream import stream_file
 
@@ -190,3 +191,54 @@ def get_dependency(build_data):
             single_dependency(build_data=build_data, key=dep)
 
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp"))
+
+
+def do_build(build_data):
+    """
+    """
+    args = build_data.args
+    product = build_data.products.llvm
+    bin_path = clang.clang_bin_path(build_data=build_data)
+    build_dir = workspace.build_dir(
+        build_data=build_data, product=product, subproduct="llvm"
+    )
+    if binary_exists(
+            build_data=build_data, product=product, path=bin_path,
+            subproduct="llvm"):
+        return
+    libcxx.set_up(build_data=build_data)
+    clang.set_up(build_data=build_data)
+    shell.makedirs(build_dir)
+
+    cmake_args = []
+
+    if args.llvm_assertions:
+        cmake_args += ["-DLLVM_ENABLE_ASSERTIONS=ON"]
+    else:
+        cmake_args += ["-DLLVM_ENABLE_ASSERTIONS=OFF"]
+
+    if args.libcxx_assertions:
+        cmake_args += ["-DLIBCXX_ENABLE_ASSERTIONS=ON"]
+    else:
+        cmake_args += ["-DLIBCXX_ENABLE_ASSERTIONS=OFF"]
+
+    build_call(
+        build_data=build_data, product=product, subproduct="llvm",
+        cmake_args=cmake_args
+    )
+
+
+def set_up(build_data):
+    """
+    """
+    product = build_data.products.llvm
+    check_source(product=product, subproduct="llvm")
+    if build_data.args.build_llvm:
+        do_build(build_data=build_data)
+        build_data.toolchain.cc = clang.clang_bin_path(build_data=build_data)
+        build_data.toolchain.cxx = clang.clang_cxx_bin_path(
+            build_data=build_data
+        )
+        build_data.args.main_tool = "llvm"
+    elif build_data.args.build_libcxx:
+        libcxx.do_build(build_data=build_data)

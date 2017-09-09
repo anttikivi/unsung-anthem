@@ -377,3 +377,35 @@ def call_without_sleeping(command, env=None, dry_run=False, echo=False):
         call_command = command
 
     call(call_command, env=env, dry_run=dry_run, echo=echo)
+
+
+def ninja(build_data, env=None, dry_run=False, echo=False):
+    call_without_sleeping(
+        [str(build_data.toolchain.ninja)], env=env, dry_run=dry_run, echo=echo
+    )
+
+
+def ninja_install(build_data, env=None, dry_run=False, echo=False):
+    call_without_sleeping(
+        [str(build_data.toolchain.ninja), "install"], env=env, dry_run=dry_run,
+        echo=echo
+    )
+
+
+def make(build_data, target=None, env=None, dry_run=False, echo=False):
+    if target:
+        call_without_sleeping(
+            [build_data.toolchain.make, target], env=env, dry_run=dry_run,
+            echo=echo
+        )
+    else:
+        call_without_sleeping(
+            [build_data.toolchain.make], env=env, dry_run=dry_run, echo=echo
+        )
+
+
+def make_install(build_data, env=None, dry_run=False, echo=False):
+    make(
+        build_data=build_data, target="install", env=env, dry_run=dry_run,
+        echo=echo
+    )

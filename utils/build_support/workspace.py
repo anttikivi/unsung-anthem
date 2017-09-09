@@ -19,17 +19,26 @@ import platform
 from .variables import ANTHEM_SOURCE_ROOT
 
 
-def source_dir(product):
+def source_dir(product, subproduct=None):
+    if subproduct:
+        return os.path.join(
+            ANTHEM_SOURCE_ROOT, product.identifier, product.version, subproduct
+        )
     return os.path.join(
         ANTHEM_SOURCE_ROOT, product.identifier, product.version
     )
 
 
-def build_dir(build_data, product, target=None):
-    if target is not None:
+def build_dir(build_data, product, target=None, subproduct=None):
+    if target:
         return os.path.join(
             build_data.shared_build_root,
             "{}-{}".format(product.identifier, target), product.version
+        )
+    if subproduct:
+        return os.path.join(
+            build_data.shared_build_root,
+            "{}-{}".format(subproduct, build_data.host_target), product.version
         )
     return os.path.join(
         build_data.shared_build_root,

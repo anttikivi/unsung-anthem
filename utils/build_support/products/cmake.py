@@ -15,6 +15,8 @@ The support module containing the CMake product helpers.
 import os
 import platform
 
+from .product import binary_exists, check_source
+
 from .. import diagnostics, shell, workspace
 
 from ..httpstream import stream_file
@@ -153,10 +155,7 @@ def do_build(build_data):
     build_dir = workspace.build_dir(
         build_data=build_data, product=product, target="build"
     )
-    if os.path.exists(bin_path) and os.path.exists(build_dir):
-        diagnostics.debug(
-            "{} is already built and, thus, should not be re-built".format(
-                product.repr))
+    if binary_exists(build_data=build_data, product=product, path=bin_path):
         return
     source_dir = workspace.source_dir(product=product)
 
@@ -174,9 +173,6 @@ def set_up(build_data):
     """
     """
     product = build_data.products.cmake
-    if not os.path.exists(workspace.source_dir(product)):
-        diagnostics.fatal(
-            "cannot find source directory for {} (tried {})".format(
-                product.repr, workspace.source_dir(product)))
+    check_source(product=product)
     do_build(build_data=build_data)
     build_data.toolchain.cmake = cmake_bin_path(build_data=build_data)

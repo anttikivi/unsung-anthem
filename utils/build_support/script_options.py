@@ -627,6 +627,13 @@ def system_options(parser):
         type=arguments.TYPE.executable,
         metavar="PATH")
     parser.add_argument(
+        "--host-make",
+        help="the path to a Make executable that will be used to build "
+             "Unsung Anthem",
+        type=arguments.TYPE.executable,
+        metavar="PATH",
+        dest="make")
+    parser.add_argument(
         "--msbuild",
         help="the absolute path to MSBuild, the Microsoft Visual Studio "
              "compiler for the host platform. Default is auto detected",
