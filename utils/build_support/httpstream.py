@@ -12,6 +12,7 @@ The support module containing helpers for streaming via HTTP.
 """
 
 
+import platform
 import sys
 
 import requests
@@ -30,8 +31,17 @@ def stream_file(build_data, url, destination, headers=None):
     """
     diagnostics.debug("Streaming an asset from {}".format(url))
     if build_data.args.ci or sys.version_info.major < 3:
-        # TODO: Windows
-        shell.curl(url, destination)
+        if platform.system() == "Windows":
+            if headers:
+                responce = requests.get(url=url, headers=headers, stream=True)
+            else:
+                responce = requests.get(url=url, stream=True)
+            with open(destination, "wb") as destination_file:
+                for chunk in responce.iter_content(chunk_size=1024):
+                    if chunk:
+                        destination_file.write(chunk)
+        else:
+            shell.curl(url, destination)
         return
     if headers:
         responce = requests.get(url=url, headers=headers, stream=True)
