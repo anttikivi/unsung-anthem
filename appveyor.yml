@@ -10,6 +10,8 @@ platform:
 
 configuration: Debug
 
+clone_folder: C:\projects\unsung-anthem\unsung-anthem
+
 environment:
   ANTHEM_OAUTH:
     secure: 4OCwwnyLZsHZxRdZm466OrFGcYaE+rcfNAoVZWhsvpA+pBzYoMeXbxzINJDwXBgv
