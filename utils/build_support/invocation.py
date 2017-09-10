@@ -16,6 +16,7 @@ invocation.
 from __future__ import print_function
 
 import os
+import platform
 import sys
 import time
 
@@ -358,8 +359,12 @@ def invoke(build_data):
             build_data=build_data, tests=True
         )
         with shell.pushd(tests_build_dir):
-            shell.call_without_sleeping([os.path.join(
-                tests_build_dir, args.test_executable_name
-            )])
+            if platform.system() == "Windows":
+                test_executable = os.path.join(
+                    tests_build_dir, args.test_executable_name + ".exe")
+            else:
+                test_executable = os.path.join(
+                    tests_build_dir, args.test_executable_name)
+            shell.call_without_sleeping([test_executable])
 
     return 0
