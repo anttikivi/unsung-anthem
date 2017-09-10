@@ -1,4 +1,4 @@
-# add_subdirectory(gsl)
+add_subdirectory(gsl)
 
 set(ANTHEM_TEST_SOURCES ${ANTHEM_TEST_SOURCES}
 
