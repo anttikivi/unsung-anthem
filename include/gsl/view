@@ -43,17 +43,18 @@ namespace gsl {
   ///
   /// \tparam T a pointer type.
   ///
-#if HAS_CXX17_TYPE_TRAITS
 
-  template <typename T, typename = std::enable_if_t<std::is_pointer_v<T>>>
-  using owner = T;
-
-#else
+#if CXX14
 
   template <typename T, typename = std::enable_if_t<std::is_pointer<T>::value>>
   using owner = T;
 
-#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+#else
+
+  template <typename T, typename = std::enable_if_t<std::is_pointer_v<T>>>
+  using owner = T;
+
+#endif // !CXX14
 
   //===--- not_null -------------------------------------------------------===//
 
@@ -66,17 +67,17 @@ namespace gsl {
   template <typename T> class not_null final {
   public:
 
-#if HAS_CXX17_TYPE_TRAITS
-
-    static_assert(std::is_assignable_v<T&, std::nullptr_t>,
-                  "T cannot be assigned nullptr.");
-
-#else
+#if CXX14
 
     static_assert(std::is_assignable<T&, std::nullptr_t>::value,
                   "T cannot be assigned nullptr.");
 
-#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+#else
+
+    static_assert(std::is_assignable_v<T&, std::nullptr_t>,
+                  "T cannot be assigned nullptr.");
+
+#endif // !CXX14
 
     ///
     /// \brief Constructs an object of type \c not_null.
@@ -87,15 +88,7 @@ namespace gsl {
     ///
     /// \param u object to be held by the constructed \c not_null.
     ///
-#if HAS_CXX17_TYPE_TRAITS
-
-    template <typename U,
-              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(U&& u) : ptr{std::forward<U>(u)} {
-      Expects(ptr != nullptr);
-    }
-
-#else
+#if CXX14
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
@@ -103,7 +96,15 @@ namespace gsl {
       Expects(ptr != nullptr);
     }
 
-#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+#else
+
+    template <typename U,
+              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
+    constexpr not_null(U&& u) : ptr{std::forward<U>(u)} {
+      Expects(ptr != nullptr);
+    }
+
+#endif // !CXX14
 
     ///
     /// \brief Constructs an object of type \c not_null which has the same
@@ -125,15 +126,7 @@ namespace gsl {
     /// \param o object from which the value is copied into the constructed
     /// object.
     ///
-#if HAS_CXX17_TYPE_TRAITS
-
-    template <typename U,
-              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()} {
-
-    }
-
-#else
+#if CXX14
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
@@ -141,7 +134,15 @@ namespace gsl {
 
     }
 
-#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+#else
+
+    template <typename U,
+              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
+    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()} {
+
+    }
+
+#endif // !CXX14
 
     ///
     /// \brief Constructs an object of type \c not_null.
@@ -170,15 +171,7 @@ namespace gsl {
     /// \param o object from which the value is moved into the constructed
     /// object.
     ///
-#if HAS_CXX17_TYPE_TRAITS
-
-    template <typename U,
-              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)} {
-
-    }
-
-#else
+#if CXX14
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
@@ -186,7 +179,15 @@ namespace gsl {
 
     }
 
-#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+#else
+
+    template <typename U,
+              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
+    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)} {
+
+    }
+
+#endif // !CXX14
 
     ///
     /// \brief Constructs an object of type \c not_null.

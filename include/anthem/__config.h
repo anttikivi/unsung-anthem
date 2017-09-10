@@ -27,7 +27,11 @@
 # define DISABLE_CXX17 1
 #endif
 
-#if defined(ANTHEM_CXX17)
+#if defined(ANTHEM_CXX2A)
+# define CXX2A 1
+# define CXX17 0
+# define CXX14 0
+#elif defined(ANTHEM_CXX17)
 # define CXX2A 0
 # define CXX17 1
 # define CXX14 0
