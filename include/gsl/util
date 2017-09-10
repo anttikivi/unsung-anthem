@@ -27,16 +27,7 @@
 
 #include <exception>
 #include <utility>
-
-#if HAS_TYPE_TRAITS
-
 # include <type_traits>
-
-#elif HAS_EXPERIMENTAL_TYPE_TRAITS
-
-# include <experimental/type_traits>
-
-#endif // USE_EXPERIMENTAL_TYPE_TRAITS
 
 #if defined(_MSC_VER)
 
@@ -277,15 +268,6 @@ namespace gsl {
 
     template <typename T, typename U> struct is_same_signedness final
     : public std::bool_constant<std::is_signed_v<T> == std::is_signed_v<U>> {
-
-    };
-
-#elif HAS_EXPERIMENTAL_TYPE_TRAITS
-
-    template <typename T, typename U> struct is_same_signedness final
-    : public std::integral_constant<bool,
-                                    std::experimental::is_signed_v<T>
-                                    == std::experimental::is_signed_v<U>> {
 
     };
 

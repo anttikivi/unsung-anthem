@@ -107,13 +107,27 @@ namespace anthem {
 
   ///
   /// \brief Compares the two objects of class \c arguments.
-  /// \param lhs
-  /// \param rhs
+  /// \param lhs left-hand side argument object.
+  /// \param rhs right-hand side argument object.
   /// \return \c true if the member values of the parameters are equal,
   /// otherwise \c false.
   ///
-  constexpr bool operator==(const arguments& lhs,
-                            const arguments& rhs) noexcept {
+  constexpr const bool operator==(const arguments& lhs,
+                                  const arguments& rhs) noexcept {
+
+    return lhs.window_width == rhs.window_width &&
+           lhs.window_height == rhs.window_height;
+  }
+
+  ///
+  /// \brief Compares the two objects of class \c arguments.
+  /// \param lhs
+  /// \param rhs
+  /// \return \c true if the member values of the parameters are not equal,
+  /// otherwise \c false.
+  ///
+  constexpr const bool operator!=(const arguments& lhs,
+                                  const arguments& rhs) noexcept {
 
     return lhs.window_width == rhs.window_width &&
            lhs.window_height == rhs.window_height;

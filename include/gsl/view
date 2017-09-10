@@ -24,17 +24,7 @@
 #ifndef ANTHEM_GSL_VIEW
 #define ANTHEM_GSL_VIEW
 
-#include "anthem/std/type_traits.h"
-
-#if HAS_TYPE_TRAITS
-
 # include <type_traits>
-
-#elif HAS_EXPERIMENTAL_TYPE_TRAITS
-
-# include <experimental/type_traits>
-
-#endif // USE_EXPERIMENTAL_TYPE_TRAITS
 
 #include "gsl/assert"
 
@@ -56,12 +46,6 @@ namespace gsl {
 #if HAS_CXX17_TYPE_TRAITS
 
   template <typename T, typename = std::enable_if_t<std::is_pointer_v<T>>>
-  using owner = T;
-
-#elif HAS_EXPERIMENTAL_TYPE_TRAITS
-
-  template <typename T,
-            typename = std::enable_if_t<std::experimental::is_pointer_v<T>>>
   using owner = T;
 
 #else
@@ -87,11 +71,6 @@ namespace gsl {
     static_assert(std::is_assignable_v<T&, std::nullptr_t>,
                   "T cannot be assigned nullptr.");
 
-#elif HAS_EXPERIMENTAL_TYPE_TRAITS
-
-    static_assert(std::experimental::is_assignable_v<T&, std::nullptr_t>,
-                  "T cannot be assigned nullptr.");
-
 #else
 
     static_assert(std::is_assignable<T&, std::nullptr_t>::value,
@@ -112,14 +91,6 @@ namespace gsl {
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(U&& u) : ptr{std::forward<U>(u)} {
-      Expects(ptr != nullptr);
-    }
-
-#elif HAS_EXPERIMENTAL_TYPE_TRAITS
-
-    template <typename U, typename D =
-              std::enable_if_t<std::experimental::is_convertible_v<U, T>>>
     constexpr not_null(U&& u) : ptr{std::forward<U>(u)} {
       Expects(ptr != nullptr);
     }
@@ -158,14 +129,6 @@ namespace gsl {
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()} {
-
-    }
-
-#elif HAS_EXPERIMENTAL_TYPE_TRAITS
-
-    template <typename U, typename D =
-              std::enable_if_t<std::experimental::is_convertible_v<U, T>>>
     constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()} {
 
     }
@@ -211,14 +174,6 @@ namespace gsl {
 
     template <typename U,
               typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)} {
-
-    }
-
-#elif HAS_EXPERIMENTAL_TYPE_TRAITS
-
-    template <typename U, typename D =
-              std::enable_if_t<std::experimental::is_convertible_v<U, T>>>
     constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)} {
 
     }
