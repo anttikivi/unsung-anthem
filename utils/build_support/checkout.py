@@ -1,4 +1,4 @@
-#===-------------------------- checkout.py --------------------*- python -*-===#
+#===-------------------------- checkout.py -------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -16,7 +16,7 @@ import json
 import os
 import platform
 
-from . import config, diagnostics, github, modules, shell
+from . import config, diagnostics, github, reflection, shell
 
 from .variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
 
@@ -131,7 +131,7 @@ def update(build_data):
         "Using {} protocol to make the HTTP calls".format(protocol.upper()))
 
     diagnostics.trace("The dependencies to be skipped are {}".format(
-        str(build_data.args.skip_repository_list)))
+        build_data.args.skip_repository_list))
 
     for key in build_data.products.keys():
         product = build_data.products[key]

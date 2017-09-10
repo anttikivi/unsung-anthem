@@ -1,4 +1,4 @@
-#===--------------------------- shell.py ----------------------*- python -*-===#
+#===--------------------------- shell.py ---------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -14,7 +14,6 @@ The support module containing shell helpers.
 
 from __future__ import print_function
 
-import distutils
 import os
 import pipes
 import platform
@@ -70,8 +69,6 @@ def echo_command(dry_run, command, env=None, prompt="+ "):
     command -- the command to be printed.
     env -- custom environment variables of the command.
     prompt -- the prompt to be printed before the command.
-    separate_env -- whether or not the environment information is separated
-    from the command by newlines.
     """
     def _env():
         return ["env"] + [quote(
@@ -104,7 +101,8 @@ def call(command, stderr=None, env=None, dry_run=None, echo=True):
 
     def _env():
         ret = os.environ
-        ret.update(env)
+        if env:
+            ret.update(env)
         return ret
 
     is_dry_run = _coerce_dry_run(dry_run)
@@ -119,16 +117,17 @@ def call(command, stderr=None, env=None, dry_run=None, echo=True):
         subprocess.check_call(command, env=_env(), stderr=stderr)
     except subprocess.CalledProcessError as err:
         diagnostics.fatal(
-            "command terminated with a non-zero exit status "
-            + str(err.returncode) + ", aborting")
+            "Command terminated with a non-zero exit status {}, "
+            "aborting".format(err.returncode))
     except OSError as err:
-        diagnostics.fatal(
-            "could not execute '" + quote_command(command)
-            + "': " + err.strerror)
+        diagnostics.fatal("Could not execute '{}': {}".format(
+            quote_command(command), err.strerror
+        ))
 
 
-def capture(command, stderr=None, env=None, dry_run=None, echo=True,
-            optional=False, allow_non_zero_exit=False):
+def capture(
+        command, stderr=None, env=None, dry_run=None, echo=True,
+        optional=False, allow_non_zero_exit=False):
     """
     Execute the given command and return the standard output.
 
@@ -139,17 +138,15 @@ def capture(command, stderr=None, env=None, dry_run=None, echo=True,
     env -- custom environment variables of the command.
     dry_run -- whether or not to command is only printed.
     echo -- whether or not the command is echoed before the execution.
-    optional -- TODO
-    allow_non_zero_exit -- TODO
+    optional -- whether the standard output of the command is not required.
+    allow_non_zero_exit -- whether non-zero exit codes are allowed.
     """
     dry_run = _coerce_dry_run(dry_run)
     if dry_run or echo:
         echo_command(dry_run, command, env=env)
     if dry_run:
         return
-
     _env = None
-
     if env is not None:
         _env = dict(os.environ)
         _env.update(env)
@@ -163,14 +160,15 @@ def capture(command, stderr=None, env=None, dry_run=None, echo=True,
         if optional:
             return None
         diagnostics.fatal(
-            "command terminated with a non-zero exit status {}, "
-            "aborting".format(str(err.returncode)))
+            "Command terminated with a non-zero exit status {}, "
+            "aborting".format(str(err.returncode))
+        )
     except OSError as err:
         if optional:
             return None
-        diagnostics.fatal(
-            "could not execute '{}': {}".format(
-                quote_command(command), str(err.strerror)))
+        diagnostics.fatal("Could not execute '{}': {}".format(
+            quote_command(command), str(err.strerror)
+        ))
 
 
 @contextmanager
@@ -196,6 +194,14 @@ def pushd(path, dry_run=None, echo=True):
 
 
 def print_command(command, dry_run=None, env=None, prompt="+ "):
+    """
+    Print a command.
+
+    command -- the command to be printed.
+    dry_run -- whether or not dry run is enabled.
+    env -- custom environment variables of the command.
+    prompt -- the prompt to be printed before the command.
+    """
     echo_command(
         dry_run=_coerce_dry_run(dry_run), command=command, env=env,
         prompt=prompt
@@ -212,7 +218,7 @@ def makedirs(path, dry_run=None, echo=True):
     """
     dry_run = _coerce_dry_run(dry_run)
     if dry_run or echo:
-        echo_command(dry_run, ['mkdir', '-p', path])
+        echo_command(dry_run, ["mkdir", "-p", path])
     if dry_run:
         return
     if not os.path.isdir(path):
@@ -230,7 +236,7 @@ def rmtree(path, dry_run=None, echo=True, ignore_errors=False):
     """
     dry_run = _coerce_dry_run(dry_run)
     if dry_run or echo:
-        echo_command(dry_run, ['rm', '-rf', path])
+        echo_command(dry_run, ["rm", "-rf", path])
     if dry_run:
         return
     if os.path.exists(path):
@@ -247,7 +253,7 @@ def rm(file, dry_run=None, echo=True):
     """
     dry_run = _coerce_dry_run(dry_run)
     if dry_run or echo:
-        echo_command(dry_run, ['rm', file])
+        echo_command(dry_run, ["rm", file])
     if dry_run:
         return
     if os.path.islink(file):
@@ -267,7 +273,7 @@ def copytree(src, dest, dry_run=None, echo=True):
     """
     dry_run = _coerce_dry_run(dry_run)
     if dry_run or echo:
-        echo_command(dry_run, ['cp', '-r', src, dest])
+        echo_command(dry_run, ["cp", "-r", src, dest])
     if dry_run:
         return
     if os.path.exists(dest):
@@ -288,7 +294,7 @@ def copy(src, dest, dry_run=None, echo=True):
     """
     dry_run = _coerce_dry_run(dry_run)
     if dry_run or echo:
-        echo_command(dry_run, ['cp', src, dest])
+        echo_command(dry_run, ["cp", src, dest])
     if dry_run:
         return
     shutil.copy(src, dest)
@@ -365,14 +371,22 @@ def tar(path, dest=None, dry_run=None, echo=True):
                         archive.extractall()
 
 
-def curl(url, dest, env=None, dry_run=False, echo=False):
+def curl(url, dest, env=None, dry_run=None, echo=True):
+    """
+    Download a file.
+
+    url -- the URL from which the file is downloaded.
+    dest -- the file where the file is downloaded.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
     call(
         ["curl", "-o", dest, "--create-dirs", url], env=env, dry_run=dry_run,
         echo=echo
     )
 
 
-def call_without_sleeping(command, env=None, dry_run=False, echo=False):
+def call_without_sleeping(command, env=None, dry_run=None, echo=False):
     """
     Execute a command during which system sleep is disabled.
     By default, this ignores the state of the 'shell.dry_run' flag.
@@ -382,49 +396,88 @@ def call_without_sleeping(command, env=None, dry_run=False, echo=False):
     dry_run -- whether or not to command is only printed.
     echo -- whether or not the command is echoed before the execution.
     """
-
     # Disable system sleep, if possible.
     if platform.system == "Darwin":
         call_command = ["caffeinate"] + list(command)
     else:
         call_command = command
-
     call(call_command, env=env, dry_run=dry_run, echo=echo)
 
 
-def ninja(build_data, env=None, dry_run=False, echo=False):
-    call_without_sleeping(
-        [str(build_data.toolchain.ninja)], env=env, dry_run=dry_run, echo=echo
-    )
+def ninja(build_data, target=None, env=None, dry_run=None, echo=False):
+    """
+    Call Ninja.
 
-
-def ninja_install(build_data, env=None, dry_run=False, echo=False):
-    call_without_sleeping(
-        [str(build_data.toolchain.ninja), "install"], env=env, dry_run=dry_run,
-        echo=echo
-    )
-
-
-def make(build_data, target=None, env=None, dry_run=False, echo=False):
+    build_data -- the build data.
+    target -- the Ninja target.
+    env -- custom environment variables of the command.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
     if target:
-        call_without_sleeping(
-            [build_data.toolchain.make, target], env=env, dry_run=dry_run,
-            echo=echo
-        )
+        call(
+            [build_data.toolchain.ninja, target], env=env, dry_run=dry_run,
+            echo=echo)
     else:
-        call_without_sleeping(
-            [build_data.toolchain.make], env=env, dry_run=dry_run, echo=echo
-        )
+        call([build_data.toolchain.ninja], env=env, dry_run=dry_run, echo=echo)
 
 
-def make_install(build_data, env=None, dry_run=False, echo=False):
+def ninja_install(build_data, env=None, dry_run=None, echo=False):
+    """
+    Call the install target of Ninja.
+
+    build_data -- the build data.
+    env -- custom environment variables of the command.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    ninja(
+        build_data=build_data, target="install", env=env, dry_run=dry_run,
+        echo=echo)
+
+
+def make(build_data, target=None, env=None, dry_run=None, echo=False):
+    """
+    Call Make.
+
+    build_data -- the build data.
+    target -- the Ninja target.
+    env -- custom environment variables of the command.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    if target:
+        call(
+            [build_data.toolchain.make, target], env=env, dry_run=dry_run,
+            echo=echo)
+    else:
+        call([build_data.toolchain.make], env=env, dry_run=dry_run, echo=echo)
+
+
+def make_install(build_data, env=None, dry_run=None, echo=False):
+    """
+    Call the install target of Make.
+
+    build_data -- the build data.
+    env -- custom environment variables of the command.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
     make(
         build_data=build_data, target="install", env=env, dry_run=dry_run,
-        echo=echo
-    )
+        echo=echo)
 
 
-def msbuild(build_data, args, env=None, dry_run=False, echo=False):
-    call_command = [str(build_data.toolchain.msbuild)]
+def msbuild(build_data, args, env=None, dry_run=None, echo=False):
+    """
+    Call MSBuild.
+
+    build_data -- the build data.
+    args -- the MSBuild arguments.
+    env -- custom environment variables of the command.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    call_command = [build_data.toolchain.msbuild]
     call_command += args
-    call_without_sleeping(call_command, env=env, dry_run=dry_run, echo=echo)
+    call(call_command, env=env, dry_run=dry_run, echo=echo)

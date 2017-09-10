@@ -1,4 +1,4 @@
-#===---------------------------- sdl.py -----------------------*- python -*-===#
+#===---------------------------- sdl.py ----------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -26,6 +26,9 @@ from ..variables import ANTHEM_SOURCE_ROOT
 
 def move_release_files(build_data):
     """
+    Move the SDL files to the correct location after the download.
+
+    build_data -- the build data.
     """
     product = build_data.products.sdl
     version = product.version
@@ -43,6 +46,9 @@ def move_release_files(build_data):
 
 def get_dependency(build_data):
     """
+    Download SDL.
+
+    build_data -- the build data.
     """
     product = build_data.products.sdl
     version = product.version
@@ -51,12 +57,11 @@ def get_dependency(build_data):
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "sdl", version))
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp"))
 
-    # TODO: protocol=build_data.connection_protocol
     if platform.system() == "Windows":
         archive_extension = "zip"
         url = product.windows_format.format(
-            protocol="http", version=version, type="VC",
-            extension=archive_extension
+            protocol=build_data.connection_protocol, version=version,
+            type="VC", extension=archive_extension
         )
     else:
         archive_extension = "tar.gz"
@@ -79,6 +84,11 @@ def get_dependency(build_data):
 
 
 def do_build_windows(build_data):
+    """
+    Do the build of SDL on Windows.
+
+    build_data -- the build data.
+    """
     product = build_data.products.sdl
     bin_path = workspace.lib_file(build_data=build_data, path="SDL2.lib")
     if binary_exists(build_data=build_data, product=product, path=bin_path):
@@ -108,6 +118,11 @@ def do_build_windows(build_data):
 
 
 def do_build(build_data):
+    """
+    Do the build of SDL.
+
+    build_data -- the build data.
+    """
     product = build_data.products.sdl
     bin_path = os.path.join(build_data.install_root, "lib", "libSDL2.a")
     build_dir = workspace.build_dir(build_data=build_data, product=product)
@@ -119,6 +134,9 @@ def do_build(build_data):
 
 def build(build_data):
     """
+    Build SDL.
+
+    build_data -- the build data.
     """
     product = build_data.products.sdl
     check_source(product=product)

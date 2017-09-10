@@ -1,4 +1,4 @@
-#===--------------------------- catch.py ----------------------*- python -*-===#
+#===--------------------------- catch.py ---------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -21,6 +21,9 @@ from .. import shell, workspace
 
 def build(build_data):
     """
+    Build Catch.
+
+    build_data -- the build data.
     """
     product = build_data.products.catch
     check_source(product=product)

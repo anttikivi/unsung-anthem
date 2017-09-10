@@ -1,4 +1,4 @@
-#===--------------------------- cmake.py ----------------------*- python -*-===#
+#===--------------------------- cmake.py ---------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -26,6 +26,10 @@ from ..variables import ANTHEM_SOURCE_ROOT
 
 def resolve_linux_platform(build_data):
     """
+    Resolve the platform which is used in the URL from which CMake is
+    downloaded on Linux.
+
+    build_data -- the build data.
     """
     version_mapping = build_data.products.cmake.version_mapping
     # Starting at CMake 3.1.0 'Linux-x86_64' variant is available, before that
@@ -39,6 +43,10 @@ def resolve_linux_platform(build_data):
 
 def resolve_darwin_platform(build_data):
     """
+    Resolve the platform which is used in the URL from which CMake is
+    downloaded on Darwin (macOS).
+
+    build_data -- the build data.
     """
     version_mapping = build_data.products.cmake.version_mapping
     # Starting at CMake 3.1.1 'Darwin-x86_64' variant is available, before that
@@ -54,6 +62,10 @@ def resolve_darwin_platform(build_data):
 
 def resolve_platform(build_data):
     """
+    Resolve the platform which is used in the URL from which CMake is
+    downloaded.
+
+    build_data -- the build data.
     """
     product = build_data.products.cmake
     if platform.system() == "Windows":
@@ -65,12 +77,17 @@ def resolve_platform(build_data):
 
     diagnostics.warn(
         "{} will not be downloaded as the platform is not supported".format(
-            product.repr))
+            product.repr
+        )
+    )
     return None
 
 
 def move_release_files(build_data):
     """
+    Move the CMake files to the correct location after the download.
+
+    build_data -- the build data.
     """
     product = build_data.products.cmake
     version = product.version
@@ -98,6 +115,9 @@ def move_release_files(build_data):
 
 def get_dependency(build_data):
     """
+    Download CMake.
+
+    build_data -- the build data.
     """
     product = build_data.products.cmake
     version = product.version
@@ -116,10 +136,10 @@ def get_dependency(build_data):
     else:
         archive_extension = "tar.gz"
 
-    # TODO: protocol=build_data.connection_protocol
     url = product.url_format.format(
-        protocol="https", major_minor=major_minor, version=version,
-        platform=cmake_platform, extension=archive_extension)
+        protocol=build_data.connection_protocol, major_minor=major_minor,
+        version=version, platform=cmake_platform, extension=archive_extension
+    )
     destination = os.path.join(
         ANTHEM_SOURCE_ROOT, "cmake", "temp", "cmake.{}".format(
             archive_extension)
@@ -137,6 +157,11 @@ def get_dependency(build_data):
 
 
 def cmake_bin_path(build_data):
+    """
+    Create the path for the binary of CMake.
+
+    build_data -- the build data.
+    """
     if platform.system() == "Windows":
         return os.path.join(build_data.install_root, "bin", "cmake.exe")
     elif platform.system() == "Linux":
@@ -149,8 +174,14 @@ def cmake_bin_path(build_data):
             platform.system(), build_data.products.cmake.repr))
 
 
-def do_build(build_data):
+def set_up(build_data):
+    """
+    Set CMake up for the build.
+
+    build_data -- the build data.
+    """
     product = build_data.products.cmake
+    check_source(product=product)
     bin_path = cmake_bin_path(build_data=build_data)
     build_dir = workspace.build_dir(
         build_data=build_data, product=product, target="build"
@@ -160,7 +191,6 @@ def do_build(build_data):
             target="build"):
         return
     source_dir = workspace.source_dir(product=product)
-
     shell.rmtree(build_dir)
     shell.copytree(source_dir, build_dir)
     if platform.system() == "Darwin":
@@ -169,12 +199,4 @@ def do_build(build_data):
             os.path.join(build_data.install_root, "CMake.app"))
     else:
         shell.copytree(build_dir, build_data.install_root)
-
-
-def set_up(build_data):
-    """
-    """
-    product = build_data.products.cmake
-    check_source(product=product)
-    do_build(build_data=build_data)
     build_data.toolchain.cmake = cmake_bin_path(build_data=build_data)

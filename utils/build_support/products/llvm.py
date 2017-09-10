@@ -1,4 +1,4 @@
-#===--------------------------- llvm.py -----------------------*- python -*-===#
+#===--------------------------- llvm.py ----------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -28,6 +28,10 @@ from ..variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
 
 def skip_checkout(build_data, versions):
     """
+    Check whether or not LLVM should be skipped in the checkout.
+
+    build_data -- the build data.
+    versions -- the version info dictionary of the checkout.
     """
     diagnostics.note(
         "{} checkout check is done in the checkout process".format(
@@ -37,6 +41,10 @@ def skip_checkout(build_data, versions):
 
 def skip_download(build_data, key):
     """
+    Check whether or not the LLVM download should be skipped.
+
+    build_data -- the build data.
+    key -- the name of the subproduct.
     """
     if os.path.isfile(VERSIONS_FILE):
         with open(VERSIONS_FILE) as json_file:
@@ -56,6 +64,10 @@ def skip_download(build_data, key):
 
 def inject_version_info(build_data, versions):
     """
+    Add the LLVM version info to the checkout version info.
+
+    build_data -- the build data.
+    versions -- the version info dictionary of the checkout.
     """
     product = build_data.products.llvm
     args = build_data.args
@@ -69,6 +81,10 @@ def inject_version_info(build_data, versions):
 
 def remove_old_checkout(build_data, key):
     """
+    Remove the old checkout of the given LLVM subproduct.
+
+    build_data -- the build data.
+    key -- the name of the subproduct.
     """
     product = build_data.products.llvm
     version = product.version
@@ -77,6 +93,9 @@ def remove_old_checkout(build_data, key):
 
 
 def remove_libcxx_bad_symlink():
+    """
+    Remove the bad symlink in libc++.
+    """
     # FIXME: This is bad, this is hardcoded.
     shell.rm(os.path.join(
         ANTHEM_SOURCE_ROOT, "llvm", "temp", "libcxx", "test", "std",
@@ -85,6 +104,11 @@ def remove_libcxx_bad_symlink():
 
 
 def remove_libcxx_release_bad_symlink(subdir):
+    """
+    Remove the bad symlink in libc++.
+
+    subdir -- the name of the libc++ subdir in the release archive.
+    """
     # FIXME: This is bad, this is hardcoded.
     shell.rm(os.path.join(
         ANTHEM_SOURCE_ROOT, "llvm", "temp", "libcxx", subdir, "test", "std",
@@ -94,6 +118,10 @@ def remove_libcxx_release_bad_symlink(subdir):
 
 def git_dependency(build_data, key):
     """
+    Download the given LLVM subproduct by using git.
+
+    build_data -- the build data.
+    key -- the name of the subproduct.
     """
     product = build_data.products.llvm
     version = product.version
@@ -122,6 +150,10 @@ def git_dependency(build_data, key):
 
 def move_release_files(build_data, key):
     """
+    Move the LLVM subproduct files to the correct location after the download.
+
+    build_data -- the build data.
+    key -- the name of the subproduct.
     """
     product = build_data.products.llvm
     version = product.version
@@ -134,14 +166,17 @@ def move_release_files(build_data, key):
 
 def release_dependency(build_data, key):
     """
+    Download the given LLVM subproduct.
+
+    build_data -- the build data.
+    key -- the name of the subproduct.
     """
     product = build_data.products.llvm
     version = product.version
     remove_old_checkout(build_data=build_data, key=key)
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
-    # TODO: protocol=build_data.connection_protocol
     url = product.release_format.format(
-        protocol="http", version=version,
+        protocol=build_data.connection_protocol, version=version,
         key=product.subproducts[key]
     )
     destination = os.path.join(
@@ -165,6 +200,10 @@ def release_dependency(build_data, key):
 
 def single_dependency(build_data, key):
     """
+    Download the given LLVM subproduct.
+
+    build_data -- the build data.
+    key -- the name of the subproduct.
     """
     diagnostics.debug("Downloading LLVM subproject {}".format(key))
     version = build_data.products.llvm.version
@@ -176,6 +215,9 @@ def single_dependency(build_data, key):
 
 def get_dependency(build_data):
     """
+    Download the LLVM subproducts.
+
+    build_data -- the build data.
     """
     args = build_data.args
     product = build_data.products.llvm
@@ -195,6 +237,9 @@ def get_dependency(build_data):
 
 def do_build(build_data):
     """
+    Do the build of LLVM with Clang and libc++.
+
+    build_data -- the build data.
     """
     args = build_data.args
     product = build_data.products.llvm
@@ -230,6 +275,9 @@ def do_build(build_data):
 
 def set_up(build_data):
     """
+    Set LLVM up for the build.
+
+    build_data -- the build data.
     """
     product = build_data.products.llvm
     if build_data.args.build_llvm:

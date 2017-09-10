@@ -1,4 +1,4 @@
-#===--------------------------- ninja.py ----------------------*- python -*-===#
+#===--------------------------- ninja.py ---------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -22,6 +22,11 @@ from .. import diagnostics, shell, workspace
 
 
 def ninja_build_bin_path(build_data):
+    """
+    Create the path for the binary of Ninja in the build directory.
+
+    build_data -- the build data.
+    """
     build_dir = workspace.build_dir(
         build_data=build_data, product=build_data.products.ninja,
         target="build"
@@ -32,6 +37,11 @@ def ninja_build_bin_path(build_data):
 
 
 def ninja_bin_path(build_data):
+    """
+    Create the path for the binary of Ninja.
+
+    build_data -- the build data.
+    """
     if platform.system() == "Windows":
         return os.path.join(build_data.install_root, "bin", "ninja.exe")
     return os.path.join(build_data.install_root, "bin", "ninja")
@@ -39,6 +49,9 @@ def ninja_bin_path(build_data):
 
 def do_build(build_data):
     """
+    Do the build of Ninja.
+
+    build_data -- the build data.
     """
     product = build_data.products.ninja
     bin_path = ninja_bin_path(build_data=build_data)
@@ -91,6 +104,9 @@ def do_build(build_data):
 
 def set_up(build_data):
     """
+    Set Ninja up for the build.
+
+    build_data -- the build data.
     """
     product = build_data.products.ninja
     check_source(product=product)

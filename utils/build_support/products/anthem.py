@@ -1,4 +1,4 @@
-#===--------------------------- anthem.py ---------------------*- python -*-===#
+#===--------------------------- anthem.py --------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -23,6 +23,13 @@ from ..variables import ANTHEM_REPO_NAME
 
 
 def anthem_build_dir(build_data, tests=False):
+    """
+    Create the directory name for the full build subdirectory of Unsung Anthem.
+
+    build_data -- the build data.
+    tests -- whether or not the directory name should be created for the tests
+    binaries.
+    """
     product = build_data.products.anthem
     if tests:
         return os.path.join(
@@ -38,6 +45,11 @@ def anthem_build_dir(build_data, tests=False):
 
 def build(build_data, tests=False):
     """
+    Build Unsung Anthem.
+
+    build_data -- the build data.
+    tests -- whether or not the tests should be built rather than the actual
+    executable.
     """
     args = build_data.args
     toolchain = build_data.toolchain
@@ -48,8 +60,8 @@ def build(build_data, tests=False):
     source_dir = workspace.source_dir(product=product, name=ANTHEM_REPO_NAME)
 
     cmake_call = [
-        str(toolchain.cmake),
-        str(source_dir),
+        toolchain.cmake,
+        source_dir,
         "-G", args.cmake_generator,
         "-DANTHEM_INSTALL_PREFIX={}".format(build_data.install_root),
         "-DANTHEM_CXX_VERSION={}".format(build_data.std),
@@ -80,8 +92,8 @@ def build(build_data, tests=False):
     if args.cmake_generator == "Ninja":
         cmake_call += ["-DCMAKE_MAKE_PROGRAM={}".format(toolchain.ninja)]
 
-    if build_data.stdlib_set:
-        cmake_call += ["-DANTHEM_STDLIB={}".format(build_data.stdlib_set)]
+    if build_data.stdlib:
+        cmake_call += ["-DANTHEM_STDLIB={}".format(build_data.stdlib)]
 
     if args.build_llvm or args.build_libcxx:
         cmake_call += ["-DANTHEM_CUSTOM_LIBCXX=ON"]
@@ -109,8 +121,10 @@ def build(build_data, tests=False):
             elif args.cmake_generator == "Unix Makefiles":
                 shell.make(build_data=build_data)
                 if args.enable_gcov and tests:
-                    shell.make("{}_coverage".format(args.executable_name))
-
+                    shell.make(
+                        build_data=build_data,
+                        target="{}_coverage".format(args.executable_name)
+                    )
                     if args.ci:
                         shell.call([
                             "coveralls-lcov", "--repo-token",

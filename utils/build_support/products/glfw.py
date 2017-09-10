@@ -1,4 +1,4 @@
-#===--------------------------- glfw.py -----------------------*- python -*-===#
+#===--------------------------- glfw.py ----------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -48,6 +48,11 @@ def move_checkout_files(build_data):
 
 
 def do_build_windows(build_data):
+    """
+    Do the build of GLFW on Windows.
+
+    build_data -- the build data.
+    """
     product = build_data.products.glfw
     bin_path = workspace.lib_file(build_data=build_data, path="glfw3.lib")
     if binary_exists(build_data=build_data, product=product, path=bin_path):
@@ -77,6 +82,11 @@ def do_build_windows(build_data):
 
 
 def do_build(build_data):
+    """
+    Do the build of GLFW.
+
+    build_data -- the build data.
+    """
     args = build_data.args
     toolchain = build_data.toolchain
     product = build_data.products.glfw
@@ -96,6 +106,9 @@ def do_build(build_data):
 
 def build(build_data):
     """
+    Build GLFW.
+
+    build_data -- the build data.
     """
     product = build_data.products.glfw
     check_source(product=product)

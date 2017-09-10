@@ -1,4 +1,4 @@
-#===--------------------------- product.py --------------------*- python -*-===#
+#===-------------------------- product.py --------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -18,6 +18,15 @@ from .. import diagnostics, shell, workspace
 
 
 def binary_exists(build_data, product, path, target=None, subproduct=None):
+    """
+    Check if the binary for the product exists.
+
+    build_data -- the build data.
+    product -- the product.
+    path -- the path to the binary.
+    target -- a custom target of the product.
+    subproduct -- a possible subproduct which should be checked instead.
+    """
     build_dir = workspace.build_dir(
         build_data=build_data, target=target, product=product,
         subproduct=subproduct
@@ -40,6 +49,14 @@ def binary_exists(build_data, product, path, target=None, subproduct=None):
 
 
 def check_source(product, subproduct=None, name=None):
+    """
+    Check if the source directory of the product exists.
+
+    product -- the product.
+    subproduct -- a possible subproduct of the product for which the path is
+    checked.
+    name -- a custom name of the source directory.
+    """
     if subproduct:
         source_dir = workspace.source_dir(
             product=product, subproduct=subproduct
@@ -69,6 +86,15 @@ def check_source(product, subproduct=None, name=None):
 
 
 def build_call(build_data, product, subproduct=None, cmake_args=None):
+    """
+    Do a simple CMake call, followed by Ninja or Make calls, to build the
+    given product.
+
+    build_data -- the build data.
+    product -- the product.
+    subproduct -- a possible subproduct of the product which is built.
+    cmake_args -- extra CMake arguments to be passed to the call.
+    """
     if subproduct:
         source_dir = workspace.source_dir(
             product=product, subproduct=subproduct
@@ -123,7 +149,16 @@ def build_call(build_data, product, subproduct=None, cmake_args=None):
             shell.make_install(build_data=build_data)
 
 
-def copy_build(build_data, product, subdir):
+def copy_build(build_data, product, subdir=None):
+    """
+    Do a simple copying of files to the correct places for the Unsung Anthem
+    build.
+
+    build_data -- the build data.
+    product -- the product.
+    subdir -- a subdir in the project build directory which should be copied
+    instead of the whole directory.
+    """
     check_source(product=product)
     bin_path = workspace.include_dir(build_data=build_data, product=product)
     if binary_exists(build_data=build_data, product=product, path=bin_path):

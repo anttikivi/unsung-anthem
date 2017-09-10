@@ -1,4 +1,4 @@
-#===--------------------------- script.py ---------------------*- python -*-===#
+#===--------------------------- script.py --------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -75,13 +75,13 @@ ANTHEM_SOURCE_ROOT: a directory containing the source for Unsung Anthem. If
 
    $ANTHEM_SOURCE_ROOT/unsung-anthem (the directory name does not matter)
 
-ANTHEM_SOURCE_ROOT: a directory in which to create out-of-tree builds.
-                    Defaults to "$ANTHEM_SOURCE_ROOT/build/".
+ANTHEM_BUILD_ROOT: a directory in which to create out-of-tree builds.
+                   Defaults to "$ANTHEM_SOURCE_ROOT/build/".
 
 Preparing to run this script
 ----------------------------
 
-Make sure that your system has C and C++ compiler.
+Make sure that your system has C and C++ compilers.
 
 That's it; you're ready to go!
 
@@ -93,8 +93,8 @@ is just:
 
   [~/src/s]$ ./unsung-anthem/utils/build-script
 
-This builds Unsung Anthem, its dependencies and the tools required to build in
-debug mode.
+This builds Unsung Anthem, its dependencies and the tools required to build it
+in debug mode.
 
 All builds are incremental. To incrementally build changed files, repeat the
 same 'build-script' command.
@@ -111,7 +111,7 @@ To run tests, add '-t':
   [~/src/s]$ ./unsung-anthem/utils/build-script -R -t
 
 To build dependencies and tools with optimization without debug information,
-and debuggable Unsung Anthem:
+and a debuggable Unsung Anthem:
 
   [~/src/s]$ ./unsung-anthem/utils/build-script -R --debug-anthem
 
@@ -132,8 +132,8 @@ limited customization (extra output paths). The actual options come from the
 selected preset in 'utils/build-presets.ini'.
 
 If you have your own favourite set of options, you can create your own, local,
-preset. For example, let us create a preset called 'dua' (which stands for
-Debug Unsung Anthem):
+preset. For example, let's create a preset called 'dua' (which stands for Debug
+Unsung Anthem):
 
   $ cat > ~/.anthem-build-presets
   [preset: dua]
@@ -171,18 +171,15 @@ def create_preset_parser():
     Create the argument parser to be used when the program is run in the
     preset mode.
 
-    This function is not pure, as it modifies the parser object before
-    returning it.
-
     This function returns an object of type ArgumentParser.
     """
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="""Builds Unsung Anthem using a preset.""")
+        description="Builds Unsung Anthem using a preset.")
 
     parser.add_argument(
         "-n", "--dry-run",
-        help="print the commands that would be executed, but do not execute "
+        help="print the commands that would be executed, but don't execute "
              "them",
         action="store_true",
         default=False)
@@ -249,7 +246,6 @@ def create_preset_parser():
     return parser
 
 
-
 def create_parser():
     """
     Create the argument parser to be used when the program is run in the
@@ -301,11 +297,11 @@ def preset_files(args):
             os.path.join(HOME, ".anthem-build-presets"),
             os.path.join(
                 ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils",
-                "build-presets.ini")
-            ]
+                "build-presets.ini"
+            )
+        ]
     else:
         ret = args.preset_file_names
-
     return ret
 
 
@@ -317,11 +313,12 @@ def get_new_invocation(args, preset_args):
     preset_args -- the parsed preset arguments.
     """
     def _impl_exec():
-        return [(sys.executable \
-            if platform.system() == "Windows" else None), sys.argv[0]]
+        return [(sys.executable
+                 if platform.system() == "Windows" else None), sys.argv[0]]
 
-    return filter(None, list(
+    return list(filter(None, list(
         _impl_exec() + [
+            ("--from-preset"),
             ("--dry-run" if args.dry_run else None),
             ("--clean" if args.clean else None),
             ("--install" if args.install_only else None),
@@ -333,4 +330,4 @@ def get_new_invocation(args, preset_args):
         + [
             ("--jobs" if args.build_jobs else None),
             (str(args.build_jobs) if args.build_jobs else None)
-        ]))
+        ])))

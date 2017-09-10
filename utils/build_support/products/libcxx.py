@@ -1,4 +1,4 @@
-#===--------------------------- libcxx.py ---------------------*- python -*-===#
+#===--------------------------- libcxx.py --------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -17,10 +17,15 @@ import platform
 
 from .product import binary_exists, build_call, check_source
 
-from .. import diagnostics, shell, workspace
+from .. import shell, workspace
 
 
 def libcxx_bin_path(build_data):
+    """
+    Create the path for the binary of libc++.
+
+    build_data -- the build data.
+    """
     if platform.system() == "Windows":
         # TODO
         return os.path.join(build_data.install_root, "lib", "libc++.a")
@@ -29,6 +34,9 @@ def libcxx_bin_path(build_data):
 
 def do_build(build_data):
     """
+    Do the build of libc++.
+
+    build_data -- the build data.
     """
     args = build_data.args
     product = build_data.products.llvm
@@ -57,6 +65,11 @@ def do_build(build_data):
 
 
 def set_up(build_data):
+    """
+    Set libc++ up for the LLVM build.
+
+    build_data -- the build data.
+    """
     product = build_data.products.llvm
     check_source(product=product, subproduct="libcxx")
     source_dir = workspace.source_dir(product=product, subproduct="libcxx")

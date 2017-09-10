@@ -1,4 +1,4 @@
-#===------------------------- cache_util.py -------------------*- python -*-===#
+#===------------------------- cache_util.py ------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -13,6 +13,7 @@ The support module containing the caching utilities.
 
 
 from functools import update_wrapper
+
 
 __all__ = ["cached", "reify"]
 

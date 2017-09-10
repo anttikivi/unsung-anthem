@@ -1,4 +1,4 @@
-#===------------------------- httpstream.py -------------------*- python -*-===#
+#===------------------------- httpstream.py ------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -12,6 +12,8 @@ The support module containing helpers for streaming via HTTP.
 """
 
 
+import sys
+
 import requests
 
 from . import diagnostics, shell
@@ -19,9 +21,16 @@ from . import diagnostics, shell
 
 def stream_file(build_data, url, destination, headers=None):
     """
+    Stream a file to the local machine.
+
+    build_data -- the build data.
+    url -- the url from which the file is streamed.
+    destination -- the local file where the file is streamed.
+    headers -- the possible headers for the HTTP call.
     """
     diagnostics.debug("Streaming an asset from {}".format(url))
-    if build_data.args.ci:
+    if build_data.args.ci or sys.version_info.major < 3:
+        # TODO: Windows
         shell.curl(url, destination)
         return
     if headers:

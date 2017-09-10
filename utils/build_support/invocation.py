@@ -1,4 +1,4 @@
-#===------------------------- invocation.py -------------------*- python -*-===#
+#===------------------------- invocation.py ------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -20,7 +20,7 @@ import sys
 import time
 
 from . import \
-    checkout, config, defaults, diagnostics, migration, modules, shell
+    checkout, config, defaults, diagnostics, migration, reflection, shell
 
 from .config import PRODUCT_CONFIG
 
@@ -54,6 +54,11 @@ def exit_rejecting_arguments(message, parser=None):
 
 
 def validate_arguments(args):
+    """
+    Check that the command line arguments are valid.
+
+    args -- the command line arguments.
+    """
     if not (args.std == "c++latest"
             or args.std == "c++2a" or args.std == "c++17"
             or args.std == "c++14"):
@@ -61,7 +66,7 @@ def validate_arguments(args):
             "C++ standard version is set to an invalid value: "
             + str(args.std))
 
-    if args.stdlib_set:
+    if args.stdlib:
         if not (args.stdlib == "libc++" or args.stdlib == "libstdc++"):
             exit_rejecting_arguments(
                 "C++ standard library implementation is set to an invalid "
@@ -120,21 +125,23 @@ def clean_delay():
 
 
 def set_up(parser):
+    """
+    Construct the build data and download the dependencies.
+
+    parser -- the command line argument parser.
+    """
     args = migration.parse_args(parser, sys.argv[1:])
-
     shell.DRY_RUN = args.dry_run
-
     diagnostics.note("The main tool is set to {}".format(args.main_tool))
     diagnostics.note(
-        "The main tool version is set to {}".format(args.main_tool_version))
-
+        "The main tool version is set to {}".format(args.main_tool_version)
+    )
     defaults.fix_main_tool(args)
     defaults.main_args(args)
     defaults.cxx_std(args)
     defaults.default_versions(args)
     defaults.file_arguments(args)
     defaults.authorization(args)
-
     validate_arguments(args)
 
     build_data = Mapping(
@@ -147,7 +154,8 @@ def set_up(parser):
         products=PRODUCT_CONFIG,
         host_target=args.host_target,
         std=args.std,
-        stdlib=args.stdlib)
+        stdlib=args.stdlib
+    )
 
     config.apply_versions(build_data=build_data)
 
@@ -184,7 +192,7 @@ def set_up(parser):
     return build_data
 
 
-def invoke(build_data):
+def _build_tools(build_data):
     args = build_data.args
     toolchain = build_data.toolchain
     build_data["tools"] = Mapping()
@@ -207,8 +215,65 @@ def invoke(build_data):
 
     for tool in build_data.tools.set_up:
         product = build_data.products[tool]
-        modules.product_call(product, "set_up", build_data=build_data)
+        reflection.product_call(product, "set_up", build_data=build_data)
         diagnostics.debug_ok("{} is now built".format(product.repr))
+
+
+def _build_dependencies(build_data):
+    args = build_data.args
+    build_tools = not args.test_only and not args.docs_only
+    build_dependencies = build_tools and not args.build_only
+    build_catch = args.clion \
+        or (args.build_test and not args.build_only and not args.test_only
+            and not args.docs_only)
+    build_data["dependencies"] = Mapping()
+    build_data["dependencies"]["build"] = list()
+
+    if build_dependencies:
+        build_data.dependencies.build += ["cat"]
+        build_data.dependencies.build += ["spdlog"]
+        if args.sdl:
+            build_data.dependencies.build += ["sdl"]
+        elif args.glfw:
+            build_data.dependencies.build += ["glfw"]
+    if build_catch:
+        build_data.dependencies.build += ["catch"]
+
+    for dependency in build_data.dependencies.build:
+        product = build_data.products[dependency]
+        diagnostics.trace("Entering the build of {}".format(product.repr))
+        if not reflection.product_exists(product) \
+                or not reflection.product_function_exists(
+                        product=product, function="build"):
+            diagnostics.trace(
+                "The product package of {} either doesn't exists or doesn't "
+                "contain function 'build'".format(product.repr)
+            )
+            diagnostics.trace(
+                "Thus, {} will be built using the default copy "
+                "function".format(product.repr)
+            )
+            copy_build(
+                build_data=build_data, product=product,
+                subdir=product.build_subdir
+            )
+        else:
+            reflection.product_call(
+                build_data.products[dependency], "build", build_data=build_data
+            )
+        diagnostics.debug_ok("{} is now built".format(product.repr))
+
+
+def invoke(build_data):
+    """
+    Perform the builds of the products and run the tests.
+
+    build_data -- the build data.
+    """
+    args = build_data.args
+    toolchain = build_data.toolchain
+
+    _build_tools(build_data=build_data)
 
     if args.main_tool == "msbuild":
         if not toolchain.cc:
@@ -262,46 +327,7 @@ def invoke(build_data):
             "won't be built".format(build_data.products.anthem.repr)
         )
 
-    build_dependencies = build_tools and not args.build_only
-    build_catch = args.clion \
-        or (args.build_test and not args.build_only and not args.test_only
-            and not args.docs_only)
-    build_data["dependencies"] = Mapping()
-    build_data["dependencies"]["build"] = list()
-
-    if build_dependencies:
-        build_data.dependencies.build += ["cat"]
-        build_data.dependencies.build += ["spdlog"]
-        if args.sdl:
-            build_data.dependencies.build += ["sdl"]
-        elif args.glfw:
-            build_data.dependencies.build += ["glfw"]
-    if build_catch:
-        build_data.dependencies.build += ["catch"]
-
-    for dependency in build_data.dependencies.build:
-        product = build_data.products[dependency]
-        diagnostics.trace("Entering the build of {}".format(product.repr))
-        if not modules.product_exists(product) \
-                or not modules.product_function_exists(
-                        product=product, function="build"):
-            diagnostics.trace(
-                "The product package of {} either doesn't exists or doesn't "
-                "contain function 'build'".format(product.repr)
-            )
-            diagnostics.trace(
-                "Thus, {} will be built using the default copy "
-                "function".format(product.repr)
-            )
-            copy_build(
-                build_data=build_data, product=product,
-                subdir=product.build_subdir
-            )
-        else:
-            modules.product_call(
-                build_data.products[dependency], "build", build_data=build_data
-            )
-        diagnostics.debug_ok("{} is now built".format(product.repr))
+    _build_dependencies(build_data=build_data)
 
     build_anthem = \
         not args.install_only and not args.test_only and not args.docs_only

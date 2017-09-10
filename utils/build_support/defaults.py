@@ -1,4 +1,4 @@
-#===-------------------------- defaults.py --------------------*- python -*-===#
+#===-------------------------- defaults.py -------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -30,10 +30,8 @@ def fix_main_tool(args):
 
     args -- the arguments to which the values are set.
     """
-    # LLVM and Clang are synonyms as main tools.
     if args.main_tool == "clang":
         args.main_tool = "llvm"
-
     return args
 
 
@@ -64,13 +62,11 @@ def main_args(args):
             args.test_only = False
 
     def _sdl_glfw():
-        # If SDL or GLFW is not explicitly specified, use GLFW.
         if not args.sdl and not args.glfw:
             args.sdl = False
             args.glfw = True
 
     def _implicit_llvm():
-        # Build LLVM if any LLVM-related options were specified.
         if args.llvm_build_variant is not None \
                 or args.llvm_assertions is not None:
             args.build_llvm = True
@@ -78,51 +74,36 @@ def main_args(args):
     def _build_variant(default_value):
         if args.build_variant is None:
             args.build_variant = default_value
-
-        # Propagate the build variant.
         if args.llvm_build_variant is None:
             args.llvm_build_variant = args.build_variant
-
         if args.libcxx_build_variant is None:
             args.libcxx_build_variant = args.build_variant
-
         if args.anthem_build_variant is None:
             args.anthem_build_variant = args.build_variant
-
         if args.sdl_build_variant is None:
             args.sdl_build_variant = args.build_variant
-
         if args.glfw_build_variant is None:
             args.glfw_build_variant = args.build_variant
 
     def _assertions(default_value):
         if args.assertions is None:
             args.assertions = default_value
-
-        # Propagate the assertion option.
         if args.llvm_assertions is None:
             args.llvm_assertions = args.assertions
-
         if args.libcxx_assertions is None:
             args.libcxx_assertions = args.assertions
-
         if args.anthem_assertions is None:
             args.anthem_assertions = args.assertions
 
     def _cmake_generator(default_value):
         if args.cmake_generator is None:
             args.cmake_generator = default_value
-
-        # The only CMake generator with gcov is make.
         if args.enable_gcov:
             args.cmake_generator = "Unix Makefiles"
-
-        # The default CMake generator on CLion is make.
         if args.clion:
             args.cmake_generator = "Unix Makefiles"
 
     def _tests():
-        # Propagate --run-test.
         if args.test_only:
             args.clean = False
 
@@ -131,23 +112,16 @@ def main_args(args):
             args.test_optimized = False
             args.build_test = False
             args.build_test_optimized = False
-
-        # --test-optimized implies --test and --build-test-optimized.
         if args.test_optimized:
             args.test = True
             args.build_test_optimized = True
-
-        # --test implies --build-test.
         if args.test:
             args.build_test = True
 
     def _building():
-        # By default, Ninja is not built on AppVeyor.
         if not args.build_ninja \
                 and args.cmake_generator == "Visual Studio 14 2015":
             args.build_ninja = False
-
-        # Propagate global --skip-build.
         if args.skip_build:
             args.skip_build_anthem = True
             args.build_llvm = False
@@ -156,9 +130,6 @@ def main_args(args):
             args.build_ninja = False
             args.build_test = False
             args.build_test_optimized = False
-
-        # If the LLVM is built, there is no need for explicitly building
-        # libc++.
         if args.build_llvm:
             args.build_libcxx = False
 
@@ -169,8 +140,6 @@ def main_args(args):
             args.share_builds = True
 
     def _visual_studio():
-        # Set the Visual Studio option to true if the CMake generator is
-        # Visual Studio.
         args.visual_studio = args.cmake_generator.startswith("Visual Studio")
 
     _build_actions()
@@ -191,24 +160,10 @@ def cxx_std(args):
 
     args -- the command line argument dictionary.
     """
-    # If the build is done in a CI environment and the compiler is Clang,
-    # default to libc++.
-    if args.stdlib is None and args.ci and args.main_tool == "llvm":
+    if args.stdlib is None and args.main_tool == "llvm":
         args.stdlib = "libc++"
-
-    # If LLVM or libc++ is being built, the library should be set to libc++.
     if (args.build_llvm or args.build_libcxx) and args.stdlib is None:
         args.stdlib = "libc++"
-
-    # Set the C++ standard library implementation and a flag denoting whether
-    # or not it is set.
-    if args.stdlib is None:
-        args.stdlib_set = False
-    else:
-        args.stdlib_set = True
-
-    if args.std == "latest":
-        args.std = "c++latest"
 
 
 def default_versions(args):
@@ -217,7 +172,6 @@ def default_versions(args):
 
     args -- the command line argument dictionary.
     """
-
     if args.llvm_version == "git":
         args.llvm_version = PRODUCT_CONFIG.llvm.git_version
 
@@ -235,34 +189,36 @@ def default_versions(args):
 
 
 def file_arguments(args):
-    # Set the build subdirectory.
+    """
+    Apply the default file-related arguments.
+
+    args -- the command line arguments.
+    """
     if args.build_subdir is None:
         args.build_subdir = compute_build_subdir(args)
-
-    # Set the shared build subdirectory.
     if not args.share_builds:
         args.shared_build_subdir = args.build_subdir
     else:
         if args.shared_build_subdir is None:
             args.shared_build_subdir = compute_shared_build_subdir(args)
-
-    # Set the installation subdirectory.
     if args.install_prefix is None:
         if not args.share_builds:
             args.install_prefix = compute_install_prefix(args)
         else:
             args.install_prefix = compute_shared_install_prefix(args)
-
-    # Set the executable name.
     if args.executable_name is None:
         args.executable_name = "unsung-anthem-{}".format(args.host_target)
-
-    # Set the test executable name.
     if args.test_executable_name is None:
         args.test_executable_name = "test-{}".format(args.executable_name)
 
 
 def skip_repositories(args, toolchain):
+    """
+    Create the list of the repositories which are skipped by default in the
+    checkout.
+
+    args -- the command line argument dictionary.
+    """
     if not args.build_llvm:
         if not args.build_libcxx:
             args.skip_repository_list += ["llvm"]
@@ -287,6 +243,11 @@ def skip_repositories(args, toolchain):
 
 
 def authorization(args):
+    """
+    Apply the default authorization argument values to the arguments.
+
+    args -- the command line argument dictionary.
+    """
     if not args.auth_token and not args.ci:
         with open(args.auth_token_file) as token_file:
             args.auth_token = str(token_file.read())

@@ -1,4 +1,4 @@
-#===------------------------ script_options.py ----------------*- python -*-===#
+#===------------------------ script_options.py ---------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -32,11 +32,16 @@ def script_options(parser):
     """
     parser.add_argument(
         "-n", "--dry-run",
-        help="print the commands that would be executed, but do not execute "
+        help="print the commands that would be executed, but don't execute "
              "them",
         action="store_true",
         default=False)
-
+    parser.add_argument(
+        "--from-preset",
+        help="the build is run as if it was called by the preset mode. You "
+             "mustn't set this yourself!",
+        action="store_true",
+        default=False)
     return parser
 
 
@@ -51,7 +56,6 @@ def ci_options(parser):
         "--ci",
         help="build in a CI environment",
         action="store_true")
-
     return parser
 
 
@@ -65,18 +69,17 @@ def target_options(parser):
         title="[not implemented] Host and cross-compilation targets")
     targets_group.add_argument(
         "--host-target",
-        help="The host target. LLVM, Clang, and Unsung Anthem will be built "
+        help="the host target. LLVM, Clang, and Unsung Anthem will be built "
              "for this target. The built LLVM and Clang will be used to "
-             "compile Unsung Anthem for the cross-compilation targets.",
+             "compile Unsung Anthem for the cross-compilation targets",
         default=host_target().name)
     targets_group.add_argument(
         "--cross-compile-hosts",
-        help="A space separated list of targets to cross-compile Unsung "
-             "Anthem tools for. Can be used multiple times.",
+        help="a space separated list of targets to cross-compile Unsung "
+             "Anthem tools for. Can be used multiple times",
         action=arguments.ACTION.concat,
         type=arguments.TYPE.shell_split,
         default=[])
-
     return parser
 
 
@@ -134,7 +137,6 @@ def projects_options(parser):
         help="build the Unsung Anthem tests with optimization",
         action="store_true",
         dest="build_test_optimized")
-
     return parser
 
 
@@ -166,7 +168,6 @@ def build_action_options(parser):
         help="build only the documentation",
         action="store_true",
         dest="docs_only")
-
     return parser
 
 
@@ -187,7 +188,6 @@ def extra_action_options(parser):
         help="use gcov and lcov to generate code coverage information",
         action="store_true",
         dest="enable_gcov")
-
     return parser
 
 
@@ -202,7 +202,6 @@ def cxx_options(parser):
         help="build using the specified C++ standard library implementation",
         metavar="STDLIB",
         dest="stdlib")
-
     cxx_version_group = parser.add_mutually_exclusive_group(required=False)
     cxx_version_group.add_argument(
         "--std",
@@ -235,7 +234,6 @@ def cxx_options(parser):
         action="store_const",
         const="c++14",
         dest="std")
-
     return parser
 
 
@@ -299,7 +297,6 @@ def build_variant_options(parser):
         action="store_const",
         const="Debug",
         dest="glfw_build_variant")
-
     return parser
 
 
@@ -322,7 +319,6 @@ def assertion_options(parser):
         action="store_const",
         const=False,
         dest="assertions")
-
     assertions_override_group = parser.add_argument_group(
         title="Control assertions in a specific project")
     assertions_override_group.add_argument(
@@ -488,13 +484,11 @@ def build_options(parser):
         "-S", "--skip-build",
         help="generate build directory only without building",
         action="store_true")
-
     run_build_group.add_argument(
         "--clion",
         help="install the dependencies and generate the CMake command for "
              "setting up an CLion environment",
         action="store_true")
-
     run_build_group.add_argument(
         "--skip-build-anthem",
         help="skip building Unsung Anthem",
@@ -560,7 +554,6 @@ def system_options(parser):
 
     parser -- the parser to which the the options are added.
     """
-
     parser.add_argument(
         "--build-subdir",
         help="name of the directory under $ANTHEM_BUILD_ROOT where the build "

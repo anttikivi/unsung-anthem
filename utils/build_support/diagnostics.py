@@ -1,4 +1,4 @@
-#===------------------------- diagnostics.py ------------------*- python -*-===#
+#===------------------------- diagnostics.py -----------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -10,6 +10,7 @@
 """
 The support module containing diagnostic logging functions.
 """
+
 
 from __future__ import print_function
 
@@ -34,7 +35,7 @@ HEADER = "\033[95m"
 
 
 def printer(level, colour=None, do_print=True, print_script=False,
-            show_type=True):
+            show_type=False):
     """
     Decorator for printing a diagnostic notification to the standard output.
 

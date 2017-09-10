@@ -1,4 +1,4 @@
-#===--------------------------- config.py ---------------------*- python -*-===#
+#===--------------------------- config.py --------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -164,6 +164,9 @@ PRODUCT_CONFIG = Mapping(
 
 def apply_versions(build_data):
     """
+    Apply the versions from the arguments to the build data.
+
+    build_data -- the build data.
     """
     for product in build_data.products.keys():
         build_data.products[product].version = getattr(

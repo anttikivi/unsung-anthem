@@ -1,4 +1,4 @@
-#===--------------------------- clang.py ----------------------*- python -*-===#
+#===--------------------------- clang.py ---------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -17,10 +17,15 @@ import platform
 
 from .product import check_source
 
-from .. import diagnostics, shell, workspace
+from .. import shell, workspace
 
 
 def clang_bin_path(build_data):
+    """
+    Create the path for the binary of Clang.
+
+    build_data -- the build data.
+    """
     if platform.system() == "Windows":
         # TODO
         return os.path.join(build_data.install_root, "bin", "clang")
@@ -29,6 +34,11 @@ def clang_bin_path(build_data):
 
 
 def clang_cxx_bin_path(build_data):
+    """
+    Create the path for the C++ compiler binary of Clang.
+
+    build_data -- the build data.
+    """
     if platform.system() == "Windows":
         # TODO
         return os.path.join(build_data.install_root, "bin", "clang++")
@@ -38,6 +48,9 @@ def clang_cxx_bin_path(build_data):
 
 def set_up(build_data):
     """
+    Set Clang up for the LLVM build.
+
+    build_data -- the build data.
     """
     product = build_data.products.llvm
     check_source(product=product, subproduct="clang")

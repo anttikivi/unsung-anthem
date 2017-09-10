@@ -1,4 +1,4 @@
-#===--------------------------- modules.py --------------------*- python -*-===#
+#===------------------------- reflection.py ------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -20,6 +20,12 @@ from . import diagnostics
 
 def product_call(product, function, *args, **kwargs):
     """
+    Call a function in a product module.
+
+    product -- the name of the product.
+    function -- the name of the function.
+    args -- the positional arguments to be passed into the function.
+    kwargs -- the key-value arguments to be passed into the function.
     """
     package = "build_support.products.{}".format(product.identifier)
     diagnostics.trace("Importing package {}".format(package))
@@ -29,6 +35,12 @@ def product_call(product, function, *args, **kwargs):
 
 
 def product_function_exists(product, function):
+    """
+    Check whether a function exists in a product module.
+
+    product -- the name of the product.
+    function -- the name of the function.
+    """
     package = "build_support.products.{}".format(product.identifier)
     diagnostics.trace(
         "Importing package {} for checking whether function {} exists".format(
@@ -47,6 +59,11 @@ def product_function_exists(product, function):
 
 
 def product_exists(product):
+    """
+    Check whether a product module exists.
+
+    product -- the name of the product.
+    """
     package = "build_support.products.{}".format(product.identifier)
     diagnostics.trace("Looking for package {}".format(package))
     if sys.version_info.major >= 3:

@@ -1,4 +1,4 @@
-#===------------------------ product_config.py ----------------*- python -*-===#
+#===------------------------ product_config.py ---------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -36,6 +36,7 @@ def product_config(version, identifier, name, allow_git_checkout=False,
     Create a mapping of the configuration of a product.
 
     version -- the version of the product.
+    identifier -- the identifier of the product.
     name -- the display name of the product.
     allow_git_checkout -- whether or not the product supports the version to be
     set to 'git'.
@@ -44,8 +45,8 @@ def product_config(version, identifier, name, allow_git_checkout=False,
     github_data -- the data with which the product is fetched. If the GitHub
     data are not provided, a function in module with the name of the dependency
     in the products is used to download the product.
+    kwargs -- other key-value arguments to be added to the product mapping.
     """
-
     result = dict(**kwargs)
 
     if isinstance(version, dict):
@@ -84,7 +85,6 @@ def version_config(major, minor, patch, patch_minor=0):
     patch -- the patch version number of the product.
     patch_minor -- the optional minor patch version number of the product.
     """
-
     return Mapping(
         major=major, minor=minor, patch=patch, patch_minor=patch_minor)
 
@@ -98,7 +98,6 @@ def github_config(owner, name, asset_data, version_prefix=None):
     asset_data -- the GitHub asset data.
     version_prefix -- a prefix which is used before the version.
     """
-
     result = Mapping(owner=owner, name=name, asset=asset_data)
 
     if version_prefix:
@@ -115,7 +114,6 @@ def asset(asset_file):
 
     asset_file -- the name of the asset file which is downloaded.
     """
-
     return Mapping(platform_specific=False, source=False, file=asset_file)
 
 
@@ -135,18 +133,15 @@ def platform_specific_asset(asset_file, platform_files, fallback_file=None):
     fallback_file -- the file which is downloaded if the platform-specific
     files are not available.
     """
-
     result = Mapping(
         platform_specific=True, source=False, file=asset_file,
         platform_files=platform_files)
-
     if fallback_file:
         result.fallback = True
         result.fallback_file = fallback_file
     else:
         result.fallback = False
         result.fallback_file = None
-
     return result
 
 
@@ -158,5 +153,4 @@ def platform_file_config(darwin=None, windows=None, linux=None):
     windows -- the name of the file on Windows.
     linux -- the name of the file on Linux.
     """
-
     return Mapping(Darwin=darwin, Windows=windows, Linux=linux)
