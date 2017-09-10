@@ -143,21 +143,6 @@ PRODUCT_CONFIG = Mapping(
             asset_data=SOURCE_ASSET,
             version_prefix="Version "
         )
-    ),
-
-    cat=product_config(
-        version="1.3",
-        name="cat",
-        identifier="cat",
-        allow_git_checkout=True,
-        build_subdir="cat",
-        version_format="MAJOR.MINOR",
-        github_data=github_config(
-            owner="awgn",
-            name="cat",
-            asset_data=SOURCE_ASSET,
-            version_prefix="v"
-        )
     )
 )
 

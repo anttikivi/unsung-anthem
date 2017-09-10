@@ -300,6 +300,23 @@ def copy(src, dest, dry_run=None, echo=True):
     shutil.copy(src, dest)
 
 
+def move(src, dest, dry_run=None, echo=True):
+    """
+    Move a directory recursively.
+
+    src -- path to the directory.
+    dest -- the destination directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        echo_command(dry_run, ["mv", "-f", src, dest])
+    if dry_run:
+        return
+    shutil.move(src, dest)
+
+
 def unzip(path, dest=None, dry_run=None, echo=True):
     """
     Extract a zip archive.

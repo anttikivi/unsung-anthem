@@ -238,7 +238,6 @@ def _build_dependencies(build_data):
     build_data["dependencies"]["build"] = list()
 
     if build_dependencies:
-        build_data.dependencies.build += ["cat"]
         build_data.dependencies.build += ["spdlog"]
         if args.sdl:
             build_data.dependencies.build += ["sdl"]
