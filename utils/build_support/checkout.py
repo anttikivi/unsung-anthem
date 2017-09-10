@@ -35,10 +35,11 @@ def simple_asset(build_data, key):
         diagnostics.trace("Entering the download of a source asset:")
         diagnostics.trace_head(product.repr)
         github.download_tag(build_data=build_data, key=key)
-        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
-        shell.copytree(
-            os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key),
-            os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+        if platform.system() != "Windows":
+            shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+            shell.copytree(
+                os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key),
+                os.path.join(ANTHEM_SOURCE_ROOT, key, version))
     else:
         diagnostics.trace("Entering the download of an asset:")
         diagnostics.trace_head(asset.file)
