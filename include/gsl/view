@@ -24,6 +24,8 @@
 #ifndef ANTHEM_GSL_VIEW
 #define ANTHEM_GSL_VIEW
 
+#include "anthem/__config.h"
+
 # include <type_traits>
 
 #include "gsl/assert"
