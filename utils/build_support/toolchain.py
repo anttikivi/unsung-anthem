@@ -20,6 +20,8 @@ from . import diagnostics, xcrun
 
 from .mapping import Mapping
 
+from .where import where
+
 from .which import which
 
 
@@ -133,9 +135,9 @@ def windows(tools):
     tools -- the names of the tools to look for.
     """
     def _find(cmd):
-        found = which(cmd)
+        found = where(cmd)
         if found is not None:
-            return found.replace('/c/', 'C:\\').replace('/', '\\')
+            return found.replace("/c/", "C:\\").replace("/", "\\")
         return found
     return find_tools(tools=tools, func=_find)
 
