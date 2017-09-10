@@ -81,7 +81,7 @@ PRODUCT_CONFIG = Mapping(
                 asset_file="ninja.zip",
                 platform_files=platform_file_config(
                     darwin="ninja-mac.zip",
-                    windows="ninja-windows.zip",
+                    windows="ninja-win.zip",
                     linux="ninja-linux.zip"
                 )
             )
