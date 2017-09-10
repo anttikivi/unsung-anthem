@@ -34,7 +34,8 @@ def move_checkout_files(build_data):
 
     diagnostics.debug("Moving {} files".format(product.repr))
 
-    if os.path.isdir(os.path.join(ANTHEM_SOURCE_ROOT, "glfw", version, "glfw-{}".format(version))):
+    if os.path.isdir(os.path.join(
+            ANTHEM_SOURCE_ROOT, "glfw", version, "glfw-{}".format(version))):
         shell.copytree(
             os.path.join(
                 ANTHEM_SOURCE_ROOT, "glfw", version,
@@ -42,7 +43,10 @@ def move_checkout_files(build_data):
             os.path.join(ANTHEM_SOURCE_ROOT, "glfw", "temp"))
     else:
         shell.copytree(
-            os.listdir(os.path.join(ANTHEM_SOURCE_ROOT, "glfw", version))[0],
+            os.path.join(
+                ANTHEM_SOURCE_ROOT, "glfw", version,
+                os.listdir(os.path.join(
+                    ANTHEM_SOURCE_ROOT, "glfw", version))[0]),
             os.path.join(ANTHEM_SOURCE_ROOT, "glfw", "temp"))
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "glfw", version))
     shell.copytree(
