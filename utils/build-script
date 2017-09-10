@@ -93,7 +93,8 @@ def main():
         if sys.version_info.major == 2:
             diagnostics.warn("You're using Python {}".format(sys.version))
             diagnostics.warn(
-                "Please update to Python 3 to make the world a better place!")
+                "You really should update to Python 3 to make the world a "
+                "better place!")
         else:
             diagnostics.fine("You're using Python {}".format(sys.version))
             diagnostics.fine("You seem to have an excellent taste!")

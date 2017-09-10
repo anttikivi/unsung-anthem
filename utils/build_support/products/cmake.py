@@ -200,3 +200,12 @@ def set_up(build_data):
     else:
         shell.copytree(build_dir, build_data.install_root)
     build_data.toolchain.cmake = cmake_bin_path(build_data=build_data)
+
+
+def set_toolchain(build_data):
+    """
+    Set CMake to the toolchain.
+
+    build_data -- the build data.
+    """
+    build_data.toolchain.cmake = cmake_bin_path(build_data=build_data)

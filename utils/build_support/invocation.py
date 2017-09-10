@@ -206,17 +206,25 @@ def _build_tools(build_data):
     cmake_build_required = args.build_cmake or (toolchain.cmake is None)
     llvm_build_required = args.build_llvm or args.build_libcxx
 
-    if ninja_build_required and build_tools:
+    if ninja_build_required:
         build_data.tools.set_up += ["ninja"]
-    if cmake_build_required and build_tools:
+    if cmake_build_required:
         build_data.tools.set_up += ["cmake"]
-    if llvm_build_required and build_tools:
+    if llvm_build_required:
         build_data.tools.set_up += ["llvm"]
 
-    for tool in build_data.tools.set_up:
-        product = build_data.products[tool]
-        reflection.product_call(product, "set_up", build_data=build_data)
-        diagnostics.debug_ok("{} is now built".format(product.repr))
+    if build_tools:
+        for tool in build_data.tools.set_up:
+            product = build_data.products[tool]
+            reflection.product_call(product, "set_up", build_data=build_data)
+            diagnostics.debug_ok("{} is now built".format(product.repr))
+    else:
+        for tool in build_data.tools.set_up:
+            product = build_data.products[tool]
+            reflection.product_call(
+                product, "set_toolchain", build_data=build_data)
+            diagnostics.debug_ok("{} is now set into the toolchain".format(
+                product.repr))
 
 
 def _build_dependencies(build_data):

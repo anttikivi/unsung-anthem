@@ -113,3 +113,12 @@ def set_up(build_data):
     do_build(build_data=build_data)
     build_data.toolchain.ninja = ninja_bin_path(build_data=build_data)
     shell.call(["chmod", "+x", str(ninja_bin_path(build_data=build_data))])
+
+
+def set_toolchain(build_data):
+    """
+    Set Ninja to the toolchain.
+
+    build_data -- the build data.
+    """
+    build_data.toolchain.ninja = ninja_bin_path(build_data=build_data)

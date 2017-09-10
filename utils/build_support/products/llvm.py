@@ -290,3 +290,15 @@ def set_up(build_data):
         build_data.args.main_tool = "llvm"
     elif build_data.args.build_libcxx:
         libcxx.do_build(build_data=build_data)
+
+
+def set_toolchain(build_data):
+    """
+    Set Clang to the toolchain.
+
+    build_data -- the build data.
+    """
+    if build_data.args.build_llvm:
+        build_data.toolchain.cc = clang.clang_bin_path(build_data=build_data)
+        build_data.toolchain.cxx = clang.clang_cxx_bin_path(
+            build_data=build_data)
