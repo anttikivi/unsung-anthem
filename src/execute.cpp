@@ -22,12 +22,8 @@
 
 #include "execute.h"
 
-#include "game_state.h"
-
 namespace anthem {
 
-  game_state execute(int argc, const char* argv[]) {
-
-    return game_state{};
+  void execute(int argc, const char* argv[]) {
   }
 } // namespace anthem

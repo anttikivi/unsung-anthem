@@ -40,7 +40,7 @@ namespace anthem {
   ///
   /// \return The object of type \c game_state.
   ///
-  game_state execute(int argc, const char* argv[]);
+  void execute(int argc, const char* argv[]);
 
 } // namespace anthem
 

@@ -27,7 +27,6 @@
 #include <array>
 #include <type_traits>
 
-#include "anthem/array.h"
 #include "anthem/types.h"
 
 namespace anthem {

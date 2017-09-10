@@ -1,9 +1,6 @@
-add_subdirectory(std)
-
 set(ANTHEM_LIB_INCLUDES ${ANTHEM_LIB_INCLUDES}
 
   ${CMAKE_CURRENT_SOURCE_DIR}/__config.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/array.h
   ${CMAKE_CURRENT_SOURCE_DIR}/types.h
 
   PARENT_SCOPE)

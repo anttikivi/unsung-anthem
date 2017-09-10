@@ -21,7 +21,6 @@
 //===----------------------------------------------------------------------===//
 
 #include "execute.h"
-#include "game_state.h"
 
 ///
 /// \brief Returns the execution status of the program with the arguments
@@ -34,7 +33,7 @@
 ///
 int main(int argc, const char* argv[]) {
 
-  const auto final_state = anthem::execute(argc, argv);
+  anthem::execute(argc, argv);
 
   return 0;
 }

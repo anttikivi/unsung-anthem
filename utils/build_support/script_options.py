@@ -51,18 +51,6 @@ def ci_options(parser):
         "--ci",
         help="build in a CI environment",
         action="store_true")
-    ci_group.add_argument(
-        "--travis",
-        help="[deprecated] build in a Travis CI environment",
-        action="store_true")
-    ci_group.add_argument(
-        "--circleci",
-        help="[deprecated] build in a CircleCI environment",
-        action="store_true")
-    ci_group.add_argument(
-        "--appveyor",
-        help="[deprecated] build in an AppVeyor CI environment",
-        action="store_true")
 
     return parser
 
