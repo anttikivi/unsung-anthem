@@ -89,7 +89,7 @@ def host_target():
         name="cygwin", system="CYGWIN_NT-10.0", archs=["x86_64"]
     )
     windows = create_platform(
-        name="windows", system="Windows", archs=["x86_64"]
+        name="windows", system="Windows", archs=["x86_64", "AMD64"]
     )
     known_platforms = [macos, linux, freebsd, cygwin, windows]
     found_platform = [p for p in known_platforms if p.system == system]
