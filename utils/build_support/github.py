@@ -14,6 +14,7 @@ The support module containing the utilities for using the GitHub API.
 
 import json
 import os
+import platform
 
 import requests
 
@@ -101,6 +102,37 @@ def download_asset(build_data, key, asset_name):
                     build_data=build_data, key=key, url=asset_node["url"])
 
 
+def checkout_tag(build_data, key, tag_ref_name):
+    """
+    Checkout a tag.
+
+    build_data -- the build data.
+    key -- the name of the product.
+    tag_ref_name -- the name of the tag.
+    """
+    with shell.pushd(os.path.join(
+            ANTHEM_SOURCE_ROOT, key, build_data.products[key].version)):
+        shell.call([
+            build_data.toolchain.git, "checkout",
+            "tags/{}".format(tag_ref_name), "-b",
+            "{}_branch".format(tag_ref_name)])
+
+
+def checkout_tag(build_data, key, tag_ref_name):
+    """
+    Checkout a tag.
+
+    build_data -- the build data.
+    key -- the name of the product.
+    tag_ref_name -- the name of the tag.
+    """
+    with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key)):
+        shell.call([
+            build_data.toolchain.git, "checkout",
+            "tags/{}".format(tag_ref_name), "-b",
+            "{}_branch".format(tag_ref_name)])
+
+
 def download_tag(build_data, key):
     """
     Download a tag from GitHub.
@@ -133,10 +165,17 @@ def download_tag(build_data, key):
 
     responce_json_data = responce.json()["data"]
 
-    with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp")):
-        shell.call(
-            [build_data.toolchain.git, "clone", "{}.git".format(
-                responce_json_data["repository"]["url"])])
+    if platform.system() == "Windows":
+        with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key)):
+            shell.call([
+                build_data.toolchain.git, "clone",
+                "{}.git".format(responce_json_data["repository"]["url"]),
+                product.version])
+    else:
+        with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp")):
+            shell.call([
+                build_data.toolchain.git, "clone",
+                "{}.git".format(responce_json_data["repository"]["url"])])
 
     release_edges = responce_json_data["repository"]["releases"]["edges"]
 
@@ -154,8 +193,6 @@ def download_tag(build_data, key):
                 "Found the release {} ({}) of {}".format(
                     product.version, github_version, product.repr))
             tag_ref_name = node["tag"]["name"]
-            with shell.pushd(os.path.join(
-                    ANTHEM_SOURCE_ROOT, key, "temp", key)):
-                shell.call(
-                    [build_data.toolchain.git, "checkout", "tags/{}".format(
-                        tag_ref_name), "-b", "{}_branch".format(tag_ref_name)])
+            checkout_tag(
+                build_data=build_data, key=key, tag_ref_name=tag_ref_name)
+            return
