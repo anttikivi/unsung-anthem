@@ -302,3 +302,6 @@ def set_toolchain(build_data):
         build_data.toolchain.cc = clang.clang_bin_path(build_data=build_data)
         build_data.toolchain.cxx = clang.clang_cxx_bin_path(
             build_data=build_data)
+        diagnostics.debug(
+            "Set {} to the toolchain from a custom location: {}".format(
+                build_data.products.llvm.repr, build_data.toolchain.llvm))

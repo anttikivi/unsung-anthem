@@ -181,6 +181,7 @@ def set_up(build_data):
     build_data -- the build data.
     """
     product = build_data.products.cmake
+    build_data.toolchain.cmake = cmake_bin_path(build_data=build_data)
     check_source(product=product)
     bin_path = cmake_bin_path(build_data=build_data)
     build_dir = workspace.build_dir(
@@ -199,7 +200,6 @@ def set_up(build_data):
             os.path.join(build_data.install_root, "CMake.app"))
     else:
         shell.copytree(build_dir, build_data.install_root)
-    build_data.toolchain.cmake = cmake_bin_path(build_data=build_data)
 
 
 def set_toolchain(build_data):
@@ -209,3 +209,6 @@ def set_toolchain(build_data):
     build_data -- the build data.
     """
     build_data.toolchain.cmake = cmake_bin_path(build_data=build_data)
+    diagnostics.debug(
+        "Set {} to the toolchain from a custom location: {}".format(
+            build_data.products.cmake.repr, build_data.toolchain.cmake))

@@ -122,3 +122,6 @@ def set_toolchain(build_data):
     build_data -- the build data.
     """
     build_data.toolchain.ninja = ninja_bin_path(build_data=build_data)
+    diagnostics.debug(
+        "Set {} to the toolchain from a custom location: {}".format(
+            build_data.products.ninja.repr, build_data.toolchain.ninja))
