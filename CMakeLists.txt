@@ -10,8 +10,6 @@ option(ANTHEM_ENABLE_ASSERTIONS "Option for enabling assertions in the code" ON)
 option(ANTHEM_SDL "Use SDL to build Unsung Anthem" OFF)
 option(ANTHEM_GLFW "Use GLFW to build Unsung Anthem" OFF)
 
-option(ANTHEM_USE_EXPERIMENTAL_HEADERS "Use experimental C++ standard headers" OFF)
-
 option(ANTHEM_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 
 # Check if the executable type (executable or tests) variable is set.
