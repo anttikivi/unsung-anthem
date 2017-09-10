@@ -102,7 +102,7 @@ def download_asset(build_data, key, asset_name):
                     build_data=build_data, key=key, url=asset_node["url"])
 
 
-def checkout_tag(build_data, key, tag_ref_name):
+def checkout_tag_windows(build_data, key, tag_ref_name):
     """
     Checkout a tag.
 
@@ -193,6 +193,10 @@ def download_tag(build_data, key):
                 "Found the release {} ({}) of {}".format(
                     product.version, github_version, product.repr))
             tag_ref_name = node["tag"]["name"]
-            checkout_tag(
-                build_data=build_data, key=key, tag_ref_name=tag_ref_name)
+            if platform.system() == "Windows":
+                checkout_tag_windows(
+                    build_data=build_data, key=key, tag_ref_name=tag_ref_name)
+            else:
+                checkout_tag(
+                    build_data=build_data, key=key, tag_ref_name=tag_ref_name)
             return
