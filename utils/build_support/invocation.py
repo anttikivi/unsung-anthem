@@ -355,9 +355,14 @@ def invoke(build_data):
         and not args.install_only and not args.docs_only
 
     if run_tests:
-        tests_build_dir = anthem.anthem_build_dir(
-            build_data=build_data, tests=True
-        )
+        if platform.system() == "Windows":
+            tests_build_dir = os.path.join(
+                anthem.anthem_build_dir(build_data=build_data, tests=True),
+                build_data.args.anthem_build_variant)
+        else:
+            tests_build_dir = anthem.anthem_build_dir(
+                build_data=build_data, tests=True
+            )
         with shell.pushd(tests_build_dir):
             if platform.system() == "Windows":
                 test_executable = os.path.join(
@@ -365,6 +370,6 @@ def invoke(build_data):
             else:
                 test_executable = os.path.join(
                     tests_build_dir, args.test_executable_name)
-            shell.call_without_sleeping([test_executable])
+            shell.call_without_sleeping([test_executable], echo=True)
 
     return 0
