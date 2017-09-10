@@ -23,6 +23,10 @@ from .variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
 
 def simple_asset(build_data, key):
     """
+    Download an asset from GitHub.
+
+    build_data -- the build data.
+    key -- the name of the product.
     """
     product = build_data.products[key]
     asset = build_data.products[key].github_data.asset
@@ -49,6 +53,10 @@ def simple_asset(build_data, key):
 
 def platform_specific_asset(build_data, key):
     """
+    Download a platform-specific asset from GitHub.
+
+    build_data -- the build data.
+    key -- the name of the product.
     """
     asset = build_data.products[key].github_data.asset
     version = build_data.products[key].version
@@ -76,6 +84,10 @@ def platform_specific_asset(build_data, key):
 
 def github_dependency(build_data, key):
     """
+    Download an asset from GitHub.
+
+    build_data -- the build data.
+    key -- the name of the product.
     """
     product = build_data.products[key]
     version = product.version
@@ -97,6 +109,11 @@ def github_dependency(build_data, key):
 
 def get_product(build_data, key, versions):
     """
+    Download a product.
+
+    build_data -- the build data.
+    key -- the name of the product.
+    versions -- the checkout version information dictionary.
     """
     product = build_data.products[key]
     if product.github_data:
@@ -108,7 +125,8 @@ def get_product(build_data, key, versions):
         diagnostics.debug(
             "GitHub data is not found from {} and, thus, a custom function "
             "is used to download it".format(product.repr))
-        modules.product_call(product, "get_dependency", build_data=build_data)
+        reflection.product_call(
+            product, "get_dependency", build_data=build_data)
 
     if "inject_version_info" in product \
             and product.inject_version_info is not None:
@@ -119,6 +137,11 @@ def get_product(build_data, key, versions):
 
 
 def update(build_data):
+    """
+    Update the checkout.
+
+    build_data -- the build data.
+    """
     if os.path.isfile(VERSIONS_FILE):
         with open(VERSIONS_FILE) as json_file:
             versions = json.load(json_file)

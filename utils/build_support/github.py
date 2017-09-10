@@ -26,6 +26,11 @@ from .variables import ANTHEM_SOURCE_ROOT, SCRIPT_DIR
 
 def stream_asset(build_data, key, url):
     """
+    Stream a single asset from GitHub.
+
+    build_data -- the build data.
+    key -- the name of the product.
+    url -- the URL from which the file is streamed.
     """
     product = build_data.products[key]
     github_data = product.github_data
@@ -42,6 +47,11 @@ def stream_asset(build_data, key, url):
 
 def download_asset(build_data, key, asset_name):
     """
+    Download an asset from GitHub.
+
+    build_data -- the build data.
+    key -- the name of the product.
+    asset_name -- the name of the asset.
     """
     product = build_data.products[key]
     github_data = product.github_data
@@ -93,6 +103,10 @@ def download_asset(build_data, key, asset_name):
 
 def download_tag(build_data, key):
     """
+    Download a tag from GitHub.
+
+    build_data -- the build data.
+    key -- the name of the product.
     """
     product = build_data.products[key]
     github_data = product.github_data
