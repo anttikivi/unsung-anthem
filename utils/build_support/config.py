@@ -89,7 +89,7 @@ PRODUCT_CONFIG = Mapping(
     ),
 
     catch=product_config(
-        version="1.9.5",
+        version="1.10.0",
         name="Catch",
         identifier="catch",
         allow_git_checkout=True,
