@@ -132,7 +132,7 @@ PRODUCT_CONFIG = Mapping(
     ),
 
     spdlog=product_config(
-        version="0.13.0",
+        version="0.14.0",
         name="spdlog",
         identifier="spdlog",
         allow_git_checkout=True,
