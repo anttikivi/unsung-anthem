@@ -13,6 +13,7 @@ function(CREATE_MAIN_EXECUTABLE)
       ${ANTHEM_INCLUDES}
       ${ANTHEM_LIB_SOURCES}
       ${ANTHEM_SOURCES})
+  target_link_libraries(${ANTHEM_EXECUTABLE_NAME} ${ANTHEM_LIBRARIES})
 endfunction()
 
 function(CREATE_TEST_EXECUTABLE)
@@ -23,9 +24,11 @@ function(CREATE_TEST_EXECUTABLE)
       ${ANTHEM_LIB_SOURCES}
       ${ANTHEM_TEST_SOURCES}
       ${ANTHEM_SOURCES})
+  target_link_libraries(${ANTHEM_TEST_EXECUTABLE_NAME} ${ANTHEM_LIBRARIES})
 endfunction()
 
 function(SET_UP_COVERAGE COVERAGE_TARGET)
+  message(STATUS "Setting up ${COVERAGE_TARGET} for code coverage")
   include(CodeCoverage)
   set(COVERAGE_EXCLUDES
       ${ANTHEM_INSTALL_PREFIX}/include/*

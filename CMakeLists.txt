@@ -51,20 +51,10 @@ set_cxx_definitions(${ANTHEM_CXX_VERSION})
 set_std_feature_definitions(${ANTHEM_CXX_VERSION})
 set_std_flags(${ANTHEM_STD})
 
-message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")
-message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
-message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
-message(STATUS "The C++ compiler flag is set to ${CMAKE_CXX_COMPILER}")
-message(STATUS "The C compiler environment variable is set to $ENV{CC}")
-message(STATUS "The C++ compiler environment variable is set to $ENV{CXX}")
-
 if(UNIX)
-
-  # Add the dependency includes.
-  # include_directories(${ANTHEM_INSTALL_PREFIX}/include)
-
   if(APPLE)
   else()
+    set(ANTHEM_LIBRARIES pthread)
   endif()
 else()
 endif()
@@ -87,3 +77,10 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 create_executable(${ANTHEM_EXECUTABLE_TYPE})
+
+message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")
+message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
+message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
+message(STATUS "The C++ compiler flag is set to ${CMAKE_CXX_COMPILER}")
+message(STATUS "The C compiler environment variable is set to $ENV{CC}")
+message(STATUS "The C++ compiler environment variable is set to $ENV{CXX}")
