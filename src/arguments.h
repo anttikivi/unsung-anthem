@@ -81,6 +81,7 @@ namespace anthem {
     /// them.
     ///
     /// \param a object of class \c arguments from which the values are copied.
+    ///
     /// \return Reference to \c *this.
     ///
     constexpr arguments& operator=(const arguments& a) noexcept = delete;
@@ -90,6 +91,7 @@ namespace anthem {
     /// them.
     ///
     /// \param a object of class \c arguments from which the values are moved.
+    ///
     /// \return Reference to \c *this.
     ///
     constexpr arguments& operator=(arguments&& a) noexcept = delete;
@@ -107,8 +109,10 @@ namespace anthem {
 
   ///
   /// \brief Compares the two objects of class \c arguments.
-  /// \param lhs left-hand side argument object.
-  /// \param rhs right-hand side argument object.
+  ///
+  /// \param lhs left-hand side object of the operator.
+  /// \param rhs right-hand side object of the operator.
+  ///
   /// \return \c true if the member values of the parameters are equal,
   /// otherwise \c false.
   ///
@@ -121,8 +125,10 @@ namespace anthem {
 
   ///
   /// \brief Compares the two objects of class \c arguments.
-  /// \param lhs
-  /// \param rhs
+  ///
+  /// \param lhs left-hand side object of the operator.
+  /// \param rhs right-hand side object of the operator.
+  ///
   /// \return \c true if the member values of the parameters are not equal,
   /// otherwise \c false.
   ///
@@ -138,6 +144,7 @@ namespace anthem {
   /// set when executing the program from the command line.
   ///
   /// \param args array containing the arguments passed to the program.
+  ///
   /// \return An object of class \c std::experimental::optional which may
   /// contain an object of class \c arguments.
   ///
