@@ -33,7 +33,11 @@ namespace anthem {
   ///
   /// \brief The name of the program logger.
   ///
+#ifdef ANTHEM_LOGGER_NAME
+  constexpr const auto logger_name = ANTHEM_LOGGER_NAME;
+#else
   constexpr const auto logger_name = "anthem";
+#endif // !defined(ANTHEM_LOGGER_NAME)
 
   ///
   /// \brief The logging pattern of the program logger.

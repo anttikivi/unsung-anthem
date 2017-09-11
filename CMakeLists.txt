@@ -13,6 +13,7 @@ project(anthem)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
 include(CompilerFlags)
+include(Definitions)
 include(Executables)
 include(StdDefinitions)
 include(Variables)
@@ -37,6 +38,8 @@ assert_variable(ANTHEM_MAIN_COMPILER_TOOL
 
 assert_variable(ANTHEM_INSTALL_PREFIX "dependency installation directory")
 
+assert_variable(ANTHEM_LOGGER_NAME "program logger name")
+
 default_value(ANTHEM_EXECUTABLE_NAME executable_name_not_set)
 default_value(ANTHEM_TEST_EXECUTABLE_NAME test-${ANTHEM_EXECUTABLE_NAME})
 
@@ -50,6 +53,7 @@ assert_only_other(ANTHEM_SDL ANTHEM_GLFW SDL GLFW)
 set_cxx_definitions(${ANTHEM_CXX_VERSION})
 set_std_feature_definitions(${ANTHEM_CXX_VERSION})
 set_std_flags(${ANTHEM_STD})
+add_logger_definitions()
 
 if(UNIX)
   if(APPLE)
