@@ -7,10 +7,8 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-set(ANTHEM_LIB_INCLUDES ${ANTHEM_LIB_INCLUDES}
+set(ANTHEM_TEST_SOURCES ${ANTHEM_TEST_SOURCES}
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/array.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/logging.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/types.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/array_test.cpp
 
     PARENT_SCOPE)
