@@ -24,6 +24,7 @@
 
 #include "anthem/logging.h"
 
+#include "arguments.h"
 #include "logging_config.h"
 
 namespace anthem {
@@ -39,5 +40,7 @@ namespace anthem {
                    "The logger has the name '{}', the pattern '{}', and the "
                        "level '{}'",
                    logger_name, logger_pattern, logger_level);
+
+    const auto args = parse_arguments(console, argc, argv);
   }
 } // namespace anthem

@@ -24,9 +24,9 @@
 #ifndef ANTHEM_ARGUMENTS_H
 #define ANTHEM_ARGUMENTS_H
 
-#include <array>
 #include <type_traits>
 
+#include "anthem/logging.h"
 #include "anthem/types.h"
 
 namespace anthem {
@@ -143,17 +143,14 @@ namespace anthem {
   /// \brief Returns an object of class \c arguments which contains the values
   /// set when executing the program from the command line.
   ///
-  /// \param args array containing the arguments passed to the program.
+  /// \param logger the main logger.
+  /// \param argc the number of arguments passed in the execution.
+  /// \param argv array containing the arguments passed in the execution.
   ///
-  /// \return An object of class \c std::experimental::optional which may
-  /// contain an object of class \c arguments.
+  /// \return An object of class \c arguments.
   ///
-  template <std::size_t N>
-  constexpr const arguments
-  parse_arguments(const std::array<const char*, N> args) noexcept {
-
-    return arguments{};
-  }
+  const arguments parse_arguments(const logging::logger_t& logger,
+                                  const int argc, const char* argv[]) noexcept;
 
 } // namespace anthem
 

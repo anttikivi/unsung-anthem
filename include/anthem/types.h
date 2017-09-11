@@ -28,7 +28,7 @@ namespace anthem {
   ///
   /// \brief Type of values which represent some number of pixels.
   ///
-  typedef long double pixel_count;
+  typedef unsigned long long pixel_count;
 
 } // namespace anthem
 
@@ -38,7 +38,8 @@ namespace anthem {
 /// \param i integer of pixels.
 /// \return The \c pixel literal.
 ///
-constexpr anthem::pixel_count operator"" _px(const long double i) noexcept {
+constexpr anthem::pixel_count
+operator"" _px(const unsigned long long i) noexcept {
   return i;
 }
 
