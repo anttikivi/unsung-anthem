@@ -36,13 +36,14 @@ assert_variable(ANTHEM_MAIN_COMPILER_TOOL
     "llvm, gcc, and msbuild")
 
 assert_variable(ANTHEM_INSTALL_PREFIX "dependency installation directory")
-assert_variable(ANTHEM_STDLIB "C++ standard library")
 
 default_value(ANTHEM_EXECUTABLE_NAME executable_name_not_set)
 default_value(ANTHEM_TEST_EXECUTABLE_NAME test-${ANTHEM_EXECUTABLE_NAME})
 
 print_status(ANTHEM_EXECUTABLE_NAME "executable name")
 print_status(ANTHEM_TEST_EXECUTABLE_NAME "test executable name")
+
+print_status_if_defined(ANTHEM_STDLIB "C++ standard library")
 
 assert_only_other(ANTHEM_SDL ANTHEM_GLFW SDL GLFW)
 

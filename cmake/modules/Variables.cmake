@@ -11,6 +11,12 @@ function(PRINT_STATUS NAME TITLE)
   message(STATUS "The ${TITLE} (${NAME}) is set to ${${NAME}}")
 endfunction()
 
+function(PRINT_STATUS_IF_DEFINED NAME TITLE)
+  if(DEFINED ${NAME})
+    print_status(${NAME} ${TITLE})
+  endif()
+endfunction()
+
 function(ASSERT_VARIABLE NAME TITLE POSSIBLE_VALUES)
   if(NOT DEFINED ${NAME})
     message(FATAL_ERROR
