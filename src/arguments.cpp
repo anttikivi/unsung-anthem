@@ -38,7 +38,7 @@ namespace anthem {
 
     logging::debug(logger, "Going to parse {} argument(s)", argc - 1);
 
-    const auto str_args = [=] {
+    const auto str_args = [&] {
       std::vector<std::string> ret = {};
       // The loop is started from index 1 as the index 0 is the name of the
       // executable and that should not be parsed.
