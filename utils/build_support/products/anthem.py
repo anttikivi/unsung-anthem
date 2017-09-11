@@ -19,6 +19,8 @@ from .product import check_source
 
 from .. import diagnostics, shell, workspace
 
+from ..config import ANTHEM_LOGGER_NAME
+
 from ..variables import ANTHEM_REPO_NAME
 
 
@@ -43,31 +45,30 @@ def anthem_build_dir(build_data, tests=False):
     )
 
 
-def build(build_data, tests=False):
+def construct_cmake_call(build_data, tests=False, clion=False):
     """
-    Build Unsung Anthem.
-
-    build_data -- the build data.
-    tests -- whether or not the tests should be built rather than the actual
-    executable.
     """
+    product = build_data.products.anthem
     args = build_data.args
     toolchain = build_data.toolchain
-    product = build_data.products.anthem
-    build_dir = anthem_build_dir(build_data=build_data, tests=tests)
-    check_source(product=product, name=ANTHEM_REPO_NAME)
-    shell.makedirs(build_dir)
     source_dir = workspace.source_dir(product=product, name=ANTHEM_REPO_NAME)
 
-    cmake_call = [
-        toolchain.cmake,
-        source_dir,
-        "-G", args.cmake_generator,
+    if not clion:
+        cmake_call = [
+            toolchain.cmake,
+            source_dir,
+            "-G", args.cmake_generator
+        ]
+    else:
+        cmake_call = []
+
+    cmake_call += [
         "-DANTHEM_INSTALL_PREFIX={}".format(build_data.install_root),
         "-DANTHEM_CXX_VERSION={}".format(build_data.std),
         "-DANTHEM_EXECUTABLE_NAME={}".format(args.executable_name),
         "-DANTHEM_TEST_EXECUTABLE_NAME={}".format(args.test_executable_name),
-        "-DANTHEM_MAIN_COMPILER_TOOL={}".format(args.main_tool)
+        "-DANTHEM_MAIN_COMPILER_TOOL={}".format(args.main_tool),
+        "-DANTHEM_LOGGER_NAME={}".format(ANTHEM_LOGGER_NAME)
     ]
 
     if args.sdl:
@@ -102,18 +103,40 @@ def build(build_data, tests=False):
         cmake_call += ["-DCMAKE_CXX_FLAGS=-I{}/include/c++/v1".format(
             build_data.install_root)]
 
-    if args.enable_gcov:
-        cmake_call += ["-DANTHEM_ENABLE_GCOV=ON"]
-        cmake_call += ["-DCMAKE_BUILD_TYPE=Coverage"]
-    else:
-        cmake_call += ["-DANTHEM_ENABLE_GCOV=OFF"]
-        cmake_call += ["-DCMAKE_BUILD_TYPE={}".format(
-            args.anthem_build_variant
-        )]
+    if not clion:
+        if args.enable_gcov:
+            cmake_call += ["-DANTHEM_ENABLE_GCOV=ON"]
+            cmake_call += ["-DCMAKE_BUILD_TYPE=Coverage"]
+        else:
+            cmake_call += ["-DANTHEM_ENABLE_GCOV=OFF"]
+            cmake_call += ["-DCMAKE_BUILD_TYPE={}".format(
+                args.anthem_build_variant
+            )]
 
     cmake_call += args.extra_cmake_options
 
+    return cmake_call
+
+
+def build(build_data, tests=False):
+    """
+    Build Unsung Anthem.
+
+    build_data -- the build data.
+    tests -- whether or not the tests should be built rather than the actual
+    executable.
+    """
+    args = build_data.args
+    toolchain = build_data.toolchain
+    product = build_data.products.anthem
+    build_dir = anthem_build_dir(build_data=build_data, tests=tests)
+    check_source(product=product, name=ANTHEM_REPO_NAME)
+    shell.makedirs(build_dir)
+
     cmake_env = {"CC": str(toolchain.cc), "CXX": str(toolchain.cxx)}
+
+    cmake_call = construct_cmake_call(
+        build_data=build_data, tests=tests, clion=False)
 
     if not args.clion:
         with shell.pushd(build_dir):
@@ -160,5 +183,14 @@ def build(build_data, tests=False):
         )
         shell.print_command(command=cmake_call, env=cmake_env)
         diagnostics.note(
-            "You can copy the options and variables into your CLion settings"
+            "Please copy the following environment variables to into your "
+            "CLion settings:"
         )
+        shell.print_env_fine(env=cmake_env)
+        diagnostics.note(
+            "Please copy the following CMake options to into your CLion "
+            "settings:"
+        )
+        clion_cmake_options = construct_cmake_call(
+            build_data=build_data, tests=tests, clion=True)
+        shell.print_command_fine(command=clion_cmake_options)

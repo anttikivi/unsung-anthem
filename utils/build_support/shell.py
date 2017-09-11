@@ -61,7 +61,7 @@ def quote_command(args):
     return " ".join([quote(a) for a in args])
 
 
-def echo_command(dry_run, command, env=None, prompt="+ "):
+def echo_command(dry_run, command, env=None, prompt="+ ", colour=None):
     """
     Print a command.
 
@@ -82,9 +82,39 @@ def echo_command(dry_run, command, env=None, prompt="+ "):
     else:
         output = _command()
     output_file = sys.stdout if dry_run else sys.stderr
-    print("{}{}".format(prompt, " ".join(output)), file=output_file)
+    if colour:
+        print(
+            "{}{}{}{}".format(
+                colour, prompt, " ".join(output), diagnostics.ENDC),
+            file=output_file)
+    else:
+        print("{}{}".format(prompt, " ".join(output)), file=output_file)
     output_file.flush()
     return command
+
+
+def echo_env(dry_run, env, prompt="+ ", colour=None):
+    """
+    Print environment variables.
+
+    dry_run -- whether or not dry run is enabled.
+    env -- the environment variables.
+    prompt -- the prompt to be printed before the command.
+    """
+    def _env():
+        return ["env"] + [quote(
+            "{}={}".format(k, v)) for k, v in sorted(env.items())]
+    output = _env()
+    output_file = sys.stdout if dry_run else sys.stderr
+    if colour:
+        print(
+            "{}{}{}{}".format(
+                colour, prompt, " ".join(output), diagnostics.ENDC),
+            file=output_file)
+    else:
+        print("{}{}".format(prompt, " ".join(output)), file=output_file)
+    output_file.flush()
+    return env
 
 
 def call(command, stderr=None, env=None, dry_run=None, echo=True):
@@ -205,6 +235,36 @@ def print_command(command, dry_run=None, env=None, prompt="+ "):
     echo_command(
         dry_run=_coerce_dry_run(dry_run), command=command, env=env,
         prompt=prompt
+    )
+
+
+def print_command_fine(command, dry_run=None, env=None, prompt="+ "):
+    """
+    Print a command into fine output.
+
+    command -- the command to be printed.
+    dry_run -- whether or not dry run is enabled.
+    env -- custom environment variables of the command.
+    prompt -- the prompt to be printed before the command.
+    """
+    echo_command(
+        dry_run=_coerce_dry_run(dry_run), command=command, env=env,
+        prompt=prompt, colour=diagnostics.OK_BLUE
+    )
+
+
+def print_env_fine(env, dry_run=None, prompt="+ "):
+    """
+    Print environment variables into fine output.
+
+    env -- the environment variables to be printed.
+    dry_run -- whether or not dry run is enabled.
+    env -- custom environment variables of the command.
+    prompt -- the prompt to be printed before the command.
+    """
+    echo_env(
+        dry_run=_coerce_dry_run(dry_run), env=env, prompt=prompt,
+        colour=diagnostics.OK_GREEN
     )
 
 
