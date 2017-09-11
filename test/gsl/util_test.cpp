@@ -25,8 +25,6 @@
 
 #include "gsl/util"
 
-#include "anthem/__config.h"
-
 TEST_CASE("the Callable is invoked at the end of the scope",
           "[gsl::final_action]") {
 
@@ -91,22 +89,17 @@ TEST_CASE("cast is done as expected", "[gsl::narrow_cast]") {
   int i = 0;
   auto j = gsl::narrow_cast<unsigned int>(i);
 
-  #if HAS_CXX17_TYPE_TRAITS
+#if ANTHEM_CXX14
 
-    constexpr bool a = std::is_same_v<decltype(j), unsigned int>;
-    constexpr bool b = std::is_same_v<decltype(j), int>;
+  constexpr bool a = std::is_same<decltype(j), unsigned int>::value;
+  constexpr bool b = std::is_same<decltype(j), int>::value;
 
-  #elif HAS_EXPERIMENTAL_TYPE_TRAITS
+#else
 
-    constexpr bool a = std::experimental::is_same_v<decltype(j), unsigned int>;
-    constexpr bool b = std::experimental::is_same_v<decltype(j), int>;
+  constexpr bool a = std::is_same_v<decltype(j), unsigned int>;
+  constexpr bool b = std::is_same_v<decltype(j), int>;
 
-  #else
-
-    constexpr bool a = std::is_same<decltype(j), unsigned int>::value;
-    constexpr bool b = std::is_same<decltype(j), int>::value;
-
-  #endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+#endif // !ANTHEM_CXX14
 
   REQUIRE(a);
   REQUIRE_FALSE(b);
@@ -133,22 +126,17 @@ TEST_CASE("checked cast is done as expected", "[gsl::narrow]") {
   int i = 0;
   auto j = gsl::narrow<unsigned int>(i);
 
-  #if HAS_CXX17_TYPE_TRAITS
+#if ANTHEM_CXX14
 
-    constexpr bool a = std::is_same_v<decltype(j), unsigned int>;
-    constexpr bool b = std::is_same_v<decltype(j), int>;
+  constexpr bool a = std::is_same<decltype(j), unsigned int>::value;
+  constexpr bool b = std::is_same<decltype(j), int>::value;
 
-  #elif HAS_EXPERIMENTAL_TYPE_TRAITS
+#else
 
-    constexpr bool a = std::experimental::is_same_v<decltype(j), unsigned int>;
-    constexpr bool b = std::experimental::is_same_v<decltype(j), int>;
+  constexpr bool a = std::is_same_v<decltype(j), unsigned int>;
+  constexpr bool b = std::is_same_v<decltype(j), int>;
 
-  #else
-
-    constexpr bool a = std::is_same<decltype(j), unsigned int>::value;
-    constexpr bool b = std::is_same<decltype(j), int>::value;
-
-  #endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+#endif // !ANTHEM_CXX14
 
   REQUIRE(a);
   REQUIRE_FALSE(b);

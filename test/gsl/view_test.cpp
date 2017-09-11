@@ -27,22 +27,17 @@
 
 TEST_CASE("is equal to pointer", "[gsl::owner]") {
 
-#if HAS_CXX17_TYPE_TRAITS
-
-  constexpr bool a = std::is_same_v<gsl::owner<int*>, int*>;
-  constexpr bool b = std::is_same_v<gsl::owner<int*>, int>;
-
-#elif HAS_EXPERIMENTAL_TYPE_TRAITS
-
-  constexpr bool a = std::experimental::is_same_v<gsl::owner<int*>, int*>;
-  constexpr bool b = std::experimental::is_same_v<gsl::owner<int*>, int>;
-
-#else
+#if ANTHEM_CXX14
 
   constexpr bool a = std::is_same<gsl::owner<int*>, int*>::value;
   constexpr bool b = std::is_same<gsl::owner<int*>, int>::value;
 
-#endif // !(HAS_CXX17_TYPE_TRAITS && HAS_EXPERIMENTAL_TYPE_TRAITS)
+#else
+
+  constexpr bool a = std::is_same_v<gsl::owner<int*>, int*>;
+  constexpr bool b = std::is_same_v<gsl::owner<int*>, int>;
+
+#endif // !ANTHEM_CXX14
 
   REQUIRE(a);
   REQUIRE_FALSE(b);

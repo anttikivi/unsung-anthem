@@ -96,9 +96,11 @@ def build(build_data, tests=False):
         cmake_call += ["-DANTHEM_STDLIB={}".format(build_data.stdlib)]
 
     if args.build_llvm or args.build_libcxx:
-        cmake_call += ["-DANTHEM_CUSTOM_LIBCXX=ON"]
-    else:
-        cmake_call += ["-DANTHEM_CUSTOM_LIBCXX=OFF"]
+        # -nostdinc++ -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1
+        # -L${ANTHEM_INSTALL_PREFIX}/lib
+        # -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib -lc++
+        cmake_call += ["-DCMAKE_CXX_FLAGS=-I{}/include/c++/v1".format(
+            build_data.install_root)]
 
     if args.enable_gcov:
         cmake_call += ["-DANTHEM_ENABLE_GCOV=ON"]
