@@ -158,6 +158,17 @@ def build_action_options(parser):
         action="store_true",
         dest="build_only")
     build_actions_group.add_argument(
+        "--run",
+        help="run Unsung Anthem after building. Unsung Anthem is not run by "
+             "default",
+        action="store_true",
+        dest="run")
+    build_actions_group.add_argument(
+        "--run-only",
+        help="only run Unsung Anthem",
+        action="store_true",
+        dest="run_only")
+    build_actions_group.add_argument(
         "--run-test",
         help="run the tests without installing the dependencies or building "
              "the project",

@@ -198,7 +198,8 @@ def _build_tools(build_data):
     toolchain = build_data.toolchain
     build_data["tools"] = Mapping()
     build_data["tools"]["set_up"] = list()
-    build_tools = not args.test_only and not args.docs_only
+    build_tools = \
+        not args.test_only and not args.docs_only and not args.run_only
 
     ninja_build_required = \
         args.build_ninja or \
@@ -234,7 +235,7 @@ def _build_dependencies(build_data):
     build_dependencies = build_tools and not args.build_only
     build_catch = args.clion \
         or (args.build_test and not args.build_only and not args.test_only
-            and not args.docs_only)
+            and not args.docs_only and not args.run_only)
     build_data["dependencies"] = Mapping()
     build_data["dependencies"]["build"] = list()
 
@@ -338,27 +339,29 @@ def invoke(build_data):
     _build_dependencies(build_data=build_data)
 
     build_anthem = \
-        not args.install_only and not args.test_only and not args.docs_only
+        not args.install_only and not args.test_only and not args.docs_only \
+        and not args.run_only
 
     if build_anthem:
         anthem.build(build_data=build_data, tests=False)
 
     build_tests = \
         args.build_test and not args.install_only and not args.test_only \
-        and not args.docs_only
+        and not args.docs_only and not args.run_only
 
     if build_tests:
         anthem.build(build_data=build_data, tests=True)
 
     run_tests = \
         (args.test or args.test_only) and not args.build_only \
-        and not args.install_only and not args.docs_only
+        and not args.install_only and not args.docs_only and not args.run_only
 
     if run_tests:
         if platform.system() == "Windows":
             tests_build_dir = os.path.join(
                 anthem.anthem_build_dir(build_data=build_data, tests=True),
-                build_data.args.anthem_build_variant)
+                build_data.args.anthem_build_variant
+            )
         else:
             tests_build_dir = anthem.anthem_build_dir(
                 build_data=build_data, tests=True
@@ -371,5 +374,28 @@ def invoke(build_data):
                 test_executable = os.path.join(
                     tests_build_dir, args.test_executable_name)
             shell.call_without_sleeping([test_executable], echo=True)
+
+    run = \
+        (args.run or args.run_only) and not args.build_only \
+        and not args.install_only and not args.docs_only
+
+    if run:
+        if platform.system() == "Windows":
+            build_dir = os.path.join(
+                anthem.anthem_build_dir(build_data=build_data, tests=False),
+                build_data.args.anthem_build_variant
+            )
+        else:
+            build_dir = anthem.anthem_build_dir(
+                build_data=build_data, tests=False
+            )
+        with shell.pushd(build_dir):
+            if platform.system() == "Windows":
+                executable = os.path.join(
+                    build_dir, args.executable_name + ".exe")
+            else:
+                executable = os.path.join(
+                    build_dir, args.executable_name)
+            shell.call_without_sleeping([executable], echo=True)
 
     return 0

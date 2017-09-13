@@ -48,18 +48,29 @@ def main_args(args):
             args.build_only = False
             args.test_only = False
             args.docs_only = False
+            args.run_only = False
         elif args.build_only:
             args.install_only = False
             args.test_only = False
             args.docs_only = False
+            args.run_only = False
         elif args.test_only:
             args.build_only = False
             args.install_only = False
             args.docs_only = False
+            args.run_only = False
         elif args.docs_only:
             args.build_only = False
             args.install_only = False
             args.test_only = False
+            args.run_only = False
+        elif args.run_only:
+            args.build_only = False
+            args.install_only = False
+            args.test_only = False
+            args.docs_only = False
+        if not args.run:
+            args.run = False
 
     def _sdl_glfw():
         if not args.sdl and not args.glfw:

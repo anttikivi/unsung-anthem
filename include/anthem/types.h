@@ -36,6 +36,7 @@ namespace anthem {
 /// \brief A \c pixel value representing an integer of pixels.
 ///
 /// \param i integer of pixels.
+///
 /// \return The \c pixel literal.
 ///
 constexpr anthem::pixel_count
