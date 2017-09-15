@@ -88,8 +88,9 @@ def mac_os(tools, sdk, toolchain):
     """
     # NOTE: xcrun searches from developer tools directory *and* from PATH.
     # Relatively slow, but 'which' is not necessary for Darwin.
-    return find_tools(
-        tools=tools, func=partial(xcrun.find, sdk=sdk, toolchain=toolchain))
+    # return find_tools(
+    #     tools=tools, func=partial(xcrun.find, sdk=sdk, toolchain=toolchain))
+    return find_tools(tools=tools, func=which)
 
 
 def unix(tools):

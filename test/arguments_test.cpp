@@ -27,7 +27,7 @@
 
 TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]") {
   const auto log = anthem::create_logger("test_logger");
-  const anthem::arguments a = {13_px, 555_px};
+  const anthem::arguments a = {true, 13_px, 555_px};
   const char* argv_b[] = {"exe", "--window-height", "13", "--windows-width",
                           "555"};
   const char* argv_c[] = {"exe", "--window-height", "423", "--windows-width",

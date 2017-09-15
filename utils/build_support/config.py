@@ -146,6 +146,19 @@ PRODUCT_CONFIG = Mapping(
             asset_data=SOURCE_ASSET,
             version_prefix="Version "
         )
+    ),
+
+    args=product_config(
+        version="6.1.0",
+        name="args",
+        identifier="args",
+        allow_git_checkout=True,
+        github_data=github_config(
+            owner="Taywee",
+            name="args",
+            asset_data=SOURCE_ASSET,
+            version_prefix=""
+        )
     )
 )
 

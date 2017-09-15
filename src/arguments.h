@@ -29,6 +29,8 @@
 #include "anthem/logging.h"
 #include "anthem/types.h"
 
+#include "gsl/assert"
+
 namespace anthem {
 
   ///
@@ -37,64 +39,11 @@ namespace anthem {
   /// arguments.
   ///
   struct arguments final {
-    ///
-    /// \brief Constructs an object of class \c arguments with no data.
-    ///
-    arguments() noexcept = default;
 
     ///
-    /// \brief Constructs an object of class \c arguments.
+    /// \brief Whether or not the arguments are parsed correctly.
     ///
-    /// \param window_width value of the starting width of the window.
-    /// \param window_height value of the starting height of the window.
-    ///
-    constexpr arguments(const pixel_count window_width,
-                        const pixel_count window_height) noexcept
-    : window_width{window_width}, window_height{window_height} {
-
-    }
-
-    ///
-    /// \brief Constructs an object of class \c arguments which has the same
-    /// values as the original object \c a.
-    ///
-    /// \param a object from which values are copied into the constructed
-    /// object.
-    ///
-    constexpr arguments(const arguments& a) noexcept = default;
-
-    ///
-    /// \brief Constructs an object of class \c arguments and moves the values
-    /// of \c a to the constructed object.
-    ///
-    /// \param a object from which values are moved into the constructed object.
-    ///
-    constexpr arguments(arguments&& a) noexcept = default;
-
-    ///
-    /// \brief Destructs an object of class \c arguments.
-    ///
-    ~arguments() noexcept = default;
-
-    ///
-    /// \brief Copies the values of \c a and replaces the values of \c *this by
-    /// them.
-    ///
-    /// \param a object of class \c arguments from which the values are copied.
-    ///
-    /// \return Reference to \c *this.
-    ///
-    constexpr arguments& operator=(const arguments& a) noexcept = delete;
-
-    ///
-    /// \brief Moves the values of \c a and replaces the values of \c *this by
-    /// them.
-    ///
-    /// \param a object of class \c arguments from which the values are moved.
-    ///
-    /// \return Reference to \c *this.
-    ///
-    constexpr arguments& operator=(arguments&& a) noexcept = delete;
+    const bool is_parsed{false};
 
     ///
     /// \brief The starting width of the window.

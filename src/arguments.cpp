@@ -23,12 +23,9 @@
 
 #include "arguments.h"
 
-#include <type_traits>
+#include <iostream>
 
-#include "gsl/util"
-
-#include "anthem/array.h"
-#include "anthem/types.h"
+#include <args.hxx>
 
 namespace anthem {
 
@@ -38,20 +35,30 @@ namespace anthem {
 
     logging::debug(logger, "Going to parse {} argument(s)", argc - 1);
 
-    const auto str_args = [&] {
-      std::vector<std::string> ret = {};
-      // The loop is started from index 1 as the index 0 is the name of the
-      // executable and that should not be parsed.
-      for (int i = 1; i < argc; ++i) {
-        ret.emplace_back(argv[i]);
-      }
-      return ret;
-    }();
+    args::ArgumentParser parser("TODO",
+                                "Some information which goes after the "
+                                "options should go here");
+    args::HelpFlag help(parser,
+                        "help", "Display this help menu",
+                        {'h', "help"});
 
-    for (const auto& arg : str_args) {
-      logging::debug(logger, "Now parsing option {}", arg);
+    try {
+
+      parser.ParseCLI(argc, argv);
+    
+    } catch (args::Help) {
+
+      std::cout << parser;
+      return arguments{false};
+
+    } catch (args::ParseError e) {
+
+      std::cerr << e.what() << std::endl;
+      std::cerr << parser;
+      return arguments{false};
+
     }
 
-    return arguments{};
+    return arguments{true};
   }
 } // namespace anthem

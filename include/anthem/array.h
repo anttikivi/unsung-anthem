@@ -57,7 +57,7 @@ namespace anthem {
     /// from the corresponding element of \c a.
     ///
     template <class T, std::size_t N>
-    constexpr std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N]) {
+    constexpr std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N]) noexcept {
       return detail::to_array_impl(a, std::make_index_sequence<N>{});
     }
 
@@ -128,7 +128,8 @@ namespace anthem {
     /// \return \c std::array<VT, sizeof...(Types)>{std::forward<Types>(t)...}
     ///
     template <class D = void, class... Types>
-    constexpr detail::return_type<D, Types...> make_array(Types&&... t) {
+    constexpr detail::return_type<D, Types...>
+    make_array(Types&&... t) noexcept {
       return {std::forward<Types>(t)... };
     }
   } // namespace array

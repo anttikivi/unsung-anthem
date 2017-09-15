@@ -513,22 +513,25 @@ def ninja_install(build_data, env=None, dry_run=None, echo=False):
         echo=echo)
 
 
-def make(build_data, target=None, env=None, dry_run=None, echo=False):
+def make(
+        build_data, target=None, extra_args=None, env=None, dry_run=None,
+        echo=False):
     """
     Call Make.
 
     build_data -- the build data.
     target -- the Ninja target.
+    extra_args -- extra arguments to be passed to the make call.
     env -- custom environment variables of the command.
     dry_run -- whether or not to command is only printed.
     echo -- whether or not the command is echoed before the execution.
     """
+    make_call = [build_data.toolchain.make]
     if target:
-        call(
-            [build_data.toolchain.make, target], env=env, dry_run=dry_run,
-            echo=echo)
-    else:
-        call([build_data.toolchain.make], env=env, dry_run=dry_run, echo=echo)
+        make_call += [target]
+    if extra_args:
+        make_call += [extra_args]
+    call(make_call, env=env, dry_run=dry_run, echo=echo)
 
 
 def make_install(build_data, env=None, dry_run=None, echo=False):
