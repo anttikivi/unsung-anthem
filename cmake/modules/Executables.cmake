@@ -31,7 +31,14 @@ function(SET_UP_COVERAGE COVERAGE_TARGET)
   message(STATUS "Setting up ${COVERAGE_TARGET} for code coverage")
   include(CodeCoverage)
   set(COVERAGE_EXCLUDES
-      ${ANTHEM_COVERAGE_EXCLUDES}
+      ${ANTHEM_INSTALL_PREFIX}/include/*
+      ${ANTHEM_INSTALL_PREFIX}/include/GLFW/*
+      ${ANTHEM_INSTALL_PREFIX}/include/SDL2/*
+      ${ANTHEM_INSTALL_PREFIX}/include/spdlog/*
+      ${ANTHEM_INSTALL_PREFIX}/include/spdlog/details/*
+      ${ANTHEM_INSTALL_PREFIX}/include/spdlog/fmt/*
+      ${ANTHEM_INSTALL_PREFIX}/include/spdlog/fmt/bundled/*
+      ${ANTHEM_INSTALL_PREFIX}/include/spdlog/sinks/*
       /usr/include/*
       /usr/include/c++*
       *v1*
