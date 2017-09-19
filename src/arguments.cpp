@@ -35,12 +35,16 @@ namespace anthem {
 
     logging::debug(logger, "Going to parse {} argument(s)", argc - 1);
 
-    args::ArgumentParser parser("TODO",
+    args::ArgumentParser parser{"TODO",
                                 "Some information which goes after the "
-                                "options should go here");
-    args::HelpFlag help(parser,
-                        "help", "Display this help menu",
-                        {'h', "help"});
+                                "options should go here"};
+    args::HelpFlag help{parser,
+                        "help",
+                        "Display this help menu",
+                        {'h', "help"}};
+
+    args::ValueFlag<int> window_width{parser, "window-width", "The width of the window", {"window-width"}, 0};
+    args::ValueFlag<int> window_height{parser, "window-height", "The height of the window", {"window-height"}, 0};
 
     try {
 
@@ -59,6 +63,6 @@ namespace anthem {
 
     }
 
-    return arguments{true};
+    return arguments{true, args::get(window_width), args::get(window_height)};
   }
 } // namespace anthem
