@@ -34,5 +34,7 @@ TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]") {
   const auto c = anthem::parse_arguments(log, 3, argv_c);
 
   REQUIRE(b == a);
+  REQUIRE_FALSE(b != a);
   REQUIRE_FALSE(c == a);
+  REQUIRE(c != a);
 }

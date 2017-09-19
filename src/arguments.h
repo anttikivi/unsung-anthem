@@ -68,7 +68,8 @@ namespace anthem {
   constexpr const bool operator==(const arguments& lhs,
                                   const arguments& rhs) noexcept {
 
-    return lhs.window_width == rhs.window_width &&
+    return lhs.is_parsed == rhs.is_parsed &&
+           lhs.window_width == rhs.window_width &&
            lhs.window_height == rhs.window_height;
   }
 
@@ -84,8 +85,7 @@ namespace anthem {
   constexpr const bool operator!=(const arguments& lhs,
                                   const arguments& rhs) noexcept {
 
-    return lhs.window_width == rhs.window_width &&
-           lhs.window_height == rhs.window_height;
+    return !(lhs == rhs);
   }
 
   ///
