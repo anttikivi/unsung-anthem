@@ -13,6 +13,7 @@ The support module containing the args product helpers.
 
 
 import os
+import platform
 
 from .product import binary_exists, check_source
 
@@ -34,7 +35,12 @@ def build(build_data):
     source_dir = workspace.source_dir(product)
     shell.rmtree(build_dir)
     shell.copytree(source_dir, build_dir)
-    with shell.pushd(build_dir):
-        shell.make(
-            build_data=build_data, target="install",
-            extra_args="DESTDIR={}".format(build_data.install_root))
+    if platform.system() == "Windows":
+        shell.copy(
+            os.path.join(build_dir, "args.hxx"),
+            os.path.join(build_data.install_root, "install", "args.hxx"))
+    else:
+        with shell.pushd(build_dir):
+            shell.make(
+                build_data=build_data, target="install",
+                extra_args="DESTDIR={}".format(build_data.install_root))
