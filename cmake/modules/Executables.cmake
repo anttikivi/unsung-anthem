@@ -31,7 +31,7 @@ function(SET_UP_COVERAGE COVERAGE_TARGET)
   message(STATUS "Setting up ${COVERAGE_TARGET} for code coverage")
   include(CodeCoverage)
   set(COVERAGE_EXCLUDES
-      ${ANTHEM_INSTALL_PREFIX}/include/*
+      ${ANTHEM_COVERAGE_EXCLUDES}
       /usr/include/*
       /usr/include/c++*
       *v1*

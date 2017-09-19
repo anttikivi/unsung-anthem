@@ -107,6 +107,13 @@ def construct_cmake_call(build_data, tests=False, clion=False):
         if args.enable_gcov:
             cmake_call += ["-DANTHEM_ENABLE_GCOV=ON"]
             cmake_call += ["-DCMAKE_BUILD_TYPE=Coverage"]
+            cmake_call += ["-DANTHEM_COVERAGE_EXCLUDES=\"{}\"".format(
+                ";".join(
+                    [os.path.join(root, "include", name, "*")
+                     for root, dirs, files in os.walk(build_data.install_root)
+                     for name in dirs
+                     if os.path.isdir(os.path.join(root, name))])
+            )]
         else:
             cmake_call += ["-DANTHEM_ENABLE_GCOV=OFF"]
             cmake_call += ["-DCMAKE_BUILD_TYPE={}".format(
