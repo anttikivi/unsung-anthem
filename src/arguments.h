@@ -31,6 +31,9 @@
 
 #include "gsl/assert"
 
+#include <spdlog/fmt/ostr.h> // This must be included for the custom logger
+                             // object to work.
+
 namespace anthem {
 
   ///
@@ -88,6 +91,16 @@ namespace anthem {
 
     return !(lhs == rhs);
   }
+
+  ///
+  /// \brief Inserts the formatted data of an object of type \c arguments to the \c std::ostream.
+  ///
+  /// \param os the stream to which the data is inserted.
+  /// \param a the object, the data of which is inserted.
+  ///
+  /// \return a reference of the \c std::ostream.
+  ///
+  std::ostream& operator<<(std::ostream& os, const arguments& a);
 
   ///
   /// \brief Returns an object of class \c arguments which contains the values

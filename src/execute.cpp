@@ -25,6 +25,7 @@
 #include "anthem/logging.h"
 
 #include "arguments.h"
+#include "glfw.h"
 #include "logging_config.h"
 
 namespace anthem {
@@ -42,5 +43,23 @@ namespace anthem {
                    logger_name, logger_pattern, logger_level);
 
     const auto args = parse_arguments(console, argc, argv);
+
+    logging::trace(console,
+                   "The following values are set to the arguments:\n{}",
+                   args);
+
+#if ANTHEM_GLFW
+
+    glfw::initialize(console);
+
+#elif ANTHEM_SDL
+#endif
+
+#if ANTHEM_GLFW
+
+    glfw::quit(console);
+
+#elif ANTHEM_SDL
+#endif
   }
 } // namespace anthem

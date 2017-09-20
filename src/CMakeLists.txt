@@ -11,6 +11,7 @@ set(ANTHEM_SOURCES ${ANTHEM_SOURCES}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/arguments.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/execute.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/glfw.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 
     PARENT_SCOPE)
@@ -19,6 +20,7 @@ set(ANTHEM_INCLUDES ${ANTHEM_INCLUDES}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/arguments.h
     ${CMAKE_CURRENT_SOURCE_DIR}/execute.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/glfw.h
     ${CMAKE_CURRENT_SOURCE_DIR}/logging_config.h
 
     PARENT_SCOPE)

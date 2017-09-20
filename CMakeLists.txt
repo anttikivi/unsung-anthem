@@ -56,15 +56,27 @@ set_std_feature_definitions(${ANTHEM_CXX_VERSION})
 set_std_flags(${ANTHEM_STD})
 add_logger_definitions()
 
+set(ANTHEM_LIBRARIES)
+
 if(UNIX)
   if(APPLE)
   else()
-    set(ANTHEM_LIBRARIES pthread)
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} pthread)
   endif()
+
+  find_package(glfw3
+      ${ANTHEM_GLFW_VERSION}
+      REQUIRED
+      PATHS ${ANTHEM_INSTALL_PREFIX}/lib/cmake)
+
+  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw)
 else()
+  # Presumably Windows.
+  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw3 opengl32)
 endif()
 
 include_directories(${ANTHEM_INSTALL_PREFIX}/include)
+link_directories(${ANTHEM_INSTALL_PREFIX}/lib)
 
 include_directories(include)
 include_directories(lib)

@@ -77,6 +77,8 @@ def construct_cmake_call(build_data, tests=False, clion=False):
     elif args.glfw:
         cmake_call += ["-DANTHEM_SDL=OFF"]
         cmake_call += ["-DANTHEM_GLFW=ON"]
+        cmake_call += ["-DANTHEM_GLFW_VERSION={}".format(
+            build_data.products.glfw.version)]
 
     if args.anthem_assertions:
         cmake_call += ["-DANTHEM_ENABLE_ASSERTIONS=ON"]

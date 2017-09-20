@@ -29,6 +29,14 @@
 
 namespace anthem {
 
+  std::ostream& operator<<(std::ostream& os, const arguments& a) {
+    return os << "{"
+           << "parsed:" << std::to_string(a.parsed)
+           << ", window_width:" << std::to_string(a.window_width)
+           << ", window_height:" << std::to_string(a.window_height)
+           << "}";
+  }
+
   const arguments parse_arguments(const logging::logger_t& logger,
                                   const int argc,
                                   const char* argv[]) noexcept {
@@ -37,19 +45,29 @@ namespace anthem {
 
     args::ArgumentParser parser{"TODO",
                                 "Some information which goes after the "
-                                "options should go here"};
+                                    "options should go here"};
     args::HelpFlag help{parser,
                         "help",
                         "Display this help menu",
                         {'h', "help"}};
 
-    args::ValueFlag<pixel_count> window_width{parser, "window-width", "The width of the window", {"window-width"}, 0};
-    args::ValueFlag<pixel_count> window_height{parser, "window-height", "The height of the window", {"window-height"}, 0};
+    args::ValueFlag<pixel_count> window_width{parser,
+                                              "window-width",
+                                              "The width of the window in "
+                                                  "pixels",
+                                              {"window-width"},
+                                              0};
+    args::ValueFlag<pixel_count> window_height{parser,
+                                               "window-height",
+                                               "The height of the window in "
+                                                  "pixels",
+                                               {"window-height"},
+                                               0};
 
     try {
 
       parser.ParseCLI(argc, argv);
-    
+
     } catch (args::Help) {
 
       std::cout << parser;
