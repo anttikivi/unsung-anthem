@@ -242,6 +242,7 @@ def _build_dependencies(build_data):
     if build_dependencies:
         build_data.dependencies.build += ["spdlog"]
         build_data.dependencies.build += ["args"]
+        build_data.dependencies.build += ["glad"]
         if args.sdl:
             build_data.dependencies.build += ["sdl"]
         elif args.glfw:

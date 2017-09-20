@@ -15,6 +15,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 include(CompilerFlags)
 include(Definitions)
 include(Executables)
+include(ExternalSources)
 include(StdDefinitions)
 include(Variables)
 
@@ -79,6 +80,8 @@ add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(src)
 add_subdirectory(test)
+
+set_glad_sources()
 
 create_executable(${ANTHEM_EXECUTABLE_TYPE})
 

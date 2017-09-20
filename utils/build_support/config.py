@@ -91,6 +91,19 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
+    glad=product_config(
+        version="0.1.14a0",
+        name="glad",
+        identifier="glad",
+        allow_git_checkout=True,
+        github_data=github_config(
+            owner="Dav1dde",
+            name="glad",
+            asset_data=SOURCE_ASSET,
+            version_prefix="v"
+        )
+    ),
+
     catch=product_config(
         version="1.10.0",
         name="Catch",
