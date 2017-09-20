@@ -43,8 +43,8 @@ namespace anthem {
                         "Display this help menu",
                         {'h', "help"}};
 
-    args::ValueFlag<int> window_width{parser, "window-width", "The width of the window", {"window-width"}, 0};
-    args::ValueFlag<int> window_height{parser, "window-height", "The height of the window", {"window-height"}, 0};
+    args::ValueFlag<pixel_count> window_width{parser, "window-width", "The width of the window", {"window-width"}, 0};
+    args::ValueFlag<pixel_count> window_height{parser, "window-height", "The height of the window", {"window-height"}, 0};
 
     try {
 
