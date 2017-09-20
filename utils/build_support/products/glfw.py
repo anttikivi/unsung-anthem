@@ -76,7 +76,7 @@ def do_build_windows(build_data):
             and workspace.include_file_exists(
                 build_data=build_data, path="GLFW"):
         shell.rmtree(include_dir)
-    shell.copytree(os.path.join(build_dir, "include"), include_dir)
+    shell.copytree(os.path.join(build_dir, "include", "GLFW"), include_dir)
     if not workspace.is_lib_dir_made(build_data):
         for lib_file in os.listdir(
                 os.path.join(build_data.install_root, "lib")):
