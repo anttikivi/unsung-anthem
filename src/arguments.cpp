@@ -63,6 +63,10 @@ namespace anthem {
 
     }
 
+#if defined(_MSC_VER) && _MSC_VER == 1900
+    return arguments(true, args::get(window_width), args::get(window_height));
+#else
     return arguments{true, args::get(window_width), args::get(window_height)};
+#endif // !(defined(_MSC_VER) && _MSC_VER == 1900)
   }
 } // namespace anthem
