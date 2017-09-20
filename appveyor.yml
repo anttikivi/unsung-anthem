@@ -1,7 +1,6 @@
 version: '0.1.0-dev.{build}'
 
 image:
- - Visual Studio 2015
  - Visual Studio 2017
 
 platform:

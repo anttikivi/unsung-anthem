@@ -38,7 +38,7 @@ namespace anthem {
   /// \brief Type of objects which hold parsed information of command line
   /// arguments.
   ///
-  struct arguments {
+  struct arguments final {
 
     ///
     /// \brief Whether or not the arguments are parsed correctly.
