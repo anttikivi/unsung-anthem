@@ -62,7 +62,7 @@ if(UNIX)
   endif()
 
   if(${ANTHEM_CI_LLVM})
-    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} c++)
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ld)
   endif()
 
   find_package(glfw3

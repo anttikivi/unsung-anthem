@@ -11,7 +11,7 @@ function(SET_STD_FLAGS STD)
   if(${ANTHEM_CI_LLVM})
     set(CMAKE_CXX_FLAGS
         "${CMAKE_CXX_FLAGS} -nostdinc++ \
--Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
+-Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib -lc++")
   endif()
 
   if (${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL msbuild)
