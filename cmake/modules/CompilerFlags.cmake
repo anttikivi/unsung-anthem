@@ -9,7 +9,7 @@
 
 function(SET_STD_FLAGS STD)
   if (${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL msbuild)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std=${STD}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:${STD}")
   else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${STD}")
   endif()
