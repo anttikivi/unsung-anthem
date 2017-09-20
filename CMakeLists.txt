@@ -64,15 +64,21 @@ if(UNIX)
     set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} pthread)
   endif()
 
-  find_package(glfw3
-      ${ANTHEM_GLFW_VERSION}
-      REQUIRED
-      PATHS ${ANTHEM_INSTALL_PREFIX}/lib/cmake)
+  if(${ANTHEM_GLFW})
+    find_package(glfw3
+        ${ANTHEM_GLFW_VERSION}
+        REQUIRED
+        PATHS ${ANTHEM_INSTALL_PREFIX}/lib/cmake)
 
-  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw)
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw)
+  elseif(${ANTHEM_SDL})
+  endif()
 else()
-  # Presumably Windows.
-  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw3 opengl32)
+  if(${ANTHEM_GLFW})
+    # Presumably Windows.
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw3 opengl32)
+  elseif(${ANTHEM_SDL})
+  endif()
 endif()
 
 include_directories(${ANTHEM_INSTALL_PREFIX}/include)
