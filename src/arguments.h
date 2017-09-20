@@ -38,12 +38,12 @@ namespace anthem {
   /// \brief Type of objects which hold parsed information of command line
   /// arguments.
   ///
-  struct arguments final {
+  struct arguments {
 
     ///
     /// \brief Whether or not the arguments are parsed correctly.
     ///
-    const bool is_parsed{false};
+    const bool parsed{false};
 
     ///
     /// \brief The starting width of the window.
@@ -69,7 +69,7 @@ namespace anthem {
   constexpr const bool operator==(const arguments& lhs,
                                   const arguments& rhs) noexcept {
 
-    return lhs.is_parsed == rhs.is_parsed &&
+    return lhs.parsed == rhs.parsed &&
            lhs.window_width == rhs.window_width &&
            lhs.window_height == rhs.window_height;
   }
