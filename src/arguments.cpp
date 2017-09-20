@@ -53,13 +53,23 @@ namespace anthem {
     } catch (args::Help) {
 
       std::cout << parser;
+
+#if defined(_MSC_VER) && _MSC_VER == 1900
+      return arguments(false);
+#else
       return arguments{false};
+#endif // !(defined(_MSC_VER) && _MSC_VER == 1900)
 
     } catch (args::ParseError e) {
 
       std::cerr << e.what() << std::endl;
       std::cerr << parser;
+
+#if defined(_MSC_VER) && _MSC_VER == 1900
+      return arguments(false);
+#else
       return arguments{false};
+#endif // !(defined(_MSC_VER) && _MSC_VER == 1900)
 
     }
 

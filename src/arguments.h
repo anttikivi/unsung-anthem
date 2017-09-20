@@ -54,7 +54,8 @@ namespace anthem {
     /// \brief The starting height of the window.
     ///
     const pixel_count window_height{0};
-  };
+
+  }; // struct arguments final
 
   ///
   /// \brief Compares the two objects of class \c arguments.
