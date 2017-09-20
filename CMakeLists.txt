@@ -22,6 +22,8 @@ include(Variables)
 option(ANTHEM_ENABLE_ASSERTIONS
     "Option for enabling assertions in the code" ON)
 
+option(ANTHEM_CI_LLVM "Option for the CI-only LLVM options" OFF)
+
 option(ANTHEM_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 
 assert_variable(ANTHEM_EXECUTABLE_TYPE
@@ -57,6 +59,10 @@ if(UNIX)
   if(APPLE)
   else()
     set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} pthread)
+  endif()
+
+  if(${ANTHEM_CI_LLVM})
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} c++)
   endif()
 
   find_package(glfw3

@@ -32,13 +32,16 @@ function(SET_UP_COVERAGE COVERAGE_TARGET)
   include(CodeCoverage)
   set(COVERAGE_EXCLUDES
       ${ANTHEM_INSTALL_PREFIX}/include/*
+      ${ANTHEM_INSTALL_PREFIX}/include/glad/*
       ${ANTHEM_INSTALL_PREFIX}/include/GLFW/*
+      ${ANTHEM_INSTALL_PREFIX}/include/KHR/*
       ${ANTHEM_INSTALL_PREFIX}/include/SDL2/*
       ${ANTHEM_INSTALL_PREFIX}/include/spdlog/*
       ${ANTHEM_INSTALL_PREFIX}/include/spdlog/details/*
       ${ANTHEM_INSTALL_PREFIX}/include/spdlog/fmt/*
       ${ANTHEM_INSTALL_PREFIX}/include/spdlog/fmt/bundled/*
       ${ANTHEM_INSTALL_PREFIX}/include/spdlog/sinks/*
+      ${ANTHEM_INSTALL_PREFIX}/src/*
       /usr/include/*
       /usr/include/c++*
       *v1*

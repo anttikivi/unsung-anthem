@@ -8,6 +8,12 @@
 # Licensed under GNU Affero General Public License v3.0
 
 function(SET_STD_FLAGS STD)
+  if(${ANTHEM_CI_LLVM})
+    set(CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS} -nostdinc++ \
+-Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib")
+  endif()
+
   if (${ANTHEM_MAIN_COMPILER_TOOL} STREQUAL msbuild)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:${STD}")
   else()

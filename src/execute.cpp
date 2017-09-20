@@ -48,18 +48,7 @@ namespace anthem {
                    "The following values are set to the arguments:\n{}",
                    args);
 
-#if ANTHEM_GLFW
-
     glfw::initialize(console);
-
-#elif ANTHEM_SDL
-#endif
-
-#if ANTHEM_GLFW
-
     glfw::quit(console);
-
-#elif ANTHEM_SDL
-#endif
   }
 } // namespace anthem

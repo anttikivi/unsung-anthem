@@ -104,6 +104,9 @@ def construct_cmake_call(build_data, tests=False, clion=False):
         cmake_call += ["-DCMAKE_CXX_FLAGS=-I{}/include/c++/v1".format(
             build_data.install_root)]
 
+        if args.ci:
+            cmake_call += ["-DANTHEM_CI_LLVM=ON"]
+
     if not clion:
         if args.enable_gcov:
             cmake_call += ["-DANTHEM_ENABLE_GCOV=ON"]
