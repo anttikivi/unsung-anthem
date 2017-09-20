@@ -62,8 +62,13 @@ def construct_cmake_call(build_data, tests=False, clion=False):
     else:
         cmake_call = []
 
+    if platform.system() == "Windows":
+        install_root = build_data.install_root.replace("\\", "/")
+    else:
+        install_root = build_data.install_root
+
     cmake_call += [
-        "-DANTHEM_INSTALL_PREFIX={}".format(build_data.install_root),
+        "-DANTHEM_INSTALL_PREFIX={}".format(install_root),
         "-DANTHEM_CXX_VERSION={}".format(build_data.std),
         "-DANTHEM_EXECUTABLE_NAME={}".format(args.executable_name),
         "-DANTHEM_TEST_EXECUTABLE_NAME={}".format(args.test_executable_name),
