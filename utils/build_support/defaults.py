@@ -72,11 +72,6 @@ def main_args(args):
         if not args.run:
             args.run = False
 
-    def _sdl_glfw():
-        if not args.sdl and not args.glfw:
-            args.sdl = False
-            args.glfw = True
-
     def _implicit_llvm():
         if args.llvm_build_variant is not None \
                 or args.llvm_assertions is not None:
@@ -91,8 +86,6 @@ def main_args(args):
             args.libcxx_build_variant = args.build_variant
         if args.anthem_build_variant is None:
             args.anthem_build_variant = args.build_variant
-        if args.sdl_build_variant is None:
-            args.sdl_build_variant = args.build_variant
         if args.glfw_build_variant is None:
             args.glfw_build_variant = args.build_variant
 
@@ -154,7 +147,6 @@ def main_args(args):
         args.visual_studio = args.cmake_generator.startswith("Visual Studio")
 
     _build_actions()
-    _sdl_glfw()
     _implicit_llvm()
     _build_variant("Debug")
     _assertions(True)
@@ -245,12 +237,6 @@ def skip_repositories(args, toolchain):
 
     if not args.build_test:
         args.skip_repository_list += ["catch"]
-
-    if not args.sdl:
-        args.skip_repository_list += ["sdl"]
-
-    if not args.glfw:
-        args.skip_repository_list += ["glfw"]
 
 
 def authorization(args):

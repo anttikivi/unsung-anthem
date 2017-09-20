@@ -107,14 +107,6 @@ def projects_options(parser):
         action="store_true",
         dest="build_libcxx")
     projects_group.add_argument(
-        "--sdl",
-        help="build and use SDL (default GLFW)",
-        action="store_true")
-    projects_group.add_argument(
-        "--glfw",
-        help="build and use GLFW",
-        action="store_true")
-    projects_group.add_argument(
         "--build-cmake",
         help="build CMake",
         action="store_true")
@@ -296,12 +288,6 @@ def build_variant_options(parser):
         action="store_const",
         const="Debug",
         dest="anthem_build_variant")
-    build_variant_override_group.add_argument(
-        "--debug-sdl",
-        help="build the Debug variant of SDL",
-        action="store_const",
-        const="Debug",
-        dest="sdl_build_variant")
     build_variant_override_group.add_argument(
         "--debug-glfw",
         help="build the Debug variant of GLFW",

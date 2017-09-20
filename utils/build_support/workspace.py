@@ -13,7 +13,6 @@ The support module containing the workspace utilities of the build.
 
 
 import os
-import platform
 
 from . import shell
 
@@ -204,18 +203,10 @@ def compute_subdir(args, shared, install):
             compiler_subdir = "system-llvm"
         else:
             compiler_subdir = "system-" + args.main_tool
-    if args.sdl:
-        if platform.system() == "Windows":
-            sdl_build_dir_label = "visual-c++"
-        else:
-            sdl_build_dir_label = args.sdl_build_variant
-        framework_subdir = \
-            "sdl-" + args.sdl_version + "-" + sdl_build_dir_label
-    else:
-        # It is not possible to set assertions to GLFW at least for now.
-        glfw_build_dir_label = args.glfw_build_variant
-        framework_subdir = \
-            "glfw-" + args.glfw_version + "-" + glfw_build_dir_label
+    # It is not possible to set assertions to GLFW at least for now.
+    glfw_build_dir_label = args.glfw_build_variant
+    framework_subdir = \
+        "glfw-" + args.glfw_version + "-" + glfw_build_dir_label
     anthem_build_dir_label = args.anthem_build_variant
     if args.anthem_assertions:
         anthem_build_dir_label += "Assert"

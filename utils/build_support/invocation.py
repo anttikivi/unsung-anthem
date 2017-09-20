@@ -97,10 +97,6 @@ def validate_arguments(args):
         exit_rejecting_arguments(
             "Both LLVM and libc++ cannot be built at the same time")
 
-    if args.sdl and args.glfw:
-        exit_rejecting_arguments(
-            "Both SDL and GLFW cannot be used at the same time")
-
 
 def clean_delay():
     """
@@ -243,10 +239,7 @@ def _build_dependencies(build_data):
         build_data.dependencies.build += ["spdlog"]
         build_data.dependencies.build += ["args"]
         build_data.dependencies.build += ["glad"]
-        if args.sdl:
-            build_data.dependencies.build += ["sdl"]
-        elif args.glfw:
-            build_data.dependencies.build += ["glfw"]
+        build_data.dependencies.build += ["glfw"]
     if build_catch:
         build_data.dependencies.build += ["catch"]
 

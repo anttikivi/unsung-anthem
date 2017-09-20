@@ -117,17 +117,6 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
-    sdl=product_config(
-        version="2.0.5",
-        name="SDL2",
-        identifier="sdl",
-        allow_git_checkout=True,
-        url_format="{protocol}://www.libsdl.org/release/"
-                   "SDL2-{version}.{extension}",
-        windows_format="{protocol}://www.libsdl.org/release/"
-                       "SDL2-devel-{version}-{type}.{extension}"
-    ),
-
     glfw=product_config(
         version="3.2.1",
         name="GLFW3",

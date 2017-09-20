@@ -9,12 +9,4 @@
 
 function(ADD_LOGGER_DEFINITIONS)
   add_definitions(-DANTHEM_LOGGER_NAME="${ANTHEM_LOGGER_NAME}")
-
-  if(${ANTHEM_GLFW})
-    add_definitions(-DANTHEM_GLFW=1)
-    add_definitions(-DANTHEM_SDL=0)
-  elseif(${ANTHEM_SDL})
-    add_definitions(-DANTHEM_GLFW=0)
-    add_definitions(-DANTHEM_SDL=1)
-  endif()
 endfunction()

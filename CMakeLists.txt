@@ -22,9 +22,6 @@ include(Variables)
 option(ANTHEM_ENABLE_ASSERTIONS
     "Option for enabling assertions in the code" ON)
 
-option(ANTHEM_SDL "Use SDL to build Unsung Anthem" OFF)
-option(ANTHEM_GLFW "Use GLFW to build Unsung Anthem" OFF)
-
 option(ANTHEM_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 
 assert_variable(ANTHEM_EXECUTABLE_TYPE
@@ -49,8 +46,6 @@ print_status(ANTHEM_TEST_EXECUTABLE_NAME "test executable name")
 
 print_status_if_defined(ANTHEM_STDLIB "C++ standard library")
 
-assert_only_other(ANTHEM_SDL ANTHEM_GLFW SDL GLFW)
-
 set_cxx_definitions(${ANTHEM_CXX_VERSION})
 set_std_feature_definitions(${ANTHEM_CXX_VERSION})
 set_std_flags(${ANTHEM_STD})
@@ -64,21 +59,15 @@ if(UNIX)
     set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} pthread)
   endif()
 
-  if(${ANTHEM_GLFW})
-    find_package(glfw3
-        ${ANTHEM_GLFW_VERSION}
-        REQUIRED
-        PATHS ${ANTHEM_INSTALL_PREFIX}/lib/cmake)
+  find_package(glfw3
+      ${ANTHEM_GLFW_VERSION}
+      REQUIRED
+      PATHS ${ANTHEM_INSTALL_PREFIX}/lib/cmake)
 
-    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw)
-  elseif(${ANTHEM_SDL})
-  endif()
+  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw)
 else()
-  if(${ANTHEM_GLFW})
-    # Presumably Windows.
-    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw3 opengl32)
-  elseif(${ANTHEM_SDL})
-  endif()
+  # Presumably Windows.
+  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw3 opengl32)
 endif()
 
 include_directories(${ANTHEM_INSTALL_PREFIX}/include)
