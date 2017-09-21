@@ -102,9 +102,6 @@ def construct_cmake_call(build_data, tests=False, clion=False):
             build_data.install_root)]
         cmake_call += ["-DANTHEM_LINK_CXXABI=ON"]
 
-        if args.ci:
-            cmake_call += ["-DANTHEM_CI_LLVM=ON"]
-
     if not clion:
         if args.enable_gcov:
             cmake_call += ["-DANTHEM_ENABLE_GCOV=ON"]

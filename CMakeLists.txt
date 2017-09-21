@@ -22,8 +22,6 @@ include(Variables)
 option(ANTHEM_ENABLE_ASSERTIONS
     "Option for enabling assertions in the code" ON)
 
-option(ANTHEM_CI_LLVM "Option for the CI-only LLVM options" OFF)
-
 option(ANTHEM_LINK_CXXABI "Option for linking against the libc++abi" OFF)
 
 option(ANTHEM_ENABLE_GCOV "Add target for gcov code coverage" OFF)
