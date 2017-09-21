@@ -64,7 +64,7 @@ PRODUCT_CONFIG = Mapping(
         version=version_config(
             major=3,
             minor=9,
-            patch=2
+            patch=3
         ),
         name="CMake",
         identifier="cmake",
