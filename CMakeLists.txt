@@ -62,7 +62,8 @@ if(UNIX)
   endif()
 
   if(${ANTHEM_CI_LLVM})
-    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} -ld)
+    # TODO
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES})
   endif()
 
   find_package(glfw3
