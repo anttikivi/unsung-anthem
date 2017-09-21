@@ -70,13 +70,13 @@ namespace anthem
     {
       parser.ParseCLI(argc, argv);
     }
-    catch (args::Help)
+    catch (const args::Help&)
     {
       std::cout << parser;
       return arguments{false};
 
     }
-    catch (args::ParseError e)
+    catch (const args::ParseError& e)
     {
       std::cerr << e.what() << std::endl;
       std::cerr << parser;
