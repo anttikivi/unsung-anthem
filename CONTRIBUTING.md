@@ -10,10 +10,6 @@ The following is a set of guidelines for contributing to Unsung Anthem. These ar
 
 [Code of Conduct](#code-of-conduct)
 
-[What should I know before I get started?](#what-should-i-know-before-i-get-started)
-  * [Atom and Packages](#atom-and-packages)
-  * [Atom Design Decisions](#design-decisions)
-
 [How Can I Contribute?](#how-can-i-contribute)
   * [Reporting Bugs](#reporting-bugs)
   * [Suggesting Enhancements](#suggesting-enhancements)
