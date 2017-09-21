@@ -25,18 +25,21 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-namespace anthem {
-  namespace glfw {
-
-    void initialize(const logging::logger_t& logger) {
-
-      if (!glfwInit()) {
+namespace anthem
+{
+  namespace glfw
+  {
+    void initialize(const logging::logger_t& logger)
+    {
+      if (!glfwInit())
+      {
         logging::error(logger, "The GLFW initialization failed");
       }
       logging::debug(logger, "GLFW is initialized");
     }
 
-    void quit(const logging::logger_t& logger) {
+    void quit(const logging::logger_t& logger)
+    {
       glfwTerminate();
       logging::debug(logger, "GLFW is terminated");
     }

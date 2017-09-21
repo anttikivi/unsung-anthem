@@ -28,8 +28,8 @@
 
 #include "gsl/assert"
 
-namespace gsl {
-
+namespace gsl
+{
   //===--------------------------------------------------------------------===//
   //===--- GSL.view: Views ------------------------------------------------===//
   //===--------------------------------------------------------------------===//
@@ -64,18 +64,21 @@ namespace gsl {
   ///
   /// \tparam T type of the object which shall be held by the object.
   ///
-  template <typename T> class not_null final {
+  template <typename T> class not_null final
+  {
   public:
 
 #if ANTHEM_CXX14
 
-    static_assert(std::is_assignable<T&, std::nullptr_t>::value,
-                  "T cannot be assigned nullptr.");
+    static_assert(
+        std::is_assignable<T&, std::nullptr_t>::value,
+        "T cannot be assigned nullptr.");
 
 #else
 
-    static_assert(std::is_assignable_v<T&, std::nullptr_t>,
-                  "T cannot be assigned nullptr.");
+    static_assert(
+        std::is_assignable_v<T&, std::nullptr_t>,
+        "T cannot be assigned nullptr.");
 
 #endif // !ANTHEM_CXX14
 
@@ -90,17 +93,21 @@ namespace gsl {
     ///
 #if ANTHEM_CXX14
 
-    template <typename U,
-              typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr not_null(U&& u) : ptr{std::forward<U>(u)} {
+    template <
+        typename U,
+        typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
+    constexpr not_null(U&& u) : ptr{std::forward<U>(u)}
+    {
       Expects(ptr != nullptr);
     }
 
 #else
 
-    template <typename U,
-              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(U&& u) : ptr{std::forward<U>(u)} {
+    template <
+        typename U,
+        typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
+    constexpr not_null(U&& u) : ptr{std::forward<U>(u)}
+    {
       Expects(ptr != nullptr);
     }
 
@@ -128,17 +135,21 @@ namespace gsl {
     ///
 #if ANTHEM_CXX14
 
-    template <typename U,
-              typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()} {
+    template <
+        typename U,
+        typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
+    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()}
+    {
 
     }
 
 #else
 
-    template <typename U,
-              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()} {
+    template <
+        typename U,
+        typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
+    constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()}
+    {
 
     }
 
@@ -173,17 +184,21 @@ namespace gsl {
     ///
 #if ANTHEM_CXX14
 
-    template <typename U,
-              typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
-    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)} {
+    template <
+        typename U,
+        typename D = std::enable_if_t<std::is_convertible<U, T>::value>>
+    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)}
+    {
 
     }
 
 #else
 
-    template <typename U,
-              typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
-    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)} {
+    template <
+        typename U,
+        typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
+    constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)}
+    {
 
     }
 
@@ -258,7 +273,8 @@ namespace gsl {
     ///
     /// \return the stored pointer.
     ///
-    constexpr operator T() const {
+    constexpr operator T() const
+    {
       return get();
     }
 
@@ -268,7 +284,8 @@ namespace gsl {
     ///
     /// \return the stored pointer.
     ///
-    constexpr T operator->() const {
+    constexpr T operator->() const
+    {
       return get();
     }
 
@@ -286,7 +303,8 @@ namespace gsl {
     ///
     /// \return the object pointed by the stored pointer.
     ///
-    constexpr decltype(auto) operator*() const {
+    constexpr decltype(auto) operator*() const
+    {
       return *get();
     }
 
@@ -295,7 +313,8 @@ namespace gsl {
     ///
     /// \return the stored pointer.
     ///
-    constexpr T get() const {
+    constexpr T get() const
+    {
       Ensures(ptr != nullptr);
       return ptr;
     }
@@ -322,7 +341,8 @@ namespace gsl {
   /// \return reference of the stream object.
   ///
   template <typename T>
-  std::ostream& operator<<(std::ostream& os, const not_null<T>& val) {
+  std::ostream& operator<<(std::ostream& os, const not_null<T>& val)
+  {
     os << val.get();
     return os;
   }
@@ -343,7 +363,8 @@ namespace gsl {
   ///
   template <typename T, typename U>
   auto operator==(const not_null<T>& lhs, const not_null<U>& rhs)
-  -> decltype(lhs.get() == rhs.get()) {
+      -> decltype(lhs.get() == rhs.get())
+  {
     return lhs.get() == rhs.get();
   }
 
@@ -363,7 +384,8 @@ namespace gsl {
   ///
   template <typename T, typename U>
   auto operator!=(const not_null<T>& lhs, const not_null<U>& rhs)
-  -> decltype(lhs.get() != rhs.get()) {
+      -> decltype(lhs.get() != rhs.get())
+  {
     return lhs.get() != rhs.get();
   }
 
@@ -383,7 +405,8 @@ namespace gsl {
   ///
   template <typename T, typename U>
   auto operator<(const not_null<T>& lhs, const not_null<U>& rhs)
-  -> decltype(lhs.get() < rhs.get()) {
+      -> decltype(lhs.get() < rhs.get())
+  {
     return lhs.get() < rhs.get();
   }
 
@@ -403,7 +426,8 @@ namespace gsl {
   ///
   template <typename T, typename U>
   auto operator<=(const not_null<T>& lhs, const not_null<U>& rhs)
-  -> decltype(lhs.get() <= rhs.get()) {
+      -> decltype(lhs.get() <= rhs.get())
+  {
     return lhs.get() <= rhs.get();
   }
 
@@ -423,7 +447,8 @@ namespace gsl {
   ///
   template <typename T, typename U>
   auto operator>(const not_null<T>& lhs, const not_null<U>& rhs)
-  -> decltype(lhs.get() > rhs.get()) {
+      -> decltype(lhs.get() > rhs.get())
+  {
     return lhs.get() > rhs.get();
   }
 
@@ -443,7 +468,8 @@ namespace gsl {
   ///
   template <typename T, typename U>
   auto operator>=(const not_null<T>& lhs, const not_null<U>& rhs)
-  -> decltype(lhs.get() >= rhs.get()) {
+      -> decltype(lhs.get() >= rhs.get())
+  {
     return lhs.get() >= rhs.get();
   }
 
@@ -459,9 +485,12 @@ namespace gsl {
 
 } // namespace gsl
 
-namespace std {
-  template <typename T> struct hash<gsl::not_null<T>> {
-    size_t operator()(const gsl::not_null<T>& value) const noexcept {
+namespace std
+{
+  template <typename T> struct hash<gsl::not_null<T>>
+  {
+    size_t operator()(const gsl::not_null<T>& value) const noexcept
+    {
       return hash<T>{}(value);
     }
   };

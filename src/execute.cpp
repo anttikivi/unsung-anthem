@@ -28,25 +28,27 @@
 #include "glfw.h"
 #include "logging_config.h"
 
-namespace anthem {
-
-  void execute(int argc, const char* argv[]) {
-
-    const auto console = create_logger(logger_name,
-                                       logger_pattern,
-                                       logger_level);
+namespace anthem
+{
+  void execute(int argc, const char* argv[])
+  {
+    const auto console =
+        create_logger(logger_name, logger_pattern, logger_level);
 
     logging::info(console, "The main logger of the program is created");
-    logging::debug(console,
-                   "The logger has the name '{}', the pattern '{}', and the "
-                       "level '{}'",
-                   logger_name, logger_pattern, logger_level);
+    logging::debug(
+        console,
+        "The logger has the name '{}', the pattern '{}', and the level '{}'",
+        logger_name,
+        logger_pattern,
+        logger_level);
 
     const auto args = parse_arguments(console, argc, argv);
 
-    logging::trace(console,
-                   "The following values are set to the arguments:\n{}",
-                   args);
+    logging::trace(
+        console,
+        "The following values are set to the arguments:\n{}",
+        args);
 
     glfw::initialize(console);
     glfw::quit(console);

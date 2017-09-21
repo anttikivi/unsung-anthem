@@ -71,20 +71,21 @@
 #define GSL_ASSUME(cond) static_cast<void>(!!(cond))
 #endif // !(defined(_MSC_VER) || defined(__clang__) || defined(__GNUC__))
 
-namespace gsl {
-
+namespace gsl
+{
   ///
   /// \brief Type of exception objects which are thrown by assertions whenever
   /// \c GSL_THROW_ON_CONTRACT_VIOLATION is enabled.
   ///
-  struct fail_fast final : public std::logic_error {
-
+  struct fail_fast final : public std::logic_error
+  {
     ///
     /// \brief Constructs an object of type \c fail_fast.
     ///
     /// \param message description of the failure.
     ///
-    explicit fail_fast(char const* const message) : std::logic_error(message) {
+    explicit fail_fast(char const* const message) : std::logic_error(message)
+    {
 
     }
   };
@@ -95,8 +96,8 @@ namespace gsl {
 
 # define GSL_CONTRACT_CHECK(type, cond) \
   (GSL_LIKELY(cond) ? static_cast<void>(0) : \
-    throw gsl::fail_fast("GSL: " type " failure at " __FILE__ \
-                         ": " GSL_STRINGIFY(__LINE__)))
+    throw gsl::fail_fast(\
+      "GSL: " type " failure at " __FILE__ ": " GSL_STRINGIFY(__LINE__)))
 
 #elif defined(GSL_TERMINATE_ON_CONTRACT_VIOLATION)
 

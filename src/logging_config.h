@@ -28,8 +28,8 @@
 
 #include <spdlog/spdlog.h>
 
-namespace anthem {
-
+namespace anthem
+{
   ///
   /// \brief The name of the program logger.
   ///

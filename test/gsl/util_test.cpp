@@ -25,12 +25,14 @@
 
 #include "gsl/util"
 
-TEST_CASE("the Callable is invoked at the end of the scope",
-          "[gsl::final_action]") {
-
+TEST_CASE(
+    "the Callable is invoked at the end of the scope",
+    "[gsl::final_action]")
+{
   int i = 0;
 
-  auto f = [&]() {
+  auto f = [&]()
+  {
     ++i;
   };
 
@@ -44,12 +46,14 @@ TEST_CASE("the Callable is invoked at the end of the scope",
   REQUIRE(1 == i);
 }
 
-TEST_CASE("the Callable is not invoked twice if final_action is moved",
-          "[gsl::final_action]") {
-
+TEST_CASE(
+    "the Callable is not invoked twice if final_action is moved",
+    "[gsl::final_action]")
+{
   int i = 0;
 
-  auto f = [&]() {
+  auto f = [&]()
+  {
     ++i;
   };
 
@@ -65,12 +69,14 @@ TEST_CASE("the Callable is not invoked twice if final_action is moved",
   REQUIRE_FALSE(2 == i);
 }
 
-TEST_CASE("final_action invoking the Callable correctly is created",
-          "[gsl::finally]") {
-
+TEST_CASE(
+    "final_action invoking the Callable correctly is created",
+    "[gsl::finally]")
+{
   int i = 0;
 
-  auto f = [&]() {
+  auto f = [&]()
+  {
     ++i;
   };
 
@@ -84,8 +90,8 @@ TEST_CASE("final_action invoking the Callable correctly is created",
   REQUIRE(1 == i);
 }
 
-TEST_CASE("cast is done as expected", "[gsl::narrow_cast]") {
-
+TEST_CASE("cast is done as expected", "[gsl::narrow_cast]")
+{
   int i = 0;
   auto j = gsl::narrow_cast<unsigned int>(i);
 
@@ -105,24 +111,26 @@ TEST_CASE("cast is done as expected", "[gsl::narrow_cast]") {
   REQUIRE_FALSE(b);
 }
 
-TEST_CASE("exception is thrown when the cast changes the value",
-          "[gsl::narrow]") {
-
+TEST_CASE(
+    "exception is thrown when the cast changes the value",
+    "[gsl::narrow]")
+{
   int i = -1;
 
   REQUIRE_THROWS_AS(gsl::narrow<unsigned int>(i), gsl::narrowing_error);
 }
 
-TEST_CASE("exception is not thrown when the cast does not change the value",
-          "[gsl::narrow]") {
-
+TEST_CASE(
+    "exception is not thrown when the cast does not change the value",
+    "[gsl::narrow]")
+{
   int i = 1;
 
   REQUIRE_NOTHROW(gsl::narrow<unsigned int>(i));
 }
 
-TEST_CASE("checked cast is done as expected", "[gsl::narrow]") {
-
+TEST_CASE("checked cast is done as expected", "[gsl::narrow]")
+{
   int i = 0;
   auto j = gsl::narrow<unsigned int>(i);
 
@@ -142,8 +150,8 @@ TEST_CASE("checked cast is done as expected", "[gsl::narrow]") {
   REQUIRE_FALSE(b);
 }
 
-TEST_CASE("value does not change", "[gsl::narrow]") {
-
+TEST_CASE("value does not change", "[gsl::narrow]")
+{
   int i = 326;
   auto j = gsl::narrow<unsigned int>(i);
 

@@ -23,8 +23,8 @@
 #ifndef ANTHEM_TYPES_H
 #define ANTHEM_TYPES_H
 
-namespace anthem {
-
+namespace anthem
+{
   ///
   /// \brief Type of values which represent some number of pixels.
   ///
@@ -40,7 +40,8 @@ namespace anthem {
 /// \return The \c pixel literal.
 ///
 constexpr anthem::pixel_count
-operator"" _px(const unsigned long long i) noexcept {
+operator""_px(const unsigned long long i) noexcept
+{
   return i;
 }
 

@@ -25,7 +25,8 @@
 
 #include "arguments.h"
 
-TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]") {
+TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]")
+{
   const auto log = anthem::create_logger("test_logger");
   const anthem::arguments a = {true, 555_px, 13_px};
   const char* argv_b[] = {"exe", "--window-height=13", "--window-width=555"};

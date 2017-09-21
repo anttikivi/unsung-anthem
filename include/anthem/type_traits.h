@@ -25,29 +25,34 @@
 
 #include <type_traits>
 
-namespace anthem {
-  namespace util {
+namespace anthem
+{
+  namespace util
+  {
 
 #if ANTHEM_CXX14
     template <bool B> using bool_constant = std::integral_constant<bool, B>;
 #endif // ANTHEM_CXX14
 
 #if ANTHEM_CXX14
-    template<class B>
-    struct negation : bool_constant<!bool(B::value)> {
+    template<class B> struct negation : bool_constant<!bool(B::value)>
+    {
 
     };
 #endif // ANTHEM_CXX14
 
 #if ANTHEM_CXX14
-    template<class... T> struct conjunction : std::true_type {
+    template<class... T> struct conjunction : std::true_type
+    {
 
     };
-    template<class B1> struct conjunction<B1> : B1 {
+    template<class B1> struct conjunction<B1> : B1
+    {
 
     };
-    template<class B1, class... Bn> struct conjunction<B1, Bn...> 
-    : std::conditional_t<bool(B1::value), conjunction<Bn...>, B1> {
+    template<class B1, class... Bn> struct conjunction<B1, Bn...>
+    : std::conditional_t<bool(B1::value), conjunction<Bn...>, B1>
+    {
 
     };
 #endif

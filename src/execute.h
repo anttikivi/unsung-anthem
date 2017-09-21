@@ -23,8 +23,8 @@
 #ifndef ANTHEM_EXECUTE_H
 #define ANTHEM_EXECUTE_H
 
-namespace anthem {
-
+namespace anthem
+{
   ///
   /// \brief Returns the object of type \c game_state after executing the
   /// program with the given arguments.

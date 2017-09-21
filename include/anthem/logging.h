@@ -28,8 +28,8 @@
 
 #include <spdlog/spdlog.h>
 
-namespace anthem {
-
+namespace anthem
+{
   ///
   /// \brief Creates a shared pointer to an object of the logger type provided
   /// by spdlog.
@@ -40,14 +40,15 @@ namespace anthem {
   ///
   /// \return an \c std::shared_ptr<spdlog::logger>.
   ///
-  inline const auto create_logger(const std::string& name,
-                                  const std::string& pattern = "NONE",
-                                  const spdlog::level::level_enum level
-                                      = spdlog::level::info) {
-
+  inline const auto create_logger(
+      const std::string& name,
+      const std::string& pattern = "NONE",
+      const spdlog::level::level_enum level = spdlog::level::info)
+  {
     auto logger = spdlog::stdout_logger_mt(name);
 
-    if (pattern != "NONE") {
+    if (pattern != "NONE")
+    {
       logger->set_pattern(pattern);
     }
 
@@ -56,8 +57,8 @@ namespace anthem {
     return std::move(logger);
   }
 
-  namespace logging {
-
+  namespace logging
+  {
     ///
     /// \brief Type of objects which do logging.
     ///
@@ -77,9 +78,11 @@ namespace anthem {
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void
-    trace(const logger_t& logger, const char* fmt, const Args&... args) {
-
+    inline void trace(
+        const logger_t& logger,
+        const char* fmt,
+        const Args&... args)
+    {
       logger->trace(fmt, args...);
     }
 
@@ -95,9 +98,8 @@ namespace anthem {
     /// object.
     /// \param msg the logger message.
     ///
-    template <class T>
-    inline void trace(const logger_t& logger, const T& msg) {
-
+    template <class T> inline void trace(const logger_t& logger, const T& msg)
+    {
       logger->trace(msg);
     }
 
@@ -115,9 +117,11 @@ namespace anthem {
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void
-    debug(const logger_t& logger, const char* fmt, const Args&... args) {
-
+    inline void debug(
+        const logger_t& logger,
+        const char* fmt,
+        const Args&... args)
+    {
       logger->debug(fmt, args...);
     }
 
@@ -133,9 +137,8 @@ namespace anthem {
     /// object.
     /// \param msg the logger message.
     ///
-    template <class T>
-    inline void debug(const logger_t& logger, const T& msg) {
-
+    template <class T> inline void debug(const logger_t& logger, const T& msg)
+    {
       logger->debug(msg);
     }
 
@@ -153,9 +156,11 @@ namespace anthem {
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void
-    info(const logger_t& logger, const char* fmt, const Args&... args) {
-
+    inline void info(
+        const logger_t& logger,
+        const char* fmt,
+        const Args&... args)
+    {
       logger->info(fmt, args...);
     }
 
@@ -171,8 +176,8 @@ namespace anthem {
     /// object.
     /// \param msg the logger message.
     ///
-    template <class T> inline void info(const logger_t& logger, const T& msg) {
-
+    template <class T> inline void info(const logger_t& logger, const T& msg)
+    {
       logger->info(msg);
     }
 
@@ -190,9 +195,11 @@ namespace anthem {
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void
-    warn(const logger_t& logger, const char* fmt, const Args&... args) {
-
+    inline void warn(
+        const logger_t& logger,
+        const char* fmt,
+        const Args&... args)
+    {
       logger->warn(fmt, args...);
     }
 
@@ -208,8 +215,8 @@ namespace anthem {
     /// object.
     /// \param msg the logger message.
     ///
-    template <class T> inline void warn(const logger_t& logger, const T& msg) {
-
+    template <class T> inline void warn(const logger_t& logger, const T& msg)
+    {
       logger->warn(msg);
     }
 
@@ -227,9 +234,11 @@ namespace anthem {
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void
-    error(const logger_t& logger, const char* fmt, const Args&... args) {
-
+    inline void error(
+        const logger_t& logger,
+        const char* fmt,
+        const Args&... args)
+    {
       logger->error(fmt, args...);
     }
 
@@ -245,9 +254,8 @@ namespace anthem {
     /// object.
     /// \param msg the logger message.
     ///
-    template <class T>
-    inline void error(const logger_t& logger, const T& msg) {
-
+    template <class T> inline void error(const logger_t& logger, const T& msg)
+    {
       logger->error(msg);
     }
 
@@ -265,9 +273,11 @@ namespace anthem {
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void
-    critical(const logger_t& logger, const char* fmt, const Args&... args) {
-
+    inline void critical(
+        const logger_t& logger,
+        const char* fmt,
+        const Args&... args)
+    {
       logger->critical(fmt, args...);
     }
 
@@ -284,12 +294,12 @@ namespace anthem {
     /// \param msg the logger message.
     ///
     template <class T>
-    inline void critical(const logger_t& logger, const T& msg) {
-
+    inline void critical(const logger_t& logger, const T& msg)
+    {
       logger->critical(msg);
     }
-  } // namespace logging
 
+  } // namespace logging
 } // namespace anthem
 
 #endif // !ANTHEM_LOGGING_H

@@ -38,8 +38,8 @@
 # endif // _MSC_VER < 1910
 #endif // _MSC_VER
 
-namespace gsl {
-
+namespace gsl
+{
   //===--------------------------------------------------------------------===//
   //===--- GSL.util: Utilities --------------------------------------------===//
   //===--------------------------------------------------------------------===//
@@ -52,7 +52,8 @@ namespace gsl {
   ///
   /// \tparam F a Callable type.
   ///
-  template <typename F> class final_action final {
+  template <typename F> class final_action final
+  {
   public:
 
     ///
@@ -71,7 +72,8 @@ namespace gsl {
     /// of the current scope.
     ///
     constexpr explicit final_action(F f) noexcept
-    : f{std::move(f)}, invoke{true} {
+    : f{std::move(f)}, invoke{true}
+    {
 
     }
 
@@ -95,8 +97,8 @@ namespace gsl {
     /// object.
     ///
     constexpr final_action(final_action&& o) noexcept
-    : f{std::move(o.f)}, invoke{o.invoke} {
-
+    : f{std::move(o.f)}, invoke{o.invoke}
+    {
       // Set the invocation of the other object to false as duplicate
       // invocation of the Callable object is not desired.
       o.invoke = false;
@@ -109,11 +111,12 @@ namespace gsl {
     /// Callable object held by the object of type \c final_action as it is
     /// guaranteed to be at the end of the current scope.
     ///
-    ~final_action() noexcept {
-
+    ~final_action() noexcept
+    {
       // Invoke the Callable object here as it is guaranteed to be at the end
       // of the current scope.
-      if (invoke) {
+      if (invoke)
+      {
         f();
       }
     }
@@ -172,7 +175,8 @@ namespace gsl {
   ///
   /// \return A constructed object of type \c final_action.
   ///
-  template <typename F> constexpr final_action<F> finally(const F& f) noexcept {
+  template <typename F> constexpr final_action<F> finally(const F& f) noexcept
+  {
     return final_action<F>{f};
   }
 
@@ -186,7 +190,8 @@ namespace gsl {
   ///
   /// \return A constructed object of type \c final_action.
   ///
-  template <typename F> constexpr final_action<F> finally(F&& f) noexcept {
+  template <typename F> constexpr final_action<F> finally(F&& f) noexcept
+  {
     return final_action<F>{std::forward<F>(f)};
   }
 
@@ -202,14 +207,15 @@ namespace gsl {
   ///
   /// \return \c u, the type of which is cast to \c T.
   ///
-  template <typename T, typename U> constexpr T narrow_cast(U&& u) noexcept {
+  template <typename T, typename U> constexpr T narrow_cast(U&& u) noexcept
+  {
     return static_cast<T>(std::forward<U>(u));
   }
 
   //===--- narrowing_error ------------------------------------------------===//
 
-  struct narrowing_error final : public std::exception {
-
+  struct narrowing_error final : public std::exception
+  {
     ///
     /// \brief Constructs an object of class \c narrowing_error.
     ///
@@ -260,20 +266,23 @@ namespace gsl {
     narrowing_error& operator=(narrowing_error&& a) noexcept = default;
   };
 
-  namespace details {
-
+  namespace detail
+  {
 #if ANTHEM_CXX14
 
     template <typename T, typename U> struct is_same_signedness final
-    : public std::integral_constant<bool, std::is_signed<T>::value
-                                          == std::is_signed<U>::value> {
+    : public std::integral_constant<
+        bool,
+        std::is_signed<T>::value == std::is_signed<U>::value>
+    {
 
     };
 
 #else
 
     template <typename T, typename U> struct is_same_signedness final
-    : public std::bool_constant<std::is_signed_v<T> == std::is_signed_v<U>> {
+    : public std::bool_constant<std::is_signed_v<T> == std::is_signed_v<U>>
+    {
 
     };
 
@@ -282,12 +291,12 @@ namespace gsl {
 #if ANTHEM_INLINE_VARIABLES
 
     template <typename T, typename U>
-    inline constexpr bool is_same_signedness_v
-      = is_same_signedness<T, U>::value;
+    inline constexpr bool is_same_signedness_v =
+        is_same_signedness<T, U>::value;
 
 #endif // ANTHEM_INLINE_VARIABLES
 
-  } // namespace details
+  } // namespace detail
 
   //===--- narrow ---------------------------------------------------------===//
 
@@ -302,23 +311,26 @@ namespace gsl {
   ///
   /// \return \c u, the type of which is cast to \c T.
   ///
-  template <typename T, typename U> constexpr T narrow(U u) {
-
+  template <typename T, typename U> constexpr T narrow(U u)
+  {
     T t = narrow_cast<T>(u);
 
-    if (static_cast<U>(t) != u) {
+    if (static_cast<U>(t) != u)
+    {
       throw narrowing_error();
     }
 
 #if ANTHEM_INLINE_VARIABLES
 
-    if (!details::is_same_signedness_v<T, U> && ((t < T{}) != (u < U{}))) {
+    if (!detail::is_same_signedness_v<T, U> && ((t < T{}) != (u < U{})))
+    {
       throw narrowing_error();
     }
 
 #else
 
-    if (!details::is_same_signedness<T, U>::value && ((t < T{}) != (u < U{}))) {
+    if (!detail::is_same_signedness<T, U>::value && ((t < T{}) != (u < U{})))
+    {
       throw narrowing_error();
     }
 

@@ -25,9 +25,10 @@
 
 #include "anthem/logging.h"
 
-namespace anthem {
-  namespace glfw {
-
+namespace anthem
+{
+  namespace glfw
+  {
     ///
     /// \brief Initializes the GLFW framework.
     ///

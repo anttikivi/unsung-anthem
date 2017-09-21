@@ -34,17 +34,18 @@
 #include <spdlog/fmt/ostr.h> // This must be included for the custom logger
                              // object to work.
 
-namespace anthem {
-
+namespace anthem
+{
   ///
   /// \struct arguments
   /// \brief Type of objects which hold parsed information of command line
   /// arguments.
   ///
-  struct arguments final {
-
+  struct arguments final
+  {
     ///
-    /// \brief Whether or not the arguments are parsed correctly.
+    /// \brief Whether or not the arguments are parsed correctly by the parsing
+    /// function.
     ///
     const bool parsed{false};
 
@@ -69,12 +70,13 @@ namespace anthem {
   /// \return \c true if the member values of the parameters are equal,
   /// otherwise \c false.
   ///
-  constexpr const bool operator==(const arguments& lhs,
-                                  const arguments& rhs) noexcept {
-
+  constexpr const bool operator==(
+      const arguments& lhs,
+      const arguments& rhs) noexcept
+  {
     return lhs.parsed == rhs.parsed &&
-           lhs.window_width == rhs.window_width &&
-           lhs.window_height == rhs.window_height;
+        lhs.window_width == rhs.window_width &&
+        lhs.window_height == rhs.window_height;
   }
 
   ///
@@ -86,14 +88,16 @@ namespace anthem {
   /// \return \c true if the member values of the parameters are not equal,
   /// otherwise \c false.
   ///
-  constexpr const bool operator!=(const arguments& lhs,
-                                  const arguments& rhs) noexcept {
-
+  constexpr const bool operator!=(
+      const arguments& lhs,
+      const arguments& rhs) noexcept
+  {
     return !(lhs == rhs);
   }
 
   ///
-  /// \brief Inserts the formatted data of an object of type \c arguments to the \c std::ostream.
+  /// \brief Inserts the formatted data of an object of type \c arguments to
+  /// the \c std::ostream.
   ///
   /// \param os the stream to which the data is inserted.
   /// \param a the object, the data of which is inserted.
@@ -112,8 +116,9 @@ namespace anthem {
   ///
   /// \return An object of class \c arguments.
   ///
-  const arguments parse_arguments(const logging::logger_t& logger,
-                                  const int argc, const char* argv[]) noexcept;
+  const arguments parse_arguments(
+      const logging::logger_t& logger,
+      const int argc, const char* argv[]) noexcept;
 
 } // namespace anthem
 
