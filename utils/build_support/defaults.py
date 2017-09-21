@@ -226,7 +226,6 @@ def skip_repositories(args, toolchain):
         if not args.build_libcxx:
             args.skip_repository_list += ["llvm"]
         else:
-            args.skip_repository_list += ["llvm-clang"]
             args.skip_repository_list += ["llvm-llvm"]
 
     if not args.build_cmake and toolchain.cmake is not None:

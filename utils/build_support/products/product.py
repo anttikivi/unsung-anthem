@@ -85,7 +85,9 @@ def check_source(product, subproduct=None, name=None):
             )
 
 
-def build_call(build_data, product, subproduct=None, cmake_args=None):
+def build_call(
+        build_data, product, subproduct=None, cmake_args=None,
+        build_targets=None, install_targets=None):
     """
     Do a simple CMake call, followed by Ninja or Make calls, to build the
     given product.
@@ -94,6 +96,8 @@ def build_call(build_data, product, subproduct=None, cmake_args=None):
     product -- the product.
     subproduct -- a possible subproduct of the product which is built.
     cmake_args -- extra CMake arguments to be passed to the call.
+    build_targets -- optional custom target to be used in the build.
+    install_targets -- optional custom target to be used in the installation.
     """
     if subproduct:
         source_dir = workspace.source_dir(
@@ -142,11 +146,23 @@ def build_call(build_data, product, subproduct=None, cmake_args=None):
         shell.call(cmake_call, env=cmake_env)
         # TODO MSBuild
         if use_ninja:
-            shell.ninja(build_data=build_data)
-            shell.ninja_install(build_data=build_data)
+            if build_targets:
+                shell.ninja(build_data=build_data, target=build_targets)
+            else:
+                shell.ninja(build_data=build_data)
+            if install_targets:
+                shell.ninja(build_data=build_data, target=install_targets)
+            else:
+                shell.ninja_install(build_data=build_data)
         elif args.cmake_generator == "Unix Makefiles":
-            shell.make(build_data=build_data)
-            shell.make_install(build_data=build_data)
+            if build_targets:
+                shell.make(build_data=build_data, target=build_targets)
+            else:
+                shell.make(build_data=build_data)
+            if install_targets:
+                shell.make(build_data=build_data, target=install_targets)
+            else:
+                shell.make_install(build_data=build_data)
 
 
 def copy_build(build_data, product, subdir=None):

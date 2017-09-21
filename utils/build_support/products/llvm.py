@@ -15,7 +15,7 @@ The support module containing the LLVM product helpers.
 import json
 import os
 
-from . import clang, libcxx
+from . import clang, libcxxabi, libcxx
 
 from .product import binary_exists, build_call, check_source
 
@@ -73,9 +73,15 @@ def inject_version_info(build_data, versions):
     args = build_data.args
     version = product.version
     if args.build_libcxx:
-        version_info = {"llvm": 0, "clang": 0, "libcxx": version}
+        version_info = {
+            "llvm": version, "clang": 0, "libcxx": version,
+            "libcxxabi": version
+        }
     elif args.build_llvm:
-        version_info = {"llvm": version, "clang": version, "libcxx": version}
+        version_info = {
+            "llvm": version, "clang": version, "libcxx": version,
+            "libcxxabi": version
+        }
     versions["llvm"] = version_info
 
 
@@ -224,7 +230,7 @@ def get_dependency(build_data):
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp"))
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp"))
     if args.build_libcxx:
-        llvm_deps = ["libcxx"]
+        llvm_deps = ["llvm", "libcxx", "libcxxabi"]
     elif args.build_llvm:
         llvm_deps = list(product.subproducts.keys())
 
@@ -243,7 +249,10 @@ def do_build(build_data):
     """
     args = build_data.args
     product = build_data.products.llvm
-    bin_path = clang.clang_bin_path(build_data=build_data)
+    if build_data.args.build_llvm:
+        bin_path = clang.clang_bin_path(build_data=build_data)
+    elif build_data.args.build_libcxx:
+        bin_path = libcxx.libcxx_bin_path(build_data=build_data)
     build_dir = workspace.build_dir(
         build_data=build_data, product=product, subproduct="llvm"
     )
@@ -252,7 +261,9 @@ def do_build(build_data):
             subproduct="llvm"):
         return
     libcxx.set_up(build_data=build_data)
-    clang.set_up(build_data=build_data)
+    libcxxabi.set_up(build_data=build_data)
+    if build_data.args.build_llvm:
+        clang.set_up(build_data=build_data)
     shell.makedirs(build_dir)
 
     cmake_args = []
@@ -267,10 +278,17 @@ def do_build(build_data):
     else:
         cmake_args += ["-DLIBCXX_ENABLE_ASSERTIONS=OFF"]
 
-    build_call(
-        build_data=build_data, product=product, subproduct="llvm",
-        cmake_args=cmake_args
-    )
+    if build_data.args.build_libcxx:
+        build_call(
+            build_data=build_data, product=product, subproduct="llvm",
+            cmake_args=cmake_args, build_targets="cxx",
+            install_targets=["install-cxx", "install-cxxabi"]
+        )
+    else:
+        build_call(
+            build_data=build_data, product=product, subproduct="llvm",
+            cmake_args=cmake_args
+        )
 
 
 def set_up(build_data):
@@ -280,16 +298,14 @@ def set_up(build_data):
     build_data -- the build data.
     """
     product = build_data.products.llvm
+    check_source(product=product, subproduct="llvm")
+    do_build(build_data=build_data)
     if build_data.args.build_llvm:
-        check_source(product=product, subproduct="llvm")
-        do_build(build_data=build_data)
         build_data.toolchain.cc = clang.clang_bin_path(build_data=build_data)
         build_data.toolchain.cxx = clang.clang_cxx_bin_path(
             build_data=build_data
         )
         build_data.args.main_tool = "llvm"
-    elif build_data.args.build_libcxx:
-        libcxx.do_build(build_data=build_data)
 
 
 def set_toolchain(build_data):

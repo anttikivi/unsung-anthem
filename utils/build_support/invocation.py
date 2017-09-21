@@ -89,10 +89,6 @@ def validate_arguments(args):
             "The main tool is set to an invalid value: "
             + str(args.main_tool))
 
-    if args.build_llvm and args.build_gcc:
-        exit_rejecting_arguments(
-            "Both LLVM and GCC cannot be built at the same time")
-
     if args.build_llvm and args.build_libcxx:
         exit_rejecting_arguments(
             "Both LLVM and libc++ cannot be built at the same time")

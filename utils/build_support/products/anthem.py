@@ -98,11 +98,9 @@ def construct_cmake_call(build_data, tests=False, clion=False):
         cmake_call += ["-DANTHEM_STDLIB={}".format(build_data.stdlib)]
 
     if args.build_llvm or args.build_libcxx:
-        # -nostdinc++ -I${ANTHEM_INSTALL_PREFIX}/include/c++/v1
-        # -L${ANTHEM_INSTALL_PREFIX}/lib
-        # -Wl,-rpath,${ANTHEM_INSTALL_PREFIX}/lib -lc++
         cmake_call += ["-DCMAKE_CXX_FLAGS=-I{}/include/c++/v1".format(
             build_data.install_root)]
+        cmake_call += ["-DANTHEM_LINK_CXXABI=ON"]
 
         if args.ci:
             cmake_call += ["-DANTHEM_CI_LLVM=ON"]

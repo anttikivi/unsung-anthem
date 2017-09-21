@@ -46,7 +46,9 @@ PRODUCT_CONFIG = Mapping(
         name="LLVM",
         identifier="llvm",
         allow_git_checkout=True,
-        subproducts=Mapping(llvm="llvm", libcxx="libcxx", clang="cfe"),
+        subproducts=Mapping(
+            llvm="llvm", libcxx="libcxx", libcxxabi="libcxxabi", clang="cfe"
+        ),
         skip_checkout=llvm.skip_checkout,
         inject_version_info=llvm.inject_version_info,
         git_format="http://llvm.org/git/{key}",

@@ -11,6 +11,10 @@ function(PRINT_STATUS NAME TITLE)
   message(STATUS "The ${TITLE} (${NAME}) is set to ${${NAME}}")
 endfunction()
 
+function(PRINT_STATUS_PLURAL NAME TITLE)
+  message(STATUS "The ${TITLE} (${NAME}) are set to ${${NAME}}")
+endfunction()
+
 function(PRINT_STATUS_IF_DEFINED NAME TITLE)
   if(DEFINED ${NAME})
     print_status(${NAME} ${TITLE})

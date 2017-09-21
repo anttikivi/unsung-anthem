@@ -191,32 +191,56 @@ def compute_subdir(args, shared, install):
     dependency installation.
     """
     version_subdir = args.anthem_version
-    cmake_subdir = args.cmake_generator.replace(" ", "_")
+    cmake_label = args.cmake_generator.replace(" ", "_")
+    build_subdir = cmake_label
     if args.build_llvm:
         llvm_build_dir_label = args.llvm_build_variant
         if args.llvm_assertions:
             llvm_build_dir_label += "Assert"
-        compiler_subdir = \
-            "llvm-" + args.llvm_version + "-" + llvm_build_dir_label
+    elif args.build_libcxx:
+        llvm_build_dir_label = args.libcxx_build_variant
+        if args.libcxx_assertions:
+            llvm_build_dir_label += "Assert"
     else:
-        if args.main_tool == "clang" or args.main_tool == "llvm":
-            compiler_subdir = "system-llvm"
-        else:
-            compiler_subdir = "system-" + args.main_tool
+        llvm_build_dir_label = None
     # It is not possible to set assertions to GLFW at least for now.
     glfw_build_dir_label = args.glfw_build_variant
-    framework_subdir = \
-        "glfw-" + args.glfw_version + "-" + glfw_build_dir_label
     anthem_build_dir_label = args.anthem_build_variant
     if args.anthem_assertions:
         anthem_build_dir_label += "Assert"
-    subdir = anthem_build_dir_label
-    if not shared:
-        directory = os.path.join(
-            version_subdir, cmake_subdir, compiler_subdir, framework_subdir,
-            subdir)
+
+    if not llvm_build_dir_label:
+        if args.glfw_build_variant == args.anthem_build_variant:
+            build_subdir += anthem_build_dir_label
+        else:
+            build_subdir += anthem_build_dir_label
+            build_subdir += "+glfw-{}".format(glfw_build_dir_label)
     else:
-        directory = os.path.join("shared", cmake_subdir)
+        if (args.glfw_build_variant == args.anthem_build_variant
+                and llvm_build_dir_label == anthem_build_dir_label):
+            build_subdir += anthem_build_dir_label
+        elif (args.glfw_build_variant == args.anthem_build_variant
+              and llvm_build_dir_label != anthem_build_dir_label):
+            build_subdir += anthem_build_dir_label
+            if args.build_llvm:
+                build_subdir += "+llvm-{}".format(llvm_build_dir_label)
+            elif args.build_libcxx:
+                build_subdir += "+libc++-{}".format(llvm_build_dir_label)
+        elif (args.glfw_build_variant != args.anthem_build_variant
+              and llvm_build_dir_label == anthem_build_dir_label):
+            build_subdir += anthem_build_dir_label
+            build_subdir += "+glfw-{}".format(glfw_build_dir_label)
+        else:
+            build_subdir += anthem_build_dir_label
+            build_subdir += "+glfw-{}".format(glfw_build_dir_label)
+            if args.build_llvm:
+                build_subdir += "+llvm-{}".format(llvm_build_dir_label)
+            elif args.build_libcxx:
+                build_subdir += "+libc++-{}".format(llvm_build_dir_label)
+    if not shared:
+        directory = os.path.join(version_subdir, build_subdir)
+    else:
+        directory = os.path.join("shared", cmake_label)
     if install:
         return os.path.join(directory, "local")
     return directory

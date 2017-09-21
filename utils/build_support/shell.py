@@ -492,9 +492,14 @@ def ninja(build_data, target=None, env=None, dry_run=None, echo=False):
     echo -- whether or not the command is echoed before the execution.
     """
     if target:
-        call(
-            [build_data.toolchain.ninja, target], env=env, dry_run=dry_run,
-            echo=echo)
+        if isinstance(target, list):
+            ninja_call = [build_data.toolchain.ninja]
+            ninja_call += target
+            call(ninja_call, env=env, dry_run=dry_run, echo=echo)
+        else:
+            call(
+                [build_data.toolchain.ninja, target], env=env, dry_run=dry_run,
+                echo=echo)
     else:
         call([build_data.toolchain.ninja], env=env, dry_run=dry_run, echo=echo)
 
@@ -528,9 +533,15 @@ def make(
     """
     make_call = [build_data.toolchain.make]
     if target:
-        make_call += [target]
+        if isinstance(target, list):
+            make_call += target
+        else:
+            make_call += [target]
     if extra_args:
-        make_call += [extra_args]
+        if isinstance(extra_args, list):
+            make_call += extra_args
+        else:
+            make_call += [extra_args]
     call(make_call, env=env, dry_run=dry_run, echo=echo)
 
 

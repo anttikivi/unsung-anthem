@@ -24,6 +24,8 @@ option(ANTHEM_ENABLE_ASSERTIONS
 
 option(ANTHEM_CI_LLVM "Option for the CI-only LLVM options" OFF)
 
+option(ANTHEM_LINK_CXXABI "Option for linking against the libc++abi" OFF)
+
 option(ANTHEM_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 
 assert_variable(ANTHEM_EXECUTABLE_TYPE
@@ -61,11 +63,6 @@ if(UNIX)
     set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} pthread)
   endif()
 
-  if(${ANTHEM_CI_LLVM})
-    # TODO
-    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES})
-  endif()
-
   find_package(glfw3
       ${ANTHEM_GLFW_VERSION}
       REQUIRED
@@ -76,6 +73,13 @@ else()
   # Presumably Windows.
   set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw3 opengl32)
 endif()
+
+if(${ANTHEM_LINK_CXXABI})
+  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} c++abi)
+  message(STATUS "Linking against libc++abi")
+endif()
+
+print_status_plural(ANTHEM_LIBRARIES "libraries")
 
 include_directories(${ANTHEM_INSTALL_PREFIX}/include)
 link_directories(${ANTHEM_INSTALL_PREFIX}/lib)
