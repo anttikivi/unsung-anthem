@@ -144,3 +144,114 @@ If you want to read about using Unsung Anthem, the [Unsung Anthem Flight Manual]
     * :arrow_up: `:arrow_up:` when upgrading dependencies
     * :arrow_down: `:arrow_down:` when downgrading dependencies
     * :shirt: `:shirt:` when removing linter warnings
+
+## Additional Notes
+
+### Issue and Pull Request Labels
+
+This section lists the labels we use to help us track and manage issues and pull requests. Most labels are used across all Venturesome Stone repositories, but some are specific to `venturesomestone/unsung-anthem`.
+
+[GitHub search](https://help.github.com/articles/searching-issues/) makes it easy to use labels for finding groups of issues or pull requests you're interested in. For example, you might be interested in [open issues across `venturesomestone/unsung-anthem` and all Venturesome Stone-owned packages which are labeled as bugs, but still need to be reliably reproduced](https://github.com/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Abug+label%3Aneeds-reproduction) or perhaps [open pull requests in `venturesomestone/unsung-anthem` which haven’t been reviewed yet](https://github.com/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Apr+repo%3Aventuresomestone%2Funsung-anthem+comments%3A0). To help you find issues and pull requests, each label is listed with search links for finding open items with that label in `venturesomestone/unsung-anthem` only and also across all Venturesome Stone repositories. We  encourage you to read about [other search filters](https://help.github.com/articles/searching-issues/) which will help you write more focused queries.
+
+The labels are loosely grouped by their purpose, but it’s not required that every issue have a label from every group or that an issue can’t have more than one label from the same group.
+
+Please open an issue on `venturesomestone/unsung-anthem` if you have suggestions for new labels, and if you notice some labels are missing on some repositories, then please open an issue on that repository.
+
+#### Type of Issue and Issue State
+
+| Label name | `venturesomestone/unsung-anthem` :mag_right: | `venturesomestone`‑org :mag_right: | Description |
+| --- | --- | --- | --- |
+| `enhancement` | [search][search-anthem-repo-label-enhancement] | [search][search-vs-org-label-enhancement] | Feature requests. |
+| `bug` | [search][search-anthem-repo-label-bug] | [search][search-vs-org-label-bug] | Confirmed bugs or reports that are very likely to be bugs. |
+| `question` | [search][search-anthem-repo-label-question] | [search][search-vs-org-label-question] | Questions more than bug reports or feature requests (e.g. how do I do X). |
+| `feedback` | [search][search-anthem-repo-label-feedback] | [search][search-vs-org-label-feedback] | General feedback more than bug reports or feature requests. |
+| `help-wanted` | [search][search-anthem-repo-label-help-wanted] | [search][search-vs-org-label-help-wanted] | The Unsung Anthem team would appreciate help from the community in resolving these issues. |
+| `beginner` | [search][search-anthem-repo-label-beginner] | [search][search-vs-org-label-beginner] | Less complex issues which would be good first issues to work on for users who want to contribute to Unsung Anthem. |
+| `more-information-needed` | [search][search-anthem-repo-label-more-information-needed] | [search][search-vs-org-label-more-information-needed] | More information needs to be collected about these problems or feature requests (e.g. steps to reproduce). |
+| `needs-reproduction` | [search][search-anthem-repo-label-needs-reproduction] | [search][search-vs-org-label-needs-reproduction] | Likely bugs, but haven’t been reliably reproduced. |
+| `blocked` | [search][search-anthem-repo-label-blocked] | [search][search-vs-org-label-blocked] | Issues blocked on other issues. |
+| `duplicate` | [search][search-anthem-repo-label-duplicate] | [search][search-vs-org-label-duplicate] | Issues which are duplicates of other issues, i.e. they have been reported before. |
+| `wontfix` | [search][search-anthem-repo-label-wontfix] | [search][search-vs-org-label-wontfix] | The Unsung Anthem team has decided not to fix these issues for now, either because they’re working as intended or for some other reason. |
+| `invalid` | [search][search-anthem-repo-label-invalid] | [search][search-vs-org-label-invalid] | Issues which aren’t valid (e.g. user errors). |
+
+#### Topic Categories
+
+| Label name | `venturesomestone/unsung-anthem` :mag_right: | `venturesomestone`‑org :mag_right: | Description |
+| --- | --- | --- | --- |
+| `windows` | [search][search-anthem-repo-label-windows] | [search][search-vs-org-label-windows] | Related to Unsung Anthem running on Windows. |
+| `linux` | [search][search-anthem-repo-label-linux] | [search][search-vs-org-label-linux] | Related to Unsung Anthem running on Linux. |
+| `mac` | [search][search-anthem-repo-label-mac] | [search][search-vs-org-label-mac] | Related to Unsung Anthem running on macOS. |
+| `documentation` | [search][search-anthem-repo-label-documentation] | [search][search-vs-org-label-documentation] | Related to any type of documentation (e.g. the [flight manual](https://github.com/venturesomestone/unsung-anthem) (TODO)). |
+| `performance` | [search][search-anthem-repo-label-performance] | [search][search-vs-org-label-performance] | Related to performance. |
+| `security` | [search][search-anthem-repo-label-security] | [search][search-vs-org-label-security] | Related to security. |
+| `ui` | [search][search-anthem-repo-label-ui] | [search][search-vs-org-label-ui] | Related to visual design. |
+| `api` | [search][search-anthem-repo-label-api] | [search][search-vs-org-label-api] | Related to Unsung Anthem’s public APIs. |
+| `crash` | [search][search-anthem-repo-label-crash] | [search][search-vs-org-label-crash] | Reports of Unsung Anthem completely crashing. |
+
+#### Pull Request Labels
+
+| Label name | `venturesomestone/unsung-anthem` :mag_right: | `venturesomestone`‑org :mag_right: | Description
+| --- | --- | --- | --- |
+| `work-in-progress` | [search][search-anthem-repo-label-work-in-progress] | [search][search-vs-org-label-work-in-progress] | Pull requests which are still being worked on, more changes will follow. |
+| `needs-review` | [search][search-anthem-repo-label-needs-review] | [search][search-vs-org-label-needs-review] | Pull requests which need code review, and approval from the maintainers or Unsung Anthem team. |
+| `under-review` | [search][search-anthem-repo-label-under-review] | [search][search-vs-org-label-under-review] | Pull requests being reviewed by the maintainers or Unsung Anthem team. |
+| `requires-changes` | [search][search-anthem-repo-label-requires-changes] | [search][search-vs-org-label-requires-changes] | Pull requests which need to be updated based on review comments and then reviewed again. |
+| `needs-testing` | [search][search-anthem-repo-label-needs-testing] | [search][search-vs-org-label-needs-testing] | Pull requests which need manual testing. |
+
+[search-anthem-repo-label-enhancement]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Aenhancement
+[search-vs-org-label-enhancement]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Aenhancement
+[search-anthem-repo-label-bug]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Abug
+[search-vs-org-label-bug]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Abug
+[search-anthem-repo-label-question]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Aquestion
+[search-vs-org-label-question]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Aquestion
+[search-anthem-repo-label-feedback]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Afeedback
+[search-vs-org-label-feedback]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Afeedback
+[search-anthem-repo-label-help-wanted]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Ahelp-wanted
+[search-vs-org-label-help-wanted]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Ahelp-wanted
+[search-anthem-repo-label-beginner]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Abeginner
+[search-vs-org-label-beginner]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Abeginner
+[search-anthem-repo-label-more-information-needed]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Amore-information-needed
+[search-vs-org-label-more-information-needed]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Amore-information-needed
+[search-anthem-repo-label-needs-reproduction]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Aneeds-reproduction
+[search-vs-org-label-needs-reproduction]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Aneeds-reproduction
+
+[search-anthem-repo-label-windows]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Awindows
+[search-vs-org-label-windows]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Awindows
+[search-anthem-repo-label-linux]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Alinux
+[search-vs-org-label-linux]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Alinux
+[search-anthem-repo-label-mac]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Amac
+[search-vs-org-label-mac]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Amac
+[search-anthem-repo-label-documentation]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Adocumentation
+[search-vs-org-label-documentation]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Adocumentation
+[search-anthem-repo-label-performance]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Aperformance
+[search-vs-org-label-performance]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Aperformance
+[search-anthem-repo-label-security]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Asecurity
+[search-vs-org-label-security]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Asecurity
+[search-anthem-repo-label-ui]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Aui
+[search-vs-org-label-ui]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Aui
+[search-anthem-repo-label-api]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Aapi
+[search-vs-org-label-api]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Aapi
+[search-anthem-repo-label-crash]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Acrash
+[search-vs-org-label-crash]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Acrash
+[search-anthem-repo-label-blocked]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Ablocked
+[search-vs-org-label-blocked]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Ablocked
+[search-anthem-repo-label-duplicate]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Aduplicate
+[search-vs-org-label-duplicate]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Aduplicate
+[search-anthem-repo-label-wontfix]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Awontfix
+[search-vs-org-label-wontfix]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Awontfix
+[search-anthem-repo-label-invalid]: https://github.com/issues?q=is%3Aopen+is%3Aissue+repo%3Aventuresomestone%2Funsung-anthem+label%3Ainvalid
+[search-vs-org-label-invalid]: https://github.com/issues?q=is%3Aopen+is%3Aissue+user%3Aventuresomestone+label%3Ainvalid
+
+[search-anthem-repo-label-work-in-progress]: https://github.com/pulls?q=is%3Aopen+is%3Apr+repo%3Aventuresomestone%2Funsung-anthem+label%3Awork-in-progress
+[search-vs-org-label-work-in-progress]: https://github.com/pulls?q=is%3Aopen+is%3Apr+user%3Aventuresomestone+label%3Awork-in-progress
+[search-anthem-repo-label-needs-review]: https://github.com/pulls?q=is%3Aopen+is%3Apr+repo%3Aventuresomestone%2Funsung-anthem+label%3Aneeds-review
+[search-vs-org-label-needs-review]: https://github.com/pulls?q=is%3Aopen+is%3Apr+user%3Aventuresomestone+label%3Aneeds-review
+[search-anthem-repo-label-under-review]: https://github.com/pulls?q=is%3Aopen+is%3Apr+repo%3Aventuresomestone%2Funsung-anthem+label%3Aunder-review
+[search-vs-org-label-under-review]: https://github.com/pulls?q=is%3Aopen+is%3Apr+user%3Aventuresomestone+label%3Aunder-review
+[search-anthem-repo-label-requires-changes]: https://github.com/pulls?q=is%3Aopen+is%3Apr+repo%3Aventuresomestone%2Funsung-anthem+label%3Arequires-changes
+[search-vs-org-label-requires-changes]: https://github.com/pulls?q=is%3Aopen+is%3Apr+user%3Aventuresomestone+label%3Arequires-changes
+[search-anthem-repo-label-needs-testing]: https://github.com/pulls?q=is%3Aopen+is%3Apr+repo%3Aventuresomestone%2Funsung-anthem+label%3Aneeds-testing
+[search-vs-org-label-needs-testing]: https://github.com/pulls?q=is%3Aopen+is%3Apr+user%3Aventuresomestone+label%3Aneeds-testing
+
+[beginner]:https://github.com/issues?utf8=%E2%9C%93&q=is%3Aopen+is%3Aissue+label%3Abeginner+label%3Ahelp-wanted+user%3Aventuresomestone+sort%3Acomments-desc
+[help-wanted]:https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Ahelp-wanted+user%3Aventuresomestone+sort%3Acomments-desc+-label%3Abeginner
