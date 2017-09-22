@@ -12,7 +12,7 @@ This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDU
 By participating, you’re expected to uphold this code. Please report unacceptable
 behaviour to venturesomestone@gmail.com.
 
-## Getting Started
+## Installing
 
 There are no pre-built binaries available yet. You can find the instructions on building Unsung Anthem down below.
 
