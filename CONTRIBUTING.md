@@ -155,7 +155,7 @@ This section lists the labels we use to help us track and manage issues and pull
 
 The labels are loosely grouped by their purpose, but it’s not required that every issue have a label from every group or that an issue can’t have more than one label from the same group.
 
-Please open an issue on `venturesomestone/unsung-anthem` if you have suggestions for new labels, and if you notice some labels are missing on some repositories, then please open an issue on that repository.
+Please open an issue on `venturesomestone/unsung-anthem` if you have suggestions for new labels and if you notice some labels are missing on some repositories, please open an issue on that repository.
 
 #### Type of Issue and Issue State
 
