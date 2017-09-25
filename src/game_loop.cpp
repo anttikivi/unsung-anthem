@@ -37,7 +37,7 @@ namespace anthem
     logging::trace(logger, "Entering the game loop");
 
     auto delay{0ns};
-    auto time_start{clock::now()};
+    auto current_time{clock::now()};
 
     game_state current_state{};
     game_state previous_state{};
@@ -46,8 +46,8 @@ namespace anthem
 
     while (!quit)
     {
-      auto delta_time = clock::now() - time_start;
-      time_start = clock::now();
+      auto delta_time = clock::now() - current_time;
+      current_time = clock::now();
       delay += std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
 
       logging::trace(
@@ -65,7 +65,7 @@ namespace anthem
         current_state = update_state(logger, current_state);
       }
 
-      float alpha = static_cast<float>(delay.count()) / time_step.count();
+      const float alpha = static_cast<float>(delay.count()) / time_step.count();
       auto interpolated_state = interpolate_state(
           logger,
           current_state,
