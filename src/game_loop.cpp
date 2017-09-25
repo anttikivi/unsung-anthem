@@ -48,8 +48,7 @@ namespace anthem
     {
       auto delta_time = clock::now() - time_start;
       time_start = clock::now();
-      delay +=
-          std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
+      delay += std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
 
       logging::trace(
           logger,
@@ -66,7 +65,6 @@ namespace anthem
         current_state = update_state(logger, current_state);
       }
 
-      // calculate how close or far we are from the next time step
       float alpha = static_cast<float>(delay.count()) / time_step.count();
       auto interpolated_state = interpolate_state(
           logger,
