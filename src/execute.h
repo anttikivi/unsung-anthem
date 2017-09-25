@@ -26,7 +26,7 @@
 #include "anthem/logging.h"
 #include "gsl/util"
 
-#include <glfw/GLFW3.h>
+#include <GLFW/glfw3.h>
 
 namespace anthem
 {

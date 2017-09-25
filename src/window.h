@@ -27,7 +27,7 @@
 
 #include "anthem/logging.h"
 
-#include <glfw/GLFW3.h>
+#include <GLFW/glfw3.h>
 
 namespace anthem
 {
