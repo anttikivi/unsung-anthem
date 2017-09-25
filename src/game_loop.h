@@ -31,7 +31,6 @@
 
 namespace anthem
 {
-  // we use a fixed timestep of 1 / (60 fps) = 16 milliseconds
   ///
   /// \brief The time duration between two game ticks.
   ///
