@@ -25,6 +25,8 @@
 
 #include <iostream>
 
+#include "default_arguments.h"
+
 #include <args.hxx>
 
 namespace anthem
@@ -35,6 +37,7 @@ namespace anthem
         << "parsed:" << std::to_string(a.parsed)
         << ", window_width:" << std::to_string(a.window_width)
         << ", window_height:" << std::to_string(a.window_height)
+        << ", window_name:" << a.window_name
         << "}";
   }
 
@@ -58,13 +61,19 @@ namespace anthem
         "window-width",
         "The width of the window in pixels",
         {"window-width"},
-        0};
+        default_window_width};
     args::ValueFlag<pixel_count> window_height{
         parser,
         "window-height",
         "The height of the window in pixels",
         {"window-height"},
-        0};
+        default_window_height};
+    args::ValueFlag<std::string> window_name{
+        parser,
+        "window-name",
+        "The name of the game window",
+        {"window-name"},
+        std::string{default_window_name}};
 
     try
     {
@@ -83,6 +92,10 @@ namespace anthem
       return arguments{false};
     }
 
-    return arguments{true, args::get(window_width), args::get(window_height)};
+    return arguments{
+        true,
+        args::get(window_width),
+        args::get(window_height),
+        args::get(window_name)};
   }
 } // namespace anthem

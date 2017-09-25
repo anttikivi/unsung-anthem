@@ -59,6 +59,11 @@ namespace anthem
     ///
     const pixel_count window_height{0};
 
+    ///
+    /// \brief The name of the window.
+    ///
+    const std::string window_name{"null"};
+
   }; // struct arguments final
 
   ///
@@ -76,7 +81,8 @@ namespace anthem
   {
     return lhs.parsed == rhs.parsed &&
         lhs.window_width == rhs.window_width &&
-        lhs.window_height == rhs.window_height;
+        lhs.window_height == rhs.window_height &&
+        lhs.window_name == rhs.window_name;
   }
 
   ///

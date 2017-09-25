@@ -18,18 +18,23 @@ import os
 from ..mapping import Mapping
 
 
-def anthem_config(version):
+def anthem_config(version, **kwargs):
     """
     Create a mapping of the configuration of Unsng Anthem.
 
     version -- the version of the product.
+    kwargs -- other key-value arguments to be added to the product mapping.
     """
-    return Mapping(
-        version=version,
-        name="Unsung Anthem",
-        identifier="anthem",
-        repr="{name} ({identifier})".format(
-            name="Unsung Anthem", identifier="anthem"))
+    result = dict(**kwargs)
+
+    result["version"] = version
+    result["name"] = "Unsung Anthem"
+    result["identifier"] = "anthem"
+    result["repr"] = "{name} ({identifier})".format(
+        name="Unsung Anthem", identifier="anthem"
+    )
+
+    return Mapping(result)
 
 
 def product_config(version, identifier, name, allow_git_checkout=False,

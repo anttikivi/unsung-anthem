@@ -28,7 +28,7 @@ namespace anthem
   ///
   /// \brief Type of values which represent some number of pixels.
   ///
-  typedef unsigned int pixel_count;
+  typedef int pixel_count;
 
 } // namespace anthem
 

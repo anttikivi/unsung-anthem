@@ -32,10 +32,12 @@ PROTOCOL = "https"
 GITHUB_API_ENDPOINT = "https://api.github.com/graphql"
 
 
-ANTHEM_LOGGER_NAME = "anthem"
-
-
-ANTHEM_PRODUCT = anthem_config(version="0.1.0-dev.1")
+ANTHEM_PRODUCT = anthem_config(
+    version="0.1.0-dev.1",
+    window_name="Unsung Anthem",
+    opengl=Mapping(version=Mapping(major=3, minor=2)),
+    logger_name="anthem"
+)
 
 
 PRODUCT_CONFIG = Mapping(

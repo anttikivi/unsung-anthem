@@ -37,7 +37,10 @@ def build(build_data):
     shell.copytree(source_dir, build_dir)
     with shell.pushd(build_dir):
         shell.call([
-            sys.executable, "-m", "glad", "--profile=compatibility",
-            "--api=gl=3.2", "--generator=c-debug", "--spec=gl",
+            sys.executable, "-m", "glad", "--profile=core",
+            "--api=gl={}.{}".format(
+                build_data.anthem.opengl.version.major,
+                build_data.anthem.opengl.version.minor),
+            "--generator=c-debug", "--spec=gl",
             "--out-path={}".format(build_data.install_root)
         ])

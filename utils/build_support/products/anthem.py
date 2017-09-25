@@ -17,9 +17,7 @@ import platform
 
 from .product import check_source
 
-from .. import diagnostics, shell, workspace
-
-from ..config import ANTHEM_LOGGER_NAME
+from .. import config, diagnostics, shell, workspace
 
 from ..variables import ANTHEM_REPO_NAME
 
@@ -73,7 +71,12 @@ def construct_cmake_call(build_data, tests=False, clion=False):
         "-DANTHEM_EXECUTABLE_NAME={}".format(args.executable_name),
         "-DANTHEM_TEST_EXECUTABLE_NAME={}".format(args.test_executable_name),
         "-DANTHEM_MAIN_COMPILER_TOOL={}".format(args.main_tool),
-        "-DANTHEM_LOGGER_NAME={}".format(ANTHEM_LOGGER_NAME)
+        "-DANTHEM_LOGGER_NAME={}".format(product.logger_name),
+        "-DANTHEM_OPENGL_VERSION_MAJOR={}".format(
+            product.opengl.version.major),
+        "-DANTHEM_OPENGL_VERSION_MINOR={}".format(
+            product.opengl.version.minor),
+        "-DANTHEM_WINDOW_NAME={}".format(product.window_name)
     ]
 
     cmake_call += ["-DANTHEM_GLFW_VERSION={}".format(

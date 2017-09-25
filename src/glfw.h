@@ -25,6 +25,11 @@
 
 #include "anthem/logging.h"
 
+#include "arguments.h"
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 namespace anthem
 {
   namespace glfw
@@ -46,6 +51,26 @@ namespace anthem
     /// \param logger the main logger.
     ///
     void quit(const logging::logger_t& logger);
+
+    ///
+    /// \brief Initializes a new GLFW window with OpenGL context.
+    ///
+    /// \param logger the main logger.
+    /// \param args the parsed command line arguments.
+    ///
+    /// \return Pointer to the created object of type \c GLFWwindow.
+    ///
+    GLFWwindow* create_window(
+        const logging::logger_t& logger,
+        const arguments& args);
+
+    ///
+    /// \brief Destroys a GLFW window.
+    ///
+    /// \param logger the main logger.
+    /// \param window the window.
+    ///
+    void destroy_window(const logging::logger_t& logger, GLFWwindow* window);
 
   } // namespace glfw
 } // namespace anthem

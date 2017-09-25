@@ -28,6 +28,8 @@
 #include "glfw.h"
 #include "logging_config.h"
 
+#include <GLFW/glfw3.h>
+
 namespace anthem
 {
   void execute(int argc, const char* argv[])
@@ -51,6 +53,9 @@ namespace anthem
         args);
 
     glfw::initialize(console);
+    GLFWwindow* window = glfw::create_window(console, args);
+
+    glfw::destroy_window(console, window);
     glfw::quit(console);
   }
 } // namespace anthem

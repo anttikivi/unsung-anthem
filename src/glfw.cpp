@@ -22,9 +22,6 @@
 
 #include "glfw.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 namespace anthem
 {
   namespace glfw
@@ -42,6 +39,50 @@ namespace anthem
     {
       glfwTerminate();
       logging::debug(logger, "GLFW is terminated");
+    }
+
+    GLFWwindow* create_window(
+        const logging::logger_t& logger,
+        const arguments& args)
+    {
+      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, ANTHEM_OPENGL_VERSION_MAJOR);
+      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, ANTHEM_OPENGL_VERSION_MINOR);
+      glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+      // MacOS only supports forward-compatible core contexts.
+#if __APPLE__
+      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif // __APPLE__
+
+      logging::trace(
+          logger,
+          "Set the OpenGL version hint for the window to {}.{}",
+          ANTHEM_OPENGL_VERSION_MAJOR,
+          ANTHEM_OPENGL_VERSION_MINOR);
+
+      GLFWwindow* window = glfwCreateWindow(
+          args.window_width,
+          args.window_height,
+          args.window_name.c_str(),
+          NULL,
+          NULL);
+
+      if (!window)
+      {
+        logging::error(logger, "The GLFW window creation failed");
+        quit(logger);
+      }
+
+      glfwMakeContextCurrent(window);
+      gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+      glfwSwapInterval(1);
+
+      return window;
+    }
+
+    void destroy_window(const logging::logger_t& logger, GLFWwindow* window)
+    {
+      glfwDestroyWindow(window);
     }
 
   } // namespace glfw
