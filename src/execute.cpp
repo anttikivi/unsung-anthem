@@ -54,4 +54,9 @@ namespace anthem
       window_ptr window = create_window(console, args);
     }
   }
+
+  void glfw_error_callback(int error, const char* description)
+  {
+    fprintf(stderr, "GLFW error: %s\n", description);
+  }
 } // namespace anthem

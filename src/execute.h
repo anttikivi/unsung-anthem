@@ -44,6 +44,16 @@ namespace anthem
   void execute(int argc, const char* argv[]);
 
   ///
+  /// \brief The function which is called on GLFW errors.
+  ///
+  /// This function is impure.
+  ///
+  /// \param error the error code.
+  /// \param description the string containing the error description.
+  ///
+  void glfw_error_callback(int error, const char* description);
+
+  ///
   /// \brief Initializes the GLFW framework.
   ///
   /// \param logger the main logger.
@@ -53,6 +63,8 @@ namespace anthem
   ///
   inline auto initialize_glfw(const logging::logger_t& logger)
   {
+    glfwSetErrorCallback(glfw_error_callback);
+
     if (!glfwInit())
     {
       logging::error(logger, "The GLFW initialization failed");
