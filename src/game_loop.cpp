@@ -37,7 +37,7 @@ namespace anthem
     logging::trace(logger, "Entering the game loop");
 
     auto delay{0ns};
-    auto current_time{clock::now()};
+    auto t{clock::now()};
 
     game_state current_state{};
     game_state previous_state{};
@@ -46,9 +46,9 @@ namespace anthem
 
     while (!quit)
     {
-      auto delta_time = clock::now() - current_time;
-      current_time = clock::now();
-      delay += std::chrono::duration_cast<std::chrono::nanoseconds>(delta_time);
+      auto dt = clock::now() - t;
+      t = clock::now();
+      delay += std::chrono::duration_cast<std::chrono::nanoseconds>(dt);
 
       logging::trace(
           logger,
