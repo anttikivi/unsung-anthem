@@ -23,6 +23,7 @@
 #include "execute.h"
 
 #include "arguments.h"
+#include "game_loop.h"
 #include "logging_config.h"
 #include "window.h"
 
@@ -52,6 +53,7 @@ namespace anthem
 
     {
       window_ptr window = create_window(console, args);
+      game_loop(console, std::move(window));
     }
   }
 
