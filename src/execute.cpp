@@ -22,13 +22,9 @@
 
 #include "execute.h"
 
-#include "anthem/logging.h"
-
 #include "arguments.h"
-#include "glfw.h"
 #include "logging_config.h"
-
-#include <GLFW/glfw3.h>
+#include "window.h"
 
 namespace anthem
 {
@@ -52,10 +48,10 @@ namespace anthem
         "The following values are set to the arguments:\n{}",
         args);
 
-    glfw::initialize(console);
-    GLFWwindow* window = glfw::create_window(console, args);
+    auto glfw_quit_action = initialize_glfw(console);
 
-    glfw::destroy_window(console, window);
-    glfw::quit(console);
+    {
+      window_ptr window = create_window(console, args);
+    }
   }
 } // namespace anthem

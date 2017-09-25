@@ -23,6 +23,11 @@
 #ifndef ANTHEM_EXECUTE_H
 #define ANTHEM_EXECUTE_H
 
+#include "anthem/logging.h"
+#include "gsl/util"
+
+#include <glfw/GLFW3.h>
+
 namespace anthem
 {
   ///
@@ -37,6 +42,30 @@ namespace anthem
   /// \return Does not return anything and, thus, this function is impure.
   ///
   void execute(int argc, const char* argv[]);
+
+  ///
+  /// \brief Initializes the GLFW framework.
+  ///
+  /// \param logger the main logger.
+  ///
+  /// \return An object of type \c gsl::final_action containing the function
+  /// which terminates GLFW.
+  ///
+  inline auto initialize_glfw(const logging::logger_t& logger)
+  {
+    if (!glfwInit())
+    {
+      logging::error(logger, "The GLFW initialization failed");
+    }
+
+    logging::debug(logger, "GLFW is initialized");
+
+    return gsl::finally([&]()
+    {
+      glfwTerminate();
+      logging::debug(logger, "GLFW is terminated");
+    });
+  }
 
 } // namespace anthem
 

@@ -1,4 +1,4 @@
-//===-------------------------- glfw.cpp ------------------------*- C++ -*-===//
+//===------------------------- window.cpp ------------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,41 +10,30 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file glfw.cpp
-/// \brief The definition of the GLFW helper functions.
+/// \file window.cpp
+/// \brief The definition of the window-related functions.
 /// \author Antti Kivi
-/// \date 20 September 2017
+/// \date 25 September 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "glfw.h"
+#include "window.h"
+
+#include <type_traits>
+
+#include "arguments.h"
+
+#include <glad/glad.h>
 
 namespace anthem
 {
-  namespace glfw
+  window_ptr create_window(
+      const logging::logger_t& logger,
+      const arguments& args)
   {
-    void initialize(const logging::logger_t& logger)
-    {
-      if (!glfwInit())
-      {
-        logging::error(logger, "The GLFW initialization failed");
-      }
-      logging::debug(logger, "GLFW is initialized");
-    }
-
-    void quit(const logging::logger_t& logger)
-    {
-      glfwTerminate();
-      logging::debug(logger, "GLFW is terminated");
-    }
-
-    GLFWwindow* create_window(
-        const logging::logger_t& logger,
-        const arguments& args)
-    {
       glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, ANTHEM_OPENGL_VERSION_MAJOR);
       glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, ANTHEM_OPENGL_VERSION_MINOR);
       glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -60,30 +49,26 @@ namespace anthem
           ANTHEM_OPENGL_VERSION_MAJOR,
           ANTHEM_OPENGL_VERSION_MINOR);
 
-      GLFWwindow* window = glfwCreateWindow(
-          args.window_width,
-          args.window_height,
-          args.window_name.c_str(),
-          NULL,
-          NULL);
+      window_ptr window{
+          glfwCreateWindow(
+              args.window_width,
+              args.window_height,
+              args.window_name.c_str(),
+              NULL,
+              NULL),
+          &glfwDestroyWindow};
 
       if (!window)
       {
         logging::error(logger, "The GLFW window creation failed");
-        quit(logger);
+        return {nullptr, nullptr};
       }
 
-      glfwMakeContextCurrent(window);
+      glfwMakeContextCurrent(window.get());
       gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
       glfwSwapInterval(1);
 
-      return window;
+      return std::move(window);
     }
 
-    void destroy_window(const logging::logger_t& logger, GLFWwindow* window)
-    {
-      glfwDestroyWindow(window);
-    }
-
-  } // namespace glfw
 } // namespace anthem
