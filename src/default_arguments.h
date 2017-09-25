@@ -14,7 +14,7 @@
 /// \brief The declarations of the default values of the command line
 /// arguments.
 /// \author Antti Kivi
-/// \date 23 September 2017
+/// \date 25 September 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
