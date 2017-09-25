@@ -39,8 +39,8 @@ def build(build_data):
         shell.call([
             sys.executable, "-m", "glad", "--profile=core",
             "--api=gl={}.{}".format(
-                build_data.anthem.opengl.version.major,
-                build_data.anthem.opengl.version.minor),
+                build_data.products.anthem.opengl.version.major,
+                build_data.products.anthem.opengl.version.minor),
             "--generator=c-debug", "--spec=gl",
             "--out-path={}".format(build_data.install_root)
         ])
