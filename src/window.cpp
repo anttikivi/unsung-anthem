@@ -25,6 +25,7 @@
 #include <type_traits>
 
 #include "arguments.h"
+#include "input.h"
 
 #include <glad/glad.h>
 
@@ -63,6 +64,8 @@ namespace anthem
         logging::error(logger, "The GLFW window creation failed");
         return {nullptr, nullptr};
       }
+
+      glfwSetKeyCallback(window.get(), glfw_key_callback);
 
       glfwMakeContextCurrent(window.get());
       gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);

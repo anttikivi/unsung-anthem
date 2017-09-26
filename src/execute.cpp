@@ -24,6 +24,7 @@
 
 #include "arguments.h"
 #include "game_loop.h"
+#include "input.h"
 #include "logging_config.h"
 #include "window.h"
 
@@ -48,6 +49,8 @@ namespace anthem
         console,
         "The following values are set to the arguments:\n{}",
         args);
+
+    input_logger = console;
 
     auto glfw_quit_action = initialize_glfw(console);
 
