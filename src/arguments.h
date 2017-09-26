@@ -37,6 +37,21 @@
 namespace anthem
 {
   ///
+  /// \brief The default width of the window in pixels.
+  ///
+  constexpr pixel_count default_window_width = 120_px;
+
+  ///
+  /// \brief The default height of the window in pixels.
+  ///
+  constexpr pixel_count default_window_height = 120_px;
+
+  ///
+  /// \brief The default name of the window.
+  ///
+  constexpr auto default_window_name = ANTHEM_WINDOW_NAME;
+
+  ///
   /// \struct arguments
   /// \brief Type of objects which hold parsed information of command line
   /// arguments.

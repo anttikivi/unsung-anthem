@@ -25,8 +25,6 @@
 
 #include <iostream>
 
-#include "default_arguments.h"
-
 #include <args.hxx>
 
 namespace anthem

@@ -24,7 +24,6 @@
 #include "catch.hpp"
 
 #include "arguments.h"
-#include "default_arguments.h"
 
 TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]")
 {
