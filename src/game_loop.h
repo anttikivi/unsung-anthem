@@ -47,7 +47,7 @@ namespace anthem
   /// \param logger the main logger.
   /// \param window pointer to the window.
   ///
-  void game_loop(const logging::logger_t& logger, window_ptr&& window);
+  void game_loop(const logger_t& logger, window_ptr&& window);
 
 } // namespace anthem
 

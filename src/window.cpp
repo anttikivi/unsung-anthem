@@ -31,9 +31,7 @@
 
 namespace anthem
 {
-  window_ptr create_window(
-      const logging::logger_t& logger,
-      const arguments& args)
+  window_ptr create_window(const logger_t& logger, const arguments& args)
   {
       glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, ANTHEM_OPENGL_VERSION_MAJOR);
       glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, ANTHEM_OPENGL_VERSION_MINOR);

@@ -24,7 +24,7 @@
 
 namespace anthem
 {
-  logging::logger_t input_logger = nullptr;
+  logger_t input_logger = nullptr;
 
   void glfw_key_callback(
       GLFWwindow* window,

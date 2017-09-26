@@ -40,9 +40,7 @@ namespace anthem
   ///
   /// \return The new game state.
   ///
-  game_state update_state(
-      const logging::logger_t& logger,
-      const game_state& state);
+  game_state update_state(const logger_t& logger, const game_state& state);
 
   ///
   /// \brief Calculates the state which is in the middle of the two states at
@@ -57,7 +55,7 @@ namespace anthem
   /// \return The interpolated game state.
   ///
   game_state interpolate_state(
-      const logging::logger_t& logger,
+      const logger_t& logger,
       const game_state& current_state,
       const game_state& previous_state,
       const float alpha);

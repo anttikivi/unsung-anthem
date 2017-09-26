@@ -38,7 +38,7 @@ namespace anthem
   /// \param logger the main logger.
   /// \param state the game state.
   ///
-  void render_state(const logging::logger_t& logger, const game_state& state);
+  void render_state(const logger_t& logger, const game_state& state);
 
 } // namespace anthem
 

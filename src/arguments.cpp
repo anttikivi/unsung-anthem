@@ -42,7 +42,7 @@ namespace anthem
   }
 
   const arguments parse_arguments(
-      const logging::logger_t& logger,
+      const logger_t& logger,
       const int argc,
       const char* argv[]) noexcept
   {

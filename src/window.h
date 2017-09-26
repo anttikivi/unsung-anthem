@@ -49,9 +49,7 @@ namespace anthem
   ///
   /// \return Pointer to the created object of type \c GLFWwindow.
   ///
-  window_ptr create_window(
-      const logging::logger_t& logger,
-      const arguments& args);
+  window_ptr create_window(const logger_t& logger, const arguments& args);
 
   ///
   /// \brief Destroys a GLFW window.
@@ -59,7 +57,7 @@ namespace anthem
   /// \param logger the main logger.
   /// \param window pointer to the window.
   ///
-  void destroy_window(const logging::logger_t& logger, window_ptr&& window);
+  void destroy_window(const logger_t& logger, window_ptr&& window);
 
 } // namespace anthem
 

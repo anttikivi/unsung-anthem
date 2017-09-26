@@ -26,7 +26,7 @@
 
 namespace anthem
 {
-  void render_state(const logging::logger_t& logger, const game_state& state)
+  void render_state(const logger_t& logger, const game_state& state)
   {
     logging::trace(logger, "Rendering a game state");
   }

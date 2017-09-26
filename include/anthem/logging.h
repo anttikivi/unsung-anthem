@@ -31,6 +31,11 @@
 namespace anthem
 {
   ///
+  /// \brief Type of objects which do logging.
+  ///
+  typedef std::shared_ptr<spdlog::logger> logger_t;
+
+  ///
   /// \brief Creates a shared pointer to an object of the logger type provided
   /// by spdlog.
   ///
@@ -59,11 +64,6 @@ namespace anthem
 
   namespace logging
   {
-    ///
-    /// \brief Type of objects which do logging.
-    ///
-    typedef std::shared_ptr<spdlog::logger> logger_t;
-
     ///
     /// \brief Writes a trace-level log message into the logger.
     ///

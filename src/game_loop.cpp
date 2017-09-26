@@ -29,7 +29,7 @@
 
 namespace anthem
 {
-  void game_loop(const logging::logger_t& logger, window_ptr&& window)
+  void game_loop(const logger_t& logger, window_ptr&& window)
   {
     using namespace std::chrono_literals;
     using clock = std::chrono::high_resolution_clock;

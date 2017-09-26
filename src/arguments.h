@@ -123,8 +123,9 @@ namespace anthem
   /// \return An object of class \c arguments.
   ///
   const arguments parse_arguments(
-      const logging::logger_t& logger,
-      const int argc, const char* argv[]) noexcept;
+      const logger_t& logger,
+      const int argc,
+      const char* argv[]) noexcept;
 
 } // namespace anthem
 

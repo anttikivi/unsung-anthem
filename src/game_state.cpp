@@ -26,16 +26,14 @@
 
 namespace anthem
 {
-  game_state update_state(
-      const logging::logger_t& logger,
-      const game_state& state)
+  game_state update_state(const logger_t& logger, const game_state& state)
   {
     logging::trace(logger, "Updating the game state");
     return {};
   }
 
   game_state interpolate_state(
-      const logging::logger_t& logger,
+      const logger_t& logger,
       const game_state& current_state,
       const game_state& previous_state,
       const float alpha)

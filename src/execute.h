@@ -61,7 +61,7 @@ namespace anthem
   /// \return An object of type \c gsl::final_action containing the function
   /// which terminates GLFW.
   ///
-  inline auto initialize_glfw(const logging::logger_t& logger)
+  inline auto initialize_glfw(const logger_t& logger)
   {
     glfwSetErrorCallback(glfw_error_callback);
 

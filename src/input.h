@@ -32,7 +32,7 @@ namespace anthem
   ///
   /// \brief The logger which is used to log the input handling events.
   ///
-  extern logging::logger_t input_logger;
+  extern logger_t input_logger;
 
   ///
   /// \brief Handles single key input event.
