@@ -7,13 +7,13 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-add_subdirectory(gsl)
-add_subdirectory(thread)
+set(ANTHEM_SOURCES ${ANTHEM_SOURCES}
 
-set(ANTHEM_TEST_SOURCES ${ANTHEM_TEST_SOURCES}
+    PARENT_SCOPE)
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/arguments_test.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/array_test.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/main_test.cpp
+set(ANTHEM_INCLUDES ${ANTHEM_INCLUDES}
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/task_queue.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/thread_pool.h
 
     PARENT_SCOPE)

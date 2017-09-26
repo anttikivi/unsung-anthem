@@ -7,6 +7,8 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
+add_subdirectory(thread)
+
 set(ANTHEM_SOURCES ${ANTHEM_SOURCES}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/arguments.cpp
