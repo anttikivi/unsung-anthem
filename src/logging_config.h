@@ -40,6 +40,15 @@ namespace anthem
 #endif // !defined(ANTHEM_LOGGER_NAME)
 
   ///
+  /// \brief The name of the input logger.
+  ///
+#ifdef ANTHEM_INPUT_LOGGER_NAME
+  constexpr const auto input_logger_name = ANTHEM_INPUT_LOGGER_NAME;
+#else
+  constexpr const auto input_logger_name = "anthem-input";
+#endif // !defined(ANTHEM_INPUT_LOGGER_NAME)
+
+  ///
   /// \brief The logging pattern of the program logger.
   ///
   constexpr const auto logger_pattern = "[%l] [%d %b %Y] [%H.%M:%S] %v";

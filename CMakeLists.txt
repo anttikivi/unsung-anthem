@@ -39,6 +39,7 @@ assert_variable(ANTHEM_MAIN_COMPILER_TOOL
 assert_variable(ANTHEM_INSTALL_PREFIX "dependency installation directory")
 
 assert_variable(ANTHEM_LOGGER_NAME "program logger name")
+assert_variable(ANTHEM_INPUT_LOGGER_NAME "input logger name")
 assert_variable(ANTHEM_WINDOW_NAME "program window name")
 
 assert_variable(ANTHEM_OPENGL_VERSION_MAJOR "OpenGL major version")

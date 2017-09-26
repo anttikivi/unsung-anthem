@@ -35,6 +35,9 @@ namespace anthem
     const auto console =
         create_logger(logger_name, logger_pattern, logger_level);
 
+    input_logger =
+        create_logger(input_logger_name, logger_pattern, logger_level);
+
     logging::info(console, "The main logger of the program is created");
     logging::debug(
         console,
@@ -50,10 +53,10 @@ namespace anthem
         "The following values are set to the arguments:\n{}",
         args);
 
-    input_logger = console;
-
     auto glfw_quit_action = initialize_glfw(console);
 
+    // Create a new scope for the window as it is deleted by dynamic memory
+    // management.
     {
       window_ptr window = create_window(console, args);
       game_loop(console, std::move(window));

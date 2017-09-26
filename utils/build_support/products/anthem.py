@@ -72,6 +72,8 @@ def construct_cmake_call(build_data, tests=False, clion=False):
         "-DANTHEM_TEST_EXECUTABLE_NAME={}".format(args.test_executable_name),
         "-DANTHEM_MAIN_COMPILER_TOOL={}".format(args.main_tool),
         "-DANTHEM_LOGGER_NAME={}".format(product.logger_name),
+        "-DANTHEM_INPUT_LOGGER_NAME={}-{}".format(
+            product.logger_name, "input"),
         "-DANTHEM_OPENGL_VERSION_MAJOR={}".format(
             product.opengl.version.major),
         "-DANTHEM_OPENGL_VERSION_MINOR={}".format(

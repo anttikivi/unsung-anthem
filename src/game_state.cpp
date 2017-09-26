@@ -42,6 +42,7 @@ namespace anthem
         logger,
         "The alpha value of the game update time is {}",
         std::to_string(alpha));
+
     if (alpha >= 0.5)
     {
       return current_state;
