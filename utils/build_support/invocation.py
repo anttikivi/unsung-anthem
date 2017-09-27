@@ -130,6 +130,7 @@ def set_up(parser):
         "The main tool version is set to {}".format(args.main_tool_version)
     )
     defaults.fix_main_tool(args)
+    defaults.fix_threading(args)
     defaults.main_args(args)
     defaults.cxx_std(args)
     defaults.default_versions(args)

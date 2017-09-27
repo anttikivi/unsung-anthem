@@ -674,6 +674,30 @@ def program_options(parser):
         help="the name of the Unsung Anthem test executable",
         metavar="NAME")
 
+    threading_group = parser.add_mutually_exclusive_group(required=False)
+    threading_group.add_argument(
+        "--threading",
+        help="the multithreading model (default is multithread)",
+        choices=[
+            "multithread",
+            "singlethread",
+            "multi",
+            "single"],
+        dest="threading",
+        default="multithread")
+    threading_group.add_argument(
+        "--multithread",
+        help="use multithreading in the game (default is multithread)",
+        action="store_const",
+        const="multithread",
+        dest="threading")
+    threading_group.add_argument(
+        "--single-thread",
+        help="use single thread in the game (default is multithread)",
+        action="store_const",
+        const="singlethread",
+        dest="threading")
+
     return parser
 
 

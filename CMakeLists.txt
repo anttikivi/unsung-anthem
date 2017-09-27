@@ -26,6 +26,8 @@ option(ANTHEM_LINK_CXXABI "Option for linking against the libc++abi" OFF)
 
 option(ANTHEM_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 
+option(ANTHEM_MULTITHREADING "Enable multithreading in the game" ON)
+
 assert_variable(ANTHEM_EXECUTABLE_TYPE
     "executable type"
     "anthem, test, and clion")

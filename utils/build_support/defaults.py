@@ -35,6 +35,21 @@ def fix_main_tool(args):
     return args
 
 
+def fix_threading(args):
+    """
+    Set the threading arguments to the correct value.
+
+    This function does modify the parameter passed in.
+
+    args -- the arguments to which the values are set.
+    """
+    if args.threading == "multi":
+        args.main_tool = "multithread"
+    elif args.threading == "single":
+        args.main_tool = "singlethread"
+    return args
+
+
 def main_args(args):
     """
     Set the default arguments to the 'args' namespace.
@@ -107,6 +122,10 @@ def main_args(args):
         if args.clion:
             args.cmake_generator = "Unix Makefiles"
 
+    def _threading(default_value):
+        if args.cmake_generator is None:
+            args.cmake_generator = default_value
+
     def _tests():
         if args.test_only:
             args.clean = False
@@ -151,6 +170,7 @@ def main_args(args):
     _build_variant("Debug")
     _assertions(True)
     _cmake_generator("Ninja")
+    _threading("multithread")
     _tests()
     _building()
     _shared_builds()

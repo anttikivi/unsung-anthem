@@ -15,4 +15,10 @@ function(ADD_LOGGER_DEFINITIONS)
   add_definitions(-DANTHEM_OPENGL_VERSION_MINOR=${ANTHEM_OPENGL_VERSION_MINOR})
 
   add_definitions(-DGLFW_INCLUDE_NONE)
+
+  if(ANTHEM_MULTITHREADING)
+    add_definitions(-DANTHEM_MULTITHREADING=1)
+  else()
+    add_definitions(-DANTHEM_MULTITHREADING=0)
+  endif()
 endfunction()

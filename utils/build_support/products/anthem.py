@@ -117,6 +117,11 @@ def construct_cmake_call(build_data, tests=False, clion=False):
                 args.anthem_build_variant
             )]
 
+    if args.threading == "multithread":
+        cmake_call += ["-DANTHEM_MULTITHREADING=ON"]
+    elif args.threading == "singlethread":
+        cmake_call += ["-DANTHEM_MULTITHREADING=OFF"]
+
     cmake_call += args.extra_cmake_options
 
     return cmake_call
