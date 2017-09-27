@@ -22,17 +22,26 @@
 
 #include "thread_pool.h"
 
+#include <algorithm>
+
 namespace anthem
 {
   unsigned int number_of_threads() noexcept
   {
-    if (std::thread::hardware_concurrency() > 1)
+    return std::max(std::thread::hardware_concurrency() - 1, 2u);
+  }
+
+  thread_pool::thread_pool(const unsigned int n)
+  : done{false}, thread_count{number_of_threads()}, queue{}, threads{}
+  {
+    for (unsigned int i = 0; i < thread_count; ++i)
     {
-      return std::thread::hardware_concurrency() - 1;
-    }
-    else
-    {
-      return 1;
+      threads.emplace_back([](thread_pool* pool)
+      {
+        while (!pool->done)
+        {
+        }
+      }, this);
     }
   }
 } // namespace anthem

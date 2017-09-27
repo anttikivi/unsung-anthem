@@ -23,10 +23,12 @@
 #ifndef ANTHEM_THREAD_THREAD_POOL_H
 #define ANTHEM_THREAD_THREAD_POOL_H
 
+#include <atomic>
 #include <functional>
 #include <future>
 #include <thread>
 #include <utility>
+#include <vector>
 
 #include "anthem/logging.h"
 
@@ -48,15 +50,13 @@ namespace anthem
   ///
   struct thread_pool final
   {
+  public:
     ///
-    /// \brief The number of threads in the thread pool.
+    /// \brief Constructs an object of type \c thread_pool.
     ///
-    const unsigned int thread_count = number_of_threads();
-
+    /// \param n the number of threads to be created.
     ///
-    /// \brief The queue which holds the tasks to be executed.
-    ///
-    task_queue<std::function<void()>> queue;
+    thread_pool(const unsigned int n = number_of_threads());
 
     template <class F, class... Args> auto queue_task(F&& f, Args&&... args)
     {
@@ -65,6 +65,28 @@ namespace anthem
       using result_t = std::result_of_t<decltype(bound)()>;
       using packaged_t = std::packaged_task<result_t()>;
     }
+
+  private:
+
+    ///
+    /// \brief Whether or not this pool should continue execution.
+    ///
+    std::atomic_bool done;
+
+    ///
+    /// \brief The number of threads in the thread pool.
+    ///
+    const unsigned int thread_count;
+
+    ///
+    /// \brief Queue which holds the tasks to be executed.
+    ///
+    task_queue<std::function<void()>> queue;
+
+    ///
+    /// \brief Vector which holds the worker threads.
+    ///
+    std::vector<std::thread> threads;
   };
 } // namespace anthem
 
