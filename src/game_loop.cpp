@@ -40,8 +40,8 @@ namespace anthem
 
     logging::trace("Entering the game loop");
 
-    auto delay{0ns};
-    auto t{clock::now()};
+    auto delay = 0ns;
+    auto t = clock::now();
 
     game_state current_state{};
     game_state previous_state{};
