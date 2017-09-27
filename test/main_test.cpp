@@ -20,7 +20,15 @@
 //
 //===----------------------------------------------------------------------===//
 
-// Define CATCH_CONFIG_MAIN so Catch provides the main function of the tests.
-#define CATCH_CONFIG_MAIN
+#define CATCH_CONFIG_RUNNER
 
 #include "catch.hpp"
+
+#include "anthem/logging.h"
+
+int main(int argc, const char* argv[])
+{
+  anthem::logger = anthem::create_logger("test_logger");
+  const int result = Catch::Session().run(argc, argv);
+  return result < 0xff ? result : 0xff;
+}

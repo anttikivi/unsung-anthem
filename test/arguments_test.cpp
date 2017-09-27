@@ -23,13 +23,10 @@
 
 #include "catch.hpp"
 
-#include "anthem/logging.h"
-
 #include "arguments.h"
 
 TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]")
 {
-  anthem::logger = anthem::create_logger("test_logger");
   const anthem::arguments a = {true, 555_px, 13_px, std::string{"window"}};
   const char* argv_b[] = {
       "exe",
