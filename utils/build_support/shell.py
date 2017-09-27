@@ -495,13 +495,19 @@ def ninja(build_data, target=None, env=None, dry_run=None, echo=False):
         if isinstance(target, list):
             ninja_call = [build_data.toolchain.ninja]
             ninja_call += target
+            ninja_call += ["-j"]
+            ninja_call += [str(build_data.args.build_jobs)]
             call(ninja_call, env=env, dry_run=dry_run, echo=echo)
         else:
             call(
-                [build_data.toolchain.ninja, target], env=env, dry_run=dry_run,
-                echo=echo)
+                [build_data.toolchain.ninja, target, "-j",
+                 str(build_data.args.build_jobs)],
+                env=env, dry_run=dry_run, echo=echo)
     else:
-        call([build_data.toolchain.ninja], env=env, dry_run=dry_run, echo=echo)
+        call(
+            [build_data.toolchain.ninja, "-j",
+             str(build_data.args.build_jobs)],
+            env=env, dry_run=dry_run, echo=echo)
 
 
 def ninja_install(build_data, env=None, dry_run=None, echo=False):
@@ -542,6 +548,8 @@ def make(
             make_call += extra_args
         else:
             make_call += [extra_args]
+    make_call += ["-j"]
+    make_call += [str(build_data.args.build_jobs)]
     call(make_call, env=env, dry_run=dry_run, echo=echo)
 
 
