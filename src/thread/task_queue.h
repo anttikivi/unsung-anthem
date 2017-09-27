@@ -27,8 +27,6 @@
 #include <mutex>
 #include <queue>
 
-#include "anthem/logging.h"
-
 namespace anthem
 {
   ///

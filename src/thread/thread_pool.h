@@ -34,7 +34,7 @@ namespace anthem
   struct thread_pool final
   {
 
-  }
+  };
 
   template <class F, class... Args> auto queue_task(F&& f, Args&&... args)
   {

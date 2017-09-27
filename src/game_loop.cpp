@@ -22,6 +22,8 @@
 
 #include "game_loop.h"
 
+#include <type_traits>
+
 #include "game_state.h"
 #include "render.h"
 
@@ -42,9 +44,7 @@ namespace anthem
     game_state current_state{};
     game_state previous_state{};
 
-    bool quit{false};
-
-    while (!quit)
+    while (!current_state.should_quit && !glfwWindowShouldClose(window.get()))
     {
       auto dt = clock::now() - t;
       t = clock::now();
@@ -61,8 +61,8 @@ namespace anthem
 
         logging::trace(logger, "Updating the game state");
 
-        previous_state = current_state;
-        current_state = update_state(logger, current_state);
+        previous_state = std::move(current_state);
+        current_state = std::move(update_state(logger, previous_state));
       }
 
       const float alpha = static_cast<float>(delay.count()) / time_step.count();
@@ -76,11 +76,6 @@ namespace anthem
 
       glfwSwapBuffers(window.get());
       glfwPollEvents();
-
-      if (glfwWindowShouldClose(window.get()))
-      {
-        quit = true;
-      }
     }
   }
 }

@@ -29,7 +29,7 @@ namespace anthem
 {
   struct game_state final
   {
-
+    bool should_quit = false;
   };
 
   ///
