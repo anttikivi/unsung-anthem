@@ -27,19 +27,46 @@
 TEST_CASE("number of threads is correct", "[anthem::number_of_threads]")
 {
   using return_type = unsigned int;
-  const return_type expected = []() -> return_type
+
+  auto f = [](const int cores) -> return_type
   {
-    if (std::thread::hardware_concurrency() > 1)
+    if (cores > 1)
     {
-      return std::thread::hardware_concurrency() - 1;
+      return cores - 1;
     }
     else
     {
       return 1;
     }
-  }();
+  };
 
-  const return_type real = anthem::number_of_threads();
+  return_type concurrency = std::thread::hardware_concurrency();
+  return_type expected = f(concurrency);
+  return_type real = anthem::number_of_threads();
+
+  REQUIRE(expected == real);
+
+  concurrency = 1;
+  expected = f(concurrency);
+  real = 1;
+
+  REQUIRE(expected == real);
+
+  concurrency = 0;
+  expected = f(concurrency);
+  real = 1;
+
+  REQUIRE(expected == real);
+
+  concurrency = -1;
+  expected = f(concurrency);
+  real = 1;
+
+  REQUIRE(expected == real);
+
+  concurrency = 4;
+  expected = f(concurrency);
+  real = 3;
 
   REQUIRE(expected == real);
 }

@@ -26,9 +26,14 @@
 
 #include "anthem/logging.h"
 
+#include "logging_config.h"
+
 int main(int argc, const char* argv[])
 {
-  anthem::logger = anthem::create_logger("test_logger");
+  anthem::logger = anthem::create_logger(
+      "test_logger",
+      anthem::logger_pattern,
+      anthem::logger_level);
   const int result = Catch::Session().run(argc, argv);
   return result < 0xff ? result : 0xff;
 }

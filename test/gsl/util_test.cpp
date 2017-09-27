@@ -88,6 +88,14 @@ TEST_CASE(
 
   REQUIRE_FALSE(0 == i);
   REQUIRE(1 == i);
+
+  {
+    auto b = gsl::finally<decltype(f)>(std::move(f));
+  }
+
+  REQUIRE_FALSE(0 == i);
+  REQUIRE_FALSE(1 == i);
+  REQUIRE(2 == i);
 }
 
 TEST_CASE("cast is done as expected", "[gsl::narrow_cast]")
@@ -158,4 +166,11 @@ TEST_CASE("value does not change", "[gsl::narrow]")
   unsigned int k = 326;
 
   REQUIRE(j == k);
+}
+
+TEST_CASE("narrowing_error is thrown", "[gsl::narrow]")
+{
+  int i = -326;
+  REQUIRE_THROWS(gsl::narrow<unsigned int>(i));
+  REQUIRE_THROWS_AS(gsl::narrow<unsigned int>(i), gsl::narrowing_error);
 }
