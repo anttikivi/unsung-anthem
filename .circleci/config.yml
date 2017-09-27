@@ -122,38 +122,6 @@ jobs:
   #==- Clang ----------------------------------------------------------------==#
   #===----------------------------------------------------------------------===#
 
-  #==- C++14 Clang 3.5 ------------------------------------------------------==#
-
-  clang35_cxx14:
-    <<: *defaults
-    environment:
-      <<: *default_variables
-      ANTHEM_BUILD_PRESET: circleci_linux_clang35_cxx14
-      COMPILER_NAME: clang
-      CXX: clang++-3.5
-      CC: clang-3.5
-    steps:
-    - checkout
-    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: |
-        sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
-    - run: sudo apt-get -y update
-    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.5 libc++-dev xorg-dev libglu1-mesa-dev build-essential
-    - run: |
-        cd $CIRCLE_WORKING_DIRECTORY/..
-        chmod +x $ANTHEM_REPO_NAME/utils/build-script
-    - run: ${CC} --version
-    - run: ${CXX} --version
-    - run: pip install --user requests
-    - run: |
-        cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
-
 
   #==- C++14 Clang 3.6 ------------------------------------------------------==#
 
@@ -361,7 +329,6 @@ workflows:
      - gcc6_cxx14
      - gcc7_cxx14
      - gcc7_cxx17
-     - clang35_cxx14
      - clang36_cxx14
      - clang37_cxx14
      - clang38_cxx14
