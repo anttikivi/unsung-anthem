@@ -28,7 +28,7 @@ namespace anthem
 {
   unsigned int number_of_threads() noexcept
   {
-    return std::max(std::thread::hardware_concurrency() - 1, 2u);
+    return std::max(std::thread::hardware_concurrency(), 2u) - 1;
   }
 
   thread_pool::thread_pool(const unsigned int n)
