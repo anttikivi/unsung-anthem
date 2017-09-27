@@ -23,6 +23,8 @@
 
 #include "catch.hpp"
 
+#include <iostream>
+
 #include "gsl/view"
 
 TEST_CASE("is equal to pointer", "[gsl::owner]")
@@ -107,6 +109,16 @@ TEST_CASE("!= operator works", "[gsl::not_null]")
 
   delete s1;
   delete s2;
+}
+
+TEST_CASE("<< operator works", "[gsl::not_null]")
+{
+  const auto s1 = new std::string("Hello, world!");
+  const gsl::not_null<std::string*> n1{s1};
+
+  REQUIRE_NOTHROW(std::cout << n1 << std::endl);
+
+  delete s1;
 }
 
 TEST_CASE("hash function works", "[gsl::not_null]")
