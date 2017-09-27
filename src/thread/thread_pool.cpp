@@ -1,4 +1,4 @@
-//===-------------------------- render.h ------------------------*- C++ -*-===//
+//===----------------------- thread_pool.cpp --------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,33 +10,29 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file render.h
-/// \brief The declarations of the rendering-related functions.
+/// \file thread_pool.cpp
+/// \brief The definitions of the thread-pooling functions.
 /// \author Antti Kivi
-/// \date 26 September 2017
+/// \date 27 September 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_RENDER_H
-#define ANTHEM_RENDER_H
+#include "thread_pool.h"
 
 namespace anthem
 {
-  struct game_state;
-}
-
-namespace anthem
-{
-  ///
-  /// \brief Renders a game state.
-  ///
-  /// \param state the game state.
-  ///
-  void render_state(const game_state& state);
-
+  unsigned int number_of_threads() noexcept
+  {
+    if (std::thread::hardware_concurrency() > 1)
+    {
+      return std::thread::hardware_concurrency() - 1;
+    }
+    else
+    {
+      return 1;
+    }
+  }
 } // namespace anthem
-
-#endif // !ANTHEM_RENDER_H

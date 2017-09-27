@@ -32,34 +32,29 @@ namespace anthem
 {
   void execute(int argc, const char* argv[])
   {
-    const auto console =
-        create_logger(logger_name, logger_pattern, logger_level);
+    logger = create_logger(logger_name, logger_pattern, logger_level);
 
     input_logger =
         create_logger(input_logger_name, logger_pattern, logger_level);
 
-    logging::info(console, "The main logger of the program is created");
+    logging::info("The main logger of the program is created");
     logging::debug(
-        console,
         "The logger has the name '{}', the pattern '{}', and the level '{}'",
         logger_name,
         logger_pattern,
         logger_level);
 
-    const auto args = parse_arguments(console, argc, argv);
+    const auto args = parse_arguments(argc, argv);
 
-    logging::trace(
-        console,
-        "The following values are set to the arguments:\n{}",
-        args);
+    logging::trace("The following values are set to the arguments:\n{}", args);
 
-    auto glfw_quit_action = initialize_glfw(console);
+    auto glfw_quit_action = initialize_glfw();
 
     // Create a new scope for the window as it is deleted by dynamic memory
     // management.
     {
-      window_ptr window = create_window(console, args);
-      game_loop(console, std::move(window));
+      window_ptr window = create_window(args);
+      game_loop(std::move(window));
     }
   }
 

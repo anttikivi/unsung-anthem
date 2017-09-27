@@ -24,6 +24,8 @@
 
 #include <type_traits>
 
+#include "anthem/logging.h"
+
 #include "arguments.h"
 #include "input.h"
 
@@ -31,7 +33,7 @@
 
 namespace anthem
 {
-  window_ptr create_window(const logger_t& logger, const arguments& args)
+  window_ptr create_window(const arguments& args)
   {
       glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, ANTHEM_OPENGL_VERSION_MAJOR);
       glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, ANTHEM_OPENGL_VERSION_MINOR);
@@ -43,7 +45,6 @@ namespace anthem
 #endif // __APPLE__
 
       logging::trace(
-          logger,
           "Set the OpenGL version hint for the window to {}.{}",
           ANTHEM_OPENGL_VERSION_MAJOR,
           ANTHEM_OPENGL_VERSION_MINOR);
@@ -59,7 +60,7 @@ namespace anthem
 
       if (!window)
       {
-        logging::error(logger, "The GLFW window creation failed");
+        logging::error("The GLFW window creation failed");
         return {nullptr, nullptr};
       }
 

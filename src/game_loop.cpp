@@ -24,6 +24,8 @@
 
 #include <type_traits>
 
+#include "anthem/logging.h"
+
 #include "game_state.h"
 #include "render.h"
 
@@ -31,12 +33,12 @@
 
 namespace anthem
 {
-  void game_loop(const logger_t& logger, window_ptr&& window)
+  void game_loop(window_ptr&& window)
   {
     using namespace std::chrono_literals;
     using clock = std::chrono::high_resolution_clock;
 
-    logging::trace(logger, "Entering the game loop");
+    logging::trace("Entering the game loop");
 
     auto delay{0ns};
     auto t{clock::now()};
@@ -50,29 +52,25 @@ namespace anthem
       t = clock::now();
       delay += std::chrono::duration_cast<std::chrono::nanoseconds>(dt);
 
-      logging::trace(
-          logger,
-          "The current delay in update time is {}",
-          delay.count());
+      logging::trace("The current delay in update time is {}", delay.count());
 
       while(delay >= time_step)
       {
         delay -= time_step;
 
-        logging::trace(logger, "Updating the game state");
+        logging::trace("Updating the game state");
 
         previous_state = std::move(current_state);
-        current_state = std::move(update_state(logger, previous_state));
+        current_state = std::move(update_state(previous_state));
       }
 
       const float alpha = static_cast<float>(delay.count()) / time_step.count();
       auto interpolated_state = interpolate_state(
-          logger,
           current_state,
           previous_state,
           alpha);
 
-      render_state(logger, interpolated_state);
+      render_state(interpolated_state);
 
       glfwSwapBuffers(window.get());
       glfwPollEvents();

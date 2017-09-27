@@ -23,30 +23,33 @@
 #ifndef ANTHEM_GAME_STATE_H
 #define ANTHEM_GAME_STATE_H
 
-#include "anthem/logging.h"
-
 namespace anthem
 {
+  ///
+  /// \struct game_state
+  /// \brief Type of objects which represent a state of the game.
+  ///
   struct game_state final
   {
+    ///
+    /// \brief Whether or not the game ought to be quit.
+    ///
     bool should_quit = false;
   };
 
   ///
   /// \brief Runs a single tick of the game.
   ///
-  /// \param logger the main logger.
   /// \param state the last game state.
   ///
   /// \return The new game state.
   ///
-  game_state update_state(const logger_t& logger, const game_state& state);
+  game_state update_state(const game_state& state);
 
   ///
   /// \brief Calculates the state which is in the middle of the two states at
   /// the alpha point given.
   ///
-  /// \param logger the main logger.
   /// \param current_state the current game state.
   /// \param previous_state the previous game state.
   /// \param alpha the value denoting how to close the game is to the next
@@ -55,7 +58,6 @@ namespace anthem
   /// \return The interpolated game state.
   ///
   game_state interpolate_state(
-      const logger_t& logger,
       const game_state& current_state,
       const game_state& previous_state,
       const float alpha);

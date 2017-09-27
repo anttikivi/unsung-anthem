@@ -24,24 +24,22 @@
 
 #include <string>
 
+#include "anthem/logging.h"
+
 namespace anthem
 {
-  game_state update_state(const logger_t& logger, const game_state& state)
+  game_state update_state(const game_state& state)
   {
-    logging::trace(logger, "Updating the game state");
+    logging::trace("Updating the game state");
     return {};
   }
 
   game_state interpolate_state(
-      const logger_t& logger,
       const game_state& current_state,
       const game_state& previous_state,
       const float alpha)
   {
-    logging::trace(
-        logger,
-        "The alpha value of the game update time is {}",
-        std::to_string(alpha));
+    logging::trace("The alpha value of the game update time is {}", alpha);
 
     if (alpha >= 0.5)
     {

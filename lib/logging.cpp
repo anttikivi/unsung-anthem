@@ -1,4 +1,4 @@
-//===------------------------- render.cpp -----------------------*- C++ -*-===//
+//===------------------------- logging.cpp ----------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,26 +10,36 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file render.cpp
-/// \brief The definitions of the rendering-related functions.
+/// \file logging.cpp
+/// \brief Definitions of the logging-related utility functions.
 /// \author Antti Kivi
-/// \date 26 September 2017
+/// \date 27 September 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "render.h"
-
 #include "anthem/logging.h"
-
-#include "game_state.h"
 
 namespace anthem
 {
-  void render_state(const game_state& state)
+  logger_t logger = nullptr;
+
+  const logger_t create_logger(
+      const std::string& name,
+      const std::string& pattern,
+      const spdlog::level::level_enum level)
   {
-    logging::trace("Rendering a game state");
+    auto logger = spdlog::stdout_logger_mt(name);
+
+    if (pattern != "NONE")
+    {
+      logger->set_pattern(pattern);
+    }
+
+    logger->set_level(level);
+
+    return std::move(logger);
   }
 } // namespace anthem

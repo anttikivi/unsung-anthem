@@ -10,5 +10,6 @@
 set(ANTHEM_TEST_SOURCES ${ANTHEM_TEST_SOURCES}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/task_queue_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/thread_pool_test.cpp
 
     PARENT_SCOPE)

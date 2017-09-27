@@ -26,7 +26,6 @@
 
 #include <type_traits>
 
-#include "anthem/logging.h"
 #include "anthem/types.h"
 
 #include "gsl/assert"
@@ -131,16 +130,12 @@ namespace anthem
   /// \brief Returns an object of class \c arguments which contains the values
   /// set when executing the program from the command line.
   ///
-  /// \param logger the main logger.
   /// \param argc the number of arguments passed in the execution.
   /// \param argv array containing the arguments passed in the execution.
   ///
   /// \return An object of class \c arguments.
   ///
-  const arguments parse_arguments(
-      const logger_t& logger,
-      const int argc,
-      const char* argv[]) noexcept;
+  const arguments parse_arguments(const int argc, const char* argv[]) noexcept;
 
 } // namespace anthem
 

@@ -23,11 +23,13 @@
 
 #include "catch.hpp"
 
+#include "anthem/logging.h"
+
 #include "arguments.h"
 
 TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]")
 {
-  const auto log = anthem::create_logger("test_logger");
+  anthem::logger = anthem::create_logger("test_logger");
   const anthem::arguments a = {true, 555_px, 13_px, std::string{"window"}};
   const char* argv_b[] = {
       "exe",
@@ -42,11 +44,11 @@ TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]")
       "--window-name", "window"};
   const char* argv_e[] = {"exe"};
   const char* argv_f[] = {"exe", "--window-height", "13"};
-  const auto b = anthem::parse_arguments(log, 4, argv_b);
-  const auto c = anthem::parse_arguments(log, 3, argv_c);
-  const auto d = anthem::parse_arguments(log, 7, argv_d);
-  const auto e = anthem::parse_arguments(log, 1, argv_e);
-  const auto f = anthem::parse_arguments(log, 3, argv_f);
+  const auto b = anthem::parse_arguments(4, argv_b);
+  const auto c = anthem::parse_arguments(3, argv_c);
+  const auto d = anthem::parse_arguments(7, argv_d);
+  const auto e = anthem::parse_arguments(1, argv_e);
+  const auto f = anthem::parse_arguments(3, argv_f);
 
   const std::string default_name = std::string{anthem::default_window_name};
 

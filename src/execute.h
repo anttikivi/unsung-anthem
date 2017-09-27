@@ -23,8 +23,9 @@
 #ifndef ANTHEM_EXECUTE_H
 #define ANTHEM_EXECUTE_H
 
-#include "anthem/logging.h"
 #include "gsl/util"
+
+#include "anthem/logging.h"
 
 #include <GLFW/glfw3.h>
 
@@ -56,26 +57,24 @@ namespace anthem
   ///
   /// \brief Initializes the GLFW framework.
   ///
-  /// \param logger the main logger.
-  ///
   /// \return An object of type \c gsl::final_action containing the function
   /// which terminates GLFW.
   ///
-  inline auto initialize_glfw(const logger_t& logger)
+  inline auto initialize_glfw()
   {
     glfwSetErrorCallback(glfw_error_callback);
 
     if (!glfwInit())
     {
-      logging::error(logger, "The GLFW initialization failed");
+      logging::error("The GLFW initialization failed");
     }
 
-    logging::debug(logger, "GLFW is initialized");
+    logging::debug("GLFW is initialized");
 
     return gsl::finally([&]()
     {
       glfwTerminate();
-      logging::debug(logger, "GLFW is terminated");
+      logging::debug("GLFW is terminated");
     });
   }
 

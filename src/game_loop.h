@@ -25,8 +25,6 @@
 
 #include <chrono>
 
-#include "anthem/logging.h"
-
 #include "window.h"
 
 namespace anthem
@@ -44,10 +42,9 @@ namespace anthem
   ///
   /// This function is impure.
   ///
-  /// \param logger the main logger.
   /// \param window pointer to the window.
   ///
-  void game_loop(const logger_t& logger, window_ptr&& window);
+  void game_loop(window_ptr&& window);
 
 } // namespace anthem
 

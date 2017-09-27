@@ -36,6 +36,11 @@ namespace anthem
   typedef std::shared_ptr<spdlog::logger> logger_t;
 
   ///
+  /// \brief The main logger of the game.
+  ///
+  extern logger_t logger;
+
+  ///
   /// \brief Creates a shared pointer to an object of the logger type provided
   /// by spdlog.
   ///
@@ -45,23 +50,12 @@ namespace anthem
   ///
   /// \return an \c std::shared_ptr<spdlog::logger>.
   ///
-  inline const auto create_logger(
+  const logger_t create_logger(
       const std::string& name,
       const std::string& pattern = "NONE",
-      const spdlog::level::level_enum level = spdlog::level::info)
-  {
-    auto logger = spdlog::stdout_logger_mt(name);
+      const spdlog::level::level_enum level = spdlog::level::info);
 
-    if (pattern != "NONE")
-    {
-      logger->set_pattern(pattern);
-    }
-
-    logger->set_level(level);
-
-    return std::move(logger);
-  }
-
+  // Logging methods which take the logger as a parameter.
   namespace logging
   {
     ///
@@ -295,6 +289,204 @@ namespace anthem
     ///
     template <class T>
     inline void critical(const logger_t& logger, const T& msg)
+    {
+      logger->critical(msg);
+    }
+
+  } // namespace logging
+
+  // Logging methods which use the global logger.
+  namespace logging
+  {
+    ///
+    /// \brief Writes a trace-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam Args types of the arguments in the formatting substitutions.
+    ///
+    /// \param fmt the format of the logger message.
+    /// \param args the substitutions for the message format.
+    ///
+    template <class... Args>
+    inline void trace(const char* fmt, const Args&... args)
+    {
+      logger->trace(fmt, args...);
+    }
+
+    ///
+    /// \brief Writes a trace-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam T type of the log message.
+    ///
+    /// \param msg the logger message.
+    ///
+    template <class T> inline void trace(const T& msg)
+    {
+      logger->trace(msg);
+    }
+
+    ///
+    /// \brief Writes a debug-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam Args types of the arguments in the formatting substitutions.
+    ///
+    /// \param fmt the format of the logger message.
+    /// \param args the substitutions for the message format.
+    ///
+    template <class... Args>
+    inline void debug(const char* fmt, const Args&... args)
+    {
+      logger->debug(fmt, args...);
+    }
+
+    ///
+    /// \brief Writes a debug-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam T type of the log message.
+    ///
+    /// \param msg the logger message.
+    ///
+    template <class T> inline void debug(const T& msg)
+    {
+      logger->debug(msg);
+    }
+
+    ///
+    /// \brief Writes an info-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam Args types of the arguments in the formatting substitutions.
+    ///
+    /// \param fmt the format of the logger message.
+    /// \param args the substitutions for the message format.
+    ///
+    template <class... Args>
+    inline void info(const char* fmt, const Args&... args)
+    {
+      logger->info(fmt, args...);
+    }
+
+    ///
+    /// \brief Writes an info-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam T type of the log message.
+    ///
+    /// \param msg the logger message.
+    ///
+    template <class T> inline void info(const T& msg)
+    {
+      logger->info(msg);
+    }
+
+    ///
+    /// \brief Writes a warning-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam Args types of the arguments in the formatting substitutions.
+    ///
+    /// \param fmt the format of the logger message.
+    /// \param args the substitutions for the message format.
+    ///
+    template <class... Args>
+    inline void warn(const char* fmt, const Args&... args)
+    {
+      logger->warn(fmt, args...);
+    }
+
+    ///
+    /// \brief Writes a warning-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam T type of the log message.
+    ///
+    /// \param msg the logger message.
+    ///
+    template <class T> inline void warn(const T& msg)
+    {
+      logger->warn(msg);
+    }
+
+    ///
+    /// \brief Writes an error-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam Args types of the arguments in the formatting substitutions.
+    ///
+    /// \param fmt the format of the logger message.
+    /// \param args the substitutions for the message format.
+    ///
+    template <class... Args>
+    inline void error(const char* fmt, const Args&... args)
+    {
+      logger->error(fmt, args...);
+    }
+
+    ///
+    /// \brief Writes an error-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam T type of the log message.
+    ///
+    /// \param msg the logger message.
+    ///
+    template <class T> inline void error(const T& msg)
+    {
+      logger->error(msg);
+    }
+
+    ///
+    /// \brief Writes a critical-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam Args types of the arguments in the formatting substitutions.
+    ///
+    /// \param fmt the format of the logger message.
+    /// \param args the substitutions for the message format.
+    ///
+    template <class... Args>
+    inline void critical(const char* fmt, const Args&... args)
+    {
+      logger->critical(fmt, args...);
+    }
+
+    ///
+    /// \brief Writes a critical-level log message into the logger.
+    ///
+    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// does not return anything.
+    ///
+    /// \tparam T type of the log message.
+    ///
+    /// \param msg the logger message.
+    ///
+    template <class T>
+    inline void critical(const T& msg)
     {
       logger->critical(msg);
     }

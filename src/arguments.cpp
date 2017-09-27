@@ -25,6 +25,8 @@
 
 #include <iostream>
 
+#include "anthem/logging.h"
+
 #include <args.hxx>
 
 namespace anthem
@@ -39,12 +41,9 @@ namespace anthem
         << "}";
   }
 
-  const arguments parse_arguments(
-      const logger_t& logger,
-      const int argc,
-      const char* argv[]) noexcept
+  const arguments parse_arguments(const int argc, const char* argv[]) noexcept
   {
-    logging::debug(logger, "Going to parse {} argument(s)", argc - 1);
+    logging::debug("Going to parse {} argument(s)", argc - 1);
 
     args::ArgumentParser parser{
         "TODO",
