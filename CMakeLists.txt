@@ -48,9 +48,11 @@ assert_variable(ANTHEM_OPENGL_VERSION_MAJOR "OpenGL major version")
 assert_variable(ANTHEM_OPENGL_VERSION_MINOR "OpenGL minor version")
 
 default_value(ANTHEM_EXECUTABLE_NAME executable_name_not_set)
+default_value(ANTHEM_LIB_NAME lib_name_not_set)
 default_value(ANTHEM_TEST_EXECUTABLE_NAME test-${ANTHEM_EXECUTABLE_NAME})
 
 print_status(ANTHEM_EXECUTABLE_NAME "executable name")
+print_status(ANTHEM_LIB_NAME "library name")
 print_status(ANTHEM_TEST_EXECUTABLE_NAME "test executable name")
 
 print_status_if_defined(ANTHEM_STDLIB "C++ standard library")

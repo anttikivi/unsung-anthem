@@ -13,7 +13,20 @@ function(CREATE_MAIN_EXECUTABLE)
       ${ANTHEM_INCLUDES}
       ${ANTHEM_LIB_SOURCES}
       ${ANTHEM_SOURCES})
+  add_library(${ANTHEM_LIB_NAME} STATIC
+      ${ANTHEM_LIB_INCLUDES}
+      ${ANTHEM_LIB_SOURCES})
+  add_library(${ANTHEM_LIB_NAME}_shared SHARED
+      ${ANTHEM_LIB_INCLUDES}
+      ${ANTHEM_LIB_SOURCES})
   target_link_libraries(${ANTHEM_EXECUTABLE_NAME} ${ANTHEM_LIBRARIES})
+  target_link_libraries(${ANTHEM_LIB_NAME} ${ANTHEM_LIBRARIES})
+  target_link_libraries(${ANTHEM_LIB_NAME}_shared ${ANTHEM_LIBRARIES})
+
+  if(UNIX)
+    set_target_properties(${ANTHEM_LIB_NAME}_shared PROPERTIES
+        OUTPUT_NAME ${ANTHEM_LIB_NAME})
+  endif()
 endfunction()
 
 function(CREATE_TEST_EXECUTABLE)

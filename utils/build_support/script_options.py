@@ -289,6 +289,12 @@ def build_variant_options(parser):
         const="Debug",
         dest="anthem_build_variant")
     build_variant_override_group.add_argument(
+        "--debug-lib",
+        help="build the Debug variant of Unsung Anthem library",
+        action="store_const",
+        const="Debug",
+        dest="lib_build_variant")
+    build_variant_override_group.add_argument(
         "--debug-glfw",
         help="build the Debug variant of GLFW",
         action="store_const",
@@ -354,6 +360,18 @@ def assertion_options(parser):
         action="store_const",
         const=False,
         dest="anthem_assertions")
+    assertions_override_group.add_argument(
+        "--lib-assertions",
+        help="enable assertions in Unsung Anthem library",
+        action="store_const",
+        const=True,
+        dest="lib_assertions")
+    assertions_override_group.add_argument(
+        "--no-lib-assertions",
+        help="disable assertions in Unsung Anthem library",
+        action="store_const",
+        const=False,
+        dest="lib_assertions")
 
     return parser
 
@@ -489,6 +507,10 @@ def build_options(parser):
     run_build_group.add_argument(
         "--skip-build-anthem",
         help="skip building Unsung Anthem",
+        action=arguments.ACTION.optional_bool)
+    run_build_group.add_argument(
+        "--skip-build-lib",
+        help="skip building Unsung Anthem library",
         action=arguments.ACTION.optional_bool)
 
     return parser
@@ -668,6 +690,10 @@ def program_options(parser):
     parser.add_argument(
         "--executable-name",
         help="the name of the Unsung Anthem executable",
+        metavar="NAME")
+    parser.add_argument(
+        "--lib-name",
+        help="the name of the Unsung Anthem library binaries",
         metavar="NAME")
     parser.add_argument(
         "--test-executable-name",

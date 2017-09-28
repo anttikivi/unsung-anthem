@@ -101,6 +101,8 @@ def main_args(args):
             args.libcxx_build_variant = args.build_variant
         if args.anthem_build_variant is None:
             args.anthem_build_variant = args.build_variant
+        if args.lib_build_variant is None:
+            args.lib_build_variant = args.build_variant
         if args.glfw_build_variant is None:
             args.glfw_build_variant = args.build_variant
 
@@ -113,6 +115,8 @@ def main_args(args):
             args.libcxx_assertions = args.assertions
         if args.anthem_assertions is None:
             args.anthem_assertions = args.assertions
+        if args.lib_assertions is None:
+            args.lib_assertions = args.assertions
 
     def _cmake_generator(default_value):
         if args.cmake_generator is None:
@@ -147,6 +151,7 @@ def main_args(args):
             args.build_ninja = False
         if args.skip_build:
             args.skip_build_anthem = True
+            args.skip_build_lib = True
             args.build_llvm = False
             args.build_libcxx = False
             args.build_cmake = False
@@ -231,6 +236,8 @@ def file_arguments(args):
             args.install_prefix = compute_shared_install_prefix(args)
     if args.executable_name is None:
         args.executable_name = "unsung-anthem-{}".format(args.host_target)
+    if args.lib_name is None:
+        args.lib_name = "anthem-{}".format(args.host_target)
     if args.test_executable_name is None:
         args.test_executable_name = "test-{}".format(args.executable_name)
 

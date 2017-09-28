@@ -37,6 +37,12 @@ def anthem_build_dir(build_data, tests=False):
                 product.identifier, "test", build_data.host_target
             )
         )
+    # elif lib:
+    #     return os.path.join(
+    #         build_data.build_root, "{}-{}-{}".format(
+    #             product.identifier, "lib", build_data.host_target
+    #         )
+    #     )
     return os.path.join(
         build_data.build_root,
         "{}-{}".format(product.identifier, build_data.host_target)
@@ -69,6 +75,7 @@ def construct_cmake_call(build_data, tests=False, clion=False):
         "-DANTHEM_INSTALL_PREFIX={}".format(install_root),
         "-DANTHEM_CXX_VERSION={}".format(build_data.std),
         "-DANTHEM_EXECUTABLE_NAME={}".format(args.executable_name),
+        "-DANTHEM_LIB_NAME={}".format(args.lib_name),
         "-DANTHEM_TEST_EXECUTABLE_NAME={}".format(args.test_executable_name),
         "-DANTHEM_MAIN_COMPILER_TOOL={}".format(args.main_tool),
         "-DANTHEM_LOGGER_NAME={}".format(product.logger_name),
