@@ -24,15 +24,14 @@
 #define ANTHEM_THREAD_THREAD_POOL_H
 
 #include <atomic>
+#include <condition_variable>
 #include <functional>
 #include <future>
+#include <memory>
+#include <queue>
 #include <thread>
 #include <utility>
 #include <vector>
-
-#include "anthem/logging.h"
-
-#include "task_queue.h"
 
 namespace anthem
 {
@@ -51,6 +50,7 @@ namespace anthem
   struct thread_pool final
   {
   public:
+
     ///
     /// \brief Constructs an object of type \c thread_pool.
     ///
@@ -58,30 +58,107 @@ namespace anthem
     ///
     thread_pool(const unsigned int n = number_of_threads());
 
-    template <class F, class... Args> auto queue_task(F&& f, Args&&... args)
-    {
-      auto bound = std::bind(std::forward<F>(f), std::forward<Args>(args)...);
+    ///
+    /// \brief Constructs an object of type \c thread_pool by copying the given
+    /// object of type \c thread_pool.
+    ///
+    /// \param a \c thread_pool from which the new one is constructed.
+    ///
+    thread_pool(const thread_pool& a) = delete;
 
-      using result_t = std::result_of_t<decltype(bound)()>;
-      using packaged_t = std::packaged_task<result_t()>;
+    ///
+    /// \brief Constructs an object of type \c thread_pool by moving the given
+    /// object of type \c thread_pool.
+    ///
+    /// \param a \c thread_pool from which the new one is constructed.
+    ///
+    thread_pool(thread_pool&& a) = delete;
+
+    ///
+    /// \brief Destructs an object of type \c thread_pool.
+    ///
+    ~thread_pool();
+
+    ///
+    /// \brief Assigns the given object of type \c thread_pool to this one by
+    /// copying.
+    ///
+    /// \param a \c thread_pool from which this one is assigned.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    thread_pool& operator=(const thread_pool& a) = delete;
+
+    ///
+    /// \brief Assigns the given object of type \c thread_pool to this one by
+    /// moving.
+    ///
+    /// \param a \c thread_pool from which this one is assigned.
+    ///
+    /// \return Reference to \c *this.
+    ///
+    thread_pool& operator=(thread_pool&& a) = delete;
+
+    ///
+    /// \brief Enqueues a task to be processed.
+    ///
+    /// \param f function which should be executed.
+    /// \param args arguments which are passed to the function.
+    ///
+    /// \return An object of type \c std::future for getting the return value
+    /// of the function.
+    ///
+    template <class F, class... Args> auto enqueue(F&& f, Args&&... args)
+    {
+      using return_t = std::result_of_t<F(Args...)>;
+
+      auto task = std::make_shared<std::packaged_task<return_t()>>(std::bind(
+          std::forward<F>(f),
+          std::forward<Args>(args)...));
+
+      std::future<return_t> result = task->get_future();
+
+      {
+        std::unique_lock<std::mutex> lock{m};
+
+        if(quit)
+        {
+          // This isn't cool
+          throw std::runtime_error("Enqueue on quitting thread_pool");
+        }
+
+        c.emplace([task]()
+        {
+          (*task)();
+        });
+      }
+
+      cond.notify_one();
+      return result;
     }
 
   private:
 
     ///
-    /// \brief Whether or not this pool should continue execution.
+    /// \brief Whether or not the thread pool is quitting execution.
     ///
-    std::atomic_bool done;
+    std::atomic_bool quit;
 
     ///
-    /// \brief The number of threads in the thread pool.
+    /// \brief Queue which holds tasks to be executed.
     ///
-    const unsigned int thread_count;
+    std::queue<std::function<void()>> c;
 
     ///
-    /// \brief Queue which holds the tasks to be executed.
+    /// \brief The condition variable which is used to notify the threads
+    /// whenever a new task is pushed to the queue.
     ///
-    task_queue<std::function<void()>> queue;
+    std::condition_variable cond;
+
+    ///
+    /// \brief The mutex used to lock the queue.
+    ///
+    std::mutex m;
 
     ///
     /// \brief Vector which holds the worker threads.

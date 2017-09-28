@@ -57,7 +57,7 @@ matrix:
         - build-essential
         sources: *sources
 
-  # Linux: Ubuntu Trusty 14.04 C++17 GCC 7  + Coverage
+  # Linux: Ubuntu Trusty 14.04 C++17 GCC 7 + Coverage
   - os: linux
     dist: trusty
     compiler: gcc

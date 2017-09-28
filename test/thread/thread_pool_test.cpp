@@ -70,3 +70,24 @@ TEST_CASE("number of threads is correct", "[anthem::number_of_threads]")
 
   REQUIRE(expected == real);
 }
+
+TEST_CASE("tasks are executed", "[anthem::thread_pool]")
+{
+  anthem::thread_pool pool{};
+
+  auto add_3 = [](int i)
+  {
+    return 3 + i;
+  };
+
+  auto result_1 = pool.enqueue(add_3, 4);
+  auto result_2 = pool.enqueue(add_3, 1);
+  auto result_3 = pool.enqueue([](int i)
+  {
+    return 4 + i;
+  }, 4);
+
+  REQUIRE(result_1.get() == 7);
+  REQUIRE(result_2.get() == 4);
+  REQUIRE(result_3.get() == 8);
+}
