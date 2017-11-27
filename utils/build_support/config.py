@@ -155,7 +155,7 @@ PRODUCT_CONFIG = Mapping(
     ),
 
     args=product_config(
-        version="6.1.0",
+        version="6.2.0",
         name="args",
         identifier="args",
         allow_git_checkout=True,
