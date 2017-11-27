@@ -80,7 +80,6 @@ namespace anthem
     {
       std::cout << parser;
       return arguments{false};
-
     }
     catch (const args::ParseError& e)
     {

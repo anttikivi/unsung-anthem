@@ -64,4 +64,31 @@ TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]")
   REQUIRE(f.window_width == anthem::default_window_width);
   REQUIRE_FALSE(f.window_height == anthem::default_window_height);
   REQUIRE(f.window_name == default_name);
+
+  INFO("A: " << a);
+  INFO("B: " << b);
+  INFO("C: " << c);
+  INFO("D: " << d);
+  INFO("E: " << e);
+  INFO("F: " << f);
+}
+
+TEST_CASE("help argument is called", "[anthem::parse_arguments]")
+{
+  const anthem::arguments a = {false};
+  const char* argv_b[] = {"exe", "--help"};
+  const auto b = anthem::parse_arguments(2, argv_b);
+
+  REQUIRE(b == a);
+  REQUIRE_FALSE(b != a);
+}
+
+TEST_CASE("parse error is caught", "[anthem::parse_arguments]")
+{
+  const anthem::arguments a = {false};
+  const char* argv_b[] = {"exe", "--xd"};
+  const auto b = anthem::parse_arguments(2, argv_b);
+
+  REQUIRE(b == a);
+  REQUIRE_FALSE(b != a);
 }
