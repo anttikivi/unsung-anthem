@@ -28,7 +28,7 @@
 
 #include "logging_config.h"
 
-int main(int argc, const char* argv[])
+int main(int argc, char* argv[])
 {
   anthem::logger = anthem::create_logger(
       "test_logger",

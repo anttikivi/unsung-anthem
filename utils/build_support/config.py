@@ -109,13 +109,13 @@ PRODUCT_CONFIG = Mapping(
     ),
 
     catch=product_config(
-        version="1.10.0",
+        version="2.0.1",
         name="Catch",
         identifier="catch",
         allow_git_checkout=True,
         github_data=github_config(
-            owner="philsquared",
-            name="Catch",
+            owner="catchorg",
+            name="Catch2",
             asset_data=asset("catch.hpp"),
             version_prefix="v"
         )
