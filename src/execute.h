@@ -35,7 +35,7 @@ namespace anthem
   /// \brief Returns the object of type \c game_state after executing the
   /// program with the given arguments.
   ///
-  /// This function is impure.
+  /// Remarks: This function is impure.
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv array containing the arguments passed in the execution.
@@ -43,6 +43,15 @@ namespace anthem
   /// \return Does not return anything and, thus, this function is impure.
   ///
   void execute(int argc, const char* argv[]);
+
+  ///
+  /// \brief Creates and initializes the managers for the framework.
+  ///
+  /// Remarks: This function is impure.
+  ///
+  /// \return Does not return anything and, thus, this function is impure.
+  ///
+  void create_managers();
 
   ///
   /// \brief The function which is called on GLFW errors.

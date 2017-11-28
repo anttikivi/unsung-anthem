@@ -23,7 +23,7 @@
 #include "execute.h"
 
 #include "arguments.h"
-#include "game_loop.h"
+#include "framework.h"
 #include "input.h"
 #include "logging_config.h"
 #include "window.h"
@@ -50,12 +50,20 @@ namespace anthem
 
     auto glfw_quit_action = initialize_glfw();
 
+    // TODO: Maybe return some value.
+    create_managers();
+
     // Create a new scope for the window as it is deleted by dynamic memory
     // management.
     {
       window_ptr window = create_window(args);
       game_loop(std::move(window));
     }
+  }
+
+  void create_managers()
+  {
+    // TODO
   }
 
   void glfw_error_callback(int error, const char* description)

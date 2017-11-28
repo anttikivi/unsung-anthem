@@ -1,4 +1,4 @@
-//===------------------------- schedule.cpp ---------------------*- C++ -*-===//
+//===------------------------ task_manager.h --------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,18 +10,30 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file schedule.cpp
-/// \brief Definition of game update task scheduler.
+/// \file task_manager.h
+/// \brief Declaration of game framework task manager.
 /// \author Antti Kivi
-/// \date 28 September 2017
+/// \date 28 November 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "schedule.h"
+#ifndef ANTHEM_TASK_MANAGER_H
+#define ANTHEM_TASK_MANAGER_H
+
+#include "thread/thread_pool.h"
 
 namespace anthem
 {
+  ///
+  /// \brief The thread pool used by the task manager.
+  ///
+  /// \return Reference to the thread pool.
+  ///
+  thread_pool& task_thread_pool();
+
 } // namespace anthem
+
+#endif // !ANTHEM_TASK_MANAGER_H

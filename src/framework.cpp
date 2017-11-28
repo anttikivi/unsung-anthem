@@ -1,4 +1,4 @@
-//===------------------------ game_loop.cpp ---------------------*- C++ -*-===//
+//===------------------------ framework.cpp ---------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,8 +10,8 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file game_loop.cpp
-/// \brief The definitions of the game loop functions.
+/// \file framework.cpp
+/// \brief The definitions of the game loop and framework functions.
 /// \author Antti Kivi
 /// \date 25 September 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
@@ -20,7 +20,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "game_loop.h"
+#include "framework.h"
 
 #include <type_traits>
 

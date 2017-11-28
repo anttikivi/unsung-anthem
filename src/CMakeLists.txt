@@ -13,12 +13,13 @@ set(ANTHEM_SOURCES ${ANTHEM_SOURCES}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/arguments.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/execute.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/game_loop.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/framework.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/game_state.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/input.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/render.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/schedule.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/task_manager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/window.cpp
 
     PARENT_SCOPE)
@@ -27,12 +28,13 @@ set(ANTHEM_INCLUDES ${ANTHEM_INCLUDES}
 
     ${CMAKE_CURRENT_SOURCE_DIR}/arguments.h
     ${CMAKE_CURRENT_SOURCE_DIR}/execute.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/game_loop.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/framework.h
     ${CMAKE_CURRENT_SOURCE_DIR}/game_state.h
     ${CMAKE_CURRENT_SOURCE_DIR}/input.h
     ${CMAKE_CURRENT_SOURCE_DIR}/logging_config.h
     ${CMAKE_CURRENT_SOURCE_DIR}/render.h
     ${CMAKE_CURRENT_SOURCE_DIR}/schedule.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/task_manager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/window.h
 
     PARENT_SCOPE)
