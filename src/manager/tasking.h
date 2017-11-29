@@ -1,4 +1,4 @@
-//===----------------------- task_manager.cpp -------------------*- C++ -*-===//
+//===-------------------------- tasking.h -----------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,8 +10,8 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file task_manager.cpp
-/// \brief Definition of game framework task manager.
+/// \file tasking.h
+/// \brief Declaration of game framework task manager.
 /// \author Antti Kivi
 /// \date 28 November 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
@@ -20,13 +20,22 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "task_manager.h"
+#ifndef ANTHEM_MANAGER_TASKING_H
+#define ANTHEM_MANAGER_TASKING_H
+
+#include <vector>
+
+#include "../thread/thread_pool.h"
 
 namespace anthem
 {
-  thread_pool& task_thread_pool()
-  {
-    static thread_pool p{};
-    return p;
-  }
+  ///
+  /// \brief The thread pool used by the task manager.
+  ///
+  /// \return Reference to the thread pool.
+  ///
+  thread_pool& task_thread_pool();
+
 } // namespace anthem
+
+#endif // !ANTHEM_MANAGER_TASKING_H
