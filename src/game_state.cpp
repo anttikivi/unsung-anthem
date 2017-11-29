@@ -26,8 +26,6 @@
 
 #include "anthem/logging.h"
 
-#include "schedule.h"
-
 namespace anthem
 {
   game_state update_state(const game_state& state)

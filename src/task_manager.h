@@ -23,6 +23,8 @@
 #ifndef ANTHEM_TASK_MANAGER_H
 #define ANTHEM_TASK_MANAGER_H
 
+#include <vector>
+
 #include "thread/thread_pool.h"
 
 namespace anthem

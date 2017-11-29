@@ -11,7 +11,7 @@
 //
 ///
 /// \file framework.cpp
-/// \brief The definitions of the game loop and framework functions.
+/// \brief The definitions of the game loop and scheduler functions.
 /// \author Antti Kivi
 /// \date 25 September 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
