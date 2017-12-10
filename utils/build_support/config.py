@@ -121,23 +121,15 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
-    glfw=product_config(
-        version="3.2.1",
-        name="GLFW3",
-        identifier="glfw",
+    sdl=product_config(
+        version="2.0.7",
+        name="SDL2",
+        identifier="sdl",
         allow_git_checkout=True,
-        github_data=github_config(
-            owner="glfw",
-            name="glfw",
-            asset_data=platform_specific_asset(
-                asset_file="glfw.zip",
-                platform_files=platform_file_config(
-                    windows="glfw-3.2.1.bin.WIN32.zip"
-                ),
-                fallback_file="glfw-3.2.1.zip"
-            )
-        ),
-        post_checkout=glfw.move_checkout_files
+        url_format="{protocol}://www.libsdl.org/release/"
+                   "SDL2-{version}.{extension}",
+        windows_format="{protocol}://www.libsdl.org/release/"
+                       "SDL2-devel-{version}-{type}.{extension}"
     ),
 
     spdlog=product_config(

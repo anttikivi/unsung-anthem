@@ -22,15 +22,17 @@
 
 #include "execute.h"
 
+#include <cstdlib>
+
 #include "arguments.h"
-#include "framework.h"
+#include "framework/game_loop.h"
 #include "input.h"
 #include "logging_config.h"
 #include "window.h"
 
 namespace anthem
 {
-  void execute(int argc, const char* argv[])
+  int execute(int argc, const char* argv[])
   {
     logger = create_logger(logger_name, logger_pattern, logger_level);
 
@@ -59,6 +61,8 @@ namespace anthem
       window_ptr window = create_window(args);
       game_loop(std::move(window));
     }
+
+    return EXIT_SUCCESS;
   }
 
   void create_managers()

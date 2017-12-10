@@ -42,7 +42,7 @@ namespace anthem
   ///
   /// \return Does not return anything and, thus, this function is impure.
   ///
-  void execute(int argc, const char* argv[]);
+  int execute(int argc, const char* argv[]);
 
   ///
   /// \brief Creates and initializes the managers for the framework.

@@ -203,36 +203,36 @@ def compute_subdir(args, shared, install):
             llvm_build_dir_label += "Assert"
     else:
         llvm_build_dir_label = None
-    # It is not possible to set assertions to GLFW at least for now.
-    glfw_build_dir_label = args.glfw_build_variant
+    # It is not possible to set assertions to SDL at least for now.
+    sdl_build_dir_label = args.sdl_build_variant
     anthem_build_dir_label = args.anthem_build_variant
     if args.anthem_assertions:
         anthem_build_dir_label += "Assert"
 
     if not llvm_build_dir_label:
-        if args.glfw_build_variant == args.anthem_build_variant:
+        if args.sdl_build_variant == args.anthem_build_variant:
             build_subdir += anthem_build_dir_label
         else:
             build_subdir += anthem_build_dir_label
-            build_subdir += "+glfw-{}".format(glfw_build_dir_label)
+            build_subdir += "+sdl-{}".format(sdl_build_dir_label)
     else:
-        if (args.glfw_build_variant == args.anthem_build_variant
+        if (args.sdl_build_variant == args.anthem_build_variant
                 and llvm_build_dir_label == anthem_build_dir_label):
             build_subdir += anthem_build_dir_label
-        elif (args.glfw_build_variant == args.anthem_build_variant
+        elif (args.sdl_build_variant == args.anthem_build_variant
               and llvm_build_dir_label != anthem_build_dir_label):
             build_subdir += anthem_build_dir_label
             if args.build_llvm:
                 build_subdir += "+llvm-{}".format(llvm_build_dir_label)
             elif args.build_libcxx:
                 build_subdir += "+libc++-{}".format(llvm_build_dir_label)
-        elif (args.glfw_build_variant != args.anthem_build_variant
+        elif (args.sdl_build_variant != args.anthem_build_variant
               and llvm_build_dir_label == anthem_build_dir_label):
             build_subdir += anthem_build_dir_label
-            build_subdir += "+glfw-{}".format(glfw_build_dir_label)
+            build_subdir += "+sdl-{}".format(sdl_build_dir_label)
         else:
             build_subdir += anthem_build_dir_label
-            build_subdir += "+glfw-{}".format(glfw_build_dir_label)
+            build_subdir += "+sdl-{}".format(sdl_build_dir_label)
             if args.build_llvm:
                 build_subdir += "+llvm-{}".format(llvm_build_dir_label)
             elif args.build_libcxx:

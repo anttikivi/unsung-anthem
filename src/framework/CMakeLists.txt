@@ -9,13 +9,14 @@
 
 set(ANTHEM_SOURCES ${ANTHEM_SOURCES}
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/tasking.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/game_loop.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/scheduler.cpp
 
     PARENT_SCOPE)
 
 set(ANTHEM_INCLUDES ${ANTHEM_INCLUDES}
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/state.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/tasking.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/game_loop.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/scheduler.h
 
     PARENT_SCOPE)

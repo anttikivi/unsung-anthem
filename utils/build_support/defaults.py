@@ -103,8 +103,8 @@ def main_args(args):
             args.anthem_build_variant = args.build_variant
         if args.lib_build_variant is None:
             args.lib_build_variant = args.build_variant
-        if args.glfw_build_variant is None:
-            args.glfw_build_variant = args.build_variant
+        if args.sdl_build_variant is None:
+            args.sdl_build_variant = args.build_variant
 
     def _assertions(default_value):
         if args.assertions is None:

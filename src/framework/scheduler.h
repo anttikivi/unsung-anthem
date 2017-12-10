@@ -1,4 +1,4 @@
-//===------------------------ game_state.h ----------------------*- C++ -*-===//
+//===------------------------- scheduler.h ----------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,33 +10,23 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file game_state.h
-/// \brief The declarations of the state-related types and functions.
+/// \file scheduler.h
+/// \brief The declarations of the scheduler functions.
 /// \author Antti Kivi
-/// \date 25 September 2017
+/// \date 10 December 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_GAME_STATE_H
-#define ANTHEM_GAME_STATE_H
+#ifndef ANTHEM_FRAMEWORK_SCHEDULER_H
+#define ANTHEM_FRAMEWORK_SCHEDULER_H
+
+#include "../manager/state.h"
 
 namespace anthem
 {
-  ///
-  /// \struct game_state
-  /// \brief Type of objects which represent a state of the game.
-  ///
-  struct game_state final
-  {
-    ///
-    /// \brief Whether or not the game ought to be quit.
-    ///
-    bool should_quit = false;
-  };
-
   ///
   /// \brief Runs a single tick of the game.
   ///
@@ -64,4 +54,4 @@ namespace anthem
 
 } // namespace anthem
 
-#endif // !ANTHEM_GAME_STATE_H
+#endif // !ANTHEM_FRAMEWORK_SCHEDULER_H

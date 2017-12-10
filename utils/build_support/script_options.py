@@ -295,11 +295,11 @@ def build_variant_options(parser):
         const="Debug",
         dest="lib_build_variant")
     build_variant_override_group.add_argument(
-        "--debug-glfw",
-        help="build the Debug variant of GLFW",
+        "--debug-sdl",
+        help="build the Debug variant of SDL",
         action="store_const",
         const="Debug",
-        dest="glfw_build_variant")
+        dest="sdl_build_variant")
     return parser
 
 

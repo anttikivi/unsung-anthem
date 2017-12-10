@@ -1,4 +1,4 @@
-//===------------------------ framework.cpp ---------------------*- C++ -*-===//
+//===------------------------ game_loop.cpp ---------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,7 +10,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file framework.cpp
+/// \file game_loop.cpp
 /// \brief The definitions of the game loop and scheduler functions.
 /// \author Antti Kivi
 /// \date 25 September 2017
@@ -20,14 +20,13 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "framework.h"
+#include "game_loop.h"
 
 #include <type_traits>
 
 #include "anthem/logging.h"
 
-#include "game_state.h"
-#include "render.h"
+#include "scheduler.h"
 
 #include <GLFW/glfw3.h>
 
@@ -40,13 +39,15 @@ namespace anthem
 
     logging::trace("Entering the game loop");
 
+    bool quit = false;
+
     auto delay = 0ns;
     auto t = clock::now();
 
     game_state current_state{};
     game_state previous_state{};
 
-    while (!current_state.should_quit && !glfwWindowShouldClose(window.get()))
+    while (!quit)
     {
       auto dt = clock::now() - t;
       t = clock::now();
@@ -62,6 +63,11 @@ namespace anthem
 
         previous_state = std::move(current_state);
         current_state = std::move(update_state(previous_state));
+
+        if (glfwWindowShouldClose(window.get()))
+        {
+          quit = true;
+        }
       }
 
       const float alpha = static_cast<float>(delay.count()) / time_step.count();
@@ -70,7 +76,7 @@ namespace anthem
           previous_state,
           alpha);
 
-      render_state(interpolated_state);
+      // render_state(interpolated_state);
 
       glfwSwapBuffers(window.get());
       glfwPollEvents();

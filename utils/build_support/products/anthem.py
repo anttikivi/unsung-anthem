@@ -88,8 +88,8 @@ def construct_cmake_call(build_data, tests=False, clion=False):
         "-DANTHEM_WINDOW_NAME={}".format(product.window_name)
     ]
 
-    cmake_call += ["-DANTHEM_GLFW_VERSION={}".format(
-        build_data.products.glfw.version)]
+    cmake_call += ["-DANTHEM_SDL_VERSION={}".format(
+        build_data.products.sdl.version)]
 
     if args.anthem_assertions:
         cmake_call += ["-DANTHEM_ENABLE_ASSERTIONS=ON"]

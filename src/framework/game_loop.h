@@ -1,4 +1,4 @@
-//===------------------------- framework.h ----------------------*- C++ -*-===//
+//===------------------------- game_loop.h ----------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,22 +10,23 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file framework.h
-/// \brief The declarations of the game loop and scheduler functions.
+/// \file game_loop.h
+/// \brief The declarations of the game loop functions.
 /// \author Antti Kivi
-/// \date 25 September 2017
+/// \date 10 December 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_FRAMEWORK_H
-#define ANTHEM_FRAMEWORK_H
+#ifndef ANTHEM_FRAMEWORK_GAME_LOOP_H
+#define ANTHEM_FRAMEWORK_GAME_LOOP_H
 
 #include <chrono>
 
-#include "window.h"
+#include "../manager/state.h"
+#include "../window.h"
 
 namespace anthem
 {
@@ -48,4 +49,4 @@ namespace anthem
 
 } // namespace anthem
 
-#endif // !ANTHEM_FRAMEWORK_H
+#endif // !ANTHEM_FRAMEWORK_GAME_LOOP_H

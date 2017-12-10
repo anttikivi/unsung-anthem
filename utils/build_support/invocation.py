@@ -236,7 +236,7 @@ def _build_dependencies(build_data):
         build_data.dependencies.build += ["spdlog"]
         build_data.dependencies.build += ["args"]
         build_data.dependencies.build += ["glad"]
-        build_data.dependencies.build += ["glfw"]
+        build_data.dependencies.build += ["sdl"]
     if build_catch:
         build_data.dependencies.build += ["catch"]
 

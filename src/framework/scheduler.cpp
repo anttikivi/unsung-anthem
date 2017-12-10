@@ -1,6 +1,6 @@
-//===------------------------ game_state.cpp --------------------*- C++ -*-===//
+//===------------------------ scheduler.cpp ---------------------*- C++ -*-===//
 //
-//                            Unsung Anthem
+//                            Unsung Anthemss
 //
 // This source file is part of the Unsung Anthem open source project.
 //
@@ -10,21 +10,21 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file game_state.cpp
-/// \brief The definitions of the state-related types and functions.
+/// \file scheduler.cpp
+/// \brief The definitions of the scheduler functions.
 /// \author Antti Kivi
-/// \date 25 September 2017
+/// \date 10 December 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "game_state.h"
-
-#include <string>
+#include "scheduler.h"
 
 #include "anthem/logging.h"
+
+#include <GLFW/glfw3.h>
 
 namespace anthem
 {
@@ -50,5 +50,4 @@ namespace anthem
       return previous_state;
     }
   }
-
-} // namespace anthem
+}

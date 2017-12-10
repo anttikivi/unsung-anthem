@@ -7,6 +7,10 @@
 # Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
+add_subdirectory(audio)
+add_subdirectory(graphics)
+add_subdirectory(physics)
+
 set(ANTHEM_SOURCES ${ANTHEM_SOURCES}
 
     PARENT_SCOPE)

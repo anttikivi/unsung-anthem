@@ -33,6 +33,6 @@
 ///
 int main(int argc, const char* argv[])
 {
-  anthem::execute(argc, argv);
-  return 0;
+  const int r = anthem::execute(argc, argv);
+  return r;
 }

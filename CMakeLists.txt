@@ -66,19 +66,14 @@ set(ANTHEM_LIBRARIES)
 
 if(UNIX)
   if(APPLE)
+    find_library(SDL2_LIBRARY SDL2)
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ${SDL2_LIBRARY})
   else()
-    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} pthread)
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2main SDL2 pthread)
   endif()
-
-  find_package(glfw3
-      ${ANTHEM_GLFW_VERSION}
-      REQUIRED
-      PATHS ${ANTHEM_INSTALL_PREFIX}/lib/cmake)
-
-  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw)
 else()
   # Presumably Windows.
-  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} glfw3 opengl32)
+  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2main SDL2 opengl32)
 endif()
 
 if(${ANTHEM_LINK_CXXABI})
