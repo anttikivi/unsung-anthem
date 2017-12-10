@@ -18,7 +18,7 @@ from . import diagnostics
 
 from .mapping import Mapping
 
-from .products import glfw, llvm
+from .products import llvm
 
 from .products.product_config import \
     anthem_config, product_config, version_config, github_config, asset, \
