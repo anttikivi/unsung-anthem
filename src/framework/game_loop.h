@@ -25,7 +25,6 @@
 
 #include <chrono>
 
-#include "../manager/state.h"
 #include "../window.h"
 
 namespace anthem
@@ -35,13 +34,15 @@ namespace anthem
 
 namespace anthem
 {
+  using namespace std::chrono_literals;
+
   ///
   /// \brief The time duration between two game ticks.
   ///
   /// The game should run 60 frames a second. Therefore, this is equal to 16 as
   /// 1 / 60 = 0.01666...
   ///
-  constexpr std::chrono::milliseconds time_step{std::chrono::milliseconds{16}};
+  constexpr auto time_step = 16ms;
 
   ///
   /// \brief Runs the main loop of the game.

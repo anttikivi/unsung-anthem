@@ -23,17 +23,8 @@
 #ifndef ANTHEM_MANAGER_STATE_H
 #define ANTHEM_MANAGER_STATE_H
 
-#include <vector>
-
 namespace anthem
 {
-  ///
-  /// \struct game_state
-  /// \brief Type of objects which represent a state of the game.
-  ///
-  struct game_state final
-  {
-  };
 } // namespace anthem
 
 #endif // !ANTHEM_MANAGER_STATE_H

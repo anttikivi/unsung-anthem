@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_MANAGER_STATE_H
-#define ANTHEM_MANAGER_STATE_H
+#ifndef ANTHEM_MANAGER_GAME_STATE_H
+#define ANTHEM_MANAGER_GAME_STATE_H
 
 #include <vector>
 
@@ -37,4 +37,4 @@ namespace anthem
   };
 } // namespace anthem
 
-#endif // !ANTHEM_MANAGER_STATE_H
+#endif // !ANTHEM_MANAGER_GAME_STATE_H

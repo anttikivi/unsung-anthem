@@ -23,7 +23,10 @@
 #ifndef ANTHEM_FRAMEWORK_SCHEDULER_H
 #define ANTHEM_FRAMEWORK_SCHEDULER_H
 
-#include "../manager/state.h"
+namespace anthem
+{
+  struct game_state;
+}
 
 namespace anthem
 {

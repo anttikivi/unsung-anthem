@@ -27,6 +27,7 @@
 #include "anthem/logging.h"
 
 #include "../arguments.h"
+#include "../manager/game_state.h"
 #include "scheduler.h"
 
 #include <SDL2/SDL.h>
@@ -35,7 +36,6 @@ namespace anthem
 {
   void game_loop(arguments&& args_r, window_ptr&& window_r)
   {
-    using namespace std::chrono_literals;
     using clock = std::chrono::high_resolution_clock;
 
     arguments args = std::move(args_r);

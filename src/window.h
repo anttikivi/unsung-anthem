@@ -37,7 +37,7 @@ namespace anthem
   ///
   /// \brief The type of the pointer to the window object.
   ///
-  typedef std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> window_ptr;
+  using window_ptr = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
 
   ///
   /// \brief Initializes a new Simple DirectMedia Layer window with OpenGL

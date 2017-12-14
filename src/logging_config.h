@@ -24,8 +24,6 @@
 #ifndef ANTHEM_LOGGING_CONFIG_H
 #define ANTHEM_LOGGING_CONFIG_H
 
-#include <string>
-
 #include <spdlog/spdlog.h>
 
 namespace anthem

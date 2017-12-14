@@ -26,11 +26,9 @@
 
 #include <type_traits>
 
-#include "args_array.h"
-
 #include "anthem/types.h"
 
-#include "gsl/assert"
+#include "args_array.h"
 
 #include <spdlog/fmt/ostr.h> // This must be included for the custom logger
                              // object to work.

@@ -22,8 +22,6 @@
 
 #include "window.h"
 
-#include <type_traits>
-
 #include "anthem/logging.h"
 
 #include "arguments.h"
@@ -33,11 +31,14 @@ namespace anthem
   window_ptr create_window(const arguments& args)
   {
       SDL_GL_SetAttribute(
-          SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+          SDL_GL_CONTEXT_PROFILE_MASK,
+          SDL_GL_CONTEXT_PROFILE_CORE);
       SDL_GL_SetAttribute(
-          SDL_GL_CONTEXT_MAJOR_VERSION, ANTHEM_OPENGL_VERSION_MAJOR);
+          SDL_GL_CONTEXT_MAJOR_VERSION,
+          ANTHEM_OPENGL_VERSION_MAJOR);
 	    SDL_GL_SetAttribute(
-          SDL_GL_CONTEXT_MINOR_VERSION, ANTHEM_OPENGL_VERSION_MINOR);
+          SDL_GL_CONTEXT_MINOR_VERSION,
+          ANTHEM_OPENGL_VERSION_MINOR);
 
       // MacOS only supports forward-compatible core contexts.
 #if __APPLE__

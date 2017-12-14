@@ -24,6 +24,8 @@
 
 #include "anthem/logging.h"
 
+#include "../manager/game_state.h"
+
 namespace anthem
 {
   game_state update_state(const game_state& state)

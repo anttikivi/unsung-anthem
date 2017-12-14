@@ -25,10 +25,6 @@
 
 #include "args_array.h"
 
-#include "gsl/util"
-
-#include "anthem/logging.h"
-
 namespace anthem
 {
   ///
