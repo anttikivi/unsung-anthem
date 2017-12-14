@@ -50,7 +50,11 @@ namespace anthem
   ///
   /// \brief The default name of the window.
   ///
+#ifdef ANTHEM_WINDOW_NAME
   constexpr auto default_window_name = ANTHEM_WINDOW_NAME;
+#else
+  constexpr auto default_window_name = "anthem";
+#endif // !defined(ANTHEM_WINDOW_NAME)
 
   ///
   /// \struct arguments
