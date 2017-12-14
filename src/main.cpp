@@ -33,7 +33,12 @@
 ///
 /// \return The end code of the game.
 ///
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && \
+  !defined(__CYGWIN__)
+int main(int argc, char* argv[])
+#else
 int main(int argc, const char* argv[])
+#endif
 {
   const int r = anthem::execute(argc, argv);
   return r;
