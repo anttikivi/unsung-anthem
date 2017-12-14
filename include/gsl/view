@@ -363,7 +363,6 @@ namespace gsl
   ///
   template <typename T, typename U>
   auto operator==(const not_null<T>& lhs, const not_null<U>& rhs)
-      -> decltype(lhs.get() == rhs.get())
   {
     return lhs.get() == rhs.get();
   }
@@ -384,7 +383,6 @@ namespace gsl
   ///
   template <typename T, typename U>
   auto operator!=(const not_null<T>& lhs, const not_null<U>& rhs)
-      -> decltype(lhs.get() != rhs.get())
   {
     return lhs.get() != rhs.get();
   }
@@ -405,7 +403,6 @@ namespace gsl
   ///
   template <typename T, typename U>
   auto operator<(const not_null<T>& lhs, const not_null<U>& rhs)
-      -> decltype(lhs.get() < rhs.get())
   {
     return lhs.get() < rhs.get();
   }
@@ -426,7 +423,6 @@ namespace gsl
   ///
   template <typename T, typename U>
   auto operator<=(const not_null<T>& lhs, const not_null<U>& rhs)
-      -> decltype(lhs.get() <= rhs.get())
   {
     return lhs.get() <= rhs.get();
   }
@@ -447,7 +443,6 @@ namespace gsl
   ///
   template <typename T, typename U>
   auto operator>(const not_null<T>& lhs, const not_null<U>& rhs)
-      -> decltype(lhs.get() > rhs.get())
   {
     return lhs.get() > rhs.get();
   }
@@ -468,7 +463,6 @@ namespace gsl
   ///
   template <typename T, typename U>
   auto operator>=(const not_null<T>& lhs, const not_null<U>& rhs)
-      -> decltype(lhs.get() >= rhs.get())
   {
     return lhs.get() >= rhs.get();
   }

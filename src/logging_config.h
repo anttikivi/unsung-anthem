@@ -32,29 +32,29 @@ namespace anthem
   /// \brief The name of the program logger.
   ///
 #ifdef ANTHEM_LOGGER_NAME
-  constexpr const auto logger_name = ANTHEM_LOGGER_NAME;
+  constexpr auto logger_name = ANTHEM_LOGGER_NAME;
 #else
-  constexpr const auto logger_name = "anthem";
+  constexpr auto logger_name = "anthem";
 #endif // !defined(ANTHEM_LOGGER_NAME)
 
   ///
   /// \brief The name of the input logger.
   ///
 #ifdef ANTHEM_INPUT_LOGGER_NAME
-  constexpr const auto input_logger_name = ANTHEM_INPUT_LOGGER_NAME;
+  constexpr auto input_logger_name = ANTHEM_INPUT_LOGGER_NAME;
 #else
-  constexpr const auto input_logger_name = "anthem-input";
+  constexpr auto input_logger_name = "anthem-input";
 #endif // !defined(ANTHEM_INPUT_LOGGER_NAME)
 
   ///
   /// \brief The logging pattern of the program logger.
   ///
-  constexpr const auto logger_pattern = "[%l] [%d %b %Y] [%H.%M:%S] %v";
+  constexpr auto logger_pattern = "[%l] [%d %b %Y] [%H.%M:%S] %v";
 
   ///
   /// \brief The name of the program logger.
   ///
-  constexpr const auto logger_level = spdlog::level::trace;
+  constexpr auto logger_level = spdlog::level::trace;
 
 } // namespace anthem
 

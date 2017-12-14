@@ -95,9 +95,7 @@ namespace anthem
   /// \return \c true if the member values of the parameters are equal,
   /// otherwise \c false.
   ///
-  constexpr const bool operator==(
-      const arguments& lhs,
-      const arguments& rhs) noexcept
+  constexpr auto operator==(const arguments& lhs, const arguments& rhs) noexcept
   {
     return lhs.parsed == rhs.parsed &&
         lhs.window_width == rhs.window_width &&
@@ -114,9 +112,7 @@ namespace anthem
   /// \return \c true if the member values of the parameters are not equal,
   /// otherwise \c false.
   ///
-  constexpr const bool operator!=(
-      const arguments& lhs,
-      const arguments& rhs) noexcept
+  constexpr auto operator!=(const arguments& lhs, const arguments& rhs) noexcept
   {
     return !(lhs == rhs);
   }
@@ -141,7 +137,7 @@ namespace anthem
   ///
   /// \return An object of class \c arguments.
   ///
-  const arguments parse_arguments(const int argc, args_array argv[]) noexcept;
+  arguments parse_arguments(const int argc, args_array argv[]) noexcept;
 
 } // namespace anthem
 

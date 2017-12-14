@@ -50,7 +50,7 @@ namespace anthem
   ///
   /// \return an \c std::shared_ptr<spdlog::logger>.
   ///
-  const logger_t create_logger(
+  logger_t create_logger(
       const std::string& name,
       const std::string& pattern = "NONE",
       const spdlog::level::level_enum level = spdlog::level::info);

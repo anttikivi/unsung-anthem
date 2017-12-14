@@ -26,7 +26,7 @@ namespace anthem
 {
   logger_t logger = nullptr;
 
-  const logger_t create_logger(
+  logger_t create_logger(
       const std::string& name,
       const std::string& pattern,
       const spdlog::level::level_enum level)
