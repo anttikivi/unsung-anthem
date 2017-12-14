@@ -76,7 +76,7 @@ namespace anthem
         logging::trace("Updating the game state");
 
         previous_state = std::move(current_state);
-        current_state = std::move(update_state(previous_state));
+        current_state = update_state(previous_state);
       }
 
       const float alpha = static_cast<float>(delay.count()) / time_step.count();

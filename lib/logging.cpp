@@ -40,6 +40,6 @@ namespace anthem
 
     logger->set_level(level);
 
-    return std::move(logger);
+    return logger;
   }
 } // namespace anthem
