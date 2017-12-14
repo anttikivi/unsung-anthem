@@ -28,19 +28,22 @@
 TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]")
 {
   const anthem::arguments a = {true, 555_px, 13_px, std::string{"window"}};
-  const char* argv_b[] = {
+  anthem::args_array argv_b[] = {
       "exe",
       "--window-height=13",
       "--window-width=555",
       "--window-name=window"};
-  const char* argv_c[] = {"exe", "--window-height=423", "--window-width=22"};
-  const char* argv_d[] = {
+  anthem::args_array argv_c[] = {
+      "exe",
+      "--window-height=423",
+      "--window-width=22"};
+  anthem::args_array argv_d[] = {
       "exe",
       "--window-height", "13",
       "--window-width", "555",
       "--window-name", "window"};
-  const char* argv_e[] = {"exe"};
-  const char* argv_f[] = {"exe", "--window-height", "13"};
+  anthem::args_array argv_e[] = {"exe"};
+  anthem::args_array argv_f[] = {"exe", "--window-height", "13"};
   const auto b = anthem::parse_arguments(4, argv_b);
   const auto c = anthem::parse_arguments(3, argv_c);
   const auto d = anthem::parse_arguments(7, argv_d);
@@ -76,7 +79,7 @@ TEST_CASE("the arguments are parsed", "[anthem::parse_arguments]")
 TEST_CASE("help argument is called", "[anthem::parse_arguments]")
 {
   const anthem::arguments a = {false};
-  const char* argv_b[] = {"exe", "--help"};
+  anthem::args_array argv_b[] = {"exe", "--help"};
   const auto b = anthem::parse_arguments(2, argv_b);
 
   REQUIRE(b == a);
@@ -86,7 +89,7 @@ TEST_CASE("help argument is called", "[anthem::parse_arguments]")
 TEST_CASE("parse error is caught", "[anthem::parse_arguments]")
 {
   const anthem::arguments a = {false};
-  const char* argv_b[] = {"exe", "--xd"};
+  anthem::args_array argv_b[] = {"exe", "--xd"};
   const auto b = anthem::parse_arguments(2, argv_b);
 
   REQUIRE(b == a);
