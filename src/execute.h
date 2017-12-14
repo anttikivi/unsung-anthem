@@ -23,6 +23,8 @@
 #ifndef ANTHEM_EXECUTE_H
 #define ANTHEM_EXECUTE_H
 
+#include "args_array.h"
+
 #include "gsl/util"
 
 #include "anthem/logging.h"
@@ -40,7 +42,7 @@ namespace anthem
   ///
   /// \return Does not return anything and, thus, this function is impure.
   ///
-  int execute(int argc, const char* argv[]);
+  int execute(int argc, args_array argv[]);
 
   ///
   /// \brief Creates and initializes the managers for the framework.

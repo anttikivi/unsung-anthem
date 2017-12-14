@@ -26,6 +26,8 @@
 
 #include <type_traits>
 
+#include "args_array.h"
+
 #include "anthem/types.h"
 
 #include "gsl/assert"
@@ -137,7 +139,7 @@ namespace anthem
   ///
   /// \return An object of class \c arguments.
   ///
-  const arguments parse_arguments(const int argc, const char* argv[]) noexcept;
+  const arguments parse_arguments(const int argc, args_array argv[]) noexcept;
 
 } // namespace anthem
 

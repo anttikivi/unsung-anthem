@@ -41,7 +41,7 @@ namespace anthem
         << "}";
   }
 
-  const arguments parse_arguments(const int argc, const char* argv[]) noexcept
+  const arguments parse_arguments(const int argc, args_array argv[]) noexcept
   {
     logging::debug("Going to parse {} argument(s)", argc - 1);
 

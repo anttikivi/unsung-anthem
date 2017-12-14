@@ -32,7 +32,7 @@
 
 namespace anthem
 {
-  int execute(int argc, const char* argv[])
+  int execute(int argc, args_array argv[])
   {
     logger = create_logger(logger_name, logger_pattern, logger_level);
 
