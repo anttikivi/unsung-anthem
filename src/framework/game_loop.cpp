@@ -26,16 +26,20 @@
 
 #include "anthem/logging.h"
 
+#include "../arguments.h"
 #include "scheduler.h"
 
-#include <GLFW/glfw3.h>
+#include <SDL2/SDL.h>
 
 namespace anthem
 {
-  void game_loop(window_ptr&& window)
+  void game_loop(arguments&& args_r, window_ptr&& window_r)
   {
     using namespace std::chrono_literals;
     using clock = std::chrono::high_resolution_clock;
+
+    arguments args = std::move(args_r);
+    window_ptr window = std::move(window_r);
 
     logging::trace("Entering the game loop");
 
@@ -46,6 +50,8 @@ namespace anthem
 
     game_state current_state{};
     game_state previous_state{};
+
+    SDL_Event event;
 
     while (!quit)
     {
@@ -59,15 +65,18 @@ namespace anthem
       {
         delay -= time_step;
 
+        while (SDL_PollEvent(&event))
+        {
+          if (event.type == SDL_QUIT)
+          {
+            quit = true;
+          }
+        }
+
         logging::trace("Updating the game state");
 
         previous_state = std::move(current_state);
         current_state = std::move(update_state(previous_state));
-
-        if (glfwWindowShouldClose(window.get()))
-        {
-          quit = true;
-        }
       }
 
       const float alpha = static_cast<float>(delay.count()) / time_step.count();
@@ -78,8 +87,7 @@ namespace anthem
 
       // render_state(interpolated_state);
 
-      glfwSwapBuffers(window.get());
-      glfwPollEvents();
+      SDL_GL_SwapWindow(window.get());
     }
   }
 }

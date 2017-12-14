@@ -139,10 +139,10 @@ def git_dependency(build_data, key):
             "clone",
             product.git_format.format(key=key)])
 
-    if version.startswith("5.0"):
-        with shell.pushd(
-                os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key)):
-            shell.call([build_data.toolchain.git, "checkout", "release_50"])
+    # if version.startswith("5.0"):
+    #     with shell.pushd(
+    #             os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key)):
+    #         shell.call([build_data.toolchain.git, "checkout", "release_50"])
 
     # FIXME: This is bad, this is hardcoded.
     if key == "libcxx":
@@ -163,7 +163,7 @@ def move_release_files(build_data, key):
     """
     product = build_data.products.llvm
     version = product.version
-    subdir = "{}-{}.src".format(key, version)
+    subdir = "{}-{}.src".format(product.subproducts[key], version)
     shell.copytree(
         os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key, subdir),
         os.path.join(ANTHEM_SOURCE_ROOT, "llvm", version, key))
@@ -213,7 +213,7 @@ def single_dependency(build_data, key):
     """
     diagnostics.debug("Downloading LLVM subproject {}".format(key))
     version = build_data.products.llvm.version
-    if version.startswith("6.0") or version.startswith("5.0"):
+    if version.startswith("6.0"): #  or version.startswith("5.0"):
         git_dependency(build_data=build_data, key=key)
     else:
         release_dependency(build_data=build_data, key=key)

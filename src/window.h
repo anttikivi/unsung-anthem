@@ -25,7 +25,7 @@
 
 #include <memory>
 
-#include <GLFW/glfw3.h>
+#include <SDL2/SDL.h>
 
 namespace anthem
 {
@@ -37,23 +37,17 @@ namespace anthem
   ///
   /// \brief The type of the pointer to the window object.
   ///
-  typedef std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window_ptr;
+  typedef std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> window_ptr;
 
   ///
-  /// \brief Initializes a new GLFW window with OpenGL context.
+  /// \brief Initializes a new Simple DirectMedia Layer window with OpenGL
+  /// context.
   ///
   /// \param args the parsed command line arguments.
   ///
   /// \return Pointer to the created object of type \c GLFWwindow.
   ///
   window_ptr create_window(const arguments& args);
-
-  ///
-  /// \brief Destroys a GLFW window.
-  ///
-  /// \param window pointer to the window.
-  ///
-  void destroy_window(window_ptr&& window);
 
 } // namespace anthem
 

@@ -1,4 +1,4 @@
-//===-------------------------- input.cpp -----------------------*- C++ -*-===//
+//===------------------------ game_state.h ----------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,30 +10,31 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file input.cpp
-/// \brief The definitions of the input-related functions.
+/// \file game_state.h
+/// \brief Declaration and definition of type of objects representing the game
+/// state used by the state manager.
 /// \author Antti Kivi
-/// \date 26 September 2017
+/// \date 14 December 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "input.h"
+#ifndef ANTHEM_MANAGER_STATE_H
+#define ANTHEM_MANAGER_STATE_H
+
+#include <vector>
 
 namespace anthem
 {
-  logger_t input_logger = nullptr;
-
-  void glfw_key_callback(
-      GLFWwindow* window,
-      int key,
-      int scancode,
-      int action,
-      int mods)
+  ///
+  /// \struct game_state
+  /// \brief Type of objects which represent a state of the game.
+  ///
+  struct game_state final
   {
-    logging::trace(input_logger, "Pressed key {}", key);
-  }
-
+  };
 } // namespace anthem
+
+#endif // !ANTHEM_MANAGER_STATE_H

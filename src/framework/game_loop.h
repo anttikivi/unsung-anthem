@@ -30,22 +30,28 @@
 
 namespace anthem
 {
+  struct arguments;
+}
+
+namespace anthem
+{
   ///
   /// \brief The time duration between two game ticks.
   ///
   /// The game should run 60 frames a second. Therefore, this is equal to 16 as
   /// 1 / 60 = 0.01666...
   ///
-  constexpr std::chrono::nanoseconds time_step{std::chrono::milliseconds{16}};
+  constexpr std::chrono::milliseconds time_step{std::chrono::milliseconds{16}};
 
   ///
   /// \brief Runs the main loop of the game.
   ///
   /// This function is impure.
   ///
-  /// \param window pointer to the window.
+  /// \param args_r the parsed command line arguments.
+  /// \param window_r pointer to the window.
   ///
-  void game_loop(window_ptr&& window);
+  void game_loop(arguments&& args_r, window_ptr&& window_r);
 
 } // namespace anthem
 

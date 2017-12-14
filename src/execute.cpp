@@ -26,8 +26,8 @@
 
 #include "arguments.h"
 #include "framework/game_loop.h"
-#include "input.h"
 #include "logging_config.h"
+#include "sdl.h"
 #include "window.h"
 
 namespace anthem
@@ -36,9 +36,6 @@ namespace anthem
   {
     logger = create_logger(logger_name, logger_pattern, logger_level);
 
-    input_logger =
-        create_logger(input_logger_name, logger_pattern, logger_level);
-
     logging::info("The main logger of the program is created");
     logging::debug(
         "The logger has the name '{}', the pattern '{}', and the level '{}'",
@@ -46,21 +43,21 @@ namespace anthem
         logger_pattern,
         logger_level);
 
-    const auto args = parse_arguments(argc, argv);
+    auto args = parse_arguments(argc, argv);
 
     logging::trace("The following values are set to the arguments:\n{}", args);
 
-    auto glfw_quit_action = initialize_glfw();
+    const auto sdl_quit_action = initialize_sdl();
 
     // TODO: Maybe return some value.
     create_managers();
 
-    // Create a new scope for the window as it is deleted by dynamic memory
-    // management.
-    {
-      window_ptr window = create_window(args);
-      game_loop(std::move(window));
-    }
+    window_ptr window = create_window(args);
+    auto context = create_gl_context(window.get());
+
+    game_loop(std::move(args), std::move(window));
+
+    SDL_GL_DeleteContext(context);
 
     return EXIT_SUCCESS;
   }
@@ -68,10 +65,5 @@ namespace anthem
   void create_managers()
   {
     // TODO
-  }
-
-  void glfw_error_callback(int error, const char* description)
-  {
-    fprintf(stderr, "GLFW error: %s\n", description);
   }
 } // namespace anthem

@@ -24,8 +24,6 @@
 
 #include "anthem/logging.h"
 
-#include <GLFW/glfw3.h>
-
 namespace anthem
 {
   game_state update_state(const game_state& state)

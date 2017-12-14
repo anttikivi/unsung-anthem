@@ -1,4 +1,4 @@
-//===--------------------------- state.h ------------------------*- C++ -*-===//
+//===--------------------------- sdl.cpp ------------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,30 +10,31 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file state.h
-/// \brief Declaration of game framework state manager.
+/// \file sdl.cpp
+/// \brief The definitions of the initializing Simple DirectMedia Layer
+/// functions.
 /// \author Antti Kivi
-/// \date 5 December 2017
+/// \date 10 December 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_MANAGER_STATE_H
-#define ANTHEM_MANAGER_STATE_H
+#include "sdl.h"
 
-#include <vector>
+#include <glad/glad.h>
 
 namespace anthem
 {
-  ///
-  /// \struct game_state
-  /// \brief Type of objects which represent a state of the game.
-  ///
-  struct game_state final
+  SDL_GLContext create_gl_context(SDL_Window* window)
   {
-  };
-} // namespace anthem
+    auto context = SDL_GL_CreateContext(window);
 
-#endif // !ANTHEM_MANAGER_STATE_H
+    SDL_GL_SwapWindow(window);
+    gladLoadGLLoader(static_cast<GLADloadproc>(SDL_GL_GetProcAddress));
+    SDL_GL_SetSwapInterval(1);
+
+    return context;
+  }
+} // namespace anthem

@@ -29,7 +29,7 @@
 /// \param argc the number of arguments passed in the execution.
 /// \param argv array containing the arguments passed in the execution.
 ///
-/// \return \c 0.
+/// \return The end code of the game.
 ///
 int main(int argc, const char* argv[])
 {

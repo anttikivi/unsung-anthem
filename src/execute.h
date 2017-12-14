@@ -27,8 +27,6 @@
 
 #include "anthem/logging.h"
 
-#include <GLFW/glfw3.h>
-
 namespace anthem
 {
   ///
@@ -52,40 +50,6 @@ namespace anthem
   /// \return Does not return anything and, thus, this function is impure.
   ///
   void create_managers();
-
-  ///
-  /// \brief The function which is called on GLFW errors.
-  ///
-  /// This function is impure.
-  ///
-  /// \param error the error code.
-  /// \param description the string containing the error description.
-  ///
-  void glfw_error_callback(int error, const char* description);
-
-  ///
-  /// \brief Initializes the GLFW framework.
-  ///
-  /// \return An object of type \c gsl::final_action containing the function
-  /// which terminates GLFW.
-  ///
-  inline auto initialize_glfw()
-  {
-    glfwSetErrorCallback(glfw_error_callback);
-
-    if (!glfwInit())
-    {
-      logging::error("The GLFW initialization failed");
-    }
-
-    logging::debug("GLFW is initialized");
-
-    return gsl::finally([&]()
-    {
-      glfwTerminate();
-      logging::debug("GLFW is terminated");
-    });
-  }
 
 } // namespace anthem
 

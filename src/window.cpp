@@ -27,21 +27,21 @@
 #include "anthem/logging.h"
 
 #include "arguments.h"
-#include "input.h"
-
-#include <glad/glad.h>
 
 namespace anthem
 {
   window_ptr create_window(const arguments& args)
   {
-      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, ANTHEM_OPENGL_VERSION_MAJOR);
-      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, ANTHEM_OPENGL_VERSION_MINOR);
-      glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+      SDL_GL_SetAttribute(
+          SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+      SDL_GL_SetAttribute(
+          SDL_GL_CONTEXT_MAJOR_VERSION, ANTHEM_OPENGL_VERSION_MAJOR);
+	    SDL_GL_SetAttribute(
+          SDL_GL_CONTEXT_MINOR_VERSION, ANTHEM_OPENGL_VERSION_MINOR);
 
       // MacOS only supports forward-compatible core contexts.
 #if __APPLE__
-      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+      // SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
 #endif // __APPLE__
 
       logging::trace(
@@ -50,27 +50,22 @@ namespace anthem
           ANTHEM_OPENGL_VERSION_MINOR);
 
       window_ptr window{
-          glfwCreateWindow(
+          SDL_CreateWindow(
+              args.window_name.c_str(),
+              SDL_WINDOWPOS_CENTERED,
+              SDL_WINDOWPOS_CENTERED,
               args.window_width,
               args.window_height,
-              args.window_name.c_str(),
-              NULL,
-              NULL),
-          &glfwDestroyWindow};
+              SDL_WINDOW_OPENGL),
+          &SDL_DestroyWindow};
 
       if (!window)
       {
-        logging::error("The GLFW window creation failed");
+        logging::error("The Simple DirectMedia Layer window creation failed");
         return {nullptr, nullptr};
       }
 
-      glfwSetKeyCallback(window.get(), glfw_key_callback);
-
-      glfwMakeContextCurrent(window.get());
-      gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-      glfwSwapInterval(1);
-
-      return std::move(window);
+      return window;
     }
 
 } // namespace anthem

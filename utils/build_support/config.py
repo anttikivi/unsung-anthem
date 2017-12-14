@@ -44,7 +44,7 @@ PRODUCT_CONFIG = Mapping(
     anthem=ANTHEM_PRODUCT,
 
     llvm=product_config(
-        version="4.0.1",
+        version="5.0.0",
         name="LLVM",
         identifier="llvm",
         allow_git_checkout=True,
