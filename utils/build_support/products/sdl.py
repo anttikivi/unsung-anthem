@@ -94,10 +94,10 @@ def do_build_windows(build_data):
     source_dir = workspace.source_dir(product=product)
     shell.rmtree(build_dir)
     shell.copytree(source_dir, build_dir)
-    include_dir = workspace.include_file(build_data=build_data, path="SDL")
+    include_dir = workspace.include_file(build_data=build_data, path="SDL2")
     if not workspace.is_include_dir_made(build_data=build_data) \
             and workspace.include_file_exists(
-                build_data=build_data, path="SDL"):
+                build_data=build_data, path="SDL2"):
         shell.rmtree(include_dir)
     shell.copytree(os.path.join(build_dir, "include"), include_dir)
     if not workspace.is_lib_dir_made(build_data):
