@@ -36,7 +36,7 @@
 namespace anthem
 {
   using namespace std::string_literals;
-  
+
   ///
   /// \brief The default width of the window in pixels.
   ///

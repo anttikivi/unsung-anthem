@@ -79,8 +79,10 @@ if(UNIX)
     set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} dl pthread)
   endif()
 else()
-  # Presumably Windows.
-  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2main SDL2 opengl32)
+  if(WIN32)
+    # Presumably Windows.
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} opengl32 SDL2main SDL2)
+  endif()
 endif()
 
 if(${ANTHEM_LINK_CXXABI})
