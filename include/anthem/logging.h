@@ -33,7 +33,7 @@ namespace anthem
   ///
   /// \brief Type of objects which do logging.
   ///
-  typedef std::shared_ptr<spdlog::logger> logger_t;
+  using logger_t = std::shared_ptr<spdlog::logger>;
 
   ///
   /// \brief The main logger of the game.
@@ -46,7 +46,7 @@ namespace anthem
   ///
   /// \param name the name of the logger.
   /// \param pattern the formatting pattern of the logger.
-  /// \param name the logging level of the logger..
+  /// \param level the logging level of the logger.
   ///
   /// \return an \c std::shared_ptr<spdlog::logger>.
   ///
