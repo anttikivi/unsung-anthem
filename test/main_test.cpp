@@ -28,6 +28,8 @@
 
 #include "logging_config.h"
 
+#include <SDL2/SDL.h>
+
 int main(int argc, char* argv[])
 {
   anthem::logger = anthem::create_logger(
