@@ -69,10 +69,10 @@ if(UNIX)
   find_library(SDL2_LIBRARY SDL2)
 
   assert_variable(SDL2_LIBRARY "SDL2 libraries")
-  print_status(SDL2_LIBRARY "SDL2 libraries")
 
-  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ${SDL2_LIBRARY})
-  
+  # set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ${SDL2_LIBRARY})
+  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2maind SDL2d)
+
   if(APPLE)
   else()
     # set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2main SDL2 pthread)
