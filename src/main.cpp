@@ -22,6 +22,8 @@
 
 #include "execute.h"
 
+#include <SDL2/SDL.h>
+
 ///
 /// \brief Returns the execution status of the program with the arguments
 /// passed in.

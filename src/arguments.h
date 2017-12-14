@@ -35,15 +35,17 @@
 
 namespace anthem
 {
+  using namespace std::string_literals;
+  
   ///
   /// \brief The default width of the window in pixels.
   ///
-  constexpr pixel_count default_window_width = 120_px;
+  constexpr auto default_window_width = 120_px;
 
   ///
   /// \brief The default height of the window in pixels.
   ///
-  constexpr pixel_count default_window_height = 120_px;
+  constexpr auto default_window_height = 120_px;
 
   ///
   /// \brief The default name of the window.
@@ -61,22 +63,22 @@ namespace anthem
     /// \brief Whether or not the arguments are parsed correctly by the parsing
     /// function.
     ///
-    const bool parsed{false};
+    const bool parsed = false;
 
     ///
     /// \brief The starting width of the window.
     ///
-    const pixel_count window_width{0};
+    const pixel_count window_width = 0_px;
 
     ///
     /// \brief The starting height of the window.
     ///
-    const pixel_count window_height{0};
+    const pixel_count window_height = 0_px;
 
     ///
     /// \brief The name of the window.
     ///
-    const std::string window_name{"null"};
+    const std::string window_name = "null"s;
 
   }; // struct arguments final
 
