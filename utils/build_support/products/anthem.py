@@ -15,6 +15,8 @@ The support module containing the Unsung Anthem product helpers.
 import os
 import platform
 
+from . import sdl
+
 from .product import check_source
 
 from .. import config, diagnostics, shell, workspace
@@ -210,3 +212,6 @@ def build(build_data, tests=False):
         clion_cmake_options = construct_cmake_call(
             build_data=build_data, tests=tests, clion=True)
         shell.print_command_fine(command=clion_cmake_options)
+
+    if args.visual_studio:
+        sdl.copy_dynamic(build_data=build_data, dest=build_dir)

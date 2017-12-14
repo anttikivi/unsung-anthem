@@ -139,3 +139,16 @@ def build(build_data):
         do_build_windows(build_data=build_data)
     else:
         do_build(build_data=build_data)
+
+
+def copy_dynamic(build_data, dest):
+    """
+    Move the dynamic library on Windows.
+    build_data -- the build data.
+    dest -- the directory to which the library is copied.
+    """
+    bin_path = workspace.lib_file(build_data=build_data, path="SDL2.dll")
+    dest_path = os.path.join(dest, "SDL2.dll")
+    if os.path.exists(dest_path):
+        return
+    shell.copy(bin_path, dest)
