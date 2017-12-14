@@ -42,7 +42,7 @@ namespace anthem
 constexpr anthem::pixel_count
 operator""_px(const unsigned long long i) noexcept
 {
-  return i;
+  return static_cast<anthem::pixel_count>(i);
 }
 
 #endif // !ANTHEM_TYPES_H
