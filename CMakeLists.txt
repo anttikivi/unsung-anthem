@@ -76,7 +76,7 @@ if(UNIX)
   if(APPLE)
   else()
     # set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2main SDL2 pthread)
-    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} pthread)
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} dl pthread)
   endif()
 else()
   # Presumably Windows.
