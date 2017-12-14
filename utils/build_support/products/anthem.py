@@ -214,4 +214,6 @@ def build(build_data, tests=False):
         shell.print_command_fine(command=clion_cmake_options)
 
     if args.visual_studio:
-        sdl.copy_dynamic(build_data=build_data, dest=build_dir)
+        sdl.copy_dynamic(build_data=build_data, dest=os.path.join(
+            build_dir,
+            args.anthem_build_variant))
