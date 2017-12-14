@@ -65,15 +65,18 @@ add_logger_definitions()
 set(ANTHEM_LIBRARIES)
 
 if(UNIX)
+
+  find_library(SDL2_LIBRARY SDL2)
+
+  assert_variable(SDL2_LIBRARY "SDL2 libraries")
+  print_status(SDL2_LIBRARY "SDL2 libraries")
+
+  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ${SDL2_LIBRARY})
+  
   if(APPLE)
-    find_library(SDL2_LIBRARY SDL2)
-
-    assert_variable(SDL2_LIBRARY "SDL2 libraries")
-    print_status(SDL2_LIBRARY "SDL2 libraries")
-
-    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ${SDL2_LIBRARY})
   else()
-    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2main SDL2 pthread)
+    # set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2main SDL2 pthread)
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} pthread)
   endif()
 else()
   # Presumably Windows.
