@@ -24,7 +24,7 @@
 
 #include <type_traits>
 
-#include "anthem/logging.h"
+#include "anthem/logger.h"
 
 #include "../arguments.h"
 #include "../manager/game_state.h"
@@ -41,7 +41,7 @@ namespace anthem
     arguments args = std::move(args_r);
     window_ptr window = std::move(window_r);
 
-    logging::trace("Entering the game loop");
+    ANTHEM_TRACE("Entering the game loop");
 
     bool quit = false;
 
@@ -59,7 +59,7 @@ namespace anthem
       t = clock::now();
       delay += std::chrono::duration_cast<std::chrono::nanoseconds>(dt);
 
-      logging::trace("The current delay in update time is {}", delay.count());
+      ANTHEM_TRACE("The current delay in update time is {}", delay.count());
 
       while(delay >= time_step)
       {
@@ -73,7 +73,7 @@ namespace anthem
           }
         }
 
-        logging::trace("Updating the game state");
+        ANTHEM_TRACE("Updating the game state");
 
         previous_state = std::move(current_state);
         current_state = update_state(previous_state);

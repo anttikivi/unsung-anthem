@@ -36,8 +36,8 @@ namespace anthem
   {
     logger = create_logger(logger_name, logger_pattern, logger_level);
 
-    logging::info("The main logger of the program is created");
-    logging::debug(
+    ANTHEM_INFO("The main logger of the program is created");
+    ANTHEM_DEBUG(
         "The logger has the name '{}', the pattern '{}', and the level '{}'",
         logger_name,
         logger_pattern,

@@ -22,7 +22,7 @@
 
 #include "scheduler.h"
 
-#include "anthem/logging.h"
+#include "anthem/logger.h"
 
 #include "../manager/game_state.h"
 
@@ -30,7 +30,7 @@ namespace anthem
 {
   game_state update_state(const game_state& state)
   {
-    logging::trace("Updating the game state");
+    ANTHEM_TRACE("Updating the game state");
     return {};
   }
 
@@ -39,7 +39,7 @@ namespace anthem
       const game_state& previous_state,
       const float alpha)
   {
-    logging::trace("The alpha value of the game update time is {}", alpha);
+    ANTHEM_TRACE("The alpha value of the game update time is {}", alpha);
 
     if (alpha >= 0.5)
     {

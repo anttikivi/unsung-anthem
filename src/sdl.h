@@ -26,7 +26,7 @@
 
 #include "gsl/util"
 
-#include "anthem/logging.h"
+#include "anthem/logger.h"
 
 #include <SDL2/SDL.h>
 
@@ -43,15 +43,15 @@ namespace anthem
   {
     if (0 != SDL_Init(SDL_INIT_VIDEO))
     {
-      logging::error("The Simple DirectMedia Layer initialization failed");
+      ANTHEM_ERROR("The Simple DirectMedia Layer initialization failed");
     }
 
-    logging::debug("Simple DirectMedia Layer is initialized");
+    ANTHEM_DEBUG("Simple DirectMedia Layer is initialized");
 
     return gsl::finally([&]()
     {
       SDL_Quit();
-      logging::debug("Simple DirectMedia Layer is terminated");
+      ANTHEM_DEBUG("Simple DirectMedia Layer is terminated");
     });
   }
 

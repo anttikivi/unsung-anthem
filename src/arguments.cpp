@@ -25,7 +25,7 @@
 
 #include <iostream>
 
-#include "anthem/logging.h"
+#include "anthem/logger.h"
 
 #include <args.hxx>
 
@@ -43,7 +43,7 @@ namespace anthem
 
   arguments parse_arguments(const int argc, args_array argv[]) noexcept
   {
-    logging::debug("Going to parse {} argument(s)", argc - 1);
+    ANTHEM_DEBUG("Going to parse {} argument(s)", argc - 1);
 
     args::ArgumentParser parser{
         "TODO",

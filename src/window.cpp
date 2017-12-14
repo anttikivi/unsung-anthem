@@ -22,7 +22,7 @@
 
 #include "window.h"
 
-#include "anthem/logging.h"
+#include "anthem/logger.h"
 
 #include "arguments.h"
 
@@ -45,7 +45,7 @@ namespace anthem
       // SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
 #endif // __APPLE__
 
-      logging::trace(
+      ANTHEM_TRACE(
           "Set the OpenGL version hint for the window to {}.{}",
           ANTHEM_OPENGL_VERSION_MAJOR,
           ANTHEM_OPENGL_VERSION_MINOR);
@@ -62,7 +62,7 @@ namespace anthem
 
       if (!window)
       {
-        logging::error("The Simple DirectMedia Layer window creation failed");
+        ANTHEM_ERROR("The Simple DirectMedia Layer window creation failed");
         return {nullptr, nullptr};
       }
 

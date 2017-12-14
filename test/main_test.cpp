@@ -24,7 +24,7 @@
 
 #include "catch.hpp"
 
-#include "anthem/logging.h"
+#include "anthem/logger.h"
 
 #include "logging_config.h"
 

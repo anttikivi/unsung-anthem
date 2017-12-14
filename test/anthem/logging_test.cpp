@@ -22,7 +22,7 @@
 
 #include "catch.hpp"
 
-#include "anthem/logging.h"
+#include "anthem/logger.h"
 
 TEST_CASE("logging functions work", "[anthem::logging]")
 {
