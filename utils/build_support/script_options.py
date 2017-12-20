@@ -97,6 +97,12 @@ def projects_options(parser):
         action="store_true",
         dest="build_llvm")
     projects_group.add_argument(
+        "--source-llvm",
+        help="build LLVM from the source instead of downloading the pre-build "
+             "binaries",
+        action="store_true",
+        dest="source_llvm")
+    projects_group.add_argument(
         "--libc++",
         help="build libc++ and use the built library to build the project",
         action="store_true",

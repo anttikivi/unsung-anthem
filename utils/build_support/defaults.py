@@ -92,6 +92,10 @@ def main_args(args):
                 or args.llvm_assertions is not None:
             args.build_llvm = True
 
+    def _source_llvm():
+        if args.build_llvm and not args.source_llvm:
+            args.source_llvm = False
+
     def _build_variant(default_value):
         if args.build_variant is None:
             args.build_variant = default_value
@@ -172,6 +176,7 @@ def main_args(args):
 
     _build_actions()
     _implicit_llvm()
+    _source_llvm()
     _build_variant("Debug")
     _assertions(True)
     _cmake_generator("Ninja")

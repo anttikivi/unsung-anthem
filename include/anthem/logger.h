@@ -25,11 +25,40 @@
 
 #include "anthem/logging.h"
 
+///
+/// \def ANTHEM_TRACE(...)
+/// \brief Preprocessor macro which is used for trace-level logging.
+///
 #define ANTHEM_TRACE(...) ::anthem::logging::trace(__VA_ARGS__)
+
+///
+/// \def ANTHEM_DEBUG(...)
+/// \brief Preprocessor macro which is used for debug-level logging.
+///
 #define ANTHEM_DEBUG(...) ::anthem::logging::debug(__VA_ARGS__)
+
+///
+/// \def ANTHEM_INFO(...)
+/// \brief Preprocessor macro which is used for info-level logging.
+///
 #define ANTHEM_INFO(...) ::anthem::logging::info(__VA_ARGS__)
+
+///
+/// \def ANTHEM_WARN(...)
+/// \brief Preprocessor macro which is used for warning-level logging.
+///
 #define ANTHEM_WARN(...) ::anthem::logging::warn(__VA_ARGS__)
+
+///
+/// \def ANTHEM_ERROR(...)
+/// \brief Preprocessor macro which is used for error-level logging.
+///
 #define ANTHEM_ERROR(...) ::anthem::logging::error(__VA_ARGS__)
+
+///
+/// \def ANTHEM_CRITICAL(...)
+/// \brief Preprocessor macro which is used for critical-level logging.
+///
 #define ANTHEM_CRITICAL(...) ::anthem::logging::critical(__VA_ARGS__)
 
 namespace anthem

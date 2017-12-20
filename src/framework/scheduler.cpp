@@ -24,30 +24,7 @@
 
 #include "anthem/logger.h"
 
-#include "../manager/game_state.h"
-
 namespace anthem
 {
-  game_state update_state(const game_state& state)
-  {
-    ANTHEM_TRACE("Updating the game state");
-    return {};
-  }
 
-  game_state interpolate_state(
-      const game_state& current_state,
-      const game_state& previous_state,
-      const float alpha)
-  {
-    ANTHEM_TRACE("The alpha value of the game update time is {}", alpha);
-
-    if (alpha >= 0.5)
-    {
-      return current_state;
-    }
-    else
-    {
-      return previous_state;
-    }
-  }
-}
+} // namespace anthem

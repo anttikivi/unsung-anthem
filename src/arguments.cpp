@@ -46,30 +46,30 @@ namespace anthem
     ANTHEM_DEBUG("Going to parse {} argument(s)", argc - 1);
 
     args::ArgumentParser parser{
-        "TODO",
-        "Some information which goes after the options should go here"};
+        "TODO"s,
+        "Some information which goes after the options should go here"s};
     args::HelpFlag help{
         parser,
-        "help",
-        "Display this help menu",
-        {'h', "help"}};
+        "help"s,
+        "Display this help menu"s,
+        {'h', "help"s}};
     args::ValueFlag<pixel_count> window_width{
         parser,
-        "window-width",
-        "The width of the window in pixels",
-        {"window-width"},
+        "window-width"s,
+        "The width of the window in pixels"s,
+        {"window-width"s},
         default_window_width};
     args::ValueFlag<pixel_count> window_height{
         parser,
-        "window-height",
-        "The height of the window in pixels",
-        {"window-height"},
+        "window-height"s,
+        "The height of the window in pixels"s,
+        {"window-height"s},
         default_window_height};
     args::ValueFlag<std::string> window_name{
         parser,
-        "window-name",
-        "The name of the game window",
-        {"window-name"},
+        "window-name"s,
+        "The name of the game window"s,
+        {"window-name"s},
         std::string{default_window_name}};
 
     try

@@ -14,6 +14,7 @@ The support module containing the LLVM product helpers.
 
 import json
 import os
+import platform
 
 from . import clang, libcxxabi, libcxx
 
@@ -139,11 +140,6 @@ def git_dependency(build_data, key):
             "clone",
             product.git_format.format(key=key)])
 
-    # if version.startswith("5.0"):
-    #     with shell.pushd(
-    #             os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key)):
-    #         shell.call([build_data.toolchain.git, "checkout", "release_50"])
-
     # FIXME: This is bad, this is hardcoded.
     if key == "libcxx":
         remove_libcxx_bad_symlink()
@@ -154,7 +150,7 @@ def git_dependency(build_data, key):
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
 
 
-def move_release_files(build_data, key):
+def move_release_files(build_data, key, subdir):
     """
     Move the LLVM subproduct files to the correct location after the download.
 
@@ -163,7 +159,6 @@ def move_release_files(build_data, key):
     """
     product = build_data.products.llvm
     version = product.version
-    subdir = "{}-{}.src".format(product.subproducts[key], version)
     shell.copytree(
         os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key, subdir),
         os.path.join(ANTHEM_SOURCE_ROOT, "llvm", version, key))
@@ -201,7 +196,7 @@ def release_dependency(build_data, key):
     if key == "libcxx":
         remove_libcxx_release_bad_symlink(subdir=subdir)
     shell.rm(destination)
-    move_release_files(build_data=build_data, key=key)
+    move_release_files(build_data=build_data, key=key, subdir=subdir)
 
 
 def single_dependency(build_data, key):
@@ -213,10 +208,48 @@ def single_dependency(build_data, key):
     """
     diagnostics.debug("Downloading LLVM subproject {}".format(key))
     version = build_data.products.llvm.version
-    if version.startswith("6.0"): #  or version.startswith("5.0"):
+    if version.startswith("6.0"):
         git_dependency(build_data=build_data, key=key)
     else:
         release_dependency(build_data=build_data, key=key)
+
+
+def get_llvm_binary(build_data):
+    """
+    Download the pre-built LLVM binary.
+
+    build_data -- the build data.
+    """
+    product = build_data.products.llvm
+    version = product.version
+    key = "llvm"
+    remove_old_checkout(build_data=build_data, key="llvm")
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", "llvm"))
+    sys = platform.system()
+    if sys == "Linux":
+        machine = "x86_64-ubuntu16.04"
+    else:
+        machine = "x86_64-apple-darwin"
+    url = product.binary_format.format(
+        protocol=build_data.connection_protocol, version=version,
+        platform=machine
+    )
+    destination = os.path.join(
+        ANTHEM_SOURCE_ROOT, "llvm", "temp", key, "{}.tar.xz".format(key)
+    )
+
+    stream_file(build_data=build_data, url=url, destination=destination)
+
+    shell.tar(
+        path=destination,
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
+    subdir = "clang+llvm-{version}-{platform}".format(
+        version=version,
+        platform=machine)
+    diagnostics.debug(
+        "The name of the {} subdirectory is {}".format(product.repr, subdir))
+    shell.rm(destination)
+    move_release_files(build_data=build_data, key=key, subdir=subdir)
 
 
 def get_dependency(build_data):
@@ -234,9 +267,12 @@ def get_dependency(build_data):
     elif args.build_llvm:
         llvm_deps = list(product.subproducts.keys())
 
-    for dep in llvm_deps:
-        if not skip_download(build_data=build_data, key=dep):
-            single_dependency(build_data=build_data, key=dep)
+    if args.source_llvm or args.build_libcxx:
+        for dep in llvm_deps:
+            if not skip_download(build_data=build_data, key=dep):
+                single_dependency(build_data=build_data, key=dep)
+    elif args.build_llvm:
+        get_llvm_binary(build_data=build_data)
 
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp"))
 

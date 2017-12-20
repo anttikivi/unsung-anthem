@@ -25,35 +25,6 @@
 
 namespace anthem
 {
-  struct game_state;
-}
-
-namespace anthem
-{
-  ///
-  /// \brief Runs a single tick of the game.
-  ///
-  /// \param state the last game state.
-  ///
-  /// \return The new game state.
-  ///
-  game_state update_state(const game_state& state);
-
-  ///
-  /// \brief Calculates the state which is in the middle of the two states at
-  /// the alpha point given.
-  ///
-  /// \param current_state the current game state.
-  /// \param previous_state the previous game state.
-  /// \param alpha the value denoting how to close the game is to the next
-  /// state.
-  ///
-  /// \return The interpolated game state.
-  ///
-  game_state interpolate_state(
-      const game_state& current_state,
-      const game_state& previous_state,
-      const float alpha);
 
 } // namespace anthem
 

@@ -1,4 +1,4 @@
-//===------------------------ game_state.h ----------------------*- C++ -*-===//
+//===----------------------- task_manager.h ---------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
@@ -10,31 +10,34 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file game_state.h
-/// \brief Declaration and definition of type of objects representing the game
-/// state used by the state manager.
+/// \file task_manager.h
+/// \brief Declaration of game framework task manager.
 /// \author Antti Kivi
-/// \date 14 December 2017
+/// \date 28 November 2017
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_MANAGER_GAME_STATE_H
-#define ANTHEM_MANAGER_GAME_STATE_H
+#ifndef ANTHEM_TASK_MANAGER_H
+#define ANTHEM_TASK_MANAGER_H
 
-#include <vector>
+namespace anthem {
+  struct thread_pool;
+}
 
 namespace anthem
 {
-  ///
-  /// \struct game_state
-  /// \brief Type of objects which represent a state of the game.
-  ///
-  struct game_state final
+  namespace detail
   {
-  };
+    ///
+    /// \brief The thread pool used by the task manager.
+    ///
+    extern thread_pool task_thread_pool;
+    
+  } // namespace detail
+
 } // namespace anthem
 
-#endif // !ANTHEM_MANAGER_GAME_STATE_H
+#endif // !ANTHEM_TASK_MANAGER_H

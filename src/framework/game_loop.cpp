@@ -27,7 +27,6 @@
 #include "anthem/logger.h"
 
 #include "../arguments.h"
-#include "../manager/game_state.h"
 #include "scheduler.h"
 
 #include <SDL2/SDL.h>
@@ -47,9 +46,6 @@ namespace anthem
 
     auto delay = 0ns;
     auto t = clock::now();
-
-    game_state current_state{};
-    game_state previous_state{};
 
     SDL_Event event;
 
@@ -75,15 +71,23 @@ namespace anthem
 
         ANTHEM_TRACE("Updating the game state");
 
-        previous_state = std::move(current_state);
-        current_state = update_state(previous_state);
+        // previous_state = std::move(current_state);
+        // current_state = update_state(previous_state);
       }
 
-      const float alpha = static_cast<float>(delay.count()) / time_step.count();
-      auto interpolated_state = interpolate_state(
-          current_state,
-          previous_state,
+      using ms = std::chrono::milliseconds;
+
+      const float alpha
+          = static_cast<float>(std::chrono::duration_cast<ms>(delay).count())
+              / time_step.count();
+
+      ANTHEM_TRACE(
+          "The alpha value for state-rendering interpolation is {}",
           alpha);
+      // auto interpolated_state = interpolate_state(
+      //     current_state,
+      //     previous_state,
+      //     alpha);
 
       // render_state(interpolated_state);
 

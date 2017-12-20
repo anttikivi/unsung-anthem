@@ -56,6 +56,8 @@ PRODUCT_CONFIG = Mapping(
         git_format="http://llvm.org/git/{key}",
         release_format="{protocol}://releases.llvm.org/{version}/{key}-"
                        "{version}.src.tar.xz",
+        binary_format="{protocol}://releases.llvm.org/{version}/clang+llvm-"
+                      "{version}-{platform}.tar.xz",
 
         # The version which is used when the version option of LLVM is set to
         # 'git'.
