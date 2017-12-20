@@ -177,7 +177,7 @@ def fatal(message):
     """
 
     @printer(level="fatal error", colour=BOLD + FAIL, do_print=False)
-    def _impl(message):
-        return message
+    def _impl(msg):
+        return msg
 
     raise SystemExit(_impl(message))
