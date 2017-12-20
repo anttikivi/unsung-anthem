@@ -329,7 +329,7 @@ def get_new_invocation(args, preset_args):
 
     return list(filter(None, list(
         _impl_exec() + [
-            "--from-preset",
+            ("--from-preset"),
             ("--dry-run" if args.dry_run else None),
             ("--clean" if args.clean else None),
             ("--install" if args.install_only else None),

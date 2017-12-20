@@ -1,0 +1,121 @@
+#!/usr/bin/env python
+
+#===------------------------- build-script -------------------*- python -*-===#
+#
+#                             Unsung Anthem
+#
+# This source file is part of the Unsung Anthem open source project.
+#
+# Copyright (c) 2017 Venturesome Stone
+# Licensed under GNU Affero General Public License v3.0
+
+
+"""
+Use this tool to build, test, and prepare binary distribution archives of
+Unsung Anthem.
+
+Builds Unsung Anthem and its dependencies, incrementally, optionally testing
+Unsung Anthem thereafter. Different build configurations are maintained in
+parallel.
+"""
+
+from __future__ import print_function
+
+import os
+import sys
+
+from build_support import diagnostics, invocation, script, shell
+
+from build_support.presets import \
+    get_all_preset_names, parse_preset_defaults, get_preset_options
+
+from build_support.variables import ANTHEM_SOURCE_ROOT
+
+
+def initialize_runtime_environment():
+    """
+    Change the program environment for building.
+    """
+    os.umask(0o022)
+    # Unset environment variables that might affect how tools behave.
+    for flag in ["MAKEFLAGS"]:
+        os.environ.pop(flag, None)
+
+
+def main_preset():
+    """
+    Resolve the preset information and run the build script with the arguments
+    in the given preset.
+    """
+    args = script.create_preset_parser().parse_args()
+    preset_files = script.preset_files(args)
+
+    if args.show_presets:
+        print("\n".join(sorted(
+            get_all_preset_names(preset_files), key=str.lower
+        )))
+        return 0
+
+    if not args.preset:
+        diagnostics.fatal("Missing --preset option")
+
+    preset_defaults = parse_preset_defaults(args)
+    preset_args = get_preset_options(
+        preset_defaults, preset_files, args.preset
+    )
+    build_script_invacation = script.get_new_invocation(args, preset_args)
+
+    diagnostics.head("Using preset '{}' which expands to \n\n{}\n".format(
+        args.preset, shell.quote_command(build_script_invacation)
+    ))
+    if args.expand_build_script_invocation:
+        return 0
+
+    shell.call_without_sleeping(build_script_invacation)
+    return 0
+
+
+def main_normal():
+    """
+    Run the build script.
+    """
+    parser = script.create_parser()
+    build_data = invocation.set_up(parser)
+    invocation.invoke(build_data)
+    return 0
+
+
+def main():
+    """
+    The entry point function of the script.
+    """
+    if not any([opt == "--from-preset" for opt in sys.argv[1:]]):
+        if sys.version_info.major == 2:
+            diagnostics.warn("You're using Python {}".format(sys.version))
+            diagnostics.warn(
+                "You should really update to Python 3 to make the world a "
+                "better place!")
+        else:
+            diagnostics.fine("You're using Python {}".format(sys.version))
+            diagnostics.fine("You seem to have an excellent taste!")
+    if not ANTHEM_SOURCE_ROOT:
+        diagnostics.fatal(
+            "Could not infer source root directory (forgot to set "
+            "$ANTHEM_SOURCE_ROOT environment variable?)"
+        )
+
+    if not os.path.isdir(ANTHEM_SOURCE_ROOT):
+        diagnostics.fatal(
+            "Source root directory '{}' does not exist (forgot to set "
+            "$ANTHEM_SOURCE_ROOT environment variable?)".format(
+                ANTHEM_SOURCE_ROOT
+            )
+        )
+    if any([(opt.startswith("--preset") or opt == "--show-presets")
+            for opt in sys.argv[1:]]):
+        return main_preset()
+    return main_normal()
+
+
+if __name__ == "__main__":
+    sys.exit(main())
