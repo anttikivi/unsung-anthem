@@ -113,6 +113,11 @@ def projects_options(parser):
         action="store_true",
         dest="build_libcxx")
     projects_group.add_argument(
+        "--gcc",
+        help="download the pre-built GCC binaries and use the pre-built GCC",
+        action="store_true",
+        dest="build_gcc")
+    projects_group.add_argument(
         "--build-cmake",
         help="build CMake",
         action="store_true")
@@ -219,13 +224,6 @@ def cxx_options(parser):
         metavar="STANDARD",
         dest="std")
     cxx_version_group.add_argument(
-        "--c++latest",
-        help="build using the latest features of the C++ standard version and"
-             "its drafts (default is C++14)",
-        action="store_const",
-        const="c++latest",
-        dest="std")
-    cxx_version_group.add_argument(
         "--c++2a",
         help="build using the next C++ standard draft (default is C++14)",
         action="store_const",
@@ -276,19 +274,6 @@ def build_variant_options(parser):
     build_variant_override_group = parser.add_argument_group(
         title="Override build variant for a specific project")
     build_variant_override_group.add_argument(
-        "--debug-llvm",
-        help="build the Debug variant of LLVM",
-        action="store_const",
-        const="Debug",
-        dest="llvm_build_variant")
-    build_variant_override_group.add_argument(
-        "--debug-libcxx",
-        help="build the Debug variant of libc++. This has an effect only if "
-             "LLVM is not built",
-        action="store_const",
-        const="Debug",
-        dest="libcxx_build_variant")
-    build_variant_override_group.add_argument(
         "--debug-anthem",
         help="build the Debug variant of Unsung Anthem",
         action="store_const",
@@ -306,6 +291,46 @@ def build_variant_options(parser):
         action="store_const",
         const="Debug",
         dest="sdl_build_variant")
+
+    optimization_group = parser.add_mutually_exclusive_group(required=False)
+    optimization_group.add_argument(
+        "-O", "--optimization",
+        help="build using the given optimization level (default is no "
+             "optimization level)",
+        default="-",
+        metavar="LEVEL",
+        dest="opt")
+    optimization_group.add_argument(
+        "--O0",
+        help="build using the 'O0' optimization level",
+        action="store_const",
+        const="0",
+        dest="opt")
+    optimization_group.add_argument(
+        "--O1",
+        help="build using the 'O1' optimization level",
+        action="store_const",
+        const="1",
+        dest="opt")
+    optimization_group.add_argument(
+        "--O2",
+        help="build using the 'O2' optimization level",
+        action="store_const",
+        const="2",
+        dest="opt")
+    optimization_group.add_argument(
+        "--O3",
+        help="build using the 'O3' optimization level",
+        action="store_const",
+        const="3",
+        dest="opt")
+    optimization_group.add_argument(
+        "--Os",
+        help="build using the 'Os' optimization level",
+        action="store_const",
+        const="s",
+        dest="opt")
+
     return parser
 
 
@@ -330,30 +355,6 @@ def assertion_options(parser):
         dest="assertions")
     assertions_override_group = parser.add_argument_group(
         title="Control assertions in a specific project")
-    assertions_override_group.add_argument(
-        "--llvm-assertions",
-        help="enable assertions in LLVM",
-        action="store_const",
-        const=True,
-        dest="llvm_assertions")
-    assertions_override_group.add_argument(
-        "--no-llvm-assertions",
-        help="disable assertions in LLVM",
-        action="store_const",
-        const=False,
-        dest="llvm_assertions")
-    assertions_override_group.add_argument(
-        "--libcxx-assertions",
-        help="enable assertions in libc++",
-        action="store_const",
-        const=True,
-        dest="libcxx_assertions")
-    assertions_override_group.add_argument(
-        "--no-libcxx-assertions",
-        help="disable assertions in libc++",
-        action="store_const",
-        const=False,
-        dest="libcxx_assertions")
     assertions_override_group.add_argument(
         "--anthem-assertions",
         help="enable assertions in Unsung Anthem",

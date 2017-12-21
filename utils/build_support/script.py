@@ -204,45 +204,6 @@ def create_preset_parser():
         help="list all presets and exit",
         action="store_true")
 
-    build_actions_group = parser.add_mutually_exclusive_group(required=False)
-    build_actions_group.add_argument(
-        "--install",
-        help="only install the project dependencies",
-        action="store_true",
-        dest="install_only")
-    build_actions_group.add_argument(
-        "--build",
-        help="build the project without installing the dependencies",
-        action="store_true",
-        dest="build_only")
-    build_actions_group.add_argument(
-        "--run",
-        help="run Unsung Anthem after building. Unsung Anthem is not run by "
-             "default",
-        action="store_true",
-        dest="run")
-    build_actions_group.add_argument(
-        "--run-only",
-        help="only run Unsung Anthem",
-        action="store_true",
-        dest="run_only")
-    build_actions_group.add_argument(
-        "--run-test",
-        help="run the tests without installing the dependencies or building "
-             "the project",
-        action="store_true",
-        dest="test_only")
-    build_actions_group.add_argument(
-        "--docs-only",
-        help="build only the documentation",
-        action="store_true",
-        dest="docs_only")
-
-    parser.add_argument(
-        "-j", "--jobs",
-        help="the number of parallel build jobs to use",
-        type=int,
-        dest="build_jobs")
     parser.add_argument(
         "preset_defaults_raw",
         help="'name=value' pairs that are default values in the preset",
@@ -331,13 +292,7 @@ def get_new_invocation(args, preset_args):
         _impl_exec() + [
             "--from-preset",
             ("--dry-run" if args.dry_run else None),
-            ("--clean" if args.clean else None),
-            ("--install" if args.install_only else None),
-            ("--build" if args.build_only else None),
-            ("--run" if args.run else None),
-            ("--run-only" if args.run_only else None),
-            ("--run-test" if args.test_only else None),
-            ("--docs-only" if args.docs_only else None)
+            ("--clean" if args.clean else None)
         ]
         + preset_args
         + [
