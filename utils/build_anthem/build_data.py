@@ -1,4 +1,4 @@
-#===-------------------------- __init__.py -------------------*- python -*-===#
+#===------------------------- build_data.py ------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -8,8 +8,10 @@
 # Licensed under GNU Affero General Public License v3.0
 
 """
-The support module of the Unsung Anthem build script.
+The support module containing the build data.
 """
 
 
-__all__ = ["diagnostics"]
+from build_utils.mapping import Mapping
+
+build_data = 0

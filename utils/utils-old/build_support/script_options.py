@@ -24,6 +24,27 @@ from .targets import host_target
 from .variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
 
+def script_options(parser):
+    """
+    Add general command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
+    parser.add_argument(
+        "-n", "--dry-run",
+        help="print the commands that would be executed, but don't execute "
+             "them",
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        "--from-preset",
+        help="the build is run as if it was called by the preset mode. You "
+             "mustn't set this yourself!",
+        action="store_true",
+        default=False)
+    return parser
+
+
 def ci_options(parser):
     """
     Add continuous integration command line options to the parser.
@@ -520,12 +541,84 @@ def checkout_options(parser):
     return parser
 
 
+def version_options(parser):
+    """
+    Add version-related command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
+    version_group = parser.add_argument_group(
+        title="Dependency and project version information")
+
+    for key in PRODUCT_CONFIG.keys():
+        product = PRODUCT_CONFIG[key]
+        if product.version_format:
+            metavar = str(product.version_format)
+        else:
+            metavar = "MAJOR.MINOR.PATCH"
+        base_message = "the {} version".format(product.name)
+        if product.allow_git_checkout:
+            message = \
+                "{base}. If the version is set to 'git', the latest commit " \
+                "of {name} is used".format(
+                    base=base_message, name=product.name)
+        else:
+            message = base_message
+        version_group.add_argument(
+            "--{}-version".format(key),
+            metavar=metavar,
+            default=PRODUCT_CONFIG[key].version,
+            help=message)
+
+    return parser
+
+
 def system_options(parser):
     """
     Add system command line options to the parser.
 
     parser -- the parser to which the the options are added.
     """
+    parser.add_argument(
+        "--build-subdir",
+        help="name of the directory under $ANTHEM_BUILD_ROOT where the build "
+             "products will be placed",
+        metavar="PATH")
+    parser.add_argument(
+        "--shared-build-subdir",
+        help="name of the directory under $ANTHEM_BUILD_ROOT where the shared "
+             "build products will be placed. Has an effect only if the shared "
+             "tools are not disabled",
+        metavar="PATH")
+    parser.add_argument(
+        "--install-prefix",
+        help="The installation prefix. This is where built Unsung Anthem "
+             "products (like bin, lib, and include) will be installed.",
+        metavar="PATH")
+
+    parser.add_argument(
+        "-j", "--jobs",
+        help="the number of parallel build jobs to use",
+        type=int,
+        dest="build_jobs",
+        default=multiprocessing.cpu_count())
+
+    parser.add_argument(
+        "--darwin-xcrun-toolchain",
+        help="the name of the toolchain to use on Darwin",
+        default="default")
+    parser.add_argument(
+        "--cmake",
+        help="the path to a CMake executable that will be used to build "
+             "Unsung Anthem",
+        type=arguments.TYPE.executable,
+        metavar="PATH")
+    parser.add_argument(
+        "--git",
+        help="the path to a git executable that will be used to clone "
+             "possible git projects",
+        type=arguments.TYPE.executable,
+        metavar="PATH")
 
     parser.add_argument(
         "--host-cc",
@@ -569,6 +662,12 @@ def system_options(parser):
         help="disallow sharing dependencies between Unsung Anthem versions if "
              "the versions of the dependencies are the same",
         action="store_true")
+
+    parser.add_argument(
+        "--darwin-deployment-version",
+        help="minimum deployment target version for macOS",
+        metavar="MAJOR.MINOR",
+        default="10.9")
 
     return parser
 
@@ -651,5 +750,22 @@ def authentication_options(parser):
         "--auth-token",
         help="the OAuth token which is used to access the GitHub API",
         metavar="TOKEN")
+
+    return parser
+
+
+def miscellaneous_options(parser):
+    """
+    Add miscellaneous command line options to the parser.
+
+    parser -- the parser to which the the options are added.
+    """
+    parser.add_argument(
+        "--build-args",
+        help="arguments to the build tool. This would be prepended to the "
+             "default argument that is '-j8' when CMake generator is "
+             "\"Ninja\".",
+        type=arguments.TYPE.shell_split,
+        default=[])
 
     return parser

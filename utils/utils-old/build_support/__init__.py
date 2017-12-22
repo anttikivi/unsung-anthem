@@ -12,4 +12,4 @@ The support module of the Unsung Anthem build script.
 """
 
 
-__all__ = ["diagnostics"]
+__all__ = ["diagnostics", "migration"]

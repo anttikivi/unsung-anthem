@@ -8,8 +8,5 @@
 # Licensed under GNU Affero General Public License v3.0
 
 """
-The support module of the Unsung Anthem build script.
+The support module of the Unsung Anthem build script products.
 """
-
-
-__all__ = ["diagnostics"]

@@ -14,7 +14,7 @@ The support module containing the build target helpers.
 
 import platform
 
-from build_utils.mapping import Mapping
+from .mapping import Mapping
 
 
 def create_target(system, arch):
@@ -78,12 +78,7 @@ def host_target():
     macos = create_platform(name="macos", system="Darwin", archs=["x86_64"])
     linux = create_platform(
         name="linux", system="Linux", archs=[
-            "x86_64",
-            "armv6",
-            "armv7",
-            "aarch64",
-            "powerpc64",
-            "powerpc64le",
+            "x86_64", "armv6", "armv7", "aarch64", "powerpc64", "powerpc64le",
             "s390x"
         ]
     )
