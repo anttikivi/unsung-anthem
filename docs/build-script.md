@@ -72,3 +72,9 @@ Pass through extra options to the final CMake call in the form of comma separate
 #### `-v`, `--verbose-build`
 
 Print out the executed commands during the build.
+
+### Build Target Options
+
+#### `-h TARGET`, `--host-target TARGET`
+
+#### `--cross-compile-hosts HOSTS`

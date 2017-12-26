@@ -12,6 +12,9 @@ Default option value definitions.
 """
 
 
+from . import config
+
+
 __all__ = [
     # Command line configurable
     "BUILD_VARIANT",
@@ -30,8 +33,9 @@ __all__ = [
 BUILD_VARIANT = "Debug"
 CMAKE_GENERATOR = "Ninja"
 
-ANTHEM_VERSION = "0.1.0"
+ANTHEM_VERSION = "0.1.0-dev.1"
 
+DARWIN_XCRUN_TOOLCHAIN = "default"
 DARWIN_DEPLOYMENT_VERSION = "10.9"
 
 UNIX_INSTALL_PREFIX = "/usr"

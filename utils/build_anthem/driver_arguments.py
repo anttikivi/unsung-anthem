@@ -36,8 +36,10 @@ class _ApplyDefaultsArgumentParser(argparse.ArgumentParser):
         super(_ApplyDefaultsArgumentParser, self).__init__(*args, **kwargs)
 
     def parse_known_args(self, args=None, namespace=None):
-        args, argv = super(_ApplyDefaultsArgumentParser, self)\
-            .parse_known_args(args, namespace)
+        args, argv \
+            = super(_ApplyDefaultsArgumentParser, self).parse_known_args(
+                args,
+                namespace)
 
         self._apply_defaults(args)
         return args, argv
@@ -45,7 +47,7 @@ class _ApplyDefaultsArgumentParser(argparse.ArgumentParser):
 
 def _apply_default_arguments(args):
     """
-    Preprocess argument namespace to apply default behaviors.
+    Preprocess argument namespace to apply default behaviours.
     """
 
 
@@ -107,6 +109,11 @@ def create_argument_parser():
              "products (like bin, lib, and include) will be installed.")
 
     option(
+        "--darwin-xcrun-toolchain",
+        store,
+        default=defaults.DARWIN_XCRUN_TOOLCHAIN,
+        help="the name of the toolchain to use on Darwin")
+    option(
         "--cmake",
         store_path(executable=True),
         help="the path to a CMake executable that will be used to build "
@@ -149,6 +156,22 @@ def create_argument_parser():
         ["-v", "--verbose-build"],
         toggle_true,
         help="print the commands executed during the build")
+
+    # -------------------------------------------------------------------------
+    in_group("TODO: Host and cross-compilation targets")
+
+    option(
+        ["-h", "--host-target"],
+        store,
+        default=host_target().name,
+        help="the host target. Unsung Anthem will be built for this target")
+    option(
+        "--cross-compile-hosts",
+        append,
+        type=argparse.ShellSplitType(),
+        default=[],
+        help="a space separated list of targets to cross-compile Unsung "
+             "Anthem for. Can be used multiple times")
 
     return builder.build()
 

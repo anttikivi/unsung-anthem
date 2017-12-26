@@ -32,7 +32,6 @@ GITHUB_API_ENDPOINT = "https://api.github.com/graphql"
 
 PRODUCT_CONFIG = Mapping(
     anthem=anthem_config(
-        version="0.1.0-dev.1",
         window_name="Unsung Anthem",
         opengl=Mapping(version=Mapping(major=3, minor=2)),
         logger_name="anthem"
