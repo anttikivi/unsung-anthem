@@ -6,7 +6,7 @@
 #
 # This source file is part of the Unsung Anthem open source project.
 #
-# Copyright (c) 2017 Venturesome Stone
+# Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
 
@@ -25,16 +25,20 @@ import argparse
 import os
 import sys
 
-from build_anthem import driver_arguments
+from build_utils import diagnostics, shell
 
-from build_anthem import build_data
+from checkout import checkout
 
-from build_support import diagnostics, invocation, script, shell
+from presets import script
 
-from build_support.presets import \
+from presets.parser import \
     get_all_preset_names, parse_preset_defaults, get_preset_options
 
-from build_support.variables import ANTHEM_SOURCE_ROOT
+from script_support import driver_arguments, migration
+
+from script_support.variables import ANTHEM_SOURCE_ROOT
+
+from setup.setup import set_up_build
 
 
 def initialize_runtime_environment():
@@ -119,6 +123,7 @@ def main_preset():
         return 0
 
     shell.call_without_sleeping(build_script_invacation)
+
     return 0
 
 
@@ -127,8 +132,10 @@ def main_normal():
     Run the build script.
     """
     parser = driver_arguments.create_argument_parser()
-    build_data.build_data = invocation.set_up(parser)
-    invocation.invoke(build_data)
+    args = migration.parse_args(parser, sys.argv[1:])
+    set_up_build(args)
+    checkout.update()
+    invocation.invoke()
     return 0
 
 

@@ -11,17 +11,13 @@
 The support module containing the script options.
 """
 
-
-import multiprocessing
 import os
 
 from . import arguments
 
-from .config import PRODUCT_CONFIG
-
 from .targets import host_target
 
-from .variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
+from script_support.variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
 
 def ci_options(parser):

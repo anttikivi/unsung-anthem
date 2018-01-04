@@ -24,12 +24,14 @@ from __future__ import print_function
 import os
 import sys
 
-from build_support import diagnostics, invocation, script, shell
+from build_support import diagnostics, invocation
+from build_utils import shell
+from presets import script
 
 from build_support.presets import \
     get_all_preset_names, parse_preset_defaults, get_preset_options
 
-from build_support.variables import ANTHEM_SOURCE_ROOT
+from script_support.variables import ANTHEM_SOURCE_ROOT
 
 
 def initialize_runtime_environment():

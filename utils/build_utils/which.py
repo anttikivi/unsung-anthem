@@ -4,7 +4,7 @@
 #
 # This source file is part of the Unsung Anthem open source project.
 #
-# Copyright (c) 2017 Venturesome Stone
+# Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
 """
@@ -16,9 +16,7 @@ from __future__ import absolute_import
 
 import sys
 
-from . import cache_util
-
-from build_support import shell
+from . import cache_util, shell
 
 
 @cache_util.cached
