@@ -21,7 +21,7 @@ from script_support import data
 
 from script_support.variables import ANTHEM_SOURCE_ROOT
 
-from . import github_asset
+from . import github_asset, github_tag
 
 
 def simple_asset(key):

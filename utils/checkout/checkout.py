@@ -41,8 +41,7 @@ def get_product(key, versions):
         diagnostics.debug(
             "GitHub data is not found from {} and, thus, a custom function "
             "is used to download it".format(product.repr))
-        # TODO
-        reflection.product_call(product, "get_dependency")
+        reflection.product_checkout_call(product, "get_dependency")
 
     if "inject_version_info" in product \
             and product.inject_version_info is not None:

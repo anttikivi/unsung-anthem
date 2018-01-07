@@ -18,7 +18,8 @@ import sys
 from . import diagnostics
 
 
-PRODUCT_PACKAGE = "build_product"
+PRODUCT_PACKAGE = "products"
+CHECKOUT_MODULE = "checkout"
 
 
 def product_call(product, function, *args, **kwargs):
@@ -31,6 +32,25 @@ def product_call(product, function, *args, **kwargs):
     kwargs -- the key-value arguments to be passed into the function.
     """
     package = "{}.{}".format(PRODUCT_PACKAGE, product.identifier)
+    diagnostics.trace("Importing package {}".format(package))
+    product_module = importlib.import_module(package)
+    diagnostics.trace("Imported package {}".format(package))
+    getattr(product_module, function)(*args, **kwargs)
+
+
+def product_checkout_call(product, function, *args, **kwargs):
+    """
+    Call a function in a product module.
+
+    product -- the name of the product.
+    function -- the name of the function.
+    args -- the positional arguments to be passed into the function.
+    kwargs -- the key-value arguments to be passed into the function.
+    """
+    package = "{}.{}.{}".format(
+        PRODUCT_PACKAGE,
+        product.identifier,
+        CHECKOUT_MODULE)
     diagnostics.trace("Importing package {}".format(package))
     product_module = importlib.import_module(package)
     diagnostics.trace("Imported package {}".format(package))
@@ -77,7 +97,7 @@ def product_exists(product):
     import imp
     try:
         products_info = imp.find_module(PRODUCT_PACKAGE)
-        products = imp.load_module(PRODUCT_PACKAGE, *build_product_info)
+        products = imp.load_module(PRODUCT_PACKAGE, *products_info)
         diagnostics.trace("Found package {}".format(PRODUCT_PACKAGE))
 
         imp.find_module(product.identifier, products.__path__)

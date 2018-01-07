@@ -16,7 +16,7 @@ import os
 
 from build_utils.mapping import Mapping
 
-from build_product import llvm
+from products import llvm
 
 from .product_config import \
     product_config, \
@@ -44,7 +44,7 @@ PRODUCT_CONFIG = Mapping(
             llvm="llvm", libcxx="libcxx", libcxxabi="libcxxabi", clang="cfe"
         ),
         skip_checkout=True,
-        inject_version_info=llvm.inject_version_info,
+        inject_version_info=llvm.checkout.inject_version_info,
         release_format="{protocol}://releases.llvm.org/{version}/{key}-"
                        "{version}.src.tar.xz",
         binary_format="{protocol}://releases.llvm.org/{version}/clang+llvm-"

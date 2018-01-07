@@ -19,6 +19,8 @@ import platform
 import shutil
 import subprocess
 import sys
+import tarfile
+import zipfile
 
 from contextlib import contextmanager
 
@@ -184,6 +186,87 @@ def copytree(src, dest, dry_run=None, echo=True):
     if dry_run:
         return
     shutil.copytree(src, dest)
+
+
+def copy(src, dest, dry_run=None, echo=True):
+    """
+    Copy a file.
+
+    path -- path to the file.
+    dest -- the destination directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        _echo_command(dry_run, ["cp", src, dest])
+    if dry_run:
+        return
+    shutil.copy(src, dest)
+
+
+def move(src, dest, dry_run=None, echo=True):
+    """
+    Move a directory recursively.
+
+    src -- path to the directory.
+    dest -- the destination directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        _echo_command(dry_run, ["mv", "-f", src, dest])
+    if dry_run:
+        return
+    shutil.move(src, dest)
+
+
+def tar(path, dest=None, dry_run=None, echo=True):
+    """
+    Extract an archive.
+
+    path -- path to the archive.
+    dest -- the destination directory.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    dry_run = _coerce_dry_run(dry_run)
+    if dry_run or echo:
+        if dest:
+            _echo_command(dry_run, ["tar", "-xf", path, "-C", dest])
+        else:
+            _echo_command(dry_run, ["tar", "-xf", path])
+    if dry_run:
+        return
+    if path.endswith(".zip"):
+        with zipfile.ZipFile(path, "r") as archive:
+            if dest:
+                archive.extractall(dest)
+            else:
+                archive.extractall()
+    else:
+        if path.endswith(".tar") or path.endswith(".tar.gz"):
+            with tarfile.open(path) as archive:
+                if dest:
+                    archive.extractall(dest)
+                else:
+                    archive.extractall()
+        else:
+            if sys.version_info.major == 2:
+                # TODO Use different command for Windows.
+                with pushd(os.path.dirname(path)):
+                    if dest:
+                        call(
+                            ["tar", "-xf", os.path.split(path)[1], "-C", dest])
+                    else:
+                        call(["tar", "-xf", os.path.split(path)[1]])
+            else:
+                with tarfile.open(path) as archive:
+                    if dest:
+                        archive.extractall(dest)
+                    else:
+                        archive.extractall()
 
 
 def curl(url, dest, env=None, dry_run=None, echo=True):
