@@ -78,3 +78,7 @@ Print out the executed commands during the build.
 #### `-h TARGET`, `--host-target TARGET`
 
 #### `--cross-compile-hosts HOSTS`
+
+### Project Options
+
+#### 

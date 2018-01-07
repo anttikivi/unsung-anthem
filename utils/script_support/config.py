@@ -37,7 +37,7 @@ GITHUB_API_V4_ENDPOINT = "https://api.github.com/graphql"
 
 PRODUCT_CONFIG = Mapping(
     llvm=product_config(
-        version="5.0.0",
+        version="5.0.1",
         name="LLVM",
         identifier="llvm",
         subproducts=Mapping(
@@ -45,10 +45,14 @@ PRODUCT_CONFIG = Mapping(
         ),
         skip_checkout=True,
         inject_version_info=llvm.checkout.inject_version_info,
-        release_format="{protocol}://releases.llvm.org/{version}/{key}-"
-                       "{version}.src.tar.xz",
+        source_format="{protocol}://releases.llvm.org/{version}/{key}-"
+                      "{version}.src.tar.xz",
         binary_format="{protocol}://releases.llvm.org/{version}/clang+llvm-"
-                      "{version}-{platform}.tar.xz"
+                      "{version}-{platform}.tar.xz",
+        binary_platforms=Mapping(
+            ubuntu="linux-gnu-ubuntu-16.04",
+            darwin="apple-darwin"
+        )
     ),
 
     cmake=product_config(

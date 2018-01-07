@@ -177,6 +177,26 @@ def create_argument_parser():
         help="a space separated list of targets to cross-compile Unsung "
              "Anthem for. Can be used multiple times")
 
+    # -------------------------------------------------------------------------
+    in_group("Options to select projects")
+
+    option(
+        "--llvm",
+        toggle_true,
+        help="build LLVM and use the built LLVM",
+        dest="build_llvm")
+    option(
+        "--source-llvm",
+        toggle_true,
+        help="build LLVM from the source instead of downloading the pre-built "
+             "binaries. Implies '--llvm'")
+    option(
+        "--libc++",
+        toggle_true,
+        help="build libc++ and use the built library to build the project",
+        dest="build_libcxx")
+    option("--build-ninja", toggle_true, help="build the Ninja tool")
+
     return builder.build()
 
 

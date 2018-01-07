@@ -116,11 +116,13 @@ def set_up_build(args):
     """
     Construct the build data and download the dependencies.
     """
+    if args.source_llvm:
+        args.build_llvm = True
+
     shell.DRY_RUN = args.dry_run
     diagnostics.note("The main tool is set to {}".format(args.main_tool))
     diagnostics.note(
-        "The main tool version is set to {}".format(args.main_tool_version)
-    )
+        "The main tool version is set to {}".format(args.main_tool_version))
     validate_arguments(args)
 
     data.build = Mapping(
