@@ -135,7 +135,7 @@ def main_normal():
     args = migration.parse_args(parser, sys.argv[1:])
     set_up_build(args)
     checkout.update()
-    invocation.invoke()
+    # invocation.invoke()
     return 0
 
 

@@ -1,4 +1,4 @@
-#===------------------------- invocation.py ------------------*- python -*-===#
+#===--------------------------- setup.py ---------------------*- python -*-===#
 #
 #                             Unsung Anthem
 #
@@ -12,6 +12,8 @@ The support module containing the utilities for setting up the build
 invocation.
 """
 
+
+from __future__ import print_function
 
 import os
 import sys

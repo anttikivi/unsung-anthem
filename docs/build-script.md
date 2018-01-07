@@ -69,6 +69,14 @@ The minimum target version for deployment binaries for macOS.
 
 Pass through extra options to the final CMake call in the form of comma separated options: '-DCMAKE_VAR1=YES,-DCMAKE_VAR2=/tmp'. This option can be called multiple times to append the list of the options to be passed.
 
+#### `--main-tool NAME`
+
+The toolchain name that will be used to build Unsung Anthem. The currently supported options are llvm, gcc, and msbuild. The default is llvm. TODO Windows default
+
+#### `--main-tool-version VERSION`
+
+The possible, specific version of the toolchain for the automatic lookup on the platform.
+
 #### `-v`, `--verbose-build`
 
 Print out the executed commands during the build.
@@ -77,8 +85,30 @@ Print out the executed commands during the build.
 
 #### `-h TARGET`, `--host-target TARGET`
 
+TODO
+
 #### `--cross-compile-hosts HOSTS`
+
+TODO
 
 ### Project Options
 
-#### 
+#### `--llvm`
+
+Download the pre-built LLVM and Clang binaries and use them with the included libc++ to build Unsung Anthem.
+
+#### `--source-llvm`
+
+Build LLVM and Clang from the source and use the built Clang to build Unsung Anthem.
+
+#### `--libc++`
+
+Build libc++ and use the built libc++ with Unsung Anthem. Cannot be used if `--llvm` or `--source-llvm` is enabled.
+
+#### `--build-ninja`
+
+TODO
+
+### C++ Standard Options
+
+These options are mutually exclusive.

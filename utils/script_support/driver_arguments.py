@@ -12,6 +12,8 @@ The support module containing the script options.
 """
 
 
+from build_utils import diagnostics
+
 from build_utils.targets import host_target
 
 from . import argparse
@@ -48,12 +50,23 @@ def _apply_default_arguments(args):
     """
     Preprocess argument namespace to apply default behaviours.
     """
+    diagnostics.trace("Applying default arguments")
+
+    if args.std is None:
+        args.std = "c++14"
+
+    # Set the default CMake generator.
+    if args.cmake_generator is None:
+        args.cmake_generator = "Ninja"
 
 
 def create_argument_parser():
     """Return a configured argument parser."""
 
-    # NOTE: USAGE, DESCRIPTION and EPILOG are defined at the bottom of the file
+    diagnostics.trace("Creating argument parser builder")
+
+    # NOTE: USAGE, DESCRIPTION and EPILOGUE are defined at the bottom of
+    # the file
     parser = _ApplyDefaultsArgumentParser(
         apply_defaults=_apply_default_arguments,
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -79,6 +92,8 @@ def create_argument_parser():
     toggle_true = builder.actions.toggle_true
     toggle_false = builder.actions.toggle_false
     unsupported = builder.actions.unsupported
+
+    diagnostics.trace("Creating command line arguments")
 
     # -------------------------------------------------------------------------
     # Top-level options
@@ -157,6 +172,20 @@ def create_argument_parser():
              "called multiple times to add multiple such options")
 
     option(
+        "--main-tool",
+        store,
+        default="llvm",
+        help="the name of the main tool to be looked by the script. The "
+             "default is llvm")
+    option(
+        "--main-tool-version",
+        store,
+        default="default",
+        help="the version of the main tool which will be used in the lookup "
+             "of the tool")
+
+    # TODO
+    option(
         ["-v", "--verbose-build"],
         toggle_true,
         help="print the commands executed during the build")
@@ -165,7 +194,7 @@ def create_argument_parser():
     in_group("TODO: Host and cross-compilation targets")
 
     option(
-        ["-h", "--host-target"],
+        "--host-target",
         store,
         default=host_target().name,
         help="the host target. Unsung Anthem will be built for this target")
@@ -182,9 +211,8 @@ def create_argument_parser():
 
     option(
         "--llvm",
-        toggle_true,
-        help="build LLVM and use the built LLVM",
-        dest="build_llvm")
+        toggle_true("build_llvm"),
+        help="build LLVM and use the built LLVM")
     option(
         "--source-llvm",
         toggle_true,
@@ -192,10 +220,61 @@ def create_argument_parser():
              "binaries. Implies '--llvm'")
     option(
         "--libc++",
-        toggle_true,
-        help="build libc++ and use the built library to build the project",
-        dest="build_libcxx")
+        toggle_true("build_libcxx"),
+        help="build libc++ and use the built library to build the project")
+    # TODO: Should this be removed and the ninja be built if the script sees it
+    # necessary?
     option("--build-ninja", toggle_true, help="build the Ninja tool")
+
+    # -------------------------------------------------------------------------
+    in_group("Select the C++ standard")
+
+    with mutually_exclusive_group():
+        set_defaults(std="c++14")
+
+        option("--c++14",
+               store("std"),
+               const="c++14",
+               help="build using the C++14 standard (default is %(default)s)")
+        option("--c++17",
+               store("std"),
+               const="c++17",
+               help="build using the C++17 standard (default is %(default)s)")
+        option("--c++2a",
+               store("std"),
+               const="c++2a",
+               help="build using the next C++ standard (default is "
+                    "%(default)s)")
+
+    # -------------------------------------------------------------------------
+    in_group("Select the C++ standard library")
+
+    option(
+        "--stdlib",
+        store,
+        default="libc++",
+        help="build using the specified C++ standard library implementation")
+
+    # -------------------------------------------------------------------------
+    in_group("Select the CMake generator")
+
+    set_defaults(cmake_generator=defaults.CMAKE_GENERATOR)
+
+    option(
+        ["-e", "--eclipse"],
+        store("cmake_generator"),
+        const="Eclipse CDT4 - Ninja",
+        help="use CMake's Eclipse generator (%(default)s by default)")
+    option(
+        ["-m", "--make"],
+        store("cmake_generator"),
+        const="Unix Makefiles",
+        help="use CMake's Makefile generator (%(default)s by default)")
+    option(
+        ["-x", "--xcode"],
+        store("cmake_generator"),
+        const="Xcode",
+        help="use CMake's Xcode generator (%(default)s by default)")
 
     return builder.build()
 

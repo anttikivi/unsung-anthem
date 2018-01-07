@@ -16,6 +16,7 @@ __all__ = [
     # Command line configurable
     "BUILD_VARIANT",
     "CMAKE_GENERATOR",
+    "CXX_STANDARD",
     "ANTHEM_VERSION",
     "DARWIN_DEPLOYMENT_VERSION",
     "UNIX_INSTALL_PREFIX",
@@ -29,6 +30,8 @@ __all__ = [
 
 BUILD_VARIANT = "Debug"
 CMAKE_GENERATOR = "Ninja"
+
+CXX_STANDARD = "c++14"
 
 ANTHEM_VERSION = "0.1.0-dev.1"
 
