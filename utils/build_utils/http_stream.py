@@ -34,22 +34,22 @@ def stream(url, destination, headers=None):
     if data.build.args.ci or sys.version_info.major < 3:
         if platform.system() == "Windows":
             if headers:
-                responce = requests.get(url=url, headers=headers, stream=True)
+                response = requests.get(url=url, headers=headers, stream=True)
             else:
-                responce = requests.get(url=url, stream=True)
+                response = requests.get(url=url, stream=True)
             with open(destination, "wb") as destination_file:
-                for chunk in responce.iter_content(chunk_size=1024):
+                for chunk in response.iter_content(chunk_size=1024):
                     if chunk:
                         destination_file.write(chunk)
         else:
             shell.curl(url, destination)
         return
     if headers:
-        responce = requests.get(url=url, headers=headers, stream=True)
+        response = requests.get(url=url, headers=headers, stream=True)
     else:
-        responce = requests.get(url=url, stream=True)
+        response = requests.get(url=url, stream=True)
     with open(destination, "wb") as destination_file:
-        for chunk in responce.iter_content(chunk_size=1024):
+        for chunk in response.iter_content(chunk_size=1024):
             if chunk:
                 destination_file.write(chunk)
     diagnostics.debug_ok(
