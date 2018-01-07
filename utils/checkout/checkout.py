@@ -73,7 +73,7 @@ def update():
             else:
                 skip_list += ["llvm-llvm"]
 
-        if not args.build_cmake and toolchain.cmake is not None:
+        if toolchain.cmake is not None:
             skip_list += ["cmake"]
 
         if not args.build_ninja and toolchain.ninja is not None:

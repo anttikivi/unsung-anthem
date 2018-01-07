@@ -63,7 +63,6 @@ PRODUCT_CONFIG = Mapping(
         ),
         name="CMake",
         identifier="cmake",
-        version_format="MAJOR.MINOR.PATCH(.MINOR_PATCH)",
         url_format="{protocol}://cmake.org/files/v{major_minor}/cmake-"
                    "{version}-{platform}.{extension}"
     ),
