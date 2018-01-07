@@ -17,6 +17,8 @@ import platform
 
 from build_utils import diagnostics, http_stream, shell
 
+from products import common
+
 from script_support import data
 
 from script_support.variables import ANTHEM_SOURCE_ROOT
@@ -56,12 +58,10 @@ def get_dependency():
     """
     Download CMake.
     """
+    common.checkout.clean_checkout("cmake")
+
     product = data.build.products.cmake
     version = product.version
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", version))
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", version))
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
 
     version_mapping = product.version_mapping
     major_minor = "{}.{}".format(version_mapping.major, version_mapping.minor)
