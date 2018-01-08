@@ -8,4 +8,7 @@
 # Licensed under GNU Affero General Public License v3.0
 
 
+from . import checkout
+
+
 __all__ = ["checkout"]

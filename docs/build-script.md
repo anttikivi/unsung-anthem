@@ -49,6 +49,14 @@ The directory in which the final build products will be placed.
 
 Path to the CMake executable that will be used building Unsung Anthem. If this is not set and the build script doesn’t find CMake from the `PATH` of the system, the build script downloads CMake and uses the downloaded CMake.
 
+#### `--git PATH`
+
+TODO
+
+#### `--msbuild PATH`
+
+TODO
+
 #### `--host-cc PATH`
 
 The absolute path to the C compiler on the host platform. The compiler is used for building Unsung Anthem and its dependencies. The default is auto-detected.
@@ -112,3 +120,35 @@ TODO
 ### C++ Standard Options
 
 These options are mutually exclusive.
+
+#### `--c++14`
+
+Build Unsung Anthem using C++14 standard.
+
+#### `--c++17`
+
+Build Unsung Anthem using C++17 standard.
+
+#### `--c++2a`
+
+Build Unsung Anthem using the upcoming C++ standard, currently called C++2a.
+
+### C++ Standard Library
+
+#### `--stdlib STDLIB`
+
+Build Unsung Anthem using the specified C++ standard library implementation. The currently supported options are `libc++` and `--libstdc++`
+
+### CMake Options
+
+#### `-e`, `--eclipse`
+
+TODO
+
+#### `-m`, `--make`
+
+TODO
+
+#### `-x`, `--xcode`
+
+TODO

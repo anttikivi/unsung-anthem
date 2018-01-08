@@ -31,7 +31,7 @@ def stream(url, destination, headers=None):
     headers -- the possible headers for the HTTP call.
     """
     diagnostics.debug("Streaming an asset from {}".format(url))
-    if data.build.args.ci or sys.version_info.major < 3:
+    if data.build.ci or sys.version_info.major < 3:
         if platform.system() == "Windows":
             if headers:
                 response = requests.get(url=url, headers=headers, stream=True)

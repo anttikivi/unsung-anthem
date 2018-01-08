@@ -23,7 +23,7 @@ from script_support import data
 
 from script_support.variables import ANTHEM_SOURCE_ROOT
 
-from . import platform
+from . import platforms
 
 
 def move_files():
@@ -32,7 +32,7 @@ def move_files():
     """
     product = data.build.products.cmake
     version = product.version
-    cmake_platform = platform.resolve()
+    cmake_platform = platforms.resolve()
     subdir = "cmake-{}-{}".format(version, cmake_platform)
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", version))
 
@@ -66,7 +66,7 @@ def get_dependency():
     version_mapping = product.version_mapping
     major_minor = "{}.{}".format(version_mapping.major, version_mapping.minor)
 
-    cmake_platform = platform.resolve()
+    cmake_platform = platforms.resolve()
 
     if platform.system() == "Windows":
         archive_extension = "zip"

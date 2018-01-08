@@ -55,7 +55,7 @@ def call_query(file_name, replacements=None):
         raw_query = str(query_file.read())
 
     if replacements:
-        for k, v in replacements:
+        for k, v in replacements.items():
             raw_query = raw_query.replace(k, v)
 
     query = json.dumps({"query": raw_query})
@@ -70,6 +70,9 @@ def call_query(file_name, replacements=None):
             "User-Agent": "venturesomestone",
             "Accept": "application/json",
             "Authorization": "bearer {}".format(data.build.github_token)})
+
+    diagnostics.trace(
+        "The query returned the following JSON:\n{}".format(response.json()))
 
     return response.json()["data"]
 
@@ -91,6 +94,35 @@ def find_release_node(key, json_data):
         if node["name"] == "":
             continue
         if node["name"] == gh_version:
+            diagnostics.debug(
+                "Found the release {} ({}) of {}".format(
+                    product.version,
+                    gh_version,
+                    product.repr))
+            ret_node = node
+
+    return ret_node
+
+
+def find_release_node_by_tag(key, json_data):
+    """
+    Finds the requested release node from the GitHub API JSON data by the tag
+    name.
+
+    key -- the name of the product.
+    json_data -- the JSON data where the release node is.
+    """
+    product = data.build.products[key]
+    release_edges = json_data["repository"]["releases"]["edges"]
+    ret_node = None
+    gh_version = get_github_version(key)
+
+    for edge in release_edges:
+        node = edge["node"]
+        if node["name"] == "":
+            continue
+        tag_name = node["tag"]["name"]
+        if tag_name == gh_version:
             diagnostics.debug(
                 "Found the release {} ({}) of {}".format(
                     product.version,

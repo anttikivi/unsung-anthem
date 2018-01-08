@@ -41,7 +41,7 @@ def checkout_tag_windows(key, tag_ref_name):
         shell.call([
             data.build.toolchain.git, "checkout",
             "tags/{}".format(tag_ref_name), "-b",
-            "{}_branch".format(tag_ref_name)])
+            "{}_anthem_branch".format(tag_ref_name)])
 
 
 def checkout_tag(key, tag_ref_name):
@@ -55,7 +55,7 @@ def checkout_tag(key, tag_ref_name):
         shell.call([
             data.build.toolchain.git, "checkout",
             "tags/{}".format(tag_ref_name), "-b",
-            "{}_branch".format(tag_ref_name)])
+            "{}_anthem_branch".format(tag_ref_name)])
 
 
 def download_v4(key):
@@ -84,9 +84,19 @@ def download_v4(key):
                 data.build.toolchain.git, "clone",
                 "{}.git".format(response_json_data["repository"]["url"])])
 
-    tag_ref_name = github_v4_util.find_release_node(
+    release_node = github_v4_util.find_release_node(
         key,
-        response_json_data)["tag"]["name"]
+        response_json_data)
+
+    if not release_node:
+        release_node = github_v4_util.find_release_node_by_tag(
+            key,
+            response_json_data
+        )
+
+    tag_ref_name = github_v4_util.get_github_version(key) \
+        if not release_node \
+        else release_node["tag"]["name"]
 
     if platform.system() == "Windows":
         checkout_tag_windows(key=key, tag_ref_name=tag_ref_name)

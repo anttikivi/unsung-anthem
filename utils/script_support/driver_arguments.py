@@ -12,12 +12,16 @@ The support module containing the script options.
 """
 
 
+import os
+
 from build_utils import diagnostics
 
 from build_utils.targets import host_target
 
 from . import argparse
 from . import defaults
+
+from .variables import ANTHEM_REPO_NAME, ANTHEM_SOURCE_ROOT
 
 
 __all__ = [
@@ -52,12 +56,34 @@ def _apply_default_arguments(args):
     """
     diagnostics.trace("Applying default arguments")
 
+    # Set the default build variant.
+    if args.build_variant is None:
+        args.build_variant = "Debug"
+
+    if args.anthem_build_variant is None:
+        args.anthem_build_variant = args.build_variant
+
+    if args.sdl_build_variant is None:
+        args.sdl_build_variant = args.build_variant
+
+    # Assertions are enabled by default.
+    if args.assertions is None:
+        args.assertions = True
+
+    # Propagate the default assertions setting.
+    if args.anthem_assertions is None:
+        args.anthem_assertions = args.assertions
+
     if args.std is None:
         args.std = "c++14"
 
     # Set the default CMake generator.
     if args.cmake_generator is None:
         args.cmake_generator = "Ninja"
+
+    if not args.auth_token and ("CI" not in os.environ or not os.environ["CI"]):
+        with open(args.auth_token_file) as token_file:
+            args.auth_token = str(token_file.read())
 
 
 def create_argument_parser():
@@ -118,8 +144,8 @@ def create_argument_parser():
     option(
         "--install-prefix",
         store_path,
-        # TODO: default=targets.install_prefix(),
-        help="The installation prefix. This is where built Unsung Anthem "
+        default=os.path.join(ANTHEM_SOURCE_ROOT, "dest"),
+        help="the installation prefix. This is where built Unsung Anthem "
              "products (like bin, lib, and include) will be installed.")
 
     option(
@@ -137,6 +163,11 @@ def create_argument_parser():
         store_path(executable=True),
         help="the path to a git executable that will be used in the build of "
              "Unsung Anthem")
+    option(
+        "--msbuild",
+        store_path(executable=True),
+        help="the absolute path to MSBuild for the host platform. Default is "
+             "auto detected")
 
     option(
         "--host-cc",
@@ -225,6 +256,11 @@ def create_argument_parser():
     # TODO: Should this be removed and the ninja be built if the script sees it
     # necessary?
     option("--build-ninja", toggle_true, help="build the Ninja tool")
+    option(
+        "--build-test",
+        toggle_true,
+        default=True,
+        help="build the Unsung Anthem tests")
 
     # -------------------------------------------------------------------------
     in_group("Select the C++ standard")
@@ -275,6 +311,106 @@ def create_argument_parser():
         store("cmake_generator"),
         const="Xcode",
         help="use CMake's Xcode generator (%(default)s by default)")
+
+    # -------------------------------------------------------------------------
+    in_group("Extra actions to perform before or in addition to building")
+
+    option(["-c", "--clean"], store_true, help="do a clean build")
+
+    # -------------------------------------------------------------------------
+    in_group("Build variant")
+
+    with mutually_exclusive_group():
+
+        set_defaults(build_variant="Debug")
+
+        option(
+            ["-d", "--debug"],
+            store("build_variant"),
+            const="Debug",
+            help="build the Debug variant of Unsung Anthem and related "
+                 "project (default is %(default)s)")
+
+        option(
+            ["-r", "--release-debuginfo"],
+            store("build_variant"),
+            const="RelWithDebInfo",
+            help="build the RelWithDebInfo variant of Unsung Anthem and "
+                 "related project (default is %(default)s)")
+
+        option(
+            ["-R", "--release"],
+            store("build_variant"),
+            const="Release",
+            help="build the Release variant of Unsung Anthem and related "
+                 "project (default is %(default)s)")
+
+    # -------------------------------------------------------------------------
+    in_group("Override build variant for a specific project")
+
+    option(
+        "--debug-anthem",
+        store("anthem_build_variant"),
+        const="Debug",
+        help="build the Debug variant of Unsung Anthem")
+
+    option(
+        "--debug-sdl",
+        store("sdl_build_variant"),
+        const="Debug",
+        help="build the Debug variant of Simple DirectMedia Layer")
+
+    # -------------------------------------------------------------------------
+    # Assertions group
+
+    with mutually_exclusive_group():
+
+        set_defaults(assertions=True)
+
+        # TODO: Convert to store_true
+        option(
+            "--assertions",
+            store,
+            const=True,
+            help="enable assertions in all projects")
+
+        # TODO: Convert to store_false
+        option(
+            "--no-assertions",
+            store("assertions"),
+            const=False,
+            help="disable assertions in all projects")
+
+    # -------------------------------------------------------------------------
+    in_group("Control assertions in a specific project")
+
+    option(
+        "--anthem-assertions",
+        store,
+        const=True,
+        help="enable assertions in Unsung Anthem")
+
+    # -------------------------------------------------------------------------
+    in_group("Authentication options")
+
+    with mutually_exclusive_group():
+
+        option(
+            "--auth-token-file",
+            store,
+            default=os.path.join(
+                ANTHEM_SOURCE_ROOT,
+                ANTHEM_REPO_NAME,
+                "token"),
+            metavar="TOKEN",
+            help="the file which contains the OAuth token which is used to "
+                 "access the GitHub API")
+
+        option(
+            "--auth-token",
+            store,
+            metavar="TOKEN",
+            help="the OAuth token which is used to access the GitHub API")
 
     return builder.build()
 

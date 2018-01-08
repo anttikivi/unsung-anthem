@@ -31,6 +31,8 @@ from script_support.variables import ANTHEM_SOURCE_ROOT, ANTHEM_BUILD_ROOT
 
 from toolchain.toolchain import host_toolchain, set_arguments_to_toolchain
 
+from .arguments import set_default_args
+
 
 def exit_rejecting_arguments(message, parser=None):
     """
@@ -118,28 +120,31 @@ def set_up_build(args):
     """
     Construct the build data and download the dependencies.
     """
-    if args.source_llvm:
-        args.build_llvm = True
+    set_default_args(args)
 
     shell.DRY_RUN = args.dry_run
     diagnostics.note("The main tool is set to {}".format(args.main_tool))
     diagnostics.note(
         "The main tool version is set to {}".format(args.main_tool_version))
+
     validate_arguments(args)
 
     data.build = Mapping(
         args=args,
         source_root=ANTHEM_SOURCE_ROOT,
         build_root=os.path.join(ANTHEM_BUILD_ROOT, args.build_subdir),
-        install_root=os.path.join(ANTHEM_BUILD_ROOT, args.install_prefix),
+        install_root=args.install_prefix,
         products=PRODUCT_CONFIG
     )
+
+    data.build["local_root"] = os.path.join(data.build.build_root, "local")
 
     if args.clean:
         clean_delay()
         shell.rmtree(path=data.build.build_root)
 
     shell.makedirs(data.build.build_root)
+    shell.makedirs(data.build.local_root)
     shell.makedirs(data.build.install_root)
 
     os.environ["TOOLCHAINS"] = args.darwin_xcrun_toolchain
@@ -151,7 +156,9 @@ def set_up_build(args):
         args=args,
         toolchain=data.build.toolchain)
 
-    if os.environ["CI"]:
+    data.build["ci"] = "CI" in os.environ and os.environ["CI"]
+
+    if data.build.ci:
         data.build["github_token"] = str(os.environ["ANTHEM_OAUTH"])
     else:
         data.build["github_token"] = args.auth_token

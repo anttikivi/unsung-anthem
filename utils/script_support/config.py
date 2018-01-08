@@ -87,7 +87,7 @@ PRODUCT_CONFIG = Mapping(
     ),
 
     glad=product_config(
-        version="0.1.14a0",
+        version="0.1.16a0",
         name="glad",
         identifier="glad",
         github_data=github_config(
