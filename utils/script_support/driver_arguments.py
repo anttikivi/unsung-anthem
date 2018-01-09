@@ -257,9 +257,8 @@ def create_argument_parser():
     # necessary?
     option("--build-ninja", toggle_true, help="build the Ninja tool")
     option(
-        "--build-test",
-        toggle_true,
-        default=True,
+        ["-t", "--test"],
+        toggle_true("build_test"),
         help="build the Unsung Anthem tests")
 
     # -------------------------------------------------------------------------
@@ -311,6 +310,20 @@ def create_argument_parser():
         store("cmake_generator"),
         const="Xcode",
         help="use CMake's Xcode generator (%(default)s by default)")
+
+    option(
+        "--visual-studio-14",
+        store("cmake_generator"),
+        const="Visual Studio 14 2015",
+        help="use CMake's Visual Studio 2015 generator (%(default)s by "
+             "default)")
+
+    option(
+        "--visual-studio-15",
+        store("cmake_generator"),
+        const="Visual Studio 15 2017",
+        help="use CMake's Visual Studio 2017 generator (%(default)s by "
+             "default)")
 
     # -------------------------------------------------------------------------
     in_group("Extra actions to perform before or in addition to building")

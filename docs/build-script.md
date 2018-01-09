@@ -117,6 +117,10 @@ Build libc++ and use the built libc++ with Unsung Anthem. Cannot be used if `--l
 
 TODO
 
+#### `-t`, `--test`
+
+Build the Unsung Anthem tests and run them thereafter.
+
 ### C++ Standard Options
 
 These options are mutually exclusive.
@@ -139,7 +143,7 @@ Build Unsung Anthem using the upcoming C++ standard, currently called C++2a.
 
 Build Unsung Anthem using the specified C++ standard library implementation. The currently supported options are `libc++` and `--libstdc++`
 
-### CMake Options
+### CMake Generator
 
 #### `-e`, `--eclipse`
 
@@ -152,3 +156,67 @@ TODO
 #### `-x`, `--xcode`
 
 TODO
+
+#### `--visual-studio-14`
+
+TODO
+
+#### `--visual-studio-15`
+
+TODO
+
+### Extra Actions
+
+#### `-c`, `--clean`
+
+Do a clean build.
+
+### Build Variant
+
+#### `-d`, `--debug`
+
+Build the debug variant of Unsung Anthem and the related projects.
+
+#### `-r`, `--release-debuginfo`
+
+Build the release variant of Unsung Anthem and the related projects with debug information.
+
+#### `-R`, `--release`
+
+Build the release variant of Unsung Anthem and the related projects.
+
+### Build Variant in Specific Projects
+
+#### `--debug-anthem`
+
+Build the debug variant of Unsung Anthem.
+
+#### `--debug-sdl`
+
+Build the debug variant of Simple DirectMedia Player.
+
+### Assertions
+
+#### `--assertions`
+
+Enable assertions in all projects which support them.
+
+#### `--no-assertions`
+
+Disable assertions in all projects.
+
+### Assertions in Specific Projects.
+
+#### `--anthem-assertions`
+
+Enable assertions in Unsung Anthem.
+
+### Authentication
+
+#### `--auth-token-file PATH`
+
+Path to a file which contains an OAuth token which is used to access the GitHub GraphQL API.
+
+#### `--auth-token TOKEN`
+
+An OAuth token which is used to access the GitHub GraphQL API.
