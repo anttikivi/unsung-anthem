@@ -14,6 +14,59 @@ The support module containing the workspace utilities of the build.
 
 import os
 
+from script_support import data
+
+from script_support.variables import ANTHEM_SOURCE_ROOT
+
+from . import cache_util
+
+
+@cache_util.cached
+def source_dir(product, subproject=None, name=None):
+    """
+    Create the absolute path to the source directory of the given product.
+
+    product -- the product.
+    subproject -- a possible subproject of the product for which the path is
+    created.
+    name -- a custom name of the source directory.
+    """
+    if subproject:
+        return os.path.join(
+            ANTHEM_SOURCE_ROOT, product.identifier, product.version, subproject
+        )
+    if name:
+        return os.path.join(ANTHEM_SOURCE_ROOT, name)
+    return os.path.join(
+        ANTHEM_SOURCE_ROOT, product.identifier, product.version
+    )
+
+
+@cache_util.cached
+def build_dir(product, target=None, subproject=None):
+    """
+    Create the absolute path to the build directory of the given product.
+
+    product -- the product.
+    name -- a custom target name.
+    subproject -- a possible subproduct of the product for which the path is
+    created.
+    """
+    if target:
+        return os.path.join(
+            data.build.build_root,
+            "{}-{}".format(product.identifier, target),
+            product.version)
+    if subproject:
+        return os.path.join(
+            data.build.build_root,
+            "{}-{}".format(subproject, data.build.host_target),
+            product.version)
+    return os.path.join(
+        data.build.build_root,
+        "{}-{}".format(product.identifier, data.build.host_target),
+        product.version)
+
 
 def compute_build_subdir(args):
     """

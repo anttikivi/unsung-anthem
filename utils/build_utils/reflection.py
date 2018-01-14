@@ -20,6 +20,7 @@ from . import diagnostics
 
 PRODUCT_PACKAGE = "products"
 CHECKOUT_MODULE = "checkout"
+BUILD_MODULE = "build"
 
 
 def product_call(product, function, *args, **kwargs):
@@ -51,6 +52,25 @@ def product_checkout_call(product, function, *args, **kwargs):
         PRODUCT_PACKAGE,
         product.identifier,
         CHECKOUT_MODULE)
+    diagnostics.trace("Importing package {}".format(package))
+    product_module = importlib.import_module(package)
+    diagnostics.trace("Imported package {}".format(package))
+    getattr(product_module, function)(*args, **kwargs)
+
+
+def product_build_call(product, function, *args, **kwargs):
+    """
+    Call a function in a product module.
+
+    product -- the name of the product.
+    function -- the name of the function.
+    args -- the positional arguments to be passed into the function.
+    kwargs -- the key-value arguments to be passed into the function.
+    """
+    package = "{}.{}.{}".format(
+        PRODUCT_PACKAGE,
+        product.identifier,
+        BUILD_MODULE)
     diagnostics.trace("Importing package {}".format(package))
     product_module = importlib.import_module(package)
     diagnostics.trace("Imported package {}".format(package))
