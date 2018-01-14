@@ -29,6 +29,8 @@ from build_utils import diagnostics, shell
 
 from checkout import checkout
 
+from invocation import tools
+
 from presets import script
 
 from presets.parser import \
@@ -135,6 +137,7 @@ def main_normal():
     args = migration.parse_args(parser, sys.argv[1:])
     set_up_build(args)
     checkout.update()
+    tools.build_tools()
     # invocation.invoke()
     return 0
 

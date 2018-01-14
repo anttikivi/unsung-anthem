@@ -24,6 +24,20 @@ from script_support.variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
 from . import github
 
 
+def write_version_file(versions):
+    """
+    Writes the version information to the versions file.
+
+    versions -- the data for the versions of the projects.
+    """
+    with open(os.path.join(ANTHEM_SOURCE_ROOT, "versions"), "w") as outfile:
+        json.dump(versions, outfile)
+
+    diagnostics.debug_ok(
+        "Wrote the dependecy version information to {}".format(
+            os.path.join(ANTHEM_SOURCE_ROOT, "versions")))
+
+
 def get_product(key, versions):
     """
     Download a product.
@@ -118,9 +132,6 @@ def update():
 
         diagnostics.debug_ok("Checkout update of {} is complete".format(name))
 
-    with open(os.path.join(ANTHEM_SOURCE_ROOT, "versions"), "w") as outfile:
-        json.dump(versions, outfile)
+        write_version_file(versions)
 
-    diagnostics.debug_ok(
-        "Wrote the dependecy version information to {}".format(
-            os.path.join(ANTHEM_SOURCE_ROOT, "versions")))
+    write_version_file(versions)
