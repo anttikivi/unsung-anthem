@@ -8,9 +8,9 @@
 # Licensed under GNU Affero General Public License v3.0
 
 
-from . import build
+from . import build, checkout
 
 from .build import libcxx_bin_path, set_up
 
 
-__all__ = ["build", "libcxx_bin_path", "set_up"]
+__all__ = ["build", "checkout", "libcxx_bin_path", "set_up"]

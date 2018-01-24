@@ -96,7 +96,7 @@ def do_build():
     Builds Ninja.
     """
     product = data.build.products.ninja
-    common.build.check_source(product)
+    common.build.check_source(product.identifier)
     _build()
     data.build.toolchain.ninja = ninja_bin_path()
     shell.call(["chmod", "+x", str(ninja_bin_path())])

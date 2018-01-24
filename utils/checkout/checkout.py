@@ -109,6 +109,12 @@ def update():
     for key in data.build.products.keys():
         product = data.build.products[key]
         name = product.repr
+        if key is "anthem":
+            diagnostics.debug(
+                "{} should not be updated via the automated checkout "
+                "update".format(name)
+            )
+            continue
         diagnostics.debug(
             "Beginning to process the checkout update of {}".format(name))
         if key in skip_repository_list:

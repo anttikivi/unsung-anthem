@@ -82,3 +82,16 @@ def should_build():
     Check whether this product should be built.
     """
     return True
+
+
+def copy_dynamic(dest):
+    """
+    Move the dynamic library on Windows.
+
+    dest -- the directory to which the library is copied.
+    """
+    bin_path = workspace.lib_file(path="SDL2.dll")
+    dest_path = os.path.join(dest, "SDL2.dll")
+    if os.path.exists(dest_path):
+        return
+    shell.copy(bin_path, dest)

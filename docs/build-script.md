@@ -175,6 +175,10 @@ TODO
 
 Do a clean build.
 
+#### `--gcov`
+
+TODO
+
 ### Build Variant
 
 #### `-d`, `--debug`
@@ -228,3 +232,33 @@ Path to a file which contains an OAuth token which is used to access the GitHub 
 #### `--auth-token TOKEN`
 
 An OAuth token which is used to access the GitHub GraphQL API.
+
+### Program
+
+#### `--executable-name NAME`
+
+TODO
+
+#### `--lib-name NAME`
+
+TODO
+
+#### `--test-executable-name NAME`
+
+TODO
+
+### Threading Options
+
+This group is mutually exclusive.
+
+#### `--multithreading`
+
+TODO
+
+#### `--no-multithreading`
+
+TODO
+
+#### `--single-thread`
+
+TODO

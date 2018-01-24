@@ -71,13 +71,10 @@ function(CREATE_EXECUTABLE TYPE)
     if (ANTHEM_ENABLE_GCOV)
       set_up_coverage(${ANTHEM_TEST_EXECUTABLE_NAME})
     endif()
-  elseif(${TYPE} STREQUAL clion)
-    create_main_executable()
-    create_test_executable()
   else()
     message(FATAL_ERROR
         "The value of the executable type (ANTHEM_EXECUTABLE_TYPE) is \
 ${ANTHEM_EXECUTABLE_TYPE} and thus invalid – please set it to either \
-'anthem', 'test', or 'clion'")
+'anthem' or 'test'")
   endif()
 endfunction()

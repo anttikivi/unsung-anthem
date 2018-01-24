@@ -56,17 +56,3 @@ def set_up():
         "projects",
         key
     ))
-
-
-def remove_bad_symlink(subdir):
-    """
-    Remove the bad symlink in libc++.
-
-    subdir -- the name of the libc++ subdir in the release archive.
-    """
-    # FIXME: This is bad, this is hardcoded.
-    shell.rm(os.path.join(
-        ANTHEM_SOURCE_ROOT, "libcxx", "temp", subdir, "test", "std",
-        "experimental", "filesystem", "Inputs", "static_test_env",
-        "bad_symlink"
-    ))

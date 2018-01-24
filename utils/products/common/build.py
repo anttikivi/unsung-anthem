@@ -93,7 +93,7 @@ def binary_exists(product, path, target=None, subproject=None):
     return False
 
 
-def _ninja(target=None, env=None):
+def ninja(target=None, env=None):
     """
     Call Ninja on the current build directory.
 
@@ -143,9 +143,23 @@ def make(target=None, extra_args=None, env=None):
             call += extra_args
         else:
             call += [extra_args]
-    call += ["-j"]
-    call += [str(data.build.args.build_jobs)]
+    # call += ["-j"]
+    # call += [str(data.build.args.build_jobs)]
     shell.call(call, env=env)
+
+
+def msbuild(args, env=None, dry_run=None, echo=False):
+    """
+    Call MSBuild.
+
+    args -- the MSBuild arguments.
+    env -- custom environment variables of the command.
+    dry_run -- whether or not to command is only printed.
+    echo -- whether or not the command is echoed before the execution.
+    """
+    call_command = [data.build.toolchain.msbuild]
+    call_command += args
+    shell.call(call_command, env=env, dry_run=dry_run, echo=echo)
 
 
 def build_call(
@@ -231,13 +245,13 @@ def build_call(
         # TODO MSBuild
         if use_ninja:
             if build_targets:
-                _ninja(target=build_targets)
+                ninja(target=build_targets)
             else:
-                _ninja()
+                ninja()
             if install_targets:
-                _ninja(target=install_targets)
+                ninja(target=install_targets)
             else:
-                _ninja(target="install")
+                ninja(target="install")
         elif args.cmake_generator == "Unix Makefiles":
             if build_targets:
                 make(target=build_targets)

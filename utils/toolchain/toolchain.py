@@ -58,6 +58,7 @@ def register_tools(args):
     tools.ninja = "ninja"
     tools.cmake = "cmake"
     tools.git = "git"
+    tools.make = "make"
     return tools
 
 
@@ -183,3 +184,5 @@ def set_arguments_to_toolchain(args, toolchain):
         toolchain.cmake = args.cmake
     if args.git is not None:
         toolchain.git = args.git
+    # if args.make is not None:
+    #     toolchain.make = args.make

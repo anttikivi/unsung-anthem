@@ -58,7 +58,7 @@ def product_checkout_call(product, function, *args, **kwargs):
     getattr(product_module, function)(*args, **kwargs)
 
 
-def get_product_build_call(product, function):
+def get_build_call(product, function):
     """
     Get a function in a product module.
 
@@ -75,7 +75,7 @@ def get_product_build_call(product, function):
     return getattr(product_module, function)
 
 
-def product_build_call(product, function, *args, **kwargs):
+def build_call(product, function, *args, **kwargs):
     """
     Call a function in a product module.
 
@@ -84,17 +84,20 @@ def product_build_call(product, function, *args, **kwargs):
     args -- the positional arguments to be passed into the function.
     kwargs -- the key-value arguments to be passed into the function.
     """
-    get_product_build_call(product, function)(*args, **kwargs)
+    return get_build_call(product, function)(*args, **kwargs)
 
 
-def product_function_exists(product, function):
+def build_function_exists(product, function):
     """
     Check whether a function exists in a product module.
 
     product -- the name of the product.
     function -- the name of the function.
     """
-    package = "{}.{}".format(PRODUCT_PACKAGE, product.identifier)
+    package = "{}.{}.{}".format(
+        PRODUCT_PACKAGE,
+        product.identifier,
+        BUILD_MODULE)
     diagnostics.trace(
         "Importing package {} for checking whether function {} exists".format(
             package, function

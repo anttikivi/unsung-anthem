@@ -25,12 +25,17 @@ def build_tools():
     args = data.build.args
     toolchain = data.build.toolchain
 
-    for product in data.build.products:
-        if product.check_if_tool() \
-                and reflection.get_product_build_call(product, "should_build"):
+    for key, product in data.build.products.items():
+        diagnostics.trace(
+            "Checking whether {} is a tool".format(product.identifier)
+        )
+        should_build = reflection.build_call(product, "should_build")
+        if product.check_if_tool() and should_build:
             diagnostics.trace("Entering the build of {}".format(product.repr))
-            reflection.product_build_call(product, "do_build")
+            reflection.build_call(product, "do_build")
             diagnostics.debug_ok("{} is now built".format(product.repr))
+        elif product.check_if_tool() and not should_build:
+            diagnostics.trace("{} is not built".format(product.repr))
 
     if args.main_tool == "msbuild":
         if not toolchain.cc:
@@ -38,30 +43,30 @@ def build_tools():
         if not toolchain.cxx:
             toolchain.cxx = toolchain.msbuild
 
-    diagnostics.note(
+    diagnostics.fine(
         "The executable name is set to {}".format(str(args.executable_name))
     )
-    diagnostics.note(
+    diagnostics.fine(
         "The test executable name is set to {}".format(
             str(args.test_executable_name)
         )
     )
 
-    diagnostics.note("The host C compiler is set to {}".format(
+    diagnostics.fine("The host C compiler is set to {}".format(
         str(toolchain.cc)
     ))
-    diagnostics.note("The host C++ compiler is set to {}".format(
+    diagnostics.fine("The host C++ compiler is set to {}".format(
         str(toolchain.cxx)
     ))
-    diagnostics.note("Make is set to {}".format(str(toolchain.make)))
-    diagnostics.note("MSBuild is set to {}".format(str(toolchain.msbuild)))
-    diagnostics.note("Ninja is set to {}".format(str(toolchain.ninja)))
-    diagnostics.note("CMake is set to {}".format(str(toolchain.cmake)))
-    diagnostics.note("git is set to {}".format(str(toolchain.git)))
+    diagnostics.fine("Make is set to {}".format(str(toolchain.make)))
+    diagnostics.fine("MSBuild is set to {}".format(str(toolchain.msbuild)))
+    diagnostics.fine("Ninja is set to {}".format(str(toolchain.ninja)))
+    diagnostics.fine("CMake is set to {}".format(str(toolchain.cmake)))
+    diagnostics.fine("git is set to {}".format(str(toolchain.git)))
 
-    diagnostics.note("The C++ standard version is {}".format(data.build.std))
+    diagnostics.fine("The C++ standard version is {}".format(data.build.std))
 
     if data.build.stdlib:
-        diagnostics.note(
+        diagnostics.fine(
             "The C++ standard library is {}".format(data.build.stdlib)
         )

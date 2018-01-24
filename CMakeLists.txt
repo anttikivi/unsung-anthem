@@ -16,6 +16,7 @@ include(CompilerFlags)
 include(Definitions)
 include(Executables)
 include(ExternalSources)
+include(Install)
 include(StdDefinitions)
 include(Variables)
 
@@ -70,8 +71,8 @@ if(UNIX)
 
   assert_variable(SDL2_LIBRARY "SDL2 libraries")
 
-  # set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ${SDL2_LIBRARY})
-  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2maind SDL2d)
+  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ${SDL2_LIBRARY})
+  # set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2main SDL2)
 
   if(APPLE)
   else()
@@ -113,6 +114,8 @@ add_subdirectory(test)
 set_glad_sources()
 
 create_executable(${ANTHEM_EXECUTABLE_TYPE})
+
+add_installation_target(${ANTHEM_EXECUTABLE_TYPE})
 
 message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")
 message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")

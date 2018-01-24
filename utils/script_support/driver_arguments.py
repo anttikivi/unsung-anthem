@@ -89,6 +89,24 @@ def _apply_default_arguments(args):
         with open(args.auth_token_file) as token_file:
             args.auth_token = str(token_file.read())
 
+    if args.executable_name is None:
+        args.executable_name = "anthem-{}-{}".format(
+            args.anthem_version,
+            args.host_target
+        )
+
+    if args.lib_name is None:
+        args.lib_name = "anthem-lib-{}-{}".format(
+            args.anthem_version,
+            args.host_target
+        )
+
+    if args.test_executable_name is None:
+        args.test_executable_name = "anthem-test-{}-{}".format(
+            args.anthem_version,
+            args.host_target
+        )
+
 
 def create_argument_parser():
     """Return a configured argument parser."""
@@ -205,7 +223,7 @@ def create_argument_parser():
         help="minimum deployment target version for macOS")
 
     option(
-        "--cmake-extra-options",
+        "--extra-cmake-options",
         append,
         type=argparse.ShellSplitType(),
         help="pass through extra options to CMake in the form of comma "
@@ -340,6 +358,12 @@ def create_argument_parser():
 
     option(["-c", "--clean"], store_true, help="do a clean build")
 
+    option(
+        "--gcov",
+        store_true("enable_gcov"),
+        help="use gcov and lcov to generate code coverage information"
+    )
+
     # -------------------------------------------------------------------------
     in_group("Build variant")
 
@@ -439,6 +463,54 @@ def create_argument_parser():
             store,
             metavar="TOKEN",
             help="the OAuth token which is used to access the GitHub API")
+
+    # -------------------------------------------------------------------------
+    in_group("Program options")
+
+    option(
+        "--executable-name",
+        store,
+        help="the name of the Unsung Anthem executable"
+    )
+    option(
+        "--lib-name",
+        store,
+        help="the name of the Unsung Anthem library binaries"
+    )
+    option(
+        "--test-executable-name",
+        store,
+        help="the name of the Unsung Anthem test executable"
+    )
+
+    # -------------------------------------------------------------------------
+    in_group("Threading options")
+
+    with mutually_exclusive_group():
+        set_defaults(multithreading=True)
+
+        # TODO: Convert to store_true
+        option(
+            "--multithreading",
+            store("multithreading"),
+            const=True,
+            help="use multithreading in the game")
+
+        # TODO: Convert to store_false
+        option(
+            "--no-multithreading",
+            store("multithreading"),
+            const=False,
+            help="use single thread in the game")
+
+        # TODO: Convert to store_false
+        option(
+            "--single-thread",
+            store("multithreading"),
+            const=False,
+            help="use single thread in the game")
+
+    diagnostics.debug_ok("All of the arguments are added to the parser")
 
     return builder.build()
 

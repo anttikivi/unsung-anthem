@@ -27,7 +27,7 @@ def do_build():
     Build glad.
     """
     product = data.build.products.glad
-    common.build.check_source(product)
+    common.build.check_source(product.identifier)
     bin_path = os.path.join(data.build.local_root, "src", "glad.c")
     if common.build.binary_exists(product=product, path=bin_path):
         return

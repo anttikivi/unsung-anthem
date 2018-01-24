@@ -18,11 +18,11 @@ import platform
 
 from build_utils import diagnostics, http_stream, shell
 
-from products import libcxx
-
 from script_support import data
 
 from script_support.variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
+
+from . import libcxx
 
 
 def should_skip_download(key):
@@ -105,7 +105,7 @@ def _get_project_source(key):
         "The name of the {} subdirectory is {}".format(product.repr, subdir))
     # FIXME: This is bad, this is hardcoded.
     if key == "libcxx":
-        libcxx.remove_bad_symlink(subdir)
+        libcxx.checkout.remove_bad_symlink(subdir)
     shell.rm(destination)
     move_project_files(key=key, subdir=subdir)
 
