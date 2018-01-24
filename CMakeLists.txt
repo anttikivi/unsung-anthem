@@ -86,7 +86,7 @@ else()
   endif()
 endif()
 
-if(${ANTHEM_LINK_CXXABI})
+if(${ANTHEM_LINK_LIBCXX})
   set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} c++abi)
   message(STATUS "Linking against libc++abi")
 endif()
@@ -112,6 +112,8 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 set_glad_sources()
+
+print_status(CMAKE_CXX_FLAGS "compiler flags")
 
 create_executable(${ANTHEM_EXECUTABLE_TYPE})
 

@@ -70,6 +70,8 @@ def do_build(tests=False):
 
     cmake_call = cmake.construct_call(tests=tests)
 
+    diagnostics.trace("The cmake call:\n\n{}".format(cmake_call))
+
     with shell.pushd(build_dir):
         shell.call(cmake_call, env=cmake_env, echo=True)
         if args.cmake_generator == "Ninja":

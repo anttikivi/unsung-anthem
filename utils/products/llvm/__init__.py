@@ -8,7 +8,7 @@
 # Licensed under GNU Affero General Public License v3.0
 
 
-from . import checkout
+from . import build, checkout
 
 
-__all__ = ["checkout"]
+__all__ = ["build", "checkout"]

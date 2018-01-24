@@ -80,7 +80,7 @@ def construct_call(tests=False):
     if args.build_llvm or args.build_libcxx:
         cmake_call += ["-DCMAKE_CXX_FLAGS=-I{}/include/c++/v1".format(
             local_root)]
-        cmake_call += ["-DANTHEM_LINK_CXXABI=ON"]
+        cmake_call += ["-DANTHEM_LINK_LIBCXX=ON"]
 
     if args.enable_gcov:
         cmake_call += ["-DANTHEM_ENABLE_GCOV=ON"]

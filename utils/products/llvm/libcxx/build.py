@@ -19,20 +19,20 @@ from build_utils import shell, workspace
 
 from products import common
 
-from script_support import data
+from products.llvm import clang, libcxxabi
 
-from script_support.variables import ANTHEM_SOURCE_ROOT
+from script_support import data
 
 
 def libcxx_bin_path():
     """
-    Create the path for the binary of Clang.
+    Create the path for the binary of libc++.
     """
     if platform.system() == "Windows":
         # TODO
-        return os.path.join(data.build.local_root, "bin", "clang")
+        return os.path.join(data.build.local_root, "lib", "libc++.a")
     else:
-        return os.path.join(data.build.local_root, "bin", "clang")
+        return os.path.join(data.build.local_root, "lib", "libc++.a")
 
 
 def set_up():
@@ -56,3 +56,38 @@ def set_up():
         "projects",
         key
     ))
+
+
+def do_build():
+    """
+    Build libcxx.
+    """
+    product = data.build.products.llvm
+    args = data.build.args
+    key = product.identifier
+    bin_path = libcxx_bin_path()
+
+    build_dir = workspace.build_dir(product=product, subproject=key)
+
+    if common.build.binary_exists(
+            product=product,
+            path=bin_path,
+            subproject=key):
+        return
+
+    set_up()
+    libcxxabi.set_up()
+
+    clang.build.remove_set_up()
+
+    shell.makedirs(build_dir)
+
+    cmake_args = {"LIBCXX_ENABLE_ASSERTIONS": args.libcxx_assertions}
+
+    common.build_call(
+        product=product,
+        subproject=key,
+        cmake_args=cmake_args,
+        build_targets="cxx",
+        install_targets=["install-cxx", "install-cxxabi"]
+    )

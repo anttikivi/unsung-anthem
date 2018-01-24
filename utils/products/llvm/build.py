@@ -104,7 +104,7 @@ def do_build():
 
     common.build.check_source(key=key, subproject=key)
 
-    if args.build_llvm:
+    if args.build_llvm and not args.build_libcxx:
         bin_path = clang.clang_bin_path()
 
         if common.build.binary_exists(
@@ -121,6 +121,20 @@ def do_build():
         data.build.toolchain.cc = clang.clang_bin_path()
         data.build.toolchain.cxx = clang.clang_cxx_bin_path()
         data.build.args.main_tool = key
+    elif not args.build_llvm and args.build_libcxx:
+        libcxx.build.do_build()
+
+
+def is_tool():
+    """
+    Check whether LLVM is considered to be a tool in this configuration.
+    """
+    diagnostics.trace("Checking if LLVM is considered to be a tool")
+    if data.build.args.build_llvm:
+        diagnostics.trace("LLVM is a tool")
+        return True
+    diagnostics.trace("LLVM is a not tool")
+    return False
 
 
 def should_build():

@@ -197,13 +197,8 @@ def build_call(
 
     if subproject:
         build_type_key = subproject
-        build_type = getattr(args, "{}_build_variant".format(subproject))
     else:
         build_type_key = product.identifier
-        build_type = getattr(
-            args,
-            "{}_build_variant".format(product.identifier)
-        )
 
     if hasattr(args, "{}_build_variant".format(build_type_key)):
         build_type = getattr(args, "{}_build_variant".format(build_type_key))
@@ -226,7 +221,7 @@ def build_call(
         cmake_call += ["-G", args.cmake_generator]
 
     if cmake_args:
-        if cmake_args is dict:
+        if isinstance(cmake_args, dict):
             for k, v in cmake_args.items():
                 if isinstance(v, bool):
                     cmake_call += ["-D{}={}".format(k, ("ON" if v else "OFF"))]

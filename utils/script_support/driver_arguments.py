@@ -81,6 +81,11 @@ def _apply_default_arguments(args):
     if args.std is None:
         args.std = "c++14"
 
+    if args.stdlib is None and args.main_tool == "llvm":
+        args.stdlib = "libc++"
+    if (args.build_llvm or args.build_libcxx) and args.stdlib is None:
+        args.stdlib = "libc++"
+
     # Set the default CMake generator.
     if args.cmake_generator is None:
         args.cmake_generator = "Ninja"
@@ -90,22 +95,13 @@ def _apply_default_arguments(args):
             args.auth_token = str(token_file.read())
 
     if args.executable_name is None:
-        args.executable_name = "anthem-{}-{}".format(
-            args.anthem_version,
-            args.host_target
-        )
+        args.executable_name = "anthem-{}".format(args.host_target)
 
     if args.lib_name is None:
-        args.lib_name = "anthem-lib-{}-{}".format(
-            args.anthem_version,
-            args.host_target
-        )
+        args.lib_name = "anthem-lib-{}".format(args.host_target)
 
     if args.test_executable_name is None:
-        args.test_executable_name = "anthem-test-{}-{}".format(
-            args.anthem_version,
-            args.host_target
-        )
+        args.test_executable_name = "anthem-test-{}".format(args.host_target)
 
 
 def create_argument_parser():

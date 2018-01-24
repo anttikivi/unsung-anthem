@@ -133,10 +133,11 @@ def set_up_build(args):
         args=args,
         source_root=ANTHEM_SOURCE_ROOT,
         build_root=os.path.join(ANTHEM_BUILD_ROOT, args.build_subdir),
-        install_root=args.install_prefix,
+        install_root=os.path.join(args.install_prefix, args.anthem_version),
         products=PRODUCT_CONFIG,
         host_target=args.host_target,
-        std=args.std
+        std=args.std,
+        stdlib=args.stdlib
     )
 
     data.build["local_root"] = os.path.join(data.build.build_root, "local")

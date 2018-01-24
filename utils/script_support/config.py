@@ -54,8 +54,7 @@ PRODUCT_CONFIG = Mapping(
         ),
         skip_checkout=True,
         inject_version_info=llvm.checkout.inject_version_info,
-        # TODO
-        check_if_tool=lambda: True,
+        check_if_tool=llvm.build.is_tool,
         source_format="{protocol}://releases.llvm.org/{version}/{key}-"
                       "{version}.src.tar.xz",
         binary_format="{protocol}://releases.llvm.org/{version}/clang+llvm-"
@@ -80,7 +79,7 @@ PRODUCT_CONFIG = Mapping(
     ),
 
     ninja=product_config(
-        version="1.7.2",
+        version="1.8.2",
         name="Ninja",
         identifier="ninja",
         check_if_tool=lambda: True,
@@ -113,7 +112,7 @@ PRODUCT_CONFIG = Mapping(
     ),
 
     catch2=product_config(
-        version="2.0.1",
+        version="2.1.0",
         name="Catch2",
         identifier="catch2",
         check_if_tool=lambda: False,
@@ -137,7 +136,7 @@ PRODUCT_CONFIG = Mapping(
     ),
 
     spdlog=product_config(
-        version="0.14.0",
+        version="0.16.3",
         name="spdlog",
         identifier="spdlog",
         check_if_tool=lambda: False,

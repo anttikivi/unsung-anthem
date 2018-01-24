@@ -44,9 +44,28 @@ def clang_cxx_bin_path():
         return os.path.join(data.build.local_root, "bin", "clang++")
 
 
+def remove_set_up():
+    """
+    Remove the Clang source from the build.
+    """
+    product = data.build.products.llvm
+    key = "clang"  # product.subprojects["clang"]
+
+    dest = os.path.join(
+        workspace.source_dir(product=product, subproject=product.identifier),
+        "tools",
+        key
+    )
+
+    if not os.path.isdir(dest):
+        return
+
+    shell.rmtree(dest)
+
+
 def set_up():
     """
-    Set up the libc++abi source for the build.
+    Set up the Clang source for the build.
     """
     product = data.build.products.llvm
     key = "clang"  # product.subprojects["clang"]
@@ -55,11 +74,8 @@ def set_up():
 
     source_dir = workspace.source_dir(product=product, subproject=key)
 
-    shell.rmtree(os.path.join(
-        workspace.source_dir(product=product, subproject=product.identifier),
-        "tools",
-        key
-    ))
+    remove_set_up()
+
     shell.copytree(source_dir, os.path.join(
         workspace.source_dir(product=product, subproject=product.identifier),
         "tools",
