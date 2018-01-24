@@ -10,3 +10,9 @@
 """
 The support module of the invocation phase of the Unsung Anthem build script.
 """
+
+
+from .build import invoke
+
+
+__all__ = ["invoke"]

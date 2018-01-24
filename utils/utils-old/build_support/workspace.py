@@ -133,18 +133,18 @@ def lib_dir_exists(build_data, product):
     return os.path.isdir(lib_dir(build_data=build_data, product=product))
 
 
-def source_dir(product, subproduct=None, name=None):
+def source_dir(product, subproject=None, name=None):
     """
     Create the absolute path to the source directory of the given product.
 
     product -- the product.
-    subproduct -- a possible subproduct of the product for which the path is
+    subproject -- a possible subproject of the product for which the path is
     created.
     name -- a custom name of the source directory.
     """
-    if subproduct:
+    if subproject:
         return os.path.join(
-            ANTHEM_SOURCE_ROOT, product.identifier, product.version, subproduct
+            ANTHEM_SOURCE_ROOT, product.identifier, product.version, subproject
         )
     if name:
         return os.path.join(ANTHEM_SOURCE_ROOT, name)

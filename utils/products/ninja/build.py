@@ -100,3 +100,15 @@ def do_build():
     _build()
     data.build.toolchain.ninja = ninja_bin_path()
     shell.call(["chmod", "+x", str(ninja_bin_path())])
+
+
+def should_build():
+    """
+    Check whether this product should be built.
+    """
+    args = data.build.args
+    toolchain = data.build.toolchain
+    cmake_requires_ninja = \
+        args.cmake_generator == "Ninja" or args.cmake_generator == "Xcode"
+    toolchain_requires = (cmake_requires_ninja and toolchain.ninja is None)
+    return args.build_ninja or toolchain_requires

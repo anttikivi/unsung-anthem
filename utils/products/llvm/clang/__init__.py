@@ -8,7 +8,9 @@
 # Licensed under GNU Affero General Public License v3.0
 
 
-from . import build, checkout
+from . import build
+
+from .build import clang_bin_path, clang_cxx_bin_path, set_up
 
 
-__all__ = ["build", "checkout"]
+__all__ = ["build", "clang_bin_path", "clang_cxx_bin_path", "set_up"]

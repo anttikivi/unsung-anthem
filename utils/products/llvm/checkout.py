@@ -47,7 +47,7 @@ def should_skip_download(key):
     return False
 
 
-def remove_old_checkout(key):
+def _remove_old_checkout(key):
     """
     Remove the old checkout of the given LLVM subproject.
 
@@ -55,25 +55,27 @@ def remove_old_checkout(key):
     """
     product = data.build.products.llvm
     version = product.version
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", version, key))
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
 
 def move_project_files(key, subdir):
     """
     Move the LLVM subproduct files to the correct location after the download.
 
-    key -- the name of the subproduct.
+    key -- the name of the subproject.
     """
     product = data.build.products.llvm
     version = product.version
+
     shell.copytree(
-        os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key, subdir),
-        os.path.join(ANTHEM_SOURCE_ROOT, "llvm", version, key))
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
+        os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", subdir),
+        os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
 
-def get_project_source(key):
+def _get_project_source(key):
     """
     Download the given LLVM subproject.
 
@@ -83,19 +85,22 @@ def get_project_source(key):
 
     product = data.build.products.llvm
     version = product.version
-    remove_old_checkout(key)
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
+
+    _remove_old_checkout(key)
+
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+
     url = product.source_format.format(
         protocol=data.build.connection_protocol,
         version=version,
-        key=product.subproducts[key])
+        key=product.subprojects[key])
     destination = os.path.join(
-        ANTHEM_SOURCE_ROOT, "llvm", "temp", key, "{}.tar.xz".format(key))
+        ANTHEM_SOURCE_ROOT, key, "temp", "{}.tar.xz".format(key))
     http_stream.stream(url=url, destination=destination)
     shell.tar(
         path=destination,
-        dest=os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
-    subdir = "{}-{}.src".format(key, version)
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+    subdir = "{}-{}.src".format(product.subprojects[key], version)
     diagnostics.debug(
         "The name of the {} subdirectory is {}".format(product.repr, subdir))
     # FIXME: This is bad, this is hardcoded.
@@ -105,15 +110,15 @@ def get_project_source(key):
     move_project_files(key=key, subdir=subdir)
 
 
-def download_binary():
+def _download_binary():
     """
     Download the pre-built LLVM binary.
     """
     product = data.build.products.llvm
     version = product.version
-    key = "llvm"
-    remove_old_checkout(key)
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", "llvm"))
+    key = product.identifier
+    _remove_old_checkout(key)
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
     # TODO
     sys = platform.system()
@@ -124,16 +129,17 @@ def download_binary():
     url = product.binary_format.format(
         protocol=data.build.connection_protocol,
         version=version,
-        platform=machine)
+        platform=machine
+    )
     destination = os.path.join(
-        ANTHEM_SOURCE_ROOT, "llvm", "temp", key, "{}.tar.xz".format(key)
+        ANTHEM_SOURCE_ROOT, key, "temp", "{}.tar.xz".format(key)
     )
 
     http_stream.stream(url=url, destination=destination)
 
     shell.tar(
         path=destination,
-        dest=os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp", key))
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
     subdir_format = "clang+llvm-{version}-{platform}"
     # TODO
@@ -158,25 +164,28 @@ def get_dependency():
 
     args = data.build.args
     product = data.build.products.llvm
-
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp"))
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp"))
+    key = product.identifier
 
     llvm_deps = None
 
     if args.build_libcxx:
         llvm_deps = ["llvm", "libcxx", "libcxxabi"]
     elif args.build_llvm:
-        llvm_deps = list(product.subproducts.keys())
+        llvm_deps = list(product.subprojects.keys())
 
     if args.source_llvm or args.build_libcxx:
         for dep in llvm_deps:
             if not should_skip_download(dep):
-                get_project_source(dep)
-    elif args.build_llvm:
-        download_binary()
+                shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, dep, "temp"))
+                shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, dep, "temp"))
+                # TODO
+                _get_project_source(dep)
+    elif args.build_llvm and not should_skip_download("llvm"):
+        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+        _download_binary()
 
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "llvm", "temp"))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
 
 def inject_version_info(versions):

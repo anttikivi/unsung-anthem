@@ -12,6 +12,7 @@ The support module containing the script options.
 """
 
 
+import multiprocessing
 import os
 
 from build_utils import diagnostics
@@ -73,6 +74,9 @@ def _apply_default_arguments(args):
     # Propagate the default assertions setting.
     if args.anthem_assertions is None:
         args.anthem_assertions = args.assertions
+
+    if args.libcxx_assertions is None:
+        args.libcxx_assertions = args.assertions
 
     if args.std is None:
         args.std = "c++14"
@@ -147,6 +151,12 @@ def create_argument_parser():
         default=os.path.join(ANTHEM_SOURCE_ROOT, "dest"),
         help="the installation prefix. This is where built Unsung Anthem "
              "products (like bin, lib, and include) will be installed.")
+
+    option(
+        ["-j", "--jobs"],
+        store_int("build_jobs"),
+        default=multiprocessing.cpu_count(),
+        help="the number of parallel build jobs to use")
 
     option(
         "--darwin-xcrun-toolchain",
@@ -402,6 +412,11 @@ def create_argument_parser():
         store,
         const=True,
         help="enable assertions in Unsung Anthem")
+    option(
+        "--libcxx-assertions",
+        store,
+        const=True,
+        help="enable assertions in libc++ if it is built")
 
     # -------------------------------------------------------------------------
     in_group("Authentication options")

@@ -10,5 +10,7 @@
 
 from . import build, checkout
 
+from .build import build_call
 
-__all__ = ["build", "checkout"]
+
+__all__ = ["build", "checkout", "build_call"]

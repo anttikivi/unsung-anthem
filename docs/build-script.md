@@ -45,6 +45,10 @@ The name of the directory under `$ANTHEM_BUILD_ROOT` where the build products wi
 
 The directory in which the final build products will be placed.
 
+#### `-j INT`, `--jobs INT`
+
+The number of parallel build jobs to use.
+
 #### `--cmake PATH`
 
 Path to the CMake executable that will be used building Unsung Anthem. If this is not set and the build script doesn’t find CMake from the `PATH` of the system, the build script downloads CMake and uses the downloaded CMake.
@@ -210,6 +214,10 @@ Disable assertions in all projects.
 #### `--anthem-assertions`
 
 Enable assertions in Unsung Anthem.
+
+#### `--libcxx-assertions`
+
+Enable assertions in libc++ if it is built.
 
 ### Authentication
 

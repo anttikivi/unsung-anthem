@@ -35,8 +35,8 @@ def anthem_config(version, **kwargs):
     return Mapping(result)
 
 
-def product_config(version, identifier, name, allow_git_checkout=False,
-                   version_format=None, github_data=None, **kwargs):
+def product_config(version, identifier, name, version_format=None,
+                   github_data=None, **kwargs):
     """
     Create a mapping of the configuration of a product.
 

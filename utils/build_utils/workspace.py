@@ -18,10 +18,91 @@ from script_support import data
 
 from script_support.variables import ANTHEM_SOURCE_ROOT
 
-from . import cache_util
+from . import shell
 
 
-@cache_util.cached
+def is_include_dir_made():
+    """
+    Check whether the local include directory doesn't exist. If it doesn't
+    exist, it is created and the function returns True.
+    """
+    if not os.path.isdir(os.path.join(data.build.local_root, "include")):
+        shell.makedirs(os.path.join(data.build.local_root, "include"))
+        return True
+    return False
+
+
+def include_file(path):
+    """
+    Create the absolute path to a file or a directory in the include directory
+    of the current build.
+
+    path -- relative path to the file or directory.
+    """
+    return os.path.join(data.build.local_root, "include", path)
+
+
+def include_file_exists(path):
+    """
+    Check whether a file or a directory exists in the include directory of the
+    current build.
+
+    path -- relative path to the file or directory.
+    """
+    return os.path.isdir(include_file(path=path))
+
+
+def include_dir(product):
+    """
+    Create the absolute path a directory in the include directory of the
+    current build for the given product.
+
+    product -- the product.
+    """
+    return include_file(path=product.identifier)
+
+
+def include_dir_exists(product):
+    """
+    Check a file or a directory exists in the include directory of the current
+    build for the given product.
+
+    product -- the product.
+    """
+    return os.path.isdir(include_dir(product=product))
+
+
+def is_lib_dir_made():
+    """
+    Check whether the library directory doesn't exist. If it doesn't exist, it
+    is created and the function returns True.
+    """
+    if not os.path.isdir(os.path.join(data.build.install_root, "lib")):
+        shell.makedirs(os.path.join(data.build.install_root, "lib"))
+        return True
+    return False
+
+
+def lib_file(path):
+    """
+    Create the absolute path to a file or a directory in the library directory
+    of the current build.
+
+    path -- relative path to the file or directory.
+    """
+    return os.path.join(data.build.local_root, "lib", path)
+
+
+def lib_file_exists(path):
+    """
+    Check a file or a directory exists in the library directory of the current
+    build.
+
+    path -- relative path to the file or directory.
+    """
+    return os.path.isdir(lib_file(path=path))
+
+
 def source_dir(product, subproject=None, name=None):
     """
     Create the absolute path to the source directory of the given product.
@@ -33,7 +114,7 @@ def source_dir(product, subproject=None, name=None):
     """
     if subproject:
         return os.path.join(
-            ANTHEM_SOURCE_ROOT, product.identifier, product.version, subproject
+            ANTHEM_SOURCE_ROOT, subproject, product.version
         )
     if name:
         return os.path.join(ANTHEM_SOURCE_ROOT, name)
@@ -42,7 +123,6 @@ def source_dir(product, subproject=None, name=None):
     )
 
 
-@cache_util.cached
 def build_dir(product, target=None, subproject=None):
     """
     Create the absolute path to the build directory of the given product.

@@ -24,23 +24,44 @@ def build_tools():
     """
     args = data.build.args
     toolchain = data.build.toolchain
-    cmake_requires_ninja = \
-        args.cmake_generator == "Ninja" or args.cmake_generator == "Xcode"
-    ninja_build_required = \
-        args.build_ninja or (cmake_requires_ninja and toolchain.ninja is None)
-    cmake_build_required = args.build_cmake or toolchain.cmake is None
-    llvm_build_required = args.build_llvm or args.build_libcxx
 
-    to_set_up = list()
+    for product in data.build.products:
+        if product.check_if_tool() \
+                and reflection.get_product_build_call(product, "should_build"):
+            diagnostics.trace("Entering the build of {}".format(product.repr))
+            reflection.product_build_call(product, "do_build")
+            diagnostics.debug_ok("{} is now built".format(product.repr))
 
-    if ninja_build_required:
-        to_set_up += ["ninja"]
-    if cmake_build_required:
-        to_set_up += ["cmake"]
-    if llvm_build_required:
-        to_set_up += ["llvm"]
+    if args.main_tool == "msbuild":
+        if not toolchain.cc:
+            toolchain.cc = toolchain.msbuild
+        if not toolchain.cxx:
+            toolchain.cxx = toolchain.msbuild
 
-    for tool in to_set_up:
-        product = data.build.products[tool]
-        reflection.product_build_call(product, "do_build")
-        diagnostics.debug_ok("{} is now built".format(product.repr))
+    diagnostics.note(
+        "The executable name is set to {}".format(str(args.executable_name))
+    )
+    diagnostics.note(
+        "The test executable name is set to {}".format(
+            str(args.test_executable_name)
+        )
+    )
+
+    diagnostics.note("The host C compiler is set to {}".format(
+        str(toolchain.cc)
+    ))
+    diagnostics.note("The host C++ compiler is set to {}".format(
+        str(toolchain.cxx)
+    ))
+    diagnostics.note("Make is set to {}".format(str(toolchain.make)))
+    diagnostics.note("MSBuild is set to {}".format(str(toolchain.msbuild)))
+    diagnostics.note("Ninja is set to {}".format(str(toolchain.ninja)))
+    diagnostics.note("CMake is set to {}".format(str(toolchain.cmake)))
+    diagnostics.note("git is set to {}".format(str(toolchain.git)))
+
+    diagnostics.note("The C++ standard version is {}".format(data.build.std))
+
+    if data.build.stdlib:
+        diagnostics.note(
+            "The C++ standard library is {}".format(data.build.stdlib)
+        )

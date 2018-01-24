@@ -50,7 +50,7 @@ def do_build():
 
     data.build.toolchain.cmake = cmake_bin_path()
 
-    common.build.check_source(product)
+    common.build.check_source("cmake")
 
     bin_path = cmake_bin_path()
     build_dir = workspace.build_dir(product=product, target="build")
@@ -70,3 +70,11 @@ def do_build():
             os.path.join(data.build.local_root, "CMake.app"))
     else:
         shell.copytree(build_dir, data.build.local_root)
+
+
+def should_build():
+    """
+    Check whether or not this product should be built.
+    """
+    # TODO args.build_cmake or toolchain.cmake is None
+    return data.build.toolchain.cmake is None

@@ -25,7 +25,8 @@ from .product_config import \
     asset, \
     SOURCE_ASSET, \
     platform_specific_asset, \
-    platform_file_config
+    platform_file_config, \
+    anthem_config
 
 
 __all__ = ["PRODUCT_CONFIG", "PROTOCOL", "GITHUB_API_V4_ENDPOINT"]
@@ -36,15 +37,25 @@ GITHUB_API_V4_ENDPOINT = "https://api.github.com/graphql"
 
 
 PRODUCT_CONFIG = Mapping(
+    anthem=anthem_config(
+        version="0.1.0-dev.1",
+        window_name="Unsung Anthem",
+        opengl=Mapping(version=Mapping(major=3, minor=2)),
+        logger_name="anthem",
+        check_if_tool=lambda: False,
+    ),
+
     llvm=product_config(
         version="5.0.1",
         name="LLVM",
         identifier="llvm",
-        subproducts=Mapping(
+        subprojects=Mapping(
             llvm="llvm", libcxx="libcxx", libcxxabi="libcxxabi", clang="cfe"
         ),
         skip_checkout=True,
         inject_version_info=llvm.checkout.inject_version_info,
+        # TODO
+        check_if_tool=lambda: True,
         source_format="{protocol}://releases.llvm.org/{version}/{key}-"
                       "{version}.src.tar.xz",
         binary_format="{protocol}://releases.llvm.org/{version}/clang+llvm-"
@@ -63,6 +74,7 @@ PRODUCT_CONFIG = Mapping(
         ),
         name="CMake",
         identifier="cmake",
+        check_if_tool=lambda: True,
         url_format="{protocol}://cmake.org/files/v{major_minor}/cmake-"
                    "{version}-{platform}.{extension}"
     ),
@@ -71,6 +83,7 @@ PRODUCT_CONFIG = Mapping(
         version="1.7.2",
         name="Ninja",
         identifier="ninja",
+        check_if_tool=lambda: True,
         github_data=github_config(
             owner="ninja-build",
             name="ninja",
@@ -90,6 +103,7 @@ PRODUCT_CONFIG = Mapping(
         version="0.1.16a0",
         name="glad",
         identifier="glad",
+        check_if_tool=lambda: False,
         github_data=github_config(
             owner="Dav1dde",
             name="glad",
@@ -98,10 +112,11 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
-    catch=product_config(
+    catch2=product_config(
         version="2.0.1",
-        name="Catch",
-        identifier="catch",
+        name="Catch2",
+        identifier="catch2",
+        check_if_tool=lambda: False,
         github_data=github_config(
             owner="catchorg",
             name="Catch2",
@@ -114,6 +129,7 @@ PRODUCT_CONFIG = Mapping(
         version="2.0.7",
         name="SDL2",
         identifier="sdl",
+        check_if_tool=lambda: False,
         url_format="{protocol}://www.libsdl.org/release/"
                    "SDL2-{version}.{extension}",
         windows_format="{protocol}://www.libsdl.org/release/"
@@ -124,6 +140,7 @@ PRODUCT_CONFIG = Mapping(
         version="0.14.0",
         name="spdlog",
         identifier="spdlog",
+        check_if_tool=lambda: False,
         build_subdir=os.path.join("include", "spdlog"),
         github_data=github_config(
             owner="gabime",
@@ -137,6 +154,7 @@ PRODUCT_CONFIG = Mapping(
         version="6.2.0",
         name="args",
         identifier="args",
+        check_if_tool=lambda: False,
         github_data=github_config(
             owner="Taywee",
             name="args",

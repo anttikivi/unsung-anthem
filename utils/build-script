@@ -25,6 +25,8 @@ import argparse
 import os
 import sys
 
+import invocation
+
 from build_utils import diagnostics, shell
 
 from checkout import checkout
@@ -138,7 +140,7 @@ def main_normal():
     set_up_build(args)
     checkout.update()
     tools.build_tools()
-    # invocation.invoke()
+    invocation.invoke()
     return 0
 
 
