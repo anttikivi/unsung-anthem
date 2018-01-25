@@ -6,7 +6,7 @@
 #
 # This source file is part of the Unsung Anthem open source project.
 #
-# Copyright (c) 2018 Venturesome Stone
+# Copyright (c) 2017 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
 
@@ -21,28 +21,15 @@ parallel.
 
 from __future__ import print_function
 
-import argparse
 import os
 import sys
 
-import invocation
+from build_support import diagnostics, invocation, script, shell
 
-from build_utils import diagnostics, shell
-
-from checkout import checkout
-
-from invocation import tools
-
-from presets import script
-
-from presets.parser import \
+from build_support.presets import \
     get_all_preset_names, parse_preset_defaults, get_preset_options
 
-from script_support import driver_arguments, migration
-
-from script_support.variables import ANTHEM_SOURCE_ROOT
-
-from setup.setup import set_up_build
+from build_support.variables import ANTHEM_SOURCE_ROOT
 
 
 def initialize_runtime_environment():
@@ -60,49 +47,7 @@ def main_preset():
     Resolve the preset information and run the build script with the arguments
     in the given preset.
     """
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="Builds Unsung Anthem using a preset.")
-
-    parser.add_argument(
-        "-n", "--dry-run",
-        help="print the commands that would be executed, but don't execute "
-             "them",
-        action="store_true",
-        default=False)
-    parser.add_argument(
-        "-c", "--clean",
-        help="do a clean build",
-        action="store_true")
-    parser.add_argument(
-        "--preset-file",
-        help="load presets from the specified file",
-        metavar="PATH",
-        action="append",
-        dest="preset_file_names",
-        default=[])
-    parser.add_argument(
-        "--preset",
-        help="use the specified option preset",
-        metavar="NAME",
-        required=True)
-    parser.add_argument(
-        "--show-presets",
-        help="list all presets and exit",
-        action="store_true")
-
-    parser.add_argument(
-        "preset_defaults_raw",
-        help="'name=value' pairs that are default values in the preset",
-        nargs="*",
-        metavar="DEFAULTS")
-    parser.add_argument(
-        "--expand-build-script-invocation",
-        help="Print the expanded build-script invocation generated "
-             "by the preset, but do not run the preset",
-        action="store_true")
-
-    args = parser.parse_args()
+    args = script.create_preset_parser().parse_args()
     preset_files = script.preset_files(args)
 
     if args.show_presets:
@@ -127,7 +72,6 @@ def main_preset():
         return 0
 
     shell.call_without_sleeping(build_script_invacation)
-
     return 0
 
 
@@ -135,12 +79,9 @@ def main_normal():
     """
     Run the build script.
     """
-    parser = driver_arguments.create_argument_parser()
-    args = migration.parse_args(parser, sys.argv[1:])
-    set_up_build(args)
-    checkout.update()
-    tools.build_tools()
-    invocation.invoke()
+    parser = script.create_parser()
+    build_data = invocation.set_up(parser)
+    invocation.invoke(build_data)
     return 0
 
 

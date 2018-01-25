@@ -46,7 +46,7 @@ function(SET_LLVM_STD STD_VERSION)
   if(${STD_VERSION} STREQUAL c++14)
     set(ANTHEM_STD ${STD_VERSION} PARENT_SCOPE)
   else()
-    set(ANTHEM_STD c++1z PARENT_SCOPE)
+    set(ANTHEM_STD c++17 PARENT_SCOPE)
   endif()
 endfunction()
 
