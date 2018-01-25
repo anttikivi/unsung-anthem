@@ -96,6 +96,9 @@ def construct_call(tests=False):
     else:
         cmake_call += ["-DANTHEM_MULTITHREADING=OFF"]
 
+    if data.build.ci:
+        cmake_call += ["-DANTHEM_MANUAL_SDL=ON"]
+
     if args.extra_cmake_options:
         cmake_call += args.extra_cmake_options
 

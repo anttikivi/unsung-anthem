@@ -29,6 +29,8 @@ option(ANTHEM_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 
 option(ANTHEM_MULTITHREADING "Enable multithreading in the game" ON)
 
+option(ANTHEM_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)
+
 assert_variable(ANTHEM_EXECUTABLE_TYPE
     "executable type"
     "anthem, test, and clion")
@@ -71,8 +73,11 @@ if(UNIX)
 
   assert_variable(SDL2_LIBRARY "SDL2 libraries")
 
-  set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ${SDL2_LIBRARY})
-  # set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2main SDL2)
+  if(ANTHEM_MANUAL_SDL)
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} SDL2maind SDL2d)
+  else()
+    set(ANTHEM_LIBRARIES ${ANTHEM_LIBRARIES} ${SDL2_LIBRARY})
+  endif()
 
   if(APPLE)
   else()
