@@ -214,7 +214,8 @@ def copytree(src, dest, dry_run=None, echo=True):
             if os.path.isdir(s):
                 shutil.copytree(s, d)  # , symlinks, ignore)
             else:
-                shutil.copy2(s, d)
+                # shutil.copy2(s, d)
+                shutil.copy(s, d)
     else:
         shutil.copytree(src, dest)
 
