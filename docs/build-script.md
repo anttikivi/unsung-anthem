@@ -121,6 +121,10 @@ Build libc++ and use the built libc++ with Unsung Anthem. Cannot be used if `--l
 
 TODO
 
+#### `--build-cmake`
+
+TODO
+
 #### `-t`, `--test`
 
 Build the Unsung Anthem tests and run them thereafter.

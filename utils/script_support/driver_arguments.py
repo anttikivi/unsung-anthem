@@ -275,6 +275,7 @@ def create_argument_parser():
     # TODO: Should this be removed and the ninja be built if the script sees it
     # necessary?
     option("--build-ninja", toggle_true, help="build the Ninja tool")
+    option("--build-cmake", toggle_true, help="build the CMake tool")
     option(
         ["-t", "--test"],
         toggle_true("build_test"),

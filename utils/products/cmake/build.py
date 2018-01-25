@@ -76,5 +76,4 @@ def should_build():
     """
     Check whether or not this product should be built.
     """
-    # TODO args.build_cmake or toolchain.cmake is None
-    return data.build.toolchain.cmake is None
+    return data.build.args.build_cmake or data.build.toolchain.cmake is None
