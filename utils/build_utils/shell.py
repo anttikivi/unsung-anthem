@@ -214,7 +214,7 @@ def copytree(src, dest, dry_run=None, echo=True):
             if os.path.isdir(s):
                 shutil.copytree(s, d)  # , symlinks, ignore)
             else:
-                shutil.copy2(s, d)
+                shutil.copy(s, d)
     else:
         shutil.copytree(src, dest)
 
@@ -230,10 +230,11 @@ def copy(src, dest, dry_run=None, echo=True):
     """
     dry_run = _coerce_dry_run(dry_run)
     if dry_run or echo:
-        _echo_command(dry_run, ["cp", "-p", src, dest])
+        _echo_command(dry_run, ["cp", src, dest])
+        # _echo_command(dry_run, ["cp", "-p", src, dest])
     if dry_run:
         return
-    shutil.copy2(src, dest)
+    shutil.copy(src, dest)
 
 
 def move(src, dest, dry_run=None, echo=True):
