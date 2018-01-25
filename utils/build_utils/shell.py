@@ -207,15 +207,14 @@ def copytree(src, dest, dry_run=None, echo=True):
     if dry_run:
         return
     # A workaround
-    if data.build.ci:
+    if data.build.ci and os.path.isdir(dest):
         for item in os.listdir(src):
             s = os.path.join(src, item)
             d = os.path.join(dest, item)
             if os.path.isdir(s):
                 shutil.copytree(s, d)  # , symlinks, ignore)
             else:
-                # shutil.copy2(s, d)
-                shutil.copy(s, d)
+                shutil.copy2(s, d)
     else:
         shutil.copytree(src, dest)
 
