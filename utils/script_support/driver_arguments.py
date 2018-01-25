@@ -15,8 +15,6 @@ The support module containing the script options.
 import multiprocessing
 import os
 
-from build_utils import diagnostics
-
 from build_utils.targets import host_target
 
 from . import argparse
@@ -55,8 +53,6 @@ def _apply_default_arguments(args):
     """
     Preprocess argument namespace to apply default behaviours.
     """
-    diagnostics.trace("Applying default arguments")
-
     # Set the default build variant.
     if args.build_variant is None:
         args.build_variant = "Debug"
@@ -105,9 +101,9 @@ def _apply_default_arguments(args):
 
 
 def create_argument_parser():
-    """Return a configured argument parser."""
-
-    diagnostics.trace("Creating argument parser builder")
+    """
+    Return a configured argument parser.
+    """
 
     # NOTE: USAGE, DESCRIPTION and EPILOGUE are defined at the bottom of
     # the file
@@ -116,7 +112,8 @@ def create_argument_parser():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         usage=USAGE,
         description=DESCRIPTION,
-        epilog=EPILOGUE)
+        epilog=EPILOGUE
+    )
 
     builder = parser.to_builder()
 
@@ -136,8 +133,6 @@ def create_argument_parser():
     toggle_true = builder.actions.toggle_true
     toggle_false = builder.actions.toggle_false
     unsupported = builder.actions.unsupported
-
-    diagnostics.trace("Creating command line arguments")
 
     # -------------------------------------------------------------------------
     # Top-level options
@@ -506,7 +501,14 @@ def create_argument_parser():
             const=False,
             help="use single thread in the game")
 
-    diagnostics.debug_ok("All of the arguments are added to the parser")
+    # -------------------------------------------------------------------------
+    in_group("MSBuild options")
+
+    option(
+        "--msbuild-logger",
+        store_path,
+        help="the absolute path to MSBuild logger",
+        metavar="PATH")
 
     return builder.build()
 

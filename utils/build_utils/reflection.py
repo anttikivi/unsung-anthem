@@ -51,7 +51,8 @@ def product_checkout_call(product, function, *args, **kwargs):
     package = "{}.{}.{}".format(
         PRODUCT_PACKAGE,
         product.identifier,
-        CHECKOUT_MODULE)
+        CHECKOUT_MODULE
+    )
     diagnostics.trace("Importing package {}".format(package))
     product_module = importlib.import_module(package)
     diagnostics.trace("Imported package {}".format(package))
@@ -68,7 +69,8 @@ def get_build_call(product, function):
     package = "{}.{}.{}".format(
         PRODUCT_PACKAGE,
         product.identifier,
-        BUILD_MODULE)
+        BUILD_MODULE
+    )
     diagnostics.trace("Importing package {}".format(package))
     product_module = importlib.import_module(package)
     diagnostics.trace("Imported package {}".format(package))
@@ -97,7 +99,8 @@ def build_function_exists(product, function):
     package = "{}.{}.{}".format(
         PRODUCT_PACKAGE,
         product.identifier,
-        BUILD_MODULE)
+        BUILD_MODULE
+    )
     diagnostics.trace(
         "Importing package {} for checking whether function {} exists".format(
             package, function
@@ -107,10 +110,12 @@ def build_function_exists(product, function):
     diagnostics.trace("Imported package {}".format(package))
     if hasattr(product_module, function):
         diagnostics.trace(
-            "Package {} has function '{}'".format(package, function))
+            "Package {} has function '{}'".format(package, function)
+        )
     else:
         diagnostics.trace(
-            "Package {} doesn't have function '{}'".format(package, function))
+            "Package {} doesn't have function '{}'".format(package, function)
+        )
     return hasattr(product_module, function)
 
 

@@ -48,7 +48,8 @@ def simple_asset(key):
         github_asset.download(key=key, asset_name=asset.file)
         shell.copy(
             os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", asset.file),
-            os.path.join(ANTHEM_SOURCE_ROOT, key, version, asset.file))
+            os.path.join(ANTHEM_SOURCE_ROOT, key, version, asset.file)
+        )
 
 
 def platform_specific_asset(key):
@@ -62,7 +63,8 @@ def platform_specific_asset(key):
     if platform.system() in asset.platform_files.keys() \
             and asset.platform_files[platform.system()] is not None:
         diagnostics.trace(
-            "Entering the download of a platform-specific asset:")
+            "Entering the download of a platform-specific asset:"
+        )
         asset_file = asset.platform_files[platform.system()]
     elif asset.fallback:
         diagnostics.trace("Entering the download of a fallback asset:")

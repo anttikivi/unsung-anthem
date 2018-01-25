@@ -262,3 +262,9 @@ TODO
 #### `--single-thread`
 
 TODO
+
+### MSBuild Options
+
+#### `--msbuild-logger PATH`
+
+TODO

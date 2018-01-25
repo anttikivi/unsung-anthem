@@ -75,25 +75,7 @@ def _get_preset_options(config, defaults, preset_name):
         option -- the option to parse.
         """
         value = _get_value(option)
-        if not option == "mixin-preset":
-            if value == "":
-                diagnostics.debug(
-                    "'{}' in preset '{}' is set (to true)".format(
-                        option, preset_name
-                    )
-                )
-            else:
-                diagnostics.debug("'{}' in preset '{}' is set to '{}'".format(
-                    option, preset_name, value
-                ))
-        else:
-            diagnostics.debug(
-                "Skipping the mix-in preset option in this phase"
-            )
         if option in defaults:
-            diagnostics.debug(
-                "'{}' was found from default values".format(option)
-            )
             return None
         if option == "mixin-preset":
             # Mixins are handled separately.
@@ -112,60 +94,23 @@ def _get_preset_options(config, defaults, preset_name):
             return None
         # Split on newlines and filter out empty lines.
         mixins = list(filter(None, [m.strip() for m in value.splitlines()]))
-        if len(mixins) == 1:
-            diagnostics.debug(
-                "Found the following mix-in preset: {}".format(mixins)
-            )
-        else:
-            diagnostics.debug(
-                "Found the following mix-in presets: {}".format(mixins)
-            )
         mixin_opts = (_get_preset_options(config, defaults, m) for m in mixins)
         ret = list(itertools.chain.from_iterable(mixin_opts))
-        if len(mixins) == 1:
-            diagnostics.debug(
-                "The mix-in preset of '{}' (which is {}) yields: {}".format(
-                    preset_name, mixins, ", ".join(ret)
-                )
-            )
-        else:
-            diagnostics.debug(
-                "The mix-in presets of '{}' (which are {}) yield: {}".format(
-                    preset_name, mixins, ", ".join(ret)
-                )
-            )
         return ret
 
-    diagnostics.debug("Now parsing the preset {}".format(preset_name))
     section_name = _PRESET_PREFIX + preset_name
     if section_name not in config.sections():
         return None
     build_script_opts = list(filter(
         None, [parse_option(opt) for opt in config.options(section_name)]
     ))
-    diagnostics.debug_ok("The build script options of '{}' are: {}".format(
-        preset_name, ", ".join(build_script_opts)
-    ))
     mixin_opts = \
         [opt for opt in config.options(section_name) if opt == "mixin-preset"]
     if mixin_opts:
-        diagnostics.debug("Mix-in preset(s) found in '{}'".format(preset_name))
         mixins = list(filter(None, parse_mixins()))
     else:
-        diagnostics.debug(
-            "No mix-in presets found in '{}'".format(preset_name)
-        )
         mixins = []
-    ret = list(build_script_opts + mixins)
-    if len(ret) == 1:
-        diagnostics.debug_ok("The option of '{}' is: {}".format(
-            preset_name, ", ".join(ret)
-        ))
-    else:
-        diagnostics.debug_ok("The options of '{}' are: {}".format(
-            preset_name, ", ".join(ret)
-        ))
-    return ret
+    return list(build_script_opts + mixins)
 
 
 def get_preset_options(defaults, preset_file_names, preset_name):
@@ -176,9 +121,6 @@ def get_preset_options(defaults, preset_file_names, preset_name):
     preset_file_names -- list of the names of the preset files.
     preset_name -- the name of the preset.
     """
-    diagnostics.debug(
-        "Beginning the option lookup from the preset {}".format(preset_name)
-    )
     config = _load_preset_files_impl(preset_file_names, defaults)
     build_script_opts = _get_preset_options(config, defaults, preset_name)
     if not build_script_opts:
@@ -206,7 +148,4 @@ def parse_preset_defaults(args):
     """
     # Create a list of tuples as a dict is easily constructed from them.
     defaults = [tuple(x.split("=", 1)) for x in args.preset_defaults_raw]
-    diagnostics.debug("Preset default values are {}".format(
-        dict(defaults)
-    ))
     return dict(defaults)

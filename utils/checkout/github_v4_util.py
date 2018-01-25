@@ -36,7 +36,8 @@ def get_github_version(key):
     if github_data.version_prefix:
         ret = "{}{}".format(
             github_data.version_prefix,
-            product.version)
+            product.version
+        )
     else:
         ret = product.version
 
@@ -60,19 +61,14 @@ def call_query(file_name, replacements=None):
 
     query = json.dumps({"query": raw_query})
 
-    diagnostics.trace("Calling the following GraphQL query:")
-    diagnostics.trace(query)
-
     response = requests.post(
         url=config.GITHUB_API_V4_ENDPOINT,
         data=query,
         headers={
             "User-Agent": "venturesomestone",
             "Accept": "application/json",
-            "Authorization": "bearer {}".format(data.build.github_token)})
-
-    diagnostics.trace(
-        "The query returned the following JSON:\n{}".format(response.json()))
+            "Authorization": "bearer {}".format(data.build.github_token)
+        })
 
     return response.json()["data"]
 
@@ -98,7 +94,9 @@ def find_release_node(key, json_data):
                 "Found the release {} ({}) of {}".format(
                     product.version,
                     gh_version,
-                    product.repr))
+                    product.repr
+                )
+            )
             ret_node = node
 
     return ret_node
@@ -127,7 +125,9 @@ def find_release_node_by_tag(key, json_data):
                 "Found the release {} ({}) of {}".format(
                     product.version,
                     gh_version,
-                    product.repr))
+                    product.repr
+                )
+            )
             ret_node = node
 
     return ret_node

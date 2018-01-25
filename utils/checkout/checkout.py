@@ -24,7 +24,7 @@ from script_support.variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
 from . import github
 
 
-def write_version_file(versions):
+def write_version_file(versions, final_write=False):
     """
     Writes the version information to the versions file.
 
@@ -33,9 +33,13 @@ def write_version_file(versions):
     with open(os.path.join(ANTHEM_SOURCE_ROOT, "versions"), "w") as outfile:
         json.dump(versions, outfile)
 
-    diagnostics.debug_ok(
-        "Wrote the dependecy version information to {}".format(
-            os.path.join(ANTHEM_SOURCE_ROOT, "versions")))
+    if final_write:
+        log_function = diagnostics.debug_ok
+    else:
+        log_function = diagnostics.debug
+    log_function("Wrote the dependency version information to {}".format(
+        os.path.join(ANTHEM_SOURCE_ROOT, "versions")
+    ))
 
 
 def get_product(key, versions):
@@ -49,12 +53,14 @@ def get_product(key, versions):
     if product.github_data:
         diagnostics.debug(
             "{} is a GitHub project and it will be downloaded from "
-            "GitHub".format(product.repr))
+            "GitHub".format(product.repr)
+        )
         github.get_dependency(key)
     else:
         diagnostics.debug(
             "GitHub data is not found from {} and, thus, a custom function "
-            "is used to download it".format(product.repr))
+            "is used to download it".format(product.repr)
+        )
         reflection.product_checkout_call(product, "get_dependency")
 
     if "inject_version_info" in product \
@@ -100,11 +106,13 @@ def update():
 
     skip_repository_list = _skip_repositories()
 
-    diagnostics.debug("Using {} protocol to make the HTTP calls".format(
-        data.build.connection_protocol.upper()))
+    diagnostics.trace("Using {} protocol to make the HTTP calls".format(
+        data.build.connection_protocol.upper()
+    ))
 
     diagnostics.trace("The dependencies to be skipped are {}".format(
-        skip_repository_list))
+        skip_repository_list
+    ))
 
     for key in data.build.products.keys():
         product = data.build.products[key]
@@ -116,27 +124,34 @@ def update():
             )
             continue
         diagnostics.debug(
-            "Beginning to process the checkout update of {}".format(name))
+            "Beginning to process the checkout update of {}".format(name)
+        )
         if key in skip_repository_list:
             diagnostics.note(
-                "{} is on the list of repositories to be skipped".format(
-                    name))
+                "{} is on the list of repositories to be skipped".format(name)
+            )
             continue
         if not args.clean:
             if "skip_checkout" in product and product.skip_checkout:
                 diagnostics.note(
                     "{} checkout check is done in the checkout process".format(
-                        product.repr))
+                        product.repr
+                    )
+                )
             else:
                 if key in versions and product.version == versions[key]:
                     diagnostics.note(
                         "{} should not be re-downloaded, skipping".format(
-                            name))
+                            name
+                        )
+                    )
                     continue
 
         get_product(key=key, versions=versions)
 
-        diagnostics.debug_ok("Checkout update of {} is complete".format(name))
+        diagnostics.debug_ok(
+            "Updating the checkout of {} is complete".format(name)
+        )
 
         write_version_file(versions)
 

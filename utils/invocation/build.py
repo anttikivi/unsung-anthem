@@ -32,16 +32,14 @@ def _build_dependencies():
     data.build.dependencies["build"] = list()
 
     for key, product in data.build.products.items():
-        diagnostics.trace(
-            "Checking whether {} is a tool".format(product.identifier)
-        )
         should_build = reflection.build_call(product, "should_build")
         if not product.check_if_tool() and should_build:
             diagnostics.trace("Entering the build of {}".format(product.repr))
             if not reflection.product_exists(product) \
                     or not reflection.build_function_exists(
                         product=product,
-                        function="do_build"):
+                        function="do_build"
+            ):
                 diagnostics.trace(
                     "The product package of {} either doesn't exists or "
                     "doesn't contain function 'build'".format(product.repr)

@@ -167,7 +167,8 @@ def build_call(
         subproject=None,
         cmake_args=None,
         build_targets=None,
-        install_targets=None):
+        install_targets=None
+):
     """
     Build the given product by using CMake and the selected program.
 
@@ -233,9 +234,6 @@ def build_call(
     cmake_env = {"CC": toolchain.cc, "CXX": toolchain.cxx}
 
     with shell.pushd(build_dir):
-        diagnostics.debug(
-            "Calling CMake with the following call: {}".format(str(cmake_call))
-        )
         shell.call(cmake_call, env=cmake_env)
         # TODO MSBuild
         if use_ninja:

@@ -37,11 +37,15 @@ def checkout_tag_windows(key, tag_ref_name):
     with shell.pushd(os.path.join(
             ANTHEM_SOURCE_ROOT,
             key,
-            data.build.products[key].version)):
+            data.build.products[key].version
+    )):
         shell.call([
-            data.build.toolchain.git, "checkout",
-            "tags/{}".format(tag_ref_name), "-b",
-            "{}_anthem_branch".format(tag_ref_name)])
+            data.build.toolchain.git,
+            "checkout",
+            "tags/{}".format(tag_ref_name),
+            "-b",
+            "{}_anthem_branch".format(tag_ref_name)
+        ])
 
 
 def checkout_tag(key, tag_ref_name):
@@ -53,9 +57,12 @@ def checkout_tag(key, tag_ref_name):
     """
     with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key)):
         shell.call([
-            data.build.toolchain.git, "checkout",
-            "tags/{}".format(tag_ref_name), "-b",
-            "{}_anthem_branch".format(tag_ref_name)])
+            data.build.toolchain.git,
+            "checkout",
+            "tags/{}".format(tag_ref_name),
+            "-b",
+            "{}_anthem_branch".format(tag_ref_name)
+        ])
 
 
 def download_v4(key):
@@ -75,18 +82,23 @@ def download_v4(key):
     if platform.system() == "Windows":
         with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key)):
             shell.call([
-                data.build.toolchain.git, "clone",
+                data.build.toolchain.git,
+                "clone",
                 "{}.git".format(response_json_data["repository"]["url"]),
-                product.version])
+                product.version
+            ])
     else:
         with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp")):
             shell.call([
-                data.build.toolchain.git, "clone",
-                "{}.git".format(response_json_data["repository"]["url"])])
+                data.build.toolchain.git,
+                "clone",
+                "{}.git".format(response_json_data["repository"]["url"])
+            ])
 
     release_node = github_v4_util.find_release_node(
         key,
-        response_json_data)
+        response_json_data
+    )
 
     if not release_node:
         release_node = github_v4_util.find_release_node_by_tag(

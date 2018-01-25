@@ -26,9 +26,6 @@ def build_tools():
     toolchain = data.build.toolchain
 
     for key, product in data.build.products.items():
-        diagnostics.trace(
-            "Checking whether {} is a tool".format(product.identifier)
-        )
         should_build = reflection.build_call(product, "should_build")
         if product.check_if_tool() and should_build:
             diagnostics.trace("Entering the build of {}".format(product.repr))

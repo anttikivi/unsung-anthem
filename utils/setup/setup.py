@@ -58,6 +58,7 @@ def validate_arguments(args):
 
     args -- the command line arguments.
     """
+    # TODO Is 'c++latest' necessary?
     if not (args.std == "c++latest"
             or args.std == "c++2a"
             or args.std == "c++17"
@@ -70,7 +71,8 @@ def validate_arguments(args):
         if not (args.stdlib == "libc++" or args.stdlib == "libstdc++"):
             exit_rejecting_arguments(
                 "C++ standard library implementation is set to an invalid "
-                "value: " + str(args.stdlib))
+                "value: " + str(args.stdlib)
+            )
 
     if not (args.cmake_generator == "Ninja"
             or args.cmake_generator == "Unix Makefiles"
@@ -78,19 +80,23 @@ def validate_arguments(args):
             or args.cmake_generator == "Visual Studio 14 2015"
             or args.cmake_generator == "Visual Studio 15 2017"
             or args.cmake_generator == "Eclipse CDT4 - Ninja"):
-        exit_rejecting_arguments("CMake generator is set to an invalid value: "
-                                 + str(args.cmake_generator))
+        exit_rejecting_arguments(
+            "CMake generator is set to an invalid value: "
+            + str(args.cmake_generator)
+        )
 
     if not (args.main_tool == "llvm"
             or args.main_tool == "gcc"
             or args.main_tool == "msbuild"):
         exit_rejecting_arguments(
             "The main tool is set to an invalid value: "
-            + str(args.main_tool))
+            + str(args.main_tool)
+        )
 
     if args.build_llvm and args.build_libcxx:
         exit_rejecting_arguments(
-            "Both LLVM and libc++ cannot be built at the same time")
+            "Both LLVM and libc++ cannot be built at the same time"
+        )
 
 
 def clean_delay():
@@ -100,14 +106,17 @@ def clean_delay():
     """
     def _impl_write(index):
         sys.stdout.write(
-            diagnostics.WARNING + "\b{!s}".format(index) + diagnostics.ENDC)
+            diagnostics.WARNING + "\b{!s}".format(index) + diagnostics.ENDC
+        )
         sys.stdout.flush()
         time.sleep(1)
         return index
 
     sys.stdout.write(
-        diagnostics.WARNING + "Starting a clean build in  "
-        + diagnostics.ENDC)
+        diagnostics.WARNING
+        + "Starting a clean build in  "
+        + diagnostics.ENDC
+    )
 
     index_list = [_impl_write(i) for i in reversed(range(0, 4))]
 
@@ -125,7 +134,8 @@ def set_up_build(args):
     shell.DRY_RUN = args.dry_run
     diagnostics.note("The main tool is set to {}".format(args.main_tool))
     diagnostics.note(
-        "The main tool version is set to {}".format(args.main_tool_version))
+        "The main tool version is set to {}".format(args.main_tool_version)
+    )
 
     validate_arguments(args)
 
@@ -153,11 +163,13 @@ def set_up_build(args):
     os.environ["TOOLCHAINS"] = args.darwin_xcrun_toolchain
     data.build.toolchain = host_toolchain(
         args=args,
-        xcrun_toolchain=args.darwin_xcrun_toolchain)
+        xcrun_toolchain=args.darwin_xcrun_toolchain
+    )
 
     set_arguments_to_toolchain(
         args=args,
-        toolchain=data.build.toolchain)
+        toolchain=data.build.toolchain
+    )
 
     data.build["ci"] = "CI" in os.environ and os.environ["CI"]
 
