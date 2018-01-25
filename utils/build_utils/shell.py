@@ -24,6 +24,8 @@ import zipfile
 
 from contextlib import contextmanager
 
+from script_support import data
+
 from . import diagnostics
 
 
@@ -204,7 +206,17 @@ def copytree(src, dest, dry_run=None, echo=True):
         _echo_command(dry_run, ["cp", "-r", src, dest])
     if dry_run:
         return
-    shutil.copytree(src, dest)
+    # A workaround
+    if data.build.ci:
+        for item in os.listdir(src):
+            s = os.path.join(src, item)
+            d = os.path.join(dest, item)
+            if os.path.isdir(s):
+                shutil.copytree(s, d)  # , symlinks, ignore)
+            else:
+                shutil.copy2(s, d)
+    else:
+        shutil.copytree(src, dest)
 
 
 def copy(src, dest, dry_run=None, echo=True):
