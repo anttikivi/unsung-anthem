@@ -307,7 +307,6 @@ def create_argument_parser():
     option(
         "--stdlib",
         store,
-        default="libc++",
         help="build using the specified C++ standard library implementation")
 
     # -------------------------------------------------------------------------
