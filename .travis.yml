@@ -137,15 +137,15 @@ matrix:
     - ANTHEM_COVERAGE=false
 
   # Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
-  - os: osx
-    osx_image: xcode8.3
-    compiler: clang
-    env:
-    - COMPILER_NAME=clang
-    - CXX=clang++
-    - CC=clang
-    - ANTHEM_BUILD_PRESET=travis_darwin_xcode83_clang_cxx17
-    - ANTHEM_COVERAGE=false
+  # - os: osx
+  #   osx_image: xcode8.3
+  #   compiler: clang
+  #   env:
+  #   - COMPILER_NAME=clang
+  #   - CXX=clang++
+  #   - CC=clang
+  #   - ANTHEM_BUILD_PRESET=travis_darwin_xcode83_clang_cxx17
+  #   - ANTHEM_COVERAGE=false
 
 install:
 - ${CC} --version
