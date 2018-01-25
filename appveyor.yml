@@ -21,13 +21,7 @@ install:
  - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" SET ANTHEM_PRESET=appveyor_windows_vs14_cxx14
  - IF /i "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" SET ANTHEM_PRESET=appveyor_windows_vs15_cxx14
  - pip install requests
- - cd %APPVEYOR_BUILD_FOLDER%\..
- - python unsung-anthem\utils\build-script --preset=%ANTHEM_PRESET% --install
 
 build_script:
  - cd %APPVEYOR_BUILD_FOLDER%\..
- - python unsung-anthem\utils\build-script --preset=%ANTHEM_PRESET% --build
-
-test_script:
- - cd %APPVEYOR_BUILD_FOLDER%\..
- - python unsung-anthem\utils\build-script --preset=%ANTHEM_PRESET% --run-test
+ - python unsung-anthem\utils\build-script --preset=%ANTHEM_PRESET%
