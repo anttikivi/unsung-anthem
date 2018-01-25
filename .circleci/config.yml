@@ -136,13 +136,7 @@ jobs:
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: |
-        sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
+    - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.6 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -169,13 +163,7 @@ jobs:
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: |
-        sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
+    - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.7 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -202,13 +190,7 @@ jobs:
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: |
-        sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
+    - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.8 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -235,13 +217,7 @@ jobs:
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: |
-        sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
+    - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-3.9 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -268,13 +244,7 @@ jobs:
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: |
-        sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
+    - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
     - run: sudo apt-get -y update
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-4.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
@@ -288,28 +258,49 @@ jobs:
         $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
 
 
-  #==- C++17 Clang 4.0 ------------------------------------------------------==#
+  #==- C++14 Clang 5.0 ------------------------------------------------------==#
 
-  clang40_cxx17:
+  clang50_cxx14:
     <<: *defaults
     environment:
       <<: *default_variables
-      ANTHEM_BUILD_PRESET: circleci_linux_clang40_cxx17
+      ANTHEM_BUILD_PRESET: circleci_linux_clang50_cxx14
       COMPILER_NAME: clang
-      CXX: clang++-4.0
-      CC: clang-4.0
+      CXX: clang++-5.0
+      CC: clang-5.0
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: |
-        sudo apt-add-repository -y "deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.5 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.6 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.7 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main"
-        sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main"
+    - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-5.0 main"
     - run: sudo apt-get -y update
-    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-4.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-5.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        chmod +x $ANTHEM_REPO_NAME/utils/build-script
+    - run: ${CC} --version
+    - run: ${CXX} --version
+    - run: pip install --user requests
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
+        $ANTHEM_REPO_NAME/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
+
+
+  #==- C++17 Clang 5.0 ------------------------------------------------------==#
+
+  clang50_cxx17:
+    <<: *defaults
+    environment:
+      <<: *default_variables
+      ANTHEM_BUILD_PRESET: circleci_linux_clang50_cxx17
+      COMPILER_NAME: clang
+      CXX: clang++-5.0
+      CC: clang-5.0
+    steps:
+    - checkout
+    - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+    - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-5.0 main"
+    - run: sudo apt-get -y update
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-5.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         chmod +x $ANTHEM_REPO_NAME/utils/build-script
@@ -334,4 +325,5 @@ workflows:
      - clang38_cxx14
      - clang39_cxx14
      - clang40_cxx14
-     - clang40_cxx17
+     - clang50_cxx14
+     - clang50_cxx17
