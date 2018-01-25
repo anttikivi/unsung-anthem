@@ -77,8 +77,8 @@ def is_lib_dir_made():
     Check whether the library directory doesn't exist. If it doesn't exist, it
     is created and the function returns True.
     """
-    if not os.path.isdir(os.path.join(data.build.install_root, "lib")):
-        shell.makedirs(os.path.join(data.build.install_root, "lib"))
+    if not os.path.isdir(os.path.join(data.build.local_root, "lib")):
+        shell.makedirs(os.path.join(data.build.local_root, "lib"))
         return True
     return False
 
