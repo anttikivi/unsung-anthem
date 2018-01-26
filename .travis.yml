@@ -122,24 +122,24 @@ matrix:
         sources: *sources
 
   # Linux: Ubuntu Trusty 14.04 C++17 Clang 5.0
-  - os: linux
-    dist: trusty
-    compiler: clang
-    env:
-    - COMPILER_NAME=clang
-    - CXX=clang++-5.0
-    - CC=clang-5.0
-    - ANTHEM_BUILD_PRESET=travis_linux_clang50_cxx17
-    - ANTHEM_COVERAGE=false
-    addons:
-      apt:
-        packages:
-        - clang-5.0
-        - xorg-dev
-        - libglu1-mesa-dev
-        - build-essential
-        - libc++-dev
-        sources: *sources
+  # - os: linux
+  #   dist: trusty
+  #   compiler: clang
+  #   env:
+  #   - COMPILER_NAME=clang
+  #   - CXX=clang++-5.0
+  #   - CC=clang-5.0
+  #   - ANTHEM_BUILD_PRESET=travis_linux_clang50_cxx17
+  #   - ANTHEM_COVERAGE=false
+  #   addons:
+  #     apt:
+  #       packages:
+  #       - clang-5.0
+  #       - xorg-dev
+  #       - libglu1-mesa-dev
+  #       - build-essential
+  #       - libc++-dev
+  #       sources: *sources
 
   #===----------------------------------------------------------------------===#
   #==- Darwin - Apple Clang -------------------------------------------------==#
