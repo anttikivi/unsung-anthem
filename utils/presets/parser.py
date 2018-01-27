@@ -19,133 +19,100 @@ except ImportError:
     # Python 3
     import configparser as ConfigParser
 
-import itertools
-
 from build_utils import diagnostics
 
 
-def _load_preset_files_impl(preset_file_names, defaults=None):
-    """
-    Load the presets in the preset files.
-
-    preset_file_names -- the names of the files from which the presets are
-    loaded.
-    defaults -- key-value pair to be default values in the presets.
-    """
-    if defaults is None:
-        defs = {}
-    else:
-        defs = defaults
-
-    config = ConfigParser.SafeConfigParser(defs, allow_no_value=True)
-    if not config.read(preset_file_names):
-        diagnostics.fatal("Preset file not found (tried {})".format(
-            preset_file_names
-        ))
-    diagnostics.debug("Loaded preset config from {}".format(preset_file_names))
+def _load_preset_files_impl(preset_file_names, substitutions=None):
+    if not substitutions:
+        substitutions = {}
+    config = ConfigParser.SafeConfigParser(substitutions, allow_no_value=True)
+    if config.read(preset_file_names) == []:
+        diagnostics.fatal(
+            "preset file not found (tried " + str(preset_file_names) + ")"
+        )
     return config
 
 
 _PRESET_PREFIX = "preset: "
 
 
-def _get_preset_options(config, defaults, preset_name):
-    """
-    Concatenate the lists of options in the preset.
-
-    config -- the preset file information.
-    defaults -- the preset default values.
-    preset_name -- the name of the preset.
-    parser -- the function used to parse the options.
-    """
-    def _get_value(option):
-        # A hack.
-        try:
-            value = config.get(section_name, option)
-        except ConfigParser.InterpolationMissingOptionError:
-            return None
-        if not value:
-            return ""
-        return value
-
-    def parse_option(option):
-        """
-        Parse single option of the preset and return its value.
-
-        option -- the option to parse.
-        """
-        value = _get_value(option)
-        if option in defaults:
-            return None
-        if option == "mixin-preset":
-            # Mixins are handled separately.
-            return None
-        elif value == "":
-            return "--{}".format(option)
-        return "--{}={}".format(option, value)
-
-    def parse_mixins():
-        """
-        Parse mix-in presets of the preset and return the parsed options from
-        the mix-in presets.
-        """
-        value = _get_value("mixin-preset")
-        if "mixin-preset" in defaults:
-            return None
-        # Split on newlines and filter out empty lines.
-        mixins = list(filter(None, [m.strip() for m in value.splitlines()]))
-        mixin_opts = (_get_preset_options(config, defaults, m) for m in mixins)
-        ret = list(itertools.chain.from_iterable(mixin_opts))
-        return ret
-
+def _get_preset_options_impl(config, substitutions, preset_name):
     section_name = _PRESET_PREFIX + preset_name
     if section_name not in config.sections():
-        return None
-    build_script_opts = list(filter(
-        None, [parse_option(opt) for opt in config.options(section_name)]
-    ))
-    mixin_opts = \
-        [opt for opt in config.options(section_name) if opt == "mixin-preset"]
-    if mixin_opts:
-        mixins = list(filter(None, parse_mixins()))
-    else:
-        mixins = []
-    return list(build_script_opts + mixins)
+        return (None, None, None)
+
+    build_script_opts = []
+    build_script_impl_opts = []
+    missing_opts = []
+    dash_dash_seen = False
+
+    for o in config.options(section_name):
+        try:
+            a = config.get(section_name, o)
+        except ConfigParser.InterpolationMissingOptionError as e:
+            # e.reference contains the correctly formatted option
+            missing_opts.append(e.reference)
+            continue
+
+        if not a:
+            a = ""
+
+        if o in substitutions:
+            continue
+
+        opt = None
+        if o == "mixin-preset":
+            # Split on newlines and filter out empty lines.
+            mixins = filter(None, [m.strip() for m in a.splitlines()])
+            for mixin in mixins:
+                (base_build_script_opts,
+                 base_build_script_impl_opts,
+                 base_missing_opts) = \
+                    _get_preset_options_impl(config, substitutions, mixin)
+                build_script_opts += base_build_script_opts
+                build_script_impl_opts += base_build_script_impl_opts
+                missing_opts += base_missing_opts
+        elif o == "dash-dash":
+            dash_dash_seen = True
+        elif a == "":
+            opt = "--" + o
+        else:
+            opt = "--" + o + "=" + a
+
+        if opt:
+            if not dash_dash_seen:
+                build_script_opts.append(opt)
+            else:
+                build_script_impl_opts.append(opt)
+
+    return (build_script_opts, build_script_impl_opts, missing_opts)
 
 
-def get_preset_options(defaults, preset_file_names, preset_name):
+def get_preset_options(substitutions, preset_file_names, preset_name):
     """
-    Get a list of the options in the preset.
-
-    defaults -- the preset default values.
-    preset_file_names -- list of the names of the preset files.
-    preset_name -- the name of the preset.
+    Get the options in a preset.
     """
-    config = _load_preset_files_impl(preset_file_names, defaults)
-    build_script_opts = _get_preset_options(config, defaults, preset_name)
-    if not build_script_opts:
-        diagnostics.fatal("Preset '{}' wasn't found".format(preset_name))
-    return build_script_opts + ["--"]
+    config = _load_preset_files_impl(preset_file_names, substitutions)
+
+    (build_script_opts, build_script_impl_opts, missing_opts) = \
+        _get_preset_options_impl(config, substitutions, preset_name)
+    if not build_script_opts and not build_script_impl_opts:
+        diagnostics.fatal("preset '" + preset_name + "' not found")
+    if missing_opts:
+        diagnostics.fatal(
+            "missing option(s) for preset '" +
+            preset_name +
+            "': " +
+            ", ".join(missing_opts)
+        )
+
+    return build_script_opts + ["--"] + build_script_impl_opts
 
 
 def get_all_preset_names(preset_file_names):
     """
-    Get a list of all presets in the preset files.
-
-    preset_file_names -- list of the names of the preset files.
+    Get the names of the presets in a preset file.
     """
     config = _load_preset_files_impl(preset_file_names)
     return [name[len(_PRESET_PREFIX):] for name in config.sections()
             if name.startswith(_PRESET_PREFIX)]
-
-
-def parse_preset_defaults(args):
-    """
-    Parse the preset default values from the parsed arguments and return them
-    as a dictionary.
-
-    args -- the parsed arguments of the program in preset mode.
-    """
-    # Create a list of tuples as a dict is easily constructed from them.
-    defaults = [tuple(x.split("=", 1)) for x in args.preset_defaults_raw]
-    return dict(defaults)
