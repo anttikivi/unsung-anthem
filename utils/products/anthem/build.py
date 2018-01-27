@@ -70,8 +70,6 @@ def do_build(tests=False):
 
     cmake_call = cmake.construct_call(tests=tests)
 
-    diagnostics.trace("The cmake call:\n\n{}".format(cmake_call))
-
     with shell.pushd(build_dir):
         shell.call(cmake_call, env=cmake_env, echo=True)
         if args.cmake_generator == "Ninja":
@@ -93,7 +91,7 @@ def do_build(tests=False):
                     ])
             common.build.make(target="install")
 
-        elif args.visual_studio:
+        elif data.build.visual_studio:
             msbuild_args = ["anthem.sln"]
 
             if args.msbuild_logger is not None:
@@ -110,11 +108,10 @@ def do_build(tests=False):
 
             common.build.msbuild(args=msbuild_args)
 
-    # TODO
-    # if args.visual_studio:
-    #     sdl.build.copy_dynamic(
-    #         os.path.join(build_dir, args.anthem_build_variant)
-    #     )
+    if data.build.visual_studio:
+        sdl.build.copy_dynamic(
+            os.path.join(build_dir, args.anthem_build_variant)
+        )
 
 
 def should_build():

@@ -57,7 +57,7 @@ def _build():
     Do the build of SDL.
     """
     product = data.build.products.sdl
-    bin_path = os.path.join(data.build.local_root, "lib", "libSDL2.a")
+    bin_path = os.path.join(data.build.local_root, "lib", "libSDL2d.a")
     build_dir = workspace.build_dir(product)
     if common.build.binary_exists(product=product, path=bin_path):
         return

@@ -147,7 +147,9 @@ def set_up_build(args):
         products=PRODUCT_CONFIG,
         host_target=args.host_target,
         std=args.std,
-        stdlib=args.stdlib
+        stdlib=args.stdlib,
+        visual_studio=(args.cmake_generator == "Visual Studio 14 2015" or
+                       args.cmake_generator == "Visual Studio 15 2017")
     )
 
     data.build["local_root"] = os.path.join(data.build.build_root, "local")
