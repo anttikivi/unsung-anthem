@@ -15,7 +15,7 @@ The support module containing the utilities for Unsung Anthem build.
 import os
 import platform
 
-from build_utils import diagnostics, shell
+from build_utils import shell
 
 from products import common, sdl
 

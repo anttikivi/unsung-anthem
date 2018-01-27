@@ -33,8 +33,6 @@ import invocation
 
 from invocation import tools
 
-from presets import script
-
 from presets.parser import get_all_preset_names, get_preset_options
 
 from script_support import driver_arguments, migration

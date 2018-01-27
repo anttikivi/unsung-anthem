@@ -19,7 +19,7 @@ import os
 import sys
 import time
 
-from build_utils import diagnostics, shell
+from build_utils import diagnostics, shell, workspace
 
 from build_utils.mapping import Mapping
 
@@ -30,8 +30,6 @@ from script_support.config import PRODUCT_CONFIG
 from script_support.variables import ANTHEM_SOURCE_ROOT, ANTHEM_BUILD_ROOT
 
 from toolchain.toolchain import host_toolchain, set_arguments_to_toolchain
-
-from .arguments import set_default_args
 
 
 def exit_rejecting_arguments(message, parser=None):
@@ -129,9 +127,14 @@ def set_up_build(args):
     """
     Construct the build data and download the dependencies.
     """
-    set_default_args(args)
+    if args.source_llvm:
+        args.build_llvm = True
 
     shell.DRY_RUN = args.dry_run
+
+    if args.build_subdir is None:
+        args.build_subdir = workspace.compute_build_subdir(args)
+
     diagnostics.note("The main tool is set to {}".format(args.main_tool))
     diagnostics.note(
         "The main tool version is set to {}".format(args.main_tool_version)
