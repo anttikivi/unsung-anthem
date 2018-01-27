@@ -234,7 +234,6 @@ def create_argument_parser():
         help="the version of the main tool which will be used in the lookup "
              "of the tool")
 
-    # TODO
     option(
         ["-v", "--verbose-build"],
         toggle_true,
@@ -280,6 +279,10 @@ def create_argument_parser():
         ["-t", "--test"],
         toggle_true("build_test"),
         help="build the Unsung Anthem tests")
+    option(
+        "--skip-build-anthem",
+        toggle_false("build_anthem"),
+        help="skip building Unsung Anthem and build only the Ode Engine")
 
     # -------------------------------------------------------------------------
     in_group("Select the C++ standard")

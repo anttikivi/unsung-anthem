@@ -131,6 +131,9 @@ def set_up_build(args):
         args.build_llvm = True
 
     shell.DRY_RUN = args.dry_run
+    shell.ECHO_DEFAULT = args.verbose_build
+
+    diagnostics.VERBOSE = args.verbose_build
 
     if args.build_subdir is None:
         args.build_subdir = workspace.compute_build_subdir(args)

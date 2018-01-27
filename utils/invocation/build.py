@@ -90,4 +90,4 @@ def invoke():
                     tests_run_dir,
                     args.test_executable_name
                 )
-            shell.call_without_sleeping([test_executable], echo=True)
+            shell.caffeinate([test_executable], echo=True)

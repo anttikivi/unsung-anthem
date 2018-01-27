@@ -34,10 +34,20 @@ OK_BLUE = "\033[94m"
 HEADER = "\033[95m"
 
 
+VERBOSE = False
+
+
+def _coerce_verbosity(verbosity_override=None):
+    if verbosity_override is None:
+        return VERBOSE
+    else:
+        return verbosity_override
+
+
 def printer(
         level,
         colour=None,
-        do_print=True,
+        verbosity_check=lambda: True,
         print_script=False,
         show_type=False):
     """
@@ -61,7 +71,7 @@ def printer(
                 full_message = "{}{}{}".format(
                     executable, message_type, func(message))
 
-            if do_print:
+            if verbosity_check():
                 print(full_message)
 
             sys.stdout.flush()
@@ -73,7 +83,7 @@ def printer(
     return _printer_decorator
 
 
-@printer(level="trace")
+@printer(level="trace", verbosity_check=_coerce_verbosity)
 def trace(message):
     """
     Print a trace diagnostic notification to the standard output.
@@ -83,7 +93,7 @@ def trace(message):
     return message
 
 
-@printer(level="trace", colour=ORANGE)
+@printer(level="trace", colour=ORANGE, verbosity_check=_coerce_verbosity)
 def trace_head(message):
     """
     Print a trace diagnostic notification to the standard output.

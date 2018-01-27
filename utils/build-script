@@ -137,7 +137,7 @@ def main_preset():
     if args.expand_build_script_invocation:
         return 0
 
-    shell.call_without_sleeping(build_script_args)
+    shell.caffeinate(build_script_args)
 
     return 0
 

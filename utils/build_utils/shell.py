@@ -33,6 +33,8 @@ DEVNULL = getattr(subprocess, "DEVNULL", subprocess.PIPE)
 
 DRY_RUN = False
 
+ECHO = False
+
 
 def _quote(arg):
     return pipes.quote(str(arg))
@@ -54,6 +56,13 @@ def _coerce_dry_run(dry_run_override):
         return dry_run_override
 
 
+def _coerce_echo(echo_override):
+    if echo_override is None:
+        return ECHO
+    else:
+        return echo_override
+
+
 def _echo_command(dry_run, command, env=None, prompt="+ "):
     output = []
     if env is not None:
@@ -67,7 +76,7 @@ def _echo_command(dry_run, command, env=None, prompt="+ "):
     file.flush()
 
 
-def call(command, stderr=None, env=None, dry_run=None, echo=True):
+def call(command, stderr=None, env=None, dry_run=None, echo=None):
     """
     call(command, ...) -> str
 
@@ -76,6 +85,7 @@ def call(command, stderr=None, env=None, dry_run=None, echo=True):
     This function will raise an exception on any command failure.
     """
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     if dry_run or echo:
         _echo_command(dry_run, command, env=env)
     if dry_run:
@@ -104,7 +114,7 @@ def capture(
         stderr=None,
         env=None,
         dry_run=None,
-        echo=True,
+        echo=None,
         optional=False,
         allow_non_zero_exit=False):
     """
@@ -115,6 +125,7 @@ def capture(
     This function will raise an exception on any command failure.
     """
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     if dry_run or echo:
         _echo_command(dry_run, command, env=env)
     if dry_run:
@@ -147,8 +158,9 @@ def capture(
 
 
 @contextmanager
-def pushd(path, dry_run=None, echo=True):
+def pushd(path, dry_run=None, echo=None):
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     old_dir = os.getcwd()
     if dry_run or echo:
         _echo_command(dry_run, ["pushd", path])
@@ -161,8 +173,9 @@ def pushd(path, dry_run=None, echo=True):
         os.chdir(old_dir)
 
 
-def makedirs(path, dry_run=None, echo=True):
+def makedirs(path, dry_run=None, echo=None):
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     if dry_run or echo:
         _echo_command(dry_run, ["mkdir", "-p", path])
     if dry_run:
@@ -171,8 +184,9 @@ def makedirs(path, dry_run=None, echo=True):
         os.makedirs(path)
 
 
-def rmtree(path, dry_run=None, echo=True):
+def rmtree(path, dry_run=None, echo=None):
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     if dry_run or echo:
         _echo_command(dry_run, ["rm", "-rf", path])
     if dry_run:
@@ -181,7 +195,7 @@ def rmtree(path, dry_run=None, echo=True):
         shutil.rmtree(path)
 
 
-def rm(file, dry_run=None, echo=True):
+def rm(file, dry_run=None, echo=None):
     """
     Remove a file.
 
@@ -190,6 +204,7 @@ def rm(file, dry_run=None, echo=True):
     echo -- whether or not the command is echoed before the execution.
     """
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     if dry_run or echo:
         _echo_command(dry_run, ["rm", file])
     if dry_run:
@@ -200,8 +215,9 @@ def rm(file, dry_run=None, echo=True):
         os.remove(file)
 
 
-def copytree(src, dest, dry_run=None, echo=True):
+def copytree(src, dest, dry_run=None, echo=None):
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     if dry_run or echo:
         _echo_command(dry_run, ["cp", "-r", src, dest])
     if dry_run:
@@ -219,7 +235,7 @@ def copytree(src, dest, dry_run=None, echo=True):
         shutil.copytree(src, dest)
 
 
-def copy(src, dest, dry_run=None, echo=True):
+def copy(src, dest, dry_run=None, echo=None):
     """
     Copy a file.
 
@@ -229,6 +245,7 @@ def copy(src, dest, dry_run=None, echo=True):
     echo -- whether or not the command is echoed before the execution.
     """
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     if dry_run or echo:
         _echo_command(dry_run, ["cp", "-p", src, dest])
     if dry_run:
@@ -236,7 +253,7 @@ def copy(src, dest, dry_run=None, echo=True):
     shutil.copy2(src, dest)
 
 
-def move(src, dest, dry_run=None, echo=True):
+def move(src, dest, dry_run=None, echo=None):
     """
     Move a directory recursively.
 
@@ -246,6 +263,7 @@ def move(src, dest, dry_run=None, echo=True):
     echo -- whether or not the command is echoed before the execution.
     """
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     if dry_run or echo:
         _echo_command(dry_run, ["mv", "-f", src, dest])
     if dry_run:
@@ -253,7 +271,7 @@ def move(src, dest, dry_run=None, echo=True):
     shutil.move(src, dest)
 
 
-def tar(path, dest=None, dry_run=None, echo=True):
+def tar(path, dest=None, dry_run=None, echo=None):
     """
     Extract an archive.
 
@@ -263,6 +281,7 @@ def tar(path, dest=None, dry_run=None, echo=True):
     echo -- whether or not the command is echoed before the execution.
     """
     dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
     if dry_run or echo:
         if dest:
             _echo_command(dry_run, ["tar", "-xf", path, "-C", dest])
@@ -300,7 +319,7 @@ def tar(path, dest=None, dry_run=None, echo=True):
                         archive.extractall()
 
 
-def curl(url, dest, env=None, dry_run=None, echo=True):
+def curl(url, dest, env=None, dry_run=None, echo=None):
     """
     Download a file.
 
@@ -316,7 +335,7 @@ def curl(url, dest, env=None, dry_run=None, echo=True):
         echo=echo)
 
 
-def call_without_sleeping(command, env=None, dry_run=False, echo=False):
+def caffeinate(command, env=None, dry_run=False, echo=None):
     """
     Execute a command during which system sleep is disabled.
     By default, this ignores the state of the 'shell.dry_run' flag.
