@@ -190,7 +190,10 @@ def fatal(message):
     message -- the message to be printed.
     """
 
-    @printer(level="fatal error", colour=BOLD + FAIL, do_print=False)
+    @printer(
+        level="fatal error",
+        colour=BOLD + FAIL,
+        verbosity_check=lambda: False)
     def _impl(msg):
         return msg
 
