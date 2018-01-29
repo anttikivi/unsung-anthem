@@ -85,8 +85,12 @@ def _apply_default_arguments(args):
     # Set the default CMake generator.
     if args.cmake_generator is None:
         args.cmake_generator = "Ninja"
+    
+    if args.enable_gcov:
+        args.cmake_generator = "Unix Makefiles"
 
-    if not args.auth_token and ("CI" not in os.environ or not os.environ["CI"]):
+    if not args.auth_token \
+            and ("CI" not in os.environ or not os.environ["CI"]):
         with open(args.auth_token_file) as token_file:
             args.auth_token = str(token_file.read())
 
