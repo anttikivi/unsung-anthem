@@ -96,7 +96,7 @@ def construct_call(tests=False):
     else:
         cmake_call += ["-DANTHEM_MULTITHREADING=OFF"]
 
-    if data.build.ci:
+    if data.build.ci and not platform.system() == "Darwin":
         cmake_call += ["-DANTHEM_MANUAL_SDL=ON"]
 
     if args.extra_cmake_options:
