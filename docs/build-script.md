@@ -33,10 +33,6 @@ Prints out the command which would be run according to the given preset but does
 
 Executes the build script in dry-run mode, which means that the commands which would be run are only printed to the console instead of running them.
 
-#### `--from-preset`
-
-This option tells the script it’s run from the preset mode. You mustn’t use this option manually!
-
 #### `--build-subdir PATH`
 
 The name of the directory under `$ANTHEM_BUILD_ROOT` where the build products will be placed.
@@ -203,6 +199,10 @@ Build the release variant of Unsung Anthem and the related projects.
 
 ### Build Variant in Specific Projects
 
+#### `--debug-ode`
+
+Build the debug variant of Unsung Anthem.
+
 #### `--debug-anthem`
 
 Build the debug variant of Unsung Anthem.
@@ -223,6 +223,10 @@ Disable assertions in all projects.
 
 ### Assertions in Specific Projects.
 
+#### `--ode-assertions`
+
+Enable assertions in Ode.
+
 #### `--anthem-assertions`
 
 Enable assertions in Unsung Anthem.
@@ -242,6 +246,14 @@ Path to a file which contains an OAuth token which is used to access the GitHub 
 An OAuth token which is used to access the GitHub GraphQL API.
 
 ### Program
+
+#### `--ode-name NAME`
+
+TODO
+
+#### `--ode-test-executable-name NAME`
+
+TODO
 
 #### `--executable-name NAME`
 

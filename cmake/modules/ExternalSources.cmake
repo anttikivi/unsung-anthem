@@ -9,9 +9,9 @@
 
 function(SET_GLAD_SOURCES)
 
-  set(ANTHEM_SOURCES ${ANTHEM_SOURCES}
+  set(ODE_SOURCES ${ODE_SOURCES}
 
-      ${ANTHEM_INSTALL_PREFIX}/src/glad.c
+      ${ODE_INSTALL_PREFIX}/src/glad.c
 
       PARENT_SCOPE)
 

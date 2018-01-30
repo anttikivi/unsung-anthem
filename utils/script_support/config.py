@@ -26,6 +26,7 @@ from .product_config import \
     SOURCE_ASSET, \
     platform_specific_asset, \
     platform_file_config, \
+    ode_config, \
     anthem_config
 
 
@@ -37,12 +38,18 @@ GITHUB_API_V4_ENDPOINT = "https://api.github.com/graphql"
 
 
 PRODUCT_CONFIG = Mapping(
+    ode=ode_config(
+        version="0.1.0-dev.1",
+        opengl=Mapping(version=Mapping(major=3, minor=2)),
+        logger_name="ode",
+        check_if_tool=lambda: False
+    ),
+
     anthem=anthem_config(
         version="0.1.0-dev.1",
         window_name="Unsung Anthem",
-        opengl=Mapping(version=Mapping(major=3, minor=2)),
         logger_name="anthem",
-        check_if_tool=lambda: False,
+        check_if_tool=lambda: False
     ),
 
     llvm=product_config(

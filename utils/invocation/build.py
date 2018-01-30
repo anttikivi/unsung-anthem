@@ -67,14 +67,15 @@ def invoke():
 
     _build_dependencies()
 
-    anthem.build.do_build(tests=False)
+    anthem.build.do_build(lib=False, test=False)
+    # anthem.build.do_build(lib=True, test=False)
 
     if args.build_test:
-        anthem.build.do_build(tests=True)
+        anthem.build.do_build(test=True)
 
         if platform.system() == "Windows":
             tests_run_dir = os.path.join(
-                anthem.build.anthem_build_dir(tests=True),
+                anthem.build.anthem_build_dir(test=True),
                 args.anthem_build_variant
             )
         else:

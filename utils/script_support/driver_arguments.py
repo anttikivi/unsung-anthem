@@ -57,6 +57,9 @@ def _apply_default_arguments(args):
     if args.build_variant is None:
         args.build_variant = "Debug"
 
+    if args.ode_build_variant is None:
+        args.ode_build_variant = args.build_variant
+
     if args.anthem_build_variant is None:
         args.anthem_build_variant = args.build_variant
 
@@ -68,6 +71,9 @@ def _apply_default_arguments(args):
         args.assertions = True
 
     # Propagate the default assertions setting.
+    if args.ode_assertions is None:
+        args.ode_assertions = args.assertions
+
     if args.anthem_assertions is None:
         args.anthem_assertions = args.assertions
 
@@ -85,7 +91,7 @@ def _apply_default_arguments(args):
     # Set the default CMake generator.
     if args.cmake_generator is None:
         args.cmake_generator = "Ninja"
-    
+
     if args.enable_gcov:
         args.cmake_generator = "Unix Makefiles"
 
@@ -93,6 +99,12 @@ def _apply_default_arguments(args):
             and ("CI" not in os.environ or not os.environ["CI"]):
         with open(args.auth_token_file) as token_file:
             args.auth_token = str(token_file.read())
+
+    if args.ode_name is None:
+        args.ode_name = "ode-{}".format(args.host_target)
+
+    if args.ode_test_executable_name is None:
+        args.ode_test_executable_name = "ode-test-{}".format(args.host_target)
 
     if args.executable_name is None:
         args.executable_name = "anthem-{}".format(args.host_target)
@@ -146,11 +158,6 @@ def create_argument_parser():
         store_true,
         help="print the commands that would be executed, but don't execute "
              "them")
-    option(
-        "--from-preset",
-        store_true,
-        help="the build is run as if it was called by the preset mode. You "
-             "mustn't set this yourself")
 
     option(
         "--build-subdir",
@@ -162,8 +169,8 @@ def create_argument_parser():
         "--install-prefix",
         store_path,
         default=os.path.join(ANTHEM_SOURCE_ROOT, "dest"),
-        help="the installation prefix. This is where built Unsung Anthem "
-             "products (like bin, lib, and include) will be installed.")
+        help="the installation prefix. This is where built Ode and Unsung "
+             "Anthem products (like bin, lib, and include) will be installed.")
 
     option(
         ["-j", "--jobs"],
@@ -180,12 +187,12 @@ def create_argument_parser():
         "--cmake",
         store_path(executable=True),
         help="the path to a CMake executable that will be used to build "
-             "Unsung Anthem")
+             "Ode and Unsung Anthem")
     option(
         "--git",
         store_path(executable=True),
         help="the path to a git executable that will be used in the build of "
-             "Unsung Anthem")
+             "Ode and Unsung Anthem")
     option(
         "--msbuild",
         store_path(executable=True),
@@ -203,6 +210,12 @@ def create_argument_parser():
         help="the absolute path to CXX, the C++ compiler for the host "
              "platform. Default is auto detected")
 
+    option(
+        "--ode-version",
+        store,
+        default=defaults.ODE_VERSION,
+        metavar="MAJOR.MINOR.PATCH",
+        help="the version of Ode")
     option(
         "--anthem-version",
         store,
@@ -394,6 +407,12 @@ def create_argument_parser():
     in_group("Override build variant for a specific project")
 
     option(
+        "--debug-ode",
+        store("ode_build_variant"),
+        const="Debug",
+        help="build the Debug variant of Ode")
+
+    option(
         "--debug-anthem",
         store("anthem_build_variant"),
         const="Debug",
@@ -430,6 +449,11 @@ def create_argument_parser():
     in_group("Control assertions in a specific project")
 
     option(
+        "--ode-assertions",
+        store,
+        const=True,
+        help="enable assertions in Ode")
+    option(
         "--anthem-assertions",
         store,
         const=True,
@@ -464,6 +488,17 @@ def create_argument_parser():
 
     # -------------------------------------------------------------------------
     in_group("Program options")
+
+    option(
+        "--ode-name",
+        store,
+        help="the name of the Ode library binaries"
+    )
+    option(
+        "--ode-test-executable-name",
+        store,
+        help="the name of the Ode test executable"
+    )
 
     option(
         "--executable-name",

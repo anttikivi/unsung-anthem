@@ -117,7 +117,7 @@ def update():
     for key in data.build.products.keys():
         product = data.build.products[key]
         name = product.repr
-        if key is "anthem":
+        if key is "ode" or key is "anthem":
             diagnostics.debug(
                 "{} should not be updated via the automated checkout "
                 "update".format(name)
@@ -131,6 +131,11 @@ def update():
                 "{} is on the list of repositories to be skipped".format(name)
             )
             continue
+        if product.anthem_only and not args.build_anthem:
+            diagnostics.note(
+                "Unsung Anthem is not built and, thus, {} should not be "
+                "downloaded".format(product.repr)
+            )
         if not args.clean:
             if "skip_checkout" in product and product.skip_checkout:
                 diagnostics.note(

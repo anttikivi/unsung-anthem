@@ -16,9 +16,29 @@ build.
 from build_utils.mapping import Mapping
 
 
+def ode_config(version, **kwargs):
+    """
+    Create a mapping of the configuration of Ode.
+
+    version -- the version of the product.
+    kwargs -- other key-value arguments to be added to the product mapping.
+    """
+    result = dict(**kwargs)
+
+    result["version"] = version
+    result["name"] = "Ode"
+    result["identifier"] = "ode"
+    result["repr"] = "{name} ({identifier})".format(
+        name=result["name"],
+        identifier=result["identifier"]
+    )
+
+    return Mapping(result)
+
+
 def anthem_config(version, **kwargs):
     """
-    Create a mapping of the configuration of Unsng Anthem.
+    Create a mapping of the configuration of Unsung Anthem.
 
     version -- the version of the product.
     kwargs -- other key-value arguments to be added to the product mapping.
@@ -29,20 +49,24 @@ def anthem_config(version, **kwargs):
     result["name"] = "Unsung Anthem"
     result["identifier"] = "anthem"
     result["repr"] = "{name} ({identifier})".format(
-        name="Unsung Anthem", identifier="anthem"
+        name=result["name"],
+        identifier=result["identifier"]
     )
 
     return Mapping(result)
 
 
-def product_config(version, identifier, name, version_format=None,
-                   github_data=None, **kwargs):
+def product_config(
+        version, identifier, name, anthem_only=False, version_format=None,
+        github_data=None, **kwargs):
     """
     Create a mapping of the configuration of a product.
 
     version -- the version of the product.
     identifier -- the identifier of the product.
     name -- the display name of the product.
+    anthem_only -- whether or not this product is only required by Unsung
+    Anthem.
     allow_git_checkout -- whether or not the product supports the version to be
     set to 'git'.
     version_format -- custom version format for the metavariable in the command
@@ -71,6 +95,7 @@ def product_config(version, identifier, name, version_format=None,
     result["github_data"] = github_data
     result["name"] = name
     result["identifier"] = identifier
+    result["anthem_only"] = anthem_only
     if name == identifier:
         result["repr"] = "{name}".format(name=name)
     else:

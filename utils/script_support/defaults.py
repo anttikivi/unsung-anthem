@@ -33,6 +33,7 @@ CMAKE_GENERATOR = "Ninja"
 
 CXX_STANDARD = "c++14"
 
+ODE_VERSION = "0.1.0-dev.1"
 ANTHEM_VERSION = "0.1.0-dev.1"
 
 DARWIN_XCRUN_TOOLCHAIN = "default"

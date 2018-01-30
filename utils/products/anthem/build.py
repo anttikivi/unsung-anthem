@@ -26,49 +26,53 @@ from script_support.variables import ANTHEM_REPO_NAME
 from . import cmake
 
 
-def anthem_build_dir(tests=False):
+def anthem_build_dir(lib=False, test=False):
     """
     Create the directory name for the full build subdirectory of Unsung Anthem.
 
-    tests -- whether or not the directory name should be created for the tests
+    lib -- whether or not the directory name should be created for the
+    libraries binaries.
+    test -- whether or not the directory name should be created for the tests
     binaries.
     """
     product = data.build.products.anthem
-    if tests:
+    if test:
         return os.path.join(
             data.build.build_root, "{}-{}-{}".format(
                 product.identifier, "test", data.build.host_target
             )
         )
-    # elif lib:
-    #     return os.path.join(
-    #         build_data.build_root, "{}-{}-{}".format(
-    #             product.identifier, "lib", build_data.host_target
-    #         )
-    #     )
+    elif lib:
+        return os.path.join(
+            build_data.build_root, "{}-{}-{}".format(
+                product.identifier, "lib", build_data.host_target
+            )
+        )
     return os.path.join(
         data.build.build_root,
         "{}-{}".format(product.identifier, data.build.host_target)
     )
 
 
-def do_build(tests=False):
+def do_build(lib=False, test=False):
     """
     Build Unsung Anthem.
 
-    tests -- whether or not the tests should be built rather than the actual
+    lib -- whether or not the libraries should be built rather than the actual
+    executable.
+    test -- whether or not the tests should be built rather than the actual
     executable.
     """
     args = data.build.args
     toolchain = data.build.toolchain
     product = data.build.products.anthem
-    build_dir = anthem_build_dir(tests=tests)
+    build_dir = anthem_build_dir(lib=lib, test=test)
     common.build.check_source(key=product.identifier, name=ANTHEM_REPO_NAME)
     shell.makedirs(build_dir)
 
     cmake_env = {"CC": str(toolchain.cc), "CXX": str(toolchain.cxx)}
 
-    cmake_call = cmake.construct_call(tests=tests)
+    cmake_call = cmake.construct_call(lib=lib, test=test)
 
     with shell.pushd(build_dir):
         shell.call(cmake_call, env=cmake_env, echo=True)
@@ -77,7 +81,7 @@ def do_build(tests=False):
             common.build.ninja(target="install")
         elif args.cmake_generator == "Unix Makefiles":
             common.build.make()
-            if args.enable_gcov and tests:
+            if args.enable_gcov and test:
                 common.build.make(
                     target="{}_coverage".format(args.executable_name)
                 )
