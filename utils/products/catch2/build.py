@@ -30,14 +30,11 @@ def do_build():
     bin_path = os.path.join(data.build.local_root, "include", "catch.hpp")
     if common.build.binary_exists(product=product, path=bin_path):
         return
-    build_dir = workspace.build_dir(product=product)
     source_dir = workspace.source_dir(product)
-    shell.rmtree(build_dir)
-    shell.copytree(source_dir, build_dir)
     if not workspace.is_include_dir_made() \
             and workspace.lib_file_exists(path="catch.hpp"):
         shell.rm(bin_path)
-    shell.copy(os.path.join(build_dir, "catch.hpp"), bin_path)
+    shell.copy(os.path.join(source_dir, "catch.hpp"), bin_path)
 
 
 def should_build():

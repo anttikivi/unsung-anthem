@@ -15,7 +15,7 @@ The support module containing the utilities for GitHub checkout.
 import os
 import platform
 
-from build_utils import diagnostics, shell
+from build_utils import diagnostics, shell, workspace
 
 from script_support import data
 
@@ -38,17 +38,18 @@ def simple_asset(key):
         diagnostics.trace_head(product.repr)
         github_tag.download(key=key)
         if platform.system() != "Windows":
-            shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+            shell.rmtree(workspace.source_dir(product=product))
             shell.copytree(
                 os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key),
-                os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+                workspace.source_dir(product=product)
+            )
     else:
         diagnostics.trace("Entering the download of an asset:")
         diagnostics.trace_head(asset.file)
         github_asset.download(key=key, asset_name=asset.file)
         shell.copy(
             os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", asset.file),
-            os.path.join(ANTHEM_SOURCE_ROOT, key, version, asset.file)
+            os.path.join(workspace.source_dir(product=product), asset.file)
         )
 
 
@@ -58,6 +59,7 @@ def platform_specific_asset(key):
 
     key -- the name of the product.
     """
+    product = data.build.products[key]
     asset = data.build.products[key].github_data.asset
     version = data.build.products[key].version
     if platform.system() in asset.platform_files.keys() \
@@ -78,7 +80,8 @@ def platform_specific_asset(key):
     dest_file = asset.file
     shell.tar(
         path=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", dest_file),
-        dest=os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+        dest=workspace.source_dir(product=product)
+    )
 
 
 def get_dependency(key):
@@ -88,11 +91,10 @@ def get_dependency(key):
     key -- the name of the product.
     """
     product = data.build.products[key]
-    version = product.version
 
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.rmtree(workspace.source_dir(product=product))
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.makedirs(workspace.source_dir(product=product))
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
     asset = product.github_data.asset

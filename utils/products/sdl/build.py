@@ -30,24 +30,21 @@ def _build_windows():
     bin_path = workspace.lib_file(path="SDL2.lib")
     if common.build.binary_exists(product=product, path=bin_path):
         return
-    build_dir = workspace.build_dir(product)
     source_dir = workspace.source_dir(product)
-    shell.rmtree(build_dir)
-    shell.copytree(source_dir, build_dir)
     include_dir = workspace.include_file(path="SDL2")
     if not workspace.is_include_dir_made() \
             and workspace.include_file_exists(path="SDL2"):
         shell.rmtree(include_dir)
-    shell.copytree(os.path.join(build_dir, "include"), include_dir)
+    shell.copytree(os.path.join(source_dir, "include"), include_dir)
     if not workspace.is_lib_dir_made():
         for lib_file in os.listdir(
                 os.path.join(data.build.local_root, "lib")
         ):
             if "SDL" in lib_file:
                 shell.rm(workspace.lib_file(path=lib_file))
-    for lib_file in os.listdir(os.path.join(build_dir, "lib", "x86")):
+    for lib_file in os.listdir(os.path.join(source_dir, "lib", "x86")):
         shell.copy(
-            os.path.join(build_dir, "lib", "x86", lib_file),
+            os.path.join(source_dir, "lib", "x86", lib_file),
             workspace.lib_file(path=lib_file)
         )
 

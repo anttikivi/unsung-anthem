@@ -15,7 +15,7 @@ The support module containing the utilities for checkouts.
 
 import os
 
-from build_utils import shell
+from build_utils import shell, workspace
 
 from script_support import data
 
@@ -30,8 +30,7 @@ def clean_checkout(key):
     key -- the name of the project.
     """
     product = data.build.products[key]
-    version = product.version
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.rmtree(workspace.source_dir(product=product))
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.makedirs(workspace.source_dir(product=product))
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))

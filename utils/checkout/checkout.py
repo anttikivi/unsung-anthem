@@ -67,8 +67,11 @@ def get_product(key, versions):
             and product.inject_version_info is not None:
         product.inject_version_info(versions=versions)
     else:
-        version = product.version
-        versions[key] = version
+        info = {
+            "version": product.version,
+            "targets": [data.build.host_target]
+        }
+        versions[key] = info
 
 
 def update():
@@ -144,7 +147,10 @@ def update():
                     )
                 )
             else:
-                if key in versions and product.version == versions[key]:
+                # TODO Cross-compile targets
+                if key in versions \
+                        and product.version == versions[key]["version"] \
+                        and data.build.host_target in versions[key]["targets"]:
                     diagnostics.note(
                         "{} should not be re-downloaded, skipping".format(
                             name

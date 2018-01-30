@@ -33,7 +33,8 @@ def _build_dependencies():
 
     for key, product in data.build.products.items():
         should_build = reflection.build_call(product, "should_build")
-        if not product.check_if_tool() and should_build:
+        skip_build = not args.build_anthem and product.anthem_only
+        if not product.check_if_tool() and should_build and skip_build:
             diagnostics.trace("Entering the build of {}".format(product.repr))
             if not reflection.product_exists(product) \
                     or not reflection.build_function_exists(

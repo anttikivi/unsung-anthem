@@ -23,13 +23,21 @@ from products import common
 from script_support import data
 
 
+def ninja_source_bin_path():
+    """
+    Create the path for the binary of Ninja in the source directory.
+    """
+    source_dir = workspace.source_dir(product=data.build.products.ninja)
+    if platform.system() == "Windows":
+        return os.path.join(source_dir, "ninja.exe")
+    return os.path.join(source_dir, "ninja")
+
+
 def ninja_build_bin_path():
     """
     Create the path for the binary of Ninja in the build directory.
     """
-    build_dir = workspace.build_dir(
-        product=data.build.products.ninja,
-        target="build")
+    build_dir = workspace.build_dir(product=data.build.products.ninja)
     if platform.system() == "Windows":
         return os.path.join(build_dir, "ninja.exe")
     return os.path.join(build_dir, "ninja")
@@ -47,22 +55,24 @@ def ninja_bin_path():
 def _build():
     product = data.build.products.ninja
 
-    build_dir = workspace.build_dir(product=product, target="build")
     source_dir = workspace.source_dir(product=product)
 
     if common.build.binary_exists(product=product, path=ninja_bin_path()):
         return
 
-    shell.rmtree(build_dir)
-    # Ninja can only be built in-tree.
-    shell.copytree(source_dir, build_dir)
-
-    if os.path.exists(ninja_build_bin_path()):
+    if os.path.exists(ninja_source_bin_path()):
         shell.rm(ninja_bin_path())
         if not os.path.isdir(os.path.join(data.build.local_root, "bin")):
             shell.makedirs(os.path.join(data.build.local_root, "bin"))
-        shell.copy(ninja_build_bin_path(), ninja_bin_path())
+        shell.copy(ninja_source_bin_path(), ninja_bin_path())
         return
+
+    build_dir = workspace.build_dir(product=product)
+
+    shell.rmtree(build_dir)
+
+    # Ninja can only be built in-tree.
+    shell.copytree(source_dir, build_dir)
 
     toolchain = data.build.toolchain
 

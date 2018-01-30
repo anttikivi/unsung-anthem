@@ -15,7 +15,7 @@ The support module containing the utilities for SDL checkout.
 import os
 import platform
 
-from build_utils import diagnostics, http_stream, shell
+from build_utils import diagnostics, http_stream, shell, workspace
 
 from products import common
 
@@ -31,14 +31,16 @@ def move_files():
     product = data.build.products.sdl
     version = product.version
     subdir = "SDL2-{}".format(version)
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "sdl", version))
+    shell.rmtree(workspace.source_dir(product=product))
 
     diagnostics.debug(
-        "The name of the {} subdirectory is {}".format(product.repr, subdir))
+        "The name of the {} subdirectory is {}".format(product.repr, subdir)
+    )
 
     shell.copytree(
         os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp", subdir),
-        os.path.join(ANTHEM_SOURCE_ROOT, "sdl", version))
+        workspace.source_dir(product=product)
+    )
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp"))
 
 
@@ -72,7 +74,8 @@ def get_dependency():
 
     shell.tar(
         path=destination,
-        dest=os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp"))
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp")
+    )
     shell.rm(destination)
     move_files()
 

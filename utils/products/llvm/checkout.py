@@ -16,7 +16,7 @@ import json
 import os
 import platform
 
-from build_utils import diagnostics, http_stream, shell
+from build_utils import diagnostics, http_stream, shell, workspace
 
 from script_support import data
 
@@ -40,9 +40,12 @@ def should_skip_download(key):
     if "llvm" in versions:
         version_node = versions["llvm"]
         if key in version_node:
-            if version_node[key] == data.build.products.llvm.version:
+            subnode = version_node[key]
+            if subnode["version"] == data.build.products.llvm.version \
+                    and data.build.host_target in subnode["targets"]:
                 diagnostics.debug(
-                    "{} should not be re-downloaded, skipping".format(key))
+                    "{} should not be re-downloaded, skipping".format(key)
+                )
                 return True
     return False
 
@@ -54,8 +57,7 @@ def _remove_old_checkout(key):
     key -- the name of the subproject.
     """
     product = data.build.products.llvm
-    version = product.version
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+    shell.rmtree(workspace.source_dir(product=product, subproject=key))
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
 
@@ -70,7 +72,8 @@ def move_project_files(key, subdir):
 
     shell.copytree(
         os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", subdir),
-        os.path.join(ANTHEM_SOURCE_ROOT, key, version))
+        workspace.source_dir(product=product, subproject=key)
+    )
 
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
@@ -93,16 +96,20 @@ def _get_project_source(key):
     url = product.source_format.format(
         protocol=data.build.connection_protocol,
         version=version,
-        key=product.subprojects[key])
+        key=product.subprojects[key]
+    )
     destination = os.path.join(
-        ANTHEM_SOURCE_ROOT, key, "temp", "{}.tar.xz".format(key))
+        ANTHEM_SOURCE_ROOT, key, "temp", "{}.tar.xz".format(key)
+    )
     http_stream.stream(url=url, destination=destination)
     shell.tar(
         path=destination,
-        dest=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp")
+    )
     subdir = "{}-{}.src".format(product.subprojects[key], version)
     diagnostics.debug(
-        "The name of the {} subdirectory is {}".format(product.repr, subdir))
+        "The name of the {} subdirectory is {}".format(product.repr, subdir)
+    )
     # FIXME: This is bad, this is hardcoded.
     if key == "libcxx":
         libcxx.checkout.remove_bad_symlink(subdir)
@@ -117,7 +124,9 @@ def _download_binary():
     product = data.build.products.llvm
     version = product.version
     key = product.identifier
+
     _remove_old_checkout(key)
+
     shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
 
     # TODO
@@ -139,7 +148,8 @@ def _download_binary():
 
     shell.tar(
         path=destination,
-        dest=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp")
+    )
 
     subdir_format = "clang+llvm-{version}-{platform}"
     # TODO
@@ -148,7 +158,8 @@ def _download_binary():
 
     subdir = subdir_format.format(version=version, platform=machine)
     diagnostics.debug(
-        "The name of the {} subdirectory is {}".format(product.repr, subdir))
+        "The name of the {} subdirectory is {}".format(product.repr, subdir)
+    )
     shell.rm(destination)
     move_project_files(key=key, subdir=subdir)
 
@@ -197,19 +208,20 @@ def inject_version_info(versions):
     product = data.build.products.llvm
     args = data.build.args
     version = product.version
+    target = data.build.host_target
     version_info = None
     if args.build_libcxx:
         version_info = {
-            "llvm": version,
-            "clang": 0,
-            "libcxx": version,
-            "libcxxabi": version
+            "llvm": {"version": version, "targets": [target]},
+            "clang": {"version": 0, "targets": 0},
+            "libcxx": {"version": version, "targets": [target]},
+            "libcxxabi": {"version": version, "targets": [target]}
         }
     elif args.build_llvm:
         version_info = {
-            "llvm": version,
-            "clang": version,
-            "libcxx": version,
-            "libcxxabi": version
+            "llvm": {"version": version, "targets": [target]},
+            "clang": {"version": version, "targets": [target]},
+            "libcxx": {"version": version, "targets": [target]},
+            "libcxxabi": {"version": version, "targets": [target]}
         }
     versions["llvm"] = version_info

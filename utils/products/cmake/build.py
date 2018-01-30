@@ -36,10 +36,13 @@ def cmake_bin_path():
             "CMake.app",
             "Contents",
             "bin",
-            "cmake")
+            "cmake"
+        )
     diagnostics.fatal(
         "{} is not supported for {}".format(
-            platform.system(), data.build.products.cmake.repr))
+            platform.system(), data.build.products.cmake.repr
+        )
+    )
 
 
 def do_build():
@@ -53,23 +56,21 @@ def do_build():
     common.build.check_source("cmake")
 
     bin_path = cmake_bin_path()
-    build_dir = workspace.build_dir(product=product, target="build")
 
     if common.build.binary_exists(
             product=product,
-            path=bin_path,
-            target="build"):
+            path=bin_path):
         return
 
     source_dir = workspace.source_dir(product=product)
-    shell.rmtree(build_dir)
-    shell.copytree(source_dir, build_dir)
+
     if platform.system() == "Darwin":
         shell.copytree(
-            os.path.join(build_dir, "CMake.app"),
-            os.path.join(data.build.local_root, "CMake.app"))
+            os.path.join(source_dir, "CMake.app"),
+            os.path.join(data.build.local_root, "CMake.app")
+        )
     else:
-        shell.copytree(build_dir, data.build.local_root)
+        shell.copytree(source_dir, data.build.local_root)
 
 
 def should_build():

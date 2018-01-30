@@ -63,20 +63,15 @@ def check_source(key, subproject=None, name=None):
             )
 
 
-def binary_exists(product, path, target=None, subproject=None):
+def binary_exists(product, path, subproject=None):
     """
     Check if the binary for the product exists.
 
     product -- the product.
     path -- the path to the binary.
-    target -- a custom target of the product.
     subproject -- a possible subproject which should be checked instead.
     """
-    build_dir = workspace.build_dir(
-        target=target,
-        product=product,
-        subproject=subproject)
-    if os.path.exists(path) and os.path.exists(build_dir):
+    if os.path.exists(path):
         if subproject:
             diagnostics.debug_note(
                 "{} ({}) is already built and should not be re-built".format(
@@ -269,15 +264,12 @@ def copy_build(product, subdir=None):
     bin_path = workspace.include_dir(product=product)
     if binary_exists(product=product, path=bin_path):
         return
-    build_dir = workspace.build_dir(product)
     source_dir = workspace.source_dir(product)
-    shell.rmtree(build_dir)
-    shell.copytree(source_dir, build_dir)
     if not workspace.is_include_dir_made() and workspace.include_dir_exists(
             product=product
     ):
         shell.rmtree(bin_path)
     if subdir:
-        shell.copytree(os.path.join(build_dir, subdir), bin_path)
+        shell.copytree(os.path.join(source_dir, subdir), bin_path)
     else:
-        shell.copytree(build_dir, bin_path)
+        shell.copytree(source_dir, bin_path)

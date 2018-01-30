@@ -15,7 +15,7 @@ The support module containing the utilities for CMake checkout.
 import os
 import platform
 
-from build_utils import diagnostics, http_stream, shell
+from build_utils import diagnostics, http_stream, shell, workspace
 
 from products import common
 
@@ -34,7 +34,7 @@ def move_files():
     version = product.version
     cmake_platform = platforms.resolve()
     subdir = "cmake-{}-{}".format(version, cmake_platform)
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", version))
+    shell.rmtree(workspace.source_dir(product=product))
 
     diagnostics.debug(
         "The name of the {} subdirectory is {}".format(product.repr, subdir))
@@ -45,12 +45,15 @@ def move_files():
 
         shell.copytree(
             os.path.join(
-                ANTHEM_SOURCE_ROOT, "cmake", "temp", subdir, cmake_app),
-            os.path.join(ANTHEM_SOURCE_ROOT, "cmake", version, "CMake.app"))
+                ANTHEM_SOURCE_ROOT, "cmake", "temp", subdir, cmake_app
+            ),
+            os.path.join(workspace.source_dir(product=product), "CMake.app")
+        )
     else:
         shell.copytree(
             os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp", subdir),
-            os.path.join(ANTHEM_SOURCE_ROOT, "cmake", version))
+            workspace.source_dir(product=product)
+        )
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
 
 
@@ -82,7 +85,8 @@ def get_dependency():
     )
     destination = os.path.join(
         ANTHEM_SOURCE_ROOT, "cmake", "temp", "cmake.{}".format(
-            archive_extension)
+            archive_extension
+        )
     )
 
     http_stream.stream(url=url, destination=destination)

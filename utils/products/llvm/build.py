@@ -36,32 +36,26 @@ def _set_up_binary():
             subproject="llvm"):
         return
 
-    build_dir = workspace.build_dir(product=product, subproject="llvm")
-
-    diagnostics.debug("The build directory of LLVM is {}".format(build_dir))
-
     source_dir = workspace.source_dir(product=product)
-    shell.rmtree(build_dir)
-    shell.copytree(source_dir, build_dir)
 
     shell.copytree(
-        os.path.join(build_dir, "bin"),
+        os.path.join(source_dir, "bin"),
         os.path.join(data.build.local_root, "bin")
     )
     shell.copytree(
-        os.path.join(build_dir, "include"),
+        os.path.join(source_dir, "include"),
         os.path.join(data.build.local_root, "include")
     )
     shell.copytree(
-        os.path.join(build_dir, "lib"),
+        os.path.join(source_dir, "lib"),
         os.path.join(data.build.local_root, "lib")
     )
     shell.copytree(
-        os.path.join(build_dir, "libexec"),
+        os.path.join(source_dir, "libexec"),
         os.path.join(data.build.local_root, "libexec")
     )
     shell.copytree(
-        os.path.join(build_dir, "share"),
+        os.path.join(source_dir, "share"),
         os.path.join(data.build.local_root, "share")
     )
 
