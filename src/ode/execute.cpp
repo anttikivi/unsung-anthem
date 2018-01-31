@@ -24,20 +24,24 @@
 
 #include <cstdlib>
 
+#include "ode/logger.h"
+
+#include "logging_config.h"
+
 namespace ode
 {
   int execute(int argc, args_array argv[])
   {
-    /*
     logger = create_logger(logger_name, logger_pattern, logger_level);
 
-    ANTHEM_INFO("The main logger of the program is created");
-    ANTHEM_DEBUG(
+    ODE_INFO("The main logger of Ode is created");
+    ODE_DEBUG(
         "The logger has the name '{}', the pattern '{}', and the level '{}'",
         logger_name,
         logger_pattern,
         logger_level);
 
+    /*
     auto args = parse_arguments(argc, argv);
 
     logging::trace("The following values are set to the arguments:\n{}", args);
