@@ -81,7 +81,7 @@ def should_build():
     return True
 
 
-def copy_dynamic(dest):
+def copy_dynamic_windows(dest):
     """
     Move the dynamic library on Windows.
 
@@ -92,3 +92,19 @@ def copy_dynamic(dest):
     if os.path.exists(dest_path):
         return
     shell.copy(bin_path, dest)
+
+
+def copy_dynamic(dest):
+    """
+    Move the dynamic library.
+
+    dest -- the directory to which the library is copied.
+    """
+    if platform.system() == "Windows":
+        copy_dynamic_windows(dest)
+    else:
+        bin_path = workspace.lib_file(path="libSDL2d.dylib")
+        dest_path = os.path.join(dest, "libSDL2d.dylib")
+        if os.path.exists(dest_path):
+            return
+        shell.copy(bin_path, dest)

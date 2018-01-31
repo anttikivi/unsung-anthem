@@ -36,6 +36,8 @@ option(ODE_MULTITHREADING "Enable multithreading in the game" ON)
 
 option(ODE_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)
 
+option(ODE_SET_RPATH "Set the rpath to the install directory" OFF)
+
 if(BUILD_ODE)
   assert_variable(ODE_TYPE "Ode product type" "lib and test")
 else()
@@ -83,6 +85,8 @@ set_cxx_definitions(${ODE_CXX_VERSION})
 set_std_feature_definitions(${ODE_CXX_VERSION})
 set_std_flags(${ODE_STD})
 add_name_definitions()
+
+set_compiler_flags()
 
 set(ODE_LIBRARIES)
 set(ANTHEM_LIBRARIES)

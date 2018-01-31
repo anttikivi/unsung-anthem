@@ -22,3 +22,12 @@ function(SET_STD_FLAGS STD)
 
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
 endfunction()
+
+function(SET_COMPILER_FLAGS)
+  if(ODE_SET_RPATH)
+    set(CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS} -Wl,-rpath,${CMAKE_INSTALL_PREFIX}/bin")
+  endif()
+  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
+endfunction()
+

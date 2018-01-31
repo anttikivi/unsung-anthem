@@ -134,6 +134,9 @@ def construct_call(is_ode=False, lib=False, test=False):
     if data.build.ci:  # and not platform.system() == "Darwin":
         cmake_call += ["-DODE_MANUAL_SDL=ON"]
 
+    if data.build.ci and platform.system() == "Darwin":
+        cmake_call += ["-DODE_SET_RPATH=ON"]
+
     if args.extra_cmake_options:
         cmake_call += args.extra_cmake_options
 

@@ -151,6 +151,11 @@ def do_build(is_ode=False, lib=False, test=False):
 
             common.build.msbuild(args=msbuild_args)
 
+    if data.build.ci and platform.system() == "Darwin":
+        sdl.build.copy_dynamic(
+            os.path.join(data.build.install_root, "bin")
+        )
+
     if data.build.visual_studio:
         if is_ode:
             variant = args.ode_build_variant
