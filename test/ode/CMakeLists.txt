@@ -4,13 +4,9 @@
 #
 # This source file is part of the Unsung Anthem open source project.
 #
-# Copyright (c) 2017 Venturesome Stone
+# Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-set(ANTHEM_LIB_INCLUDES ${ANTHEM_LIB_INCLUDES}
+list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/assert
-    ${CMAKE_CURRENT_SOURCE_DIR}/util
-    ${CMAKE_CURRENT_SOURCE_DIR}/view
-
-    PARENT_SCOPE)
+set(ODE_TEST_SOURCES ${ODE_TEST_SOURCES} PARENT_SCOPE)

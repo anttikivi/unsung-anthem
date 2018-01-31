@@ -11,12 +11,10 @@ function(CREATE_ODE_LIB)
   add_library(${ODE_NAME} STATIC
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
-      ${ODE_LIB_SOURCES}
       ${ODE_SOURCES})
   add_library(${ODE_NAME}_shared SHARED
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
-      ${ODE_LIB_SOURCES}
       ${ODE_SOURCES})
   target_link_libraries(${ODE_NAME} ${ODE_LIBRARIES})
   target_link_libraries(${ODE_NAME}_shared ${ODE_LIBRARIES})
@@ -31,7 +29,6 @@ function(CREATE_ODE_TEST_EXECUTABLE)
   add_executable(${ODE_TEST_NAME}
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
-      ${ODE_LIB_SOURCES}
       ${ODE_TEST_SOURCES}
       ${ODE_SOURCES})
   target_link_libraries(${ODE_TEST_NAME} ${ODE_LIBRARIES})
@@ -41,7 +38,6 @@ function(CREATE_ANTHEM_EXECUTABLE)
   add_executable(${ANTHEM_NAME}
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
-      ${ODE_LIB_SOURCES}
       ${ODE_SOURCES}
       ${ANTHEM_LIB_INCLUDES}
       ${ANTHEM_INCLUDES}
@@ -54,14 +50,12 @@ function(CREATE_ANTHEM_LIB)
   add_library(${ANTHEM_LIB_NAME} STATIC
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
-      ${ODE_LIB_SOURCES}
       ${ODE_SOURCES}
       ${ANTHEM_LIB_INCLUDES}
       ${ANTHEM_LIB_SOURCES})
   add_library(${ANTHEM_LIB_NAME}_shared SHARED
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
-      ${ODE_LIB_SOURCES}
       ${ODE_SOURCES}
       ${ANTHEM_LIB_INCLUDES}
       ${ANTHEM_LIB_SOURCES})
@@ -79,14 +73,12 @@ function(CREATE_ANTHEM_LIB)
 endfunction()
 
 function(CREATE_ANTHEM_TEST_EXECUTABLE)
-  list(REMOVE_ITEM
-      ODE_TEST_SOURCES
+  list(REMOVE_ITEM ODE_TEST_SOURCES
       ${CMAKE_CURRENT_SOURCE_DIR}/test/ode/main.cpp)
   list(REMOVE_ITEM ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
   add_executable(${ANTHEM_TEST_NAME}
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
-      ${ODE_LIB_SOURCES}
       ${ODE_TEST_SOURCES}
       ${ODE_SOURCES}
       ${ANTHEM_LIB_INCLUDES}

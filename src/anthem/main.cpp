@@ -13,14 +13,14 @@
 /// \file main.cpp
 /// \brief The declaration and definition of the entry function of the program.
 /// \author Antti Kivi
-/// \date 23 June 2017
+/// \date 31 January 2018
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "execute.h"
+#include "run.h"
 
 #include <SDL2/SDL.h>
 
@@ -33,8 +33,8 @@
 ///
 /// \return The end code of the game.
 ///
-int main(int argc, anthem::args_array argv[])
+int main(int argc, ode::args_array argv[])
 {
-  const int r = anthem::execute(argc, argv);
+  const int r = anthem::run(argc, argv);
   return r;
 }

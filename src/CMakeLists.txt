@@ -4,10 +4,13 @@
 #
 # This source file is part of the Unsung Anthem open source project.
 #
-# Copyright (c) 2017 Venturesome Stone
+# Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
 add_subdirectory(anthem)
-add_subdirectory(gsl)
+add_subdirectory(ode)
 
-set(ANTHEM_LIB_INCLUDES ${ANTHEM_LIB_INCLUDES} PARENT_SCOPE)
+set(ODE_SOURCES ${ODE_SOURCES} PARENT_SCOPE)
+set(ODE_INCLUDES ${ODE_INCLUDES} PARENT_SCOPE)
+set(ANTHEM_SOURCES ${ANTHEM_SOURCES} PARENT_SCOPE)
+set(ANTHEM_INCLUDES ${ANTHEM_INCLUDES} PARENT_SCOPE)

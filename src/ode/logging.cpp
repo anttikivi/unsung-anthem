@@ -4,7 +4,7 @@
 //
 // This source file is part of the Unsung Anthem open source project.
 //
-// Copyright (c) 2017 Venturesome Stone
+// Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
 //
 //===----------------------------------------------------------------------===//
@@ -13,16 +13,16 @@
 /// \file logging.cpp
 /// \brief Definitions of the logging-related utility functions.
 /// \author Antti Kivi
-/// \date 27 September 2017
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \date 31 January 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "anthem/logging.h"
+#include "ode/logging.h"
 
-namespace anthem
+namespace ode
 {
   logger_t create_logger(
       const std::string& name,
@@ -40,4 +40,4 @@ namespace anthem
 
     return logger;
   }
-} // namespace anthem
+} // namespace ode

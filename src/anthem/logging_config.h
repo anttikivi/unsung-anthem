@@ -4,18 +4,18 @@
 //
 // This source file is part of the Unsung Anthem open source project.
 //
-// Copyright (c) 2017 Venturesome Stone
+// Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
 //
 //===----------------------------------------------------------------------===//
 //
 ///
 /// \file logging_config.h
-/// \brief The declarations and the definitions of the logger-related
-/// constants.
+/// \brief The declarations and the definitions of the Unsung Anthem
+/// logger-related constants.
 /// \author Antti Kivi
-/// \date 11 September 2017
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \date 31 January 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
@@ -36,15 +36,6 @@ namespace anthem
 #else
   constexpr auto logger_name = "anthem";
 #endif // !defined(ANTHEM_LOGGER_NAME)
-
-  ///
-  /// \brief The name of the input logger.
-  ///
-#ifdef ANTHEM_INPUT_LOGGER_NAME
-  constexpr auto input_logger_name = ANTHEM_INPUT_LOGGER_NAME;
-#else
-  constexpr auto input_logger_name = "anthem-input";
-#endif // !defined(ANTHEM_INPUT_LOGGER_NAME)
 
   ///
   /// \brief The logging pattern of the program logger.

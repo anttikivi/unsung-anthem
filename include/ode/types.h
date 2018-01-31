@@ -4,7 +4,7 @@
 //
 // This source file is part of the Unsung Anthem open source project.
 //
-// Copyright (c) 2017 Venturesome Stone
+// Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
 //
 //===----------------------------------------------------------------------===//
@@ -13,24 +13,24 @@
 /// \file types.h
 /// \brief The declarations of various helper types.
 /// \author Antti Kivi
-/// \date 14 July 2017
+/// \date 31 January 2018
 /// \copyright Copyright (c) 2017 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_TYPES_H
-#define ANTHEM_TYPES_H
+#ifndef ODE_TYPES_H
+#define ODE_TYPES_H
 
-namespace anthem
+namespace ode
 {
   ///
   /// \brief Type of values which represent some number of pixels.
   ///
   using pixel_count = int;
 
-} // namespace anthem
+} // namespace ode
 
 ///
 /// \brief A \c pixel value representing an integer of pixels.
@@ -39,10 +39,9 @@ namespace anthem
 ///
 /// \return The \c pixel literal.
 ///
-constexpr anthem::pixel_count
-operator""_px(const unsigned long long i) noexcept
+constexpr ode::pixel_count operator""_px(const unsigned long long i) noexcept
 {
-  return static_cast<anthem::pixel_count>(i);
+  return static_cast<ode::pixel_count>(i);
 }
 
-#endif // !ANTHEM_TYPES_H
+#endif // !ODE_TYPES_H

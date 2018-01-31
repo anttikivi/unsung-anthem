@@ -4,7 +4,7 @@
 //
 // This source file is part of the Unsung Anthem open source project.
 //
-// Copyright (c) 2017 Venturesome Stone
+// Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
 //
 //===----------------------------------------------------------------------===//
@@ -13,27 +13,22 @@
 /// \file execute.cpp
 /// \brief The definition of the main execution function of the game engine.
 /// \author Antti Kivi
-/// \date 29 June 2017
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \date 31 January 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "execute.h"
+#include "ode/execute.h"
 
 #include <cstdlib>
 
-#include "arguments.h"
-#include "framework/game_loop.h"
-#include "logging_config.h"
-#include "sdl.h"
-#include "window.h"
-
-namespace anthem
+namespace ode
 {
   int execute(int argc, args_array argv[])
   {
+    /*
     logger = create_logger(logger_name, logger_pattern, logger_level);
 
     ANTHEM_INFO("The main logger of the program is created");
@@ -58,6 +53,7 @@ namespace anthem
     game_loop(std::move(args), std::move(window));
 
     SDL_GL_DeleteContext(context);
+    */
 
     return EXIT_SUCCESS;
   }
@@ -66,4 +62,4 @@ namespace anthem
   {
     // TODO
   }
-} // namespace anthem
+} // namespace ode

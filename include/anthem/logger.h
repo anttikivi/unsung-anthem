@@ -1,56 +1,74 @@
-//===-------------------------- logging.h -----------------------*- C++ -*-===//
+//===-------------------------- logger.h ------------------------*- C++ -*-===//
 //
 //                            Unsung Anthem
 //
 // This source file is part of the Unsung Anthem open source project.
 //
-// Copyright (c) 2017 Venturesome Stone
+// Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
 //
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file logging.h
-/// \brief Declarations of the logging-related utility functions.
+/// \file logger.h
+/// \brief Declarations of main logging functions.
 /// \author Antti Kivi
-/// \date 11 September 2017
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \date 31 January 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_LOGGING_H
-#define ANTHEM_LOGGING_H
+#ifndef ANTHEM_LOGGER_H
+#define ANTHEM_LOGGER_H
 
-#include <memory>
-#include <type_traits>
+#include "ode/logging.h"
 
-#include <spdlog/spdlog.h>
+///
+/// \def ANTHEM_TRACE(...)
+/// \brief Preprocessor macro which is used for trace-level logging.
+///
+#define ANTHEM_TRACE(...) ::anthem::logging::trace(__VA_ARGS__)
+
+///
+/// \def ANTHEM_DEBUG(...)
+/// \brief Preprocessor macro which is used for debug-level logging.
+///
+#define ANTHEM_DEBUG(...) ::anthem::logging::debug(__VA_ARGS__)
+
+///
+/// \def ANTHEM_INFO(...)
+/// \brief Preprocessor macro which is used for info-level logging.
+///
+#define ANTHEM_INFO(...) ::anthem::logging::info(__VA_ARGS__)
+
+///
+/// \def ANTHEM_WARN(...)
+/// \brief Preprocessor macro which is used for warning-level logging.
+///
+#define ANTHEM_WARN(...) ::anthem::logging::warn(__VA_ARGS__)
+
+///
+/// \def ANTHEM_ERROR(...)
+/// \brief Preprocessor macro which is used for error-level logging.
+///
+#define ANTHEM_ERROR(...) ::anthem::logging::error(__VA_ARGS__)
+
+///
+/// \def ANTHEM_CRITICAL(...)
+/// \brief Preprocessor macro which is used for critical-level logging.
+///
+#define ANTHEM_CRITICAL(...) ::anthem::logging::critical(__VA_ARGS__)
 
 namespace anthem
 {
   ///
-  /// \brief Type of objects which do logging.
+  /// \brief The main logger of the game.
   ///
-  using logger_t = std::shared_ptr<spdlog::logger>;
-
-  ///
-  /// \brief Creates a shared pointer to an object of the logger type provided
-  /// by spdlog.
-  ///
-  /// \param name the name of the logger.
-  /// \param pattern the formatting pattern of the logger.
-  /// \param level the logging level of the logger.
-  ///
-  /// \return an \c std::shared_ptr<spdlog::logger>.
-  ///
-  logger_t create_logger(
-      const std::string& name,
-      const std::string& pattern = "NONE",
-      const spdlog::level::level_enum level = spdlog::level::info);
-
-  // Logging methods which take the logger as a parameter.
+  extern ode::logger_t logger;
+  
+  // Logging methods which use the global logger.
   namespace logging
   {
     ///
@@ -61,20 +79,15 @@ namespace anthem
     ///
     /// \tparam Args types of the arguments in the formatting substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void trace(
-        const logger_t& logger,
-        const char* fmt,
-        const Args&... args)
+    inline void trace(const char* fmt, const Args&... args)
     {
-      logger->trace(fmt, args...);
+      ode::logging::trace(logger, fmt, args...);
     }
-
+    
     ///
     /// \brief Writes a trace-level log message into the logger.
     ///
@@ -83,15 +96,13 @@ namespace anthem
     ///
     /// \tparam T type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param msg the logger message.
     ///
-    template <class T> inline void trace(const logger_t& logger, const T& msg)
+    template <class T> inline void trace(const T& msg)
     {
-      logger->trace(msg);
+      ode::logging::trace(logger, msg);
     }
-
+    
     ///
     /// \brief Writes a debug-level log message into the logger.
     ///
@@ -100,20 +111,15 @@ namespace anthem
     ///
     /// \tparam Args types of the arguments in the formatting substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void debug(
-        const logger_t& logger,
-        const char* fmt,
-        const Args&... args)
+    inline void debug(const char* fmt, const Args&... args)
     {
-      logger->debug(fmt, args...);
+      ode::logging::debug(logger, fmt, args...);
     }
-
+    
     ///
     /// \brief Writes a debug-level log message into the logger.
     ///
@@ -122,15 +128,13 @@ namespace anthem
     ///
     /// \tparam T type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param msg the logger message.
     ///
-    template <class T> inline void debug(const logger_t& logger, const T& msg)
+    template <class T> inline void debug(const T& msg)
     {
-      logger->debug(msg);
+      ode::logging::debug(logger, msg);
     }
-
+    
     ///
     /// \brief Writes an info-level log message into the logger.
     ///
@@ -139,20 +143,15 @@ namespace anthem
     ///
     /// \tparam Args types of the arguments in the formatting substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void info(
-        const logger_t& logger,
-        const char* fmt,
-        const Args&... args)
+    inline void info(const char* fmt, const Args&... args)
     {
-      logger->info(fmt, args...);
+      ode::logging::info(logger, fmt, args...);
     }
-
+    
     ///
     /// \brief Writes an info-level log message into the logger.
     ///
@@ -161,15 +160,13 @@ namespace anthem
     ///
     /// \tparam T type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param msg the logger message.
     ///
-    template <class T> inline void info(const logger_t& logger, const T& msg)
+    template <class T> inline void info(const T& msg)
     {
-      logger->info(msg);
+      ode::logging::info(logger, msg);
     }
-
+    
     ///
     /// \brief Writes a warning-level log message into the logger.
     ///
@@ -178,20 +175,15 @@ namespace anthem
     ///
     /// \tparam Args types of the arguments in the formatting substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void warn(
-        const logger_t& logger,
-        const char* fmt,
-        const Args&... args)
+    inline void warn(const char* fmt, const Args&... args)
     {
-      logger->warn(fmt, args...);
+      ode::logging::warn(logger, fmt, args...);
     }
-
+    
     ///
     /// \brief Writes a warning-level log message into the logger.
     ///
@@ -200,15 +192,13 @@ namespace anthem
     ///
     /// \tparam T type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param msg the logger message.
     ///
-    template <class T> inline void warn(const logger_t& logger, const T& msg)
+    template <class T> inline void warn(const T& msg)
     {
-      logger->warn(msg);
+      ode::logging::warn(logger, msg);
     }
-
+    
     ///
     /// \brief Writes an error-level log message into the logger.
     ///
@@ -217,20 +207,15 @@ namespace anthem
     ///
     /// \tparam Args types of the arguments in the formatting substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void error(
-        const logger_t& logger,
-        const char* fmt,
-        const Args&... args)
+    inline void error(const char* fmt, const Args&... args)
     {
-      logger->error(fmt, args...);
+      ode::logging::error(logger, fmt, args...);
     }
-
+    
     ///
     /// \brief Writes an error-level log message into the logger.
     ///
@@ -239,15 +224,13 @@ namespace anthem
     ///
     /// \tparam T type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param msg the logger message.
     ///
-    template <class T> inline void error(const logger_t& logger, const T& msg)
+    template <class T> inline void error(const T& msg)
     {
-      logger->error(msg);
+      ode::logging::error(logger, msg);
     }
-
+    
     ///
     /// \brief Writes a critical-level log message into the logger.
     ///
@@ -256,20 +239,15 @@ namespace anthem
     ///
     /// \tparam Args types of the arguments in the formatting substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void critical(
-        const logger_t& logger,
-        const char* fmt,
-        const Args&... args)
+    inline void critical(const char* fmt, const Args&... args)
     {
-      logger->critical(fmt, args...);
+      ode::logging::critical(logger, fmt, args...);
     }
-
+    
     ///
     /// \brief Writes a critical-level log message into the logger.
     ///
@@ -278,17 +256,15 @@ namespace anthem
     ///
     /// \tparam T type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
-    /// object.
     /// \param msg the logger message.
     ///
     template <class T>
-    inline void critical(const logger_t& logger, const T& msg)
+    inline void critical(const T& msg)
     {
-      logger->critical(msg);
+      ode::logging::critical(logger, msg);
     }
-
+    
   } // namespace logging
 } // namespace anthem
 
-#endif // !ANTHEM_LOGGING_H
+#endif // !ANTHEM_LOGGER_H

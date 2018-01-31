@@ -130,7 +130,6 @@ include_directories(src)
 
 set(ODE_LIB_INCLUDES)
 set(ODE_INCLUDES)
-set(ODE_LIB_SOURCES)
 set(ODE_TEST_SOURCES)
 set(ODE_SOURCES)
 
@@ -148,6 +147,8 @@ add_subdirectory(test)
 set_glad_sources()
 
 print_status(CMAKE_CXX_FLAGS "compiler flags")
+
+print_status(ANTHEM_SOURCES "sources")
 
 if(BUILD_ODE)
   create_ode(${ODE_TYPE})

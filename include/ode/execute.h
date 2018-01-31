@@ -4,7 +4,7 @@
 //
 // This source file is part of the Unsung Anthem open source project.
 //
-// Copyright (c) 2017 Venturesome Stone
+// Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
 //
 //===----------------------------------------------------------------------===//
@@ -13,25 +13,28 @@
 /// \file execute.h
 /// \brief The declaration of the main execution function of the game engine.
 /// \author Antti Kivi
-/// \date 29 June 2017
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \date 31 January 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_EXECUTE_H
-#define ANTHEM_EXECUTE_H
+#ifndef ODE_EXECUTE_H
+#define ODE_EXECUTE_H
 
-#include "args_array.h"
+#include "ode/args_array.h"
 
-namespace anthem
+namespace ode
 {
   ///
   /// \brief Returns the object of type \c game_state after executing the
   /// program with the given arguments.
   ///
   /// This function is impure.
+  ///
+  /// TODO Allow adding the custom, game-specific command line options via this
+  /// function.
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv array containing the arguments passed in the execution.
@@ -49,6 +52,6 @@ namespace anthem
   ///
   void create_managers();
 
-} // namespace anthem
+} // namespace ode
 
-#endif // !ANTHEM_EXECUTE_H
+#endif // !ODE_EXECUTE_H
