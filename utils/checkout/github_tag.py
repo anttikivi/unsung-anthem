@@ -15,7 +15,7 @@ The support module containing the utilities for downloading a tag from GitHub.
 import os
 import platform
 
-from build_utils import diagnostics, shell
+from build_utils import diagnostics, shell, workspace
 
 from script_support import data
 
@@ -34,11 +34,7 @@ def checkout_tag_windows(key, tag_ref_name):
     key -- the name of the product.
     tag_ref_name -- the name of the tag.
     """
-    with shell.pushd(os.path.join(
-            ANTHEM_SOURCE_ROOT,
-            key,
-            data.build.products[key].version
-    )):
+    with shell.pushd(workspace.source_dir(product=data.build.products[key])):
         shell.call([
             data.build.toolchain.git,
             "checkout",
@@ -80,12 +76,15 @@ def download_v4(key):
     })
 
     if platform.system() == "Windows":
-        with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key)):
+        source_dir = data.build.products[key]
+        head = os.path.split(source_dir)[0]
+        tail = os.path.split(source_dir)[1]
+        with shell.pushd(head):
             shell.call([
                 data.build.toolchain.git,
                 "clone",
                 "{}.git".format(response_json_data["repository"]["url"]),
-                product.version
+                tail
             ])
     else:
         with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp")):
