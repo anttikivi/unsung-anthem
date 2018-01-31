@@ -23,6 +23,7 @@ from __future__ import print_function
 
 import argparse
 import os
+import platform
 import sys
 
 from build_utils import diagnostics, shell
@@ -121,7 +122,10 @@ def main_preset():
     preset_args = get_preset_options(
         args.preset_substitutions, args.preset_file_names, args.preset)
 
-    build_script_args = [sys.argv[0]]
+    if platform.system() == "Windows":
+        build_script_args = [sys.executable, sys.argv[0]]
+    else:
+        build_script_args = [sys.argv[0]]
 
     if args.dry_run:
         build_script_args += ["--dry-run"]
