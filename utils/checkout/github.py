@@ -32,13 +32,15 @@ def simple_asset(key):
     """
     product = data.build.products[key]
     asset = data.build.products[key].github_data.asset
-    version = product.version
     if asset.source:
         diagnostics.trace("Entering the download of a source asset:")
         diagnostics.trace_head(product.repr)
         github_tag.download(key=key)
         if platform.system() != "Windows":
-            shell.rmtree(workspace.source_dir(product=product))
+            source_dir = workspace.source_dir(product=product)
+            version_dir = os.path.dirname(source_dir)
+            shell.rmtree(source_dir)
+            shell.rmtree(version_dir)
             shell.copytree(
                 os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key),
                 workspace.source_dir(product=product)
