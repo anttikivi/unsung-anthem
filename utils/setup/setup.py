@@ -173,6 +173,9 @@ def set_up_build(args):
     shell.makedirs(data.build.build_root)
     shell.makedirs(data.build.local_root)
     shell.makedirs(data.build.install_root)
+    shell.makedirs(os.path.join(data.build.install_root, "bin"))
+    shell.makedirs(os.path.join(data.build.install_root, "include"))
+    shell.makedirs(os.path.join(data.build.install_root, "lib"))
 
     os.environ["TOOLCHAINS"] = args.darwin_xcrun_toolchain
     data.build.toolchain = host_toolchain(
