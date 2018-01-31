@@ -131,7 +131,7 @@ def construct_call(is_ode=False, lib=False, test=False):
     else:
         cmake_call += ["-DODE_MULTITHREADING=OFF"]
 
-    if data.build.ci and not platform.system() == "Darwin":
+    if data.build.ci:  # and not platform.system() == "Darwin":
         cmake_call += ["-DODE_MANUAL_SDL=ON"]
 
     if args.extra_cmake_options:
