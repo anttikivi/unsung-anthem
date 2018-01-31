@@ -12,18 +12,7 @@ The support module containing the utilities for Unsung Anthem build.
 """
 
 
-import os
-import platform
-
-from build_utils import shell
-
-from products import common, sdl
-
-from script_support import data
-
-from script_support.variables import ANTHEM_REPO_NAME
-
-from . import cmake
+from products.common import final
 
 
 def anthem_build_dir(lib=False, test=False):
@@ -35,23 +24,7 @@ def anthem_build_dir(lib=False, test=False):
     test -- whether or not the directory name should be created for the tests
     binaries.
     """
-    product = data.build.products.anthem
-    if test:
-        return os.path.join(
-            data.build.build_root, "{}-{}-{}".format(
-                product.identifier, "test", data.build.host_target
-            )
-        )
-    elif lib:
-        return os.path.join(
-            build_data.build_root, "{}-{}-{}".format(
-                product.identifier, "lib", build_data.host_target
-            )
-        )
-    return os.path.join(
-        data.build.build_root,
-        "{}-{}".format(product.identifier, data.build.host_target)
-    )
+    return final.build.anthem_build_dir(lib=lib, test=test)
 
 
 def do_build(lib=False, test=False):
@@ -63,59 +36,7 @@ def do_build(lib=False, test=False):
     test -- whether or not the tests should be built rather than the actual
     executable.
     """
-    args = data.build.args
-    toolchain = data.build.toolchain
-    product = data.build.products.anthem
-    build_dir = anthem_build_dir(lib=lib, test=test)
-    common.build.check_source(key=product.identifier, name=ANTHEM_REPO_NAME)
-    shell.makedirs(build_dir)
-
-    cmake_env = {"CC": str(toolchain.cc), "CXX": str(toolchain.cxx)}
-
-    cmake_call = cmake.construct_call(lib=lib, test=test)
-
-    with shell.pushd(build_dir):
-        shell.call(cmake_call, env=cmake_env, echo=True)
-        if args.cmake_generator == "Ninja":
-            common.build.ninja()
-            common.build.ninja(target="install")
-        elif args.cmake_generator == "Unix Makefiles":
-            common.build.make()
-            if args.enable_gcov and test:
-                common.build.make(
-                    target="{}_coverage".format(args.executable_name)
-                )
-                if data.build.ci:
-                    shell.call([
-                        "coveralls-lcov", "--repo-token",
-                        os.environ["ANTHEM_COVERALLS_REPO_TOKEN"],
-                        "{}_coverage.info.cleaned".format(
-                            args.executable_name
-                        )
-                    ])
-            common.build.make(target="install")
-
-        elif data.build.visual_studio:
-            msbuild_args = ["anthem.sln"]
-
-            if args.msbuild_logger is not None:
-                msbuild_args += ["/logger:{}".format(
-                    str(args.msbuild_logger)
-                )]
-
-            msbuild_args += ["/p:Configuration={}".format(
-                args.anthem_build_variant
-            )]
-
-            if platform.system() == "Windows":
-                msbuild_args += ["/p:Platform=Win32"]
-
-            common.build.msbuild(args=msbuild_args)
-
-    if data.build.visual_studio:
-        sdl.build.copy_dynamic(
-            os.path.join(build_dir, args.anthem_build_variant)
-        )
+    final.build.do_build(is_ode=False, lib=lib, test=test)
 
 
 def should_build():

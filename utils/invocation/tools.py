@@ -27,9 +27,16 @@ def build_tools():
 
     for key, product in data.build.products.items():
         should_build = reflection.build_call(product, "should_build")
-        skip_build = not args.build_anthem and product.anthem_only
-        if product.check_if_tool() and should_build and skip_build:
-            diagnostics.trace("Entering the build of {}".format(product.repr))
+        only_anthem = not args.build_anthem and product.anthem_only
+        if only_anthem:
+            diagnostics.note(
+                "{} is not built as it is only required by Unsung Anthem "
+                "which is not built".format(product.repr)
+            )
+        if product.check_if_tool() and should_build and not only_anthem:
+            diagnostics.trace_head(
+                "Entering the build of {}".format(product.repr)
+            )
             reflection.build_call(product, "do_build")
             diagnostics.debug_ok("{} is now built".format(product.repr))
         elif product.check_if_tool() and not should_build:
@@ -41,12 +48,20 @@ def build_tools():
         if not toolchain.cxx:
             toolchain.cxx = toolchain.msbuild
 
+    diagnostics.fine("The Ode library name is set to {}".format(args.ode_name))
     diagnostics.fine(
-        "The executable name is set to {}".format(str(args.executable_name))
+        "The Ode test executable name is set to {}".format(args.ode_test_name)
     )
+
+    diagnostics.fine("The Unsung Anthem executable name is set to {}".format(
+        args.anthem_name
+    ))
+    diagnostics.fine("The Unsung Anthem library name is set to {}".format(
+        args.anthem_lib_name
+    ))
     diagnostics.fine(
-        "The test executable name is set to {}".format(
-            str(args.test_executable_name)
+        "The Unsung Anthem test executable name is set to {}".format(
+            args.anthem_test_name
         )
     )
 

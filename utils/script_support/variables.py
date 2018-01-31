@@ -29,7 +29,7 @@ def _anthem_path():
     # Get the parent directory of this file for checking if this file is
     # located in an Unsung Anthem checkout.
     #
-    # $ANTHEM_SOURCE_ROOT/unsung-anthem/utils/build_support/variables.py
+    # $ANTHEM_SOURCE_ROOT/unsung-anthem/utils/script_support/variables.py
     utils_path = os.path.dirname(os.path.dirname(__file__))
 
     # Split the path as the first part of the 'utils_path' is presumably the

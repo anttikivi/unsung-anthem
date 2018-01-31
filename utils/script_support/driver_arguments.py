@@ -103,17 +103,17 @@ def _apply_default_arguments(args):
     if args.ode_name is None:
         args.ode_name = "ode-{}".format(args.host_target)
 
-    if args.ode_test_executable_name is None:
-        args.ode_test_executable_name = "ode-test-{}".format(args.host_target)
+    if args.ode_test_name is None:
+        args.ode_test_name = "ode-test-{}".format(args.host_target)
 
-    if args.executable_name is None:
-        args.executable_name = "anthem-{}".format(args.host_target)
+    if args.anthem_name is None:
+        args.anthem_name = "anthem-{}".format(args.host_target)
 
-    if args.lib_name is None:
-        args.lib_name = "anthem-lib-{}".format(args.host_target)
+    if args.anthem_lib_name is None:
+        args.anthem_lib_name = args.anthem_name
 
-    if args.test_executable_name is None:
-        args.test_executable_name = "anthem-test-{}".format(args.host_target)
+    if args.anthem_test_name is None:
+        args.anthem_test_name = "anthem-test-{}".format(args.host_target)
 
 
 def create_argument_parser():
@@ -295,11 +295,20 @@ def create_argument_parser():
     option(
         ["-t", "--test"],
         toggle_true("build_test"),
-        help="build the Unsung Anthem tests")
+        help="build the Ode or Unsung Anthem tests")
+    option(
+        "--build-anthem-lib",
+        toggle_true("build_anthem_lib"),
+        help="build the Unsung Anthem library. Ignores the option "
+             "'--skip-build-anthem'")
+    option(
+        "--skip-build-ode",
+        toggle_false("build_ode"),
+        help="skip building Ode and build only Unsung Anthem")
     option(
         "--skip-build-anthem",
         toggle_false("build_anthem"),
-        help="skip building Unsung Anthem and build only the Ode Engine")
+        help="skip building Unsung Anthem and build only Ode")
 
     # -------------------------------------------------------------------------
     in_group("Select the C++ standard")
@@ -496,23 +505,23 @@ def create_argument_parser():
     )
     option(
         "--ode-test-executable-name",
-        store,
+        store("ode_test_name"),
         help="the name of the Ode test executable"
     )
 
     option(
         "--executable-name",
-        store,
+        store("anthem_name"),
         help="the name of the Unsung Anthem executable"
     )
     option(
         "--lib-name",
-        store,
+        store("anthem_lib_name"),
         help="the name of the Unsung Anthem library binaries"
     )
     option(
         "--test-executable-name",
-        store,
+        store("anthem_test_name"),
         help="the name of the Unsung Anthem test executable"
     )
 

@@ -14,13 +14,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
 include(CompilerFlags)
 include(Definitions)
-include(Executables)
 include(ExternalSources)
 include(Install)
 include(StdDefinitions)
+include(Targets)
 include(Variables)
 
-option(ODE_ONLY "Build only the Ode engine" OFF)
+option(BUILD_ODE "Build the Ode engine" OFF)
 
 option(ODE_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 
@@ -36,12 +36,11 @@ option(ODE_MULTITHREADING "Enable multithreading in the game" ON)
 
 option(ODE_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)
 
-assert_variable(ODE_EXECUTABLE_TYPE
-    "executable type"
-    "lib and test")
-assert_variable(ANTHEM_EXECUTABLE_TYPE
-    "executable type"
-    "exe, lib, and test")
+if(BUILD_ODE)
+  assert_variable(ODE_TYPE "Ode product type" "lib and test")
+else()
+  assert_variable(ANTHEM_TYPE "Unsung Anthem product type" "exe, lib, and test")
+endif()
 
 assert_variable(ODE_CXX_VERSION
     "C++ standard version"
@@ -56,23 +55,27 @@ assert_variable(ODE_OPENGL_VERSION_MAJOR "OpenGL major version")
 assert_variable(ODE_OPENGL_VERSION_MINOR "OpenGL minor version")
 
 assert_variable(ODE_LOGGER_NAME "the engine logger name")
-assert_variable(ANTHEM_LOGGER_NAME "program logger name")
 
-assert_variable(ANTHEM_WINDOW_NAME "program window name")
+if(NOT BUILD_ODE)
+  assert_variable(ANTHEM_LOGGER_NAME "program logger name")
+  assert_variable(ANTHEM_WINDOW_NAME "program window name")
+endif()
 
-default_value(ODE_NAME ode_name_not_set)
-default_value(ODE_TEST_EXECUTABLE_NAME test-${ODE_NAME})
+if(BUILD_ODE)
+  default_value(ODE_NAME ode_name_not_set)
+  default_value(ODE_TEST_NAME test-${ODE_NAME})
 
-default_value(ANTHEM_EXECUTABLE_NAME executable_name_not_set)
-default_value(ANTHEM_LIB_NAME lib_name_not_set)
-default_value(ANTHEM_TEST_EXECUTABLE_NAME test-${ANTHEM_EXECUTABLE_NAME})
+  print_status(ODE_NAME "Ode library name")
+  print_status(ODE_TEST_NAME "Ode test executable name")
+else()
+  default_value(ANTHEM_NAME name_not_set)
+  default_value(ANTHEM_LIB_NAME ${ANTHEM_NAME})
+  default_value(ANTHEM_TEST_NAME test-${ANTHEM_NAME})
 
-print_status(ODE_NAME "Ode library name")
-print_status(ODE_TEST_EXECUTABLE_NAME "Ode test executable name")
-
-print_status(ANTHEM_EXECUTABLE_NAME "executable name")
-print_status(ANTHEM_LIB_NAME "library name")
-print_status(ANTHEM_TEST_EXECUTABLE_NAME "Unsung Anthem test executable name")
+  print_status(ANTHEM_NAME "executable name")
+  print_status(ANTHEM_LIB_NAME "Unsung Anthem library name")
+  print_status(ANTHEM_TEST_NAME "Unsung Anthem test executable name")
+endif()
 
 print_status_if_defined(ODE_STDLIB "C++ standard library")
 
@@ -108,7 +111,7 @@ else()
   endif()
 endif()
 
-if(${ODE_LINK_LIBCXX})
+if(ODE_LINK_LIBCXX)
   set(ODE_LIBRARIES ${ODE_LIBRARIES} c++abi)
   message(STATUS "Linking against libc++ and libc++abi")
 endif()
@@ -145,19 +148,21 @@ set_glad_sources()
 
 print_status(CMAKE_CXX_FLAGS "compiler flags")
 
-create_ode(${ODE_EXECUTABLE_TYPE})
-
-if(NOT ${ODE_ONLY})
-  create_anthem(${ANTHEM_EXECUTABLE_TYPE})
+if(BUILD_ODE)
+  create_ode(${ODE_TYPE})
+else()
+  create_anthem(${ANTHEM_TYPE})
 endif()
 
-if(${ODE_ONLY})
-  add_installation_target(${ODE_EXECUTABLE_TYPE})
+if(BUILD_ODE)
+  add_ode_installation_target(${ODE_TYPE})
 else()
-  add_installation_target(${ANTHEM_EXECUTABLE_TYPE})
+  add_anthem_installation_target(${ANTHEM_TYPE})
 endif()
 
 message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")
+message(STATUS
+    "The CMake installation prefix is set to ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
 message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
 message(STATUS "The C++ compiler flag is set to ${CMAKE_CXX_COMPILER}")

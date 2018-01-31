@@ -120,7 +120,7 @@ def source_dir(product, subproject=None, name=None):
             data.build.host_target
         )
     if name:
-        return os.path.join(ANTHEM_SOURCE_ROOT, name, data.build.host_target)
+        return os.path.join(ANTHEM_SOURCE_ROOT, name)
     return os.path.join(
         ANTHEM_SOURCE_ROOT,
         product.identifier,

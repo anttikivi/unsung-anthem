@@ -123,9 +123,17 @@ TODO
 
 #### `-t`, `--test`
 
-Build the Unsung Anthem tests and run them thereafter.
+Build the Ode or Unsung Anthem tests and run them thereafter.
+
+#### `--build-anthem-lib`
+
+TODO
 
 #### `--skip-build-anthem`
+
+TODO
+
+#### `--skip-build-ode`
 
 TODO
 

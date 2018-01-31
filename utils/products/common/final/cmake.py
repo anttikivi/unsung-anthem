@@ -15,17 +15,26 @@ call.
 
 import platform
 
-from build_utils import workspace
+from build_utils import diagnostics, workspace
 
 from script_support import data
 
 from script_support.variables import ANTHEM_REPO_NAME
 
 
-def construct_call(lib=False, test=False):
+def construct_call(is_ode=False, lib=False, test=False):
     """
     Construct the CMake call for building Ode and Unsung Anthem.
+
+    is_ode -- whether or not this is build for only Ode.
+    lib -- whether or not the library configuration of the build is used.
+    test -- whether or not the test configuration of the build is used.
     """
+    if lib and test:
+        diagnostics.fatal(
+            "The CMake script cannot build both 'lib' and 'test' "
+            "configurations at the same time"
+        )
     ode = data.build.products.ode
     anthem = data.build.products.anthem
     args = data.build.args
@@ -43,21 +52,45 @@ def construct_call(lib=False, test=False):
         "-DCMAKE_INSTALL_PREFIX={}".format(data.build.install_root),
         "-DODE_INSTALL_PREFIX={}".format(local_root),
         "-DODE_CXX_VERSION={}".format(data.build.std),
-        "-DODE_NAME={}".format(args.ode_name),
-        "-DODE_TEST_EXECUTABLE_NAME={}".format(args.ode_test_executable_name),
-        "-DANTHEM_EXECUTABLE_NAME={}".format(args.executable_name),
-        "-DANTHEM_LIB_NAME={}".format(args.lib_name),
-        "-DANTHEM_TEST_EXECUTABLE_NAME={}".format(args.test_executable_name),
         "-DODE_MAIN_COMPILER_TOOL={}".format(args.main_tool),
         "-DODE_LOGGER_NAME={}".format(ode.logger_name),
-        "-DANTHEM_LOGGER_NAME={}".format(anthem.logger_name),
         "-DODE_OPENGL_VERSION_MAJOR={}".format(ode.opengl.version.major),
         "-DODE_OPENGL_VERSION_MINOR={}".format(ode.opengl.version.minor),
-        "-DANTHEM_WINDOW_NAME={}".format(anthem.window_name)
     ]
 
-    if not args.build_anthem:
-        cmake_call += ["-DODE_ONLY={}".format("ON")]
+    if is_ode:
+        cmake_call += ["-DBUILD_ODE={}".format("ON")]
+
+        cmake_call += ["-DODE_NAME={}".format(args.ode_name)]
+        cmake_call += ["-DODE_TEST_NAME={}".format(args.ode_test_name)]
+
+        if lib:
+            cmake_call += ["-DODE_TYPE=lib"]
+        elif test:
+            cmake_call += ["-DODE_TYPE=test"]
+        else:
+            cmake_call += ["-DODE_TYPE=lib"]
+    else:
+        cmake_call += ["-DBUILD_ODE={}".format("OFF")]
+
+        cmake_call += ["-DANTHEM_LOGGER_NAME={}".format(anthem.logger_name)]
+        cmake_call += ["-DANTHEM_WINDOW_NAME={}".format(anthem.window_name)]
+
+        cmake_call += ["-DANTHEM_NAME={}".format(args.anthem_name)]
+        cmake_call += ["-DANTHEM_LIB_NAME={}".format(args.anthem_lib_name)]
+        cmake_call += ["-DANTHEM_TEST_NAME={}".format(args.anthem_test_name)]
+
+        if args.anthem_assertions:
+            cmake_call += ["-DANTHEM_ENABLE_ASSERTIONS=ON"]
+        else:
+            cmake_call += ["-DANTHEM_ENABLE_ASSERTIONS=OFF"]
+
+        if lib:
+            cmake_call += ["-DANTHEM_TYPE=lib"]
+        elif test:
+            cmake_call += ["-DANTHEM_TYPE=test"]
+        else:
+            cmake_call += ["-DANTHEM_TYPE=exe"]
 
     # TODO
     # cmake_call += ["-DANTHEM_SDL_VERSION={}".format(
@@ -67,21 +100,6 @@ def construct_call(lib=False, test=False):
         cmake_call += ["-DODE_ENABLE_ASSERTIONS=ON"]
     else:
         cmake_call += ["-DODE_ENABLE_ASSERTIONS=OFF"]
-
-    if args.anthem_assertions:
-        cmake_call += ["-DANTHEM_ENABLE_ASSERTIONS=ON"]
-    else:
-        cmake_call += ["-DANTHEM_ENABLE_ASSERTIONS=OFF"]
-
-    if not test and not lib:
-        cmake_call += ["-DODE_EXECUTABLE_TYPE=lib"]
-        cmake_call += ["-DANTHEM_EXECUTABLE_TYPE=exe"]
-    elif lib and not test:
-        cmake_call += ["-DODE_EXECUTABLE_TYPE=lib"]
-        cmake_call += ["-DANTHEM_EXECUTABLE_TYPE=lib"]
-    elif test and not lib:
-        cmake_call += ["-DANTHEM_EXECUTABLE_TYPE=test"]
-        cmake_call += ["-DODE_EXECUTABLE_TYPE=test"]
 
     if args.cmake_generator == "Ninja":
         cmake_call += ["-DCMAKE_MAKE_PROGRAM={}".format(toolchain.ninja)]
@@ -99,13 +117,13 @@ def construct_call(lib=False, test=False):
         cmake_call += ["-DCMAKE_BUILD_TYPE=Coverage"]
     else:
         cmake_call += ["-DODE_ENABLE_GCOV=OFF"]
-        if args.build_anthem:
+        if is_ode:
             cmake_call += ["-DCMAKE_BUILD_TYPE={}".format(
-                args.anthem_build_variant
+                args.ode_build_variant
             )]
         else:
             cmake_call += ["-DCMAKE_BUILD_TYPE={}".format(
-                args.ode_build_variant
+                args.anthem_build_variant
             )]
 
     if args.multithreading:

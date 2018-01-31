@@ -56,6 +56,12 @@ def validate_arguments(args):
 
     args -- the command line arguments.
     """
+    if not args.build_ode and not args.build_anthem:
+        exit_rejecting_arguments(
+            "Both the build of Ode and the build of Unsung Anthem cannot be "
+            "skipped"
+        )
+
     # TODO Is 'c++latest' necessary?
     if not (args.std == "c++latest"
             or args.std == "c++2a"
