@@ -19,6 +19,11 @@ function(CREATE_ODE_LIB)
   target_link_libraries(${ODE_NAME} ${ODE_LIBRARIES})
   target_link_libraries(${ODE_NAME}_shared ${ODE_LIBRARIES})
 
+  set_target_properties(${ODE_NAME} PROPERTIES
+      PUBLIC_HEADER "${ODE_LIB_INCLUDES}")
+  set_target_properties(${ODE_NAME} PROPERTIES
+      PRIVATE_HEADER "${ODE_INCLUDES}")
+
   if(UNIX)
     set_target_properties(${ODE_NAME}_shared PROPERTIES
         OUTPUT_NAME ${ODE_NAME})
@@ -65,6 +70,11 @@ function(CREATE_ANTHEM_LIB)
   target_link_libraries(${ANTHEM_LIB_NAME}_shared
       ${ODE_LIBRARIES}
       ${ANTHEM_LIBRARIES})
+
+  set_target_properties(${ANTHEM_LIB_NAME} PROPERTIES
+      PUBLIC_HEADER "${ANTHEM_LIB_INCLUDES}")
+  set_target_properties(${ANTHEM_LIB_NAME} PROPERTIES
+      PRIVATE_HEADER "${ANTHEM_INCLUDES}")
 
   if(UNIX)
     set_target_properties(${ANTHEM_LIB_NAME}_shared PROPERTIES
