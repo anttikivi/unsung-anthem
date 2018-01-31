@@ -94,25 +94,26 @@ if(UNIX)
   assert_variable(SDL2_LIBRARY "SDL2 libraries")
 
   if(ODE_MANUAL_SDL)
-    set(ODE_LIBRARIES ${ODE_LIBRARIES} SDL2maind SDL2d)
+    list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d")
   else()
-    set(ODE_LIBRARIES ${ODE_LIBRARIES} ${SDL2_LIBRARY})
+    list(APPEND ODE_LIBRARIES "${SDL2_LIBRARY}")
   endif()
 
   if(APPLE)
+    # TODO
   else()
     # set(ODE_LIBRARIES ${ODE_LIBRARIES} SDL2main SDL2 pthread)
-    set(ODE_LIBRARIES ${ODE_LIBRARIES} dl pthread)
+    list(APPEND ODE_LIBRARIES "dl" "pthread")
   endif()
 else()
   if(WIN32)
     # Presumably Windows.
-    set(ODE_LIBRARIES ${ODE_LIBRARIES} opengl32 SDL2main SDL2)
+    list(APPEND ODE_LIBRARIES "opengl32" "SDL2main" "SDL2")
   endif()
 endif()
 
 if(ODE_LINK_LIBCXX)
-  set(ODE_LIBRARIES ${ODE_LIBRARIES} c++abi)
+  list(APPEND ODE_LIBRARIES "c++abi")
   message(STATUS "Linking against libc++ and libc++abi")
 endif()
 

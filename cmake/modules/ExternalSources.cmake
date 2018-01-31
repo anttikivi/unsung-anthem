@@ -9,10 +9,7 @@
 
 function(SET_GLAD_SOURCES)
 
-  set(ODE_SOURCES ${ODE_SOURCES}
-
-      ${ODE_INSTALL_PREFIX}/src/glad.c
-
-      PARENT_SCOPE)
+  list(APPEND ODE_SOURCES ${ODE_INSTALL_PREFIX}/src/glad.c)
+  set(ODE_SOURCES ${ODE_SOURCES} PARENT_SCOPE)
 
 endfunction()
