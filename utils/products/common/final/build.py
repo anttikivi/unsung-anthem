@@ -121,16 +121,16 @@ def do_build(is_ode=False, lib=False, test=False):
         elif args.cmake_generator == "Unix Makefiles":
             common.build.make()
             if args.enable_gcov and test:
-                common.build.make(
-                    target="{}_coverage".format(args.executable_name)
-                )
+                if is_ode:
+                    exe_name = args.ode_name
+                else:
+                    exe_name = args.anthem_name
+                common.build.make(target="{}_coverage".format(exe_name))
                 if data.build.ci:
                     shell.call([
                         "coveralls-lcov", "--repo-token",
                         os.environ["ANTHEM_COVERALLS_REPO_TOKEN"],
-                        "{}_coverage.info.cleaned".format(
-                            args.executable_name
-                        )
+                        "{}_coverage.info.cleaned".format(exe_name)
                     ])
             common.build.make(target="install")
 
