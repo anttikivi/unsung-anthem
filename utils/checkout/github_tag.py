@@ -76,9 +76,8 @@ def download_v4(key):
     })
 
     if platform.system() == "Windows":
-        source_dir = data.build.products[key]
-        head = os.path.split(source_dir)[0]
-        tail = os.path.split(source_dir)[1]
+        source_dir = workspace.source_dir(product=product)
+        head, tail = os.path.split(source_dir)
         with shell.pushd(head):
             shell.call([
                 data.build.toolchain.git,
