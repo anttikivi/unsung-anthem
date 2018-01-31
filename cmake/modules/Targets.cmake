@@ -75,7 +75,8 @@ endfunction()
 function(CREATE_ANTHEM_TEST_EXECUTABLE)
   list(REMOVE_ITEM ODE_TEST_SOURCES
       ${CMAKE_CURRENT_SOURCE_DIR}/test/ode/main.cpp)
-  list(REMOVE_ITEM ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+  list(REMOVE_ITEM ANTHEM_SOURCES
+      ${CMAKE_CURRENT_SOURCE_DIR}/src/anthem/main.cpp)
   add_executable(${ANTHEM_TEST_NAME}
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
