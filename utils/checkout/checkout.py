@@ -134,18 +134,18 @@ def update():
             "Beginning to process the checkout update of {}".format(name)
         )
         if key in skip_repository_list:
-            diagnostics.note(
+            diagnostics.debug(
                 "{} is on the list of repositories to be skipped".format(name)
             )
             continue
         if product.anthem_only and not args.build_anthem:
-            diagnostics.note(
+            diagnostics.debug(
                 "Unsung Anthem is not built and, thus, {} should not be "
                 "downloaded".format(product.repr)
             )
         if not args.clean:
             if "skip_checkout" in product and product.skip_checkout:
-                diagnostics.note(
+                diagnostics.trace(
                     "{} checkout check is done in the checkout process".format(
                         product.repr
                     )
@@ -159,7 +159,7 @@ def update():
                 if key in versions \
                         and product.version == versions[key]["version"] \
                         and target in versions[key]["targets"]:
-                    diagnostics.note(
+                    diagnostics.trace(
                         "{} should not be re-downloaded, skipping".format(
                             name
                         )

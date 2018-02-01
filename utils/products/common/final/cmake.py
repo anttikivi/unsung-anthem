@@ -96,6 +96,14 @@ def construct_call(is_ode=False, lib=False, test=False):
     # cmake_call += ["-DANTHEM_SDL_VERSION={}".format(
     #     data.build.products.sdl.version)]
 
+    if args.developer_build:
+        cmake_call += ["-DODE_DEVELOPER=ON"]
+        if not is_ode:
+            cmake_call += ["-DANTHEM_DEVELOPER=ON"]
+    else:
+        cmake_call += ["-DODE_DEVELOPER=OFF"]
+        cmake_call += ["-DANTHEM_DEVELOPER=OFF"]
+
     if args.ode_assertions:
         cmake_call += ["-DODE_ENABLE_ASSERTIONS=ON"]
     else:
@@ -134,7 +142,10 @@ def construct_call(is_ode=False, lib=False, test=False):
     if data.build.ci:  # and not platform.system() == "Darwin":
         cmake_call += ["-DODE_MANUAL_SDL=ON"]
 
-    if data.build.ci and platform.system() == "Darwin":
+    manual_rpath = args.developer_build \
+        or (data.build.ci and platform.system() == "Darwin")
+
+    if manual_rpath:
         cmake_call += ["-DODE_SET_RPATH=ON"]
 
     if args.extra_cmake_options:

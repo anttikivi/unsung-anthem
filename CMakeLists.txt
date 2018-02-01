@@ -1,10 +1,11 @@
-#===------------------------- CMakeLists.txt -------------------------------===#
+#===---------------------------- CMakeLists.txt ----------------------------===#
 #
-#                             Unsung Anthem
+#                         Obliging Ode & Unsung Anthem
 #
-# This source file is part of the Unsung Anthem open source project.
+# This source file is part of the Obliging Ode and Unsung Anthem open source
+# projects.
 #
-# Copyright (c) 2017 Venturesome Stone
+# Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
 cmake_minimum_required(VERSION 2.8.12)
@@ -20,26 +21,30 @@ include(StdDefinitions)
 include(Targets)
 include(Variables)
 
-option(BUILD_ODE "Build the Ode engine" OFF)
+option(BUILD_ODE "Build Obliging Ode" OFF)
 
 option(ODE_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 
 option(ODE_ENABLE_ASSERTIONS
-    "Option for enabling assertions in Ode" ON)
+    "Option for enabling assertions in Obliging Ode" ON)
 
 option(ANTHEM_ENABLE_ASSERTIONS
     "Option for enabling assertions in Unsung Anthem" ON)
 
+option(ODE_DEVELOPER "Enable developer mode in Obliging Ode" OFF)
+
+option(ANTHEM_DEVELOPER "Enable developer mode in Unsung Anthem" OFF)
+
 option(ODE_LINK_LIBCXX "Option for linking against libc++ and libc++abi" OFF)
 
-option(ODE_MULTITHREADING "Enable multithreading in the game" ON)
+option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
 
 option(ODE_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)
 
 option(ODE_SET_RPATH "Set the rpath to the install directory" OFF)
 
 if(BUILD_ODE)
-  assert_variable(ODE_TYPE "Ode product type" "lib and test")
+  assert_variable(ODE_TYPE "Obliging Ode product type" "lib and test")
 else()
   assert_variable(ANTHEM_TYPE "Unsung Anthem product type" "exe, lib, and test")
 endif()
@@ -48,7 +53,7 @@ assert_variable(ODE_CXX_VERSION
     "C++ standard version"
     "c++2a, c++17, c++14, and c++latest")
 assert_variable(ODE_MAIN_COMPILER_TOOL
-    "main tool for the Ode build"
+    "main tool for the Obliging Ode build"
     "llvm, gcc, and msbuild")
 
 assert_variable(ODE_INSTALL_PREFIX "dependency installation directory")
@@ -67,8 +72,8 @@ if(BUILD_ODE)
   default_value(ODE_NAME ode_name_not_set)
   default_value(ODE_TEST_NAME test-${ODE_NAME})
 
-  print_status(ODE_NAME "Ode library name")
-  print_status(ODE_TEST_NAME "Ode test executable name")
+  print_status(ODE_NAME "Obliging Ode library name")
+  print_status(ODE_TEST_NAME "Obliging Ode test executable name")
 else()
   default_value(ANTHEM_NAME name_not_set)
   default_value(ANTHEM_LIB_NAME ${ANTHEM_NAME})

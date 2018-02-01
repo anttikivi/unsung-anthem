@@ -114,7 +114,7 @@ def _get_project_source(key):
         dest=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp")
     )
     subdir = "{}-{}.src".format(product.subprojects[key], version)
-    diagnostics.debug(
+    diagnostics.trace(
         "The name of the {} subdirectory is {}".format(product.repr, subdir)
     )
     # FIXME: This is bad, this is hardcoded.

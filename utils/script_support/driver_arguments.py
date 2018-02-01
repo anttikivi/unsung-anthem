@@ -53,6 +53,9 @@ def _apply_default_arguments(args):
     """
     Preprocess argument namespace to apply default behaviours.
     """
+    if args.verbose_build:
+        args.print_debug = True
+
     # Set the default build variant.
     if args.build_variant is None:
         args.build_variant = "Debug"
@@ -256,6 +259,11 @@ def create_argument_parser():
         toggle_true,
         help="print the commands executed during the build")
 
+    option(
+        "--print-debug",
+        toggle_true,
+        help="print the debug messages during the build")
+
     # -------------------------------------------------------------------------
     in_group("TODO: Host and cross-compilation targets")
 
@@ -288,6 +296,7 @@ def create_argument_parser():
         "--libc++",
         toggle_true("build_libcxx"),
         help="build libc++ and use the built library to build the project")
+
     # TODO: Should this be removed and the ninja be built if the script sees it
     # necessary?
     option("--build-ninja", toggle_true, help="build the Ninja tool")
@@ -309,6 +318,11 @@ def create_argument_parser():
         "--skip-build-anthem",
         toggle_false("build_anthem"),
         help="skip building Unsung Anthem and build only Ode")
+
+    option(
+        "--developer-build",
+        toggle_true,
+        help="build Obliging Ode and Unsung Anthem for development")
 
     # -------------------------------------------------------------------------
     in_group("Select the C++ standard")

@@ -36,12 +36,21 @@ HEADER = "\033[95m"
 
 VERBOSE = False
 
+DEBUG = False
+
 
 def _coerce_verbosity(verbosity_override=None):
     if verbosity_override is None:
         return VERBOSE
     else:
         return verbosity_override
+
+
+def _coerce_debug(debug_override=None):
+    if debug_override is None:
+        return DEBUG
+    else:
+        return debug_override
 
 
 def printer(
@@ -103,7 +112,7 @@ def trace_head(message):
     return message
 
 
-@printer(level="debug")
+@printer(level="debug", verbosity_check=_coerce_debug)
 def debug(message):
     """
     Print a debug diagnostic notification to the standard output.
@@ -113,7 +122,7 @@ def debug(message):
     return message
 
 
-@printer(level="debug", colour=OK_GREEN)
+@printer(level="debug", colour=OK_GREEN, verbosity_check=_coerce_debug)
 def debug_ok(message):
     """
     Print a debug diagnostic notification to the standard output.
@@ -123,7 +132,7 @@ def debug_ok(message):
     return message
 
 
-@printer(level="debug", colour=WARNING)
+@printer(level="debug", colour=WARNING, verbosity_check=_coerce_debug)
 def debug_note(message):
     """
     Print a debug diagnostic notification to the standard output.
@@ -133,7 +142,7 @@ def debug_note(message):
     return message
 
 
-@printer(level="debug", colour=ORANGE)
+@printer(level="debug", colour=ORANGE, verbosity_check=_coerce_debug)
 def debug_head(message):
     """
     Print a debug diagnostic notification to the standard output.

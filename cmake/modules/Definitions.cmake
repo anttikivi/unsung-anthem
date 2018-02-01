@@ -1,10 +1,11 @@
-#===----------------------- Definitions.cmake ------------------------------===#
+#===-------------------------- Definitions.cmake ---------------------------===#
 #
-#                             Unsung Anthem
+#                         Obliging Ode & Unsung Anthem
 #
-# This source file is part of the Unsung Anthem open source project.
+# This source file is part of the Obliging Ode and Unsung Anthem open source
+# projects.
 #
-# Copyright (c) 2017 Venturesome Stone
+# Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
 function(ADD_NAME_DEFINITIONS)
@@ -15,6 +16,18 @@ function(ADD_NAME_DEFINITIONS)
   add_definitions(-DODE_OPENGL_VERSION_MINOR=${ODE_OPENGL_VERSION_MINOR})
 
   add_definitions(-DGLFW_INCLUDE_NONE)
+
+  if(ODE_DEVELOPER)
+    add_definitions(-DODE_DEVELOPER=1)
+  else()
+    add_definitions(-DODE_DEVELOPER=0)
+  endif()
+
+  if(ANTHEM_DEVELOPER)
+    add_definitions(-DANTHEM_DEVELOPER=1)
+  else()
+    add_definitions(-DANTHEM_DEVELOPER=0)
+  endif()
 
   if(ODE_MULTITHREADING)
     add_definitions(-DODE_MULTITHREADING=1)

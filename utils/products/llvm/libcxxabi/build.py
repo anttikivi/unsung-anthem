@@ -42,3 +42,24 @@ def set_up():
         "projects",
         key
     ))
+
+
+def copy_dynamic(dest):
+    """
+    Move the dynamic library.
+
+    dest -- the directory to which the library is copied.
+    """
+    bin_path = workspace.lib_file(path="libc++abi.dylib")
+    dest_path = os.path.join(dest, "libc++abi.dylib")
+    if os.path.exists(dest_path):
+        return
+    shell.copy(bin_path, dest)
+
+    bin_path = workspace.lib_file(path="libc++abi.1.dylib")
+    dest_path = os.path.join(dest, "libc++abi.1.dylib")
+    shell.copy(bin_path, dest)
+
+    bin_path = workspace.lib_file(path="libc++abi.1.0.dylib")
+    dest_path = os.path.join(dest, "libc++abi.1.0.dylib")
+    shell.copy(bin_path, dest)

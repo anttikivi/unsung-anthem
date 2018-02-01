@@ -18,7 +18,7 @@ from build_utils.mapping import Mapping
 
 def ode_config(version, **kwargs):
     """
-    Create a mapping of the configuration of Ode.
+    Create a mapping of the configuration of Obliging Ode.
 
     version -- the version of the product.
     kwargs -- other key-value arguments to be added to the product mapping.
@@ -26,7 +26,7 @@ def ode_config(version, **kwargs):
     result = dict(**kwargs)
 
     result["version"] = version
-    result["name"] = "Ode"
+    result["name"] = "Obliging Ode"
     result["identifier"] = "ode"
     result["repr"] = "{name} ({identifier})".format(
         name=result["name"],

@@ -85,6 +85,10 @@ The toolchain name that will be used to build Unsung Anthem. The currently suppo
 
 The possible, specific version of the toolchain for the automatic lookup on the platform.
 
+#### `--print-debug`
+
+TODO
+
 #### `-v`, `--verbose-build`
 
 Print out the executed commands during the build.
@@ -134,6 +138,10 @@ TODO
 TODO
 
 #### `--skip-build-ode`
+
+TODO
+
+#### `--developer-build`
 
 TODO
 
