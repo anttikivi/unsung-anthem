@@ -99,7 +99,8 @@ def _apply_default_arguments(args):
     if args.enable_gcov:
         args.cmake_generator = "Unix Makefiles"
 
-    if not args.auth_token and args.auth_token_file:
+    if not args.auth_token and args.auth_token_file \
+            and os.path.exists(args.auth_token_file):
         with open(args.auth_token_file) as token_file:
             args.auth_token = str(token_file.read())
 
