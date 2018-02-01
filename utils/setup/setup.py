@@ -191,9 +191,11 @@ def set_up_build(args):
 
     data.build["ci"] = "CI" in os.environ and os.environ["CI"]
 
-    if data.build.ci:
-        data.build["github_token"] = str(os.environ["ANTHEM_OAUTH"])
-    else:
+    if args.auth_token:
         data.build["github_token"] = args.auth_token
+    elif "ODE_OAUTH" in os.environ:
+        data.build["github_token"] = str(os.environ["ODE_OAUTH"])
+    elif "ANTHEM_OAUTH" in os.environ:
+        data.build["github_token"] = str(os.environ["ANTHEM_OAUTH"])
 
     data.build.connection_protocol = config.PROTOCOL
