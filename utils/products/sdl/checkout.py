@@ -51,7 +51,7 @@ def get_dependency():
     """
     product = data.build.products.sdl
 
-    common.checkout.clean_checkout(product.key)
+    common.checkout.clean_checkout(product)
 
     version = product.version
 

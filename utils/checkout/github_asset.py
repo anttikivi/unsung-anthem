@@ -35,7 +35,7 @@ def stream_asset(product, url):
     product -- productthe product.
     url -- the URL from which the file is streamed.
     """
-    key = product.identifier
+    key = product.key
     github_data = product.github_data
     asset = github_data.asset
     destination = os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", asset.file)
@@ -56,7 +56,7 @@ def download_v4(product, asset_name):
     github_data = product.github_data
 
     release_asset_edges = github_v4_util.find_release_node(
-        product.identifier,
+        product,
         github_v4_util.call_query(
             ASSET_QUERY_GRAPHQL,
             {

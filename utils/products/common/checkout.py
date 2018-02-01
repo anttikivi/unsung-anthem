@@ -18,8 +18,6 @@ import os
 
 from build_utils import shell, workspace
 
-from script_support import data
-
 from script_support.variables import ANTHEM_SOURCE_ROOT
 
 
