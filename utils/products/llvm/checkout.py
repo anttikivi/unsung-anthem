@@ -20,7 +20,7 @@ from build_utils import diagnostics, http_stream, shell, workspace
 
 from script_support import data
 
-from script_support.variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
+from script_support.variables import ANTHEM_SOURCE_ROOT, CHECKOUT_FILE
 
 from . import libcxx
 
@@ -31,8 +31,8 @@ def should_skip_download(key):
 
     key -- the name of the subproject.
     """
-    if os.path.isfile(VERSIONS_FILE):
-        with open(VERSIONS_FILE) as json_file:
+    if os.path.isfile(CHECKOUT_FILE):
+        with open(CHECKOUT_FILE) as json_file:
             versions = json.load(json_file)
     else:
         versions = {}
@@ -68,7 +68,6 @@ def move_project_files(key, subdir):
     key -- the name of the subproject.
     """
     product = data.build.products.llvm
-    version = product.version
 
     shell.copytree(
         os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", subdir),

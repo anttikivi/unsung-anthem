@@ -19,7 +19,7 @@ from build_utils import diagnostics, reflection
 
 from script_support import data
 
-from script_support.variables import ANTHEM_SOURCE_ROOT, VERSIONS_FILE
+from script_support.variables import ANTHEM_SOURCE_ROOT, CHECKOUT_FILE
 
 from . import github
 
@@ -30,7 +30,7 @@ def write_version_file(versions, final_write=False):
 
     versions -- the data for the versions of the projects.
     """
-    with open(os.path.join(ANTHEM_SOURCE_ROOT, "versions"), "w") as outfile:
+    with open(CHECKOUT_FILE, "w") as outfile:
         json.dump(versions, outfile)
 
     if final_write:
@@ -38,7 +38,7 @@ def write_version_file(versions, final_write=False):
     else:
         log_function = diagnostics.debug
     log_function("Wrote the dependency version information to {}".format(
-        os.path.join(ANTHEM_SOURCE_ROOT, "versions")
+        CHECKOUT_FILE
     ))
 
 
@@ -80,8 +80,8 @@ def update():
     """
     args = data.build.args
 
-    if os.path.isfile(VERSIONS_FILE):
-        with open(VERSIONS_FILE) as json_file:
+    if os.path.isfile(CHECKOUT_FILE):
+        with open(CHECKOUT_FILE) as json_file:
             versions = json.load(json_file)
     else:
         versions = {}
