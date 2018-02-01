@@ -1,8 +1,9 @@
-#===------------------------ github_asset.py -----------------*- python -*-===#
+#===--------------------------- github_asset.py --------------*- python -*-===#
 #
-#                             Unsung Anthem
+#                         Obliging Ode & Unsung Anthem
 #
-# This source file is part of the Unsung Anthem open source project.
+# This source file is part of the Obliging Ode and Unsung Anthem open source
+# projects.
 #
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
@@ -19,7 +20,7 @@ from build_utils import diagnostics, http_stream
 
 from script_support import data
 
-from script_support.variables import ANTHEM_SOURCE_ROOT, SCRIPT_DIR
+from script_support.variables import ANTHEM_SOURCE_ROOT
 
 from . import github_v4_util
 

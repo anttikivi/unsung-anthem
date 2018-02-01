@@ -1,8 +1,9 @@
-#===------------------------- cache_util.py ------------------*- python -*-===#
+#===---------------------------- cache_util.py ---------------*- python -*-===#
 #
-#                             Unsung Anthem
+#                         Obliging Ode & Unsung Anthem
 #
-# This source file is part of the Unsung Anthem open source project.
+# This source file is part of the Obliging Ode and Unsung Anthem open source
+# projects.
 #
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
