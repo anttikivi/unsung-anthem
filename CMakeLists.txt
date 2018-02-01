@@ -86,7 +86,14 @@ endif()
 
 print_status_if_defined(ODE_STDLIB "C++ standard library")
 
+set(ODE_STD)
+set(ANTHEM_STD)
+
 set_cxx_definitions(${ODE_CXX_VERSION})
+
+print_status(ODE_STD "Obliging Ode C++ standard")
+print_status(ANTHEM_STD "Unsung Anthem C++ standard")
+
 set_std_feature_definitions(${ODE_CXX_VERSION})
 set_std_flags(${ODE_STD})
 add_name_definitions()

@@ -42,16 +42,16 @@ def ode_build_dir(lib=False, test=False):
     if test:
         return os.path.join(
             data.build.build_root, "{}-{}-{}".format(
-                product.identifier, "test", data.build.host_target
+                product.key, "test", data.build.host_target
             )
         )
     elif lib:
         return os.path.join(data.build.build_root, "{}-{}".format(
-            product.identifier,
+            product.key,
             data.build.host_target
         ))
     return os.path.join(data.build.build_root, "{}-{}".format(
-        product.identifier,
+        product.key,
         data.build.host_target
     ))
 
@@ -69,17 +69,17 @@ def anthem_build_dir(lib=False, test=False):
     if test:
         return os.path.join(
             data.build.build_root, "{}-{}-{}".format(
-                product.identifier, "test", data.build.host_target
+                product.key, "test", data.build.host_target
             )
         )
     elif lib:
         return os.path.join(data.build.build_root, "{}-{}-{}".format(
-            product.identifier,
+            product.key,
             "lib",
             data.build.host_target
         ))
     return os.path.join(data.build.build_root, "{}-{}".format(
-        product.identifier,
+        product.key,
         data.build.host_target
     ))
 

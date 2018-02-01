@@ -46,7 +46,7 @@ function(SET_SIMPLE_STD STD_VERSION)
 endfunction()
 
 function(SET_MSBUILD_STD STD_VERSION)
-  if(${STD_VERSION} STREQUAL c++latest)
+  if(${STD_VERSION} STREQUAL c++2a)
     set(ODE_STD c++latest PARENT_SCOPE)
     set(ANTHEM_STD c++latest PARENT_SCOPE)
   else()
@@ -61,8 +61,8 @@ function(SET_LLVM_STD STD_VERSION)
     set(ODE_STD ${STD_VERSION} PARENT_SCOPE)
     set(ANTHEM_STD ${STD_VERSION} PARENT_SCOPE)
   else()
-    set(ODE_STD c++17 PARENT_SCOPE)
-    set(ANTHEM_STD c++17 PARENT_SCOPE)
+    set(ODE_STD c++1z PARENT_SCOPE)
+    set(ANTHEM_STD c++1z PARENT_SCOPE)
   endif()
 endfunction()
 
@@ -80,9 +80,7 @@ endfunction()
 
 function(SET_CXX_DEFINITIONS STD_VERSION)
 
-  if(${STD_VERSION} STREQUAL c++latest)
-    set_cxx17()
-  elseif(${STD_VERSION} STREQUAL c++2a)
+  if(${STD_VERSION} STREQUAL c++2a)
     set_cxx2a()
   elseif(${STD_VERSION} STREQUAL c++17)
     set_cxx17()
@@ -92,7 +90,7 @@ function(SET_CXX_DEFINITIONS STD_VERSION)
     message(FATAL_ERROR
         "The C++ standard version (ODE_CXX_VERSION) is set to \
 ${ODE_CXX_VERSION} and, thus, it is invalid – the possible values are \
-c++2a, c++17, c++14, and c++latest")
+c++2a, c++17, and c++14")
   endif()
 
   set_compiler_std(${ODE_MAIN_COMPILER_TOOL} ${STD_VERSION})
