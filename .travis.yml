@@ -22,8 +22,8 @@ matrix:
     - COMPILER_NAME=gcc
     - CXX=g++-5
     - CC=gcc-5
-    - ANTHEM_BUILD_PRESET=travis_linux_gcc5_cxx14
-    - ANTHEM_COVERAGE=false
+    - BUILD_PRESET=travis_linux_gcc5_cxx14
+    - ENABLE_COVERAGE=false
     addons:
       apt:
         packages:
@@ -46,8 +46,8 @@ matrix:
     - COMPILER_NAME=gcc
     - CXX=g++-7
     - CC=gcc-7
-    - ANTHEM_BUILD_PRESET=travis_linux_gcc7_cxx17
-    - ANTHEM_COVERAGE=false
+    - BUILD_PRESET=travis_linux_gcc7_cxx17
+    - ENABLE_COVERAGE=false
     addons:
       apt:
         packages:
@@ -65,8 +65,8 @@ matrix:
     - COMPILER_NAME=gcc
     - CXX=g++-7
     - CC=gcc-7
-    - ANTHEM_BUILD_PRESET=travis_linux_gcc7_cxx17_coverage
-    - ANTHEM_COVERAGE=true
+    - BUILD_PRESET=travis_linux_gcc7_cxx17_coverage
+    - ENABLE_COVERAGE=true
     addons:
       apt:
         packages:
@@ -89,8 +89,8 @@ matrix:
     - COMPILER_NAME=clang
     - CXX=clang++-3.6
     - CC=clang-3.6
-    - ANTHEM_BUILD_PRESET=travis_linux_clang36_cxx14
-    - ANTHEM_COVERAGE=false
+    - BUILD_PRESET=travis_linux_clang36_cxx14
+    - ENABLE_COVERAGE=false
     addons:
       apt:
         packages:
@@ -109,8 +109,8 @@ matrix:
     - COMPILER_NAME=clang
     - CXX=clang++-4.0
     - CC=clang-4.0
-    - ANTHEM_BUILD_PRESET=travis_linux_clang40_cxx14
-    - ANTHEM_COVERAGE=false
+    - BUILD_PRESET=travis_linux_clang40_cxx14
+    - ENABLE_COVERAGE=false
     addons:
       apt:
         packages:
@@ -129,8 +129,8 @@ matrix:
   #   - COMPILER_NAME=clang
   #   - CXX=clang++-5.0
   #   - CC=clang-5.0
-  #   - ANTHEM_BUILD_PRESET=travis_linux_clang50_cxx17
-  #   - ANTHEM_COVERAGE=false
+  #   - BUILD_PRESET=travis_linux_clang50_cxx17
+  #   - ENABLE_COVERAGE=false
   #   addons:
   #     apt:
   #       packages:
@@ -153,8 +153,8 @@ matrix:
     - COMPILER_NAME=clang
     - CXX=clang++
     - CC=clang
-    - ANTHEM_BUILD_PRESET=travis_darwin_xcode73_clang_cxx14
-    - ANTHEM_COVERAGE=false
+    - BUILD_PRESET=travis_darwin_xcode73_clang_cxx14
+    - ENABLE_COVERAGE=false
 
   # Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
   # - os: osx
@@ -164,15 +164,15 @@ matrix:
   #   - COMPILER_NAME=clang
   #   - CXX=clang++
   #   - CC=clang
-  #   - ANTHEM_BUILD_PRESET=travis_darwin_xcode83_clang_cxx17
-  #   - ANTHEM_COVERAGE=false
+  #   - BUILD_PRESET=travis_darwin_xcode83_clang_cxx17
+  #   - ENABLE_COVERAGE=false
 
 install:
 - ${CC} --version
 - ${CXX} --version
 - pip install --user requests
-- if [ "${ANTHEM_COVERAGE}" == "true" ]; then gem install coveralls-lcov; fi
+- if [ "${ENABLE_COVERAGE}" == "true" ]; then gem install coveralls-lcov; fi
 
 script:
 - cd $TRAVIS_BUILD_DIR/..
-- unsung-anthem/utils/build-script --preset ${ANTHEM_BUILD_PRESET}
+- unsung-anthem/utils/build-script --preset ${BUILD_PRESET}
