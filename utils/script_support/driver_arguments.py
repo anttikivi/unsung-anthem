@@ -313,9 +313,9 @@ def create_argument_parser():
         help="build the Unsung Anthem library. Ignores the option "
              "'--skip-build-anthem'")
     option(
-        "--skip-build-ode",
-        toggle_false("build_ode"),
-        help="skip building Obliging Ode and build only Unsung Anthem")
+        "--build-ode",
+        toggle_true("build_ode"),
+        help="build Obliging Ode separately")
     option(
         "--skip-build-anthem",
         toggle_false("build_anthem"),

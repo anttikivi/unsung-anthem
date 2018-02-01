@@ -94,6 +94,7 @@ def main():
     """
     The entry point function of the script.
     """
+    i = 0
     for dirpath, dirnames, filenames in os.walk(SCRIPT_DIR):
         print("Now going through directory '{}'".format(dirpath))
         print("The subdirectories are {}".format(dirnames))
@@ -107,6 +108,8 @@ def main():
                     "deleted".format(name)
                 )
                 os.remove(path)
+                i = i + 1
+    print("Deleted {} files".format(i))
     return 0
 
 

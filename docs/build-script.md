@@ -133,11 +133,11 @@ Build the Ode or Unsung Anthem tests and run them thereafter.
 
 TODO
 
-#### `--skip-build-anthem`
+#### `--build-ode`
 
 TODO
 
-#### `--skip-build-ode`
+#### `--skip-build-anthem`
 
 TODO
 
