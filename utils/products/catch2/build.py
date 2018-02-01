@@ -27,7 +27,7 @@ def do_build():
     Build Catch2.
     """
     product = data.build.products.catch2
-    common.build.check_source(product.identifier)
+    common.build.check_source(product)
     bin_path = os.path.join(data.build.local_root, "include", "catch.hpp")
     if common.build.binary_exists(product=product, path=bin_path):
         return

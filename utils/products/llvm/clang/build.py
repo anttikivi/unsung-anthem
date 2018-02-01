@@ -71,7 +71,7 @@ def set_up():
     product = data.build.products.llvm
     key = "clang"  # product.subprojects["clang"]
 
-    common.build.check_source(key=product.identifier, subproject=key)
+    common.build.check_source(product=product, subproject=key)
 
     source_dir = workspace.source_dir(product=product, subproject=key)
 

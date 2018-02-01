@@ -23,15 +23,14 @@ from script_support import data
 from script_support.variables import ANTHEM_SOURCE_ROOT
 
 
-def clean_checkout(key):
+def clean_checkout(product):
     """
     Cleans up the old checkout and creates the directories necessary for the
     new one.
 
-    key -- the name of the project.
+    product -- the project.
     """
-    product = data.build.products[key]
     shell.rmtree(workspace.source_dir(product=product))
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
     shell.makedirs(workspace.source_dir(product=product))
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))

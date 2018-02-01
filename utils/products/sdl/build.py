@@ -68,7 +68,7 @@ def do_build():
     Build SDL.
     """
     product = data.build.products.sdl
-    common.build.check_source(product.identifier)
+    common.build.check_source(product)
     if platform.system() == "Windows":
         _build_windows()
     else:

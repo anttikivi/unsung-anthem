@@ -28,10 +28,10 @@ def ode_config(version, **kwargs):
 
     result["version"] = version
     result["name"] = "Obliging Ode"
-    result["identifier"] = "ode"
-    result["repr"] = "{name} ({identifier})".format(
+    result["key"] = "ode"
+    result["repr"] = "{name} ({key})".format(
         name=result["name"],
-        identifier=result["identifier"]
+        key=result["key"]
     )
 
     return Mapping(result)
@@ -48,23 +48,23 @@ def anthem_config(version, **kwargs):
 
     result["version"] = version
     result["name"] = "Unsung Anthem"
-    result["identifier"] = "anthem"
-    result["repr"] = "{name} ({identifier})".format(
+    result["key"] = "anthem"
+    result["repr"] = "{name} ({key})".format(
         name=result["name"],
-        identifier=result["identifier"]
+        key=result["key"]
     )
 
     return Mapping(result)
 
 
 def product_config(
-        version, identifier, name, anthem_only=False, version_format=None,
+        version, key, name, anthem_only=False, version_format=None,
         github_data=None, **kwargs):
     """
     Create a mapping of the configuration of a product.
 
     version -- the version of the product.
-    identifier -- the identifier of the product.
+    key -- the key of the product.
     name -- the display name of the product.
     anthem_only -- whether or not this product is only required by Unsung
     Anthem.
@@ -95,13 +95,13 @@ def product_config(
     result["version_format"] = version_format
     result["github_data"] = github_data
     result["name"] = name
-    result["identifier"] = identifier
+    result["key"] = key
     result["anthem_only"] = anthem_only
-    if name == identifier:
+    if name == key:
         result["repr"] = "{name}".format(name=name)
     else:
-        result["repr"] = "{name} ({identifier})".format(
-            name=name, identifier=identifier)
+        result["repr"] = "{name} ({key})".format(
+            name=name, key=key)
 
     return Mapping(result)
 

@@ -42,29 +42,30 @@ def move_files():
 
     if platform.system() == "Darwin":
         cmake_app = os.listdir(os.path.join(
-            ANTHEM_SOURCE_ROOT, "cmake", "temp", subdir))[0]
+            ANTHEM_SOURCE_ROOT, product.key, "temp", subdir))[0]
 
         shell.copytree(
             os.path.join(
-                ANTHEM_SOURCE_ROOT, "cmake", "temp", subdir, cmake_app
+                ANTHEM_SOURCE_ROOT, product.key, "temp", subdir, cmake_app
             ),
             os.path.join(workspace.source_dir(product=product), "CMake.app")
         )
     else:
         shell.copytree(
-            os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp", subdir),
+            os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp", subdir),
             workspace.source_dir(product=product)
         )
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
 
 
 def get_dependency():
     """
     Download CMake.
     """
-    common.checkout.clean_checkout("cmake")
-
     product = data.build.products.cmake
+
+    common.checkout.clean_checkout(product.key)
+
     version = product.version
 
     version_mapping = product.version_mapping
@@ -85,7 +86,7 @@ def get_dependency():
         extension=archive_extension
     )
     destination = os.path.join(
-        ANTHEM_SOURCE_ROOT, "cmake", "temp", "cmake.{}".format(
+        ANTHEM_SOURCE_ROOT, product.key, "temp", "cmake.{}".format(
             archive_extension
         )
     )
@@ -94,8 +95,8 @@ def get_dependency():
 
     shell.tar(
         path=destination,
-        dest=os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
     shell.rm(destination)
     move_files()
 
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "cmake", "temp"))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))

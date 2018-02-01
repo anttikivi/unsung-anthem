@@ -33,7 +33,7 @@ def product_call(product, function, *args, **kwargs):
     args -- the positional arguments to be passed into the function.
     kwargs -- the key-value arguments to be passed into the function.
     """
-    package = "{}.{}".format(PRODUCT_PACKAGE, product.identifier)
+    package = "{}.{}".format(PRODUCT_PACKAGE, product.key)
     diagnostics.trace("Importing package {}".format(package))
     product_module = importlib.import_module(package)
     diagnostics.trace("Imported package {}".format(package))
@@ -51,7 +51,7 @@ def product_checkout_call(product, function, *args, **kwargs):
     """
     package = "{}.{}.{}".format(
         PRODUCT_PACKAGE,
-        product.identifier,
+        product.key,
         CHECKOUT_MODULE
     )
     diagnostics.trace("Importing package {}".format(package))
@@ -69,7 +69,7 @@ def get_build_call(product, function):
     """
     package = "{}.{}.{}".format(
         PRODUCT_PACKAGE,
-        product.identifier,
+        product.key,
         BUILD_MODULE
     )
     diagnostics.trace("Importing package {}".format(package))
@@ -99,7 +99,7 @@ def build_function_exists(product, function):
     """
     package = "{}.{}.{}".format(
         PRODUCT_PACKAGE,
-        product.identifier,
+        product.key,
         BUILD_MODULE
     )
     diagnostics.trace(
@@ -126,7 +126,7 @@ def product_exists(product):
 
     product -- the name of the product.
     """
-    package = "{}.{}".format(PRODUCT_PACKAGE, product.identifier)
+    package = "{}.{}".format(PRODUCT_PACKAGE, product.key)
     diagnostics.trace("Looking for package {}".format(package))
     if sys.version_info.major >= 3:
         if sys.version_info.minor >= 4:
@@ -139,8 +139,8 @@ def product_exists(product):
         products = imp.load_module(PRODUCT_PACKAGE, *products_info)
         diagnostics.trace("Found package {}".format(PRODUCT_PACKAGE))
 
-        imp.find_module(product.identifier, products.__path__)
-        diagnostics.trace("Found package {}".format(product.identifier))
+        imp.find_module(product.key, products.__path__)
+        diagnostics.trace("Found package {}".format(product.key))
         return True
     except ImportError:
         return False

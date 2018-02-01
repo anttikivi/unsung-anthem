@@ -39,19 +39,20 @@ def move_files():
     )
 
     shell.copytree(
-        os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp", subdir),
+        os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp", subdir),
         workspace.source_dir(product=product)
     )
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp"))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
 
 
 def get_dependency():
     """
     Download SDL.
     """
-    common.checkout.clean_checkout("sdl")
-
     product = data.build.products.sdl
+
+    common.checkout.clean_checkout(product.key)
+
     version = product.version
 
     if platform.system() == "Windows":
@@ -68,16 +69,19 @@ def get_dependency():
             protocol="http", version=version, extension=archive_extension
         )
     destination = os.path.join(
-        ANTHEM_SOURCE_ROOT, "sdl", "temp", "sdl.{}".format(archive_extension)
+        ANTHEM_SOURCE_ROOT,
+        product.key,
+        "temp",
+        "sdl.{}".format(archive_extension)
     )
 
     http_stream.stream(url=url, destination=destination)
 
     shell.tar(
         path=destination,
-        dest=os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp")
+        dest=os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp")
     )
     shell.rm(destination)
     move_files()
 
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, "sdl", "temp"))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))

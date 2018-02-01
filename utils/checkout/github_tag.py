@@ -28,14 +28,14 @@ from . import github_v4_util
 TAG_QUERY_GRAPHQL = "github_tag.graphql"
 
 
-def checkout_tag_windows(key, tag_ref_name):
+def checkout_tag_windows(product, tag_ref_name):
     """
     Checkout a tag.
 
-    key -- the name of the product.
+    product -- the product.
     tag_ref_name -- the name of the tag.
     """
-    with shell.pushd(workspace.source_dir(product=data.build.products[key])):
+    with shell.pushd(workspace.source_dir(product=product)):
         shell.call([
             data.build.toolchain.git,
             "checkout",
@@ -45,13 +45,14 @@ def checkout_tag_windows(key, tag_ref_name):
         ])
 
 
-def checkout_tag(key, tag_ref_name):
+def checkout_tag(product, tag_ref_name):
     """
     Checkout a tag.
 
-    key -- the name of the product.
+    product -- the product.
     tag_ref_name -- the name of the tag.
     """
+    key = product.key
     with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key)):
         shell.call([
             data.build.toolchain.git,
@@ -62,13 +63,12 @@ def checkout_tag(key, tag_ref_name):
         ])
 
 
-def download_v4(key):
+def download_v4(product):
     """
     Download a tag from GitHub.
 
-    key -- the name of the product.
+    product -- the product.
     """
-    product = data.build.products[key]
     github_data = product.github_data
 
     response_json_data = github_v4_util.call_query(TAG_QUERY_GRAPHQL, {
@@ -87,7 +87,9 @@ def download_v4(key):
                 tail
             ])
     else:
-        with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp")):
+        with shell.pushd(
+            os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp")
+        ):
             shell.call([
                 data.build.toolchain.git,
                 "clone",
@@ -95,34 +97,34 @@ def download_v4(key):
             ])
 
     release_node = github_v4_util.find_release_node(
-        key,
+        product,
         response_json_data
     )
 
     if not release_node:
         release_node = github_v4_util.find_release_node_by_tag(
-            key,
+            product,
             response_json_data
         )
 
-    tag_ref_name = github_v4_util.get_github_version(key) \
+    tag_ref_name = github_v4_util.get_github_version(product) \
         if not release_node \
         else release_node["tag"]["name"]
 
     if platform.system() == "Windows":
-        checkout_tag_windows(key=key, tag_ref_name=tag_ref_name)
+        checkout_tag_windows(product=product, tag_ref_name=tag_ref_name)
     else:
-        checkout_tag(key=key, tag_ref_name=tag_ref_name)
+        checkout_tag(product=product, tag_ref_name=tag_ref_name)
 
 
-def download(key):
+def download(product):
     """
     Download a tag from GitHub.
 
-    key -- the name of the product.
+    product -- the product.
     """
     if data.build.github_token:
-        download_v4(key=key)
+        download_v4(product=product)
     else:
         # TODO
         diagnostics.fatal("TODO")

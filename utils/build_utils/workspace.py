@@ -60,7 +60,7 @@ def include_dir(product):
 
     product -- the product.
     """
-    return include_file(path=product.identifier)
+    return include_file(path=product.key)
 
 
 def include_dir_exists(product):
@@ -128,7 +128,7 @@ def source_dir(product, subproject=None, name=None):
         return os.path.join(ANTHEM_SOURCE_ROOT, name)
     return os.path.join(
         ANTHEM_SOURCE_ROOT,
-        product.identifier,
+        product.key,
         product.version,
         target
     )
@@ -146,7 +146,7 @@ def build_dir(product, target=None, subproject=None):
     if target:
         return os.path.join(
             data.build.build_root,
-            "{}-{}".format(product.identifier, target),
+            "{}-{}".format(product.key, target),
             product.version)
     if subproject:
         return os.path.join(
@@ -155,7 +155,7 @@ def build_dir(product, target=None, subproject=None):
             product.version)
     return os.path.join(
         data.build.build_root,
-        "{}-{}".format(product.identifier, data.build.host_target),
+        "{}-{}".format(product.key, data.build.host_target),
         product.version)
 
 

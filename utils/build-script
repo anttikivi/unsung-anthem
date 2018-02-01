@@ -13,11 +13,11 @@
 
 """
 Use this tool to build, test, and prepare binary distribution archives of
-Unsung Anthem.
+Obliging Ode and Unsung Anthem.
 
-Builds Unsung Anthem and its dependencies, incrementally, optionally testing
-Unsung Anthem thereafter. Different build configurations are maintained in
-parallel.
+Builds Obliging Ode and Unsung Anthem and their dependencies, incrementally,
+optionally testing Obliging Ode and Unsung Anthem thereafter. Different build
+configurations are maintained in parallel.
 """
 
 from __future__ import print_function
@@ -57,7 +57,7 @@ def initialize_runtime_environment():
 def main_preset():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="""Builds Unsung Anthem using a preset.""")
+        description="Builds Obliging Ode and Unsung Anthem using a preset.")
     parser.add_argument(
         "-n", "--dry-run",
         help="print the commands that would be executed, but do not execute "
@@ -98,6 +98,7 @@ def main_preset():
 
     if not args.preset_file_names:
         args.preset_file_names = [
+            os.path.join(HOME, ".ode-build-presets"),
             os.path.join(HOME, ".anthem-build-presets"),
             os.path.join(
                 ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils",
@@ -135,7 +136,7 @@ def main_preset():
         build_script_args += ["--jobs", str(args.build_jobs)]
 
     diagnostics.note(
-        "using preset '" + args.preset + "', which expands to \n\n" +
+        "Using preset '" + args.preset + "', which expands to \n\n" +
         shell.quote_command(build_script_args) + "\n"
     )
 

@@ -54,7 +54,7 @@ def do_build():
 
     data.build.toolchain.cmake = cmake_bin_path()
 
-    common.build.check_source("cmake")
+    common.build.check_source(product)
 
     bin_path = cmake_bin_path()
 

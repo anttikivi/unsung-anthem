@@ -97,7 +97,7 @@ def do_build():
     args = data.build.args
     key = product.identifier
 
-    common.build.check_source(key=key, subproject=key)
+    common.build.check_source(product=product, subproject=key)
 
     if args.build_llvm and not args.build_libcxx:
         bin_path = clang.clang_bin_path()

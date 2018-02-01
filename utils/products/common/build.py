@@ -21,16 +21,15 @@ from build_utils import diagnostics, shell, workspace
 from script_support import data
 
 
-def check_source(key, subproject=None, name=None):
+def check_source(product, subproject=None, name=None):
     """
     Check if the source directory of the product exists.
 
-    key -- the name of the product.
+    product -- the product.
     subproject -- a possible subproduct of the product for which the path is
     checked.
     name -- a custom name of the source directory.
     """
-    product = data.build.products[key]
     if subproject:
         source_dir = workspace.source_dir(
             product=product,
@@ -195,7 +194,7 @@ def build_call(
     if subproject:
         build_type_key = subproject
     else:
-        build_type_key = product.identifier
+        build_type_key = product.key
 
     if hasattr(args, "{}_build_variant".format(build_type_key)):
         build_type = getattr(args, "{}_build_variant".format(build_type_key))
@@ -261,7 +260,7 @@ def copy_build(product, subdir=None):
     subdir -- a subdir in the project build directory which should be copied
     instead of the whole directory.
     """
-    check_source(product.identifier)
+    check_source(product)
     bin_path = workspace.include_dir(product=product)
     if binary_exists(product=product, path=bin_path):
         return

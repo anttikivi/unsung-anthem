@@ -46,8 +46,10 @@ def should_skip_download(key):
     else:
         target = data.build.host_target
 
-    if "llvm" in versions:
-        version_node = versions["llvm"]
+    product = data.build.products.llvm
+
+    if product.key in versions:
+        version_node = versions[product.key]
         if key in version_node:
             subnode = version_node[key]
             if subnode["version"] == data.build.products.llvm.version \
@@ -131,7 +133,7 @@ def _download_binary():
     """
     product = data.build.products.llvm
     version = product.version
-    key = product.identifier
+    key = product.key
 
     _remove_old_checkout(key)
 
@@ -183,7 +185,6 @@ def get_dependency():
 
     args = data.build.args
     product = data.build.products.llvm
-    key = product.identifier
 
     llvm_deps = None
 
@@ -199,12 +200,12 @@ def get_dependency():
                 shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, dep, "temp"))
                 # TODO
                 _get_project_source(dep)
-    elif args.build_llvm and not should_skip_download("llvm"):
-        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
-        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+    elif args.build_llvm and not should_skip_download(product.key):
+        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+        shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
         _download_binary()
 
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
 
 
 def inject_version_info(versions):

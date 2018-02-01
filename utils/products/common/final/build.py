@@ -109,7 +109,7 @@ def do_build(is_ode=False, lib=False, test=False):
         product = anthem
         build_dir = anthem_build_dir(lib=lib, test=test)
 
-    common.build.check_source(key=product.identifier, name=ANTHEM_REPO_NAME)
+    common.build.check_source(product=product, name=ANTHEM_REPO_NAME)
     shell.makedirs(build_dir)
 
     cmake_env = {"CC": str(toolchain.cc), "CXX": str(toolchain.cxx)}

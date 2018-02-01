@@ -18,30 +18,28 @@ import platform
 
 from build_utils import diagnostics, shell, workspace
 
-from script_support import data
-
 from script_support.variables import ANTHEM_SOURCE_ROOT
 
 from . import github_asset, github_tag
 
 
-def simple_asset(key):
+def simple_asset(product):
     """
     Download an asset from GitHub.
 
-    key -- the name of the product.
+    product -- the product.
     """
-    product = data.build.products[key]
-    asset = data.build.products[key].github_data.asset
+    asset = product.github_data.asset
     if asset.source:
         diagnostics.trace("Entering the download of a source asset:")
         diagnostics.trace_head(product.repr)
-        github_tag.download(key=key)
+        github_tag.download(product=product)
         if platform.system() != "Windows":
             source_dir = workspace.source_dir(product=product)
             version_dir = os.path.dirname(source_dir)
             shell.rmtree(source_dir)
             shell.rmtree(version_dir)
+            key = product.key
             shell.copytree(
                 os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key),
                 workspace.source_dir(product=product)
@@ -49,22 +47,20 @@ def simple_asset(key):
     else:
         diagnostics.trace("Entering the download of an asset:")
         diagnostics.trace_head(asset.file)
-        github_asset.download(key=key, asset_name=asset.file)
+        github_asset.download(product=product, asset_name=asset.file)
         shell.copy(
-            os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", asset.file),
+            os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp", asset.file),
             os.path.join(workspace.source_dir(product=product), asset.file)
         )
 
 
-def platform_specific_asset(key):
+def platform_specific_asset(product):
     """
     Download a platform-specific asset from GitHub.
 
-    key -- the name of the product.
+    product -- the product.
     """
-    product = data.build.products[key]
-    asset = data.build.products[key].github_data.asset
-    version = data.build.products[key].version
+    asset = product.github_data.asset
     if platform.system() in asset.platform_files.keys() \
             and asset.platform_files[platform.system()] is not None:
         diagnostics.trace(
@@ -79,32 +75,30 @@ def platform_specific_asset(key):
         diagnostics.fatal("TODO")
         asset_file = None
     diagnostics.trace_head(asset_file)
-    github_asset.download(key=key, asset_name=asset_file)
+    github_asset.download(product=product, asset_name=asset_file)
     dest_file = asset.file
     shell.tar(
-        path=os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", dest_file),
+        path=os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp", dest_file),
         dest=workspace.source_dir(product=product)
     )
 
 
-def get_dependency(key):
+def get_dependency(product):
     """
     Download an asset from GitHub.
 
-    key -- the name of the product.
+    product -- the product.
     """
-    product = data.build.products[key]
-
     shell.rmtree(workspace.source_dir(product=product))
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
     shell.makedirs(workspace.source_dir(product=product))
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
 
     asset = product.github_data.asset
 
     if asset.platform_specific:
-        platform_specific_asset(key)
+        platform_specific_asset(product)
     else:
-        simple_asset(key)
+        simple_asset(product)
 
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp"))
+    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))

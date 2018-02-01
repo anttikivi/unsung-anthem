@@ -59,43 +59,43 @@ def validate_arguments(args):
     """
     if not args.build_ode and not args.build_anthem:
         exit_rejecting_arguments(
-            "Both the build of Ode and the build of Unsung Anthem cannot be "
-            "skipped"
+            "Both the build of Obliging Ode and the build of Unsung Anthem "
+            "cannot be skipped"
         )
 
-    # TODO Is 'c++latest' necessary?
-    if not (args.std == "c++latest"
-            or args.std == "c++2a"
-            or args.std == "c++17"
-            or args.std == "c++14"):
+    if not args.std == "c++2a" and not args.std == "c++17" \
+            and not args.std == "c++14":
         exit_rejecting_arguments(
-            "C++ standard version is set to an invalid value: "
-            + str(args.std))
+            "C++ standard version is set to an invalid value: {}".format(
+                args.std
+            )
+        )
 
     if args.stdlib:
-        if not (args.stdlib == "libc++" or args.stdlib == "libstdc++"):
+        if not args.stdlib == "libc++" and not args.stdlib == "libstdc++":
             exit_rejecting_arguments(
                 "C++ standard library implementation is set to an invalid "
-                "value: " + str(args.stdlib)
+                "value: {}".format(args.stdlib)
             )
 
-    if not (args.cmake_generator == "Ninja"
-            or args.cmake_generator == "Unix Makefiles"
-            or args.cmake_generator == "Xcode"
-            or args.cmake_generator == "Visual Studio 14 2015"
-            or args.cmake_generator == "Visual Studio 15 2017"
-            or args.cmake_generator == "Eclipse CDT4 - Ninja"):
+    if not args.cmake_generator == "Ninja" \
+            and not args.cmake_generator == "Unix Makefiles" \
+            and not args.cmake_generator == "Xcode" \
+            and not args.cmake_generator == "Visual Studio 14 2015" \
+            and not args.cmake_generator == "Visual Studio 15 2017" \
+            and not args.cmake_generator == "Eclipse CDT4 - Ninja":
         exit_rejecting_arguments(
-            "CMake generator is set to an invalid value: "
-            + str(args.cmake_generator)
+            "CMake generator is set to an invalid value: {}".format(
+                args.cmake_generator
+            )
         )
 
-    if not (args.main_tool == "llvm"
-            or args.main_tool == "gcc"
-            or args.main_tool == "msbuild"):
+    if not args.main_tool == "llvm" and not args.main_tool == "gcc" \
+            and not args.main_tool == "msbuild":
         exit_rejecting_arguments(
-            "The main tool is set to an invalid value: "
-            + str(args.main_tool)
+            "The main tool is set to an invalid value: {}".format(
+                args.main_tool
+            )
         )
 
     if args.build_llvm and args.build_libcxx:
@@ -118,9 +118,7 @@ def clean_delay():
         return index
 
     sys.stdout.write(
-        diagnostics.WARNING
-        + "Starting a clean build in  "
-        + diagnostics.ENDC
+        diagnostics.WARNING + "Starting a clean build in  " + diagnostics.ENDC
     )
 
     index_list = [_impl_write(i) for i in reversed(range(0, 4))]

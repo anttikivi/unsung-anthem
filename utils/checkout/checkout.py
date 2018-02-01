@@ -43,20 +43,19 @@ def write_version_file(versions, final_write=False):
     ))
 
 
-def get_product(key, versions):
+def get_product(product, versions):
     """
     Download a product.
 
-    key -- the name of the product.
+    product -- the product.
     versions -- the checkout version information dictionary.
     """
-    product = data.build.products[key]
     if product.github_data:
         diagnostics.debug(
             "{} is a GitHub project and it will be downloaded from "
             "GitHub".format(product.repr)
         )
-        github.get_dependency(key)
+        github.get_dependency(product)
     else:
         diagnostics.debug(
             "GitHub data is not found from {} and, thus, a custom function "
@@ -76,7 +75,7 @@ def get_product(key, versions):
             "version": product.version,
             "targets": [target]
         }
-        versions[key] = info
+        versions[product.key] = info
 
 
 def update():
@@ -114,7 +113,7 @@ def update():
 
     skip_repository_list = _skip_repositories()
 
-    diagnostics.trace("Using {} protocol to make the HTTP calls".format(
+    diagnostics.debug("Using {} protocol to make the HTTP calls".format(
         data.build.connection_protocol.upper()
     ))
 
@@ -122,8 +121,7 @@ def update():
         skip_repository_list
     ))
 
-    for key in data.build.products.keys():
-        product = data.build.products[key]
+    for key, product in data.build.products.items():
         name = product.repr
         if key is "ode" or key is "anthem":
             diagnostics.debug(
@@ -167,7 +165,7 @@ def update():
                     )
                     continue
 
-        get_product(key=key, versions=versions)
+        get_product(product=product, versions=versions)
 
         diagnostics.debug_ok(
             "Updating the checkout of {} is complete".format(name)

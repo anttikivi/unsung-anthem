@@ -173,8 +173,9 @@ def create_argument_parser():
         "--install-prefix",
         store_path,
         default=os.path.join(ANTHEM_SOURCE_ROOT, "dest"),
-        help="the installation prefix. This is where built Ode and Unsung "
-             "Anthem products (like bin, lib, and include) will be installed.")
+        help="the installation prefix. This is where built Obliging Ode and "
+             "Unsung Anthem products (like bin, lib, and include) will be "
+             "installed.")
 
     option(
         ["-j", "--jobs"],
@@ -191,12 +192,12 @@ def create_argument_parser():
         "--cmake",
         store_path(executable=True),
         help="the path to a CMake executable that will be used to build "
-             "Ode and Unsung Anthem")
+             "Obliging Ode and Unsung Anthem")
     option(
         "--git",
         store_path(executable=True),
         help="the path to a git executable that will be used in the build of "
-             "Ode and Unsung Anthem")
+             "Obliging Ode and Unsung Anthem")
     option(
         "--msbuild",
         store_path(executable=True),
@@ -219,7 +220,7 @@ def create_argument_parser():
         store,
         default=defaults.ODE_VERSION,
         metavar="MAJOR.MINOR.PATCH",
-        help="the version of Ode")
+        help="the version of Obliging Ode")
     option(
         "--anthem-version",
         store,
@@ -305,7 +306,7 @@ def create_argument_parser():
     option(
         ["-t", "--test"],
         toggle_true("build_test"),
-        help="build the Ode or Unsung Anthem tests")
+        help="build the Obliging Ode or Unsung Anthem tests")
     option(
         "--build-anthem-lib",
         toggle_true("build_anthem_lib"),
@@ -314,11 +315,11 @@ def create_argument_parser():
     option(
         "--skip-build-ode",
         toggle_false("build_ode"),
-        help="skip building Ode and build only Unsung Anthem")
+        help="skip building Obliging Ode and build only Unsung Anthem")
     option(
         "--skip-build-anthem",
         toggle_false("build_anthem"),
-        help="skip building Unsung Anthem and build only Ode")
+        help="skip building Unsung Anthem and build only Obliging Ode")
 
     option(
         "--developer-build",
@@ -434,7 +435,7 @@ def create_argument_parser():
         "--debug-ode",
         store("ode_build_variant"),
         const="Debug",
-        help="build the Debug variant of Ode")
+        help="build the Debug variant of Obliging Ode")
 
     option(
         "--debug-anthem",
@@ -476,7 +477,7 @@ def create_argument_parser():
         "--ode-assertions",
         store,
         const=True,
-        help="enable assertions in Ode")
+        help="enable assertions in Obliging Ode")
     option(
         "--anthem-assertions",
         store,
@@ -516,12 +517,12 @@ def create_argument_parser():
     option(
         "--ode-name",
         store,
-        help="the name of the Ode library binaries"
+        help="the name of the Obliging Ode library binaries"
     )
     option(
         "--ode-test-executable-name",
         store("ode_test_name"),
-        help="the name of the Ode test executable"
+        help="the name of the Obliging Ode test executable"
     )
 
     option(
@@ -608,7 +609,7 @@ Using option presets:
   --preset=NAME         use the specified option preset
 
   The preset mode is mutually exclusive with other options. It is not possible
-  to add ad-hoc customizations to a preset. This is a deliberate design
+  to add ad hoc customizations to a preset. This is a deliberate design
   decision. (Rationale: a preset is a certain important set of options that is
   wanted to be kept in a centralized location. If one needs to customize it,
   one should create another preset in a centralized location, rather than

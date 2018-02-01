@@ -25,13 +25,12 @@ from script_support import config, data
 from script_support.variables import SCRIPT_DIR
 
 
-def get_github_version(key):
+def get_github_version(product):
     """
     Concatenate the full version for GitHub.
 
-    key -- the name of the product.
+    product -- the product.
     """
-    product = data.build.products[key]
     github_data = product.github_data
 
     if github_data.version_prefix:
@@ -74,17 +73,16 @@ def call_query(file_name, replacements=None):
     return response.json()["data"]
 
 
-def find_release_node(key, json_data):
+def find_release_node(product, json_data):
     """
     Finds the requested release node from the GitHub API JSON data.
 
-    key -- the name of the product.
+    product -- the product.
     json_data -- the JSON data where the release node is.
     """
-    product = data.build.products[key]
     release_edges = json_data["repository"]["releases"]["edges"]
     ret_node = None
-    gh_version = get_github_version(key)
+    gh_version = get_github_version(product)
 
     for edge in release_edges:
         node = edge["node"]
@@ -103,18 +101,17 @@ def find_release_node(key, json_data):
     return ret_node
 
 
-def find_release_node_by_tag(key, json_data):
+def find_release_node_by_tag(product, json_data):
     """
     Finds the requested release node from the GitHub API JSON data by the tag
     name.
 
-    key -- the name of the product.
+    product -- the product.
     json_data -- the JSON data where the release node is.
     """
-    product = data.build.products[key]
     release_edges = json_data["repository"]["releases"]["edges"]
     ret_node = None
-    gh_version = get_github_version(key)
+    gh_version = get_github_version(product)
 
     for edge in release_edges:
         node = edge["node"]

@@ -27,6 +27,9 @@ def build_tools():
     toolchain = data.build.toolchain
 
     for key, product in data.build.products.items():
+        diagnostics.trace(
+            "Checking if {} needs to be built".format(product.repr)
+        )
         should_build = reflection.build_call(product, "should_build")
         only_anthem = not args.build_anthem and product.anthem_only
         if only_anthem:

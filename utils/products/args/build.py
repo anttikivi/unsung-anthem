@@ -62,7 +62,7 @@ def do_build():
     Build args.
     """
     product = data.build.products.args
-    common.build.check_source(product.identifier)
+    common.build.check_source(product)
     bin_path = os.path.join(data.build.local_root, "include", "args.hxx")
     if common.build.binary_exists(product=product, path=bin_path):
         return
