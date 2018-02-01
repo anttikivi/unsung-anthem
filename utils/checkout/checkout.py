@@ -19,7 +19,7 @@ from build_utils import diagnostics, reflection
 
 from script_support import data
 
-from script_support.variables import ANTHEM_SOURCE_ROOT, CHECKOUT_FILE
+from script_support.variables import CHECKOUT_FILE, SOURCE_TARGET
 
 from . import github
 
@@ -67,9 +67,13 @@ def get_product(key, versions):
             and product.inject_version_info is not None:
         product.inject_version_info(versions=versions)
     else:
+        if product.check_if_source():
+            target = SOURCE_TARGET
+        else:
+            target = data.build.host_target
         info = {
             "version": product.version,
-            "targets": [data.build.host_target]
+            "targets": [target]
         }
         versions[key] = info
 
@@ -147,10 +151,14 @@ def update():
                     )
                 )
             else:
+                if product.check_if_source():
+                    target = SOURCE_TARGET
+                else:
+                    target = data.build.host_target
                 # TODO Cross-compile targets
                 if key in versions \
                         and product.version == versions[key]["version"] \
-                        and data.build.host_target in versions[key]["targets"]:
+                        and target in versions[key]["targets"]:
                     diagnostics.note(
                         "{} should not be re-downloaded, skipping".format(
                             name

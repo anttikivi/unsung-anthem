@@ -20,7 +20,10 @@ from build_utils import diagnostics, http_stream, shell, workspace
 
 from script_support import data
 
-from script_support.variables import ANTHEM_SOURCE_ROOT, CHECKOUT_FILE
+from script_support.variables import \
+    ANTHEM_SOURCE_ROOT, \
+    CHECKOUT_FILE, \
+    SOURCE_TARGET
 
 from . import libcxx
 
@@ -37,12 +40,17 @@ def should_skip_download(key):
     else:
         versions = {}
 
+    if data.build.products.llvm.check_if_source():
+        target = SOURCE_TARGET
+    else:
+        target = data.build.host_target
+
     if "llvm" in versions:
         version_node = versions["llvm"]
         if key in version_node:
             subnode = version_node[key]
             if subnode["version"] == data.build.products.llvm.version \
-                    and data.build.host_target in subnode["targets"]:
+                    and target in subnode["targets"]:
                 diagnostics.debug(
                     "{} should not be re-downloaded, skipping".format(key)
                 )
@@ -207,8 +215,11 @@ def inject_version_info(versions):
     product = data.build.products.llvm
     args = data.build.args
     version = product.version
-    target = data.build.host_target
     version_info = None
+    if product.check_if_source():
+        target = SOURCE_TARGET
+    else:
+        target = data.build.host_target
     if args.build_libcxx:
         version_info = {
             "llvm": {"version": version, "targets": [target]},

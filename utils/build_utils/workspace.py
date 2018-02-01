@@ -112,12 +112,16 @@ def source_dir(product, subproject=None, name=None):
     created.
     name -- a custom name of the source directory.
     """
+    if product.check_if_source():
+        target = "src"
+    else:
+        target = data.build.host_target
     if subproject:
         return os.path.join(
             ANTHEM_SOURCE_ROOT,
             subproject,
             product.version,
-            data.build.host_target
+            target
         )
     if name:
         return os.path.join(ANTHEM_SOURCE_ROOT, name)
@@ -125,7 +129,7 @@ def source_dir(product, subproject=None, name=None):
         ANTHEM_SOURCE_ROOT,
         product.identifier,
         product.version,
-        data.build.host_target
+        target
     )
 
 

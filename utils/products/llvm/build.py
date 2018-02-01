@@ -131,6 +131,18 @@ def is_tool():
     return False
 
 
+def is_source():
+    """
+    Check whether LLVM is downloaded as source code in this configuration.
+    """
+    diagnostics.trace("Checking if LLVM is downloaded as source code")
+    if data.build.args.source_llvm or data.build.args.build_libcxx:
+        diagnostics.trace("LLVM is downloaded as source code")
+        return True
+    diagnostics.trace("LLVM is downloaded as a binary")
+    return False
+
+
 def should_build():
     """
     Check whether this product should be built.

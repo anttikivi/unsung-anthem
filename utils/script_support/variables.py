@@ -89,3 +89,6 @@ SCRIPT_DIR = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils")
 
 
 CHECKOUT_FILE = os.path.join(ANTHEM_SOURCE_ROOT, "checkout_data")
+
+
+SOURCE_TARGET = "src"
