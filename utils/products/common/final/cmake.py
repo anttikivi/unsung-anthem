@@ -144,10 +144,13 @@ def construct_call(is_ode=False, lib=False, test=False):
         cmake_call += ["-DODE_MANUAL_SDL=ON"]
 
     manual_rpath = args.developer_build \
-        or (data.build.ci and platform.system() == "Darwin")
+        and (args.build_llvm or args.build_libcxx)
+    manual_rpath_ci = data.build.ci and platform.system() == "Darwin"
 
-    if manual_rpath:
+    if manual_rpath or manual_rpath_ci:
         cmake_call += ["-DODE_SET_RPATH=ON"]
+    else:
+        cmake_call += ["-DODE_SET_RPATH=OFF"]
 
     if args.extra_cmake_options:
         cmake_call += args.extra_cmake_options
