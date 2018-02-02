@@ -1,10 +1,11 @@
-//===--------------------------- assert -------------------------*- C++ -*-===//
+//===------------------------------- assert ---------------------*- C++ -*-===//
 //
-//                            Unsung Anthem
+//                        Obliging Ode & Unsung Anthem
 //
-// This source file is part of the Unsung Anthem open source project.
+// This source file is part of the Obliging Ode and Unsung Anthem open source
+// projects.
 //
-// Copyright (c) 2017 Venturesome Stone
+// Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
 //
 //===----------------------------------------------------------------------===//
@@ -13,8 +14,8 @@
 /// \file assert
 /// \brief Declarations of the guideline support library assertions.
 /// \author Antti Kivi
-/// \date 30 July 2017
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \date 2 February 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //

@@ -1,8 +1,9 @@
-//===--------------------------- run.cpp ------------------------*- C++ -*-===//
+//===------------------------------ run.cpp ---------------------*- C++ -*-===//
 //
-//                            Unsung Anthem
+//                        Obliging Ode & Unsung Anthem
 //
-// This source file is part of the Unsung Anthem open source project.
+// This source file is part of the Obliging Ode and Unsung Anthem open source
+// projects.
 //
 // Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
@@ -11,7 +12,7 @@
 //
 ///
 /// \file run.cpp
-/// \brief The definition of the main execution function of the game.
+/// \brief The definition of the main execution function of Unsung Anthem.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
