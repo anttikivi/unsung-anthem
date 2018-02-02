@@ -31,7 +31,7 @@ namespace ode
     !defined(__CYGWIN__)
   using args_array = char*;
 #else
-  using args_array = const char*;
+  using args_array = char*; // const char*;
 #endif
 } // namespace ode
 

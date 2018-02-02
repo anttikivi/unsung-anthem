@@ -97,8 +97,12 @@ def get_dependency(product):
     asset = product.github_data.asset
 
     if asset.platform_specific:
+        diagnostics.trace(
+            "The asset of {} is platform-specific".format(product.repr)
+        )
         platform_specific_asset(product)
     else:
+        diagnostics.trace("The asset of {} is simple".format(product.repr))
         simple_asset(product)
 
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))

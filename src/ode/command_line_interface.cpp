@@ -28,7 +28,7 @@
 
 #include "ode/logger.h"
 
-#include <args.hxx>
+#include <clara.hpp>
 
 namespace ode
 {
@@ -46,53 +46,26 @@ namespace ode
   {
     ODE_DEBUG("Going to parse {} argument(s)", argc - 1);
 
-    args::ArgumentParser parser{
-        "TODO"s,
-        "Some information which goes after the options should go here"s};
-    args::HelpFlag help{
-        parser,
-        "help"s,
-        "Display this help menu"s,
-        {'h', "help"s}};
-    args::ValueFlag<pixel_count> window_width{
-        parser,
-        "window-width"s,
-        "The width of the window in pixels"s,
-        {"window-width"s},
-        default_window_width};
-    args::ValueFlag<pixel_count> window_height{
-        parser,
-        "window-height"s,
-        "The height of the window in pixels"s,
-        {"window-height"s},
-        default_window_height};
-    args::ValueFlag<std::string> window_name{
-        parser,
-        "window-name"s,
-        "The name of the game window"s,
-        {"window-name"s},
-        std::string{default_window_name}};
+    auto window_width = default_window_width;
+    auto window_height = default_window_width;
+    auto window_name = std::string{default_window_name};
 
-    try
+    auto cli
+      = clara::Opt(window_width, "window-width")["--window-width"]
+        ("The width of the window in pixels")
+        | clara::Opt(window_height, "window-height")["--window-height"]
+        ("The height of the window in pixels")
+        | clara::Opt(window_name, "window-name")["--window-name"]
+        ("The name of the game window");
+
+    auto result = cli.parse(clara::Args(argc, argv));
+
+    if(!result)
     {
-      parser.ParseCLI(argc, argv);
-    }
-    catch (const args::Help&)
-    {
-      std::cout << parser;
-      return arguments{false};
-    }
-    catch (const args::ParseError& e)
-    {
-      std::cerr << e.what() << std::endl;
-      std::cerr << parser;
+      std::cerr << "Error in command line: " << result.errorMessage() << std::endl;
       return arguments{false};
     }
 
-    return arguments{
-        true,
-        args::get(window_width),
-        args::get(window_height),
-        args::get(window_name)};
+    return arguments{true, window_width, window_height, window_name};
   }
 } // namespace ode

@@ -179,19 +179,5 @@ PRODUCT_CONFIG = Mapping(
             asset_data=SOURCE_ASSET,
             version_prefix="Version "
         )
-    ),
-
-    args=product_config(
-        version="6.2.0",
-        name="args",
-        key="args",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: True,
-        github_data=github_config(
-            owner="Taywee",
-            name="args",
-            asset_data=SOURCE_ASSET,
-            version_prefix=""
-        )
     )
 )
