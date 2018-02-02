@@ -1,39 +1,39 @@
-//===------------------------- arguments.h ----------------------*- C++ -*-===//
+//===---------------------- command_line_interface.h ------------*- C++ -*-===//
 //
-//                            Unsung Anthem
+//                        Obliging Ode & Unsung Anthem
 //
-// This source file is part of the Unsung Anthem open source project.
+// This source file is part of the Obliging Ode and Unsung Anthem open source
+// projects.
 //
-// Copyright (c) 2017 Venturesome Stone
+// Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
 //
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file arguments.h
+/// \file command_line_interface.h
 /// \brief The declarations of the utilities related to parsing command line
 /// arguments.
 /// \author Antti Kivi
-/// \date 14 July 2017
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \date 2 February 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_ARGUMENTS_H
-#define ANTHEM_ARGUMENTS_H
+#ifndef ODE_COMMAND_LINE_INTERFACE_H
+#define ODE_COMMAND_LINE_INTERFACE_H
 
 #include <type_traits>
 
-#include "anthem/types.h"
-
-#include "args_array.h"
+#include "ode/args_array.h"
+#include "ode/types.h"
 
 #include <spdlog/fmt/ostr.h> // This must be included for the custom logger
                              // object to work.
 
-namespace anthem
+namespace ode
 {
   using namespace std::string_literals;
 
@@ -50,11 +50,11 @@ namespace anthem
   ///
   /// \brief The default name of the window.
   ///
-#ifdef ANTHEM_WINDOW_NAME
-  constexpr auto default_window_name = ANTHEM_WINDOW_NAME;
+#ifdef ODE_WINDOW_NAME
+  constexpr auto default_window_name = ODE_WINDOW_NAME;
 #else
-  constexpr auto default_window_name = "anthem";
-#endif // !defined(ANTHEM_WINDOW_NAME)
+  constexpr auto default_window_name = "ode";
+#endif // !defined(ODE_WINDOW_NAME)
 
   ///
   /// \struct arguments
@@ -139,6 +139,6 @@ namespace anthem
   ///
   arguments parse_arguments(const int argc, args_array argv[]) noexcept;
 
-} // namespace anthem
+} // namespace ode
 
-#endif // !ANTHEM_ARGUMENTS_H
+#endif // !ODE_COMMAND_LINE_INTERFACE_H

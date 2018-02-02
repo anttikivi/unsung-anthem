@@ -1,35 +1,36 @@
-//===------------------------ arguments.cpp ---------------------*- C++ -*-===//
+//===--------------------- command_line_interface.cpp -----------*- C++ -*-===//
 //
-//                            Unsung Anthem
+//                        Obliging Ode & Unsung Anthem
 //
-// This source file is part of the Unsung Anthem open source project.
+// This source file is part of the Obliging Ode and Unsung Anthem open source
+// projects.
 //
-// Copyright (c) 2017 Venturesome Stone
+// Copyright (c) 2018 Venturesome Stone
 // Licensed under GNU Affero General Public License v3.0
 //
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file arguments.cpp
+/// \file command_line_interface.cpp
 /// \brief The definitions of the utilities related to parsing command line
 /// arguments.
 /// \author Antti Kivi
-/// \date 14 July 2017
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \date 2 February 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "arguments.h"
+#include "ode/command_line_interface.h"
 
 #include <iostream>
 
-#include "anthem/logger.h"
+#include "ode/logger.h"
 
 #include <args.hxx>
 
-namespace anthem
+namespace ode
 {
   std::ostream& operator<<(std::ostream& os, const arguments& a)
   {
@@ -43,7 +44,7 @@ namespace anthem
 
   arguments parse_arguments(const int argc, args_array argv[]) noexcept
   {
-    ANTHEM_DEBUG("Going to parse {} argument(s)", argc - 1);
+    ODE_DEBUG("Going to parse {} argument(s)", argc - 1);
 
     args::ArgumentParser parser{
         "TODO"s,
@@ -94,4 +95,4 @@ namespace anthem
         args::get(window_height),
         args::get(window_name)};
   }
-} // namespace anthem
+} // namespace ode

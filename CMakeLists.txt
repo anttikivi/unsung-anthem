@@ -61,7 +61,8 @@ assert_variable(ODE_INSTALL_PREFIX "dependency installation directory")
 assert_variable(ODE_OPENGL_VERSION_MAJOR "OpenGL major version")
 assert_variable(ODE_OPENGL_VERSION_MINOR "OpenGL minor version")
 
-assert_variable(ODE_LOGGER_NAME "the engine logger name")
+assert_variable(ODE_LOGGER_NAME "engine logger name")
+assert_variable(ODE_WINDOW_NAME "engine window name")
 
 if(NOT BUILD_ODE)
   assert_variable(ANTHEM_LOGGER_NAME "program logger name")

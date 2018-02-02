@@ -25,20 +25,21 @@
 
 #include "catch.hpp"
 
-// #include "anthem/logger.h"
+#include "ode/logger.h"
 
-// #include "logging_config.h"
+#include "anthem/logger.h"
+
+#include "anthem/logging_config.h"
 
 #include <SDL2/SDL.h>
 
 int main(int argc, char* argv[])
 {
-  /*
-  anthem::logger = anthem::create_logger(
-      "test_logger",
+  anthem::logger = ode::create_logger(
+      "anthem_test_logger",
       anthem::logger_pattern,
       anthem::logger_level);
-  */
+  ode::logger = ode::create_logger("ode_test_logger");
   const int result = Catch::Session().run(argc, argv);
   return result < 0xff ? result : 0xff;
 }
