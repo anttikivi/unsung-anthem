@@ -59,6 +59,10 @@ def call_query(file_name, replacements=None):
         for k, v in replacements.items():
             raw_query = raw_query.replace(k, v)
 
+    diagnostics.trace(
+        "Calling the following GraphQL query:\n{}".format(raw_query)
+    )
+
     query = json.dumps({"query": raw_query})
 
     response = requests.post(
@@ -70,10 +74,14 @@ def call_query(file_name, replacements=None):
             "Authorization": "bearer {}".format(data.build.github_token)
         })
 
+    diagnostics.trace(
+        "The response of the query was:\n{}".format(response.json())
+    )
+
     return response.json()["data"]
 
 
-def find_release_node(product, json_data):
+def find_release_node(product, json_data, let_use_fallback=False):
     """
     Finds the requested release node from the GitHub API JSON data.
 
@@ -97,6 +105,9 @@ def find_release_node(product, json_data):
                 )
             )
             ret_node = node
+
+    if not ret_node and let_use_fallback:
+        return release_edges[0]["node"]
 
     return ret_node
 

@@ -140,6 +140,20 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
+    clara=product_config(
+        version="1.1.1",
+        name="Clara",
+        key="clara",
+        check_if_tool=lambda: False,
+        check_if_source=lambda: True,
+        github_data=github_config(
+            owner="catchorg",
+            name="Clara",
+            asset_data=asset("clara.hpp"),
+            version_prefix="v"
+        )
+    ),
+
     sdl=product_config(
         version="2.0.7",
         name="SDL2",
@@ -164,20 +178,6 @@ PRODUCT_CONFIG = Mapping(
             name="spdlog",
             asset_data=SOURCE_ASSET,
             version_prefix="Version "
-        )
-    ),
-
-    args=product_config(
-        version="6.2.0",
-        name="args",
-        key="args",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: True,
-        github_data=github_config(
-            owner="Taywee",
-            name="args",
-            asset_data=SOURCE_ASSET,
-            version_prefix=""
         )
     )
 )

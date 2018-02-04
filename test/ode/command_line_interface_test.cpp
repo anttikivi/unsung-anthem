@@ -28,7 +28,7 @@
 
 TEST_CASE("the arguments are parsed", "[ode::parse_arguments]")
 {
-  const ode::arguments a = {true, 555_px, 13_px, std::string{"window"}};
+  const ode::arguments a = {true, false, 555_px, 13_px, std::string{"window"}};
   ode::args_array argv_b[] = {
       "exe",
       "--window-height=13",
@@ -79,12 +79,13 @@ TEST_CASE("the arguments are parsed", "[ode::parse_arguments]")
 
 TEST_CASE("help argument is called", "[ode::parse_arguments]")
 {
-  const ode::arguments a = {false};
+  const ode::arguments a = {true, true};
   ode::args_array argv_b[] = {"exe", "--help"};
   const auto b = ode::parse_arguments(2, argv_b);
 
-  REQUIRE(b == a);
-  REQUIRE_FALSE(b != a);
+  REQUIRE(b.parsed == a.parsed);
+  REQUIRE(b.show_help == a.show_help);
+  REQUIRE(b != a);
 }
 
 TEST_CASE("parse error is caught", "[ode::parse_arguments]")

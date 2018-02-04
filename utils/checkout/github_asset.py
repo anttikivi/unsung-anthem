@@ -63,7 +63,7 @@ def download_v4(product, asset_name):
                 "{REPOSITORY_OWNER}": github_data.owner,
                 "{REPOSITORY_NAME}": github_data.name,
                 "{ASSET_NAME}": asset_name
-            }))["releaseAssets"]["edges"]
+            }), let_use_fallback=True)["releaseAssets"]["edges"]
 
     for asset_edge in release_asset_edges:
         asset_node = asset_edge["node"]
