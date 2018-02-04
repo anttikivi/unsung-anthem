@@ -116,6 +116,15 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
+    lua=product_config(
+        version="5.3.4",
+        name="Lua",
+        key="lua",
+        is_tool=False,
+        is_source=True,
+        url_format="{protocol}://www.lua.org/ftp/lua-{version}.tar.gz"
+    ),
+
     ninja=product_config(
         version="1.8.2",
         name="Ninja",
