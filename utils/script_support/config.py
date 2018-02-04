@@ -38,20 +38,40 @@ GITHUB_API_V4_ENDPOINT = "https://api.github.com/graphql"
 
 
 PRODUCT_CONFIG = Mapping(
-    ode=ode_config(
-        version="0.1.0-dev.1",
-        opengl=Mapping(version=Mapping(major=3, minor=2)),
-        logger_name="ode",
-        is_tool=False,
-        is_source=True
-    ),
-
     anthem=anthem_config(
         version="0.1.0-dev.1",
         window_name="Unsung Anthem",
         logger_name="anthem",
         is_tool=False,
         is_source=True
+    ),
+
+    catch2=product_config(
+        version="2.1.0",
+        name="Catch2",
+        key="catch2",
+        is_tool=False,
+        is_source=True,
+        github_data=github_config(
+            owner="catchorg",
+            name="Catch2",
+            asset_data=asset("catch.hpp"),
+            version_prefix="v"
+        )
+    ),
+
+    clara=product_config(
+        version="1.1.1",
+        name="Clara",
+        key="clara",
+        is_tool=False,
+        is_source=True,
+        github_data=github_config(
+            owner="catchorg",
+            name="Clara",
+            asset_data=asset("clara.hpp"),
+            version_prefix="v"
+        )
     ),
 
     cmake=product_config(
@@ -66,27 +86,6 @@ PRODUCT_CONFIG = Mapping(
         is_source=False,
         url_format="{protocol}://cmake.org/files/v{major_minor}/cmake-"
                    "{version}-{platform}.{extension}"
-    ),
-
-    ninja=product_config(
-        version="1.8.2",
-        name="Ninja",
-        key="ninja",
-        is_tool=True,
-        is_source=False,
-        github_data=github_config(
-            owner="ninja-build",
-            name="ninja",
-            version_prefix="v",
-            asset_data=platform_specific_asset(
-                asset_file="ninja.zip",
-                platform_files=platform_file_config(
-                    darwin="ninja-mac.zip",
-                    windows="ninja-win.zip",
-                    linux="ninja-linux.zip"
-                )
-            )
-        )
     ),
 
     glad=product_config(
@@ -117,32 +116,33 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
-    catch2=product_config(
-        version="2.1.0",
-        name="Catch2",
-        key="catch2",
-        is_tool=False,
-        is_source=True,
+    ninja=product_config(
+        version="1.8.2",
+        name="Ninja",
+        key="ninja",
+        is_tool=True,
+        is_source=False,
         github_data=github_config(
-            owner="catchorg",
-            name="Catch2",
-            asset_data=asset("catch.hpp"),
-            version_prefix="v"
+            owner="ninja-build",
+            name="ninja",
+            version_prefix="v",
+            asset_data=platform_specific_asset(
+                asset_file="ninja.zip",
+                platform_files=platform_file_config(
+                    darwin="ninja-mac.zip",
+                    windows="ninja-win.zip",
+                    linux="ninja-linux.zip"
+                )
+            )
         )
     ),
 
-    clara=product_config(
-        version="1.1.1",
-        name="Clara",
-        key="clara",
+    ode=ode_config(
+        version="0.1.0-dev.1",
+        opengl=Mapping(version=Mapping(major=3, minor=2)),
+        logger_name="ode",
         is_tool=False,
-        is_source=True,
-        github_data=github_config(
-            owner="catchorg",
-            name="Clara",
-            asset_data=asset("clara.hpp"),
-            version_prefix="v"
-        )
+        is_source=True
     ),
 
     sdl=product_config(
