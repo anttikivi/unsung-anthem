@@ -40,6 +40,7 @@ def _build_windows():
 
 
 def _build():
+    product = data.build.products.hayai
     build_dir = workspace.build_dir(product)
     shell.makedirs(build_dir)
     cmake_args = {
