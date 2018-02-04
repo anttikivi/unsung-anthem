@@ -112,6 +112,7 @@ function(SET_UP_COVERAGE TARGET COVERAGE_TARGET)
       ${ODE_INSTALL_PREFIX}/include/*
       ${ODE_INSTALL_PREFIX}/include/glad/*
       ${ODE_INSTALL_PREFIX}/include/GLFW/*
+      ${ODE_INSTALL_PREFIX}/include/hayai/*
       ${ODE_INSTALL_PREFIX}/include/KHR/*
       ${ODE_INSTALL_PREFIX}/include/SDL2/*
       ${ODE_INSTALL_PREFIX}/include/spdlog/*
