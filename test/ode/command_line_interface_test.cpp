@@ -22,7 +22,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "catch.hpp"
+#include <catch.hpp>
 
 #include "ode/command_line_interface.h"
 

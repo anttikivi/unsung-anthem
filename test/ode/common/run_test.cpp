@@ -25,7 +25,9 @@
 
 #define CATCH_CONFIG_RUNNER
 
-#include "catch.hpp"
+#include <catch.hpp>
+
+#include <hayai/hayai.hpp>
 
 namespace ode
 {
@@ -34,6 +36,12 @@ namespace ode
     int run(int argc, char* argv[])
     {
       const int result = Catch::Session().run(argc, argv);
+
+      hayai::ConsoleOutputter console_outputter;
+ 
+      hayai::Benchmarker::AddOutputter(console_outputter);
+      hayai::Benchmarker::RunAllTests();
+
       return result;
     }
   } // namespace test
