@@ -21,11 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#define CATCH_CONFIG_RUNNER
-
-#include "catch.hpp"
-
-#include "ode/logger.h"
+#include "ode/common/run_test.h"
+#include "ode/common/set_up.h"
 
 #include "anthem/logger.h"
 
@@ -39,7 +36,7 @@ int main(int argc, char* argv[])
       "anthem_test_logger",
       anthem::logger_pattern,
       anthem::logger_level);
-  ode::logger = ode::create_logger("ode_test_logger");
-  const int result = Catch::Session().run(argc, argv);
+  ode::test::set_up();
+  const int result = ode::test::run(argc, argv);
   return result < 0xff ? result : 0xff;
 }

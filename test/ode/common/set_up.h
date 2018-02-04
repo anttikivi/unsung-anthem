@@ -1,4 +1,4 @@
-//===------------------------------ main.cpp --------------------*- C++ -*-===//
+//===------------------------------ set_up.h --------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,24 +11,29 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file main.cpp
-/// \brief The main function of the Obliging Ode tests.
+/// \file set_up.h
+/// \brief Declaration of the common set up function of the tests.
 /// \author Antti Kivi
-/// \date 31 January 2018
+/// \date 4 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/common/run_test.h"
-#include "ode/common/set_up.h"
+#ifndef ODE_TEST_COMMON_SET_UP_H
+#define ODE_TEST_COMMON_SET_UP_H
 
-#include <SDL2/SDL.h>
-
-int main(int argc, char* argv[])
+namespace ode
 {
-  ode::test::set_up();
-  const int result = ode::test::run(argc, argv);
-  return result < 0xff ? result : 0xff;
-}
+  namespace test
+  {
+    ///
+    /// \brief Sets up the common dependencies of the tests.
+    ///
+    void set_up();
+
+  } // namespace test
+} // namespace ode
+
+#endif // !ODE_TEST_COMMON_SET_UP_H

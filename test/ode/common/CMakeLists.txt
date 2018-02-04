@@ -8,10 +8,11 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-add_subdirectory(anthem)
-add_subdirectory(gsl)
-add_subdirectory(ode)
+list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/run_test.cpp)
+list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/set_up.cpp)
+
+list(APPEND ODE_TEST_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/run_test.h)
+list(APPEND ODE_TEST_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/set_up.h)
 
 set(ODE_TEST_SOURCES ${ODE_TEST_SOURCES} PARENT_SCOPE)
 set(ODE_TEST_INCLUDES ${ODE_TEST_INCLUDES} PARENT_SCOPE)
-set(ANTHEM_TEST_SOURCES ${ANTHEM_TEST_SOURCES} PARENT_SCOPE)

@@ -145,8 +145,19 @@ include_directories(lib)
 # TODO Should the subdirectories in src be set separately for ode and anthem?
 include_directories(src)
 
+if(BUILD_ODE)
+  if(${ODE_TYPE} STREQUAL test)
+    include_directories(test)
+  endif()
+else()
+  if(${ANTHEM_TYPE} STREQUAL test)
+    include_directories(test)
+  endif()
+endif()
+
 set(ODE_LIB_INCLUDES)
 set(ODE_INCLUDES)
+set(ODE_TEST_INCLUDES)
 set(ODE_TEST_SOURCES)
 set(ODE_SOURCES)
 

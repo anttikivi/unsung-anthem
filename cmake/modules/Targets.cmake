@@ -35,6 +35,7 @@ function(CREATE_ODE_TEST_EXECUTABLE)
   add_executable(${ODE_TEST_NAME}
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
+      ${ODE_TEST_INCLUDES}
       ${ODE_TEST_SOURCES}
       ${ODE_SOURCES})
   target_link_libraries(${ODE_TEST_NAME} ${ODE_LIBRARIES})
@@ -91,6 +92,7 @@ function(CREATE_ANTHEM_TEST_EXECUTABLE)
   add_executable(${ANTHEM_TEST_NAME}
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
+      ${ODE_TEST_INCLUDES}
       ${ODE_TEST_SOURCES}
       ${ODE_SOURCES}
       ${ANTHEM_LIB_INCLUDES}
