@@ -35,8 +35,6 @@ option(ODE_DEVELOPER "Enable developer mode in Obliging Ode" OFF)
 
 option(ANTHEM_DEVELOPER "Enable developer mode in Unsung Anthem" OFF)
 
-option(ODE_LINK_LIBCXX "Option for linking against libc++ and libc++abi" OFF)
-
 option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
 
 option(ODE_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)
@@ -127,11 +125,6 @@ else()
     # Presumably Windows.
     list(APPEND ODE_LIBRARIES "opengl32" "SDL2main" "SDL2")
   endif()
-endif()
-
-if(ODE_LINK_LIBCXX)
-  list(APPEND ODE_LIBRARIES "c++abi")
-  message(STATUS "Linking against libc++ and libc++abi")
 endif()
 
 print_status_plural(ODE_LIBRARIES "libraries")

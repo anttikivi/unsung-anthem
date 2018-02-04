@@ -121,7 +121,6 @@ def construct_call(is_ode=False, lib=False, test=False):
             cmake_call += ["-DCMAKE_CXX_FLAGS=-I{}/include/c++/v1".format(
                 local_root
             )]
-            cmake_call += ["-DODE_LINK_LIBCXX=ON"]
 
     if args.enable_gcov:
         cmake_call += ["-DODE_ENABLE_GCOV=ON"]
