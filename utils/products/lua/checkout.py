@@ -42,7 +42,8 @@ def move_files():
         os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp", subdir),
         workspace.source_dir(product=product)
     )
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    if not platform.system() == "Windows" and not data.build.ci:
+        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
 
 
 def get_dependency():
