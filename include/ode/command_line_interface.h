@@ -70,6 +70,11 @@ namespace ode
     const bool parsed = false;
 
     ///
+    /// \brief Whether or not the help message is shown.
+    ///
+    const bool show_help = false;
+
+    ///
     /// \brief The starting width of the window.
     ///
     const pixel_count window_width = 0_px;

@@ -46,12 +46,14 @@ namespace ode
   {
     ODE_DEBUG("Going to parse {} argument(s)", argc - 1);
 
+    bool show_help_flag = false;
     auto window_width = default_window_width;
     auto window_height = default_window_width;
     auto window_name = std::string{default_window_name};
 
     auto cli
-      = clara::Opt(window_width, "window-width")["--window-width"]
+      = clara::Help(show_help_flag)
+        | clara::Opt(window_width, "window-width")["--window-width"]
         ("The width of the window in pixels")
         | clara::Opt(window_height, "window-height")["--window-height"]
         ("The height of the window in pixels")
@@ -62,10 +64,18 @@ namespace ode
 
     if(!result)
     {
-      std::cerr << "Error in command line: " << result.errorMessage() << std::endl;
+      std::cerr << "Error in command line, '"
+          << result.errorMessage()
+          << "'"
+          << std::endl;
       return arguments{false};
     }
 
-    return arguments{true, window_width, window_height, window_name};
+    return arguments{
+        true,
+        show_help_flag,
+        window_width,
+        window_height,
+        window_name};
   }
 } // namespace ode
