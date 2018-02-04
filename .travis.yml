@@ -25,28 +25,28 @@ matrix:
   #===----------------------------------------------------------------------===#
 
   # Linux: Ubuntu Precise 12.04 C++14 GCC 5
-  - os: linux
-    dist: precise
-    compiler: gcc
-    env:
-    - COMPILER_NAME=gcc
-    - CXX=g++-5
-    - CC=gcc-5
-    - BUILD_PRESET=travis_linux_gcc5_cxx14
-    - ENABLE_COVERAGE=false
-    addons:
-      apt:
-        packages:
-        - g++-5
-        - xorg-dev
-        - libglu1-mesa-dev
-        - build-essential
-        sources: &sources
-        - ubuntu-toolchain-r-test
-        - llvm-toolchain-trusty
-        - llvm-toolchain-trusty-4.0
-        - llvm-toolchain-precise
-        - llvm-toolchain-precise-3.5
+  # - os: linux
+  #   dist: precise
+  #   compiler: gcc
+  #   env:
+  #   - COMPILER_NAME=gcc
+  #   - CXX=g++-5
+  #   - CC=gcc-5
+  #   - BUILD_PRESET=travis_linux_gcc5_cxx14
+  #   - ENABLE_COVERAGE=false
+  #   addons:
+  #     apt:
+  #       packages:
+  #       - g++-5
+  #       - xorg-dev
+  #       - libglu1-mesa-dev
+  #       - build-essential
+  #       sources: &sources
+  #       - ubuntu-toolchain-r-test
+  #       - llvm-toolchain-trusty
+  #       - llvm-toolchain-trusty-4.0
+  #       - llvm-toolchain-precise
+  #       - llvm-toolchain-precise-3.5
 
   # Linux: Ubuntu Trusty 14.04 C++17 GCC 7
   - os: linux
@@ -65,7 +65,13 @@ matrix:
         - xorg-dev
         - libglu1-mesa-dev
         - build-essential
-        sources: *sources
+        sources: &sources
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-trusty
+        - llvm-toolchain-trusty-4.0
+        - llvm-toolchain-precise
+        - llvm-toolchain-precise-3.5
+  #       sources: *sources
 
   # Linux: Ubuntu Trusty 14.04 C++17 GCC 7 + Coverage
   - os: linux
