@@ -105,18 +105,6 @@ TODO
 
 ### Project Options
 
-#### `--llvm`
-
-Download the pre-built LLVM and Clang binaries and use them with the included libc++ to build Unsung Anthem.
-
-#### `--source-llvm`
-
-Build LLVM and Clang from the source and use the built Clang to build Unsung Anthem.
-
-#### `--libc++`
-
-Build libc++ and use the built libc++ with Unsung Anthem. Cannot be used if `--llvm` or `--source-llvm` is enabled.
-
 #### `--build-ninja`
 
 TODO
@@ -246,10 +234,6 @@ Enable assertions in Ode.
 #### `--anthem-assertions`
 
 Enable assertions in Unsung Anthem.
-
-#### `--libcxx-assertions`
-
-Enable assertions in libc++ if it is built.
 
 ### Authentication
 

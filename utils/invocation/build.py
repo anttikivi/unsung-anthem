@@ -36,7 +36,7 @@ def _build_dependencies():
     for key, product in data.build.products.items():
         should_build = reflection.build_call(product, "should_build")
         only_anthem = not args.build_anthem and product.anthem_only
-        if not product.check_if_tool() and should_build and not only_anthem:
+        if not product.is_tool and should_build and not only_anthem:
             diagnostics.trace_head(
                 "Entering the build of {}".format(product.repr)
             )
@@ -60,7 +60,7 @@ def _build_dependencies():
             else:
                 reflection.build_call(product, "do_build")
             diagnostics.debug_ok("{} is now built".format(product.repr))
-        elif not product.check_if_tool() and not should_build:
+        elif not product.is_tool and not should_build:
             diagnostics.trace("{} is not built".format(product.repr))
 
 

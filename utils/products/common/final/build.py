@@ -20,8 +20,6 @@ from build_utils import diagnostics, shell
 
 from products import common, sdl
 
-from products.llvm import libcxxabi
-
 from script_support import data
 
 from script_support.variables import ANTHEM_REPO_NAME
@@ -166,9 +164,4 @@ def do_build(is_ode=False, lib=False, test=False):
             variant = args.anthem_build_variant
         sdl.build.copy_dynamic(
             os.path.join(build_dir, variant)
-        )
-
-    if args.build_llvm or args.build_libcxx:
-        libcxxabi.build.copy_dynamic(
-            os.path.join(data.build.install_root, "bin")
         )

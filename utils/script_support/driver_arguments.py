@@ -81,16 +81,12 @@ def _apply_default_arguments(args):
     if args.anthem_assertions is None:
         args.anthem_assertions = args.assertions
 
-    if args.libcxx_assertions is None:
-        args.libcxx_assertions = args.assertions
-
     if args.std is None:
         args.std = "c++14"
 
-    if args.stdlib is None and args.main_tool == "llvm":
-        args.stdlib = "libc++"
-    if (args.build_llvm or args.build_libcxx) and args.stdlib is None:
-        args.stdlib = "libc++"
+    # TODO
+    # if args.stdlib is None and args.main_tool == "llvm":
+    #     args.stdlib = "libc++"
 
     # Set the default CMake generator.
     if args.cmake_generator is None:
@@ -285,20 +281,6 @@ def create_argument_parser():
     # -------------------------------------------------------------------------
     in_group("Options to select projects")
 
-    option(
-        "--llvm",
-        toggle_true("build_llvm"),
-        help="build LLVM and use the built LLVM")
-    option(
-        "--source-llvm",
-        toggle_true,
-        help="build LLVM from the source instead of downloading the pre-built "
-             "binaries. Implies '--llvm'")
-    option(
-        "--libc++",
-        toggle_true("build_libcxx"),
-        help="build libc++ and use the built library to build the project")
-
     # TODO: Should this be removed and the ninja be built if the script sees it
     # necessary?
     option("--build-ninja", toggle_true, help="build the Ninja tool")
@@ -332,19 +314,21 @@ def create_argument_parser():
     with mutually_exclusive_group():
         set_defaults(std="c++14")
 
-        option("--c++14",
-               store("std"),
-               const="c++14",
-               help="build using the C++14 standard (default is %(default)s)")
-        option("--c++17",
-               store("std"),
-               const="c++17",
-               help="build using the C++17 standard (default is %(default)s)")
-        option("--c++2a",
-               store("std"),
-               const="c++2a",
-               help="build using the next C++ standard (default is "
-                    "%(default)s)")
+        option(
+            "--c++14",
+            store("std"),
+            const="c++14",
+            help="build using the C++14 standard (default is %(default)s)")
+        option(
+            "--c++17",
+            store("std"),
+            const="c++17",
+            help="build using the C++17 standard (default is %(default)s)")
+        option(
+            "--c++2a",
+            store("std"),
+            const="c++2a",
+            help="build using the next C++ standard (default is %(default)s)")
 
     # -------------------------------------------------------------------------
     in_group("Select the C++ standard library")
@@ -483,11 +467,6 @@ def create_argument_parser():
         store,
         const=True,
         help="enable assertions in Unsung Anthem")
-    option(
-        "--libcxx-assertions",
-        store,
-        const=True,
-        help="enable assertions in libc++ if it is built")
 
     # -------------------------------------------------------------------------
     in_group("Authentication options")

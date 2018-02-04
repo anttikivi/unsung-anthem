@@ -98,11 +98,6 @@ def validate_arguments(args):
             )
         )
 
-    if args.build_llvm and args.build_libcxx:
-        exit_rejecting_arguments(
-            "Both LLVM and libc++ cannot be built at the same time"
-        )
-
 
 def clean_delay():
     """
@@ -132,9 +127,6 @@ def set_up_build(args):
     """
     Construct the build data and download the dependencies.
     """
-    if args.source_llvm:
-        args.build_llvm = True
-
     shell.DRY_RUN = args.dry_run
     shell.ECHO_DEFAULT = args.verbose_build
 

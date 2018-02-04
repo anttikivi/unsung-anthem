@@ -63,19 +63,12 @@ def get_product(product, versions):
         )
         reflection.product_checkout_call(product, "get_dependency")
 
-    if "inject_version_info" in product \
-            and product.inject_version_info is not None:
-        product.inject_version_info(versions=versions)
+    if product.is_source:
+        target = SOURCE_TARGET
     else:
-        if product.check_if_source():
-            target = SOURCE_TARGET
-        else:
-            target = data.build.host_target
-        info = {
-            "version": product.version,
-            "targets": [target]
-        }
-        versions[product.key] = info
+        target = data.build.host_target
+    info = {"version": product.version, "targets": [target]}
+    versions[product.key] = info
 
 
 def update():
@@ -94,12 +87,6 @@ def update():
         toolchain = data.build.toolchain
         skip_list = []
 
-        if not args.build_llvm:
-            if not args.build_libcxx:
-                skip_list += ["llvm"]
-            else:
-                skip_list += ["llvm-llvm"]
-
         if not args.build_cmake and toolchain.cmake is not None:
             skip_list += ["cmake"]
 
@@ -108,6 +95,7 @@ def update():
 
         if not args.build_test:
             skip_list += ["catch"]
+            skip_list += ["hayai"]
 
         return skip_list
 
@@ -143,27 +131,18 @@ def update():
                 "downloaded".format(product.repr)
             )
         if not args.clean:
-            if "skip_checkout" in product and product.skip_checkout:
-                diagnostics.trace(
-                    "{} checkout check is done in the checkout process".format(
-                        product.repr
-                    )
-                )
+            if product.is_source:
+                target = SOURCE_TARGET
             else:
-                if product.check_if_source():
-                    target = SOURCE_TARGET
-                else:
-                    target = data.build.host_target
-                # TODO Cross-compile targets
-                if key in versions \
-                        and product.version == versions[key]["version"] \
-                        and target in versions[key]["targets"]:
-                    diagnostics.trace(
-                        "{} should not be re-downloaded, skipping".format(
-                            name
-                        )
-                    )
-                    continue
+                target = data.build.host_target
+            # TODO Cross-compile targets
+            if key in versions \
+                    and product.version == versions[key]["version"] \
+                    and target in versions[key]["targets"]:
+                diagnostics.trace(
+                    "{} should not be re-downloaded, skipping".format(name)
+                )
+                continue
 
         get_product(product=product, versions=versions)
 

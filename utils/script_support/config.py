@@ -18,8 +18,6 @@ import platform
 
 from build_utils.mapping import Mapping
 
-from products import llvm
-
 from .product_config import \
     product_config, \
     version_config, \
@@ -44,37 +42,16 @@ PRODUCT_CONFIG = Mapping(
         version="0.1.0-dev.1",
         opengl=Mapping(version=Mapping(major=3, minor=2)),
         logger_name="ode",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: True
+        is_tool=False,
+        is_source=True
     ),
 
     anthem=anthem_config(
         version="0.1.0-dev.1",
         window_name="Unsung Anthem",
         logger_name="anthem",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: True
-    ),
-
-    llvm=product_config(
-        version="5.0.1",
-        name="LLVM",
-        key="llvm",
-        subprojects=Mapping(
-            llvm="llvm", libcxx="libcxx", libcxxabi="libcxxabi", clang="cfe"
-        ),
-        skip_checkout=True,
-        inject_version_info=llvm.checkout.inject_version_info,
-        check_if_tool=llvm.build.is_tool,
-        check_if_source=llvm.build.is_source,
-        source_format="{protocol}://releases.llvm.org/{version}/{key}-"
-                      "{version}.src.tar.xz",
-        binary_format="{protocol}://releases.llvm.org/{version}/clang+llvm-"
-                      "{version}-{platform}.tar.xz",
-        binary_platforms=Mapping(
-            ubuntu="linux-gnu-ubuntu-16.04",
-            darwin="apple-darwin"
-        )
+        is_tool=False,
+        is_source=True
     ),
 
     cmake=product_config(
@@ -85,8 +62,8 @@ PRODUCT_CONFIG = Mapping(
         ),
         name="CMake",
         key="cmake",
-        check_if_tool=lambda: True,
-        check_if_source=lambda: False,
+        is_tool=True,
+        is_source=False,
         url_format="{protocol}://cmake.org/files/v{major_minor}/cmake-"
                    "{version}-{platform}.{extension}"
     ),
@@ -95,8 +72,8 @@ PRODUCT_CONFIG = Mapping(
         version="1.8.2",
         name="Ninja",
         key="ninja",
-        check_if_tool=lambda: True,
-        check_if_source=lambda: False,
+        is_tool=True,
+        is_source=False,
         github_data=github_config(
             owner="ninja-build",
             name="ninja",
@@ -116,8 +93,8 @@ PRODUCT_CONFIG = Mapping(
         version="0.1.16a0",
         name="glad",
         key="glad",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: True,
+        is_tool=False,
+        is_source=True,
         github_data=github_config(
             owner="Dav1dde",
             name="glad",
@@ -130,8 +107,8 @@ PRODUCT_CONFIG = Mapping(
         version="1.0.1",
         name="hayai",
         key="hayai",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: True,
+        is_tool=False,
+        is_source=True,
         github_data=github_config(
             owner="nickbruun",
             name="hayai",
@@ -144,8 +121,8 @@ PRODUCT_CONFIG = Mapping(
         version="2.1.0",
         name="Catch2",
         key="catch2",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: True,
+        is_tool=False,
+        is_source=True,
         github_data=github_config(
             owner="catchorg",
             name="Catch2",
@@ -158,8 +135,8 @@ PRODUCT_CONFIG = Mapping(
         version="1.1.1",
         name="Clara",
         key="clara",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: True,
+        is_tool=False,
+        is_source=True,
         github_data=github_config(
             owner="catchorg",
             name="Clara",
@@ -172,8 +149,8 @@ PRODUCT_CONFIG = Mapping(
         version="2.0.7",
         name="SDL2",
         key="sdl",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: not platform.system() == "Windows",
+        is_tool=False,
+        is_source=not platform.system() == "Windows",
         url_format="{protocol}://www.libsdl.org/release/"
                    "SDL2-{version}.{extension}",
         windows_format="{protocol}://www.libsdl.org/release/"
@@ -184,8 +161,8 @@ PRODUCT_CONFIG = Mapping(
         version="0.16.3",
         name="spdlog",
         key="spdlog",
-        check_if_tool=lambda: False,
-        check_if_source=lambda: True,
+        is_tool=False,
+        is_source=True,
         build_subdir=os.path.join("include", "spdlog"),
         github_data=github_config(
             owner="gabime",

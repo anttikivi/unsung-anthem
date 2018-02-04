@@ -117,10 +117,11 @@ def construct_call(is_ode=False, lib=False, test=False):
     if data.build.stdlib:
         cmake_call += ["-DODE_STDLIB={}".format(data.build.stdlib)]
 
-    if args.build_llvm or args.build_libcxx:
-        cmake_call += ["-DCMAKE_CXX_FLAGS=-I{}/include/c++/v1".format(
-            local_root)]
-        cmake_call += ["-DODE_LINK_LIBCXX=ON"]
+        if data.build.stdlib == "libc++":
+            cmake_call += ["-DCMAKE_CXX_FLAGS=-I{}/include/c++/v1".format(
+                local_root
+            )]
+            cmake_call += ["-DODE_LINK_LIBCXX=ON"]
 
     if args.enable_gcov:
         cmake_call += ["-DODE_ENABLE_GCOV=ON"]
@@ -144,11 +145,9 @@ def construct_call(is_ode=False, lib=False, test=False):
     if data.build.ci:  # and not platform.system() == "Darwin":
         cmake_call += ["-DODE_MANUAL_SDL=ON"]
 
-    manual_rpath = args.developer_build \
-        and (args.build_llvm or args.build_libcxx)
     manual_rpath_ci = data.build.ci and platform.system() == "Darwin"
 
-    if manual_rpath or manual_rpath_ci:
+    if manual_rpath_ci:
         cmake_call += ["-DODE_SET_RPATH=ON"]
     else:
         cmake_call += ["-DODE_SET_RPATH=OFF"]

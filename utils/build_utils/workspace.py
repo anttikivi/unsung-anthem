@@ -113,7 +113,7 @@ def source_dir(product, subproject=None, name=None):
     created.
     name -- a custom name of the source directory.
     """
-    if product.check_if_source():
+    if product.is_source:
         target = "src"
     else:
         target = data.build.host_target

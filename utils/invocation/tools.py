@@ -37,13 +37,13 @@ def build_tools():
                 "{} is not built as it is only required by Unsung Anthem "
                 "which is not built".format(product.repr)
             )
-        if product.check_if_tool() and should_build and not only_anthem:
+        if product.is_tool and should_build and not only_anthem:
             diagnostics.trace_head(
                 "Entering the build of {}".format(product.repr)
             )
             reflection.build_call(product, "do_build")
             diagnostics.debug_ok("{} is now built".format(product.repr))
-        elif product.check_if_tool() and not should_build:
+        elif product.is_tool and not should_build:
             diagnostics.trace("{} is not built".format(product.repr))
 
     if args.main_tool == "msbuild":
