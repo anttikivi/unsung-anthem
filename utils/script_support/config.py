@@ -126,6 +126,20 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
+    hayai=product_config(
+        version="1.0.1",
+        name="hayai",
+        key="hayai",
+        check_if_tool=lambda: False,
+        check_if_source=lambda: True,
+        github_data=github_config(
+            owner="nickbruun",
+            name="hayai",
+            asset_data=SOURCE_ASSET,
+            version_prefix="v"
+        )
+    ),
+
     catch2=product_config(
         version="2.1.0",
         name="Catch2",
