@@ -60,7 +60,12 @@ namespace ode
         | clara::Opt(window_name, "window-name")["--window-name"]
         ("The name of the game window");
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && \
+    !defined(__CYGWIN__)
     auto result = cli.parse(clara::Args(argc, argv));
+#else
+    auto result = cli.parse(clara::Args(argc, const_cast<char**>(argv)));
+#endif
 
     if(!result)
     {
