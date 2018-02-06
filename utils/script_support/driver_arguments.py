@@ -24,9 +24,7 @@ from . import defaults
 from .variables import ANTHEM_REPO_NAME, ANTHEM_SOURCE_ROOT
 
 
-__all__ = [
-    "create_argument_parser",
-]
+__all__ = ["create_argument_parser"]
 
 
 class _ApplyDefaultsArgumentParser(argparse.ArgumentParser):
