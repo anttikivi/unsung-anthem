@@ -300,7 +300,7 @@ namespace gsl
     void operator[](std::ptrdiff_t) const = delete;
 
     ///
-    /// \brief  Dereference operator on object of class template \c not_null.
+    /// \brief Dereference operator on object of class template \c not_null.
     ///
     /// \return the object pointed by the stored pointer.
     ///
@@ -321,7 +321,6 @@ namespace gsl
     }
 
   private:
-
     ///
     /// \brief Value held by the object.
     ///

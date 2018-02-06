@@ -132,6 +132,8 @@ else()
   endif()
 endif()
 
+list(APPEND ODE_LIBRARIES "lua")
+
 print_status_plural(ODE_LIBRARIES "libraries")
 
 include_directories(${ODE_INSTALL_PREFIX}/include)
