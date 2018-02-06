@@ -23,9 +23,9 @@ from products import common
 from script_support import data
 
 
-def _build_windows():
+def _build_into_source():
     """
-    Do the build of Lua on Windows.
+    Add the Lua source files into the external sources of the product.
     """
     product = data.build.products.lua
     dest = os.path.join(data.build.local_root, "src")
@@ -85,8 +85,8 @@ def do_build():
     """
     product = data.build.products.lua
     common.build.check_source(product)
-    if platform.system() == "Windows":
-        _build_windows()
+    if data.build.lua_in_source:
+        _build_into_source()
     else:
         _build()
 
