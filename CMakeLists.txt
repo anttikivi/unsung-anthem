@@ -88,6 +88,8 @@ endif()
 
 print_status_if_defined(ODE_STDLIB "C++ standard library")
 
+print_status_if_defined(ODE_OPTIMIZATION_LEVEL "the optimization level")
+
 set(ODE_STD)
 set(ANTHEM_STD)
 

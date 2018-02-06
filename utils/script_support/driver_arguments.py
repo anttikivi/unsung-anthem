@@ -337,6 +337,51 @@ def create_argument_parser():
         help="build using the specified C++ standard library implementation")
 
     # -------------------------------------------------------------------------
+    in_group("Select compiler options")
+
+    with mutually_exclusive_group():
+        option(
+            ["-O", "--optimization-level"],
+            store("optimization_level"),
+            help="Set the optimization level (default is %(default)s)")
+        option(
+            "--O0",
+            store("optimization_level"),
+            const="0",
+            help="Set the optimization level to O0 (default is %(default)s)")
+        option(
+            "--O1",
+            store("optimization_level"),
+            const="1",
+            help="Set the optimization level to O1 (default is %(default)s)")
+        option(
+            "--O2",
+            store("optimization_level"),
+            const="2",
+            help="Set the optimization level to O2 (default is %(default)s)")
+        option(
+            "--O3",
+            store("optimization_level"),
+            const="3",
+            help="Set the optimization level to O3 (default is %(default)s)")
+        option(
+            "--Ofast",
+            store("optimization_level"),
+            const="fast",
+            help="Set the optimization level to Ofast (default is "
+                 "%(default)s)")
+        option(
+            "--Os",
+            store("optimization_level"),
+            const="s",
+            help="Set the optimization level to Os (default is %(default)s)")
+        option(
+            "--Oz",
+            store("optimization_level"),
+            const="z",
+            help="Set the optimization level to Oz (default is %(default)s)")
+
+    # -------------------------------------------------------------------------
     in_group("Select the CMake generator")
 
     set_defaults(cmake_generator=defaults.CMAKE_GENERATOR)
@@ -356,14 +401,12 @@ def create_argument_parser():
         store("cmake_generator"),
         const="Xcode",
         help="use CMake's Xcode generator (%(default)s by default)")
-
     option(
         "--visual-studio-14",
         store("cmake_generator"),
         const="Visual Studio 14 2015",
         help="use CMake's Visual Studio 2015 generator (%(default)s by "
              "default)")
-
     option(
         "--visual-studio-15",
         store("cmake_generator"),

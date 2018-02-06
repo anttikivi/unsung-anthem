@@ -122,6 +122,11 @@ def construct_call(is_ode=False, lib=False, test=False):
                 local_root
             )]
 
+    if args.optimization_level:
+        cmake_call += [
+            "-DODE_OPTIMIZATION_LEVEL={}".format(args.optimization_level)
+        ]
+
     if args.enable_gcov:
         cmake_call += ["-DODE_ENABLE_GCOV=ON"]
         cmake_call += ["-DCMAKE_BUILD_TYPE=Coverage"]
