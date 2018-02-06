@@ -24,6 +24,7 @@
 #ifndef ODE_GSL_UTIL
 #define ODE_GSL_UTIL
 
+#include <cstddef>
 #include <exception>
 #include <utility>
 #include <type_traits>
@@ -339,6 +340,13 @@ namespace gsl
 
     return t;
   }
+
+  //===--- index ----------------------------------------------------------===//
+
+  ///
+  /// \brief Type of values which represent an index of a loop.
+  ///
+  using index = std::ptrdiff_t;
 
 } // namespace gsl
 

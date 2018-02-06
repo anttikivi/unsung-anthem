@@ -43,8 +43,9 @@ namespace ode
     /// \return \c true if the variable was moved successfully, otherwise
     /// \c false.
     ///
-    bool
-    to_stack(gsl::not_null<lua_State*> state, const std::string& var) noexcept;
+    bool to_stack(
+        gsl::not_null<lua_State*> state,
+        const std::string& var) noexcept;
   } // namespace lua
 } // namespace ode
 
