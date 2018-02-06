@@ -23,6 +23,25 @@ from products import common
 from script_support import data
 
 
+def _create_cxx_header():
+    cxx_header = os.path.join(data.build.local_root, "include", "lua.hpp")
+    if not os.path.exists(cxx_header):
+        with open(cxx_header, "w+") as outfile:
+            outfile.write("// lua.hpp\n")
+            outfile.write("// Lua header files for C++\n")
+            outfile.write(
+                "// <<extern \"C\">> not supplied automatically because Lua "
+                "also compiles as C++\n"
+            )
+            outfile.write("\n")
+            outfile.write("extern \"C\" {\n")
+            outfile.write("#include \"lua.h\"\n")
+            outfile.write("#include \"lualib.h\"\n")
+            outfile.write("#include \"lauxlib.h\"\n")
+            outfile.write("}\n")
+            outfile.write("")
+
+
 def _build_into_source():
     """
     Add the Lua source files into the external sources of the product.
@@ -54,6 +73,7 @@ def _build_into_source():
                 os.path.join(source_dir, "src", filename),
                 os.path.join(header_dest, filename)
             )
+    _create_cxx_header()
 
 
 def _build():
