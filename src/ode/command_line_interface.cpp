@@ -43,7 +43,7 @@ namespace ode
         << "}";
   }
 
-  arguments parse_arguments(const int argc, args_array argv[]) noexcept
+  arguments parse_arguments(const int argc, argv_array argv[]) noexcept
   {
     ODE_DEBUG("Going to parse {} argument(s)", argc - 1);
 

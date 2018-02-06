@@ -27,7 +27,7 @@
 
 #include <type_traits>
 
-#include "ode/args_array.h"
+#include "ode/argv_array.h"
 #include "ode/types.h"
 
 #include <spdlog/fmt/ostr.h> // This must be included for the custom logger
@@ -143,7 +143,7 @@ namespace ode
   ///
   /// \return An object of class \c arguments.
   ///
-  arguments parse_arguments(const int argc, args_array argv[]) noexcept;
+  arguments parse_arguments(const int argc, argv_array argv[]) noexcept;
 
 } // namespace ode
 

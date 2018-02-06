@@ -29,22 +29,22 @@
 TEST_CASE("the arguments are parsed", "[ode::parse_arguments]")
 {
   const ode::arguments a = {true, false, 555_px, 13_px, std::string{"window"}};
-  ode::args_array argv_b[] = {
+  ode::argv_array argv_b[] = {
       "exe",
       "--window-height=13",
       "--window-width=555",
       "--window-name=window"};
-  ode::args_array argv_c[] = {
+  ode::argv_array argv_c[] = {
       "exe",
       "--window-height=423",
       "--window-width=22"};
-  ode::args_array argv_d[] = {
+  ode::argv_array argv_d[] = {
       "exe",
       "--window-height", "13",
       "--window-width", "555",
       "--window-name", "window"};
-  ode::args_array argv_e[] = {"exe"};
-  ode::args_array argv_f[] = {"exe", "--window-height", "13"};
+  ode::argv_array argv_e[] = {"exe"};
+  ode::argv_array argv_f[] = {"exe", "--window-height", "13"};
   const auto b = ode::parse_arguments(4, argv_b);
   const auto c = ode::parse_arguments(3, argv_c);
   const auto d = ode::parse_arguments(7, argv_d);
@@ -80,7 +80,7 @@ TEST_CASE("the arguments are parsed", "[ode::parse_arguments]")
 TEST_CASE("help argument is set", "[ode::parse_arguments]")
 {
   const ode::arguments a = {true, true};
-  ode::args_array argv_b[] = {"exe", "--help"};
+  ode::argv_array argv_b[] = {"exe", "--help"};
   const auto b = ode::parse_arguments(2, argv_b);
 
   REQUIRE(b.parsed == a.parsed);
@@ -91,7 +91,7 @@ TEST_CASE("help argument is set", "[ode::parse_arguments]")
 TEST_CASE("parse error is caught", "[ode::parse_arguments]")
 {
   const ode::arguments a = {false};
-  ode::args_array argv_b[] = {"exe", "--xd"};
+  ode::argv_array argv_b[] = {"exe", "--xd"};
   const auto b = ode::parse_arguments(2, argv_b);
 
   REQUIRE(b == a);

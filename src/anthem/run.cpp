@@ -35,7 +35,7 @@
 
 namespace anthem
 {
-  int run(int argc, ode::args_array argv[])
+  int run(int argc, ode::argv_array argv[])
   {
     logger = ode::create_logger(logger_name, logger_pattern, logger_level);
 

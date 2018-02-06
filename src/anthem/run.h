@@ -24,7 +24,7 @@
 #ifndef ANTHEM_RUN_H
 #define ANTHEM_RUN_H
 
-#include "ode/args_array.h"
+#include "ode/argv_array.h"
 
 namespace anthem
 {
@@ -39,7 +39,7 @@ namespace anthem
   ///
   /// \return Does not return anything and, thus, this function is impure.
   ///
-  int run(int argc, ode::args_array argv[]);
+  int run(int argc, ode::argv_array argv[]);
 
 } // namespace anthem
 

@@ -32,7 +32,7 @@
 
 namespace ode
 {
-  int execute(int argc, args_array argv[])
+  int execute(int argc, argv_array argv[])
   {
     logger = create_logger(logger_name, logger_pattern, logger_level);
 

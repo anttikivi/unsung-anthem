@@ -24,7 +24,7 @@
 #ifndef ODE_EXECUTE_H
 #define ODE_EXECUTE_H
 
-#include "ode/args_array.h"
+#include "ode/argv_array.h"
 
 namespace ode
 {
@@ -42,7 +42,7 @@ namespace ode
   ///
   /// \return Does not return anything and, thus, this function is impure.
   ///
-  int execute(int argc, args_array argv[]);
+  int execute(int argc, argv_array argv[]);
 
   ///
   /// \brief Creates and initializes the managers for the framework.

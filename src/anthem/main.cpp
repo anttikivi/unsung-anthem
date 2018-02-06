@@ -34,7 +34,7 @@
 ///
 /// \return The end code of the game.
 ///
-int main(int argc, ode::args_array argv[])
+int main(int argc, ode::argv_array argv[])
 {
   const int r = anthem::run(argc, argv);
   return r;
