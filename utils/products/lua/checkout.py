@@ -73,4 +73,5 @@ def get_dependency():
     shell.rm(destination)
     move_files()
 
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    if not platform.system() == "Windows" and not data.build.ci:
+        shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
