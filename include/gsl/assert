@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_GSL_ASSERT
-#define ANTHEM_GSL_ASSERT
+#ifndef ODE_GSL_ASSERT
+#define ODE_GSL_ASSERT
 
 #include <exception>
 #include <stdexcept>
@@ -123,4 +123,4 @@ namespace gsl
 
 #define Ensures(cond) GSL_CONTRACT_CHECK("Postcondition", cond)
 
-#endif // !ANTHEM_GSL_ASSERT
+#endif // !ODE_GSL_ASSERT

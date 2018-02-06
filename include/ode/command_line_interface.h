@@ -103,6 +103,7 @@ namespace ode
   constexpr auto operator==(const arguments& lhs, const arguments& rhs) noexcept
   {
     return lhs.parsed == rhs.parsed &&
+        lhs.show_help == rhs.show_help && 
         lhs.window_width == rhs.window_width &&
         lhs.window_height == rhs.window_height &&
         lhs.window_name == rhs.window_name;

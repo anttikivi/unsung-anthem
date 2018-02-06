@@ -77,7 +77,7 @@ TEST_CASE("the arguments are parsed", "[ode::parse_arguments]")
   INFO("F: " << f);
 }
 
-TEST_CASE("help argument is called", "[ode::parse_arguments]")
+TEST_CASE("help argument is set", "[ode::parse_arguments]")
 {
   const ode::arguments a = {true, true};
   ode::args_array argv_b[] = {"exe", "--help"};

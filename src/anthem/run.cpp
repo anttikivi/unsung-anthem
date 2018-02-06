@@ -21,7 +21,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "run.h"
+#include "anthem/run.h"
 
 #include <cstdlib>
 
@@ -30,7 +30,8 @@
 
 #include "anthem/logger.h"
 
-#include "logging_config.h"
+#include "anthem/config.h"
+#include "anthem/logging_config.h"
 
 namespace anthem
 {
@@ -38,7 +39,7 @@ namespace anthem
   {
     logger = ode::create_logger(logger_name, logger_pattern, logger_level);
 
-    ANTHEM_INFO("The main logger of Unsung Anthem is created");
+    ANTHEM_INFO("The main logger of {} is created", anthem_name);
     ANTHEM_DEBUG(
         "The logger has the name '{}', the pattern '{}', and the level '{}'",
         logger_name,

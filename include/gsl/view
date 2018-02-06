@@ -22,8 +22,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_GSL_VIEW
-#define ANTHEM_GSL_VIEW
+#ifndef ODE_GSL_VIEW
+#define ODE_GSL_VIEW
 
 # include <type_traits>
 
@@ -45,7 +45,7 @@ namespace gsl
   /// \tparam T a pointer type.
   ///
 
-#if ANTHEM_CXX14
+#if ODE_CXX14
 
   template <typename T, typename = std::enable_if_t<std::is_pointer<T>::value>>
   using owner = T;
@@ -55,7 +55,7 @@ namespace gsl
   template <typename T, typename = std::enable_if_t<std::is_pointer_v<T>>>
   using owner = T;
 
-#endif // !ANTHEM_CXX14
+#endif // !ODE_CXX14
 
   //===--- not_null -------------------------------------------------------===//
 
@@ -69,7 +69,7 @@ namespace gsl
   {
   public:
 
-#if ANTHEM_CXX14
+#if ODE_CXX14
 
     static_assert(
         std::is_assignable<T&, std::nullptr_t>::value,
@@ -81,7 +81,7 @@ namespace gsl
         std::is_assignable_v<T&, std::nullptr_t>,
         "T cannot be assigned nullptr.");
 
-#endif // !ANTHEM_CXX14
+#endif // !ODE_CXX14
 
     ///
     /// \brief Constructs an object of type \c not_null.
@@ -92,7 +92,7 @@ namespace gsl
     ///
     /// \param u object to be held by the constructed \c not_null.
     ///
-#if ANTHEM_CXX14
+#if ODE_CXX14
 
     template <
         typename U,
@@ -112,7 +112,7 @@ namespace gsl
       Expects(ptr != nullptr);
     }
 
-#endif // !ANTHEM_CXX14
+#endif // !ODE_CXX14
 
     ///
     /// \brief Constructs an object of type \c not_null which has the same
@@ -134,7 +134,7 @@ namespace gsl
     /// \param o object from which the value is copied into the constructed
     /// object.
     ///
-#if ANTHEM_CXX14
+#if ODE_CXX14
 
     template <
         typename U,
@@ -154,7 +154,7 @@ namespace gsl
 
     }
 
-#endif // !ANTHEM_CXX14
+#endif // !ODE_CXX14
 
     ///
     /// \brief Constructs an object of type \c not_null.
@@ -183,7 +183,7 @@ namespace gsl
     /// \param o object from which the value is moved into the constructed
     /// object.
     ///
-#if ANTHEM_CXX14
+#if ODE_CXX14
 
     template <
         typename U,
@@ -203,7 +203,7 @@ namespace gsl
 
     }
 
-#endif // !ANTHEM_CXX14
+#endif // !ODE_CXX14
 
     ///
     /// \brief Constructs an object of type \c not_null.
@@ -499,4 +499,4 @@ namespace std
 
 #endif // defined(_MSC_VER) && _MSC_VER < 1910
 
-#endif // !ANTHEM_GSL_VIEW
+#endif // !ODE_GSL_VIEW

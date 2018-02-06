@@ -27,7 +27,8 @@
 
 #include "ode/logger.h"
 
-#include "logging_config.h"
+#include "ode/config.h"
+#include "ode/logging_config.h"
 
 namespace ode
 {
@@ -35,7 +36,7 @@ namespace ode
   {
     logger = create_logger(logger_name, logger_pattern, logger_level);
 
-    ODE_INFO("The main logger of Ode is created");
+    ODE_INFO("The main logger of {} is created", ode_name);
     ODE_DEBUG(
         "The logger has the name '{}', the pattern '{}', and the level '{}'",
         logger_name,

@@ -36,6 +36,7 @@ namespace ode
   {
     return os << "{"
         << "parsed:" << std::to_string(a.parsed)
+        << ", show_help:" << std::to_string(a.show_help)
         << ", window_width:" << std::to_string(a.window_width)
         << ", window_height:" << std::to_string(a.window_height)
         << ", window_name:" << a.window_name

@@ -12,7 +12,7 @@
 //
 ///
 /// \file logging_config.h
-/// \brief The declarations and the definitions of the Unsung Anthem
+/// \brief The declarations and the definitions of the Obliging Ode
 /// logger-related constants.
 /// \author Antti Kivi
 /// \date 31 January 2018
