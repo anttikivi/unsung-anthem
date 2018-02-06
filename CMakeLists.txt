@@ -41,6 +41,9 @@ option(ODE_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)
 
 option(ODE_SET_RPATH "Set the rpath to the install directory" OFF)
 
+option(ODE_ADD_LUA_SOURCE
+    "Add Lua source files directly to the Ode sources" OFF)
+
 if(BUILD_ODE)
   assert_variable(ODE_TYPE "Obliging Ode product type" "lib and test")
 else()
@@ -166,6 +169,10 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 set_glad_sources()
+
+if(ODE_ADD_LUA_SOURCE)
+  set_lua_sources()
+endif()
 
 print_status(CMAKE_CXX_FLAGS "compiler flags")
 

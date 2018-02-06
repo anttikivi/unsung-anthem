@@ -23,7 +23,7 @@ from products import common
 from script_support import data
 
 
-def _build_windows():
+def _build_in_source():
     """
     Do the build of SDL on Windows.
     """
@@ -69,8 +69,8 @@ def do_build():
     """
     product = data.build.products.sdl
     common.build.check_source(product)
-    if platform.system() == "Windows":
-        _build_windows()
+    if data.build.lua_in_source:
+        _build_in_source()
     else:
         _build()
 

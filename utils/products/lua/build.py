@@ -28,19 +28,32 @@ def _build_windows():
     Do the build of Lua on Windows.
     """
     product = data.build.products.lua
-    bin_path = os.path.join(data.build.local_root, "lib", "lua.lib")
-    if common.build.binary_exists(product=product, path=bin_path):
-        return
-    build_dir = workspace.build_dir(product)
+    dest = os.path.join(data.build.local_root, "src")
+    if os.path.isdir(dest):
+        for filename in os.listdir(dest):
+            if not filename == "glad.c":
+                shell.rm(os.path.join(dest, filename))
+    else:
+        shell.makedirs(dest)
+    header_dest = os.path.join(data.build.local_root, "include")
+    if os.path.isdir(header_dest):
+        for filename in os.listdir(header_dest):
+            if "lua" in filename and ".h" in filename:
+                shell.rm(os.path.join(header_dest, filename))
+    else:
+        shell.makedirs(header_dest)
     source_dir = workspace.source_dir(product=product)
-    shell.makedirs(build_dir)
-    shell.copytree(source_dir, build_dir)
-    with shell.pushd(build_dir):
-        common.build.make(target="windows")
-        common.build.make(
-            target="install",
-            extra_args="INSTALL_TOP={}".format(data.build.local_root)
-        )
+    for filename in os.listdir(os.path.join(source_dir, "src")):
+        if filename.endswith(".c"):
+            shell.copy(
+                os.path.join(source_dir, "src", filename),
+                os.path.join(dest, filename)
+            )
+        elif filename.endswith(".h"):
+            shell.copy(
+                os.path.join(source_dir, "src", filename),
+                os.path.join(header_dest, filename)
+            )
 
 
 def _build():

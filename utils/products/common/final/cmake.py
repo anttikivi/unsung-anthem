@@ -151,6 +151,11 @@ def construct_call(is_ode=False, lib=False, test=False):
     else:
         cmake_call += ["-DODE_SET_RPATH=OFF"]
 
+    if data.build.lua_in_source:
+        cmake_call += ["-DODE_ADD_LUA_SOURCE=ON"]
+    else:
+        cmake_call += ["-DODE_ADD_LUA_SOURCE=OFF"]
+
     if args.extra_cmake_options:
         cmake_call += args.extra_cmake_options
 

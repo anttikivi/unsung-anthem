@@ -17,6 +17,7 @@ invocation.
 from __future__ import print_function
 
 import os
+import platform
 import sys
 import time
 
@@ -152,7 +153,8 @@ def set_up_build(args):
         std=args.std,
         stdlib=args.stdlib,
         visual_studio=(args.cmake_generator == "Visual Studio 14 2015" or
-                       args.cmake_generator == "Visual Studio 15 2017")
+                       args.cmake_generator == "Visual Studio 15 2017"),
+        lua_in_source=platform.system() == "Windows"
     )
 
     data.build["local_root"] = os.path.join(data.build.build_root, "local")
