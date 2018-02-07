@@ -106,6 +106,7 @@ def invoke():
 
         if platform.system() == "Windows":
             if ode_test:
+                # TODO
                 test_run_dir = os.path.join(
                     ode.build.ode_build_dir(lib=False, test=True),
                     args.ode_build_variant
@@ -129,4 +130,4 @@ def invoke():
                 )
             else:
                 test_executable = os.path.join(test_run_dir, exe_name)
-            shell.caffeinate([test_executable], echo=True)
+            shell.call([test_executable], echo=True)
