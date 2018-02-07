@@ -167,9 +167,17 @@ set(ANTHEM_LIB_SOURCES)
 set(ANTHEM_TEST_SOURCES)
 set(ANTHEM_SOURCES)
 
+set(ODE_TEST_SCRIPTS)
+set(ODE_SCRIPTS)
+
+set(ANTHEM_LIB_SCRIPTS)
+set(ANTHEM_TEST_SCRIPTS)
+set(ANTHEM_SCRIPTS)
+
 add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(src)
+add_subdirectory(script)
 add_subdirectory(test)
 
 set_glad_sources()
@@ -193,6 +201,10 @@ if(BUILD_ODE)
 else()
   add_anthem_installation_target(${ANTHEM_TYPE})
 endif()
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    FILES_MATCHING PATTERN "*.lua")
 
 message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")
 message(STATUS
