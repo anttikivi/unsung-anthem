@@ -166,7 +166,7 @@ def create_argument_parser():
     option(
         "--install-prefix",
         store_path,
-        default=os.path.join(ANTHEM_SOURCE_ROOT, "dest"),
+        default=os.path.join(ANTHEM_SOURCE_ROOT, "local"),
         help="the installation prefix. This is where built Obliging Ode and "
              "Unsung Anthem products (like bin, lib, and include) will be "
              "installed.")
