@@ -116,6 +116,8 @@ print_status(ANTHEM_STD "Unsung Anthem C++ standard")
 set_std_feature_definitions(${ODE_CXX_VERSION})
 set_std_flags(${ODE_STD})
 add_name_definitions()
+add_opengl_definitions()
+add_feature_definitions()
 add_directory_definitions()
 
 set_compiler_flags()

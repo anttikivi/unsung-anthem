@@ -12,11 +12,15 @@ function(ADD_NAME_DEFINITIONS)
   add_definitions(-DODE_LOGGER_NAME="${ODE_LOGGER_NAME}")
   add_definitions(-DANTHEM_LOGGER_NAME="${ANTHEM_LOGGER_NAME}")
   add_definitions(-DANTHEM_WINDOW_NAME="${ANTHEM_WINDOW_NAME}")
+endfunction()
+
+function(ADD_OPENGL_DEFINITIONS)
   add_definitions(-DODE_OPENGL_VERSION_MAJOR=${ODE_OPENGL_VERSION_MAJOR})
   add_definitions(-DODE_OPENGL_VERSION_MINOR=${ODE_OPENGL_VERSION_MINOR})
-
   add_definitions(-DGLFW_INCLUDE_NONE)
+endfunction()
 
+function(ADD_FEATURE_DEFINITIONS)
   if(ODE_DEVELOPER)
     add_definitions(-DODE_DEVELOPER=1)
   else()
