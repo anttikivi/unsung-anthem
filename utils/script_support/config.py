@@ -156,7 +156,7 @@ PRODUCT_CONFIG = Mapping(
 
     sdl=product_config(
         version="2.0.7",
-        name="SDL2",
+        name="Simple DirectMedia Layer",
         key="sdl",
         is_tool=False,
         is_source=not platform.system() == "Windows",
