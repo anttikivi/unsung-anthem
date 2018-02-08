@@ -36,6 +36,24 @@ namespace ode
   constexpr auto ode_name = "Obliging Ode";
 #endif // !defined(ODE_PRODUCT_NAME)
 
+  ///
+  /// \brief The root directory of the game scripts.
+  ///
+#ifdef ODE_SCRIPT_ROOT
+  constexpr auto script_root = ODE_SCRIPT_ROOT;
+#else
+  constexpr auto script_root = "script/ode";
+#endif // !defined(ODE_SCRIPT_ROOT)
+
+  ///
+  /// \brief The root directory of the test scripts.
+  ///
+#ifdef ODE_TEST_SCRIPT_ROOT
+  constexpr auto test_script_root = ODE_TEST_SCRIPT_ROOT;
+#else
+  constexpr auto test_script_root = "script/test/ode";
+#endif // !defined(ODE_TEST_SCRIPT_ROOT)
+
 } // namespace ode
 
 #endif // !ODE_CONFIG_H

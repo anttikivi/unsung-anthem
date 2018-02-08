@@ -26,60 +26,7 @@ from script_support.variables import ANTHEM_REPO_NAME
 
 from . import cmake
 
-
-def ode_build_dir(lib=False, test=False):
-    """
-    Create the directory name for the full build subdirectory of Ode.
-
-    lib -- whether or not the directory name should be created for the
-    libraries binaries.
-    test -- whether or not the directory name should be created for the tests
-    binaries.
-    """
-    product = data.build.products.ode
-    if test:
-        return os.path.join(
-            data.build.build_root, "{}-{}-{}".format(
-                product.key, "test", data.build.host_target
-            )
-        )
-    elif lib:
-        return os.path.join(data.build.build_root, "{}-{}".format(
-            product.key,
-            data.build.host_target
-        ))
-    return os.path.join(data.build.build_root, "{}-{}".format(
-        product.key,
-        data.build.host_target
-    ))
-
-
-def anthem_build_dir(lib=False, test=False):
-    """
-    Create the directory name for the full build subdirectory of Unsung Anthem.
-
-    lib -- whether or not the directory name should be created for the
-    libraries binaries.
-    test -- whether or not the directory name should be created for the tests
-    binaries.
-    """
-    product = data.build.products.anthem
-    if test:
-        return os.path.join(
-            data.build.build_root, "{}-{}-{}".format(
-                product.key, "test", data.build.host_target
-            )
-        )
-    elif lib:
-        return os.path.join(data.build.build_root, "{}-{}-{}".format(
-            product.key,
-            "lib",
-            data.build.host_target
-        ))
-    return os.path.join(data.build.build_root, "{}-{}".format(
-        product.key,
-        data.build.host_target
-    ))
+from .directory import anthem_build_dir, ode_build_dir
 
 
 def do_build(is_ode=False, lib=False, test=False):
@@ -121,6 +68,7 @@ def do_build(is_ode=False, lib=False, test=False):
             common.build.ninja(target="install")
         elif args.cmake_generator == "Unix Makefiles":
             common.build.make()
+            common.build.make(target="install")
             if args.enable_gcov and test:
                 if is_ode:
                     exe_name = args.ode_name
@@ -133,7 +81,6 @@ def do_build(is_ode=False, lib=False, test=False):
                         os.environ["ANTHEM_COVERALLS_REPO_TOKEN"],
                         "{}_coverage.info.cleaned".format(exe_name)
                     ])
-            common.build.make(target="install")
 
         elif data.build.visual_studio:
             msbuild_args = ["anthem.sln"]

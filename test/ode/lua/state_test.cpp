@@ -27,6 +27,8 @@
 
 #include "ode/lua/config.h"
 
+#include "ode/config.h"
+
 #include <catch.hpp>
 
 #include <hayai/hayai.hpp>
@@ -48,18 +50,10 @@ TEST_CASE("Lua state is cleaned", "[ode::lua::clean]")
 
   luaL_openlibs(state);
 
-  const std::string filename = "script/test/ode/state.lua";
+  const std::string filename =
+      std::string{ode::test_script_root} + "/state.lua";
 
   const auto load_error = luaL_loadfile(state, filename.c_str());
-
-  if (0 != load_error)
-  {
-    FAIL(
-        "Failed to load the Lua script: "
-        << filename
-        << ", error code: "
-        << load_error);
-  }
 
   lua_pcall(state, 0, 0, 0);
 
@@ -81,15 +75,8 @@ TEST_CASE("Lua state is cleaned", "[ode::lua::clean]")
         lua_getfield(state, ode::lua::stack_top, current.c_str());
       }
 
-      if (0 != lua_isnil(state, ode::lua::stack_top))
-      {
-        WARN("The top of the Lua stack is null");
-      }
-      else
-      {
-        current = "";
-        index += 1;
-      }
+      current = "";
+      index += 1;
     }
     else
     {
@@ -97,19 +84,7 @@ TEST_CASE("Lua state is cleaned", "[ode::lua::clean]")
     }
   }
 
-  if (0 == index)
-  {
-    lua_getglobal(state, current.c_str());
-  }
-  else
-  {
-    lua_getfield(state, ode::lua::stack_top, current.c_str());
-  }
-
-  if (0 != lua_isnil(state, ode::lua::stack_top))
-  {
-    WARN("The top of the Lua stack is null");
-  }
+  lua_getfield(state, ode::lua::stack_top, current.c_str());
 
   const auto top1 = lua_gettop(state);
 

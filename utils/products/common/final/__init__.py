@@ -9,7 +9,7 @@
 # Licensed under GNU Affero General Public License v3.0
 
 
-from . import build, cmake
+from . import build, cmake, directory
 
 
-__all__ = ["build", "cmake"]
+__all__ = ["build", "cmake", "directory"]

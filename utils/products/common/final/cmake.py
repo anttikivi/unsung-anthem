@@ -22,6 +22,8 @@ from script_support import data
 
 from script_support.variables import ANTHEM_REPO_NAME
 
+from .directory import anthem_build_dir, ode_build_dir
+
 
 def construct_call(is_ode=False, lib=False, test=False):
     """
@@ -49,9 +51,22 @@ def construct_call(is_ode=False, lib=False, test=False):
     else:
         local_root = data.build.local_root
 
+    if is_ode:
+        build_dir = ode_build_dir(lib=lib, test=test)
+    else:
+        build_dir = anthem_build_dir(lib=lib, test=test)
+
+    install_root = data.build.install_root \
+        if not args.enable_gcov \
+        else build_dir
+
     cmake_call += [
-        "-DCMAKE_INSTALL_PREFIX={}".format(data.build.install_root),
+        "-DCMAKE_INSTALL_PREFIX={}".format(install_root),
         "-DODE_INSTALL_PREFIX={}".format(local_root),
+        "-DODE_BIN_DIR_NAME=bin",
+        "-DODE_INCLUDE_DIR_NAME=include",
+        "-DODE_LIB_DIR_NAME=lib",
+        "-DODE_SCRIPT_DIR_NAME=script",
         "-DODE_CXX_VERSION={}".format(data.build.std),
         "-DODE_MAIN_COMPILER_TOOL={}".format(args.main_tool),
         "-DODE_LOGGER_NAME={}".format(ode.logger_name),
@@ -130,8 +145,10 @@ def construct_call(is_ode=False, lib=False, test=False):
     if args.enable_gcov:
         cmake_call += ["-DODE_ENABLE_GCOV=ON"]
         cmake_call += ["-DCMAKE_BUILD_TYPE=Coverage"]
+        cmake_call += ["-DODE_INSTALL_ONLY_SCRIPTS=ON"]
     else:
         cmake_call += ["-DODE_ENABLE_GCOV=OFF"]
+        cmake_call += ["-DODE_INSTALL_ONLY_SCRIPTS=OFF"]
         if is_ode:
             cmake_call += ["-DCMAKE_BUILD_TYPE={}".format(
                 args.ode_build_variant

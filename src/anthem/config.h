@@ -36,6 +36,24 @@ namespace anthem
   constexpr auto anthem_name = "Unsung Anthem";
 #endif // !defined(ANTHEM_PRODUCT_NAME)
 
+  ///
+  /// \brief The root directory of the game scripts.
+  ///
+#ifdef ANTHEM_SCRIPT_ROOT
+  constexpr auto script_root = ANTHEM_SCRIPT_ROOT;
+#else
+  constexpr auto script_root = "script/anthem";
+#endif // !defined(ANTHEM_SCRIPT_ROOT)
+
+  ///
+  /// \brief The root directory of the test scripts.
+  ///
+#ifdef ANTHEM_TEST_SCRIPT_ROOT
+  constexpr auto test_script_root = ANTHEM_TEST_SCRIPT_ROOT;
+#else
+  constexpr auto test_script_root = "script/test/anthem";
+#endif // !defined(ANTHEM_TEST_SCRIPT_ROOT)
+
 } // namespace anthem
 
 #endif // !ANTHEM_CONFIG_H

@@ -44,6 +44,8 @@ option(ODE_SET_RPATH "Set the rpath to the install directory" OFF)
 option(ODE_ADD_LUA_SOURCE
     "Add Lua source files directly to the Ode sources" OFF)
 
+option(ODE_INSTALL_ONLY_SCRIPTS "Install only the scripts" OFF)
+
 if(BUILD_ODE)
   assert_variable(ODE_TYPE "Obliging Ode product type" "lib and test")
 else()
@@ -58,6 +60,19 @@ assert_variable(ODE_MAIN_COMPILER_TOOL
     "llvm, gcc, and msbuild")
 
 assert_variable(ODE_INSTALL_PREFIX "dependency installation directory")
+
+assert_variable(ODE_BIN_DIR_NAME "name of the binary installation directory")
+assert_variable(ODE_INCLUDE_DIR_NAME
+    "name of the include installation directory")
+assert_variable(ODE_LIB_DIR_NAME "name of the library installation directory")
+assert_variable(ODE_SCRIPT_DIR_NAME 
+    "name of the script installation directory")
+
+set(ODE_LIB_SCRIPT_DIR_NAME "${ODE_SCRIPT_DIR_NAME}/lib")
+set(ODE_TEST_SCRIPT_DIR_NAME "${ODE_SCRIPT_DIR_NAME}/test")
+
+print_status(ODE_LIB_SCRIPT_DIR_NAME "library script installation directory")
+print_status(ODE_TEST_SCRIPT_DIR_NAME "test script installation directory")
 
 assert_variable(ODE_OPENGL_VERSION_MAJOR "OpenGL major version")
 assert_variable(ODE_OPENGL_VERSION_MINOR "OpenGL minor version")
@@ -101,6 +116,7 @@ print_status(ANTHEM_STD "Unsung Anthem C++ standard")
 set_std_feature_definitions(${ODE_CXX_VERSION})
 set_std_flags(${ODE_STD})
 add_name_definitions()
+add_directory_definitions()
 
 set_compiler_flags()
 
@@ -201,10 +217,6 @@ if(BUILD_ODE)
 else()
   add_anthem_installation_target(${ANTHEM_TYPE})
 endif()
-
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-    FILES_MATCHING PATTERN "*.lua")
 
 message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")
 message(STATUS
