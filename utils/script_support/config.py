@@ -47,7 +47,7 @@ PRODUCT_CONFIG = Mapping(
     ),
 
     catch2=product_config(
-        version="2.1.0",
+        version="2.1.1",
         name="Catch2",
         key="catch2",
         is_tool=False,
