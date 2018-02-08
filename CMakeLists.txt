@@ -150,7 +150,9 @@ else()
   endif()
 endif()
 
-list(APPEND ODE_LIBRARIES "lua")
+if(NOT ODE_ADD_LUA_SOURCE)
+  list(APPEND ODE_LIBRARIES "lua")
+endif()
 
 print_status_plural(ODE_LIBRARIES "libraries")
 
