@@ -37,7 +37,7 @@ namespace ode
     ///
     /// \brief The type of a pointer to an object of Lua state.
     ///
-    using state_ptr = std::unique_ptr<lua_State, decltype(*lua_close)>;
+    using state_ptr = std::unique_ptr<lua_State, decltype(&lua_close)>;
 
     ///
     /// \brief Makes a new Lua state.

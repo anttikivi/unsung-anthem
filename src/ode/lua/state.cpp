@@ -30,9 +30,9 @@ namespace ode
     state_ptr make_state() noexcept
     {
 #if ODE_NO_BRACED_INIT_LIST
-      return state_ptr(luaL_newstate(), lua_close);
+      return state_ptr(luaL_newstate(), &lua_close);
 #else
-      return state_ptr{luaL_newstate(), lua_close};
+      return state_ptr{luaL_newstate(), &lua_close};
 #endif // !ODE_NO_BRACED_INIT_LIST
     }
 
