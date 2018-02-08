@@ -118,16 +118,17 @@ def invoke():
                 )
         else:
             test_run_dir = os.path.join(data.build.install_root, "bin")
-        with shell.pushd(test_run_dir):
-            if ode_test:
-                exe_name = args.ode_test_name
-            else:
-                exe_name = args.anthem_test_name
-            if platform.system() == "Windows":
-                test_executable = os.path.join(
-                    test_run_dir,
-                    "{}.exe".format(exe_name)
-                )
-            else:
-                test_executable = os.path.join(test_run_dir, exe_name)
-            shell.call([test_executable], echo=True)
+        if not args.enable_gcov:
+            with shell.pushd(test_run_dir):
+                if ode_test:
+                    exe_name = args.ode_test_name
+                else:
+                    exe_name = args.anthem_test_name
+                if platform.system() == "Windows":
+                    test_executable = os.path.join(
+                        test_run_dir,
+                        "{}.exe".format(exe_name)
+                    )
+                else:
+                    test_executable = os.path.join(test_run_dir, exe_name)
+                shell.call([test_executable], echo=True)
