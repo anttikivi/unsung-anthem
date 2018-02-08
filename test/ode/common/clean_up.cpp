@@ -33,6 +33,9 @@ namespace ode
     {
       lua_close(lua_state_script);
       lua_close(lua_state_stack);
+
+      lua_state_script = nullptr;
+      lua_state_stack = nullptr;
     }
   } // namespace test
 } // namespace ode

@@ -36,6 +36,20 @@ namespace ode
   ///
   using logger_t = std::shared_ptr<spdlog::logger>;
 
+  namespace detail
+  {
+    ///
+    /// \brief Creates a shared pointer to an object of the logger type.
+    ///
+    /// \param name the name of the logger.
+    /// \param sink the sink to be used in the logger.
+    ///
+    /// \return an \c std::shared_ptr<spdlog::logger>.
+    ///
+    logger_t make_logger(const std::string& name, const spdlog::sink_ptr sink);
+
+  } // namespace detail
+
   ///
   /// \brief Creates a shared pointer to an object of the logger type provided
   /// by spdlog.
@@ -43,13 +57,15 @@ namespace ode
   /// \param name the name of the logger.
   /// \param pattern the formatting pattern of the logger.
   /// \param level the logging level of the logger.
+  /// \param sink the sink to be used in the logger.
   ///
   /// \return an \c std::shared_ptr<spdlog::logger>.
   ///
   logger_t create_logger(
       const std::string& name,
       const std::string& pattern = "NONE",
-      const spdlog::level::level_enum level = spdlog::level::trace);
+      const spdlog::level::level_enum level = spdlog::level::trace,
+      const spdlog::sink_ptr sink = nullptr);
 
   // Logging methods which take the logger as a parameter.
   namespace logging

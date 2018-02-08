@@ -26,8 +26,11 @@
 #include "ode/logger.h"
 
 #include "ode/config.h"
+#include "ode/logging_config.h"
 
 #include "ode/common/lua_state.h"
+
+#include <spdlog/sinks/null_sink.h>
 
 namespace ode
 {
@@ -35,7 +38,13 @@ namespace ode
   {
     void set_up()
     {
-      ode::logger = ode::create_logger("ode_test_logger");
+      auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
+
+      ode::logger = ode::create_logger(
+          "ode_test_logger",
+          ode::logger_pattern,
+          ode::logger_level,
+          null_sink);
 
       lua_state_script = luaL_newstate();
       lua_state_stack = luaL_newstate();
