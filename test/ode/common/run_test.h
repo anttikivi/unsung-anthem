@@ -1,4 +1,4 @@
-//===------------------------------- run.h ----------------------*- C++ -*-===//
+//===----------------------------- run_test.h -------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file run.h
+/// \file run_test.h
 /// \brief Declaration of the common running function of the tests.
 /// \author Antti Kivi
 /// \date 4 February 2018

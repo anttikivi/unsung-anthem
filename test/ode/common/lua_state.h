@@ -1,4 +1,4 @@
-//===----------------------------- set_up.cpp -------------------*- C++ -*-===//
+//===---------------------------- lua_state.h -------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,31 +11,30 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file set_up.cpp
-/// \brief Definition of the common set up function of the tests.
+/// \file lua_state.h
+/// \brief Declaration of the common Lua state for the tests.
 /// \author Antti Kivi
-/// \date 4 February 2018
+/// \date 8 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/common/set_up.h"
+#ifndef ODE_TEST_COMMON_LUA_STATE_H
+#define ODE_TEST_COMMON_LUA_STATE_H
 
-#include "ode/logger.h"
-
-#include "ode/common/lua_state.h"
+#include <lua.hpp>
 
 namespace ode
 {
   namespace test
   {
-    void set_up()
-    {
-      ode::logger = ode::create_logger("ode_test_logger");
-
-      lua_state = luaL_newstate();
-    }
+    ///
+    /// \brief Pointer to the common Lua state of the tests.
+    ///
+    extern lua_State* lua_state;
   } // namespace test
 } // namespace ode
+
+#endif // !ODE_TEST_COMMON_LUA_STATE_H

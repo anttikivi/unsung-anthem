@@ -21,6 +21,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "ode/common/clean_up.h"
 #include "ode/common/run_test.h"
 #include "ode/common/set_up.h"
 
@@ -30,5 +31,6 @@ int main(int argc, char* argv[])
 {
   ode::test::set_up();
   const int result = ode::test::run(argc, argv);
+  ode::test::clean_up();
   return result < 0xff ? result : 0xff;
 }

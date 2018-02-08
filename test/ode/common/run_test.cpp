@@ -1,4 +1,4 @@
-//===------------------------------ run.cpp ---------------------*- C++ -*-===//
+//===---------------------------- run_test.cpp ------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file run.cpp
+/// \file run_test.cpp
 /// \brief Definition of the common running function of the tests.
 /// \author Antti Kivi
 /// \date 4 February 2018
@@ -21,7 +21,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "run_test.h"
+#include "ode/common/run_test.h"
 
 #define CATCH_CONFIG_RUNNER
 
