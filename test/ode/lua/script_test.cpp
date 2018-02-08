@@ -59,3 +59,13 @@ BENCHMARK(ode, lua_load_script_file, 10, 1000)
 
   ode::lua::load_script_file(ode::test::lua_state_script, filename.c_str());
 }
+
+BENCHMARK(ode, lua_load_script_file_no_log, 10, 1000)
+{
+  const std::string filename = 
+      std::string{ode::test_script_root} + "/script.lua";
+
+  ode::lua::test::load_script_file_no_log(
+      ode::test::lua_state_script,
+      filename.c_str());
+}

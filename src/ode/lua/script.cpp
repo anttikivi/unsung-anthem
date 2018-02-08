@@ -33,21 +33,52 @@ namespace ode
   {
     int load_script_file(
         gsl::not_null<lua_State*> state,
-        const std::string& filename)
+        const std::string& filename) noexcept
     {
       const auto load_error = luaL_loadfile(state, filename.c_str());
 
       if (0 != load_error)
       {
         ODE_ERROR(
-          "Failed to load the Lua script: {}, error code: {}",
-          filename,
-          load_error);
+            "Failed to load the Lua script: {}, error code: {}",
+            filename,
+            load_error);
       }
 
-      lua_pcall(state, 0, 0, 0);
+      ODE_TRACE(
+          "The script '{}' is loaded with code {}",
+          filename,
+          load_error);
+
+      const auto call_error = lua_pcall(state, 0, 0, 0);
+
+      ODE_TRACE("The script '{}' is called with code {}",
+          filename,
+          call_error);
 
       return load_error;
     }
+
+    namespace test
+    {
+      int load_script_file_no_log(
+          gsl::not_null<lua_State*> state,
+          const std::string& filename) noexcept
+      {
+        const auto load_error = luaL_loadfile(state, filename.c_str());
+
+        if (0 != load_error)
+        {
+          ODE_ERROR(
+              "Failed to load the Lua script: {}, error code: {}",
+              filename,
+              load_error);
+        }
+
+        const auto call_error = lua_pcall(state, 0, 0, 0);
+
+        return load_error;
+      }
+    } // namespace test
   } // namespace lua
 } // namespace ode

@@ -44,7 +44,14 @@ namespace ode
     ///
     int load_script_file(
         gsl::not_null<lua_State*> state,
-        const std::string& filename);
+        const std::string& filename) noexcept;
+
+    namespace test
+    {
+      int load_script_file_no_log(
+          gsl::not_null<lua_State*> state,
+          const std::string& filename) noexcept;
+    } // namespace test
   } // namespace lua
 } // namespace ode
 
