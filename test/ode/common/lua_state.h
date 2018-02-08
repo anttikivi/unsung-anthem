@@ -31,9 +31,14 @@ namespace ode
   namespace test
   {
     ///
-    /// \brief Pointer to the common Lua state of the tests.
+    /// \brief Pointer to the common Lua state of the script tests.
     ///
-    extern lua_State* lua_state;
+    extern lua_State* lua_state_script;
+
+    ///
+    /// \brief Pointer to the common Lua state of the stack tests.
+    ///
+    extern lua_State* lua_state_stack;
   } // namespace test
 } // namespace ode
 

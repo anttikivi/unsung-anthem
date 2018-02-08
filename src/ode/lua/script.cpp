@@ -45,6 +45,8 @@ namespace ode
           load_error);
       }
 
+      lua_pcall(state, 0, 0, 0);
+
       return load_error;
     }
   } // namespace lua

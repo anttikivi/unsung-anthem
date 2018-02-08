@@ -25,6 +25,8 @@
 
 #include "ode/logger.h"
 
+#include "ode/config.h"
+
 #include "ode/common/lua_state.h"
 
 namespace ode
@@ -35,7 +37,14 @@ namespace ode
     {
       ode::logger = ode::create_logger("ode_test_logger");
 
-      lua_state = luaL_newstate();
+      lua_state_script = luaL_newstate();
+      lua_state_stack = luaL_newstate();
+
+      const std::string filename_stack = 
+          std::string{ode::test_script_root} + "/stack.lua";
+
+      luaL_loadfile(lua_state_stack, filename_stack.c_str());
+      lua_pcall(lua_state_stack, 0, 0, 0);
     }
   } // namespace test
 } // namespace ode

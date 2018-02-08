@@ -31,7 +31,8 @@ namespace ode
   {
     void clean_up()
     {
-      lua_close(lua_state);
+      lua_close(lua_state_script);
+      lua_close(lua_state_stack);
     }
   } // namespace test
 } // namespace ode

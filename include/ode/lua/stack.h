@@ -46,6 +46,14 @@ namespace ode
     bool to_stack(
         gsl::not_null<lua_State*> state,
         const std::string& var) noexcept;
+
+    namespace test
+    {
+      bool to_stack_no_log(
+          gsl::not_null<lua_State*> state,
+          const std::string& var) noexcept;
+
+    } // namespace test
   } // namespace lua
 } // namespace ode
 

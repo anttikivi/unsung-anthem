@@ -49,7 +49,7 @@ namespace ode
   logger_t create_logger(
       const std::string& name,
       const std::string& pattern = "NONE",
-      const spdlog::level::level_enum level = spdlog::level::info);
+      const spdlog::level::level_enum level = spdlog::level::trace);
 
   // Logging methods which take the logger as a parameter.
   namespace logging

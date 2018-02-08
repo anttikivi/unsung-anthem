@@ -52,10 +52,10 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
   REQUIRE_FALSE(0 == error_code);
 }
 
-BENCHMARK(ode, lua_load_script_file, 10, 1000)
+BENCHMARK(ode, lua_load_script_file, 10, 10)
 {
   const std::string filename = 
       std::string{ode::test_script_root} + "/script.lua";
 
-  ode::lua::load_script_file(ode::test::lua_state, filename.c_str());
+  ode::lua::load_script_file(ode::test::lua_state_script, filename.c_str());
 }
