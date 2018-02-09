@@ -23,7 +23,7 @@ from products import common
 from script_support import data
 
 
-def _build_windows():
+def _build_simple():
     product = data.build.products.hayai
     source_dir = workspace.source_dir(product)
     include_dir = workspace.include_file(path=product.key)
@@ -66,9 +66,9 @@ def do_build():
     if common.build.binary_exists(product=product, path=bin_path):
         return
     if platform.system() == "Windows":
-        _build_windows()
+        _build_simple()
     else:
-        _build()
+        _build_simple()  # _build()
 
 
 def should_build():
