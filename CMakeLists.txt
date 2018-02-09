@@ -140,6 +140,10 @@ if(UNIX)
     # set(ODE_LIBRARIES ${ODE_LIBRARIES} SDL2main SDL2 pthread)
     list(APPEND ODE_LIBRARIES "dl" "pthread")
   endif()
+
+  include_directories(/usr/include)
+  include_directories(/usr/include/c++/v1)
+  include_directories(/usr/local/include)
 else()
   if(WIN32)
     # Presumably Windows.
