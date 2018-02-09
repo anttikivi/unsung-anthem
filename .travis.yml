@@ -188,7 +188,7 @@ install:
 - ${CXX} --version
 - pip install --user requests
 - if [ "${ENABLE_COVERAGE}" == "true" ]; then gem install coveralls-lcov; fi
-- cd usr/lib
+- cd /usr/lib
 - find . -name * -print
 
 script:

@@ -210,7 +210,7 @@ jobs:
     - run: ${CXX} --version
     - run: pip install --user requests
     - run: |
-        cd usr/lib
+        cd /usr/lib
         find . -name * -print
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
