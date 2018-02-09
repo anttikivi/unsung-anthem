@@ -91,14 +91,6 @@ def validate_arguments(args):
             )
         )
 
-    if not args.main_tool == "llvm" and not args.main_tool == "gcc" \
-            and not args.main_tool == "msbuild":
-        exit_rejecting_arguments(
-            "The main tool is set to an invalid value: {}".format(
-                args.main_tool
-            )
-        )
-
 
 def clean_delay():
     """
@@ -135,11 +127,6 @@ def set_up_build(args):
 
     if args.build_subdir is None:
         args.build_subdir = workspace.compute_build_subdir(args)
-
-    diagnostics.note("The main tool is set to {}".format(args.main_tool))
-    diagnostics.note(
-        "The main tool version is set to {}".format(args.main_tool_version)
-    )
 
     validate_arguments(args)
 

@@ -46,12 +46,6 @@ def build_tools():
         elif product.is_tool and not should_build:
             diagnostics.trace("{} is not built".format(product.repr))
 
-    if args.main_tool == "msbuild":
-        if not toolchain.cc:
-            toolchain.cc = toolchain.msbuild
-        if not toolchain.cxx:
-            toolchain.cxx = toolchain.msbuild
-
     diagnostics.fine("The Ode library name is set to {}".format(args.ode_name))
     diagnostics.fine(
         "The Ode test executable name is set to {}".format(args.ode_test_name)

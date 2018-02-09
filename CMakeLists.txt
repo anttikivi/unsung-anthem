@@ -55,9 +55,6 @@ endif()
 assert_variable(ODE_CXX_VERSION
     "C++ standard version"
     "c++2a, c++17, c++14, and c++latest")
-assert_variable(ODE_MAIN_COMPILER_TOOL
-    "main tool for the Obliging Ode build"
-    "llvm, gcc, and msbuild")
 
 assert_variable(ODE_INSTALL_PREFIX "dependency installation directory")
 

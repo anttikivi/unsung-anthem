@@ -10,14 +10,13 @@
 
 function(SET_STD_FLAGS STD)
 
-  if (${ODE_MAIN_COMPILER_TOOL} STREQUAL msbuild)
+  if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:${STD}")
   else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${STD}")
   endif()
 
-  if (DEFINED ODE_STDLIB
-      AND NOT ${ODE_MAIN_COMPILER_TOOL} STREQUAL msbuild)
+  if (DEFINED ODE_STDLIB AND NOT WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=${ODE_STDLIB}")
   endif()
 

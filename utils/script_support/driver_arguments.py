@@ -82,10 +82,6 @@ def _apply_default_arguments(args):
     if args.std is None:
         args.std = "c++14"
 
-    # TODO
-    # if args.stdlib is None and args.main_tool == "llvm":
-    #     args.stdlib = "libc++"
-
     # Set the default CMake generator.
     if args.cmake_generator is None:
         args.cmake_generator = "Ninja"
@@ -236,19 +232,6 @@ def create_argument_parser():
         help="pass through extra options to CMake in the form of comma "
              "separated options '-DCMAKE_VAR1=YES,-DCMAKE_VAR2=/tmp'. Can be "
              "called multiple times to add multiple such options")
-
-    option(
-        "--main-tool",
-        store,
-        default="llvm",
-        help="the name of the main tool to be looked by the script. The "
-             "default is llvm")
-    option(
-        "--main-tool-version",
-        store,
-        default="default",
-        help="the version of the main tool which will be used in the lookup "
-             "of the tool")
 
     option(
         ["-v", "--verbose-build"],

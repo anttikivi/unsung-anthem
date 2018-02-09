@@ -68,7 +68,6 @@ def construct_call(is_ode=False, lib=False, test=False):
         "-DODE_LIB_DIR_NAME=lib",
         "-DODE_SCRIPT_DIR_NAME=script",
         "-DODE_CXX_VERSION={}".format(data.build.std),
-        "-DODE_MAIN_COMPILER_TOOL={}".format(args.main_tool),
         "-DODE_LOGGER_NAME={}".format(ode.logger_name),
         "-DODE_WINDOW_NAME={}".format("ode_window"),
         "-DODE_OPENGL_VERSION_MAJOR={}".format(ode.opengl.version.major),

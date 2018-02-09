@@ -25,6 +25,8 @@ from build_utils.where import where
 
 from build_utils.which import which
 
+from script_support import data
+
 
 def register_tools(args):
     """
@@ -34,27 +36,14 @@ def register_tools(args):
     """
     tools = Mapping()
     sys = platform.system()
-    if args.main_tool == "llvm":
-        if sys == "Windows":
-            tools.cc = "clang-cl"
-            tools.cxx = "clang-cl"
-        else:
-            if args.main_tool_version == "default":
-                tools.cc = "clang"
-                tools.cxx = "clang++"
-            else:
-                tools.cc = "clang-{}".format(args.main_tool_version)
-                tools.cxx = "clang++-{}".format(args.main_tool_version)
-    elif args.main_tool == "gcc":
-        if args.main_tool_version == "default":
-            tools.cc = "gcc"
-            tools.cxx = "g++"
-        else:
-            tools.cc = "gcc-{}".format(args.main_tool_version)
-            tools.cxx = "g++-{}".format(args.main_tool_version)
-    elif args.main_tool == "msbuild":
-        tools.cc = "msbuild"
-        tools.cxx = "msbuild"
+    if sys == "Windows":
+        tools.clang = "clang-cl"
+        tools.clangxx = "clang-cl"
+    else:
+        tools.clang = "clang"
+        tools.clangxx = "clang++"
+    tools.gcc = "gcc"
+    tools.gxx = "g++"
     tools.msbuild = "msbuild"
     tools.ninja = "ninja"
     tools.cmake = "cmake"
@@ -63,12 +52,13 @@ def register_tools(args):
     return tools
 
 
-def find_tools(tools, func):
+def find_tools(tools, func, default_tool="clang"):
     """
     Find the executables of the given tools.
 
     tools -- the names of the tools to look for.
     func -- the function which is used for the lookup.
+    default_tool -- the name of the default tool to be set to CC and CXX.
     """
     tool_mapping = Mapping()
     for key, name in tools.items():
@@ -76,6 +66,26 @@ def find_tools(tools, func):
         found = func(cmd=name)
         diagnostics.debug_ok("Found {}".format(found))
         tool_mapping[key] = found
+    if default_tool == "clang" or default_tool == "llvm":
+        tool_mapping["cc"] = tool_mapping.clang
+        tool_mapping["cxx"] = tool_mapping.clangxx
+        if tool_mapping.cc is None:
+            tool_mapping["cc"] = tool_mapping.gcc
+            tool_mapping["cxx"] = tool_mapping.gxx
+    elif default_tool == "gcc":
+        tool_mapping["cc"] = tool_mapping.gcc
+        tool_mapping["cxx"] = tool_mapping.gxx
+        if tool_mapping.cc is None:
+            tool_mapping["cc"] = tool_mapping.clang
+            tool_mapping["cxx"] = tool_mapping.clangxx
+    elif default_tool == "msbuild":
+        tool_mapping["cc"] = tool_mapping.msbuild
+        tool_mapping["cxx"] = tool_mapping.msbuild
+    if data.build.args.enable_gcov:
+        tool_mapping["cc"] = tool_mapping.gcc
+        tool_mapping["cxx"] = tool_mapping.gxx
+    if tool_mapping.cc is None:
+            diagnostics.fatal("CC and CXX are not found")
     return tool_mapping
 
 
@@ -143,7 +153,7 @@ def windows(tools):
         if found is not None:
             return found.replace("/c/", "C:\\").replace("/", "\\")
         return found
-    return find_tools(tools=tools, func=_find)
+    return find_tools(tools=tools, func=_find, default_tool="msbuild")
 
 
 def host_toolchain(args, xcrun_toolchain="default"):

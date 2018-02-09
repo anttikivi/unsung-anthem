@@ -77,14 +77,6 @@ The minimum target version for deployment binaries for macOS.
 
 Pass through extra options to the final CMake call in the form of comma separated options: '-DCMAKE_VAR1=YES,-DCMAKE_VAR2=/tmp'. This option can be called multiple times to append the list of the options to be passed.
 
-#### `--main-tool NAME`
-
-The toolchain name that will be used to build Unsung Anthem. The currently supported options are llvm, gcc, and msbuild. The default is llvm. TODO Windows default
-
-#### `--main-tool-version VERSION`
-
-The possible, specific version of the toolchain for the automatic lookup on the platform.
-
 #### `--print-debug`
 
 TODO
