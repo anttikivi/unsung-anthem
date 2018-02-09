@@ -124,6 +124,8 @@ set(ANTHEM_LIBRARIES)
 
 if(UNIX)
 
+  list(APPEND ODE_LIBRARIES "c++")
+
   find_library(SDL2_LIBRARY SDL2)
 
   assert_variable(SDL2_LIBRARY "SDL2 libraries")
