@@ -210,6 +210,9 @@ jobs:
     - run: ${CXX} --version
     - run: pip install --user requests
     - run: |
+        cd usr/lib
+        find . -name * -print
+    - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script --preset ${BUILD_PRESET}
 

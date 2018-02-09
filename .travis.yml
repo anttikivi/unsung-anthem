@@ -188,6 +188,8 @@ install:
 - ${CXX} --version
 - pip install --user requests
 - if [ "${ENABLE_COVERAGE}" == "true" ]; then gem install coveralls-lcov; fi
+- cd usr/lib
+- find . -name * -print
 
 script:
 - cd $TRAVIS_BUILD_DIR/..
