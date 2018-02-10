@@ -22,9 +22,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include <catch.hpp>
-
 #include "ode/command_line_interface.h"
+
+#include <catch.hpp>
 
 TEST_CASE("the arguments are parsed", "[ode::parse_arguments]")
 {

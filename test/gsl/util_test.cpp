@@ -22,9 +22,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include <catch.hpp>
-
 #include "gsl/util"
+
+#include <catch.hpp>
 
 TEST_CASE(
     "the Callable is invoked at the end of the scope",

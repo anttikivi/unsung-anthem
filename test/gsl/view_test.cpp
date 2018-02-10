@@ -22,11 +22,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include <catch.hpp>
-
 #include <iostream>
 
 #include "gsl/view"
+
+#include <catch.hpp>
 
 TEST_CASE("is equal to pointer", "[gsl::owner]")
 {
