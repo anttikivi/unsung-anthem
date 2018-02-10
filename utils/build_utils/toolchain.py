@@ -17,15 +17,13 @@ import platform
 
 from functools import partial
 
-from build_utils import diagnostics, xcrun
-
-from build_utils.mapping import Mapping
-
-from build_utils.where import where
-
-from build_utils.which import which
-
 from script_support import data
+
+from . import diagnostics, xcrun
+
+from .mapping import Mapping
+
+from .which import where, which
 
 
 def register_tools(args):

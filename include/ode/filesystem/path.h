@@ -39,6 +39,12 @@ namespace ode
 #else
       constexpr char preferred_separator = '/';
 #endif // !_WIN32
+
+      ///
+      /// \brief Creates a path for the current system.
+      ///
+      /// \param source the path with 
+      // std::string path(const std::string& source);
     } // namespace path
   } // namespace filesystem
 } // namespace ode

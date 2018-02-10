@@ -13,4 +13,4 @@ The support module of the Unsung Anthem build script.
 """
 
 
-__all__ = ["diagnostics", "targets", "where", "which", "xcrun"]
+__all__ = ["diagnostics", "targets", "toolchain", "where", "which", "xcrun"]

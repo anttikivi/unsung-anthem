@@ -20,7 +20,9 @@ import requests
 
 from build_utils import diagnostics
 
-from script_support import config, data
+from script_support import data
+
+from script_support.defaults import GITHUB_API_V4_ENDPOINT
 
 from script_support.variables import SCRIPT_DIR
 
@@ -66,7 +68,7 @@ def call_query(file_name, replacements=None):
     query = json.dumps({"query": raw_query})
 
     response = requests.post(
-        url=config.GITHUB_API_V4_ENDPOINT,
+        url=GITHUB_API_V4_ENDPOINT,
         data=query,
         headers={
             "User-Agent": "venturesomestone",
