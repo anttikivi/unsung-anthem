@@ -61,9 +61,17 @@ TODO
 
 The absolute path to the C compiler on the host platform. The compiler is used for building Unsung Anthem and its dependencies. The default is auto-detected.
 
+#### `--search-cc PATH`
+
+TODO
+
 #### `--host-cxx PATH`
 
 The absolute path to the C++ compiler on the host platform. The compiler is used for building Unsung Anthem and its dependencies. The default is auto-detected.
+
+#### `--search-cxx PATH`
+
+TODO
 
 #### `--anthem-version MAJOR.MINOR.PATCH`
 

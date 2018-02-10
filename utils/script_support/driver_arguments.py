@@ -194,16 +194,29 @@ def create_argument_parser():
         help="the absolute path to MSBuild for the host platform. Default is "
              "auto detected")
 
-    option(
-        "--host-cc",
-        store_path(executable=True),
-        help="the absolute path to CC, the C compiler for the host platform. "
-             "Default is auto detected")
-    option(
-        "--host-cxx",
-        store_path(executable=True),
-        help="the absolute path to CXX, the C++ compiler for the host "
-             "platform. Default is auto detected")
+    with mutually_exclusive_group():
+        option(
+            "--host-cc",
+            store_path(executable=True),
+            help="the absolute path to CC, the C compiler for the host "
+                 "platform. Default is auto detected")
+        option(
+            "--search-cc",
+            store,
+            help="the name of the C compiler of the host platform to be set "
+                 "to CC. Default is auto detected")
+
+    with mutually_exclusive_group():
+        option(
+            "--host-cxx",
+            store_path(executable=True),
+            help="the absolute path to CXX, the C++ compiler for the host "
+                 "platform. Default is auto detected")
+        option(
+            "--search-cxx",
+            store,
+            help="the name of the C++ compiler of the host platform to be set "
+                 "to CXX. Default is auto detected")
 
     option(
         "--ode-version",

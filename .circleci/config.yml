@@ -209,8 +209,6 @@ jobs:
     - run: ${CC} --version
     - run: ${CXX} --version
     - run: pip install --user requests
-    - run: find /usr/lib -type f
-    - run: find /usr/include -type f
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script --preset ${BUILD_PRESET}
