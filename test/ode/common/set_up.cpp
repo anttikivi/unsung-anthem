@@ -48,12 +48,20 @@ namespace ode
 
       lua_state_script = luaL_newstate();
       lua_state_stack = luaL_newstate();
+      lua_state_vm = luaL_newstate();
 
       const std::string filename_stack = 
           std::string{ode::test_script_root} + "/stack.lua";
 
       luaL_loadfile(lua_state_stack, filename_stack.c_str());
       lua_pcall(lua_state_stack, 0, 0, 0);
+
+      const std::string filename_vm = 
+          std::string{ode::test_script_root}
+          + "/virtual_machine_benchmark.lua";
+
+      luaL_loadfile(lua_state_vm, filename_vm.c_str());
+      lua_pcall(lua_state_vm, 0, 0, 0);
     }
   } // namespace test
 } // namespace ode

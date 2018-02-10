@@ -39,6 +39,11 @@ namespace ode
     /// \brief Pointer to the common Lua state of the stack tests.
     ///
     extern lua_State* lua_state_stack;
+
+    ///
+    /// \brief Pointer to the common Lua state of the virtual machine tests.
+    ///
+    extern lua_State* lua_state_vm;
   } // namespace test
 } // namespace ode
 

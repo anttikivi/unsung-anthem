@@ -86,6 +86,14 @@ namespace ode
         }
         return std::string{lua_tostring(state, stack_top)};
       }
+
+      template <typename T> T get_default() {
+        return 0;
+      }
+
+      template <> inline std::string get_default<std::string>() {
+        return "null";
+      }
     } // namespace detail
 
     ///
@@ -109,7 +117,7 @@ namespace ode
       }
       else
       {
-        // TODO
+        ret = detail::get_default<T>();
       }
 
       clean(state);
