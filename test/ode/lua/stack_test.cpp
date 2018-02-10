@@ -29,7 +29,9 @@
 
 #include <catch.hpp>
 
-#include <hayai/hayai.hpp>
+#if ODE_TEST_BENCHMARKING
+# include <hayai/hayai.hpp>
+#endif // ODE_TEST_BENCHMARKING
 
 TEST_CASE("Lua variable is set to stack", "[ode::lua::to_stack]")
 {
@@ -53,6 +55,8 @@ TEST_CASE("Lua variable is set to stack", "[ode::lua::to_stack]")
   lua_close(state);
 }
 
+#if ODE_TEST_BENCHMARKING
+
 BENCHMARK(ode, lua_to_stack, 10, 1000)
 {
   ode::lua::to_stack(ode::test::lua_state_stack, "testing.lua.stack");
@@ -66,3 +70,5 @@ BENCHMARK(ode, lua_to_stack_no_log, 10, 1000)
       "testing.lua.stack");
   lua_pop(ode::test::lua_state_stack, lua_gettop(ode::test::lua_state_stack));
 }
+
+#endif // ODE_TEST_BENCHMARKING

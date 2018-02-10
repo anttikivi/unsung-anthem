@@ -27,7 +27,9 @@
 
 #include <catch.hpp>
 
-#include <hayai/hayai.hpp>
+#if ODE_TEST_BENCHMARKING
+# include <hayai/hayai.hpp>
+#endif // ODE_TEST_BENCHMARKING
 
 namespace ode
 {
@@ -37,10 +39,14 @@ namespace ode
     {
       const int result = Catch::Session().run(argc, argv);
 
+#if ODE_TEST_BENCHMARKING
+
       hayai::ConsoleOutputter console_outputter;
  
       hayai::Benchmarker::AddOutputter(console_outputter);
       hayai::Benchmarker::RunAllTests();
+
+#endif // ODE_TEST_BENCHMARKING
 
       return result;
     }

@@ -31,7 +31,9 @@
 
 #include <catch.hpp>
 
-#include <hayai/hayai.hpp>
+#if ODE_TEST_BENCHMARKING
+# include <hayai/hayai.hpp>
+#endif // ODE_TEST_BENCHMARKING
 
 TEST_CASE("Lua state is created", "[ode::lua::make_state]")
 {
@@ -101,9 +103,13 @@ TEST_CASE("Lua state is cleaned", "[ode::lua::clean]")
   state = nullptr;
 }
 
+#if ODE_TEST_BENCHMARKING
+
 BENCHMARK(ode, lua_make_state, 10, 1000)
 {
   {
     auto state = ode::lua::make_state();
   }
 }
+
+#endif // ODE_TEST_BENCHMARKING

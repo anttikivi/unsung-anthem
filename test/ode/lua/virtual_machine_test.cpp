@@ -31,7 +31,9 @@
 
 #include <catch.hpp>
 
-#include <hayai/hayai.hpp>
+#if ODE_TEST_BENCHMARKING
+# include <hayai/hayai.hpp>
+#endif // ODE_TEST_BENCHMARKING
 
 TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
 {
@@ -76,6 +78,8 @@ TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
 
   state = nullptr;
 }
+
+#if ODE_TEST_BENCHMARKING
 
 BENCHMARK(ode, lua_get_str, 100, 1000)
 {
@@ -166,3 +170,5 @@ BENCHMARK(ode, lua_get_table_bool, 100, 1000)
 {
   const auto b = ode::lua::get<bool>(ode::test::lua_state_vm, "table.boolean");
 }
+
+#endif // ODE_TEST_BENCHMARKING

@@ -75,4 +75,4 @@ def should_build():
     """
     Check whether this product should be built.
     """
-    return data.build.args.build_test
+    return data.build.args.build_test and data.build.args.developer_build

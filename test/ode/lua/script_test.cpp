@@ -31,7 +31,9 @@
 
 #include <catch.hpp>
 
-#include <hayai/hayai.hpp>
+#if ODE_TEST_BENCHMARKING
+# include <hayai/hayai.hpp>
+#endif // ODE_TEST_BENCHMARKING
 
 TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
 {
@@ -52,6 +54,8 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
   REQUIRE_FALSE(0 == error_code);
 }
 
+#if ODE_TEST_BENCHMARKING
+
 BENCHMARK(ode, lua_load_script_file, 10, 1000)
 {
   const std::string filename = 
@@ -69,3 +73,5 @@ BENCHMARK(ode, lua_load_script_file_no_log, 10, 1000)
       ode::test::lua_state_script,
       filename.c_str());
 }
+
+#endif // ODE_TEST_BENCHMARKING
