@@ -35,7 +35,7 @@ namespace ode
       /// current system.
       ///
 #if _WIN32
-      constexpr wchar_t preferred_separator = L'\\';
+      constexpr char preferred_separator = '\\';
 #else
       constexpr char preferred_separator = '/';
 #endif // !_WIN32
