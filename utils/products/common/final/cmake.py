@@ -131,11 +131,6 @@ def construct_call(is_ode=False, lib=False, test=False):
     if data.build.stdlib:
         cmake_call += ["-DODE_STDLIB={}".format(data.build.stdlib)]
 
-        # if data.build.stdlib == "libc++":
-        #     cmake_call += ["-DCMAKE_CXX_FLAGS=-I{}/include/c++/v1".format(
-        #         local_root
-        #     )]
-
     if args.optimization_level:
         cmake_call += [
             "-DODE_OPTIMIZATION_LEVEL={}".format(args.optimization_level)
