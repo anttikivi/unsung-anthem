@@ -23,6 +23,7 @@ def build_tools():
     """
     Builds the tools necessary for the build invocation.
     """
+    diagnostics.debug_head("Starting the tool setup phase")
     args = data.build.args
     toolchain = data.build.toolchain
 
@@ -81,3 +82,5 @@ def build_tools():
         diagnostics.fine(
             "The C++ standard library is {}".format(data.build.stdlib)
         )
+
+    diagnostics.debug_head("Tool setup phase is done")

@@ -68,6 +68,7 @@ def invoke():
     """
     Build Unsung Anthem and its dependencies.
     """
+    diagnostics.debug_head("Starting the build phase")
     args = data.build.args
 
     _build_dependencies()
@@ -132,3 +133,5 @@ def invoke():
                 else:
                     test_executable = os.path.join(test_run_dir, exe_name)
                 shell.call([test_executable], echo=True)
+
+    diagnostics.debug_head("Build phase is done")

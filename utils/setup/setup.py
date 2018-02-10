@@ -99,19 +99,19 @@ def clean_delay():
     """
     def _impl_write(index):
         sys.stdout.write(
-            diagnostics.WARNING + "\b{!s}".format(index) + diagnostics.ENDC
+            diagnostics.RED + "\b{!s}".format(index) + diagnostics.ENDC
         )
         sys.stdout.flush()
         time.sleep(1)
         return index
 
     sys.stdout.write(
-        diagnostics.WARNING + "Starting a clean build in  " + diagnostics.ENDC
+        diagnostics.RED + "Starting a clean build in  " + diagnostics.ENDC
     )
 
     index_list = [_impl_write(i) for i in reversed(range(0, 4))]
 
-    print(diagnostics.WARNING + "\b\b\b\bnow." + diagnostics.ENDC)
+    print(diagnostics.RED + "\b\b\b\bnow." + diagnostics.ENDC)
 
     return index_list
 
@@ -124,9 +124,16 @@ def set_up_build(args):
     shell.ECHO_DEFAULT = args.verbose_build
 
     diagnostics.VERBOSE = args.verbose_build
+    diagnostics.DEBUG = args.verbose_build
+
+    diagnostics.debug_head("Starting the setup phase")
 
     if args.build_subdir is None:
         args.build_subdir = workspace.compute_build_subdir(args)
+
+    diagnostics.trace(
+        "The build subdirectory is set to {}".format(args.build_subdir)
+    )
 
     validate_arguments(args)
 
@@ -178,3 +185,5 @@ def set_up_build(args):
         data.build["github_token"] = str(os.environ["ANTHEM_OAUTH"])
 
     data.build.connection_protocol = config.PROTOCOL
+
+    diagnostics.debug_head("Setup phase is done")

@@ -75,6 +75,7 @@ def update():
     """
     Update the checkout.
     """
+    diagnostics.debug_head("Starting the checkout phase")
     args = data.build.args
 
     if os.path.isfile(CHECKOUT_FILE):
@@ -153,3 +154,5 @@ def update():
         write_version_file(versions)
 
     write_version_file(versions)
+
+    diagnostics.debug_head("Checkout phase is done")
