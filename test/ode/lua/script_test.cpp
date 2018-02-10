@@ -50,6 +50,7 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
   REQUIRE_FALSE(LUA_ERRSYNTAX == error_code);
   REQUIRE_FALSE(LUA_ERRMEM == error_code);
   REQUIRE_FALSE(LUA_ERRGCMM == error_code);
+  REQUIRE_FALSE(LUA_ERRFILE == error_code);
   REQUIRE(LUA_OK == error_code);
 
   const std::string filename2 = 
@@ -62,6 +63,7 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
   REQUIRE_FALSE(LUA_ERRSYNTAX == error_code);
   REQUIRE_FALSE(LUA_ERRMEM == error_code);
   REQUIRE_FALSE(LUA_ERRGCMM == error_code);
+  REQUIRE_FALSE(LUA_ERRFILE == error_code);
   REQUIRE(LUA_OK == error_code);
 }
 
