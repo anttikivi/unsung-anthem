@@ -47,7 +47,10 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
 
   auto error_code = ode::lua::load_script_file(state.get(), filename1.c_str());
 
-  REQUIRE(0 == error_code);
+  REQUIRE_FALSE(LUA_ERRSYNTAX == error_code);
+  REQUIRE_FALSE(LUA_ERRMEM == error_code);
+  REQUIRE_FALSE(LUA_ERRGCMM == error_code);
+  REQUIRE(LUA_OK == error_code);
 
   const std::string filename2 = 
       std::string{ode::test_script_root}
@@ -56,7 +59,10 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
 
   error_code = ode::lua::load_script_file(state.get(), filename2.c_str());
 
-  REQUIRE_FALSE(0 == error_code);
+  REQUIRE_FALSE(LUA_ERRSYNTAX == error_code);
+  REQUIRE_FALSE(LUA_ERRMEM == error_code);
+  REQUIRE_FALSE(LUA_ERRGCMM == error_code);
+  REQUIRE(LUA_OK == error_code);
 }
 
 #if ODE_TEST_BENCHMARKING
