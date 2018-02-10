@@ -23,6 +23,8 @@
 
 #include "ode/lua/stack.h"
 
+#include "ode/filesystem/path.h"
+
 #include "ode/config.h"
 
 #include "ode/common/lua_state.h"
@@ -38,7 +40,9 @@ TEST_CASE("Lua variable is set to stack", "[ode::lua::to_stack]")
   lua_State* state = luaL_newstate();
 
   const std::string filename = 
-      std::string{ode::test_script_root} + "/stack.lua";
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "stack.lua";
 
   luaL_openlibs(state);
 

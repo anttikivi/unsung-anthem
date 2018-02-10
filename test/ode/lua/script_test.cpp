@@ -23,6 +23,7 @@
 
 #include "ode/lua/script.h"
 
+#include "ode/filesystem/path.h"
 #include "ode/lua/state.h"
 
 #include "ode/config.h"
@@ -40,14 +41,18 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
   auto state = ode::lua::make_state();
 
   const std::string filename1 = 
-      std::string{ode::test_script_root} + "/script.lua";
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "script.lua";
 
   auto error_code = ode::lua::load_script_file(state.get(), filename1.c_str());
 
   REQUIRE(0 == error_code);
 
   const std::string filename2 = 
-      std::string{ode::test_script_root} + "/not_script.lua";
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "not_script.lua";
 
   error_code = ode::lua::load_script_file(state.get(), filename2.c_str());
 
@@ -59,7 +64,9 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
 BENCHMARK(ode, lua_load_script_file, 10, 1000)
 {
   const std::string filename = 
-      std::string{ode::test_script_root} + "/script.lua";
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "script.lua";
 
   ode::lua::load_script_file(ode::test::lua_state_script, filename.c_str());
 }
@@ -67,7 +74,9 @@ BENCHMARK(ode, lua_load_script_file, 10, 1000)
 BENCHMARK(ode, lua_load_script_file_no_log, 10, 1000)
 {
   const std::string filename = 
-      std::string{ode::test_script_root} + "/script.lua";
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "script.lua";
 
   ode::lua::test::load_script_file_no_log(
       ode::test::lua_state_script,

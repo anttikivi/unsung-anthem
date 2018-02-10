@@ -25,6 +25,8 @@
 
 #include "gsl/util"
 
+#include "ode/filesystem/path.h"
+
 #include "ode/config.h"
 
 #include "ode/common/lua_state.h"
@@ -42,7 +44,9 @@ TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
   luaL_openlibs(state);
 
   const std::string filename =
-      std::string{ode::test_script_root} + "/virtual_machine.lua";
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine.lua";
 
   const auto load_error = luaL_loadfile(state, filename.c_str());
 

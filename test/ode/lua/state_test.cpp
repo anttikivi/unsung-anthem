@@ -25,6 +25,7 @@
 
 #include "gsl/util"
 
+#include "ode/filesystem/path.h"
 #include "ode/lua/config.h"
 
 #include "ode/config.h"
@@ -53,7 +54,9 @@ TEST_CASE("Lua state is cleaned", "[ode::lua::clean]")
   luaL_openlibs(state);
 
   const std::string filename =
-      std::string{ode::test_script_root} + "/state.lua";
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "state.lua";
 
   const auto load_error = luaL_loadfile(state, filename.c_str());
 
