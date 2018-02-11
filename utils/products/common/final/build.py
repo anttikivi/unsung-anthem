@@ -16,7 +16,7 @@ The support module containing the utilities for Ode and Unsung Anthem builds.
 import os
 import platform
 
-from build_utils import diagnostics, shell
+from build_utils import diagnostics, shell, workspace
 
 from products import common, sdl
 
@@ -98,7 +98,14 @@ def do_build(is_ode=False, lib=False, test=False):
                 msbuild_args += ["/property:Platform=Win32"]
 
             common.build.msbuild(args=msbuild_args)
-            common.build.msbuild(args=msbuild_args, target="Install")
+            source_dir = workspace.source_dir(
+                product=anthem,
+                name=ANTHEM_REPO_NAME
+            )
+            shell.copytree(
+                os.path.join(source_dir, "script"),
+                os.path.join(build_dir, "script")
+            )
 
     if data.build.ci and platform.system() == "Darwin":
         sdl.build.copy_dynamic(
