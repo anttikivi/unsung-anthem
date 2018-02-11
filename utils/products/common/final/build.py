@@ -102,6 +102,7 @@ def do_build(is_ode=False, lib=False, test=False):
                 product=anthem,
                 name=ANTHEM_REPO_NAME
             )
+            shell.rmtree(os.path.join(build_dir, "script"))
             shell.copytree(
                 os.path.join(source_dir, "script"),
                 os.path.join(build_dir, "script")
