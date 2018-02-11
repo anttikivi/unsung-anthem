@@ -98,6 +98,7 @@ def do_build(is_ode=False, lib=False, test=False):
                 msbuild_args += ["/property:Platform=Win32"]
 
             common.build.msbuild(args=msbuild_args)
+            common.build.msbuild(args=msbuild_args, target="Install")
 
     if data.build.ci and platform.system() == "Darwin":
         sdl.build.copy_dynamic(

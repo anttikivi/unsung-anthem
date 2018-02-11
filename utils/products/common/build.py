@@ -143,17 +143,20 @@ def make(target=None, extra_args=None, env=None):
     shell.call(call, env=env)
 
 
-def msbuild(args, env=None, dry_run=None, echo=False):
+def msbuild(args, target=None, env=None, dry_run=None, echo=False):
     """
     Call MSBuild.
 
     args -- the MSBuild arguments.
+    target -- the MSBuild target.
     env -- custom environment variables of the command.
     dry_run -- whether or not to command is only printed.
     echo -- whether or not the command is echoed before the execution.
     """
     call_command = [data.build.toolchain.msbuild]
     call_command += args
+    if target:
+        call_command += ["/target:{}".format(target)]
     shell.call(call_command, env=env, dry_run=dry_run, echo=echo)
 
 
