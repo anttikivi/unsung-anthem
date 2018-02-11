@@ -32,7 +32,7 @@ namespace ode
   namespace lua
   {
     int load_script_file(
-        gsl::not_null<lua_State*> state,
+        const gsl::not_null<lua_State*> state,
         const std::string& filename) noexcept
     {
       const auto load_error = luaL_loadfile(state, filename.c_str());
@@ -62,7 +62,7 @@ namespace ode
     namespace test
     {
       int load_script_file_no_log(
-          gsl::not_null<lua_State*> state,
+          const gsl::not_null<lua_State*> state,
           const std::string& filename) noexcept
       {
         const auto load_error = luaL_loadfile(state, filename.c_str());

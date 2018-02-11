@@ -33,7 +33,7 @@ namespace ode
   namespace lua
   {
     bool to_stack(
-        gsl::not_null<lua_State*> state,
+        const gsl::not_null<lua_State*> state,
         const std::string& var) noexcept
     {
       int index = 0;
@@ -95,22 +95,24 @@ namespace ode
 
     namespace detail
     {
-      void push(gsl::not_null<lua_State*> state, bool b)
+      void push(const gsl::not_null<lua_State*> state, bool b) noexcept
       {
         lua_pushboolean(state, b);
       }
 
-      void push(gsl::not_null<lua_State*> state, float f)
+      void push(const gsl::not_null<lua_State*> state, float f) noexcept
       {
         lua_pushnumber(state, f);
       }
 
-      void push(gsl::not_null<lua_State*> state, int i)
+      void push(const gsl::not_null<lua_State*> state, int i) noexcept
       {
         lua_pushinteger(state, i);
       }
 
-      void push(gsl::not_null<lua_State*> state, const std::string& s)
+      void push(
+          const gsl::not_null<lua_State*> state,
+          const std::string& s) noexcept
       {
         // TODO Consider storing the pointer returned by ‘lua_pushstring’
         lua_pushstring(state, s.c_str());
@@ -120,7 +122,7 @@ namespace ode
     namespace test
     {
       bool to_stack_no_log(
-          gsl::not_null<lua_State*> state,
+          const gsl::not_null<lua_State*> state,
           const std::string& var) noexcept
       {
         int index = 0;

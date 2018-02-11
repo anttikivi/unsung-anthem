@@ -44,11 +44,11 @@ namespace ode
   {
     namespace detail
     {
-      template <typename T> T get_default() {
+      template <typename T> T get_default() noexcept {
         return 0;
       }
 
-      template <> inline std::string get_default<std::string>() {
+      template <> inline std::string get_default<std::string>() noexcept {
         return "null";
       }
     } // namespace detail
@@ -63,7 +63,8 @@ namespace ode
     ///
     /// \return the value on the top of the stack.
     ///
-    template <typename T> T read(gsl::not_null<lua_State*> state, const int index) noexcept
+    template <typename T>
+    T read(const gsl::not_null<lua_State*> state, const int index) noexcept
     {
       return 0;
     }
@@ -77,7 +78,8 @@ namespace ode
     ///
     /// \return the value on the top of the stack.
     ///
-    template <typename T> T read(gsl::not_null<lua_State*> state) noexcept
+    template <typename T>
+    T read(const gsl::not_null<lua_State*> state) noexcept
     {
       return read<T>(state, stack_top);
     }
@@ -92,8 +94,9 @@ namespace ode
     ///
     /// \return the value of the variable.
     ///
-    template <typename T>
-    T get(gsl::not_null<lua_State*> state, const std::string& var) noexcept
+    template <typename T> T get(
+        const gsl::not_null<lua_State*> state,
+        const std::string& var) noexcept
     {
       T ret;
 
@@ -113,30 +116,30 @@ namespace ode
 
     namespace detail
     {
-      template <std::size_t, typename... Ts> struct pop
+      template <std::size_t, typename... Types> struct pop
       {
-        using type = std::tuple<Ts...>;
+        using type = std::tuple<Types...>;
 
         template <typename T> static std::tuple<T> worker(
-            gsl::not_null<lua_State*> state,
-            const int index)
+            const gsl::not_null<lua_State*> state,
+            const int index) noexcept
         {
           return std::make_tuple(read<T>(state, index));
         }
 
         template <typename T1, typename T2, typename... Rest>
         static std::tuple<T1, T2, Rest...> worker(
-            gsl::not_null<lua_State*> state,
-            const int index)
+            const gsl::not_null<lua_State*> state,
+            const int index) noexcept
         {
           std::tuple<T1> head = std::make_tuple(read<T1>(state, index));
           return std::tuple_cat(head, worker<T2, Rest...>(state, index + 1));
         }
 
-        static type apply(gsl::not_null<lua_State*> state)
+        static type apply(const gsl::not_null<lua_State*> state) noexcept
         {
-          auto ret = worker<Ts...>(state, 1);
-          lua_pop(state, sizeof...(Ts));
+          auto ret = worker<Types...>(state, 1);
+          lua_pop(state, sizeof...(Types));
           return ret;
         }
       };
@@ -145,7 +148,7 @@ namespace ode
       {
         using type = T;
 
-        static type apply(gsl::not_null<lua_State*> state)
+        static type apply(const gsl::not_null<lua_State*> state) noexcept
         {
           T ret = read<T>(state);
           lua_pop(state, 1);
@@ -153,30 +156,30 @@ namespace ode
         }
       };
 
-      template <typename... Ts> struct pop<0, Ts...>
+      template <typename... Types> struct pop<0, Types...>
       {
         using type = void;
 
-        static type apply(gsl::not_null<lua_State*> state)
+        static type apply(const gsl::not_null<lua_State*> state) noexcept
         {
 
         }
       };
 
-      template <typename... Ts>
-      using pop_t = typename pop<sizeof...(Ts), Ts...>::type;
+      template <typename... Types>
+      using pop_t = typename pop<sizeof...(Types), Types...>::type;
 
-      template <typename... Ts>
-      pop_t<Ts...> pop_value(gsl::not_null<lua_State*> state)
+      template <typename... Types>
+      pop_t<Types...> pop_value(const gsl::not_null<lua_State*> state) noexcept
       {
-        return pop<sizeof...(Ts), Ts...>::apply(state);
+        return pop<sizeof...(Types), Types...>::apply(state);
       }
     } // namespace detail
 
     ///
     /// \brief Calls a Lua function.
     ///
-    /// \tparam Ts the types of the return values.
+    /// \tparam Types the types of the return values.
     /// \tparam Args the types of the function parameters.
     ///
     /// \param state the Lua state.
@@ -185,35 +188,35 @@ namespace ode
     ///
     /// \return the return value of the Lua function.
     ///
-    template <typename... Ts, typename... Args>
-    detail::pop_t<Ts...> call(
-        gsl::not_null<lua_State*> state,
+    template <typename... Types, typename... Args>
+    detail::pop_t<Types...> call(
+        const gsl::not_null<lua_State*> state,
         const std::string& name,
-        Args&&... args)
+        Args&&... args) noexcept
     {
       to_stack(state, name);
 
-      const int n_ret = sizeof...(Ts);
+      const int n_ret = sizeof...(Types);
       const int n_args = sizeof...(Args);
 
       push(state, std::forward<Args>(args)...);
 
       lua_call(state, n_args, n_ret);
 
-      return detail::pop_value<Ts...>(state);
+      return detail::pop_value<Types...>(state);
     }
   } // namespace lua
 } // namespace ode
 
 template <> inline bool ode::lua::read<bool>(
-    gsl::not_null<lua_State*> state,
+    const gsl::not_null<lua_State*> state,
     const int index) noexcept
 {
   return static_cast<bool>(lua_toboolean(state, index));
 }
 
 template <> inline float ode::lua::read<float>(
-    gsl::not_null<lua_State*> state,
+    const gsl::not_null<lua_State*> state,
     const int index) noexcept
 {
   if (0 == lua_isnumber(state, index))
@@ -224,7 +227,7 @@ template <> inline float ode::lua::read<float>(
 }
 
 template <> inline int ode::lua::read<int>(
-    gsl::not_null<lua_State*> state,
+    const gsl::not_null<lua_State*> state,
     const int index) noexcept
 {
   if (0 == lua_isnumber(state, index))
@@ -235,7 +238,7 @@ template <> inline int ode::lua::read<int>(
 }
 
 template <> inline std::string ode::lua::read<std::string>(
-    gsl::not_null<lua_State*> state,
+    const gsl::not_null<lua_State*> state,
     const int index) noexcept
 {
   if (0 == lua_isstring(state, index))

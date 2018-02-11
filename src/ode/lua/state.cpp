@@ -32,7 +32,7 @@ namespace ode
       return state_ptr{luaL_newstate(), &lua_close};
     }
 
-    void clean(gsl::not_null<lua_State*> state) noexcept
+    void clean(const gsl::not_null<lua_State*> state) noexcept
     {
       lua_pop(state, lua_gettop(state));
     }

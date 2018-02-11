@@ -51,7 +51,7 @@ namespace ode
     ///
     /// \param state the state to reset.
     ///
-    void clean(gsl::not_null<lua_State*> state) noexcept;
+    void clean(const gsl::not_null<lua_State*> state) noexcept;
   } // namespace lua
 } // namespace ode
 

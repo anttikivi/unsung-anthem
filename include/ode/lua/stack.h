@@ -45,15 +45,17 @@ namespace ode
     /// \c false.
     ///
     bool to_stack(
-        gsl::not_null<lua_State*> state,
+        const gsl::not_null<lua_State*> state,
         const std::string& var) noexcept;
 
     namespace detail
     {
-      void push(gsl::not_null<lua_State*> state, bool b);
-      void push(gsl::not_null<lua_State*> state, float f);
-      void push(gsl::not_null<lua_State*> state, int i);
-      void push(gsl::not_null<lua_State*> state, const std::string& s);
+      void push(const gsl::not_null<lua_State*> state, bool b) noexcept;
+      void push(const gsl::not_null<lua_State*> state, float f) noexcept;
+      void push(const gsl::not_null<lua_State*> state, int i) noexcept;
+      void push(
+          const gsl::not_null<lua_State*> state,
+          const std::string& s) noexcept;
     } // namespace detail
 
     ///
@@ -65,7 +67,7 @@ namespace ode
     /// \param t the first value to be pushed.
     ///
     template <typename T>
-    void push(gsl::not_null<lua_State*> state, T&& t) noexcept
+    void push(const gsl::not_null<lua_State*> state, T&& t) noexcept
     {
       detail::push(state, std::forward<T>(t));
     }
@@ -74,23 +76,26 @@ namespace ode
     /// \brief Pushes the given values to the stack of the Lua state.
     ///
     /// \tparam T the type of the first value to be pushed.
-    /// \tparam Ts the types of the rest of the values to be pushed.
+    /// \tparam Types the types of the rest of the values to be pushed.
     ///
     /// \param state pointer to the Lua state.
     /// \param t the first value to be pushed.
-    /// \param ts the rest of the values to be pushed.
+    /// \param types the rest of the values to be pushed.
     ///
-    template <typename T, typename... Ts>
-    void push(gsl::not_null<lua_State*> state, T&& t, Ts&&... ts) noexcept
+    template <typename T, typename... Types>
+    void push(
+        const gsl::not_null<lua_State*> state,
+        T&& t,
+        Types&&... types) noexcept
     {
       detail::push(state, std::forward<T>(t));
-      push(state, std::forward<Ts>(ts)...);
+      push(state, std::forward<Types>(types)...);
     }
 
     namespace test
     {
       bool to_stack_no_log(
-          gsl::not_null<lua_State*> state,
+          const gsl::not_null<lua_State*> state,
           const std::string& var) noexcept;
 
     } // namespace test
