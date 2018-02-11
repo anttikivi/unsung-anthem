@@ -49,6 +49,7 @@ namespace ode
 
       lua_state_script = luaL_newstate();
       lua_state_stack = luaL_newstate();
+      lua_state_push = luaL_newstate();
       lua_state_vm = luaL_newstate();
 
       const std::string filename_stack = 
@@ -58,6 +59,14 @@ namespace ode
 
       luaL_loadfile(lua_state_stack, filename_stack.c_str());
       lua_pcall(lua_state_stack, 0, 0, 0);
+      
+      const std::string filename_push = 
+          std::string{ode::test_script_root}
+          + ode::filesystem::path::preferred_separator
+          + "stack_push.lua";
+
+      luaL_loadfile(lua_state_push, filename_push.c_str());
+      lua_pcall(lua_state_push, 0, 0, 0);
 
       const std::string filename_vm = 
           std::string{ode::test_script_root}

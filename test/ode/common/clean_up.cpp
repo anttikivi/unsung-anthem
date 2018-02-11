@@ -33,10 +33,12 @@ namespace ode
     {
       lua_close(lua_state_script);
       lua_close(lua_state_stack);
+      lua_close(lua_state_push);
       lua_close(lua_state_vm);
 
       lua_state_script = nullptr;
       lua_state_stack = nullptr;
+      lua_state_push = nullptr;
       lua_state_vm = nullptr;
     }
   } // namespace test

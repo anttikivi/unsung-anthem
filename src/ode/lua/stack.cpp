@@ -93,6 +93,30 @@ namespace ode
       return true;
     }
 
+    namespace detail
+    {
+      void push(gsl::not_null<lua_State*> state, bool b)
+      {
+        lua_pushboolean(state, b);
+      }
+
+      void push(gsl::not_null<lua_State*> state, float f)
+      {
+        lua_pushnumber(state, f);
+      }
+
+      void push(gsl::not_null<lua_State*> state, int i)
+      {
+        lua_pushinteger(state, i);
+      }
+
+      void push(gsl::not_null<lua_State*> state, const std::string& s)
+      {
+        // TODO Consider storing the pointer returned by ‘lua_pushstring’
+        lua_pushstring(state, s.c_str());
+      }
+    } // namespace detail
+
     namespace test
     {
       bool to_stack_no_log(

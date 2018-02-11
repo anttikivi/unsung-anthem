@@ -29,6 +29,7 @@ namespace ode
   {
     lua_State* lua_state_script = nullptr;
     lua_State* lua_state_stack = nullptr;
+    lua_State* lua_state_push = nullptr;
     lua_State* lua_state_vm = nullptr;
   } // namespace test
 } // namespace ode

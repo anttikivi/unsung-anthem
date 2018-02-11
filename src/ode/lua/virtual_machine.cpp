@@ -23,8 +23,6 @@
 
 #include "ode/lua/virtual_machine.h"
 
-#include <lua.hpp>
-
 namespace ode
 {
   namespace lua
