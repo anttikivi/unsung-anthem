@@ -90,12 +90,12 @@ def do_build(is_ode=False, lib=False, test=False):
                     str(args.msbuild_logger)
                 )]
 
-            msbuild_args += ["/p:Configuration={}".format(
+            msbuild_args += ["/property:Configuration={}".format(
                 args.anthem_build_variant
             )]
 
             if platform.system() == "Windows":
-                msbuild_args += ["/p:Platform=Win32"]
+                msbuild_args += ["/property:Platform=Win32"]
 
             common.build.msbuild(args=msbuild_args)
 
