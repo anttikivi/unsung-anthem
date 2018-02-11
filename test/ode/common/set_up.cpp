@@ -71,7 +71,7 @@ namespace ode
       const std::string filename_vm = 
           std::string{ode::test_script_root}
           + ode::filesystem::path::preferred_separator
-          + "/virtual_machine_benchmark.lua";
+          + "virtual_machine_benchmark.lua";
 
       luaL_openlibs(lua_state_vm);
       luaL_loadfile(lua_state_vm, filename_vm.c_str());
