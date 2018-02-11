@@ -29,3 +29,11 @@ f = 7.4
 floating_point = 2.9
 b = true
 boolean = true
+
+function add(x, y)
+  return x + y
+end
+
+function pow(x, y)
+  return math.pow(x, y)
+end

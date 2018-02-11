@@ -73,6 +73,7 @@ namespace ode
           + ode::filesystem::path::preferred_separator
           + "/virtual_machine_benchmark.lua";
 
+      luaL_openlibs(lua_state_vm);
       luaL_loadfile(lua_state_vm, filename_vm.c_str());
       lua_pcall(lua_state_vm, 0, 0, 0);
     }
