@@ -208,44 +208,50 @@ namespace ode
   } // namespace lua
 } // namespace ode
 
-template <> inline bool ode::lua::read<bool>(
-    const gsl::not_null<lua_State*> state,
-    const int index) noexcept
+namespace ode
 {
-  return static_cast<bool>(lua_toboolean(state, index));
-}
-
-template <> inline float ode::lua::read<float>(
-    const gsl::not_null<lua_State*> state,
-    const int index) noexcept
-{
-  if (0 == lua_isnumber(state, index))
+  namespace lua
   {
-    ODE_ERROR("The value on top of the Lua stack is not a number");
-  }
-  return static_cast<float>(lua_tonumber(state, index));
-}
+    template <> inline bool read<bool>(
+        const gsl::not_null<lua_State*> state,
+        const int index) noexcept
+    {
+      return static_cast<bool>(lua_toboolean(state, index));
+    }
 
-template <> inline int ode::lua::read<int>(
-    const gsl::not_null<lua_State*> state,
-    const int index) noexcept
-{
-  if (0 == lua_isnumber(state, index))
-  {
-    ODE_ERROR("The value on top of the Lua stack is not a number");
-  }
-  return static_cast<int>(lua_tonumber(state, index));
-}
+    template <> inline float read<float>(
+        const gsl::not_null<lua_State*> state,
+        const int index) noexcept
+    {
+      if (0 == lua_isnumber(state, index))
+      {
+        ODE_ERROR("The value on top of the Lua stack is not a number");
+      }
+      return static_cast<float>(lua_tonumber(state, index));
+    }
 
-template <> inline std::string ode::lua::read<std::string>(
-    const gsl::not_null<lua_State*> state,
-    const int index) noexcept
-{
-  if (0 == lua_isstring(state, index))
-  {
-    ODE_ERROR("The value on top of the Lua stack is not a string");
-  }
-  return std::string{lua_tostring(state, index)};
-}
+    template <> inline int read<int>(
+        const gsl::not_null<lua_State*> state,
+        const int index) noexcept
+    {
+      if (0 == lua_isnumber(state, index))
+      {
+        ODE_ERROR("The value on top of the Lua stack is not a number");
+      }
+      return static_cast<int>(lua_tonumber(state, index));
+    }
+
+    template <> inline std::string read<std::string>(
+        const gsl::not_null<lua_State*> state,
+        const int index) noexcept
+    {
+      if (0 == lua_isstring(state, index))
+      {
+        ODE_ERROR("The value on top of the Lua stack is not a string");
+      }
+      return std::string{lua_tostring(state, index)};
+    }
+  } // namespace lua
+} // namespace ode
 
 #endif // !ODE_LUA_VIRTUAL_MACHINE_H
