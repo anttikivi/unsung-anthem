@@ -25,5 +25,5 @@ function add(x, y)
 end
 
 function pow(x, y)
-  return math.pow(x, y)
+  return x ^ y
 end
