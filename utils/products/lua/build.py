@@ -103,6 +103,28 @@ def _build_with_cmake():
     shell.makedirs(build_dir)
     common.build.build_call(product=product)
     _create_cxx_header()
+    if not workspace.is_lib_dir_made():
+        if os.path.exists(workspace.lib_file(path="lua.lib")):
+            shell.rm(workspace.lib_file(path="lua.lib"))
+    shell.copy(
+        os.path.join(build_dir, "Debug", "lua.lib"),
+        workspace.lib_file(path="lua.lib")
+    )
+    shell.rm(workspace.include_file("lua.h"))
+    shell.rm(workspace.include_file("lualib.h"))
+    shell.rm(workspace.include_file("lauxlib.h"))
+    shell.copy(
+        os.path.join(source_dir, "src", "lua.h"),
+        workspace.include_file("lua.h")
+    )
+    shell.copy(
+        os.path.join(source_dir, "src", "lualib.h"),
+        workspace.include_file("lualib.h")
+    )
+    shell.copy(
+        os.path.join(source_dir, "src", "lauxlib.h"),
+        workspace.include_file("lauxlib.h")
+    )
     shell.rm(os.path.join(source_dir, "CMakeLists.txt"))
 
 

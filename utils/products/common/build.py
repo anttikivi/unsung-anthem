@@ -15,10 +15,13 @@ The support module containing the utilities for builds.
 
 
 import os
+import platform
 
 from build_utils import diagnostics, shell, workspace
 
 from script_support import data
+
+from script_support.variables import ANTHEM_REPO_NAME, ANTHEM_SOURCE_ROOT
 
 
 def check_source(product, subproject=None, name=None):
@@ -252,6 +255,22 @@ def build_call(
                 make(target=install_targets)
             else:
                 make(target="install")
+        elif data.build.visual_studio:
+            msbuild_args = ["{}.sln".format(product.key)]
+
+            if args.msbuild_logger is not None:
+                msbuild_args += ["/logger:{}".format(
+                    str(args.msbuild_logger)
+                )]
+
+            msbuild_args += ["/property:Configuration={}".format(
+                args.anthem_build_variant if not build_type else build_type
+            )]
+
+            if platform.system() == "Windows":
+                msbuild_args += ["/property:Platform=Win32"]
+
+            msbuild(args=msbuild_args)
 
 
 def copy_build(product, subdir=None):
