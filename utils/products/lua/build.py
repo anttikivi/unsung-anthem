@@ -123,8 +123,6 @@ def _build():
             common.build.make(target="macosx")
         elif platform.system() == "Linux":
             common.build.make(target="linux")
-        else:
-            common.build.make(target="mingw")
         common.build.make(
             target="install",
             extra_args="INSTALL_TOP={}".format(data.build.local_root)

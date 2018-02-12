@@ -9,7 +9,10 @@
 # Licensed under GNU Affero General Public License v3.0
 
 cmake_minimum_required(VERSION 2.8.12)
-project(anthem)
+project(lua)
+
+set(CMAKE_C_FLAGS "-std=gnu99 -O2 -Wall -Wextra ${CMAKE_C_FLAGS}")
+add_definitions(-DLUA_COMPAT_5_2)
 
 set(LUA_SOURCES)
 set(LUA_INCLUDES)
