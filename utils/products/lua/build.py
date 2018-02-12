@@ -44,40 +44,6 @@ def _create_cxx_header():
             outfile.write("")
 
 
-def _build_into_source():
-    """
-    Build Lua by using the custom CMake script.
-    """
-    product = data.build.products.lua
-    dest = os.path.join(data.build.local_root, "src")
-    if os.path.isdir(dest):
-        for filename in os.listdir(dest):
-            if not filename == "glad.c":
-                shell.rm(os.path.join(dest, filename))
-    else:
-        shell.makedirs(dest)
-    header_dest = os.path.join(data.build.local_root, "include")
-    if os.path.isdir(header_dest):
-        for filename in os.listdir(header_dest):
-            if "lua" in filename and ".h" in filename:
-                shell.rm(os.path.join(header_dest, filename))
-    else:
-        shell.makedirs(header_dest)
-    source_dir = workspace.source_dir(product=product)
-    for filename in os.listdir(os.path.join(source_dir, "src")):
-        if filename.endswith(".c"):
-            shell.copy(
-                os.path.join(source_dir, "src", filename),
-                os.path.join(dest, filename)
-            )
-        elif filename.endswith(".h"):
-            shell.copy(
-                os.path.join(source_dir, "src", filename),
-                os.path.join(header_dest, filename)
-            )
-    _create_cxx_header()
-
-
 def _build_with_cmake():
     """
     Build Lua by using the custom CMake script.
@@ -124,6 +90,10 @@ def _build_with_cmake():
     shell.copy(
         os.path.join(source_dir, "src", "lauxlib.h"),
         workspace.include_file("lauxlib.h")
+    )
+    shell.copy(
+        os.path.join(source_dir, "src", "luaconf.h"),
+        workspace.include_file("luaconf.h")
     )
     shell.rm(os.path.join(source_dir, "CMakeLists.txt"))
 
