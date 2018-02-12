@@ -22,6 +22,8 @@ from products import common
 
 from script_support import data
 
+from script_support.variables import ANTHEM_REPO_NAME, ANTHEM_SOURCE_ROOT
+
 
 def _create_cxx_header():
     cxx_header = os.path.join(data.build.local_root, "include", "lua.hpp")
@@ -44,7 +46,7 @@ def _create_cxx_header():
 
 def _build_into_source():
     """
-    Add the Lua source files into the external sources of the product.
+    Build Lua by using the custom CMake script.
     """
     product = data.build.products.lua
     dest = os.path.join(data.build.local_root, "src")
@@ -76,6 +78,34 @@ def _build_into_source():
     _create_cxx_header()
 
 
+def _build_with_cmake():
+    """
+    Build Lua by using the custom CMake script.
+    """
+    product = data.build.products.lua
+    bin_path = os.path.join(data.build.local_root, "lib", "lua.lib") \
+        if platform.system() == "Windows" \
+        else os.path.join(data.build.local_root, "lib", "liblua.a")
+    if common.build.binary_exists(product=product, path=bin_path):
+        return
+    source_dir = workspace.source_dir(product=product)
+    shell.copy(
+        os.path.join(
+            ANTHEM_SOURCE_ROOT,
+            ANTHEM_REPO_NAME,
+            "cmake",
+            "lua",
+            "CMakeLists.txt"
+        ),
+        os.path.join(source_dir, "CMakeLists.txt")
+    )
+    build_dir = workspace.build_dir(product)
+    shell.makedirs(build_dir)
+    common.build.build_call(product=product)
+    _create_cxx_header()
+    shell.rm(os.path.join(source_dir, "CMakeLists.txt"))
+
+
 def _build():
     """
     Do the build of Lua.
@@ -93,6 +123,8 @@ def _build():
             common.build.make(target="macosx")
         elif platform.system() == "Linux":
             common.build.make(target="linux")
+        else:
+            common.build.make(target="mingw")
         common.build.make(
             target="install",
             extra_args="INSTALL_TOP={}".format(data.build.local_root)
@@ -105,8 +137,8 @@ def do_build():
     """
     product = data.build.products.lua
     common.build.check_source(product)
-    if data.build.lua_in_source:
-        _build_into_source()
+    if data.build.lua_with_cmake:
+        _build_with_cmake()
     else:
         _build()
 

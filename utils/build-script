@@ -165,7 +165,7 @@ def set_up_build(args):
         stdlib=args.stdlib,
         visual_studio=(args.cmake_generator == "Visual Studio 14 2015" or
                        args.cmake_generator == "Visual Studio 15 2017"),
-        lua_in_source=platform.system() == "Windows"
+        lua_with_cmake=False  # platform.system() == "Windows"
     )
 
     data.build["local_root"] = os.path.join(data.build.build_root, "local")

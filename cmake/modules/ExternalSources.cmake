@@ -51,6 +51,8 @@ function(SET_LUA_SOURCES)
   list(APPEND ODE_SOURCES ${ODE_INSTALL_PREFIX}/src/loadlib.c)
   list(APPEND ODE_SOURCES ${ODE_INSTALL_PREFIX}/src/linit.c)
 
+  list(APPEND ODE_SOURCES ${ODE_INSTALL_PREFIX}/src/lua.c)
+
   set(ODE_SOURCES ${ODE_SOURCES} PARENT_SCOPE)
 
 endfunction()
