@@ -92,3 +92,7 @@ install(TARGETS lua
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+
+message(STATUS "The install prefix is set to ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
+message(STATUS "The C compiler environment variable is set to $ENV{CC}")
