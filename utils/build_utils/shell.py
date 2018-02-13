@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing shell helpers.
-"""
+"""The support module containing shell helpers."""
 
 from __future__ import print_function
 
@@ -42,11 +40,7 @@ def _quote(arg):
 
 
 def quote_command(args):
-    """
-    quote_command(args) -> str
-
-    Quote the command for passing to a shell.
-    """
+    """Quote the command for passing to a shell."""
     return " ".join([_quote(a) for a in args])
 
 
@@ -78,13 +72,7 @@ def _echo_command(dry_run, command, env=None, prompt="+ "):
 
 
 def call(command, stderr=None, env=None, dry_run=None, echo=None):
-    """
-    call(command, ...) -> str
-
-    Execute the given command.
-
-    This function will raise an exception on any command failure.
-    """
+    """Execute the given command."""
     dry_run = _coerce_dry_run(dry_run)
     echo = _coerce_echo(echo)
     if dry_run or echo:
@@ -99,32 +87,18 @@ def call(command, stderr=None, env=None, dry_run=None, echo=None):
         subprocess.check_call(command, env=_env, stderr=stderr)
     except subprocess.CalledProcessError as e:
         diagnostics.fatal(
-            "command terminated with a non-zero exit status "
-            + str(e.returncode)
-            + ", aborting")
+            "Command terminated with a non-zero exit status {}, "
+            "aborting".format(e.returncode))
     except OSError as e:
-        diagnostics.fatal(
-            "could not execute '"
-            + quote_command(command)
-            + "': "
-            + e.strerror)
+        diagnostics.fatal("Could not execute '{}': {}".format(
+            quote_command(command),
+            e.strerror))
 
 
 def capture(
-        command,
-        stderr=None,
-        env=None,
-        dry_run=None,
-        echo=None,
-        optional=False,
-        allow_non_zero_exit=False):
-    """
-    capture(command, ...) -> str
-
-    Execute the given command and return the standard output.
-
-    This function will raise an exception on any command failure.
-    """
+        command, stderr=None, env=None, dry_run=None, echo=None,
+        optional=False, allow_non_zero_exit=False):
+    """Execute the given command and return the standard output."""
     dry_run = _coerce_dry_run(dry_run)
     echo = _coerce_echo(echo)
     if dry_run or echo:
@@ -145,17 +119,14 @@ def capture(
         if optional:
             return None
         diagnostics.fatal(
-            "command terminated with a non-zero exit status "
-            + str(e.returncode)
-            + ", aborting")
+            "Command terminated with a non-zero exit status {}, "
+            "aborting".format(e.returncode))
     except OSError as e:
         if optional:
             return None
-        diagnostics.fatal(
-            "could not execute '"
-            + quote_command(command)
-            + "': "
-            + e.strerror)
+        diagnostics.fatal("Could not execute '{}': {}".format(
+            quote_command(command),
+            e.strerror))
 
 
 @contextmanager
@@ -197,13 +168,7 @@ def rmtree(path, dry_run=None, echo=None):
 
 
 def rm(file, dry_run=None, echo=None):
-    """
-    Remove a file.
-
-    path -- path to the file.
-    dry_run -- whether or not to command is only printed.
-    echo -- whether or not the command is echoed before the execution.
-    """
+    """Remove a file."""
     dry_run = _coerce_dry_run(dry_run)
     echo = _coerce_echo(echo)
     if dry_run or echo:
@@ -237,14 +202,7 @@ def copytree(src, dest, dry_run=None, echo=None):
 
 
 def copy(src, dest, dry_run=None, echo=None):
-    """
-    Copy a file.
-
-    path -- path to the file.
-    dest -- the destination directory.
-    dry_run -- whether or not to command is only printed.
-    echo -- whether or not the command is echoed before the execution.
-    """
+    """Copy a file."""
     dry_run = _coerce_dry_run(dry_run)
     echo = _coerce_echo(echo)
     if dry_run or echo:
@@ -255,14 +213,7 @@ def copy(src, dest, dry_run=None, echo=None):
 
 
 def move(src, dest, dry_run=None, echo=None):
-    """
-    Move a directory recursively.
-
-    src -- path to the directory.
-    dest -- the destination directory.
-    dry_run -- whether or not to command is only printed.
-    echo -- whether or not the command is echoed before the execution.
-    """
+    """Move a directory recursively."""
     dry_run = _coerce_dry_run(dry_run)
     echo = _coerce_echo(echo)
     if dry_run or echo:
@@ -273,14 +224,7 @@ def move(src, dest, dry_run=None, echo=None):
 
 
 def tar(path, dest=None, dry_run=None, echo=None):
-    """
-    Extract an archive.
-
-    path -- path to the archive.
-    dest -- the destination directory.
-    dry_run -- whether or not to command is only printed.
-    echo -- whether or not the command is echoed before the execution.
-    """
+    """Extract an archive."""
     dry_run = _coerce_dry_run(dry_run)
     echo = _coerce_echo(echo)
     if dry_run or echo:
@@ -321,14 +265,7 @@ def tar(path, dest=None, dry_run=None, echo=None):
 
 
 def curl(url, dest, env=None, dry_run=None, echo=None):
-    """
-    Download a file.
-
-    url -- the URL from which the file is downloaded.
-    dest -- the file where the file is downloaded.
-    dry_run -- whether or not to command is only printed.
-    echo -- whether or not the command is echoed before the execution.
-    """
+    """Download a file."""
     call(
         ["curl", "-o", dest, "--create-dirs", url],
         env=env,
@@ -341,10 +278,8 @@ def caffeinate(command, env=None, dry_run=False, echo=None):
     Execute a command during which system sleep is disabled.
     By default, this ignores the state of the 'shell.dry_run' flag.
     """
-
     # Disable system sleep, if possible.
     if platform.system() == "Darwin":
         # Don't mutate the caller's copy of the arguments.
         command = ["caffeinate"] + list(command)
-
     call(command, env=env, dry_run=dry_run, echo=echo)

@@ -9,9 +9,7 @@
 # Licensed under GNU Affero General Public License v3.0
 
 
-"""
-The support module containing the utilities for builds.
-"""
+"""The support module containing the utilities for builds."""
 
 
 import os
@@ -24,80 +22,27 @@ from script_support import data
 from script_support.variables import ANTHEM_REPO_NAME, ANTHEM_SOURCE_ROOT
 
 
-def check_source(product, subproject=None, name=None):
-    """
-    Check if the source directory of the product exists.
-
-    product -- the product.
-    subproject -- a possible subproduct of the product for which the path is
-    checked.
-    name -- a custom name of the source directory.
-    """
-    if subproject:
-        source_dir = workspace.source_dir(
-            product=product,
-            subproject=subproject
-        )
-        if not os.path.exists(source_dir):
-            diagnostics.fatal(
-                "Cannot find source directory for {} ({}) (tried {})".format(
-                    subproject,
-                    product.repr,
-                    source_dir
-                )
-            )
-    elif name:
-        source_dir = workspace.source_dir(product=product, name=name)
-        if not os.path.exists(source_dir):
-            diagnostics.fatal(
-                "Cannot find source directory for {} (tried {})".format(
-                    product.repr,
-                    source_dir
-                )
-            )
-    else:
-        source_dir = workspace.source_dir(product)
-        if not os.path.exists(source_dir):
-            diagnostics.fatal(
-                "Cannot find source directory for {} (tried {})".format(
-                    product.repr,
-                    source_dir
-                )
-            )
+def check_source(product):
+    """Check if the source directory of the product exists."""
+    source_dir = workspace.source_dir(product)
+    if not os.path.exists(source_dir):
+        diagnostics.fatal(
+            "Cannot find source directory for {} (tried {})".format(
+                product.repr, source_dir))
 
 
-def binary_exists(product, path, subproject=None):
-    """
-    Check if the binary for the product exists.
-
-    product -- the product.
-    path -- the path to the binary.
-    subproject -- a possible subproject which should be checked instead.
-    """
+def binary_exists(product, path):
+    """Check if the binary for the product exists."""
     if os.path.exists(path):
-        if subproject:
-            diagnostics.debug_note(
-                "{} ({}) is already built and should not be re-built".format(
-                    subproject, product.repr
-                )
-            )
-        else:
-            diagnostics.debug_note(
-                "{} is already built and should not be re-built".format(
-                    product.repr
-                )
-            )
+        diagnostics.debug_note(
+            "{} is already built and should not be "
+            "re-built".format(product.repr))
         return True
     return False
 
 
 def ninja(target=None, env=None):
-    """
-    Call Ninja on the current build directory.
-
-    target -- the build target.
-    env -- custom environment variables of the command.
-    """
+    """Call Ninja on the current build directory."""
     if target:
         if isinstance(target, list):
             ninja_call = [data.build.toolchain.ninja]
@@ -106,30 +51,15 @@ def ninja(target=None, env=None):
             ninja_call += [str(data.build.args.build_jobs)]
             shell.call(ninja_call, env=env)
         else:
-            shell.call(
-                [data.build.toolchain.ninja,
-                 target,
-                 "-j",
-                 str(data.build.args.build_jobs)],
-                env=env
-            )
+            shell.call([data.build.toolchain.ninja, target, "-j", str(
+                data.build.args.build_jobs)], env=env)
     else:
-        shell.call(
-            [data.build.toolchain.ninja,
-             "-j",
-             str(data.build.args.build_jobs)],
-            env=env
-        )
+        shell.call([data.build.toolchain.ninja, "-j", str(
+            data.build.args.build_jobs)], env=env)
 
 
 def make(target=None, extra_args=None, env=None):
-    """
-    Call Make.
-
-    target -- the Ninja target.
-    extra_args -- extra arguments to be passed to the make call.
-    env -- custom environment variables of the command.
-    """
+    """Call Make."""
     call = [data.build.toolchain.make]
     if target:
         if isinstance(target, list):
@@ -147,15 +77,7 @@ def make(target=None, extra_args=None, env=None):
 
 
 def msbuild(args, target=None, env=None, dry_run=None, echo=False):
-    """
-    Call MSBuild.
-
-    args -- the MSBuild arguments.
-    target -- the MSBuild target.
-    env -- custom environment variables of the command.
-    dry_run -- whether or not to command is only printed.
-    echo -- whether or not the command is echoed before the execution.
-    """
+    """Call MSBuild."""
     call_command = [data.build.toolchain.msbuild]
     call_command += args
     if target:
@@ -164,43 +86,16 @@ def msbuild(args, target=None, env=None, dry_run=None, echo=False):
 
 
 def build_call(
-        product,
-        subproject=None,
-        cmake_args=None,
-        build_targets=None,
-        install_targets=None
-):
-    """
-    Build the given product by using CMake and the selected program.
-
-    product -- the product.
-    subproject -- a possible subproject of the product which is built.
-    cmake_args -- a dictionary of the extra CMake arguments.
-    build_targets -- optional custom target to be used in the build.
-    install_targets -- optional custom target to be used in the installation.
-    """
-    if subproject:
-        source_dir = workspace.source_dir(
-            product=product,
-            subproject=subproject
-        )
-        build_dir = workspace.build_dir(
-            product=product,
-            subproject=subproject
-        )
-    else:
-        source_dir = workspace.source_dir(product=product)
-        build_dir = workspace.build_dir(product=product)
-
+        product, cmake_args=None, build_targets=None, install_targets=None):
+    """Build the given product by using CMake and the selected program."""
+    source_dir = workspace.source_dir(product=product)
+    build_dir = workspace.build_dir(product=product)
     args = data.build.args
     toolchain = data.build.toolchain
     use_ninja = \
         args.cmake_generator == "Ninja" or args.cmake_generator == "Xcode"
 
-    if subproject:
-        build_type_key = subproject
-    else:
-        build_type_key = product.key
+    build_type_key = product.key
 
     if hasattr(args, "{}_build_variant".format(build_type_key)):
         build_type = getattr(args, "{}_build_variant".format(build_type_key))
@@ -208,8 +103,7 @@ def build_call(
         build_type = None
 
     cmake_call = [
-        toolchain.cmake,
-        source_dir,
+        toolchain.cmake, source_dir,
         "-DCMAKE_INSTALL_PREFIX={}".format(data.build.local_root)
     ]
 
@@ -259,13 +153,10 @@ def build_call(
             msbuild_args = ["{}.sln".format(product.key)]
 
             if args.msbuild_logger is not None:
-                msbuild_args += ["/logger:{}".format(
-                    str(args.msbuild_logger)
-                )]
+                msbuild_args += ["/logger:{}".format(args.msbuild_logger)]
 
             msbuild_args += ["/property:Configuration={}".format(
-                args.anthem_build_variant if not build_type else build_type
-            )]
+                args.anthem_build_variant if not build_type else build_type)]
 
             if platform.system() == "Windows":
                 msbuild_args += ["/property:Platform=Win32"]
@@ -277,10 +168,6 @@ def copy_build(product, subdir=None):
     """
     Do a simple copying of files to the correct places for the Unsung Anthem
     build.
-
-    product -- the product.
-    subdir -- a subdir in the project build directory which should be copied
-    instead of the whole directory.
     """
     check_source(product)
     bin_path = workspace.include_dir(product=product)
@@ -288,8 +175,7 @@ def copy_build(product, subdir=None):
         return
     source_dir = workspace.source_dir(product)
     if not workspace.is_include_dir_made() and workspace.include_dir_exists(
-            product=product
-    ):
+            product=product):
         shell.rmtree(bin_path)
     if subdir:
         shell.copytree(os.path.join(source_dir, subdir), bin_path)

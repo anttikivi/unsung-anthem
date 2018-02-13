@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing the caching utilities.
-"""
+"""The support module containing the caching utilities."""
 
 
 from functools import update_wrapper
@@ -20,11 +18,7 @@ __all__ = ["cached", "reify"]
 
 
 def cached(func):
-    """
-    Decorator that caches result of method or function.
-
-    Note: Support method or function.
-    """
+    """Decorator that caches result of method or function."""
     cache = {}
 
     def wrapper(*args, **kwargs):
@@ -35,7 +29,6 @@ def cached(func):
             return result
         else:
             return cache[key]
-
     return update_wrapper(wrapper, func)
 
 
@@ -46,7 +39,6 @@ def reify(func):
 
     Note: Support method that takes no arguments.
     """
-
     class Wrapper(object):
         def __get__(self, obj, objtype=None):
             if obj is None:
@@ -54,5 +46,4 @@ def reify(func):
             result = func(obj)
             setattr(obj, func.__name__, result)
             return result
-
     return update_wrapper(Wrapper(), func)

@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing the utilities for glad build.
-"""
+"""The support module containing the utilities for glad build."""
 
 
 import os
@@ -24,9 +22,7 @@ from script_support import data
 
 
 def do_build():
-    """
-    Build glad.
-    """
+    """Build glad."""
     product = data.build.products.glad
     common.build.check_source(product)
     bin_path = os.path.join(data.build.local_root, "src", "glad.c")
@@ -42,13 +38,11 @@ def do_build():
             "--api=gl={}.{}".format(
                 data.build.products.ode.opengl.version.major,
                 data.build.products.ode.opengl.version.minor),
-            "--generator=c-debug", "--spec=gl",
-            "--out-path={}".format(data.build.local_root)
+            "--generator=c-debug", "--spec=gl", "--out-path={}".format(
+                data.build.local_root)
         ])
 
 
 def should_build():
-    """
-    Check whether this product should be built.
-    """
+    """Check whether this product should be built."""
     return True

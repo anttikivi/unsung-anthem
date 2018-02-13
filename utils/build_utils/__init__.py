@@ -8,9 +8,5 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module of the Unsung Anthem build script.
-"""
-
 
 __all__ = ["diagnostics", "targets", "toolchain", "where", "which", "xcrun"]

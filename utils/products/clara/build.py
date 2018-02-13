@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing the utilities for Clara build.
-"""
+"""The support module containing the utilities for Clara build."""
 
 
 import os
@@ -23,17 +21,15 @@ from script_support import data
 
 
 def do_build():
-    """
-    Build Clara.
-    """
+    """Build Clara."""
     product = data.build.products.clara
     common.build.check_source(product)
     bin_path = os.path.join(data.build.local_root, "include", "clara.hpp")
     if common.build.binary_exists(product=product, path=bin_path):
         return
     source_dir = workspace.source_dir(product)
-    if not workspace.is_include_dir_made() \
-            and workspace.lib_file_exists(path="clara.hpp"):
+    if not workspace.is_include_dir_made() and workspace.lib_file_exists(
+            path="clara.hpp"):
         shell.rm(bin_path)
     shell.copy(os.path.join(source_dir, "clara.hpp"), bin_path)
 

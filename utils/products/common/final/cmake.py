@@ -9,30 +9,25 @@
 # Licensed under GNU Affero General Public License v3.0
 
 """
-The support module containing the utilities for Ode and Unsung Anthem CMake
-call.
+The support module containing the utilities for Obliging Ode and Unsung Anthem
+CMake call.
 """
 
 
+import os
 import platform
 
 from build_utils import diagnostics, workspace
 
 from script_support import data
 
-from script_support.variables import ANTHEM_REPO_NAME
+from script_support.variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
 from .directory import anthem_build_dir, ode_build_dir
 
 
 def construct_call(is_ode=False, lib=False, test=False):
-    """
-    Construct the CMake call for building Ode and Unsung Anthem.
-
-    is_ode -- whether or not this is build for only Ode.
-    lib -- whether or not the library configuration of the build is used.
-    test -- whether or not the test configuration of the build is used.
-    """
+    """Construct the CMake call for building Ode and Unsung Anthem."""
     if lib and test:
         diagnostics.fatal(
             "The CMake script cannot build both 'lib' and 'test' "
@@ -42,7 +37,7 @@ def construct_call(is_ode=False, lib=False, test=False):
     anthem = data.build.products.anthem
     args = data.build.args
     toolchain = data.build.toolchain
-    source_dir = workspace.source_dir(product=anthem, name=ANTHEM_REPO_NAME)
+    source_dir = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME)
 
     cmake_call = [toolchain.cmake, source_dir, "-G", args.cmake_generator]
 
@@ -56,22 +51,19 @@ def construct_call(is_ode=False, lib=False, test=False):
     else:
         build_dir = anthem_build_dir(lib=lib, test=test)
 
-    install_root = data.build.install_root \
-        if not args.enable_gcov \
+    install_root = data.build.install_root if not args.enable_gcov \
         else build_dir
 
     cmake_call += [
         "-DCMAKE_INSTALL_PREFIX={}".format(install_root),
-        "-DODE_INSTALL_PREFIX={}".format(local_root),
-        "-DODE_BIN_DIR_NAME=bin",
-        "-DODE_INCLUDE_DIR_NAME=include",
-        "-DODE_LIB_DIR_NAME=lib",
+        "-DODE_INSTALL_PREFIX={}".format(local_root), "-DODE_BIN_DIR_NAME=bin",
+        "-DODE_INCLUDE_DIR_NAME=include", "-DODE_LIB_DIR_NAME=lib",
         "-DODE_SCRIPT_DIR_NAME=script",
         "-DODE_CXX_VERSION={}".format(data.build.std),
         "-DODE_LOGGER_NAME={}".format(ode.logger_name),
         "-DODE_WINDOW_NAME={}".format("ode_window"),
         "-DODE_OPENGL_VERSION_MAJOR={}".format(ode.opengl.version.major),
-        "-DODE_OPENGL_VERSION_MINOR={}".format(ode.opengl.version.minor),
+        "-DODE_OPENGL_VERSION_MINOR={}".format(ode.opengl.version.minor)
     ]
 
     if is_ode:
@@ -108,10 +100,6 @@ def construct_call(is_ode=False, lib=False, test=False):
         else:
             cmake_call += ["-DANTHEM_TYPE=exe"]
 
-    # TODO
-    # cmake_call += ["-DANTHEM_SDL_VERSION={}".format(
-    #     data.build.products.sdl.version)]
-
     if args.developer_build:
         cmake_call += ["-DODE_DEVELOPER=ON"]
         if not is_ode:
@@ -145,12 +133,10 @@ def construct_call(is_ode=False, lib=False, test=False):
         cmake_call += ["-DODE_INSTALL_ONLY_SCRIPTS=OFF"]
         if is_ode:
             cmake_call += ["-DCMAKE_BUILD_TYPE={}".format(
-                args.ode_build_variant
-            )]
+                args.ode_build_variant)]
         else:
             cmake_call += ["-DCMAKE_BUILD_TYPE={}".format(
-                args.anthem_build_variant
-            )]
+                args.anthem_build_variant)]
 
     if args.multithreading:
         cmake_call += ["-DODE_MULTITHREADING=ON"]

@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing the utilities for Lua build.
-"""
+"""The support module containing the utilities for Lua build."""
 
 
 import os
@@ -33,8 +31,7 @@ def _create_cxx_header():
             outfile.write("// Lua header files for C++\n")
             outfile.write(
                 "// <<extern \"C\">> not supplied automatically because Lua "
-                "also compiles as C++\n"
-            )
+                "also compiles as C++\n")
             outfile.write("\n")
             outfile.write("extern \"C\" {\n")
             outfile.write("#include \"lua.h\"\n")
@@ -45,9 +42,7 @@ def _create_cxx_header():
 
 
 def _build_with_cmake():
-    """
-    Build Lua by using the custom CMake script.
-    """
+    """Build Lua by using the custom CMake script."""
     product = data.build.products.lua
     bin_path = os.path.join(data.build.local_root, "lib", "lua.lib") \
         if platform.system() == "Windows" \
@@ -57,14 +52,8 @@ def _build_with_cmake():
     source_dir = workspace.source_dir(product=product)
     shell.copy(
         os.path.join(
-            ANTHEM_SOURCE_ROOT,
-            ANTHEM_REPO_NAME,
-            "cmake",
-            "lua",
-            "CMakeLists.txt"
-        ),
-        os.path.join(source_dir, "CMakeLists.txt")
-    )
+            ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "cmake", "lua",
+            "CMakeLists.txt"), os.path.join(source_dir, "CMakeLists.txt"))
     build_dir = workspace.build_dir(product)
     shell.makedirs(build_dir)
     common.build.build_call(product=product)
@@ -72,36 +61,24 @@ def _build_with_cmake():
     if not workspace.is_lib_dir_made():
         if os.path.exists(workspace.lib_file(path="lua.lib")):
             shell.rm(workspace.lib_file(path="lua.lib"))
-    shell.copy(
-        os.path.join(build_dir, "Debug", "lua.lib"),
-        workspace.lib_file(path="lua.lib")
-    )
+    shell.copy(os.path.join(build_dir, "Debug", "lua.lib"), workspace.lib_file(
+        path="lua.lib"))
     shell.rm(workspace.include_file("lua.h"))
     shell.rm(workspace.include_file("lualib.h"))
     shell.rm(workspace.include_file("lauxlib.h"))
-    shell.copy(
-        os.path.join(source_dir, "src", "lua.h"),
-        workspace.include_file("lua.h")
-    )
-    shell.copy(
-        os.path.join(source_dir, "src", "lualib.h"),
-        workspace.include_file("lualib.h")
-    )
-    shell.copy(
-        os.path.join(source_dir, "src", "lauxlib.h"),
-        workspace.include_file("lauxlib.h")
-    )
-    shell.copy(
-        os.path.join(source_dir, "src", "luaconf.h"),
-        workspace.include_file("luaconf.h")
-    )
+    shell.copy(os.path.join(
+        source_dir, "src", "lua.h"), workspace.include_file("lua.h"))
+    shell.copy(os.path.join(
+        source_dir, "src", "lualib.h"), workspace.include_file("lualib.h"))
+    shell.copy(os.path.join(
+        source_dir, "src", "lauxlib.h"), workspace.include_file("lauxlib.h"))
+    shell.copy(os.path.join(
+        source_dir, "src", "luaconf.h"), workspace.include_file("luaconf.h"))
     shell.rm(os.path.join(source_dir, "CMakeLists.txt"))
 
 
 def _build():
-    """
-    Do the build of Lua.
-    """
+    """Do the build of Lua."""
     product = data.build.products.lua
     bin_path = os.path.join(data.build.local_root, "lib", "liblua.a")
     if common.build.binary_exists(product=product, path=bin_path):
@@ -115,16 +92,12 @@ def _build():
             common.build.make(target="macosx")
         elif platform.system() == "Linux":
             common.build.make(target="linux")
-        common.build.make(
-            target="install",
-            extra_args="INSTALL_TOP={}".format(data.build.local_root)
-        )
+        common.build.make(target="install", extra_args="INSTALL_TOP={}".format(
+            data.build.local_root))
 
 
 def do_build():
-    """
-    Build Lua.
-    """
+    """Build Lua."""
     product = data.build.products.lua
     common.build.check_source(product)
     if data.build.lua_with_cmake:
@@ -134,7 +107,5 @@ def do_build():
 
 
 def should_build():
-    """
-    Check whether this product should be built.
-    """
+    """Check whether this product should be built."""
     return True

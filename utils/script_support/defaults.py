@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-Default option value definitions.
-"""
+"""Default option value definitions."""
 
 
 import os
@@ -18,32 +16,19 @@ import platform
 
 from build_utils.mapping import Mapping
 
-from .product_config import \
-    product_config, \
-    version_config, \
-    github_config, \
-    asset, \
-    SOURCE_ASSET, \
-    platform_specific_asset, \
-    platform_file_config, \
-    ode_config, \
-    anthem_config
+from .product_config import product_config, version_config, github_config, \
+    asset, SOURCE_ASSET, platform_specific_asset, platform_file_config, \
+    ode_anthem_config
 
 
 __all__ = [
     # Command line configurable
-    "BUILD_VARIANT",
-    "CMAKE_GENERATOR",
-    "CXX_STANDARD",
-    "ANTHEM_VERSION",
-    "DARWIN_DEPLOYMENT_VERSION",
-    "UNIX_INSTALL_PREFIX",
+    "BUILD_VARIANT", "CMAKE_GENERATOR", "CXX_STANDARD", "ANTHEM_VERSION",
+    "DARWIN_DEPLOYMENT_VERSION", "UNIX_INSTALL_PREFIX",
     "DARWIN_INSTALL_PREFIX",
 
     # Constants
-    "PRODUCT_CONFIG",
-    "PROTOCOL",
-    "GITHUB_API_V4_ENDPOINT"
+    "PRODUCT_CONFIG", "PROTOCOL", "GITHUB_API_V4_ENDPOINT"
 ]
 
 
@@ -57,7 +42,6 @@ CXX_STANDARD = "c++14"
 ODE_VERSION = "0.1.0-dev.1"
 ANTHEM_VERSION = "0.1.0-dev.1"
 
-DARWIN_XCRUN_TOOLCHAIN = "default"
 DARWIN_DEPLOYMENT_VERSION = "10.9"
 
 UNIX_INSTALL_PREFIX = "/usr"
@@ -74,8 +58,10 @@ GITHUB_API_V4_ENDPOINT = "https://api.github.com/graphql"
 
 
 PRODUCT_CONFIG = Mapping(
-    anthem=anthem_config(
+    anthem=ode_anthem_config(
         version="0.1.0-dev.1",
+        name="Unsung Anthem",
+        key="anthem",
         window_name="Unsung Anthem",
         logger_name="anthem",
         is_tool=False,
@@ -182,8 +168,10 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
-    ode=ode_config(
+    ode=ode_anthem_config(
         version="0.1.0-dev.1",
+        name="Obliging Ode",
+        key="ode",
         opengl=Mapping(version=Mapping(major=3, minor=2)),
         logger_name="ode",
         is_tool=False,

@@ -9,9 +9,7 @@
 # Licensed under GNU Affero General Public License v3.0
 
 
-"""
-The support module containing the utilities for checkouts.
-"""
+"""The support module containing the utilities for checkouts."""
 
 
 import os
@@ -25,8 +23,6 @@ def clean_checkout(product):
     """
     Cleans up the old checkout and creates the directories necessary for the
     new one.
-
-    product -- the project.
     """
     shell.rmtree(workspace.source_dir(product=product))
     shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))

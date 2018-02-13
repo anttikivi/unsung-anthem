@@ -9,7 +9,8 @@
 # Licensed under GNU Affero General Public License v3.0
 
 """
-The support module containing the utilities for Ode and Unsung Anthem builds.
+The support module containing the utilities for Obliging Ode and Unsung Anthem
+builds.
 """
 
 
@@ -22,7 +23,7 @@ from products import common, sdl
 
 from script_support import data
 
-from script_support.variables import ANTHEM_REPO_NAME
+from script_support.variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
 from . import cmake
 
@@ -30,18 +31,11 @@ from .directory import anthem_build_dir, ode_build_dir
 
 
 def do_build(is_ode=False, lib=False, test=False):
-    """
-    Build Ode or Unsung Anthem.
-
-    ode -- whether or not this is build for only Ode.
-    lib -- whether or not the library configuration of the build is used.
-    test -- whether or not the test configuration of the build is used.
-    """
+    """Build Obliging Ode or Unsung Anthem."""
     if lib and test:
         diagnostics.fatal(
             "The CMake script cannot build both 'lib' and 'test' "
-            "configurations at the same time"
-        )
+            "configurations at the same time")
     args = data.build.args
     toolchain = data.build.toolchain
     ode = data.build.products.ode
@@ -53,8 +47,11 @@ def do_build(is_ode=False, lib=False, test=False):
     else:
         product = anthem
         build_dir = anthem_build_dir(lib=lib, test=test)
-
-    common.build.check_source(product=product, name=ANTHEM_REPO_NAME)
+    source_dir = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME)
+    if not os.path.exists(source_dir):
+        diagnostics.fatal(
+            "Cannot find source directory for {} (tried {})".format(
+                product.repr, source_dir))
     shell.makedirs(build_dir)
 
     cmake_env = {"CC": str(toolchain.cc), "CXX": str(toolchain.cxx)}
@@ -84,40 +81,24 @@ def do_build(is_ode=False, lib=False, test=False):
 
         elif data.build.visual_studio:
             msbuild_args = ["anthem.sln"]
-
             if args.msbuild_logger is not None:
-                msbuild_args += ["/logger:{}".format(
-                    str(args.msbuild_logger)
-                )]
-
+                msbuild_args += ["/logger:{}".format(args.msbuild_logger)]
             msbuild_args += ["/property:Configuration={}".format(
-                args.anthem_build_variant
-            )]
-
+                args.anthem_build_variant)]
             if platform.system() == "Windows":
                 msbuild_args += ["/property:Platform=Win32"]
-
             common.build.msbuild(args=msbuild_args)
-            source_dir = workspace.source_dir(
-                product=anthem,
-                name=ANTHEM_REPO_NAME
-            )
+            source_dir = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME)
             shell.rmtree(os.path.join(build_dir, "script"))
-            shell.copytree(
-                os.path.join(source_dir, "script"),
-                os.path.join(build_dir, "script")
-            )
+            shell.copytree(os.path.join(source_dir, "script"), os.path.join(
+                build_dir, "script"))
 
     if data.build.ci and platform.system() == "Darwin":
-        sdl.build.copy_dynamic(
-            os.path.join(data.build.install_root, "bin")
-        )
+        sdl.build.copy_dynamic(os.path.join(data.build.install_root, "bin"))
 
     if data.build.visual_studio:
         if is_ode:
             variant = args.ode_build_variant
         else:
             variant = args.anthem_build_variant
-        sdl.build.copy_dynamic(
-            os.path.join(build_dir, variant)
-        )
+        sdl.build.copy_dynamic(os.path.join(build_dir, variant))

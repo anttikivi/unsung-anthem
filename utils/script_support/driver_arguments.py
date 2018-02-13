@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing the script options.
-"""
+"""The support module containing the script options."""
 
 
 import multiprocessing
@@ -39,19 +37,16 @@ class _ApplyDefaultsArgumentParser(argparse.ArgumentParser):
         super(_ApplyDefaultsArgumentParser, self).__init__(*args, **kwargs)
 
     def parse_known_args(self, args=None, namespace=None):
-        args, argv \
-            = super(_ApplyDefaultsArgumentParser, self).parse_known_args(
-                args,
-                namespace)
+        args, argv = super(
+            _ApplyDefaultsArgumentParser, self).parse_known_args(
+                args, namespace)
 
         self._apply_defaults(args)
         return args, argv
 
 
 def _apply_default_arguments(args):
-    """
-    Preprocess argument namespace to apply default behaviours.
-    """
+    """Preprocess argument namespace to apply default behaviours."""
     if args.verbose_build:
         args.print_debug = True
 
@@ -89,8 +84,8 @@ def _apply_default_arguments(args):
     if args.enable_gcov:
         args.cmake_generator = "Unix Makefiles"
 
-    if not args.auth_token and args.auth_token_file \
-            and os.path.exists(args.auth_token_file):
+    if not args.auth_token and args.auth_token_file and os.path.exists(
+            args.auth_token_file):
         with open(args.auth_token_file) as token_file:
             args.auth_token = str(token_file.read())
 
@@ -119,11 +114,8 @@ def create_argument_parser():
     # the file
     parser = _ApplyDefaultsArgumentParser(
         apply_defaults=_apply_default_arguments,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        usage=USAGE,
-        description=DESCRIPTION,
-        epilog=EPILOGUE
-    )
+        formatter_class=argparse.RawDescriptionHelpFormatter, usage=USAGE,
+        description=DESCRIPTION, epilog=EPILOGUE)
 
     builder = parser.to_builder()
 
@@ -173,11 +165,6 @@ def create_argument_parser():
         default=multiprocessing.cpu_count(),
         help="the number of parallel build jobs to use")
 
-    option(
-        "--darwin-xcrun-toolchain",
-        store,
-        default=defaults.DARWIN_XCRUN_TOOLCHAIN,
-        help="the name of the toolchain to use on Darwin")
     option(
         "--cmake",
         store_path(executable=True),

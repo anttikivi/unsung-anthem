@@ -8,22 +8,17 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing a enhanced dictionary class.
-"""
+"""The support module containing a enhanced dictionary class."""
 
 
 class Mapping(dict):
-    """
-    Type of enhanced dictionary objects.
-    """
+    """Type of enhanced dictionary objects."""
     def __init__(self, *args, **kwargs):
         super(Mapping, self).__init__(*args, **kwargs)
         for arg in args:
             if isinstance(arg, dict):
                 for key, value in arg.items():
                     self[key] = value
-
         if kwargs:
             for key, value in kwargs.items():
                 self[key] = value

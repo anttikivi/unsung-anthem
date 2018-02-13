@@ -40,103 +40,62 @@ from checkout import checkout
 
 from products import anthem, common, ode
 
-from script_support import defaults, data, driver_arguments, migration
+from script_support import defaults, data, driver_arguments
 
 from script_support.defaults import PRODUCT_CONFIG
 
-from script_support.variables import \
-    HOME, \
-    ANTHEM_REPO_NAME, \
-    ANTHEM_SOURCE_ROOT, \
-    ANTHEM_BUILD_ROOT
+from script_support.variables import HOME, ANTHEM_REPO_NAME, \
+    ANTHEM_SOURCE_ROOT, ANTHEM_BUILD_ROOT
 
 
-def exit_rejecting_arguments(message, parser=None):
-    """
-    Prints an error message and terminates the program with the same error exit
-    code as an 'argparse' error would. Optionally prints the program usage
-    before exiting if the parser is provided.
-
-    This function is not pure as it prints command line output and terminates
-    the program.
-
-    message -- the error message.
-    parser -- a ArgumentParser whose usage is printed.
-    """
+def _exit_rejecting_arguments(message, parser=None):
     print(message, file=sys.stderr)
     if parser:
         parser.print_usage(sys.stderr)
     sys.exit(2)  # 2 is the same as 'argparse' error exit code.
 
 
-def validate_arguments(args):
-    """
-    Check that the command line arguments are valid.
-
-    args -- the command line arguments.
-    """
+def _validate_arguments(args):
     if not args.build_ode and not args.build_anthem:
-        exit_rejecting_arguments(
+        _exit_rejecting_arguments(
             "Both the build of Obliging Ode and the build of Unsung Anthem "
-            "cannot be skipped"
-        )
-
+            "cannot be skipped")
     if not args.std == "c++2a" and not args.std == "c++17" \
             and not args.std == "c++14":
-        exit_rejecting_arguments(
-            "C++ standard version is set to an invalid value: {}".format(
-                args.std
-            )
-        )
-
+        _exit_rejecting_arguments(
+            "C++ standard version is set to an invalid value: "
+            "{}".format(args.std))
     if args.stdlib:
         if not args.stdlib == "libc++" and not args.stdlib == "libstdc++":
-            exit_rejecting_arguments(
+            _exit_rejecting_arguments(
                 "C++ standard library implementation is set to an invalid "
-                "value: {}".format(args.stdlib)
-            )
-
+                "value: {}".format(args.stdlib))
     if not args.cmake_generator == "Ninja" \
             and not args.cmake_generator == "Unix Makefiles" \
             and not args.cmake_generator == "Xcode" \
             and not args.cmake_generator == "Visual Studio 14 2015" \
             and not args.cmake_generator == "Visual Studio 15 2017" \
             and not args.cmake_generator == "Eclipse CDT4 - Ninja":
-        exit_rejecting_arguments(
-            "CMake generator is set to an invalid value: {}".format(
-                args.cmake_generator
-            )
-        )
+        _exit_rejecting_arguments(
+            "CMake generator is set to an invalid value: "
+            "{}".format(args.cmake_generator))
 
 
-def clean_delay():
-    """
-    Provide a short delay so accidentally invoked clean builds can be
-    cancelled.
-    """
+def _clean_delay():
     def _impl_write(index):
         sys.stdout.write(
-            diagnostics.RED + "\b{!s}".format(index) + diagnostics.ENDC
-        )
+            diagnostics.RED + "\b{!s}".format(index) + diagnostics.ENDC)
         sys.stdout.flush()
         time.sleep(1)
         return index
-
     sys.stdout.write(
-        diagnostics.RED + "Starting a clean build in  " + diagnostics.ENDC
-    )
-
+        diagnostics.RED + "Starting a clean build in  " + diagnostics.ENDC)
     index_list = [_impl_write(i) for i in reversed(range(0, 4))]
-
     print(diagnostics.RED + "\b\b\b\bnow." + diagnostics.ENDC)
-
     return index_list
 
 
-def set_up_build(args):
-    """
-    Construct the build data and download the dependencies.
-    """
+def _set_up_build(args):
     shell.DRY_RUN = args.dry_run
     shell.ECHO_DEFAULT = args.verbose_build
 
@@ -149,29 +108,24 @@ def set_up_build(args):
         args.build_subdir = workspace.compute_build_subdir(args)
 
     diagnostics.trace(
-        "The build subdirectory is set to {}".format(args.build_subdir)
-    )
+        "The build subdirectory is set to {}".format(args.build_subdir))
 
-    validate_arguments(args)
+    _validate_arguments(args)
 
     data.build = Mapping(
-        args=args,
-        source_root=ANTHEM_SOURCE_ROOT,
+        args=args, source_root=ANTHEM_SOURCE_ROOT,
         build_root=os.path.join(ANTHEM_BUILD_ROOT, args.build_subdir),
         install_root=os.path.join(args.install_prefix, args.anthem_version),
-        products=PRODUCT_CONFIG,
-        host_target=args.host_target,
-        std=args.std,
+        products=PRODUCT_CONFIG, host_target=args.host_target, std=args.std,
         stdlib=args.stdlib,
-        visual_studio=(args.cmake_generator == "Visual Studio 14 2015" or
-                       args.cmake_generator == "Visual Studio 15 2017"),
-        lua_with_cmake=platform.system() == "Windows"
-    )
+        visual_studio=args.cmake_generator == "Visual Studio 14 2015"
+                      or args.cmake_generator == "Visual Studio 15 2017",
+        lua_with_cmake=platform.system() == "Windows")
 
     data.build["local_root"] = os.path.join(data.build.build_root, "local")
 
     if args.clean:
-        clean_delay()
+        _clean_delay()
         shell.rmtree(path=data.build.build_root)
 
     shell.makedirs(data.build.build_root)
@@ -181,16 +135,10 @@ def set_up_build(args):
     shell.makedirs(os.path.join(data.build.install_root, "include"))
     shell.makedirs(os.path.join(data.build.install_root, "lib"))
 
-    os.environ["TOOLCHAINS"] = args.darwin_xcrun_toolchain
-    data.build.toolchain = host_toolchain(
-        args=args,
-        xcrun_toolchain=args.darwin_xcrun_toolchain
-    )
+    os.environ["TOOLCHAINS"] = "default"
+    data.build.toolchain = host_toolchain(args=args)
 
-    set_arguments_to_toolchain(
-        args=args,
-        toolchain=data.build.toolchain
-    )
+    set_arguments_to_toolchain(args=args, toolchain=data.build.toolchain)
 
     data.build["ci"] = "CI" in os.environ and os.environ["CI"]
 
@@ -206,77 +154,59 @@ def set_up_build(args):
     diagnostics.debug_head("Setup phase is done")
 
 
-def build_tools():
-    """
-    Builds the tools necessary for the build invocation.
-    """
+def _build_tools():
     diagnostics.debug_head("Starting the tool setup phase")
     args = data.build.args
     toolchain = data.build.toolchain
 
     for key, product in data.build.products.items():
-        diagnostics.trace(
-            "Checking if {} needs to be built".format(product.repr)
-        )
+        diagnostics.trace("Checking if {} needs to be built".format(
+            product.repr))
         should_build = reflection.build_call(product, "should_build")
         only_anthem = not args.build_anthem and product.anthem_only
         if only_anthem:
             diagnostics.note(
                 "{} is not built as it is only required by Unsung Anthem "
-                "which is not built".format(product.repr)
-            )
+                "which is not built".format(product.repr))
         if product.is_tool and should_build and not only_anthem:
-            diagnostics.trace_head(
-                "Entering the build of {}".format(product.repr)
-            )
+            diagnostics.trace_head("Entering the build of {}".format(
+                product.repr))
             reflection.build_call(product, "do_build")
             diagnostics.debug_ok("{} is now built".format(product.repr))
         elif product.is_tool and not should_build:
             diagnostics.trace("{} is not built".format(product.repr))
 
     diagnostics.fine("The Ode library name is set to {}".format(args.ode_name))
-    diagnostics.fine(
-        "The Ode test executable name is set to {}".format(args.ode_test_name)
-    )
+    diagnostics.fine("The Ode test executable name is set to {}".format(
+        args.ode_test_name))
 
     diagnostics.fine("The Unsung Anthem executable name is set to {}".format(
-        args.anthem_name
-    ))
+        args.anthem_name))
     diagnostics.fine("The Unsung Anthem library name is set to {}".format(
-        args.anthem_lib_name
-    ))
+        args.anthem_lib_name))
     diagnostics.fine(
-        "The Unsung Anthem test executable name is set to {}".format(
-            args.anthem_test_name
-        )
-    )
+        "The Unsung Anthem test executable name is set to "
+        "{}".format(args.anthem_test_name))
 
-    diagnostics.fine("The host C compiler is set to {}".format(
-        str(toolchain.cc)
-    ))
+    diagnostics.fine("The host C compiler is set to {}".format(toolchain.cc))
     diagnostics.fine("The host C++ compiler is set to {}".format(
-        str(toolchain.cxx)
-    ))
-    diagnostics.fine("Make is set to {}".format(str(toolchain.make)))
-    diagnostics.fine("MSBuild is set to {}".format(str(toolchain.msbuild)))
-    diagnostics.fine("Ninja is set to {}".format(str(toolchain.ninja)))
-    diagnostics.fine("CMake is set to {}".format(str(toolchain.cmake)))
-    diagnostics.fine("git is set to {}".format(str(toolchain.git)))
+        toolchain.cxx))
+    diagnostics.fine("Make is set to {}".format(toolchain.make))
+    diagnostics.fine("MSBuild is set to {}".format(toolchain.msbuild))
+    diagnostics.fine("Ninja is set to {}".format(toolchain.ninja))
+    diagnostics.fine("CMake is set to {}".format(toolchain.cmake))
+    diagnostics.fine("git is set to {}".format(toolchain.git))
 
     diagnostics.fine("The C++ standard version is {}".format(data.build.std))
 
     if data.build.stdlib:
-        diagnostics.fine(
-            "The C++ standard library is {}".format(data.build.stdlib)
-        )
+        diagnostics.fine("The C++ standard library is {}".format(
+            data.build.stdlib))
 
     diagnostics.debug_head("Tool setup phase is done")
 
 
 def _build_dependencies():
-    """
-    Build the dependencies of Unsung Anthem.
-    """
     args = data.build.args
     data.build["dependencies"] = Mapping()
     data.build.dependencies["build"] = list()
@@ -285,26 +215,19 @@ def _build_dependencies():
         should_build = reflection.build_call(product, "should_build")
         only_anthem = not args.build_anthem and product.anthem_only
         if not product.is_tool and should_build and not only_anthem:
-            diagnostics.trace_head(
-                "Entering the build of {}".format(product.repr)
-            )
+            diagnostics.trace_head("Entering the build of {}".format(
+                product.repr))
             if not reflection.product_exists(product) \
                     or not reflection.build_function_exists(
-                        product=product,
-                        function="do_build"
-            ):
+                        product=product, function="do_build"):
                 diagnostics.trace(
                     "The product package of {} either doesn't exists or "
-                    "doesn't contain function 'build'".format(product.repr)
-                )
+                    "doesn't contain function 'build'".format(product.repr))
                 diagnostics.trace(
                     "Thus, {} will be built using the default copy "
-                    "function".format(product.repr)
-                )
+                    "function".format(product.repr))
                 common.build.copy_build(
-                    product=product,
-                    subdir=product.build_subdir
-                )
+                    product=product, subdir=product.build_subdir)
             else:
                 reflection.build_call(product, "do_build")
             diagnostics.debug_ok("{} is now built".format(product.repr))
@@ -312,10 +235,7 @@ def _build_dependencies():
             diagnostics.trace("{} is not built".format(product.repr))
 
 
-def invoke():
-    """
-    Build Unsung Anthem and its dependencies.
-    """
+def _invoke():
     diagnostics.debug_head("Starting the build phase")
     args = data.build.args
 
@@ -330,41 +250,33 @@ def invoke():
 
     if args.build_anthem:
         diagnostics.debug_head("Entering the build of {}".format(
-            anthem_p.repr
-        ))
+            anthem_p.repr))
         anthem.build.do_build(lib=False, test=False)
 
     if args.build_anthem_lib:
         diagnostics.debug_head("Entering the build of {} library".format(
-            anthem_p.repr
-        ))
+            anthem_p.repr))
         anthem.build.do_build(lib=True, test=False)
 
     if args.build_test:
         ode_test = args.build_ode and not args.build_anthem
         if ode_test:
             diagnostics.debug_head("Entering the build of {} tests".format(
-                ode_p.repr
-            ))
+                ode_p.repr))
             ode.build.do_build(lib=False, test=True)
         else:
             diagnostics.debug_head("Entering the build of {} tests".format(
-                anthem_p.repr
-            ))
+                anthem_p.repr))
             anthem.build.do_build(lib=False, test=True)
 
         if platform.system() == "Windows":
             if ode_test:
                 # TODO
-                test_run_dir = os.path.join(
-                    ode.build.ode_build_dir(lib=False, test=True),
-                    args.ode_build_variant
-                )
+                test_run_dir = os.path.join(ode.build.ode_build_dir(
+                    lib=False, test=True), args.ode_build_variant)
             else:
-                test_run_dir = os.path.join(
-                    anthem.build.anthem_build_dir(lib=False, test=True),
-                    args.anthem_build_variant
-                )
+                test_run_dir = os.path.join(anthem.build.anthem_build_dir(
+                    lib=False, test=True), args.anthem_build_variant)
         else:
             test_run_dir = os.path.join(data.build.install_root, "bin")
         if not args.enable_gcov:
@@ -375,9 +287,7 @@ def invoke():
                     exe_name = args.anthem_test_name
                 if platform.system() == "Windows":
                     test_executable = os.path.join(
-                        test_run_dir,
-                        "{}.exe".format(exe_name)
-                    )
+                        test_run_dir, "{}.exe".format(exe_name))
                 else:
                     test_executable = os.path.join(test_run_dir, exe_name)
                 shell.call([test_executable], echo=True)
@@ -443,13 +353,12 @@ def main_preset():
             os.path.join(HOME, ".anthem-build-presets"),
             os.path.join(
                 ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils",
-                "build-presets.ini"
-            )
+                "build-presets.ini")
         ]
 
     if args.show_presets:
-        for name in sorted(get_all_preset_names(args.preset_file_names),
-                           key=str.lower):
+        for name in sorted(
+                get_all_preset_names(args.preset_file_names), key=str.lower):
             print(name)
         return 0
 
@@ -476,10 +385,8 @@ def main_preset():
     if args.build_jobs:
         build_script_args += ["--jobs", str(args.build_jobs)]
 
-    diagnostics.note(
-        "Using preset '" + args.preset + "', which expands to \n\n" +
-        shell.quote_command(build_script_args) + "\n"
-    )
+    diagnostics.note("Using preset '{}', which expands to \n\n{}\n".format(
+        args.preset, shell.quote_command(build_script_args)))
 
     if args.expand_build_script_invocation:
         return 0
@@ -497,17 +404,18 @@ def main_normal():
         diagnostics.warn("You're using Python {}".format(sys.version))
         diagnostics.warn(
             "You should really update to Python 3 to make the world a better "
-            "place!"
-        )
+            "place!")
     else:
         diagnostics.fine("You're using Python {}".format(sys.version))
         diagnostics.fine("You seem to have an excellent taste!")
     parser = driver_arguments.create_argument_parser()
-    args = migration.parse_args(parser, sys.argv[1:])
-    set_up_build(args)
+    # TODO Unknown args
+    args, unknown_args = parser.parse_known_args(
+        list(arg for arg in sys.argv[1:] if arg != '--'))
+    _set_up_build(args)
     checkout.update()
-    build_tools()
-    invoke()
+    _build_tools()
+    _invoke()
     return 0
 
 
@@ -518,16 +426,13 @@ def main():
     if not ANTHEM_SOURCE_ROOT:
         diagnostics.fatal(
             "Could not infer source root directory (forgot to set "
-            "$ANTHEM_SOURCE_ROOT environment variable?)"
-        )
+            "$ANTHEM_SOURCE_ROOT environment variable?)")
 
     if not os.path.isdir(ANTHEM_SOURCE_ROOT):
         diagnostics.fatal(
             "Source root directory '{}' does not exist (forgot to set "
-            "$ANTHEM_SOURCE_ROOT environment variable?)".format(
-                ANTHEM_SOURCE_ROOT
-            )
-        )
+            "$ANTHEM_SOURCE_ROOT environment "
+            "variable?)".format(ANTHEM_SOURCE_ROOT))
     if any([(opt.startswith("--preset") or opt == "--show-presets")
             for opt in sys.argv[1:]]):
         return main_preset()

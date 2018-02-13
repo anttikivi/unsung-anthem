@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing the utilities for hayai build.
-"""
+"""The support module containing the utilities for hayai build."""
 
 
 import os
@@ -27,16 +25,14 @@ def _build_simple():
     product = data.build.products.hayai
     source_dir = workspace.source_dir(product)
     include_dir = workspace.include_file(path=product.key)
-    if not workspace.is_include_dir_made() \
-            and workspace.include_file_exists(path=product.key):
+    if not workspace.is_include_dir_made() and workspace.include_file_exists(
+            path=product.key):
         shell.rmtree(include_dir)
     shell.makedirs(include_dir)
     for header in os.listdir(os.path.join(source_dir, "src")):
         if not header.endswith(".cpp") and not header.endswith(".txt"):
-            shell.copy(
-                os.path.join(source_dir, "src", header),
-                os.path.join(include_dir, header)
-            )
+            shell.copy(os.path.join(source_dir, "src", header), os.path.join(
+                include_dir, header))
 
 
 def _build():
@@ -52,17 +48,11 @@ def _build():
 
 
 def do_build():
-    """
-    Build hayai.
-    """
+    """Build hayai."""
     product = data.build.products.hayai
     common.build.check_source(product)
     bin_path = os.path.join(
-        data.build.local_root,
-        "include",
-        product.key,
-        "hayai.hpp"
-    )
+        data.build.local_root, "include", product.key, "hayai.hpp")
     if common.build.binary_exists(product=product, path=bin_path):
         return
     if platform.system() == "Windows":
@@ -72,7 +62,5 @@ def do_build():
 
 
 def should_build():
-    """
-    Check whether this product should be built.
-    """
+    """Check whether this product should be built."""
     return data.build.args.build_test and data.build.args.developer_build

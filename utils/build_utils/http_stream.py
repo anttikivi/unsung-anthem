@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module for streaming files.
-"""
+"""The support module for streaming files."""
 
 
 import platform
@@ -53,5 +51,5 @@ def stream(url, destination, headers=None):
         for chunk in response.iter_content(chunk_size=1024):
             if chunk:
                 destination_file.write(chunk)
-    diagnostics.debug_ok(
-        "Finished streaming an asset to {}".format(destination))
+    diagnostics.debug_ok("Finished streaming an asset to {}".format(
+        destination))

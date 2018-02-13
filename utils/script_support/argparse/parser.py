@@ -8,7 +8,6 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-
 """
 Extensions to the standard argparse ArgumentParer class to support multiple
 destination actions as well as a new builder DSL for declaratively
@@ -183,8 +182,8 @@ class _Builder(object):
     @contextmanager
     def mutually_exclusive_group(self, **kwargs):
         previous_group = self._current_group
-        self._current_group = previous_group \
-            .add_mutually_exclusive_group(**kwargs)
+        self._current_group = previous_group.add_mutually_exclusive_group(
+            **kwargs)
         yield self._current_group
         self._current_group = previous_group
 
@@ -199,17 +198,11 @@ class ArgumentParser(argparse.ArgumentParser):
 
     @classmethod
     def builder(cls, **kwargs):
-        """
-        Create a new builder instance using this parser class.
-        """
-
+        """Create a new builder instance using this parser class."""
         return _Builder(parser=cls(**kwargs))
 
     def to_builder(self):
-        """
-        Construct and return a builder instance with this parser.
-        """
-
+        """Construct and return a builder instance with this parser."""
         return _Builder(parser=self)
 
     def parse_known_args(self, args=None, namespace=None):
@@ -217,21 +210,16 @@ class ArgumentParser(argparse.ArgumentParser):
         Thin wrapper around parse_known_args which shims-in support for actions
         with multiple destinations.
         """
-
         if namespace is None:
             namespace = Namespace()
-
         # Add action defaults not present in namespace
         for action in self._actions:
             if not hasattr(action, "dests"):
                 continue
-
             for dest in action.dests:
                 if hasattr(namespace, dest):
                     continue
                 if action.default is SUPPRESS:
                     continue
-
                 setattr(namespace, dest, action.default)
-
         return super(ArgumentParser, self).parse_known_args(args, namespace)

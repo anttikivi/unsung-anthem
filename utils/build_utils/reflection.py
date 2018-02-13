@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing the utilities for Python modules.
-"""
+"""The support module containing the utilities for Python modules."""
 
 
 import importlib
@@ -24,22 +22,6 @@ CHECKOUT_MODULE = "checkout"
 BUILD_MODULE = "build"
 
 
-def product_call(product, function, *args, **kwargs):
-    """
-    Call a function in a product module.
-
-    product -- the name of the product.
-    function -- the name of the function.
-    args -- the positional arguments to be passed into the function.
-    kwargs -- the key-value arguments to be passed into the function.
-    """
-    package = "{}.{}".format(PRODUCT_PACKAGE, product.key)
-    diagnostics.trace("Importing package {}".format(package))
-    product_module = importlib.import_module(package)
-    diagnostics.trace("Imported package {}".format(package))
-    getattr(product_module, function)(*args, **kwargs)
-
-
 def product_checkout_call(product, function, *args, **kwargs):
     """
     Call a function in a product module.
@@ -49,11 +31,7 @@ def product_checkout_call(product, function, *args, **kwargs):
     args -- the positional arguments to be passed into the function.
     kwargs -- the key-value arguments to be passed into the function.
     """
-    package = "{}.{}.{}".format(
-        PRODUCT_PACKAGE,
-        product.key,
-        CHECKOUT_MODULE
-    )
+    package = "{}.{}.{}".format(PRODUCT_PACKAGE, product.key, CHECKOUT_MODULE)
     diagnostics.trace("Importing package {}".format(package))
     product_module = importlib.import_module(package)
     diagnostics.trace("Imported package {}".format(package))
@@ -67,11 +45,7 @@ def get_build_call(product, function):
     product -- the name of the product.
     function -- the name of the function.
     """
-    package = "{}.{}.{}".format(
-        PRODUCT_PACKAGE,
-        product.key,
-        BUILD_MODULE
-    )
+    package = "{}.{}.{}".format(PRODUCT_PACKAGE, product.key, BUILD_MODULE)
     diagnostics.trace("Importing package {}".format(package))
     product_module = importlib.import_module(package)
     diagnostics.trace("Imported package {}".format(package))
@@ -97,26 +71,18 @@ def build_function_exists(product, function):
     product -- the name of the product.
     function -- the name of the function.
     """
-    package = "{}.{}.{}".format(
-        PRODUCT_PACKAGE,
-        product.key,
-        BUILD_MODULE
-    )
+    package = "{}.{}.{}".format(PRODUCT_PACKAGE, product.key, BUILD_MODULE)
     diagnostics.trace(
         "Importing package {} for checking whether function {} exists".format(
-            package, function
-        )
-    )
+            package, function))
     product_module = importlib.import_module(package)
     diagnostics.trace("Imported package {}".format(package))
     if hasattr(product_module, function):
-        diagnostics.trace(
-            "Package {} has function '{}'".format(package, function)
-        )
+        diagnostics.trace("Package {} has function '{}'".format(
+            package, function))
     else:
-        diagnostics.trace(
-            "Package {} doesn't have function '{}'".format(package, function)
-        )
+        diagnostics.trace("Package {} doesn't have function '{}'".format(
+            package, function))
     return hasattr(product_module, function)
 
 
@@ -138,7 +104,6 @@ def product_exists(product):
         products_info = imp.find_module(PRODUCT_PACKAGE)
         products = imp.load_module(PRODUCT_PACKAGE, *products_info)
         diagnostics.trace("Found package {}".format(PRODUCT_PACKAGE))
-
         imp.find_module(product.key, products.__path__)
         diagnostics.trace("Found package {}".format(product.key))
         return True

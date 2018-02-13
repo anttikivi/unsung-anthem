@@ -37,17 +37,11 @@ def register_tools(args):
     if args.search_cc is not None:
         tools.cc = args.search_cc
     else:
-        if sys == "Windows":
-            tools.cc = "clang-cl"
-        else:
-            tools.cc = "clang"
+        tools.cc = "clang-cl" if sys == "Windows" else "clang"
     if args.search_cxx is not None:
         tools.cxx = args.search_cxx
     else:
-        if sys == "Windows":
-            tools.cxx = "clang-cl"
-        else:
-            tools.cxx = "clang++"
+        tools.cxx = "clang-cl" if sys == "Windows" else "clang++"
     tools.msbuild = "msbuild"
     tools.ninja = "ninja"
     tools.cmake = "cmake"
@@ -57,12 +51,7 @@ def register_tools(args):
 
 
 def find_tools(tools, func):
-    """
-    Find the executables of the given tools.
-
-    tools -- the names of the tools to look for.
-    func -- the function which is used for the lookup.
-    """
+    """Find the executables of the given tools."""
     tool_mapping = Mapping()
     for key, name in tools.items():
         diagnostics.debug("Looking for {}".format(name))
@@ -72,65 +61,35 @@ def find_tools(tools, func):
     return tool_mapping
 
 
-def mac_os(tools, sdk, toolchain):
-    """
-    Find the tools in the toolchain on macOS.
-
-    tools -- the names of the tools to look for.
-    sdk -- the name of the SDK.
-    toolchain -- the toolchain object.
-    """
+def mac_os(tools):
+    """Find the tools in the toolchain on macOS."""
     # NOTE: xcrun searches from developer tools directory *and* from PATH.
     # Relatively slow, but 'which' is not necessary for Darwin.
-    return find_tools(
-        tools=tools,
-        func=partial(xcrun.find, sdk=sdk, toolchain=toolchain)
-    )
-    # return find_tools(tools=tools, func=which)
+    return find_tools(tools=tools, func=partial(xcrun.find))
 
 
 def unix(tools):
-    """
-    Find the tools in the toolchain on a generic Unix system.
-
-    tools -- the names of the tools to look for.
-    """
+    """Find the tools in the toolchain on a generic Unix system."""
     return find_tools(tools=tools, func=which)
 
 
 def linux(tools):
-    """
-    Find the tools in the toolchain on Linux.
-
-    tools -- the names of the tools to look for.
-    """
+    """Find the tools in the toolchain on Linux."""
     return unix(tools)
 
 
 def free_bsd(tools):
-    """
-    Find the tools in the toolchain on FreeBSD.
-
-    tools -- the names of the tools to look for.
-    """
+    """Find the tools in the toolchain on FreeBSD."""
     return unix(tools)
 
 
 def cygwin(tools):
-    """
-    Find the tools in the toolchain on Cygwin.
-
-    tools -- the names of the tools to look for.
-    """
+    """Find the tools in the toolchain on Cygwin."""
     return unix(tools)
 
 
 def windows(tools):
-    """
-    Find the tools in the toolchain on Windows.
-
-    tools -- the names of the tools to look for.
-    """
+    """Find the tools in the toolchain on Windows."""
     def _find(cmd):
         found = where(cmd)
         if found is not None:
@@ -139,17 +98,12 @@ def windows(tools):
     return find_tools(tools=tools, func=_find)
 
 
-def host_toolchain(args, xcrun_toolchain="default"):
-    """
-    Construct the toolchain for the current host platform.
-
-    args -- the command line argument dictionary.
-    xcrun_toolchain -- the xcrun toolchain on macOS.
-    """
+def host_toolchain(args):
+    """Construct the toolchain for the current host platform."""
     tools = register_tools(args=args)
     sys = platform.system()
     if sys == "Darwin":
-        return mac_os(tools=tools, sdk="macosx", toolchain=xcrun_toolchain)
+        return mac_os(tools=tools)
     elif sys == "Linux":
         return linux(tools=tools)
     elif sys == "FreeBSD":
@@ -159,17 +113,13 @@ def host_toolchain(args, xcrun_toolchain="default"):
     elif sys == "Windows":
         return windows(tools=tools)
     raise NotImplementedError(
-        "The platform '{}' does not have a defined toolchain.".format(sys)
-    )
+        "The platform '{}' does not have a defined toolchain".format(sys))
 
 
 def set_arguments_to_toolchain(args, toolchain):
     """
     Set the tools from the command line arguments to the toolchain if they are
     set on the command line.
-
-    args -- the command line argument dictionary.
-    toolchain -- the toolchain.
     """
     if args.host_cc is not None:
         toolchain.cc = args.host_cc

@@ -8,9 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""
-The support module containing the build data.
-"""
+"""The support module containing the build data."""
 
 
 build = 0

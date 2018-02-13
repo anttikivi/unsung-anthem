@@ -66,8 +66,6 @@ def resolve():
         return _resolve_darwin()
 
     diagnostics.warn(
-        "{} will not be downloaded as the platform is not supported".format(
-            product.repr
-        )
-    )
+        "{} will not be downloaded as the platform is not "
+        "supported".format(product.repr))
     return None
