@@ -16,7 +16,7 @@ There are no pre-built binaries available yet. You can find the instructions on 
 
 ### Prerequisites
 
-* C and C++ compilers with support for the C++14 standard
+* C and C++ compiler with support for the C++14 standard
   * [Clang](https://clang.llvm.org) is the recommended compiler. You can download the pre-built Clang binaries from [the LLVM website](http://releases.llvm.org)
 * [Python](https://www.python.org)
   * Both Python 2 and 3 are currently supported. However, this may change in the future as [the end of life of Python 2 is announced](https://www.python.org/dev/peps/pep-0373/)
