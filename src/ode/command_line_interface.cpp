@@ -28,8 +28,6 @@
 
 #include "ode/logger.h"
 
-#include <clara.hpp>
-
 namespace ode
 {
   std::ostream& operator<<(std::ostream& os, const arguments& a)

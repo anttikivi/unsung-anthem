@@ -26,9 +26,13 @@
 #define ODE_COMMAND_LINE_INTERFACE_H
 
 #include <type_traits>
+#include <variant>
+#include <vector>
 
 #include "ode/argv_array.h"
 #include "ode/types.h"
+
+#include <clara.hpp>
 
 #include <spdlog/fmt/ostr.h> // This must be included for the custom logger
                              // object to work.
@@ -92,6 +96,68 @@ namespace ode
   }; // struct arguments final
 
   ///
+  /// \struct parser_arguments
+  /// \brief Type of objects which hold the arguments for parsing the array
+  /// from command line.
+  ///
+  struct parser_arguments final
+  {
+    ///
+    /// \brief A vector which holds the options.
+    ///
+    const std::vector<clara::Opt> options;
+
+    ///
+    /// \brief A vector which holds the arguments.
+    const std::vector<clara::Arg> arguments;
+
+  }; // struct parser_arguments final
+
+  ///
+  /// \struct option
+  /// \brief Tye of objects which hold information for creating the command
+  /// line options to the parser.
+  ///
+  /// \tparam T the type of the value which is set from the command line.
+  ///
+  template <typename T> struct option final
+  {
+    ///
+    /// \brief The type of the command line option.
+    ///
+    using type = T;
+
+    ///
+    /// \brief Reference to the value that this \c option will set.
+    ///
+    T& value;
+
+    ///
+    /// \brief The default value of the command line argument.
+    ///
+    const T default_value;
+
+    ///
+    /// \brief Whether or not this \c option is required.
+    ///
+    const bool required;
+
+    ///
+    /// \brief A vector which holds the names of the command line option.
+    ///
+    /// Whether a name is short or long is automatically detected.
+    ///
+    const std::vector<std::string> option_names;
+
+    ///
+    /// \brief The description of this \c option when the program prints the
+    /// usage on the console.
+    ///
+    const std::string description;
+
+  }; // struct option final
+
+  ///
   /// \brief Compares the two objects of class \c arguments.
   ///
   /// \param lhs left-hand side object of the operator.
@@ -144,6 +210,24 @@ namespace ode
   /// \return An object of class \c arguments.
   ///
   arguments parse_arguments(const int argc, argv_array argv[]) noexcept;
+
+  namespace detail
+  {
+    template <typename T>
+    std::vector<T> add_option(
+        const std::vector<T> vector,
+        const T value) noexcept
+    {
+      vector.push_back(value);
+      return vector;
+    }
+  } // namespace detail
+
+  ///
+  /// \brief Creates an object of type \c parser_arguments containing the given options.
+  ///
+  ///
+  parser_arguments make_parser() noexcept;
 
 } // namespace ode
 
