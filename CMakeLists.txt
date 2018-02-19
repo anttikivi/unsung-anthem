@@ -35,6 +35,10 @@ option(ODE_DEVELOPER "Enable developer mode in Obliging Ode" OFF)
 
 option(ANTHEM_DEVELOPER "Enable developer mode in Unsung Anthem" OFF)
 
+option(ODE_TEST_BENCHMARKING "Build the benchmarkings in Obliging Ode" OFF)
+
+option(ANTHEM_TEST_BENCHMARKING "Build the benchmarkings in Unsung Anthem" OFF)
+
 option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
 
 option(ODE_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)

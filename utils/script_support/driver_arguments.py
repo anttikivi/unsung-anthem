@@ -271,6 +271,11 @@ def create_argument_parser():
         toggle_true("build_test"),
         help="build the Obliging Ode or Unsung Anthem tests")
     option(
+        ["-b", "--benchmarking"],
+        toggle_true("build_benchmarking"),
+        help="build the Obliging Ode or Unsung Anthem benchmarkings with "
+             "tests")
+    option(
         "--build-anthem-lib",
         toggle_true("build_anthem_lib"),
         help="build the Unsung Anthem library. Ignores the option "
