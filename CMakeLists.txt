@@ -45,6 +45,8 @@ option(ODE_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)
 
 option(ODE_SET_RPATH "Set the rpath to the install directory" OFF)
 
+option(ODE_LINK_LIBCXX "Manually link libc++" OFF)
+
 option(ODE_ADD_LUA_SOURCE
     "Add Lua source files directly to the Ode sources" OFF)
 
@@ -123,7 +125,11 @@ add_directory_definitions()
 
 set_compiler_flags()
 
-set(ODE_LIBRARIES)
+if(ODE_LINK_LIBCXX)
+  set(ODE_LIBRARIES "c++")
+else()
+  set(ODE_LIBRARIES)
+endif()
 set(ANTHEM_LIBRARIES)
 
 if(UNIX)

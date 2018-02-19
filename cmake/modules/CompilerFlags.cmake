@@ -14,6 +14,7 @@ function(SET_STD_FLAGS STD)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:${STD}")
   else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${STD}")
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${STD} -stdlib=libc++ -I/usr/local/include/c++/v1")
   endif()
 
   if (DEFINED ODE_STDLIB AND NOT WIN32)

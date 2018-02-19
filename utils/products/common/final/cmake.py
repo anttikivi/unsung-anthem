@@ -55,6 +55,8 @@ def construct_call(is_ode=False, lib=False, test=False):
         else build_dir
 
     cmake_call += [
+        "-DCMAKE_C_COMPILER={}".format(toolchain.cc),
+        "-DCMAKE_CXX_COMPILER={}".format(toolchain.cxx),
         "-DCMAKE_INSTALL_PREFIX={}".format(install_root),
         "-DODE_INSTALL_PREFIX={}".format(local_root), "-DODE_BIN_DIR_NAME=bin",
         "-DODE_INCLUDE_DIR_NAME=include", "-DODE_LIB_DIR_NAME=lib",
@@ -165,6 +167,11 @@ def construct_call(is_ode=False, lib=False, test=False):
         cmake_call += ["-DODE_ADD_LUA_SOURCE=ON"]
     else:
         cmake_call += ["-DODE_ADD_LUA_SOURCE=OFF"]
+
+    if not args.search_cxx and args.host_cxx:
+        cmake_call += ["-DODE_LINK_LIBCXX=ON"]
+    else:
+        cmake_call += ["-DODE_LINK_LIBCXX=OFF"]
 
     if args.extra_cmake_options:
         cmake_call += args.extra_cmake_options
