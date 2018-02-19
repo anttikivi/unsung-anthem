@@ -86,4 +86,4 @@ workflows:
   build_and_test:
     jobs:
      - gcc7_cxx17
-     # - clang50_cxx17
+     - clang50_cxx17

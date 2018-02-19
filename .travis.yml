@@ -72,25 +72,25 @@ matrix:
   #==- Linux - Clang --------------------------------------------------------==#
   #===----------------------------------------------------------------------===#
 
-  # Linux: Ubuntu Trusty 14.04 C++17 Clang 5.0
-  # - os: linux
-  #   dist: trusty
-  #   compiler: clang
-  #   env:
-  #   - COMPILER_NAME=clang
-  #   - CXX=clang++-5.0
-  #   - CC=clang-5.0
-  #   - BUILD_PRESET=travis_linux_clang50_cxx17
-  #   - ENABLE_COVERAGE=false
-  #   addons:
-  #     apt:
-  #       packages:
-  #       - clang-5.0
-  #       - xorg-dev
-  #       - libglu1-mesa-dev
-  #       - build-essential
-  #       - libc++-dev
-  #       sources: *sources
+  Linux: Ubuntu Trusty 14.04 C++17 Clang 5.0
+  - os: linux
+    dist: trusty
+    compiler: clang
+    env:
+    - COMPILER_NAME=clang
+    - CXX=clang++-5.0
+    - CC=clang-5.0
+    - BUILD_PRESET=travis_linux_clang50_cxx17
+    - ENABLE_COVERAGE=false
+    addons:
+      apt:
+        packages:
+        - clang-5.0
+        - xorg-dev
+        - libglu1-mesa-dev
+        - build-essential
+        - libc++-dev
+        sources: *sources
 
   #===----------------------------------------------------------------------===#
   #==- Darwin - Apple Clang -------------------------------------------------==#
@@ -107,16 +107,16 @@ matrix:
     - BUILD_PRESET=travis_darwin_xcode73_clang_cxx14
     - ENABLE_COVERAGE=false
 
-  # Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
-  # - os: osx
-  #   osx_image: xcode8.3
-  #   compiler: clang
-  #   env:
-  #   - COMPILER_NAME=clang
-  #   - CXX=clang++
-  #   - CC=clang
-  #   - BUILD_PRESET=travis_darwin_xcode83_clang_cxx17
-  #   - ENABLE_COVERAGE=false
+  Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
+  - os: osx
+    osx_image: xcode8.3
+    compiler: clang
+    env:
+    - COMPILER_NAME=clang
+    - CXX=clang++
+    - CC=clang
+    - BUILD_PRESET=travis_darwin_xcode83_clang_cxx17
+    - ENABLE_COVERAGE=false
 
 install:
 - ${CC} --version
