@@ -60,8 +60,7 @@ def _validate_arguments(args):
         _exit_rejecting_arguments(
             "Both the build of Obliging Ode and the build of Unsung Anthem "
             "cannot be skipped")
-    if not args.std == "c++2a" and not args.std == "c++17" \
-            and not args.std == "c++14":
+    if not args.std == "c++2a" and not args.std == "c++17":
         _exit_rejecting_arguments(
             "C++ standard version is set to an invalid value: "
             "{}".format(args.std))

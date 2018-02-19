@@ -75,7 +75,7 @@ def _apply_default_arguments(args):
         args.anthem_assertions = args.assertions
 
     if args.std is None:
-        args.std = "c++14"
+        args.std = "c++17"
 
     # Set the default CMake generator.
     if args.cmake_generator is None:
@@ -298,13 +298,8 @@ def create_argument_parser():
     in_group("Select the C++ standard")
 
     with mutually_exclusive_group():
-        set_defaults(std="c++14")
+        set_defaults(std="c++17")
 
-        option(
-            "--c++14",
-            store("std"),
-            const="c++14",
-            help="build using the C++14 standard (default is %(default)s)")
         option(
             "--c++17",
             store("std"),

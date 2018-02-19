@@ -58,9 +58,7 @@ else()
   assert_variable(ANTHEM_TYPE "Unsung Anthem product type" "exe, lib, and test")
 endif()
 
-assert_variable(ODE_CXX_VERSION
-    "C++ standard version"
-    "c++2a, c++17, c++14, and c++latest")
+assert_variable(ODE_CXX_VERSION "C++ standard version" "c++2a and c++17")
 
 assert_variable(ODE_INSTALL_PREFIX "dependency installation directory")
 

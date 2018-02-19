@@ -24,30 +24,6 @@ matrix:
   #==- Linux - GCC ----------------------------------------------------------==#
   #===----------------------------------------------------------------------===#
 
-  # Linux: Ubuntu Precise 12.04 C++14 GCC 5
-  # - os: linux
-  #   dist: precise
-  #   compiler: gcc
-  #   env:
-  #   - COMPILER_NAME=gcc
-  #   - CXX=g++-5
-  #   - CC=gcc-5
-  #   - BUILD_PRESET=travis_linux_gcc5_cxx14
-  #   - ENABLE_COVERAGE=false
-  #   addons:
-  #     apt:
-  #       packages:
-  #       - g++-5
-  #       - xorg-dev
-  #       - libglu1-mesa-dev
-  #       - build-essential
-  #       sources: &sources
-  #       - ubuntu-toolchain-r-test
-  #       - llvm-toolchain-trusty
-  #       - llvm-toolchain-trusty-4.0
-  #       - llvm-toolchain-precise
-  #       - llvm-toolchain-precise-3.5
-
   # Linux: Ubuntu Trusty 14.04 C++17 GCC 7
   - os: linux
     dist: trusty
@@ -71,7 +47,6 @@ matrix:
         - llvm-toolchain-trusty-4.0
         - llvm-toolchain-precise
         - llvm-toolchain-precise-3.5
-  #       sources: *sources
 
   # Linux: Ubuntu Trusty 14.04 C++17 GCC 7 + Coverage
   - os: linux
@@ -96,46 +71,6 @@ matrix:
   #===----------------------------------------------------------------------===#
   #==- Linux - Clang --------------------------------------------------------==#
   #===----------------------------------------------------------------------===#
-
-  # Linux: Ubuntu Trusty 14.04 C++14 Clang 3.6
-  - os: linux
-    dist: trusty
-    compiler: clang
-    env:
-    - COMPILER_NAME=clang
-    - CXX=clang++-3.6
-    - CC=clang-3.6
-    - BUILD_PRESET=travis_linux_clang36_cxx14
-    - ENABLE_COVERAGE=false
-    addons:
-      apt:
-        packages:
-        - clang-3.6
-        - xorg-dev
-        - libglu1-mesa-dev
-        - build-essential
-        - libc++-dev
-        sources: *sources
-
-  # Linux: Ubuntu Trusty 14.04 C++14 Clang 4.0
-  - os: linux
-    dist: trusty
-    compiler: clang
-    env:
-    - COMPILER_NAME=clang
-    - CXX=clang++-4.0
-    - CC=clang-4.0
-    - BUILD_PRESET=travis_linux_clang40_cxx14
-    - ENABLE_COVERAGE=false
-    addons:
-      apt:
-        packages:
-        - clang-4.0
-        - xorg-dev
-        - libglu1-mesa-dev
-        - build-essential
-        - libc++-dev
-        sources: *sources
 
   # Linux: Ubuntu Trusty 14.04 C++17 Clang 5.0
   # - os: linux
