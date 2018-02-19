@@ -154,6 +154,10 @@ if(NOT ODE_ADD_LUA_SOURCE)
   list(APPEND ODE_LIBRARIES "lua")
 endif()
 
+if(ODE_TEST_BENCHMARKING)
+  list(APPEND ODE_LIBRARIES "benchmark")
+endif()
+
 print_status_plural(ODE_LIBRARIES "libraries")
 
 include_directories(${ODE_INSTALL_PREFIX}/include)

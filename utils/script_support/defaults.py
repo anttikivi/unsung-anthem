@@ -68,6 +68,20 @@ PRODUCT_CONFIG = Mapping(
         is_source=True
     ),
 
+    benchmark=product_config(
+        version="1.3.0",
+        name="benchmark",
+        key="benchmark",
+        is_tool=False,
+        is_source=True,
+        github_data=github_config(
+            owner="google",
+            name="benchmark",
+            asset_data=SOURCE_ASSET,
+            version_prefix="v"
+        )
+    ),
+
     catch2=product_config(
         version="2.1.1",
         name="Catch2",
@@ -119,20 +133,6 @@ PRODUCT_CONFIG = Mapping(
         github_data=github_config(
             owner="Dav1dde",
             name="glad",
-            asset_data=SOURCE_ASSET,
-            version_prefix="v"
-        )
-    ),
-
-    hayai=product_config(
-        version="1.0.1",
-        name="hayai",
-        key="hayai",
-        is_tool=False,
-        is_source=True,
-        github_data=github_config(
-            owner="nickbruun",
-            name="hayai",
             asset_data=SOURCE_ASSET,
             version_prefix="v"
         )
