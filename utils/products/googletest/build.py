@@ -33,7 +33,7 @@ def do_build():
     common.build.build_call(product=product, cmake_args={
         # "BENCHMARK_USE_LIBCXX": True,
         # "CMAKE_CXX_FLAGS": "-I/usr/local/include/c++/v1"
-    }, solution_name="gtest")
+    }, solution_name="gmock")
 
 
 def should_build():
