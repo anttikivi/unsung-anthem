@@ -49,6 +49,8 @@ def do_build():
     """Build Google Test."""
     product = data.build.products.googletest
     common.build.check_source(product)
+    if platform.system() == "Windows":
+        _build_windows()
 
 
 def should_build():
