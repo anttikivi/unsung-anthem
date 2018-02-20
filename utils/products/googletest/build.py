@@ -34,7 +34,7 @@ def _build_windows():
     source_dir = workspace.source_dir(product)
     shell.copytree(source_dir, build_dir)
     with shell.pushd(os.path.join(build_dir, "googletest", "msvc")):
-        common.build.msbuild("gtest.sln")
+        common.build.msbuild("gtest")
 
     for dirpath, dirnames, filenames in os.walk(build_dir):
             print("Now going through directory '{}'".format(dirpath))
