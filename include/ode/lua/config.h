@@ -24,15 +24,13 @@
 #ifndef ODE_LUA_CONFIG_H
 #define ODE_LUA_CONFIG_H
 
-namespace ode
+namespace ode::lua
 {
-  namespace lua
-  {
-    ///
-    /// \brief The index which represents the top of the Lua stack.
-    ///
-    constexpr int stack_top = -1;
-  } // namespace lua
-} // namespace ode
+  ///
+  /// \brief The index which represents the top of the Lua stack.
+  ///
+  constexpr int stack_top = -1;
+
+} // namespace ode::lua
 
 #endif // !ODE_LUA_CONFIG_H

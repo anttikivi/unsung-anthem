@@ -33,7 +33,7 @@
 #include <catch.hpp>
 
 #if ODE_TEST_BENCHMARKING
-# include <hayai/hayai.hpp>
+
 #endif // ODE_TEST_BENCHMARKING
 
 TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
@@ -45,7 +45,7 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
       + ode::filesystem::path::preferred_separator
       + "script.lua";
 
-  auto error_code = ode::lua::load_script_file(state.get(), filename1.c_str());
+  auto error_code = ode::lua::load_script_file(state.get(), filename1);
 
   REQUIRE_FALSE(LUA_ERRSYNTAX == error_code);
   REQUIRE_FALSE(LUA_ERRMEM == error_code);
@@ -58,13 +58,24 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
       + ode::filesystem::path::preferred_separator
       + "not_script.lua";
 
-  error_code = ode::lua::load_script_file(state.get(), filename2.c_str());
+#if defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION) && \
+    GSL_UNENFORCED_ON_CONTRACT_VIOLATION
+
+  error_code = ode::lua::load_script_file(state.get(), filename2);
 
   REQUIRE_FALSE(LUA_ERRSYNTAX == error_code);
   REQUIRE_FALSE(LUA_ERRMEM == error_code);
   REQUIRE_FALSE(LUA_ERRGCMM == error_code);
   REQUIRE(LUA_ERRFILE == error_code);
   REQUIRE_FALSE(LUA_OK == error_code);
+
+#elif defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
+    GSL_THROW_ON_CONTRACT_VIOLATION
+
+  REQUIRE_THROWS(ode::lua::load_script_file(state.get(), filename2));
+
+#endif // defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
+    GSL_THROW_ON_CONTRACT_VIOLATION
 }
 
 #if ODE_TEST_BENCHMARKING

@@ -67,7 +67,7 @@ namespace ode
   ///
   /// \brief The main logger of the engine.
   ///
-  extern logger_t logger;
+  inline logger_t logger = nullptr;
   
   // Logging methods which use the global logger.
   namespace logging

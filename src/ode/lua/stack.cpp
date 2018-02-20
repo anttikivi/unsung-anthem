@@ -23,156 +23,61 @@
 
 #include "ode/lua/stack.h"
 
+#include "gsl/assert"
+
 #include "ode/logger.h"
 #include "ode/lua/config.h"
 
-#include <lua.hpp>
-
-namespace ode
+namespace ode::lua
 {
-  namespace lua
+  bool to_stack(
+      const gsl::not_null<lua_State*> state,
+      std::string_view var) ODE_CONTRACT_NOEXCEPT
   {
-    bool to_stack(
-        const gsl::not_null<lua_State*> state,
-        const std::string& var) noexcept
+    int index = 0;
+    std::string current = "";
+
+    for (auto c : var)
     {
-      int index = 0;
-      std::string current = "";
-
-      for (auto c : var)
+      if ('.' == c)
       {
-        if ('.' == c)
-        {
-          if (0 == index)
-          {
-            lua_getglobal(state, current.c_str());
-            ODE_TRACE("Got the global '{}' to the top of the stack", current);
-          }
-          else
-          {
-            lua_getfield(state, stack_top, current.c_str());
-            ODE_TRACE("Got '{}' to the top of the stack", current);
-          }
-
-          if (0 != lua_isnil(state.get(), stack_top))
-          {
-            ODE_ERROR("The top of the Lua stack is null: {}", current);
-            return false;
-          }
-          else
-          {
-            ODE_TRACE("Resetting the temporary variable '{}'", current);
-            current = "";
-            ++index;
-          }
-        }
-        else
-        {
-          ODE_TRACE("Adding '{}' to '{}'", c, current);
-          current += c;
-        }
-      }
-
-      if (0 == index)
-      {
-        lua_getglobal(state, current.c_str());
-        ODE_TRACE("Got the global '{}' to the top of the stack", current);
-      }
-      else
-      {
-        lua_getfield(state, stack_top, current.c_str());
-        ODE_TRACE("Got '{}' to the top of the stack", current);
-      }
-
-      if (0 != lua_isnil(state, stack_top))
-      {
-        ODE_ERROR("The top of the Lua stack is null: {}", current);
-        return false;
-      }
-
-      return true;
-    }
-
-    namespace detail
-    {
-      void push(const gsl::not_null<lua_State*> state, bool b) noexcept
-      {
-        lua_pushboolean(state, b);
-      }
-
-      void push(const gsl::not_null<lua_State*> state, float f) noexcept
-      {
-        lua_pushnumber(state, f);
-      }
-
-      void push(const gsl::not_null<lua_State*> state, int i) noexcept
-      {
-        lua_pushinteger(state, i);
-      }
-
-      void push(
-          const gsl::not_null<lua_State*> state,
-          const std::string& s) noexcept
-      {
-        // TODO Consider storing the pointer returned by ‘lua_pushstring’
-        lua_pushstring(state, s.c_str());
-      }
-    } // namespace detail
-
-    namespace test
-    {
-      bool to_stack_no_log(
-          const gsl::not_null<lua_State*> state,
-          const std::string& var) noexcept
-      {
-        int index = 0;
-        std::string current = "";
-
-        for (auto c : var)
-        {
-          if ('.' == c)
-          {
-            if (0 == index)
-            {
-              lua_getglobal(state, current.c_str());
-            }
-            else
-            {
-              lua_getfield(state, stack_top, current.c_str());
-            }
-
-            if (0 != lua_isnil(state.get(), stack_top))
-            {
-              return false;
-            }
-            else
-            {
-              current = "";
-              ++index;
-            }
-          }
-          else
-          {
-            current += c;
-          }
-        }
-
         if (0 == index)
         {
           lua_getglobal(state, current.c_str());
+          ODE_TRACE("Got the global '{}' to the top of the stack", current);
         }
         else
         {
           lua_getfield(state, stack_top, current.c_str());
+          ODE_TRACE("Got '{}' to the top of the stack", current);
         }
 
-        if (0 != lua_isnil(state, stack_top))
-        {
-          return false;
-        }
+        Ensures(0 == lua_isnil(state.get(), stack_top));
 
-        return true;
+        ODE_TRACE("Resetting the temporary variable '{}'", current);
+        current = "";
+        ++index;
       }
-    } // namespace test
-  } // namespace lua
-} // namespace ode
+      else
+      {
+        ODE_TRACE("Adding '{}' to '{}'", c, current);
+        current += c;
+      }
+    }
+
+    if (0 == index)
+    {
+      lua_getglobal(state, current.c_str());
+      ODE_TRACE("Got the global '{}' to the top of the stack", current);
+    }
+    else
+    {
+      lua_getfield(state, stack_top, current.c_str());
+      ODE_TRACE("Got '{}' to the top of the stack", current);
+    }
+
+    Ensures(0 == lua_isnil(state, stack_top));
+
+    return true;
+  }
+} // namespace ode::lua

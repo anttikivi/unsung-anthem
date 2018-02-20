@@ -23,62 +23,37 @@
 
 #include "ode/lua/script.h"
 
+#include <iostream>
+
+#include "gsl/assert"
+
 #include "ode/logger.h"
 
 #include <lua.hpp>
 
-namespace ode
+namespace ode::lua
 {
-  namespace lua
+  int load_script_file(
+      const gsl::not_null<lua_State*> state,
+      std::string_view filename) ODE_CONTRACT_NOEXCEPT
   {
-    int load_script_file(
-        const gsl::not_null<lua_State*> state,
-        const std::string& filename) noexcept
-    {
-      const auto load_error = luaL_loadfile(state, filename.c_str());
+    const auto load_error = luaL_loadfile(state, filename.data());
 
-      if (0 != load_error)
-      {
-        ODE_ERROR(
-            "Failed to load the Lua script: {}, error code: {}",
-            filename,
-            load_error);
-      }
+    Ensures(LUA_OK == load_error);
 
-      ODE_TRACE(
-          "The script '{}' is loaded with code {}",
-          filename,
-          load_error);
+    ODE_TRACE(
+        "The script '{}' is loaded with code {}",
+        filename.data(),
+        load_error);
 
-      const auto call_error = lua_pcall(state, 0, 0, 0);
+    const auto call_error = lua_pcall(state, 0, 0, 0);
 
-      ODE_TRACE("The script '{}' is called with code {}",
-          filename,
-          call_error);
+    Ensures(LUA_OK == call_error);
 
-      return load_error;
-    }
+    ODE_TRACE("The script '{}' is called with code {}",
+        filename.data(),
+        call_error);
 
-    namespace test
-    {
-      int load_script_file_no_log(
-          const gsl::not_null<lua_State*> state,
-          const std::string& filename) noexcept
-      {
-        const auto load_error = luaL_loadfile(state, filename.c_str());
-
-        if (0 != load_error)
-        {
-          ODE_ERROR(
-              "Failed to load the Lua script: {}, error code: {}",
-              filename,
-              load_error);
-        }
-
-        const auto call_error = lua_pcall(state, 0, 0, 0);
-
-        return load_error;
-      }
-    } // namespace test
-  } // namespace lua
-} // namespace ode
+    return load_error;
+  }
+} // namespace ode::lua

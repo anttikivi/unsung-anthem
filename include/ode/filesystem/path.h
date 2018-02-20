@@ -24,29 +24,24 @@
 #ifndef ODE_FILESYSTEM_PATH_H
 #define ODE_FILESYSTEM_PATH_H
 
-namespace ode
+namespace ode::filesystem::path
 {
-  namespace filesystem
-  {
-    namespace path
-    {
-      ///
-      /// \brief The character which should be used as path separator on the
-      /// current system.
-      ///
+  ///
+  /// \brief The character which should be used as path separator on the
+  /// current system.
+  ///
 #if _WIN32
-      constexpr char preferred_separator = '\\';
+  constexpr char preferred_separator = '\\';
 #else
-      constexpr char preferred_separator = '/';
+  constexpr char preferred_separator = '/';
 #endif // !_WIN32
 
-      ///
-      /// \brief Creates a path for the current system.
-      ///
-      /// \param source the path with 
-      // std::string path(const std::string& source);
-    } // namespace path
-  } // namespace filesystem
-} // namespace ode
+  ///
+  /// \brief Creates a path for the current system.
+  ///
+  /// \param source the path with 
+  // std::string path(const std::string& source);
+
+} // namespace ode::filesystem::path
 
 #endif // !ODE_FILESYSTEM_PATH_H

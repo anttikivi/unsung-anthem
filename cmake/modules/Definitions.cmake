@@ -21,6 +21,9 @@ function(ADD_OPENGL_DEFINITIONS)
 endfunction()
 
 function(ADD_FEATURE_DEFINITIONS)
+  add_definitions(-DGSL_THROW_ON_CONTRACT_VIOLATION=1)
+  # add_definitions(-DGSL_UNENFORCED_ON_CONTRACT_VIOLATION=1)
+
   if(ODE_DEVELOPER)
     add_definitions(-DODE_DEVELOPER=1)
   else()

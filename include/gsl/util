@@ -74,7 +74,7 @@ namespace gsl
     /// of the current scope.
     ///
     constexpr explicit final_action(F f) noexcept
-    : f{std::move(f)}, invoke{true}
+        : f{std::move(f)}, invoke{true}
     {
 
     }
@@ -99,7 +99,7 @@ namespace gsl
     /// object.
     ///
     constexpr final_action(final_action&& o) noexcept
-    : f{std::move(o.f)}, invoke{o.invoke}
+        : f{std::move(o.f)}, invoke{o.invoke}
     {
       // Set the invocation of the other object to false as duplicate
       // invocation of the Callable object is not desired.
@@ -270,33 +270,15 @@ namespace gsl
 
   namespace detail
   {
-#if ODE_CXX14
-
     template <typename T, typename U> struct is_same_signedness final
-    : public std::integral_constant<
-        bool,
-        std::is_signed<T>::value == std::is_signed<U>::value>
+        : public std::bool_constant<std::is_signed_v<T> == std::is_signed_v<U>>
     {
 
     };
-
-#else
-
-    template <typename T, typename U> struct is_same_signedness final
-    : public std::bool_constant<std::is_signed_v<T> == std::is_signed_v<U>>
-    {
-
-    };
-
-#endif // !ODE_CXX14
-
-#if ODE_INLINE_VARIABLES
 
     template <typename T, typename U>
     inline constexpr bool is_same_signedness_v =
         is_same_signedness<T, U>::value;
-
-#endif // ODE_INLINE_VARIABLES
 
   } // namespace detail
 
@@ -322,21 +304,10 @@ namespace gsl
       throw narrowing_error();
     }
 
-#if ODE_INLINE_VARIABLES
-
     if (!detail::is_same_signedness_v<T, U> && ((t < T{}) != (u < U{})))
     {
       throw narrowing_error();
     }
-
-#else
-
-    if (!detail::is_same_signedness<T, U>::value && ((t < T{}) != (u < U{})))
-    {
-      throw narrowing_error();
-    }
-
-#endif // ODE_INLINE_VARIABLES
 
     return t;
   }

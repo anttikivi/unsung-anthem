@@ -25,81 +25,92 @@
 #define ODE_LUA_STACK_H
 
 #include <string>
+#include <string_view>
 #include <utility>
 
 #include "gsl/view"
 
+#include "ode/__config"
+
+#include <lua.hpp>
+
 struct lua_State;
 
-namespace ode
+namespace ode::lua
 {
-  namespace lua
+  ///
+  /// \brief Puts a Lua variable to the top of the Lua stack.
+  ///
+  /// \param state pointer to the Lua state.
+  /// \param var the name of the variable to put to the top of the stack.
+  ///
+  /// \return \c true if the variable was moved successfully, otherwise
+  /// \c false.
+  ///
+  bool to_stack(
+      const gsl::not_null<lua_State*> state,
+      std::string_view var) ODE_CONTRACT_NOEXCEPT;
+
+  namespace detail
   {
-    ///
-    /// \brief Puts a Lua variable to the top of the Lua stack.
-    ///
-    /// \param state pointer to the Lua state.
-    /// \param var the name of the variable to put to the top of the stack.
-    ///
-    /// \return \c true if the variable was moved successfully, otherwise
-    /// \c false.
-    ///
-    bool to_stack(
-        const gsl::not_null<lua_State*> state,
-        const std::string& var) noexcept;
-
-    namespace detail
+    inline void push(const gsl::not_null<lua_State*> state, bool b) noexcept
     {
-      void push(const gsl::not_null<lua_State*> state, bool b) noexcept;
-      void push(const gsl::not_null<lua_State*> state, float f) noexcept;
-      void push(const gsl::not_null<lua_State*> state, int i) noexcept;
-      void push(
-          const gsl::not_null<lua_State*> state,
-          const std::string& s) noexcept;
-    } // namespace detail
-
-    ///
-    /// \brief Pushes the given value to the stack of the Lua state.
-    ///
-    /// \tparam T the type of the first value to be pushed.
-    ///
-    /// \param state pointer to the Lua state.
-    /// \param t the first value to be pushed.
-    ///
-    template <typename T>
-    void push(const gsl::not_null<lua_State*> state, T&& t) noexcept
-    {
-      detail::push(state, std::forward<T>(t));
+      lua_pushboolean(state, b);
     }
 
-    ///
-    /// \brief Pushes the given values to the stack of the Lua state.
-    ///
-    /// \tparam T the type of the first value to be pushed.
-    /// \tparam Types the types of the rest of the values to be pushed.
-    ///
-    /// \param state pointer to the Lua state.
-    /// \param t the first value to be pushed.
-    /// \param types the rest of the values to be pushed.
-    ///
-    template <typename T, typename... Types>
-    void push(
-        const gsl::not_null<lua_State*> state,
-        T&& t,
-        Types&&... types) noexcept
+    inline void push(const gsl::not_null<lua_State*> state, float f) noexcept
     {
-      detail::push(state, std::forward<T>(t));
-      push(state, std::forward<Types>(types)...);
+      lua_pushnumber(state, f);
     }
 
-    namespace test
+    inline void push(const gsl::not_null<lua_State*> state, int i) noexcept
     {
-      bool to_stack_no_log(
-          const gsl::not_null<lua_State*> state,
-          const std::string& var) noexcept;
+      lua_pushinteger(state, i);
+    }
 
-    } // namespace test
-  } // namespace lua
-} // namespace ode
+    // TODO Consider making this constexpr
+    inline void push(
+        const gsl::not_null<lua_State*> state,
+        const std::string& s) noexcept
+    {
+      // TODO Consider storing the pointer returned by ‘lua_pushstring’
+      lua_pushstring(state, s.c_str());
+    }
+  } // namespace detail
+
+  ///
+  /// \brief Pushes the given value to the stack of the Lua state.
+  ///
+  /// \tparam T the type of the first value to be pushed.
+  ///
+  /// \param state pointer to the Lua state.
+  /// \param t the first value to be pushed.
+  ///
+  template <typename T>
+  constexpr void push(const gsl::not_null<lua_State*> state, T&& t) noexcept
+  {
+    detail::push(state, std::forward<T>(t));
+  }
+
+  ///
+  /// \brief Pushes the given values to the stack of the Lua state.
+  ///
+  /// \tparam T the type of the first value to be pushed.
+  /// \tparam Types the types of the rest of the values to be pushed.
+  ///
+  /// \param state pointer to the Lua state.
+  /// \param t the first value to be pushed.
+  /// \param types the rest of the values to be pushed.
+  ///
+  template <typename T, typename... Types>
+  constexpr void push(
+      const gsl::not_null<lua_State*> state,
+      T&& t,
+      Types&&... types) noexcept
+  {
+    detail::push(state, std::forward<T>(t));
+    push(state, std::forward<Types>(types)...);
+  }
+} // namespace ode::lua
 
 #endif // !ODE_LUA_STACK_H

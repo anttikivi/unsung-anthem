@@ -24,35 +24,28 @@
 #ifndef ODE_LUA_SCRIPT_H
 #define ODE_LUA_SCRIPT_H
 
-#include <string>
+#include <string_view>
 
 #include "gsl/view"
 
+#include "ode/__config"
+
 struct lua_State;
 
-namespace ode
+namespace ode::lua
 {
-  namespace lua
-  {
-    ///
-    /// \brief Loads a Lua script from the given file.
-    ///
-    /// \param state pointer to the Lua state.
-    /// \param filename the name of the file.
-    ///
-    /// \return The error code which the Lua API gives.
-    ///
-    int load_script_file(
-        const gsl::not_null<lua_State*> state,
-        const std::string& filename) noexcept;
+  ///
+  /// \brief Loads a Lua script from the given file.
+  ///
+  /// \param state pointer to the Lua state.
+  /// \param filename the name of the file.
+  ///
+  /// \return The error code which the Lua API gives.
+  ///
+  int load_script_file(
+      const gsl::not_null<lua_State*> state,
+      std::string_view filename) ODE_CONTRACT_NOEXCEPT;
 
-    namespace test
-    {
-      int load_script_file_no_log(
-          const gsl::not_null<lua_State*> state,
-          const std::string& filename) noexcept;
-    } // namespace test
-  } // namespace lua
-} // namespace ode
+} // namespace ode::lua
 
 #endif // !ODE_LUA_SCRIPT_H

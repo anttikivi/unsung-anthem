@@ -67,7 +67,7 @@ namespace anthem
   ///
   /// \brief The main logger of the game.
   ///
-  extern ode::logger_t logger;
+  inline ode::logger_t logger = nullptr;
   
   // Logging methods which use the global logger.
   namespace logging
@@ -84,7 +84,7 @@ namespace anthem
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void trace(const char* fmt, const Args&... args)
+    constexpr void trace(const char* fmt, const Args&... args)
     {
       ode::logging::trace(logger, fmt, args...);
     }
@@ -99,7 +99,7 @@ namespace anthem
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void trace(const T& msg)
+    template <class T> constexpr void trace(const T& msg)
     {
       ode::logging::trace(logger, msg);
     }
@@ -116,7 +116,7 @@ namespace anthem
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void debug(const char* fmt, const Args&... args)
+    constexpr void debug(const char* fmt, const Args&... args)
     {
       ode::logging::debug(logger, fmt, args...);
     }
@@ -131,7 +131,7 @@ namespace anthem
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void debug(const T& msg)
+    template <class T> constexpr void debug(const T& msg)
     {
       ode::logging::debug(logger, msg);
     }
@@ -148,7 +148,7 @@ namespace anthem
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void info(const char* fmt, const Args&... args)
+    constexpr void info(const char* fmt, const Args&... args)
     {
       ode::logging::info(logger, fmt, args...);
     }
@@ -163,7 +163,7 @@ namespace anthem
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void info(const T& msg)
+    template <class T> constexpr void info(const T& msg)
     {
       ode::logging::info(logger, msg);
     }
@@ -180,7 +180,7 @@ namespace anthem
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void warn(const char* fmt, const Args&... args)
+    constexpr void warn(const char* fmt, const Args&... args)
     {
       ode::logging::warn(logger, fmt, args...);
     }
@@ -195,7 +195,7 @@ namespace anthem
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void warn(const T& msg)
+    template <class T> constexpr void warn(const T& msg)
     {
       ode::logging::warn(logger, msg);
     }
@@ -212,7 +212,7 @@ namespace anthem
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void error(const char* fmt, const Args&... args)
+    constexpr void error(const char* fmt, const Args&... args)
     {
       ode::logging::error(logger, fmt, args...);
     }
@@ -227,7 +227,7 @@ namespace anthem
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void error(const T& msg)
+    template <class T> constexpr void error(const T& msg)
     {
       ode::logging::error(logger, msg);
     }
@@ -244,7 +244,7 @@ namespace anthem
     /// \param args the substitutions for the message format.
     ///
     template <class... Args>
-    inline void critical(const char* fmt, const Args&... args)
+    constexpr void critical(const char* fmt, const Args&... args)
     {
       ode::logging::critical(logger, fmt, args...);
     }
@@ -259,8 +259,7 @@ namespace anthem
     ///
     /// \param msg the logger message.
     ///
-    template <class T>
-    inline void critical(const T& msg)
+    template <class T> constexpr void critical(const T& msg)
     {
       ode::logging::critical(logger, msg);
     }

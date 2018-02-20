@@ -1,4 +1,4 @@
-//===----------------------------- logger.cpp -------------------*- C++ -*-===//
+//===------------------------------ __config --------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,19 +11,28 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file logger.cpp
-/// \brief Definition of the main logger of Unsung Anthem.
+/// \file __config
+/// \brief The declaration of the preprocessor configurations of Obliging Ode.
 /// \author Antti Kivi
-/// \date 31 January 2018
+/// \date 20 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "anthem/logger.h"
+#ifndef ODE___CONFIG_H
+#define ODE___CONFIG_H
 
-namespace anthem
-{
-  ode::logger_t logger = nullptr;
-} // namespace anthem
+#if defined(GSL_THROW_ON_CONTRACT_VIOLATION) && GSL_THROW_ON_CONTRACT_VIOLATION
+
+# define ODE_CONTRACT_NOEXCEPT
+
+#else
+
+# define ODE_CONTRACT_NOEXCEPT noexcept
+
+#endif // !(defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
+    GSL_THROW_ON_CONTRACT_VIOLATION)
+
+#endif // !ODE___CONFIG_H
