@@ -132,6 +132,9 @@ def build_call(
 
     with shell.pushd(build_dir):
         shell.call(cmake_call, env=cmake_env)
+
+        shell.call(["dir", "/s", "/b", "/o:gn"])
+
         # TODO MSBuild
         if use_ninja:
             if build_targets:
