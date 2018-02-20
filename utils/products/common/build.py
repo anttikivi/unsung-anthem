@@ -86,7 +86,8 @@ def msbuild(args, target=None, env=None, dry_run=None, echo=False):
 
 
 def build_call(
-        product, cmake_args=None, build_targets=None, install_targets=None):
+        product, cmake_args=None, build_targets=None, install_targets=None,
+        solution_name=None):
     """Build the given product by using CMake and the selected program."""
     source_dir = workspace.source_dir(product=product)
     build_dir = workspace.build_dir(product=product)
@@ -151,7 +152,10 @@ def build_call(
             else:
                 make(target="install")
         elif data.build.visual_studio:
-            msbuild_args = ["{}.sln".format(product.key)]
+            if solution_name is None:
+                msbuild_args = ["{}.sln".format(product.key)]
+            else:
+                msbuild_args = ["{}.sln".format(solution_name)]
 
             if args.msbuild_logger is not None:
                 msbuild_args += ["/logger:{}".format(args.msbuild_logger)]
