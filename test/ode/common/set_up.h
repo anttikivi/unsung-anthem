@@ -31,7 +31,7 @@ namespace ode
     ///
     /// \brief Sets up the common dependencies of the tests.
     ///
-    void set_up();
+    void set_up(int argc, char* argv[]);
 
   } // namespace test
 } // namespace ode

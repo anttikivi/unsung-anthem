@@ -23,13 +23,11 @@
 
 #include "ode/common/run_test.h"
 
-#define CATCH_CONFIG_RUNNER
-
-#include <catch.hpp>
-
 #if ODE_TEST_BENCHMARKING
 # include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
+
+#include <gtest/gtest.h>
 
 namespace ode
 {
@@ -37,11 +35,22 @@ namespace ode
   {
     int run(int argc, char* argv[])
     {
-      const int result = Catch::Session().run(argc, argv);
+      ::testing::InitGoogleTest(&argc, argv);
+
+      const int result = RUN_ALL_TESTS();
+
+#if ODE_TEST_BENCHMARKING
+
+      if (::benchmark::ReportUnrecognizedArguments(argc, argv))
+      {
+        return 5;
+      }
+
+      ::benchmark::RunSpecifiedBenchmarks();
+
+#endif // ODE_TEST_BENCHMARKING
 
       return result;
     }
-
-    BENCHMARK_MAIN();
   } // namespace test
 } // namespace ode

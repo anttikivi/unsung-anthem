@@ -24,11 +24,9 @@
 
 #include "gsl/util"
 
-#include <catch.hpp>
+#include <gtest/gtest.h>
 
-TEST_CASE(
-    "the Callable is invoked at the end of the scope",
-    "[gsl::final_action]")
+TEST(gsl_final_action, invoked)
 {
   int i = 0;
 
@@ -43,13 +41,11 @@ TEST_CASE(
     gsl::final_action<decltype(f)> a{f};
   }
 
-  REQUIRE_FALSE(0 == i);
-  REQUIRE(1 == i);
+  ASSERT_NE(0, i);
+  ASSERT_EQ(1, i);
 }
 
-TEST_CASE(
-    "the Callable is not invoked twice if final_action is moved",
-    "[gsl::final_action]")
+TEST_CASE(gsl_final_action, invoked_twice)
 {
   int i = 0;
 

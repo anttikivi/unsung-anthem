@@ -29,13 +29,19 @@
 #include "ode/config.h"
 #include "ode/logging_config.h"
 
+#if ODE_TEST_BENCHMARKING
+# include <benchmark/benchmark.h>
+#endif // ODE_TEST_BENCHMARKING
+
+#include <gtest/gtest.h>
+
 #include <spdlog/sinks/null_sink.h>
 
 namespace ode
 {
   namespace test
   {
-    void set_up()
+    void set_up(int argc, char* argv[])
     {
       auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
 
@@ -44,6 +50,16 @@ namespace ode
           ode::logger_pattern,
           ode::logger_level,
           null_sink);
+
+      ::testing::InitGoogleTest(&argc, argv);
+
+#if ODE_TEST_BENCHMARKING
+
+      ::benchmark::Initialize(&argc, argv);
+      ::benchmark::ReportUnrecognizedArguments(argc, argv);
+      ::benchmark::RunSpecifiedBenchmarks();
+
+#endif // ODE_TEST_BENCHMARKING
     }
   } // namespace test
 } // namespace ode

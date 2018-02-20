@@ -12,8 +12,6 @@
 """The support module containing the utilities for builds."""
 
 
-from __future__ import print_function
-
 import os
 import platform
 
@@ -134,14 +132,6 @@ def build_call(
 
     with shell.pushd(build_dir):
         shell.call(cmake_call, env=cmake_env)
-
-        for dirpath, dirnames, filenames in os.walk(build_dir):
-            print("Now going through directory '{}'".format(dirpath))
-            print("The subdirectories are {}".format(dirnames))
-            for name in filenames:
-                path = os.path.join(dirpath, name)
-                print("Checking file {}".format(name))
-                print("Full path to the file is {}".format(path))
 
         # TODO MSBuild
         if use_ninja:

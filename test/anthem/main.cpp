@@ -37,8 +37,8 @@ int main(int argc, char* argv[])
       "anthem_test_logger",
       anthem::logger_pattern,
       anthem::logger_level);
-  ode::test::set_up();
+  ode::test::set_up(argc, argv);
   const int result = ode::test::run(argc, argv);
   ode::test::clean_up();
-  return result < 0xff ? result : 0xff;
+  return result;
 }
