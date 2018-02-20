@@ -133,7 +133,8 @@ def build_call(
     with shell.pushd(build_dir):
         shell.call(cmake_call, env=cmake_env)
 
-        shell.call(["dir", "/s", "/b", "/o:gn"])
+        # shell.call(["dir", "/s", "/b", "/o:gn"])
+        shell.call(["tree", "/f"])
 
         # TODO MSBuild
         if use_ninja:
