@@ -107,7 +107,7 @@ matrix:
     - BUILD_PRESET=travis_darwin_xcode73_clang_cxx14
     - ENABLE_COVERAGE=false
 
-  Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
+  # Darwin: macOS 10.12 Xcode 8.3.3 C++17 Clang
   - os: osx
     osx_image: xcode8.3
     compiler: clang
