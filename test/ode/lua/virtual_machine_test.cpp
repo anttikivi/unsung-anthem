@@ -29,12 +29,10 @@
 
 #include "ode/config.h"
 
-#include "ode/common/lua_state.h"
-
 #include <catch.hpp>
 
 #if ODE_TEST_BENCHMARKING
-# include <hayai/hayai.hpp>
+# include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
 
 TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
@@ -48,7 +46,7 @@ TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
       + ode::filesystem::path::preferred_separator
       + "virtual_machine.lua";
 
-  const auto load_error = luaL_loadfile(state, filename.c_str());
+  const auto load_error = luaL_loadfile(state, filename.data());
 
   lua_pcall(state, 0, 0, 0);
 
@@ -63,20 +61,34 @@ TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
   const auto floating = ode::lua::get<float>(state, float_var);
   const auto boolean = ode::lua::get<bool>(state, bool_var);
 
-  const auto made_up_str = ode::lua::get<std::string>(state, made_up_var);
-  const auto made_up_int = ode::lua::get<int>(state, made_up_var);
-  const auto made_up_float = ode::lua::get<float>(state, made_up_var);
-  const auto made_up_bool = ode::lua::get<bool>(state, made_up_var);
-
   REQUIRE(std::string{"Hello!"} == str);
   REQUIRE(3 == integer);
   REQUIRE(7.4f == floating);
   REQUIRE(true == boolean);
 
+#if defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION) && \
+    GSL_UNENFORCED_ON_CONTRACT_VIOLATION
+
+  const auto made_up_str = ode::lua::get<std::string>(state, made_up_var);
+  const auto made_up_int = ode::lua::get<int>(state, made_up_var);
+  const auto made_up_float = ode::lua::get<float>(state, made_up_var);
+  const auto made_up_bool = ode::lua::get<bool>(state, made_up_var);
+
   REQUIRE(std::string{"null"} == made_up_str);
   REQUIRE(0 == made_up_int);
   REQUIRE(0 == made_up_float);
   REQUIRE(0 == made_up_bool);
+
+#elif defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
+    GSL_THROW_ON_CONTRACT_VIOLATION
+
+  REQUIRE_THROWS(ode::lua::get<std::string>(state, made_up_var));
+  REQUIRE_THROWS(ode::lua::get<int>(state, made_up_var));
+  REQUIRE_THROWS(ode::lua::get<float>(state, made_up_var));
+  REQUIRE_THROWS(ode::lua::get<bool>(state, made_up_var));
+  
+#endif // defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
+    GSL_THROW_ON_CONTRACT_VIOLATION
 
   lua_close(state);
 
@@ -114,104 +126,346 @@ TEST_CASE("Lua functions are called", "[ode::lua::call]")
 
 #if ODE_TEST_BENCHMARKING
 
-BENCHMARK(ode, lua_get_str, 10, 1000)
+static void ode_bm_lua_get_str(benchmark::State& state)
 {
-  const auto s = ode::lua::get<std::string>(ode::test::lua_state_vm, "str");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto s = ode::lua::get<std::string>(l, "str");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_greeting, 10, 1000)
+BENCHMARK(ode_bm_lua_get_str);
+
+static void ode_bm_lua_get_greeting(benchmark::State& state)
 {
-  const auto s = ode::lua::get<std::string>(
-      ode::test::lua_state_vm,
-      "greeting");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto s = ode::lua::get<std::string>(l, "greeting");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_int, 10, 1000)
+BENCHMARK(ode_bm_lua_get_greeting);
+
+static void ode_bm_lua_get_int(benchmark::State& state)
 {
-  const auto i = ode::lua::get<int>(ode::test::lua_state_vm, "int");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto i = ode::lua::get<int>(l, "int");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_integer, 10, 1000)
+BENCHMARK(ode_bm_lua_get_int);
+
+static void ode_bm_lua_get_integer(benchmark::State& state)
 {
-  const auto i = ode::lua::get<int>(ode::test::lua_state_vm, "integer");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto i = ode::lua::get<int>(l, "integer");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_f, 10, 1000)
+BENCHMARK(ode_bm_lua_get_integer);
+
+static void ode_bm_lua_get_f(benchmark::State& state)
 {
-  const auto f = ode::lua::get<float>(ode::test::lua_state_vm, "f");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto f = ode::lua::get<float>(l, "f");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_float, 10, 1000)
+BENCHMARK(ode_bm_lua_get_f);
+
+static void ode_bm_lua_get_float(benchmark::State& state)
 {
-  const auto f = ode::lua::get<float>(
-      ode::test::lua_state_vm,
-      "floating_point");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto f = ode::lua::get<float>(l, "float");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_b, 10, 1000)
+BENCHMARK(ode_bm_lua_get_float);
+
+static void ode_bm_lua_get_b(benchmark::State& state)
 {
-  const auto b = ode::lua::get<bool>(ode::test::lua_state_vm, "b");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto b = ode::lua::get<bool>(l, "b");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_bool, 10, 1000)
+BENCHMARK(ode_bm_lua_get_b);
+
+static void ode_bm_lua_get_bool(benchmark::State& state)
 {
-  const auto b = ode::lua::get<bool>(ode::test::lua_state_vm, "boolean");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto b = ode::lua::get<bool>(l, "boolean");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_table_str, 10, 1000)
+BENCHMARK(ode_bm_lua_get_bool);
+
+static void ode_bm_lua_get_table_str(benchmark::State& state)
 {
-  const auto s = ode::lua::get<std::string>(
-      ode::test::lua_state_vm,
-      "table.str");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto s = ode::lua::get<std::string>(l, "table.str");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_table_greeting, 10, 1000)
+BENCHMARK(ode_bm_lua_get_table_str);
+
+static void ode_bm_lua_get_table_greeting(benchmark::State& state)
 {
-  const auto s = ode::lua::get<std::string>(
-      ode::test::lua_state_vm,
-      "table.greeting");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto s = ode::lua::get<std::string>(l, "table.greeting");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_table_int, 10, 1000)
+BENCHMARK(ode_bm_lua_get_table_greeting);
+
+static void ode_bm_lua_get_table_int(benchmark::State& state)
 {
-  const auto i = ode::lua::get<int>(ode::test::lua_state_vm, "table.int");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto i = ode::lua::get<int>(l, "table.int");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_table_integer, 10, 1000)
+BENCHMARK(ode_bm_lua_get_table_int);
+
+static void ode_bm_lua_get_table_integer(benchmark::State& state)
 {
-  const auto i = ode::lua::get<int>(ode::test::lua_state_vm, "table.integer");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto i = ode::lua::get<int>(l, "table.integer");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_table_f, 10, 1000)
+BENCHMARK(ode_bm_lua_get_table_integer);
+
+static void ode_bm_lua_get_table_f(benchmark::State& state)
 {
-  const auto f = ode::lua::get<float>(ode::test::lua_state_vm, "table.f");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto f = ode::lua::get<float>(l, "table.f");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_table_float, 10, 1000)
+BENCHMARK(ode_bm_lua_get_table_f);
+
+static void ode_bm_lua_get_table_float(benchmark::State& state)
 {
-  const auto f = ode::lua::get<float>(
-      ode::test::lua_state_vm,
-      "table.floating_point");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto f = ode::lua::get<float>(l, "table.float");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_table_b, 10, 1000)
+BENCHMARK(ode_bm_lua_get_table_float);
+
+static void ode_bm_lua_get_table_b(benchmark::State& state)
 {
-  const auto b = ode::lua::get<bool>(ode::test::lua_state_vm, "table.b");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto b = ode::lua::get<bool>(l, "table.b");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_get_table_bool, 10, 1000)
+BENCHMARK(ode_bm_lua_get_table_b);
+
+static void ode_bm_lua_get_table_bool(benchmark::State& state)
 {
-  const auto b = ode::lua::get<bool>(ode::test::lua_state_vm, "table.boolean");
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto b = ode::lua::get<bool>(l, "table.bool");
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_call_add, 10, 1000)
+BENCHMARK(ode_bm_lua_get_table_bool);
+
+static void ode_bm_lua_call_add(benchmark::State& state)
 {
-  const auto i = ode::lua::call<int>(ode::test::lua_state_vm, "add", 688, 12);
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto i = ode::lua::call<int>(l, "add", 688, 12);
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_call_pow, 10, 1000)
+BENCHMARK(ode_bm_lua_call_add);
+
+static void ode_bm_lua_call_pow(benchmark::State& state)
 {
-  const auto i = ode::lua::call<int>(ode::test::lua_state_vm, "pow", 2, 7);
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "virtual_machine_benchmark.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    const auto i = ode::lua::call<int>(l, "pow", 2, 7);
+  }
+
+  lua_close(l);
 }
+
+BENCHMARK(ode_bm_lua_call_pow);
 
 #endif // ODE_TEST_BENCHMARKING

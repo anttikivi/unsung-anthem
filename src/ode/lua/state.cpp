@@ -23,18 +23,16 @@
 
 #include "ode/lua/state.h"
 
-namespace ode
+namespace ode::lua
 {
-  namespace lua
+  state_ptr make_state() noexcept
   {
-    state_ptr make_state() noexcept
-    {
-      return state_ptr{luaL_newstate(), &lua_close};
-    }
+    return state_ptr{luaL_newstate(), &lua_close};
+  }
 
-    void clean(const gsl::not_null<lua_State*> state) noexcept
-    {
-      lua_pop(state, lua_gettop(state));
-    }
-  } // namespace lua
-} // namespace ode
+  void clean(const gsl::not_null<lua_State*> state) noexcept
+  {
+    lua_pop(state, lua_gettop(state));
+  }
+
+} // namespace ode::lua

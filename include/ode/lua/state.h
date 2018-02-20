@@ -30,29 +30,27 @@
 
 #include <lua.hpp>
 
-namespace ode
+namespace ode::lua
 {
-  namespace lua
-  {
-    ///
-    /// \brief The type of a pointer to an object of Lua state.
-    ///
-    using state_ptr = std::unique_ptr<lua_State, decltype(&lua_close)>;
+  ///
+  /// \brief The type of a pointer to an object of Lua state.
+  ///
+  using state_ptr = std::unique_ptr<lua_State, decltype(&lua_close)>;
 
-    ///
-    /// \brief Makes a new Lua state.
-    ///
-    /// \return Pointer to the new \c lua_State.
-    ///
-    state_ptr make_state() noexcept;
+  ///
+  /// \brief Makes a new Lua state.
+  ///
+  /// \return Pointer to the new \c lua_State.
+  ///
+  state_ptr make_state() noexcept;
 
-    ///
-    /// \brief Resets the Lua state.
-    ///
-    /// \param state the state to reset.
-    ///
-    void clean(const gsl::not_null<lua_State*> state) noexcept;
-  } // namespace lua
-} // namespace ode
+  ///
+  /// \brief Resets the Lua state.
+  ///
+  /// \param state the state to reset.
+  ///
+  void clean(const gsl::not_null<lua_State*> state) noexcept;
+
+} // namespace ode::lua
 
 #endif // !ODE_LUA_STATE_H

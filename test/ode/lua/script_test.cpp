@@ -28,12 +28,10 @@
 
 #include "ode/config.h"
 
-#include "ode/common/lua_state.h"
-
 #include <catch.hpp>
 
 #if ODE_TEST_BENCHMARKING
-
+# include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
 
 TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
@@ -80,26 +78,23 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
 
 #if ODE_TEST_BENCHMARKING
 
-BENCHMARK(ode, lua_load_script_file, 10, 1000)
+static void ode_bm_load_script_file(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "script.lua";
 
-  ode::lua::load_script_file(ode::test::lua_state_script, filename.c_str());
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    ode::lua::load_script_file(l, filename.c_str());
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_load_script_file_no_log, 10, 1000)
-{
-  const std::string filename = 
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "script.lua";
-
-  ode::lua::test::load_script_file_no_log(
-      ode::test::lua_state_script,
-      filename.c_str());
-}
+BENCHMARK(ode_bm_load_script_file);
 
 #endif // ODE_TEST_BENCHMARKING

@@ -68,7 +68,7 @@ def find_release_node(product, json_data, let_use_fallback=False):
     gh_version = get_github_version(product)
     for edge in release_edges:
         node = edge["node"]
-        if node["name"] == "":
+        if node is None or node["name"] == "":
             continue
         if node["name"] == gh_version:
             diagnostics.debug("Found the release {} ({}) of {}".format(
@@ -90,7 +90,7 @@ def find_release_node_by_tag(product, json_data):
     gh_version = get_github_version(product)
     for edge in release_edges:
         node = edge["node"]
-        if node["name"] == "":
+        if node is None or node["name"] == "":
             continue
         tag_name = node["tag"]["name"]
         if tag_name == gh_version:

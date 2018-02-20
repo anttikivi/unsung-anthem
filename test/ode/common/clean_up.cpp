@@ -23,23 +23,12 @@
 
 #include "ode/common/clean_up.h"
 
-#include "ode/common/lua_state.h"
-
 namespace ode
 {
   namespace test
   {
     void clean_up()
     {
-      lua_close(lua_state_script);
-      lua_close(lua_state_stack);
-      lua_close(lua_state_push);
-      lua_close(lua_state_vm);
-
-      lua_state_script = nullptr;
-      lua_state_stack = nullptr;
-      lua_state_push = nullptr;
-      lua_state_vm = nullptr;
     }
   } // namespace test
 } // namespace ode

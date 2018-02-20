@@ -27,123 +27,211 @@
 
 #include "ode/config.h"
 
-#include "ode/common/lua_state.h"
-
 #include <catch.hpp>
 
 #if ODE_TEST_BENCHMARKING
-# include <hayai/hayai.hpp>
+# include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
 
 TEST_CASE("Lua variable is set to stack", "[ode::lua::to_stack]")
 {
-  lua_State* state = luaL_newstate();
+  lua_State* l = luaL_newstate();
 
   const std::string filename = 
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack.lua";
 
-  luaL_openlibs(state);
+  luaL_openlibs(l);
 
-  const auto error_code = luaL_loadfile(state, filename.c_str());
+  const auto error_code = luaL_loadfile(l, filename.c_str());
 
-  lua_pcall(state, 0, 0, 0);
+  lua_pcall(l, 0, 0, 0);
 
-  const bool is_put = ode::lua::to_stack(state, "testing.lua.stack");
+  const bool is_put = ode::lua::to_stack(l, "testing.lua.stack");
 
-  REQUIRE(3 == lua_gettop(state));
+  REQUIRE(3 == lua_gettop(l));
 
-  lua_pop(state, 3);
+  lua_pop(l, 3);
 
-  lua_close(state);
+  lua_close(l);
 }
 
 TEST_CASE("Variables are pushed to Lua stack", "[ode::lua::push]")
 {
-  lua_State* state = luaL_newstate();
+  lua_State* l = luaL_newstate();
 
   const std::string filename = 
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack.lua";
 
-  luaL_openlibs(state);
+  luaL_openlibs(l);
 
-  const auto error_code = luaL_loadfile(state, filename.c_str());
+  const auto error_code = luaL_loadfile(l, filename.c_str());
 
-  lua_pcall(state, 0, 0, 0);
+  lua_pcall(l, 0, 0, 0);
 
-  ode::lua::push(state, 3, 2.5f, std::string{"Hello, world!"}, true);
+  ode::lua::push(l, 3, 2.5f, std::string{"Hello, world!"}, true);
 
-  REQUIRE(4 == lua_gettop(state));
+  REQUIRE(4 == lua_gettop(l));
 
-  lua_pop(state, 4);
+  lua_pop(l, 4);
 
-  lua_close(state);
+  lua_close(l);
 }
 
 #if ODE_TEST_BENCHMARKING
 
-BENCHMARK(ode, lua_to_stack, 10, 1000)
+static void ode_bm_to_stack(benchmark::State& state)
 {
-  ode::lua::to_stack(ode::test::lua_state_stack, "testing.lua.stack");
-  lua_pop(ode::test::lua_state_stack, lua_gettop(ode::test::lua_state_stack));
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "stack.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    ode::lua::to_stack(l, "testing.lua.stack");
+    lua_pop(l, lua_gettop(l));
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_to_stack_no_log, 10, 1000)
+BENCHMARK(ode_bm_to_stack);
+
+static void ode_bm_push_bool(benchmark::State& state)
 {
-  ode::lua::test::to_stack_no_log(
-      ode::test::lua_state_stack,
-      "testing.lua.stack");
-  lua_pop(ode::test::lua_state_stack, lua_gettop(ode::test::lua_state_stack));
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "stack_push.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    ode::lua::push(l, true);
+    lua_pop(l, lua_gettop(l));
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_push_bool, 10, 1000)
+BENCHMARK(ode_bm_push_bool);
+
+static void ode_bm_push_float(benchmark::State& state)
 {
-  ode::lua::push(ode::test::lua_state_push, true);
-  lua_pop(ode::test::lua_state_push, lua_gettop(ode::test::lua_state_push));
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "stack_push.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    ode::lua::push(l, 15.4f);
+    lua_pop(l, lua_gettop(l));
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_push_float, 10, 1000)
+BENCHMARK(ode_bm_push_float);
+
+static void ode_bm_push_int(benchmark::State& state)
 {
-  ode::lua::push(ode::test::lua_state_push, 15.4f);
-  lua_pop(ode::test::lua_state_push, lua_gettop(ode::test::lua_state_push));
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "stack_push.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    ode::lua::push(l, 3997);
+    lua_pop(l, lua_gettop(l));
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_push_int, 10, 1000)
+BENCHMARK(ode_bm_push_int);
+
+static void ode_bm_push_string(benchmark::State& state)
 {
-  ode::lua::push(ode::test::lua_state_push, 3997);
-  lua_pop(ode::test::lua_state_push, lua_gettop(ode::test::lua_state_push));
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "stack_push.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    ode::lua::push(l, "A string");
+    lua_pop(l, lua_gettop(l));
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_push_string, 10, 1000)
+BENCHMARK(ode_bm_push_string);
+
+static void ode_bm_push_string_longer(benchmark::State& state)
 {
-  ode::lua::push(ode::test::lua_state_push, "A string");
-  lua_pop(ode::test::lua_state_push, lua_gettop(ode::test::lua_state_push));
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "stack_push.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    ode::lua::push(
+        l,
+        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed "
+        "posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia "
+        "quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu "
+        "lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue "
+        "orci, lacinia eu tincidunt et eleifend nec lacus. Donec ultricies "
+        "nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit "
+        "mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. "
+        "Aliquam erat volutpat. Sed congue augue vitae neque. Nulla "
+        "consectetuer porttitor pede. Fusce purus morbi tortor magna "
+        "condimentum vel, placerat id blandit sit amet tortor.");
+    lua_pop(l, lua_gettop(l));
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_push_string_longer, 10, 1000)
+BENCHMARK(ode_bm_push_string_longer);
+
+static void ode_bm_push(benchmark::State& state)
 {
-  ode::lua::push(
-    ode::test::lua_state_push,
-    "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere "
-    "interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis "
-    "facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus "
-    "auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, "
-    "lacinia eu tincidunt et eleifend nec lacus. Donec ultricies nisl ut "
-    "felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, "
-    "ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat "
-    "volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor "
-    "pede. Fusce purus morbi tortor magna condimentum vel, placerat id "
-    "blandit sit amet tortor.");
-  lua_pop(ode::test::lua_state_push, lua_gettop(ode::test::lua_state_push));
+  const std::string filename = 
+      std::string{ode::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "stack_push.lua";
+
+  lua_State* l = luaL_newstate();
+
+  for (auto _ : state)
+  {
+    ode::lua::push(l, "Hello, World!", true, 366, 4.6f);
+    lua_pop(l, lua_gettop(l));
+  }
+
+  lua_close(l);
 }
 
-BENCHMARK(ode, lua_push, 10, 1000)
-{
-  ode::lua::push(ode::test::lua_state_push, "Hello, World!", true, 366, 4.6f);
-  lua_pop(ode::test::lua_state_push, lua_gettop(ode::test::lua_state_push));
-}
+BENCHMARK(ode_bm_push);
 
 #endif // ODE_TEST_BENCHMARKING

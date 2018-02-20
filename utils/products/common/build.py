@@ -126,7 +126,8 @@ def build_call(
         else:
             cmake_call += cmake_args
 
-    cmake_env = {"CC": toolchain.cc, "CXX": toolchain.cxx}
+    # cmake_env = {"CC": toolchain.cc, "CXX": toolchain.cxx}
+    cmake_env = {}
 
     with shell.pushd(build_dir):
         shell.call(cmake_call, env=cmake_env)

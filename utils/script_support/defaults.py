@@ -138,6 +138,20 @@ PRODUCT_CONFIG = Mapping(
         )
     ),
 
+    googletest=product_config(
+        version="1.8.0",
+        name="Google Test",
+        key="googletest",
+        is_tool=False,
+        is_source=True,
+        github_data=github_config(
+            owner="google",
+            name="googletest",
+            asset_data=SOURCE_ASSET,
+            version_prefix="release-"
+        )
+    ),
+
     lua=product_config(
         version="5.3.4",
         name="Lua",
