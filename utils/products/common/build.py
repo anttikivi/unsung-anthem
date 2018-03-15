@@ -138,6 +138,15 @@ def build_call(
     with shell.pushd(build_dir):
         shell.call(cmake_call, env=cmake_env)
 
+        if args.verbose_build:
+            for dirpath, dirnames, filenames in os.walk(build_dir):
+                print("Now going through directory '{}'".format(dirpath))
+                print("The subdirectories are {}".format(dirnames))
+                for name in filenames:
+                    path = os.path.join(dirpath, name)
+                    print("Checking file {}".format(name))
+                    print("Full path to the file is {}".format(path))
+
         # TODO MSBuild
         if use_ninja:
             if build_targets:
