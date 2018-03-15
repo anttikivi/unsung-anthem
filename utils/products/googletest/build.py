@@ -63,6 +63,7 @@ def do_build():
         common.build.build_call(product=product, cmake_args={
             "CMAKE_CXX_FLAGS": "/D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"
         }, solution_name="gtest", source_subdir="googletest")
+        _copy_windows()
     else:
         common.build.build_call(
             product=product, solution_name="gtest", source_subdir="googletest")
