@@ -23,28 +23,6 @@ from products import common
 from script_support import data
 
 
-def _build_windows():
-    product = data.build.products.googletest
-    common.build.check_source(product)
-    bin_path = os.path.join(data.build.local_root, "lib", "libgoogletest.a")
-    build_dir = workspace.build_dir(product)
-    if common.build.binary_exists(product=product, path=bin_path):
-        return
-    shell.rmtree(build_dir)
-    source_dir = workspace.source_dir(product)
-    shell.copytree(source_dir, build_dir)
-    with shell.pushd(os.path.join(build_dir, "googletest", "msvc")):
-        common.build.msbuild("gtest")  # if doesn't work then vcproj file
-
-    for dirpath, dirnames, filenames in os.walk(build_dir):
-            print("Now going through directory '{}'".format(dirpath))
-            print("The subdirectories are {}".format(dirnames))
-            for name in filenames:
-                path = os.path.join(dirpath, name)
-                print("Checking file {}".format(name))
-                print("Full path to the file is {}".format(path))
-
-
 def _build():
     product = data.build.products.googletest
     common.build.check_source(product)
@@ -62,9 +40,27 @@ def do_build():
     """Build Google Test."""
     product = data.build.products.googletest
     common.build.check_source(product)
-    # if platform.system() == "Windows":
-    # _build_windows()
-    _build()
+    if platform.system() == "Windows":
+        bin_path = os.path.join(data.build.local_root, "lib", "googletest.lib")
+    else:
+        bin_path = os.path.join(
+            data.build.local_root, "lib", "libgoogletest.a")
+    build_dir = workspace.build_dir(product)
+    if common.build.binary_exists(product=product, path=bin_path):
+        return
+    shell.makedirs(build_dir)
+    if platform.system() == "Windows":
+        common.build.build_call(product=product, cmake_args={
+            "CMAKE_CXX_FLAGS": "/D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"
+        }, solution_name="gtest", source_subdir="googletest")
+    else:
+        common.build.build_call(
+            product=product, solution_name="gtest", source_subdir="googletest")
+    for dirpath, dirnames, filenames in os.walk(build_dir):
+        print("Now going through directory '{}'".format(dirpath))
+        for name in filenames:
+            path = os.path.join(dirpath, name)
+            print(path)
 
 
 def should_build():
