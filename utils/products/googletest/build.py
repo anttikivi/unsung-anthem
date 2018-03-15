@@ -39,11 +39,6 @@ def _copy_windows():
     shell.copytree(
         os.path.join(source_dir, "googletest", "include", "gtest"),
         os.path.join(data.build.local_root, "include", "gtest"))
-    for dirpath, dirnames, filenames in os.walk(data.build.local_root):
-        print("Now going through directory '{}'".format(dirpath))
-        for name in filenames:
-            path = os.path.join(dirpath, name)
-            print(path)
 
 
 def do_build():
@@ -67,11 +62,6 @@ def do_build():
     else:
         common.build.build_call(
             product=product, solution_name="gtest", source_subdir="googletest")
-    for dirpath, dirnames, filenames in os.walk(build_dir):
-        print("Now going through directory '{}'".format(dirpath))
-        for name in filenames:
-            path = os.path.join(dirpath, name)
-            print(path)
 
 
 def should_build():
