@@ -54,7 +54,7 @@ def _build():
         return
     shell.makedirs(build_dir)
     common.build.build_call(product=product, cmake_args={
-        "CMAKE_CXX_FLAGS": "-DGTEST_LANG_CXX11=1"
+        "CMAKE_CXX_FLAGS": "/D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"
     }, solution_name="gtest", source_subdir="googletest")
 
 
