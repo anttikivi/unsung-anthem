@@ -173,6 +173,10 @@ def construct_call(is_ode=False, lib=False, test=False):
     else:
         cmake_call += ["-DODE_LINK_LIBCXX=OFF"]
 
+    if test and platform.system() == "Windows":
+        cmake_call += \
+            ["CMAKE_CXX_FLAGS=/D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"]
+
     if args.extra_cmake_options:
         cmake_call += args.extra_cmake_options
 
