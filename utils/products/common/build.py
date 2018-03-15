@@ -141,10 +141,10 @@ def build_call(
         if args.verbose_build:
             for dirpath, dirnames, filenames in os.walk(build_dir):
                 print("Now going through directory '{}'".format(dirpath))
-                print("The subdirectories are {}".format(dirnames))
+                # print("The subdirectories are {}".format(dirnames))
                 for name in filenames:
                     path = os.path.join(dirpath, name)
-                    print("Checking file {}".format(name))
+                    # print("Checking file {}".format(name))
                     print("Full path to the file is {}".format(path))
 
         # TODO MSBuild
