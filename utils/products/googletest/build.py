@@ -57,7 +57,7 @@ def _build():
         # "BENCHMARK_USE_LIBCXX": True,
         # "CMAKE_CXX_FLAGS": "-I/usr/local/include/c++/v1"
     # }, solution_name="gtest")
-    }, solution_name="ALL_BUILD")
+    }, solution_name="ALL_BUILD", source_subdir="googletest")
 
 
 def do_build():
