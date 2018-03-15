@@ -87,9 +87,8 @@ def msbuild(args, target=None, env=None, dry_run=None, echo=False):
 
 def build_call(
         product, cmake_args=None, build_targets=None, install_targets=None,
-        solution_name=None):
+        solution_name=None, source_subdir=None):
     """Build the given product by using CMake and the selected program."""
-    source_dir = workspace.source_dir(product=product)
     build_dir = workspace.build_dir(product=product)
     args = data.build.args
     toolchain = data.build.toolchain
@@ -102,6 +101,12 @@ def build_call(
         build_type = getattr(args, "{}_build_variant".format(build_type_key))
     else:
         build_type = None
+
+    if source_subdir:
+        source_dir = os.path.join(
+            workspace.source_dir(product=product), source_subdir)
+    else:
+        source_dir = workspace.source_dir(product=product)
 
     cmake_call = [
         toolchain.cmake, source_dir,

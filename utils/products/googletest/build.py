@@ -34,7 +34,7 @@ def _build_windows():
     source_dir = workspace.source_dir(product)
     shell.copytree(source_dir, build_dir)
     with shell.pushd(os.path.join(build_dir, "googletest", "msvc")):
-        common.build.msbuild("gtest")
+        common.build.msbuild("gtest")  # if doesn't work then vcproj file
 
     for dirpath, dirnames, filenames in os.walk(build_dir):
             print("Now going through directory '{}'".format(dirpath))
@@ -45,12 +45,27 @@ def _build_windows():
                 print("Full path to the file is {}".format(path))
 
 
+def _build():
+    product = data.build.products.googletest
+    common.build.check_source(product)
+    bin_path = os.path.join(data.build.local_root, "lib", "libgoogletest.a")
+    build_dir = workspace.build_dir(product)
+    if common.build.binary_exists(product=product, path=bin_path):
+        return
+    shell.makedirs(build_dir)
+    common.build.build_call(product=product, cmake_args={
+        # "BENCHMARK_USE_LIBCXX": True,
+        # "CMAKE_CXX_FLAGS": "-I/usr/local/include/c++/v1"
+    }, solution_name="gtest")
+
+
 def do_build():
     """Build Google Test."""
     product = data.build.products.googletest
     common.build.check_source(product)
-    if platform.system() == "Windows":
-        _build_windows()
+    # if platform.system() == "Windows":
+    # _build_windows()
+    _build()
 
 
 def should_build():
