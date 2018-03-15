@@ -145,7 +145,8 @@ def build_call(
                 for name in filenames:
                     path = os.path.join(dirpath, name)
                     # print("Checking file {}".format(name))
-                    print("Full path to the file is {}".format(path))
+                    # print("Full path to the file is {}".format(path))
+                    print(path)
 
         # TODO MSBuild
         if use_ninja:
