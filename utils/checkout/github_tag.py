@@ -20,8 +20,6 @@ from build_utils import diagnostics, shell, workspace
 
 from script_support import data
 
-from script_support.variables import ANTHEM_SOURCE_ROOT
-
 from . import github_v4_util
 
 
@@ -41,7 +39,7 @@ def checkout_tag_windows(product, tag_ref_name):
 def checkout_tag(product, tag_ref_name):
     """Checkout a tag."""
     key = product.key
-    with shell.pushd(os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key)):
+    with shell.pushd(os.path.join(workspace.temp_dir(product=product), key)):
         shell.call([
             data.build.toolchain.git, "checkout",
             "tags/{}".format(tag_ref_name), "-b",
@@ -64,8 +62,7 @@ def download_v4(product):
             shell.call([data.build.toolchain.git, "clone", "{}.git".format(
                 response_json_data["repository"]["url"]), tail])
     else:
-        with shell.pushd(
-                os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp")):
+        with shell.pushd(workspace.temp_dir(product=product)):
             shell.call([data.build.toolchain.git, "clone", "{}.git".format(
                 response_json_data["repository"]["url"])])
     release_node = github_v4_util.find_release_node(

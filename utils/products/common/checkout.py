@@ -16,8 +16,6 @@ import os
 
 from build_utils import shell, workspace
 
-from script_support.variables import ANTHEM_SOURCE_ROOT
-
 
 def clean_checkout(product):
     """
@@ -25,6 +23,6 @@ def clean_checkout(product):
     new one.
     """
     shell.rmtree(workspace.source_dir(product=product))
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.rmtree(workspace.temp_dir(product=product))
     shell.makedirs(workspace.source_dir(product=product))
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.makedirs(workspace.temp_dir(product=product))

@@ -15,7 +15,7 @@ import os
 
 from script_support import data
 
-from script_support.variables import ANTHEM_SOURCE_ROOT
+from script_support.variables import ANTHEM_CHECKOUT_ROOT
 
 from . import shell
 
@@ -101,7 +101,12 @@ def source_dir(product):
     else:
         target = data.build.host_target
     return os.path.join(
-        ANTHEM_SOURCE_ROOT, product.key, product.version, target)
+        data.build.checkout_root, product.key, product.version, target)
+
+
+def temp_dir(product):
+    """Create the absolute path to the temporary directory of the product."""
+    return os.path.join(data.build.checkout_root, product.key, "temp")
 
 
 def build_dir(product, target=None):

@@ -46,6 +46,12 @@ ANTHEM_SOURCE_ROOT = os.environ.get(
     "ANTHEM_SOURCE_ROOT", _get_default_source_root())
 
 
+# $ANTHEM_CHECKOUT_ROOT is resolved from $ANTHEM_SOURCE_ROOT if the environment
+# variable is not set.
+ANTHEM_CHECKOUT_ROOT = os.environ.get(
+    "ANTHEM_CHECKOUT_ROOT", os.path.join(ANTHEM_SOURCE_ROOT, "checkout"))
+
+
 # $ANTHEM_BUILD_ROOT is resolved from $ANTHEM_SOURCE_ROOT if the environment
 # variable is not set.
 ANTHEM_BUILD_ROOT = os.environ.get(
@@ -68,7 +74,7 @@ ANTHEM_REPO_NAME = os.environ.get(
 SCRIPT_DIR = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils")
 
 
-CHECKOUT_FILE = os.path.join(ANTHEM_SOURCE_ROOT, "checkout_data")
+CHECKOUT_FILE = os.path.join(ANTHEM_CHECKOUT_ROOT, "data")
 
 
 SOURCE_TARGET = "src"

@@ -20,8 +20,6 @@ from products import common
 
 from script_support import data
 
-from script_support.variables import ANTHEM_SOURCE_ROOT
-
 
 def move_files():
     """Move the SDL files to the correct location after the download."""
@@ -34,9 +32,9 @@ def move_files():
         product.repr, subdir))
 
     shell.copytree(
-        os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp", subdir),
+        os.path.join(workspace.temp_dir(product=product), subdir),
         workspace.source_dir(product=product))
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.rmtree(workspace.temp_dir(product=product))
 
 
 def get_dependency():
@@ -54,11 +52,10 @@ def get_dependency():
         url = product.url_format.format(
             protocol="http", version=version, extension=archive_extension)
     destination = os.path.join(
-        ANTHEM_SOURCE_ROOT, product.key, "temp",
+        workspace.temp_dir(product=product),
         "sdl.{}".format(archive_extension))
     http_stream.stream(url=url, destination=destination)
-    shell.tar(path=destination, dest=os.path.join(
-        ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.tar(path=destination, dest=workspace.temp_dir(product=product))
     shell.rm(destination)
     move_files()
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.rmtree(workspace.temp_dir(product=product))

@@ -45,7 +45,7 @@ from script_support import defaults, data, driver_arguments
 from script_support.defaults import PRODUCT_CONFIG
 
 from script_support.variables import HOME, ANTHEM_REPO_NAME, \
-    ANTHEM_SOURCE_ROOT, ANTHEM_BUILD_ROOT
+    ANTHEM_SOURCE_ROOT, ANTHEM_BUILD_ROOT, ANTHEM_CHECKOUT_ROOT
 
 
 def _exit_rejecting_arguments(message, parser=None):
@@ -115,8 +115,8 @@ def _set_up_build(args):
         args=args, source_root=ANTHEM_SOURCE_ROOT,
         build_root=os.path.join(ANTHEM_BUILD_ROOT, args.build_subdir),
         install_root=os.path.join(args.install_prefix, args.anthem_version),
-        products=PRODUCT_CONFIG, host_target=args.host_target, std=args.std,
-        stdlib=args.stdlib,
+        checkout_root=ANTHEM_CHECKOUT_ROOT, products=PRODUCT_CONFIG,
+        host_target=args.host_target, std=args.std, stdlib=args.stdlib,
         visual_studio=args.cmake_generator == "Visual Studio 14 2015"
                       or args.cmake_generator == "Visual Studio 15 2017",
         lua_with_cmake=platform.system() == "Windows")
@@ -129,6 +129,7 @@ def _set_up_build(args):
 
     shell.makedirs(data.build.build_root)
     shell.makedirs(data.build.local_root)
+    shell.makedirs(data.build.checkout_root)
     shell.makedirs(data.build.install_root)
     shell.makedirs(os.path.join(data.build.install_root, "bin"))
     shell.makedirs(os.path.join(data.build.install_root, "include"))

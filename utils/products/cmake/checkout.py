@@ -20,8 +20,6 @@ from products import common
 
 from script_support import data
 
-from script_support.variables import ANTHEM_SOURCE_ROOT
-
 from . import platforms
 
 
@@ -37,17 +35,17 @@ def move_files():
 
     if platform.system() == "Darwin":
         cmake_app = os.listdir(os.path.join(
-            ANTHEM_SOURCE_ROOT, product.key, "temp", subdir))[0]
+            workspace.temp_dir(product=product), subdir))[0]
 
         shell.copytree(
             os.path.join(
-                ANTHEM_SOURCE_ROOT, product.key, "temp", subdir, cmake_app),
+                workspace.temp_dir(product=product), subdir, cmake_app),
             os.path.join(workspace.source_dir(product=product), "CMake.app"))
     else:
         shell.copytree(
-            os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp", subdir),
+            os.path.join(workspace.temp_dir(product=product), subdir),
             workspace.source_dir(product=product))
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.rmtree(workspace.temp_dir(product=product))
 
 
 def get_dependency():
@@ -66,11 +64,10 @@ def get_dependency():
         protocol=data.build.connection_protocol, major_minor=major_minor,
         version=version, platform=cmake_platform, extension=archive_extension)
     destination = os.path.join(
-        ANTHEM_SOURCE_ROOT, product.key, "temp",
+        workspace.temp_dir(product=product),
         "cmake.{}".format(archive_extension))
     http_stream.stream(url=url, destination=destination)
-    shell.tar(path=destination, dest=os.path.join(
-        ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.tar(path=destination, dest=workspace.temp_dir(product=product))
     shell.rm(destination)
     move_files()
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.rmtree(workspace.temp_dir(product=product))

@@ -16,11 +16,9 @@ GitHub.
 
 import os
 
-from build_utils import diagnostics, http_stream
+from build_utils import diagnostics, http_stream, workspace
 
 from script_support import data
-
-from script_support.variables import ANTHEM_SOURCE_ROOT
 
 from . import github_v4_util
 
@@ -30,10 +28,9 @@ ASSET_QUERY_GRAPHQL = "github_asset.graphql"
 
 def stream_asset(product, url):
     """Stream a single asset from GitHub."""
-    key = product.key
     github_data = product.github_data
     asset = github_data.asset
-    destination = os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", asset.file)
+    destination = os.path.join(workspace.temp_dir(product=product), asset.file)
     http_stream.stream(url=url, destination=destination, headers={
         "User-Agent": "venturesomestone", "Accept": "application/octet-stream"
     })

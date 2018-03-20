@@ -16,8 +16,6 @@ import platform
 
 from build_utils import diagnostics, shell, workspace
 
-from script_support.variables import ANTHEM_SOURCE_ROOT
-
 from . import github_asset, github_tag
 
 
@@ -33,16 +31,15 @@ def simple_asset(product):
             version_dir = os.path.dirname(source_dir)
             shell.rmtree(source_dir)
             shell.rmtree(version_dir)
-            key = product.key
             shell.copytree(
-                os.path.join(ANTHEM_SOURCE_ROOT, key, "temp", key),
+                os.path.join(workspace.temp_dir(product=product), product.key),
                 workspace.source_dir(product=product))
     else:
         diagnostics.trace("Entering the download of an asset:")
         diagnostics.trace_head(asset.file)
         github_asset.download(product=product, asset_name=asset.file)
         shell.copy(
-            os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp", asset.file),
+            os.path.join(workspace.temp_dir(product=product), asset.file),
             os.path.join(workspace.source_dir(product=product), asset.file))
 
 
@@ -65,16 +62,16 @@ def platform_specific_asset(product):
     github_asset.download(product=product, asset_name=asset_file)
     dest_file = asset.file
     shell.tar(
-        path=os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp", dest_file),
+        path=os.path.join(workspace.temp_dir(product=product), dest_file),
         dest=workspace.source_dir(product=product))
 
 
 def get_dependency(product):
     """Download an asset from GitHub."""
     shell.rmtree(workspace.source_dir(product=product))
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.rmtree(workspace.temp_dir(product=product))
     shell.makedirs(workspace.source_dir(product=product))
-    shell.makedirs(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.makedirs(workspace.temp_dir(product=product))
     asset = product.github_data.asset
     if asset.platform_specific:
         diagnostics.trace("The asset of {} is platform-specific".format(
@@ -83,4 +80,4 @@ def get_dependency(product):
     else:
         diagnostics.trace("The asset of {} is simple".format(product.repr))
         simple_asset(product)
-    shell.rmtree(os.path.join(ANTHEM_SOURCE_ROOT, product.key, "temp"))
+    shell.rmtree(workspace.temp_dir(product=product))
