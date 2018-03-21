@@ -118,7 +118,7 @@ namespace ode::lua
   ///
   /// \return the value of the variable.
   ///
-  template <typename T> constexpr T get(
+  template <typename T> inline T get(
       const gsl::not_null<lua_State*> state,
       std::string_view var) ODE_CONTRACT_NOEXCEPT
   {
