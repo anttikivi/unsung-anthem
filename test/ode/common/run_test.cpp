@@ -33,16 +33,9 @@ namespace ode::test
 {
   int run(int argc, char* argv[])
   {
-    ::testing::InitGoogleTest(&argc, argv);
-
     const int result = RUN_ALL_TESTS();
 
 #if ODE_TEST_BENCHMARKING
-
-    if (::benchmark::ReportUnrecognizedArguments(argc, argv))
-    {
-      return 5;
-    }
 
     ::benchmark::RunSpecifiedBenchmarks();
 

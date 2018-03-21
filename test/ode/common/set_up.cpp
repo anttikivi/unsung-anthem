@@ -39,7 +39,7 @@
 
 namespace ode::test
 {
-  void set_up(int argc, char* argv[])
+  int set_up(int argc, char* argv[])
   {
     auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
 
@@ -54,9 +54,14 @@ namespace ode::test
 #if ODE_TEST_BENCHMARKING
 
     ::benchmark::Initialize(&argc, argv);
-    ::benchmark::ReportUnrecognizedArguments(argc, argv);
-    ::benchmark::RunSpecifiedBenchmarks();
+
+    if (::benchmark::ReportUnrecognizedArguments(argc, argv))
+    {
+      return 5;
+    }
 
 #endif // ODE_TEST_BENCHMARKING
+
+    return 0;
   }
 } // namespace ode::test
