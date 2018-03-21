@@ -54,22 +54,22 @@ jobs:
   #==- Clang ----------------------------------------------------------------==#
   #===----------------------------------------------------------------------===#
 
-  #==- C++17 Clang 5.0 ------------------------------------------------------==#
+  #==- C++17 Clang 6.0 ------------------------------------------------------==#
 
-  clang50_cxx17:
+  clang60_cxx17:
     <<: *defaults
     environment:
       <<: *default_variables
-      BUILD_PRESET: circleci_linux_clang50_cxx17
+      BUILD_PRESET: circleci_linux_clang60_cxx17
       COMPILER_NAME: clang
-      CXX: clang++-5.0
-      CC: clang-5.0
+      CXX: clang++-6.0
+      CC: clang-6.0
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-5.0 main"
+    - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main"
     - run: sudo apt-get -y update
-    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-5.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
+    - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-6.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         chmod +x $ANTHEM_REPO_NAME/utils/build-script
@@ -86,4 +86,4 @@ workflows:
   build_and_test:
     jobs:
      - gcc7_cxx17
-     - clang50_cxx17
+     - clang60_cxx17
