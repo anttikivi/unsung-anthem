@@ -73,6 +73,7 @@ namespace ode::lua
         const gsl::not_null<lua_State*> state,
         const std::string& s) noexcept
     {
+      // TODO Consider making the ‘const std::string&’ a ‘std::string_view’
       // TODO Consider storing the pointer returned by ‘lua_pushstring’
       lua_pushstring(state, s.c_str());
     }

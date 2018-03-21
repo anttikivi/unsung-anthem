@@ -29,13 +29,13 @@
 
 #include "ode/config.h"
 
-#include <catch.hpp>
-
 #if ODE_TEST_BENCHMARKING
 # include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
 
-TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
+#include <gtest/gtest.h>
+
+TEST(ode_lua_make_state, values_are_got)
 {
   lua_State* state = luaL_newstate();
 
@@ -61,10 +61,10 @@ TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
   const auto floating = ode::lua::get<float>(state, float_var);
   const auto boolean = ode::lua::get<bool>(state, bool_var);
 
-  REQUIRE(std::string{"Hello!"} == str);
-  REQUIRE(3 == integer);
-  REQUIRE(7.4f == floating);
-  REQUIRE(true == boolean);
+  ASSERT_EQ(std::string{"Hello!"}, str);
+  ASSERT_EQ(3, integer);
+  ASSERT_EQ(7.4f, floating);
+  ASSERT_EQ(true, boolean);
 
 #if defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION) && \
     GSL_UNENFORCED_ON_CONTRACT_VIOLATION
@@ -74,18 +74,18 @@ TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
   const auto made_up_float = ode::lua::get<float>(state, made_up_var);
   const auto made_up_bool = ode::lua::get<bool>(state, made_up_var);
 
-  REQUIRE(std::string{"null"} == made_up_str);
-  REQUIRE(0 == made_up_int);
-  REQUIRE(0 == made_up_float);
-  REQUIRE(0 == made_up_bool);
+  ASSERT_EQ(std::string{"null"}, made_up_str);
+  ASSERT_EQ(0, made_up_int);
+  ASSERT_EQ(0, made_up_float);
+  ASSERT_EQ(0, made_up_bool);
 
 #elif defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
     GSL_THROW_ON_CONTRACT_VIOLATION
 
-  REQUIRE_THROWS(ode::lua::get<std::string>(state, made_up_var));
-  REQUIRE_THROWS(ode::lua::get<int>(state, made_up_var));
-  REQUIRE_THROWS(ode::lua::get<float>(state, made_up_var));
-  REQUIRE_THROWS(ode::lua::get<bool>(state, made_up_var));
+  ASSERT_ANY_THROW(ode::lua::get<std::string>(state, made_up_var));
+  ASSERT_ANY_THROW(ode::lua::get<int>(state, made_up_var));
+  ASSERT_ANY_THROW(ode::lua::get<float>(state, made_up_var));
+  ASSERT_ANY_THROW(ode::lua::get<bool>(state, made_up_var));
   
 #endif // defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
     GSL_THROW_ON_CONTRACT_VIOLATION
@@ -95,7 +95,7 @@ TEST_CASE("Lua variable values are got right", "[ode::lua::make_state]")
   state = nullptr;
 }
 
-TEST_CASE("Lua functions are called", "[ode::lua::call]")
+TEST(ode_lua_call, called)
 {
   lua_State* state = luaL_newstate();
 
@@ -116,8 +116,8 @@ TEST_CASE("Lua functions are called", "[ode::lua::call]")
   const auto add_ret = ode::lua::call<int>(state, add_func, 4, 6);
   const auto pow_ret = ode::lua::call<int>(state, pow_func, 2, 3);
 
-  REQUIRE(10 == add_ret);
-  REQUIRE(8 == pow_ret);
+  ASSERT_EQ(10, add_ret);
+  ASSERT_EQ(8, pow_ret);
 
   lua_close(state);
 
@@ -134,6 +134,12 @@ static void ode_bm_lua_get_str(benchmark::State& state)
       + "virtual_machine_benchmark.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {
@@ -154,6 +160,12 @@ static void ode_bm_lua_get_greeting(benchmark::State& state)
 
   lua_State* l = luaL_newstate();
 
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
+
   for (auto _ : state)
   {
     const auto s = ode::lua::get<std::string>(l, "greeting");
@@ -172,6 +184,12 @@ static void ode_bm_lua_get_int(benchmark::State& state)
       + "virtual_machine_benchmark.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {
@@ -192,6 +210,12 @@ static void ode_bm_lua_get_integer(benchmark::State& state)
 
   lua_State* l = luaL_newstate();
 
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
+
   for (auto _ : state)
   {
     const auto i = ode::lua::get<int>(l, "integer");
@@ -210,6 +234,12 @@ static void ode_bm_lua_get_f(benchmark::State& state)
       + "virtual_machine_benchmark.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {
@@ -230,6 +260,12 @@ static void ode_bm_lua_get_float(benchmark::State& state)
 
   lua_State* l = luaL_newstate();
 
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
+
   for (auto _ : state)
   {
     const auto f = ode::lua::get<float>(l, "float");
@@ -248,6 +284,12 @@ static void ode_bm_lua_get_b(benchmark::State& state)
       + "virtual_machine_benchmark.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {
@@ -268,6 +310,12 @@ static void ode_bm_lua_get_bool(benchmark::State& state)
 
   lua_State* l = luaL_newstate();
 
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
+
   for (auto _ : state)
   {
     const auto b = ode::lua::get<bool>(l, "boolean");
@@ -286,6 +334,12 @@ static void ode_bm_lua_get_table_str(benchmark::State& state)
       + "virtual_machine_benchmark.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {
@@ -306,6 +360,12 @@ static void ode_bm_lua_get_table_greeting(benchmark::State& state)
 
   lua_State* l = luaL_newstate();
 
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
+
   for (auto _ : state)
   {
     const auto s = ode::lua::get<std::string>(l, "table.greeting");
@@ -324,6 +384,12 @@ static void ode_bm_lua_get_table_int(benchmark::State& state)
       + "virtual_machine_benchmark.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {
@@ -344,6 +410,12 @@ static void ode_bm_lua_get_table_integer(benchmark::State& state)
 
   lua_State* l = luaL_newstate();
 
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
+
   for (auto _ : state)
   {
     const auto i = ode::lua::get<int>(l, "table.integer");
@@ -362,6 +434,12 @@ static void ode_bm_lua_get_table_f(benchmark::State& state)
       + "virtual_machine_benchmark.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {
@@ -382,6 +460,12 @@ static void ode_bm_lua_get_table_float(benchmark::State& state)
 
   lua_State* l = luaL_newstate();
 
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
+
   for (auto _ : state)
   {
     const auto f = ode::lua::get<float>(l, "table.float");
@@ -400,6 +484,12 @@ static void ode_bm_lua_get_table_b(benchmark::State& state)
       + "virtual_machine_benchmark.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {
@@ -420,6 +510,12 @@ static void ode_bm_lua_get_table_bool(benchmark::State& state)
 
   lua_State* l = luaL_newstate();
 
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
+
   for (auto _ : state)
   {
     const auto b = ode::lua::get<bool>(l, "table.bool");
@@ -439,6 +535,12 @@ static void ode_bm_lua_call_add(benchmark::State& state)
 
   lua_State* l = luaL_newstate();
 
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
+
   for (auto _ : state)
   {
     const auto i = ode::lua::call<int>(l, "add", 688, 12);
@@ -457,6 +559,12 @@ static void ode_bm_lua_call_pow(benchmark::State& state)
       + "virtual_machine_benchmark.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {

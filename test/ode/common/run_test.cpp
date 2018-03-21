@@ -29,28 +29,25 @@
 
 #include <gtest/gtest.h>
 
-namespace ode
+namespace ode::test
 {
-  namespace test
+  int run(int argc, char* argv[])
   {
-    int run(int argc, char* argv[])
-    {
-      ::testing::InitGoogleTest(&argc, argv);
+    ::testing::InitGoogleTest(&argc, argv);
 
-      const int result = RUN_ALL_TESTS();
+    const int result = RUN_ALL_TESTS();
 
 #if ODE_TEST_BENCHMARKING
 
-      if (::benchmark::ReportUnrecognizedArguments(argc, argv))
-      {
-        return 5;
-      }
+    if (::benchmark::ReportUnrecognizedArguments(argc, argv))
+    {
+      return 5;
+    }
 
-      ::benchmark::RunSpecifiedBenchmarks();
+    ::benchmark::RunSpecifiedBenchmarks();
 
 #endif // ODE_TEST_BENCHMARKING
 
-      return result;
-    }
-  } // namespace test
-} // namespace ode
+    return result;
+  }
+} // namespace ode::test

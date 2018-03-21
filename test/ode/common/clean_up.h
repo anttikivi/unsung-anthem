@@ -24,16 +24,13 @@
 #ifndef ODE_TEST_COMMON_CLEAN_UP_H
 #define ODE_TEST_COMMON_CLEAN_UP_H
 
-namespace ode
+namespace ode::test
 {
-  namespace test
-  {
-    ///
-    /// \brief Cleans up the tests.
-    ///
-    void clean_up();
+  ///
+  /// \brief Cleans up the tests.
+  ///
+  void clean_up();
 
-  } // namespace test
-} // namespace ode
+} // namespace ode::test
 
 #endif // !ODE_TEST_COMMON_CLEAN_UP_H

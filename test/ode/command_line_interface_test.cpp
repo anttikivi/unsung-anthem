@@ -24,9 +24,9 @@
 
 #include "ode/command_line_interface.h"
 
-#include <catch.hpp>
+#include <gtest/gtest.h>
 
-TEST_CASE("the arguments are parsed", "[ode::parse_arguments]")
+TEST(ode_parse_arguments, parsed)
 {
   const ode::arguments a = {true, false, 555_px, 13_px, std::string{"window"}};
   ode::argv_array argv_b[] = {
@@ -53,47 +53,44 @@ TEST_CASE("the arguments are parsed", "[ode::parse_arguments]")
 
   const std::string default_name = std::string{ode::default_window_name};
 
-  REQUIRE(b == a);
-  REQUIRE_FALSE(b != a);
-  REQUIRE_FALSE(c == a);
-  REQUIRE(c != a);
-  REQUIRE(b == d);
-  REQUIRE_FALSE(b != d);
-  REQUIRE(d == a);
-  REQUIRE_FALSE(d != a);
-  REQUIRE(e.window_width == ode::default_window_width);
-  REQUIRE(e.window_height == ode::default_window_height);
-  REQUIRE(e.window_height == ode::default_window_height);
-  REQUIRE(e.window_name == default_name);
-  REQUIRE(f.window_width == ode::default_window_width);
-  REQUIRE_FALSE(f.window_height == ode::default_window_height);
-  REQUIRE(f.window_name == default_name);
+  ASSERT_EQ(b, a);
+  ASSERT_NE(c, a);
+  ASSERT_EQ(b, d);
+  ASSERT_EQ(d, a);
+  ASSERT_EQ(e.window_width, ode::default_window_width);
+  ASSERT_EQ(e.window_height, ode::default_window_height);
+  ASSERT_EQ(e.window_height, ode::default_window_height);
+  ASSERT_EQ(e.window_name, default_name);
+  ASSERT_EQ(f.window_width, ode::default_window_width);
+  ASSERT_NE(f.window_height, ode::default_window_height);
+  ASSERT_EQ(f.window_name, default_name);
 
+  /*
   INFO("A: " << a);
   INFO("B: " << b);
   INFO("C: " << c);
   INFO("D: " << d);
   INFO("E: " << e);
   INFO("F: " << f);
+  */
 }
 
-TEST_CASE("help argument is set", "[ode::parse_arguments]")
+TEST(ode_parse_arguments, help_argument)
 {
   const ode::arguments a = {true, true};
   ode::argv_array argv_b[] = {"exe", "--help"};
   const auto b = ode::parse_arguments(2, argv_b);
 
-  REQUIRE(b.parsed == a.parsed);
-  REQUIRE(b.show_help == a.show_help);
-  REQUIRE(b != a);
+  ASSERT_EQ(b.parsed, a.parsed);
+  ASSERT_EQ(b.show_help, a.show_help);
+  ASSERT_NE(b, a);
 }
 
-TEST_CASE("parse error is caught", "[ode::parse_arguments]")
+TEST(ode_parse_arguments, parse_error_is_caught)
 {
   const ode::arguments a = {false};
   ode::argv_array argv_b[] = {"exe", "--xd"};
   const auto b = ode::parse_arguments(2, argv_b);
 
-  REQUIRE(b == a);
-  REQUIRE_FALSE(b != a);
+  ASSERT_EQ(b, a);
 }

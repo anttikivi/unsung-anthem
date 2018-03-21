@@ -218,7 +218,7 @@ namespace ode::lua
   template <typename... Types, typename... Args>
   constexpr detail::pop_t<Types...> call(
       const gsl::not_null<lua_State*> state,
-      std::string_view name,
+      const std::string& name,
       Args&&... args) ODE_CONTRACT_NOEXCEPT
   {
     to_stack(state, name);

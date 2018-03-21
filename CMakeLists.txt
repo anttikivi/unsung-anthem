@@ -158,6 +158,10 @@ if(NOT ODE_ADD_LUA_SOURCE)
   list(APPEND ODE_LIBRARIES "lua")
 endif()
 
+if("${ODE_TYPE}" STREQUAL "test" OR "${ANTHEM_TYPE}" STREQUAL "test")
+  list(APPEND ODE_LIBRARIES "gtest")
+endif()
+
 if(ODE_TEST_BENCHMARKING)
   list(APPEND ODE_LIBRARIES "benchmark")
 endif()

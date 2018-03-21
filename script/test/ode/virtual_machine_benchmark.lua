@@ -16,8 +16,10 @@ table = {
   int = 5,
   integer = 3,
   f = 7.4,
+  float = 3.664,
   floating_point = 2.9,
   b = true,
+  bool=false,
   boolean = true
 }
 
@@ -26,6 +28,7 @@ greeting = "Hello there!"
 int = 5
 integer = 3
 f = 7.4
+float = 3.664
 floating_point = 2.9
 b = true
 boolean = true

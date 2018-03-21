@@ -23,12 +23,9 @@
 
 #include "ode/common/clean_up.h"
 
-namespace ode
+namespace ode::test
 {
-  namespace test
+  void clean_up()
   {
-    void clean_up()
-    {
-    }
-  } // namespace test
-} // namespace ode
+  }
+} // namespace ode::test

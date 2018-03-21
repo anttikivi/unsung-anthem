@@ -24,16 +24,13 @@
 #ifndef ODE_TEST_COMMON_SET_UP_H
 #define ODE_TEST_COMMON_SET_UP_H
 
-namespace ode
+namespace ode::test
 {
-  namespace test
-  {
-    ///
-    /// \brief Sets up the common dependencies of the tests.
-    ///
-    void set_up(int argc, char* argv[]);
+  ///
+  /// \brief Sets up the common dependencies of the tests.
+  ///
+  void set_up(int argc, char* argv[]);
 
-  } // namespace test
-} // namespace ode
+} // namespace ode::test
 
 #endif // !ODE_TEST_COMMON_SET_UP_H

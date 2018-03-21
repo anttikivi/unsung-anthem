@@ -24,16 +24,17 @@
 #include "ode/lua/stack.h"
 
 #include "ode/filesystem/path.h"
+#include "ode/lua/script.h"
 
 #include "ode/config.h"
-
-#include <catch.hpp>
 
 #if ODE_TEST_BENCHMARKING
 # include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
 
-TEST_CASE("Lua variable is set to stack", "[ode::lua::to_stack]")
+#include <gtest/gtest.h>
+
+TEST(ode_lua_to_stack, is_set_to_stack)
 {
   lua_State* l = luaL_newstate();
 
@@ -50,14 +51,14 @@ TEST_CASE("Lua variable is set to stack", "[ode::lua::to_stack]")
 
   const bool is_put = ode::lua::to_stack(l, "testing.lua.stack");
 
-  REQUIRE(3 == lua_gettop(l));
+  ASSERT_EQ(3, lua_gettop(l));
 
   lua_pop(l, 3);
 
   lua_close(l);
 }
 
-TEST_CASE("Variables are pushed to Lua stack", "[ode::lua::push]")
+TEST(ode_lua_push, is_pushed_to_stack)
 {
   lua_State* l = luaL_newstate();
 
@@ -74,7 +75,7 @@ TEST_CASE("Variables are pushed to Lua stack", "[ode::lua::push]")
 
   ode::lua::push(l, 3, 2.5f, std::string{"Hello, world!"}, true);
 
-  REQUIRE(4 == lua_gettop(l));
+  ASSERT_EQ(4, lua_gettop(l));
 
   lua_pop(l, 4);
 
@@ -91,6 +92,12 @@ static void ode_bm_to_stack(benchmark::State& state)
       + "stack.lua";
 
   lua_State* l = luaL_newstate();
+
+  luaL_openlibs(l);
+
+  const auto error_code = luaL_loadfile(l, filename.c_str());
+
+  lua_pcall(l, 0, 0, 0);
 
   for (auto _ : state)
   {

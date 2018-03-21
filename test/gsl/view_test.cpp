@@ -26,117 +26,101 @@
 
 #include "gsl/view"
 
-#include <catch.hpp>
+#include <gtest/gtest.h>
 
-TEST_CASE("is equal to pointer", "[gsl::owner]")
+TEST(gsl_owner, is_equal_to_pointer)
 {
-#if ODE_CXX14
-
-  constexpr bool a = std::is_same<gsl::owner<int*>, int*>::value;
-  constexpr bool b = std::is_same<gsl::owner<int*>, int>::value;
-
-#else
-
   constexpr bool a = std::is_same_v<gsl::owner<int*>, int*>;
   constexpr bool b = std::is_same_v<gsl::owner<int*>, int>;
 
-#endif // !ODE_CXX14
-
-  REQUIRE(a);
-  REQUIRE_FALSE(b);
+  ASSERT_TRUE(a);
+  ASSERT_FALSE(b);
 }
 
-TEST_CASE("type cast operator works", "[gsl::not_null]")
+TEST(gsl_not_null, cast_operator)
 {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n{s};
 
-  REQUIRE(s == decltype(s)(n));
-  REQUIRE(*s == *decltype(s)(n));
+  ASSERT_EQ(s, decltype(s)(n));
+  ASSERT_EQ(*s, *decltype(s)(n));
 
   delete s;
 }
 
-TEST_CASE("member access operator works", "[gsl::not_null]")
+TEST(gsl_not_null, member_access_operator)
 {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n{s};
 
-  REQUIRE(s->size() == n->size());
+  ASSERT_EQ(s->size(), n->size());
 
   delete s;
 }
 
-TEST_CASE("dereference operator works", "[gsl::not_null]")
+TEST(gsl_not_null, dereference_operator)
 {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n{s};
 
-  REQUIRE(*s == *n);
+  ASSERT_EQ(*s, *n);
 
   delete s;
 }
 
-TEST_CASE("get() works", "[gsl::not_null]")
+TEST(gsl_not_null, get)
 {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n{s};
 
-  REQUIRE(s == n.get());
-  REQUIRE(*s == *n.get());
+  ASSERT_EQ(s, n.get());
+  ASSERT_EQ(*s, *n.get());
 
   delete s;
 }
 
-TEST_CASE("== operator works", "[gsl::not_null]")
+TEST(gsl_not_null, equal_comparison_operator)
 {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n1{s};
   const gsl::not_null<std::string*> n2{s};
 
-  REQUIRE(n1 == n2);
+  ASSERT_TRUE(n1 == n2);
 
   delete s;
 }
 
-TEST_CASE("!= operator works", "[gsl::not_null]")
+TEST(gsl_not_null, not_equal_comparison_operator)
 {
   const auto s1 = new std::string("Hello, world!");
   const auto s2 = new std::string("!dlrow ,olleW");
   const gsl::not_null<std::string*> n1{s1};
   const gsl::not_null<std::string*> n2{s2};
 
-  REQUIRE(n1 != n2);
+  ASSERT_TRUE(n1 != n2);
 
   delete s1;
   delete s2;
 }
 
-TEST_CASE("<< operator works", "[gsl::not_null]")
+TEST(gsl_not_null, bitwise_left_shift_operator)
 {
   const auto s1 = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n1{s1};
 
-  REQUIRE_NOTHROW(std::cout << "The address is " << n1 << std::endl);
+  ASSERT_NO_THROW(std::cout << "The address is " << n1 << std::endl);
 
   delete s1;
 }
 
-TEST_CASE("hash function works", "[gsl::not_null]")
+TEST(gsl_not_null, hash_function)
 {
   const auto s = new std::string("Hello, world!");
   const gsl::not_null<std::string*> n1{s};
   const gsl::not_null<std::string*> n2{s};
 
-  INFO(
-      "The hash of the first not_null is "
-      << std::hash<gsl::not_null<std::string*>>{}(n1));
-  INFO(
-      "The hash of the second not_null is "
-      << std::hash<gsl::not_null<std::string*>>{}(n2));
-
-  REQUIRE(
-      std::hash<gsl::not_null<std::string*>>{}(n1) ==
+  ASSERT_EQ(
+      std::hash<gsl::not_null<std::string*>>{}(n1),
       std::hash<gsl::not_null<std::string*>>{}(n2));
 
   delete s;

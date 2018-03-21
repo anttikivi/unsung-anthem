@@ -30,24 +30,24 @@
 
 #include "ode/config.h"
 
-#include <catch.hpp>
-
 #if ODE_TEST_BENCHMARKING
 # include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
 
-TEST_CASE("Lua state is created", "[ode::lua::make_state]")
+#include <gtest/gtest.h>
+
+TEST(ode_lua_make_state, created)
 {
   auto state = ode::lua::make_state();
 
-  REQUIRE_FALSE(nullptr == state);
+  ASSERT_NE(state, nullptr);
 
   state.reset(nullptr);
 
-  REQUIRE(nullptr == state);
+  ASSERT_EQ(state, nullptr);
 }
 
-TEST_CASE("Lua state is cleaned", "[ode::lua::clean]")
+TEST(ode_lua_clean, cleaned)
 {
   lua_State* state = luaL_newstate();
 
@@ -93,13 +93,13 @@ TEST_CASE("Lua state is cleaned", "[ode::lua::clean]")
 
   const auto top1 = lua_gettop(state);
 
-  REQUIRE(top1 == ++index);
+  ASSERT_EQ(top1, ++index);
 
   ode::lua::clean(state);
 
   const auto top2 = lua_gettop(state);
 
-  REQUIRE(top2 == 0);
+  ASSERT_EQ(top2, 0);
 
   lua_close(state);
 

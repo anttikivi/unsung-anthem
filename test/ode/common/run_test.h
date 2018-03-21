@@ -24,21 +24,18 @@
 #ifndef ODE_TEST_COMMON_RUN_TEST_H
 #define ODE_TEST_COMMON_RUN_TEST_H
 
-namespace ode
+namespace ode::test
 {
-  namespace test
-  {
-    ///
-    /// \brief Runs the tests and benchmarks.
-    ///
-    /// \param argc the number of arguments passed in the execution.
-    /// \param argv array containing the arguments passed in the execution.
-    ///
-    /// \return The end code of the tests.
-    ///
-    int run(int argc, char* argv[]);
+  ///
+  /// \brief Runs the tests and benchmarks.
+  ///
+  /// \param argc the number of arguments passed in the execution.
+  /// \param argv array containing the arguments passed in the execution.
+  ///
+  /// \return The end code of the tests.
+  ///
+  int run(int argc, char* argv[]);
 
-  } // namespace test
-} // namespace ode
+} // namespace ode::test
 
 #endif // !ODE_TEST_COMMON_RUN_TEST_H

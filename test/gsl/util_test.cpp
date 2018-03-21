@@ -41,11 +41,11 @@ TEST(gsl_final_action, invoked)
     gsl::final_action<decltype(f)> a{f};
   }
 
-  ASSERT_NE(0, i);
-  ASSERT_EQ(1, i);
+  ASSERT_NE(i, 0);
+  ASSERT_EQ(i, 1);
 }
 
-TEST_CASE(gsl_final_action, invoked_twice)
+TEST(gsl_final_action, invoked_twice)
 {
   int i = 0;
 
@@ -61,14 +61,12 @@ TEST_CASE(gsl_final_action, invoked_twice)
     gsl::final_action<decltype(f)> b{std::move(a)};
   }
 
-  REQUIRE_FALSE(0 == i);
-  REQUIRE(1 == i);
-  REQUIRE_FALSE(2 == i);
+  ASSERT_NE(i, 0);
+  ASSERT_EQ(i, 1);
+  ASSERT_NE(i, 2);
 }
 
-TEST_CASE(
-    "final_action invoking the Callable correctly is created",
-    "[gsl::finally]")
+TEST(gsl_final_action, double_invocation)
 {
   int i = 0;
 
@@ -83,91 +81,69 @@ TEST_CASE(
     auto a = gsl::finally<decltype(f)>(f);
   }
 
-  REQUIRE_FALSE(0 == i);
-  REQUIRE(1 == i);
+  ASSERT_NE(i, 0);
+  ASSERT_EQ(i, 1);
 
   {
     auto b = gsl::finally<decltype(f)>(std::move(f));
   }
 
-  REQUIRE_FALSE(0 == i);
-  REQUIRE_FALSE(1 == i);
-  REQUIRE(2 == i);
+  ASSERT_NE(i, 0);
+  ASSERT_NE(i, 1);
+  ASSERT_EQ(i, 2);
 }
 
-TEST_CASE("cast is done as expected", "[gsl::narrow_cast]")
+TEST(gsl_narrow_cast, done)
 {
   int i = 0;
   auto j = gsl::narrow_cast<unsigned int>(i);
 
-#if ODE_CXX14
-
-  constexpr bool a = std::is_same<decltype(j), unsigned int>::value;
-  constexpr bool b = std::is_same<decltype(j), int>::value;
-
-#else
-
   constexpr bool a = std::is_same_v<decltype(j), unsigned int>;
   constexpr bool b = std::is_same_v<decltype(j), int>;
 
-#endif // !ODE_CXX14
-
-  REQUIRE(a);
-  REQUIRE_FALSE(b);
+  ASSERT_TRUE(a);
+  ASSERT_FALSE(b);
 }
 
-TEST_CASE(
-    "exception is thrown when the cast changes the value",
-    "[gsl::narrow]")
+TEST(gsl_narrow, throws)
 {
   int i = -1;
 
-  REQUIRE_THROWS_AS(gsl::narrow<unsigned int>(i), gsl::narrowing_error);
+  ASSERT_THROW(gsl::narrow<unsigned int>(i), gsl::narrowing_error);
 }
 
-TEST_CASE(
-    "exception is not thrown when the cast does not change the value",
-    "[gsl::narrow]")
+TEST(gsl_narrow, no_throw)
 {
   int i = 1;
 
-  REQUIRE_NOTHROW(gsl::narrow<unsigned int>(i));
+  ASSERT_NO_THROW(gsl::narrow<unsigned int>(i));
 }
 
-TEST_CASE("checked cast is done as expected", "[gsl::narrow]")
+TEST(gsl_narrow, casts)
 {
   int i = 0;
   auto j = gsl::narrow<unsigned int>(i);
 
-#if ODE_CXX14
-
-  constexpr bool a = std::is_same<decltype(j), unsigned int>::value;
-  constexpr bool b = std::is_same<decltype(j), int>::value;
-
-#else
-
   constexpr bool a = std::is_same_v<decltype(j), unsigned int>;
   constexpr bool b = std::is_same_v<decltype(j), int>;
 
-#endif // !ODE_CXX14
-
-  REQUIRE(a);
-  REQUIRE_FALSE(b);
+  ASSERT_TRUE(a);
+  ASSERT_FALSE(b);
 }
 
-TEST_CASE("value does not change", "[gsl::narrow]")
+TEST(gsl_narrow, value_does_not_change)
 {
   int i = 326;
   auto j = gsl::narrow<unsigned int>(i);
 
   unsigned int k = 326;
 
-  REQUIRE(j == k);
+  ASSERT_EQ(j, k);
 }
 
-TEST_CASE("narrowing_error is thrown", "[gsl::narrow]")
+TEST(gsl_narrow, narrowing_error_is_thrown)
 {
   int i = -326;
-  REQUIRE_THROWS(gsl::narrow<unsigned int>(i));
-  REQUIRE_THROWS_AS(gsl::narrow<unsigned int>(i), gsl::narrowing_error);
+  ASSERT_ANY_THROW(gsl::narrow<unsigned int>(i));
+  ASSERT_THROW(gsl::narrow<unsigned int>(i), gsl::narrowing_error);
 }

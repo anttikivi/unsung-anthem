@@ -28,13 +28,13 @@
 
 #include "ode/config.h"
 
-#include <catch.hpp>
-
 #if ODE_TEST_BENCHMARKING
 # include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
 
-TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
+#include <gtest/gtest.h>
+
+TEST(ode_lua_load_script_file, file_is_loaded)
 {
   auto state = ode::lua::make_state();
 
@@ -45,11 +45,11 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
 
   auto error_code = ode::lua::load_script_file(state.get(), filename1);
 
-  REQUIRE_FALSE(LUA_ERRSYNTAX == error_code);
-  REQUIRE_FALSE(LUA_ERRMEM == error_code);
-  REQUIRE_FALSE(LUA_ERRGCMM == error_code);
-  REQUIRE_FALSE(LUA_ERRFILE == error_code);
-  REQUIRE(LUA_OK == error_code);
+  ASSERT_NE(LUA_ERRSYNTAX, error_code);
+  ASSERT_NE(LUA_ERRMEM, error_code);
+  ASSERT_NE(LUA_ERRGCMM, error_code);
+  ASSERT_NE(LUA_ERRFILE, error_code);
+  ASSERT_EQ(LUA_OK, error_code);
 
   const std::string filename2 = 
       std::string{ode::test_script_root}
@@ -61,16 +61,16 @@ TEST_CASE("Lua script file is loaded", "[ode::lua::load_script_file]")
 
   error_code = ode::lua::load_script_file(state.get(), filename2);
 
-  REQUIRE_FALSE(LUA_ERRSYNTAX == error_code);
-  REQUIRE_FALSE(LUA_ERRMEM == error_code);
-  REQUIRE_FALSE(LUA_ERRGCMM == error_code);
-  REQUIRE(LUA_ERRFILE == error_code);
-  REQUIRE_FALSE(LUA_OK == error_code);
+  ASSERT_NE(LUA_ERRSYNTAX, error_code);
+  ASSERT_NE(LUA_ERRMEM, error_code);
+  ASSERT_NE(LUA_ERRGCMM, error_code);
+  ASSERT_EQ(LUA_ERRFILE, error_code);
+  ASSERT_NE(LUA_OK, ASSERT_NEerror_code);
 
 #elif defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
     GSL_THROW_ON_CONTRACT_VIOLATION
 
-  REQUIRE_THROWS(ode::lua::load_script_file(state.get(), filename2));
+  ASSERT_ANY_THROW(ode::lua::load_script_file(state.get(), filename2));
 
 #endif // defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
     GSL_THROW_ON_CONTRACT_VIOLATION
