@@ -15,8 +15,7 @@ function(SET_STD_FLAGS STD)
   else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${STD}")
     if (ODE_USE_LOCAL_LLVM)
-      set(CMAKE_CXX_FLAGS
-          "${CMAKE_CXX_FLAGS} -stdlib=libc++ -I/usr/local/include/c++/v1")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/local/include/c++/v1")
     endif()
   endif()
 
