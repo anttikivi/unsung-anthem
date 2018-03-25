@@ -130,6 +130,7 @@ if(ODE_LINK_LIBCXX)
 else()
   set(ODE_LIBRARIES)
 endif()
+
 set(ANTHEM_LIBRARIES)
 
 if(UNIX)
@@ -169,6 +170,8 @@ if(ODE_TEST_BENCHMARKING)
 endif()
 
 print_status_plural(ODE_LIBRARIES "libraries")
+
+print_status(ODE_USE_LOCAL_LLVM "LLVM use status")
 
 if (ODE_USE_LOCAL_LLVM)
   include_directories(${ODE_INSTALL_PREFIX}/include/c++/v1)
