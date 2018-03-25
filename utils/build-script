@@ -84,11 +84,11 @@ def call(command, stderr=None, env=None):
     try:
         subprocess.check_call(command, env=_env, stderr=stderr)
     except subprocess.CalledProcessError as e:
-        print(
+        SystemExit(
             "Command terminated with a non-zero exit status {}, "
             "aborting".format(e.returncode))
     except OSError as e:
-        print("Could not execute '{}': {}".format(
+        SystemExit("Could not execute '{}': {}".format(
             quote_command(command), e.strerror))
 
 
@@ -110,13 +110,13 @@ def capture(
             return e.output
         if optional:
             return None
-        print(
+        SystemExit(
             "Command terminated with a non-zero exit status {}, "
             "aborting".format(e.returncode))
     except OSError as e:
         if optional:
             return None
-        print("Could not execute '{}': {}".format(
+        SystemExit("Could not execute '{}': {}".format(
             quote_command(command), e.strerror))
 
 
