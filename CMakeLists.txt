@@ -52,6 +52,8 @@ option(ODE_ADD_LUA_SOURCE
 
 option(ODE_INSTALL_ONLY_SCRIPTS "Install only the scripts" OFF)
 
+option(ODE_USE_LOCAL_LLVM "Use an LLVM which is in the local directory" OFF)
+
 if(BUILD_ODE)
   assert_variable(ODE_TYPE "Obliging Ode product type" "lib and test")
 else()
@@ -167,6 +169,10 @@ if(ODE_TEST_BENCHMARKING)
 endif()
 
 print_status_plural(ODE_LIBRARIES "libraries")
+
+if (ODE_USE_LOCAL_LLVM)
+  include_directories(${ODE_INSTALL_PREFIX}/include/c++/v1)
+endif()
 
 include_directories(${ODE_INSTALL_PREFIX}/include)
 link_directories(${ODE_INSTALL_PREFIX}/lib)
