@@ -25,6 +25,7 @@ from __future__ import print_function
 
 import json
 import os
+import pipes
 import platform
 import shutil
 import subprocess
@@ -35,7 +36,7 @@ from contextlib import contextmanager
 import requests
 
 
-ODE_BUILD_VERSION = "0.1.0"
+ODE_BUILD_VERSION = "0.2.1"
 ODE_BUILD_KEY = "ode-build"
 
 
@@ -226,8 +227,8 @@ def _anthem_path():
     # Get the parent directory of this file for checking if this file is
     # located in an Unsung Anthem checkout.
     #
-    # $ANTHEM_SOURCE_ROOT/unsung-anthem/utils/script_support/variables.py
-    utils_path = os.path.dirname(os.path.dirname(__file__))
+    # $ANTHEM_SOURCE_ROOT/unsung-anthem/utils/build-script
+    utils_path = os.path.dirname(__file__)
     # Split the path as the first part of the 'utils_path' is presumably the
     # Unsung Anthem checkout.
     anthem_path, parent_dirname = os.path.split(utils_path)
@@ -442,7 +443,7 @@ def checkout():
     versions[key] = info
     write_version_file(versions)
     rmtree(ODE_BUILD_ROOT)
-    copytree(SOURCE_DIR, ODE_BUILD_ROOT)
+    copytree(os.path.join(SOURCE_DIR, "utils"), ODE_BUILD_ROOT)
 
 
 #===------------------------------------------------------------------------===#
@@ -455,8 +456,10 @@ def main():
     The entry point function of the script.
     """
     checkout()
-    caffeinate(
-        [os.path.join(ODE_BUILD_ROOT, "utils", "build-script"), sys.argv[1:]])
+    args = []
+    args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
+    args += sys.argv[1:]
+    caffeinate(args)
     return 0
 
 
