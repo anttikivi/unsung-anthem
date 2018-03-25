@@ -83,13 +83,16 @@ def call(command, stderr=None, env=None):
         _env.update(env)
     try:
         subprocess.check_call(command, env=_env, stderr=stderr)
+        return 0
     except subprocess.CalledProcessError as e:
         SystemExit(
             "Command terminated with a non-zero exit status {}, "
             "aborting".format(e.returncode))
+        return 3
     except OSError as e:
         SystemExit("Could not execute '{}': {}".format(
             quote_command(command), e.strerror))
+        return 3
 
 
 def capture(
@@ -113,11 +116,13 @@ def capture(
         SystemExit(
             "Command terminated with a non-zero exit status {}, "
             "aborting".format(e.returncode))
+        return 3
     except OSError as e:
         if optional:
             return None
         SystemExit("Could not execute '{}': {}".format(
             quote_command(command), e.strerror))
+        return 3
 
 
 def makedirs(path):
@@ -461,8 +466,7 @@ def main():
         args += [sys.executable]
     args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
     args += sys.argv[1:]
-    caffeinate(args)
-    return 0
+    return caffeinate(args)
 
 
 if __name__ == "__main__":
