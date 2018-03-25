@@ -457,6 +457,8 @@ def main():
     """
     checkout()
     args = []
+    if platform.system() == "Windows":
+        args += [sys.executable]
     args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
     args += sys.argv[1:]
     caffeinate(args)
