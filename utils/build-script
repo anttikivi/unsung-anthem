@@ -20,423 +20,439 @@ optionally testing Obliging Ode and Unsung Anthem thereafter. Different build
 configurations are maintained in parallel.
 """
 
+
 from __future__ import print_function
 
-import argparse
+import json
 import os
 import platform
+import shutil
+import subprocess
 import sys
-import time
 
-from build_utils import diagnostics, reflection, shell, workspace
+from contextlib import contextmanager
 
-from build_utils.mapping import Mapping
-
-from build_utils.presets import get_all_preset_names, get_preset_options
-
-from build_utils.toolchain import host_toolchain, set_arguments_to_toolchain
-
-from checkout import checkout
-
-from products import anthem, common, ode
-
-from script_support import defaults, data, driver_arguments
-
-from script_support.defaults import PRODUCT_CONFIG
-
-from script_support.variables import HOME, ANTHEM_REPO_NAME, \
-    ANTHEM_SOURCE_ROOT, ANTHEM_BUILD_ROOT, ANTHEM_CHECKOUT_ROOT
+import requests
 
 
-def _exit_rejecting_arguments(message, parser=None):
-    print(message, file=sys.stderr)
-    if parser:
-        parser.print_usage(sys.stderr)
-    sys.exit(2)  # 2 is the same as 'argparse' error exit code.
+ODE_BUILD_VERSION = "0.1.0"
+ODE_BUILD_KEY = "ode-build"
 
 
-def _validate_arguments(args):
-    if not args.build_ode and not args.build_anthem:
-        _exit_rejecting_arguments(
-            "Both the build of Obliging Ode and the build of Unsung Anthem "
-            "cannot be skipped")
-    if not args.std == "c++2a" and not args.std == "c++17":
-        _exit_rejecting_arguments(
-            "C++ standard version is set to an invalid value: "
-            "{}".format(args.std))
-    if args.stdlib:
-        if not args.stdlib == "libc++" and not args.stdlib == "libstdc++":
-            _exit_rejecting_arguments(
-                "C++ standard library implementation is set to an invalid "
-                "value: {}".format(args.stdlib))
-    if not args.cmake_generator == "Ninja" \
-            and not args.cmake_generator == "Unix Makefiles" \
-            and not args.cmake_generator == "Xcode" \
-            and not args.cmake_generator == "Visual Studio 14 2015" \
-            and not args.cmake_generator == "Visual Studio 15 2017" \
-            and not args.cmake_generator == "Eclipse CDT4 - Ninja":
-        _exit_rejecting_arguments(
-            "CMake generator is set to an invalid value: "
-            "{}".format(args.cmake_generator))
+REPO_OWNER = "venturesomestone"
+REPO_NAME = ODE_BUILD_KEY
 
 
-def _clean_delay():
-    def _impl_write(index):
-        sys.stdout.write(
-            diagnostics.RED + "\b{!s}".format(index) + diagnostics.ENDC)
-        sys.stdout.flush()
-        time.sleep(1)
-        return index
-    sys.stdout.write(
-        diagnostics.RED + "Starting a clean build in  " + diagnostics.ENDC)
-    index_list = [_impl_write(i) for i in reversed(range(0, 4))]
-    print(diagnostics.RED + "\b\b\b\bnow." + diagnostics.ENDC)
-    return index_list
+#===------------------------------------------------------------------------===#
+#==- Shell ------------------------------------------------------------------==#
+#===------------------------------------------------------------------------===#
 
 
-def _set_up_build(args):
-    shell.DRY_RUN = args.dry_run
-    shell.ECHO_DEFAULT = args.verbose_build
+DEVNULL = getattr(subprocess, "DEVNULL", subprocess.PIPE)
 
-    diagnostics.VERBOSE = args.verbose_build
-    diagnostics.DEBUG = args.verbose_build
 
-    diagnostics.debug_head("Starting the setup phase")
+def _quote(arg):
+    return pipes.quote(str(arg))
 
-    if args.build_subdir is None:
-        args.build_subdir = workspace.compute_build_subdir(args)
 
-    diagnostics.trace(
-        "The build subdirectory is set to {}".format(args.build_subdir))
+def quote_command(args):
+    """Quote the command for passing to a shell."""
+    return " ".join([_quote(a) for a in args])
 
-    _validate_arguments(args)
 
-    data.build = Mapping(
-        args=args, source_root=ANTHEM_SOURCE_ROOT,
-        build_root=os.path.join(ANTHEM_BUILD_ROOT, args.build_subdir),
-        install_root=os.path.join(args.install_prefix, args.anthem_version),
-        checkout_root=ANTHEM_CHECKOUT_ROOT, products=PRODUCT_CONFIG,
-        host_target=args.host_target, std=args.std, stdlib=args.stdlib,
-        visual_studio=args.cmake_generator == "Visual Studio 14 2015"
-                      or args.cmake_generator == "Visual Studio 15 2017",
-        lua_with_cmake=platform.system() == "Windows")
+def _echo_command(command, env=None, prompt="+ "):
+    output = []
+    if env is not None:
+        output += ["env"] + [_quote("%s=%s" % (k, v))
+                             for (k, v) in sorted(env.items())]
+    output += [_quote(arg) for arg in command]
+    file = sys.stderr
+    # if dry_run:
+    #     file = sys.stdout
+    print(prompt + " ".join(output), file=file)
+    file.flush()
 
-    data.build["local_root"] = os.path.join(data.build.build_root, "local")
 
-    if args.clean:
-        _clean_delay()
-        shell.rmtree(path=data.build.build_root)
+def call(command, stderr=None, env=None):
+    """Execute the given command."""
+    _echo_command(command, env=env)
+    _env = None
+    if env is not None:
+        _env = dict(os.environ)
+        _env.update(env)
+    try:
+        subprocess.check_call(command, env=_env, stderr=stderr)
+    except subprocess.CalledProcessError as e:
+        print(
+            "Command terminated with a non-zero exit status {}, "
+            "aborting".format(e.returncode))
+    except OSError as e:
+        print("Could not execute '{}': {}".format(
+            quote_command(command), e.strerror))
 
-    shell.makedirs(data.build.build_root)
-    shell.makedirs(data.build.local_root)
-    shell.makedirs(data.build.checkout_root)
-    shell.makedirs(data.build.install_root)
-    shell.makedirs(os.path.join(data.build.install_root, "bin"))
-    shell.makedirs(os.path.join(data.build.install_root, "include"))
-    shell.makedirs(os.path.join(data.build.install_root, "lib"))
 
-    os.environ["TOOLCHAINS"] = "default"
-    data.build.toolchain = host_toolchain(args=args)
+def capture(
+        command, stderr=None, env=None, optional=False,
+        allow_non_zero_exit=False):
+    """Execute the given command and return the standard output."""
+    _echo_command(command, env=env)
+    _env = None
+    if env is not None:
+        _env = dict(os.environ)
+        _env.update(env)
+    try:
+        out = subprocess.check_output(command, env=_env, stderr=stderr)
+        # Coerce to `str` hack. not py3 `byte`, not py2 `unicode`.
+        return str(out.decode())
+    except subprocess.CalledProcessError as e:
+        if allow_non_zero_exit:
+            return e.output
+        if optional:
+            return None
+        print(
+            "Command terminated with a non-zero exit status {}, "
+            "aborting".format(e.returncode))
+    except OSError as e:
+        if optional:
+            return None
+        print("Could not execute '{}': {}".format(
+            quote_command(command), e.strerror))
 
-    set_arguments_to_toolchain(args=args, toolchain=data.build.toolchain)
 
-    data.build["ci"] = "CI" in os.environ and os.environ["CI"]
+def makedirs(path):
+    _echo_command(["mkdir", "-p", path])
+    if not os.path.isdir(path):
+        os.makedirs(path)
 
-    if args.auth_token:
-        data.build["github_token"] = args.auth_token
+
+def rmtree(path):
+    _echo_command(["rm", "-rf", path])
+    if os.path.exists(path):
+        shutil.rmtree(path)
+
+
+def copytree(src, dest):
+    _echo_command(["cp", "-r", src, dest])
+    # A workaround
+    if os.path.isdir(dest):  # and data.build.ci:
+        for item in os.listdir(src):
+            s = os.path.join(src, item)
+            d = os.path.join(dest, item)
+            if os.path.isdir(s):
+                shutil.copytree(s, d)  # , symlinks, ignore)
+            else:
+                shutil.copy2(s, d)
+    else:
+        shutil.copytree(src, dest)
+
+
+@contextmanager
+def pushd(path):
+    old_dir = os.getcwd()
+    _echo_command(["pushd", path])
+    os.chdir(path)
+    yield
+    _echo_command(["popd"])
+    os.chdir(old_dir)
+
+
+def which(cmd):
+    if sys.version_info[0] >= 3:
+        import shutil
+        return shutil.which(cmd)
+    out = capture(["which", cmd], optional=True)
+    return out.rstrip() if out is not None else None
+
+
+def where(cmd):
+    if sys.version_info[0] >= 3:
+        import shutil
+        return shutil.which(cmd)
+    out = capture(["where.exe", cmd], optional=True)
+    return out.rstrip() if out is not None else None
+
+
+def xcrun_find(cmd):
+    command = [
+        "xcrun", "--find", cmd, "--sdk", "macosx", "--toolchain", "default"]
+    out = capture(
+        command, stderr=DEVNULL, optional=True)
+    if out is None:
+        return None
+    return out.rstrip()
+
+
+def windows_find(cmd):
+    found = where(cmd)
+    if found is not None:
+        return found.replace("/c/", "C:\\").replace("/", "\\")
+    return found
+
+
+def find_tool(tool):
+    sys = platform.system()
+    if sys == "Darwin":
+        return xcrun_find(tool)
+    elif sys == "Linux":
+        return which(tool)
+    elif sys == "FreeBSD":
+        return which(tool)
+    elif sys.startswith("CYGWIN"):
+        return which(tool)
+    elif sys == "Windows":
+        return windows_find(tool)
+    raise NotImplementedError(
+        "The platform '{}' does not have a defined toolchain".format(sys))
+
+
+def caffeinate(command, env=None):
+    """
+    Execute a command during which system sleep is disabled.
+    By default, this ignores the state of the 'shell.dry_run' flag.
+    """
+    # Disable system sleep, if possible.
+    if platform.system() == "Darwin":
+        # Don't mutate the caller's copy of the arguments.
+        command = ["caffeinate"] + list(command)
+    call(command, env=env)
+
+
+#===------------------------------------------------------------------------===#
+#==- Paths ------------------------------------------------------------------==#
+#===------------------------------------------------------------------------===#
+
+
+def _anthem_path():
+    # Get the parent directory of this file for checking if this file is
+    # located in an Unsung Anthem checkout.
+    #
+    # $ANTHEM_SOURCE_ROOT/unsung-anthem/utils/script_support/variables.py
+    utils_path = os.path.dirname(os.path.dirname(__file__))
+    # Split the path as the first part of the 'utils_path' is presumably the
+    # Unsung Anthem checkout.
+    anthem_path, parent_dirname = os.path.split(utils_path)
+    if parent_dirname != "utils":
+        return ""
+    # The checkout has to have CMake Listfile.
+    if not os.path.exists(os.path.join(anthem_path, "CMakeLists.txt")):
+        return ""
+    return anthem_path
+
+
+def _get_default_source_root():
+    return os.path.dirname(_anthem_path())
+
+
+# $ANTHEM_SOURCE_ROOT is resolved from the path of this file if the environment
+# variable is not set.
+ANTHEM_SOURCE_ROOT = os.environ.get(
+    "ANTHEM_SOURCE_ROOT", _get_default_source_root())
+
+
+# $ODE_BUILD_ROOT is resolved from $ANTHEM_SOURCE_ROOT if the
+# environment variable is not set.
+# TODO
+ODE_BUILD_ROOT = os.environ.get(
+    "ODE_BUILD_ROOT", os.path.join(ANTHEM_SOURCE_ROOT, "script"))
+
+
+CHECKOUT_FILE = os.path.join(ANTHEM_SOURCE_ROOT, "checkout", "ode-build-data")
+
+
+def _get_default_anthem_repo_name():
+    # Split the path of the checkout directory as the latter part of it is the
+    # filename of the checkout directory.
+    _, anthem_repo_name = os.path.split(_anthem_path())
+    return anthem_repo_name
+
+
+# $ANTHEM_REPO_NAME is resolved from the path of this file if the environment
+# variable is not set.
+ANTHEM_REPO_NAME = os.environ.get(
+    "ANTHEM_REPO_NAME", _get_default_anthem_repo_name())
+
+
+SCRIPT_DIR = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils")
+
+
+SOURCE_DIR = os.path.join("checkout", "ode-build", ODE_BUILD_VERSION, "src")
+
+
+TEMP_DIR = os.path.join("checkout", "ode-build", "temp")
+
+
+#===------------------------------------------------------------------------===#
+#==- Github -----------------------------------------------------------------==#
+#===------------------------------------------------------------------------===#
+
+
+def _auth_token():
+    ret_auth_token = None
+    t_file = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "token")
+    if os.path.exists(t_file):
+        with open(t_file) as token_file:
+            ret_auth_token = str(token_file.read())
+    if ret_auth_token:
+        return ret_auth_token
     elif "ODE_OAUTH" in os.environ:
-        data.build["github_token"] = str(os.environ["ODE_OAUTH"])
+        return str(os.environ["ODE_OAUTH"])
     elif "ANTHEM_OAUTH" in os.environ:
-        data.build["github_token"] = str(os.environ["ANTHEM_OAUTH"])
-
-    data.build.connection_protocol = defaults.PROTOCOL
-
-    diagnostics.debug_head("Setup phase is done")
+        return str(os.environ["ANTHEM_OAUTH"])
 
 
-def _build_tools():
-    diagnostics.debug_head("Starting the tool setup phase")
-    args = data.build.args
-    toolchain = data.build.toolchain
-
-    for key, product in data.build.products.items():
-        diagnostics.trace("Checking if {} needs to be built".format(
-            product.repr))
-        should_build = reflection.build_call(product, "should_build")
-        only_anthem = not args.build_anthem and product.anthem_only
-        if only_anthem:
-            diagnostics.note(
-                "{} is not built as it is only required by Unsung Anthem "
-                "which is not built".format(product.repr))
-        if product.is_tool and should_build and not only_anthem:
-            diagnostics.trace_head("Entering the build of {}".format(
-                product.repr))
-            reflection.build_call(product, "do_build")
-            diagnostics.debug_ok("{} is now built".format(product.repr))
-        elif product.is_tool and not should_build:
-            diagnostics.trace("{} is not built".format(product.repr))
-
-    diagnostics.fine("The Ode library name is set to {}".format(args.ode_name))
-    diagnostics.fine("The Ode test executable name is set to {}".format(
-        args.ode_test_name))
-
-    diagnostics.fine("The Unsung Anthem executable name is set to {}".format(
-        args.anthem_name))
-    diagnostics.fine("The Unsung Anthem library name is set to {}".format(
-        args.anthem_lib_name))
-    diagnostics.fine(
-        "The Unsung Anthem test executable name is set to "
-        "{}".format(args.anthem_test_name))
-
-    diagnostics.fine("The host C compiler is set to {}".format(toolchain.cc))
-    diagnostics.fine("The host C++ compiler is set to {}".format(
-        toolchain.cxx))
-    diagnostics.fine("Make is set to {}".format(toolchain.make))
-    diagnostics.fine("MSBuild is set to {}".format(toolchain.msbuild))
-    diagnostics.fine("Ninja is set to {}".format(toolchain.ninja))
-    diagnostics.fine("CMake is set to {}".format(toolchain.cmake))
-    diagnostics.fine("git is set to {}".format(toolchain.git))
-
-    diagnostics.fine("The C++ standard version is {}".format(data.build.std))
-
-    if data.build.stdlib:
-        diagnostics.fine("The C++ standard library is {}".format(
-            data.build.stdlib))
-
-    diagnostics.debug_head("Tool setup phase is done")
+GITHUB_API_V4_ENDPOINT = "https://api.github.com/graphql"
 
 
-def _build_dependencies():
-    args = data.build.args
-    data.build["dependencies"] = Mapping()
-    data.build.dependencies["build"] = list()
-
-    for key, product in data.build.products.items():
-        should_build = reflection.build_call(product, "should_build")
-        only_anthem = not args.build_anthem and product.anthem_only
-        if not product.is_tool and should_build and not only_anthem:
-            diagnostics.trace_head("Entering the build of {}".format(
-                product.repr))
-            if not reflection.product_exists(product) \
-                    or not reflection.build_function_exists(
-                        product=product, function="do_build"):
-                diagnostics.trace(
-                    "The product package of {} either doesn't exists or "
-                    "doesn't contain function 'build'".format(product.repr))
-                diagnostics.trace(
-                    "Thus, {} will be built using the default copy "
-                    "function".format(product.repr))
-                common.build.copy_build(
-                    product=product, subdir=product.build_subdir)
-            else:
-                reflection.build_call(product, "do_build")
-            diagnostics.debug_ok("{} is now built".format(product.repr))
-        elif not product.is_tool and not should_build:
-            diagnostics.trace("{} is not built".format(product.repr))
+def call_query(file_name, replacements=None):
+    """Calls the given GraphQL query."""
+    with open(os.path.join(SCRIPT_DIR, file_name)) as query_file:
+        raw_query = str(query_file.read())
+    if replacements:
+        for k, v in replacements.items():
+            raw_query = raw_query.replace(k, v)
+    query = json.dumps({"query": raw_query})
+    response = requests.post(
+        url=GITHUB_API_V4_ENDPOINT,
+        data=query,
+        headers={
+            "User-Agent": "venturesomestone", "Accept": "application/json",
+            "Authorization": "bearer {}".format(_auth_token())
+        })
+    return response.json()["data"]
 
 
-def _invoke():
-    diagnostics.debug_head("Starting the build phase")
-    args = data.build.args
+def find_release_node(json_data, let_use_fallback=False):
+    """Finds the requested release node from the GitHub API JSON data."""
+    release_edges = json_data["repository"]["releases"]["edges"]
+    ret_node = None
+    gh_version = ODE_BUILD_VERSION
+    for edge in release_edges:
+        node = edge["node"]
+        if node is None or node["name"] == "":
+            continue
+        if node["name"] == gh_version:
+            ret_node = node
 
-    _build_dependencies()
+    if not ret_node and let_use_fallback:
+        return release_edges[0]["node"]
 
-    ode_p = data.build.products.ode
-    anthem_p = data.build.products.anthem
-
-    if args.build_ode:
-        diagnostics.debug_head("Entering the build of {}".format(ode_p.repr))
-        ode.build.do_build(lib=True, test=False)
-
-    if args.build_anthem:
-        diagnostics.debug_head("Entering the build of {}".format(
-            anthem_p.repr))
-        anthem.build.do_build(lib=False, test=False)
-
-    if args.build_anthem_lib:
-        diagnostics.debug_head("Entering the build of {} library".format(
-            anthem_p.repr))
-        anthem.build.do_build(lib=True, test=False)
-
-    if args.build_test:
-        ode_test = args.build_ode and not args.build_anthem
-        if ode_test:
-            diagnostics.debug_head("Entering the build of {} tests".format(
-                ode_p.repr))
-            ode.build.do_build(lib=False, test=True)
-        else:
-            diagnostics.debug_head("Entering the build of {} tests".format(
-                anthem_p.repr))
-            anthem.build.do_build(lib=False, test=True)
-
-        if platform.system() == "Windows":
-            if ode_test:
-                # TODO
-                test_run_dir = os.path.join(ode.build.ode_build_dir(
-                    lib=False, test=True), args.ode_build_variant)
-            else:
-                test_run_dir = os.path.join(anthem.build.anthem_build_dir(
-                    lib=False, test=True), args.anthem_build_variant)
-        else:
-            test_run_dir = os.path.join(data.build.install_root, "bin")
-        if not args.enable_gcov:
-            with shell.pushd(test_run_dir):
-                if ode_test:
-                    exe_name = args.ode_test_name
-                else:
-                    exe_name = args.anthem_test_name
-                if platform.system() == "Windows":
-                    test_executable = os.path.join(
-                        test_run_dir, "{}.exe".format(exe_name))
-                else:
-                    test_executable = os.path.join(test_run_dir, exe_name)
-                shell.call([test_executable], echo=True)
-
-    diagnostics.debug_head("Build phase is done")
+    return ret_node
 
 
-def initialize_runtime_environment():
+def find_release_node_by_tag(json_data):
     """
-    Change the program environment for building.
-    """
-    os.umask(0o022)
-    # Unset environment variables that might affect how tools behave.
-    for flag in ["MAKEFLAGS"]:
-        os.environ.pop(flag, None)
+    Finds the requested release node from the GitHub API JSON data by the tag
+    name."""
+    release_edges = json_data["repository"]["releases"]["edges"]
+    ret_node = None
+    gh_version = ODE_BUILD_VERSION
+    for edge in release_edges:
+        node = edge["node"]
+        if node is None or node["name"] == "":
+            continue
+        tag_name = node["tag"]["name"]
+        if tag_name == gh_version:
+            ret_node = node
+    return ret_node
 
 
-def main_preset():
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        description="Builds Obliging Ode and Unsung Anthem using a preset.")
-    parser.add_argument(
-        "-n", "--dry-run",
-        help="print the commands that would be executed, but do not execute "
-             "them",
-        action="store_true",
-        default=False)
-    parser.add_argument(
-        "--preset-file",
-        help="load presets from the specified file",
-        metavar="PATH",
-        action="append",
-        dest="preset_file_names",
-        default=[])
-    parser.add_argument(
-        "--preset",
-        help="use the specified option preset",
-        metavar="NAME")
-    parser.add_argument(
-        "--show-presets",
-        help="list all presets and exit",
-        action="store_true")
-    parser.add_argument(
-        "-j", "--jobs",
-        help="the number of parallel build jobs to use",
-        type=int,
-        dest="build_jobs")
-    parser.add_argument(
-        "preset_substitutions_raw",
-        help="'name=value' pairs that are substituted in the preset",
-        nargs="*",
-        metavar="SUBSTITUTION")
-    parser.add_argument(
-        "--expand-build-script-invocation",
-        help="Print the expanded build-script invocation generated "
-             "by the preset, but do not run the preset",
-        action="store_true")
-    args = parser.parse_args()
+def checkout_tag_windows(tag_ref_name):
+    """Checkout a tag."""
+    with pushd(SOURCE_DIR):
+        call([
+            find_tool("git"), "checkout", "tags/{}".format(tag_ref_name), "-b",
+            "{}_anthem_branch".format(tag_ref_name)])
 
-    if not args.preset_file_names:
-        args.preset_file_names = [
-            os.path.join(HOME, ".ode-build-presets"),
-            os.path.join(HOME, ".anthem-build-presets"),
-            os.path.join(
-                ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils",
-                "build-presets.ini")
-        ]
 
-    if args.show_presets:
-        for name in sorted(
-                get_all_preset_names(args.preset_file_names), key=str.lower):
-            print(name)
-        return 0
+def checkout_tag(tag_ref_name):
+    """Checkout a tag."""
+    key = ODE_BUILD_KEY
+    with pushd(os.path.join(TEMP_DIR, key)):
+        call([
+            find_tool("git"), "checkout", "tags/{}".format(tag_ref_name), "-b",
+            "{}_anthem_branch".format(tag_ref_name)])
 
-    if not args.preset:
-        diagnostics.fatal("missing --preset option")
 
-    args.preset_substitutions = {}
+TAG_QUERY_GRAPHQL = "github_tag.graphql"
 
-    for arg in args.preset_substitutions_raw:
-        name, value = arg.split("=", 1)
-        args.preset_substitutions[name] = value
 
-    preset_args = get_preset_options(
-        args.preset_substitutions, args.preset_file_names, args.preset)
+def download_v4():
+    """Download a tag from GitHub."""
+    response_json_data = call_query(TAG_QUERY_GRAPHQL, {
+        "{REPOSITORY_OWNER}": REPO_OWNER,
+        "{REPOSITORY_NAME}": REPO_NAME
+    })
 
     if platform.system() == "Windows":
-        build_script_args = [sys.executable, sys.argv[0]]
+        head, tail = os.path.split(SOURCE_DIR)
+        with pushd(head):
+            call([find_tool("git"), "clone", "{}.git".format(
+                response_json_data["repository"]["url"]), tail])
     else:
-        build_script_args = [sys.argv[0]]
+        with pushd(TEMP_DIR):
+            call([find_tool("git"), "clone", "{}.git".format(
+                response_json_data["repository"]["url"])])
+    release_node = find_release_node(response_json_data)
 
-    if args.dry_run:
-        build_script_args += ["--dry-run"]
-    build_script_args += preset_args
-    if args.build_jobs:
-        build_script_args += ["--jobs", str(args.build_jobs)]
+    if not release_node:
+        release_node = find_release_node_by_tag(response_json_data)
 
-    diagnostics.note("Using preset '{}', which expands to \n\n{}\n".format(
-        args.preset, shell.quote_command(build_script_args)))
+    tag_ref_name = ODE_BUILD_VERSION if not release_node \
+        else release_node["tag"]["name"]
 
-    if args.expand_build_script_invocation:
-        return 0
-
-    shell.caffeinate(build_script_args)
-
-    return 0
-
-
-def main_normal():
-    """
-    Run the build script.
-    """
-    if sys.version_info.major == 2:
-        diagnostics.warn("You're using Python {}".format(sys.version))
-        diagnostics.warn(
-            "You should really update to Python 3 to make the world a better "
-            "place!")
+    if platform.system() == "Windows":
+        checkout_tag_windows(tag_ref_name)
     else:
-        diagnostics.fine("You're using Python {}".format(sys.version))
-        diagnostics.fine("You seem to have an excellent taste!")
-    parser = driver_arguments.create_argument_parser()
-    # TODO Unknown args
-    args, unknown_args = parser.parse_known_args(
-        list(arg for arg in sys.argv[1:] if arg != '--'))
-    _set_up_build(args)
-    checkout.update()
-    _build_tools()
-    _invoke()
-    return 0
+        checkout_tag(tag_ref_name)
+
+
+def get():
+    rmtree(SOURCE_DIR)
+    rmtree(TEMP_DIR)
+    makedirs(SOURCE_DIR)
+    makedirs(TEMP_DIR)
+    download_v4()
+    if platform.system() != "Windows":
+        source_dir = SOURCE_DIR
+        version_dir = os.path.dirname(source_dir)
+        rmtree(source_dir)
+        rmtree(version_dir)
+        copytree(os.path.join(TEMP_DIR, ODE_BUILD_KEY), SOURCE_DIR)
+    rmtree(TEMP_DIR)
+
+
+def write_version_file(versions):
+    """Writes the version information to the versions file."""
+    with open(CHECKOUT_FILE, "w") as outfile:
+        json.dump(versions, outfile)
+
+
+#===------------------------------------------------------------------------===#
+#==- Main -------------------------------------------------------------------==#
+#===------------------------------------------------------------------------===#
 
 
 def main():
     """
     The entry point function of the script.
     """
-    if not ANTHEM_SOURCE_ROOT:
-        diagnostics.fatal(
-            "Could not infer source root directory (forgot to set "
-            "$ANTHEM_SOURCE_ROOT environment variable?)")
-
-    if not os.path.isdir(ANTHEM_SOURCE_ROOT):
-        diagnostics.fatal(
-            "Source root directory '{}' does not exist (forgot to set "
-            "$ANTHEM_SOURCE_ROOT environment "
-            "variable?)".format(ANTHEM_SOURCE_ROOT))
-    if any([(opt.startswith("--preset") or opt == "--show-presets")
-            for opt in sys.argv[1:]]):
-        return main_preset()
-    return main_normal()
+    if os.path.isfile(CHECKOUT_FILE):
+        with open(CHECKOUT_FILE) as json_file:
+            versions = json.load(json_file)
+    else:
+        versions = {}
+    key = ODE_BUILD_KEY
+    if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
+        print("{} should not be re-downloaded, skipping".format(key))
+        return 0
+    rmtree(ODE_BUILD_ROOT)
+    get()
+    info = {"version": ODE_BUILD_VERSION, "targets": "src"}
+    versions[key] = info
+    write_version_file(versions)
+    caffeinate(
+        [os.path.join(SOURCE_DIR, "utils", "build-script"), sys.argv[1:]])
+    return 0
 
 
 if __name__ == "__main__":
