@@ -125,13 +125,20 @@ add_directory_definitions()
 
 set_compiler_flags()
 
-if(ODE_LINK_LIBCXX)
-  set(ODE_LIBRARIES "c++")
-else()
-  set(ODE_LIBRARIES)
+set(ODE_LIBRARIES)
+set(ANTHEM_LIBRARIES)
+
+if("${ODE_TYPE}" STREQUAL "test" OR "${ANTHEM_TYPE}" STREQUAL "test")
+  list(APPEND ODE_LIBRARIES "gtest")
 endif()
 
-set(ANTHEM_LIBRARIES)
+if(ODE_TEST_BENCHMARKING)
+  list(APPEND ODE_LIBRARIES "benchmark")
+endif()
+
+if(ODE_LINK_LIBCXX)
+  list(APPEND ODE_LIBRARIES "c++")
+endif()
 
 if(UNIX)
   find_library(SDL2_LIBRARY SDL2)
@@ -159,14 +166,6 @@ endif()
 
 if(NOT ODE_ADD_LUA_SOURCE)
   list(APPEND ODE_LIBRARIES "lua")
-endif()
-
-if("${ODE_TYPE}" STREQUAL "test" OR "${ANTHEM_TYPE}" STREQUAL "test")
-  list(APPEND ODE_LIBRARIES "gtest")
-endif()
-
-if(ODE_TEST_BENCHMARKING)
-  list(APPEND ODE_LIBRARIES "benchmark")
 endif()
 
 print_status_plural(ODE_LIBRARIES "libraries")
