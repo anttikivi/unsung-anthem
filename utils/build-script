@@ -427,15 +427,7 @@ def write_version_file(versions):
         json.dump(versions, outfile)
 
 
-#===------------------------------------------------------------------------===#
-#==- Main -------------------------------------------------------------------==#
-#===------------------------------------------------------------------------===#
-
-
-def main():
-    """
-    The entry point function of the script.
-    """
+def checkout():
     if os.path.isfile(CHECKOUT_FILE):
         with open(CHECKOUT_FILE) as json_file:
             versions = json.load(json_file)
@@ -445,13 +437,26 @@ def main():
     if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
         print("{} should not be re-downloaded, skipping".format(key))
         return 0
-    rmtree(ODE_BUILD_ROOT)
     get()
     info = {"version": ODE_BUILD_VERSION, "targets": "src"}
     versions[key] = info
     write_version_file(versions)
+    rmtree(ODE_BUILD_ROOT)
+    copytree(SOURCE_DIR, ODE_BUILD_ROOT)
+
+
+#===------------------------------------------------------------------------===#
+#==- Main -------------------------------------------------------------------==#
+#===------------------------------------------------------------------------===#
+
+
+def main():
+    """
+    The entry point function of the script.
+    """
+    checkout()
     caffeinate(
-        [os.path.join(SOURCE_DIR, "utils", "build-script"), sys.argv[1:]])
+        [os.path.join(ODE_BUILD_ROOT, "utils", "build-script"), sys.argv[1:]])
     return 0
 
 
