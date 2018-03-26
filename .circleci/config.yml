@@ -62,9 +62,9 @@ jobs:
     environment:
       <<: *default_variables
       BUILD_PRESET: circleci_linux_clang60_cxx17
-      COMPILER_NAME: clang
-      CXX: clang++-6.0
-      CC: clang-6.0
+      # COMPILER_NAME: clang
+      # CXX: clang++-6.0
+      # CC: clang-6.0
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
@@ -75,8 +75,8 @@ jobs:
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         chmod +x $ANTHEM_REPO_NAME/utils/build-script
-    - run: ${CC} --version
-    - run: ${CXX} --version
+    # - run: ${CC} --version
+    # - run: ${CXX} --version
     - run: pip install --user requests
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
