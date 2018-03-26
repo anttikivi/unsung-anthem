@@ -36,7 +36,7 @@ from contextlib import contextmanager
 import requests
 
 
-ODE_BUILD_VERSION = "0.3.0-dev.3"
+ODE_BUILD_VERSION = "0.3.0-dev.4"
 ODE_BUILD_KEY = "ode-build"
 
 
