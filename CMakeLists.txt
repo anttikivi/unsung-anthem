@@ -50,6 +50,9 @@ option(ODE_LINK_LIBCXX "Manually link libc++" OFF)
 option(ODE_ADD_LUA_SOURCE
     "Add Lua source files directly to the Ode sources" OFF)
 
+option(ODE_ADD_GTEST_SOURCE
+    "Add Google Test source files directly to the Ode sources" OFF)
+
 option(ODE_INSTALL_ONLY_SCRIPTS "Install only the scripts" OFF)
 
 option(ODE_USE_LOCAL_LLVM "Use an LLVM which is in the local directory" OFF)
@@ -128,8 +131,10 @@ set_compiler_flags()
 set(ODE_LIBRARIES)
 set(ANTHEM_LIBRARIES)
 
-if("${ODE_TYPE}" STREQUAL "test" OR "${ANTHEM_TYPE}" STREQUAL "test")
-  list(APPEND ODE_LIBRARIES "gtest")
+if(NOT ODE_ADD_GTEST_SOURCE)
+  if("${ODE_TYPE}" STREQUAL "test" OR "${ANTHEM_TYPE}" STREQUAL "test")
+    list(APPEND ODE_LIBRARIES "gtest")
+  endif()
 endif()
 
 if(ODE_TEST_BENCHMARKING)
@@ -224,6 +229,13 @@ set_glad_sources()
 
 if(ODE_ADD_LUA_SOURCE)
   set_lua_sources()
+endif()
+
+if(ODE_ADD_GTEST_SOURCE)
+  if("${ODE_TYPE}" STREQUAL "test" OR "${ANTHEM_TYPE}" STREQUAL "test")
+    set_gtest_sources()
+    include_directories(${ODE_INSTALL_PREFIX}/src/gtest)
+  endif()
 endif()
 
 print_status(CMAKE_CXX_FLAGS "compiler flags")
