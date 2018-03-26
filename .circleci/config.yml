@@ -49,6 +49,8 @@ jobs:
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
         ./script/build-script --preset ${BUILD_PRESET}
 
   #===----------------------------------------------------------------------===#
@@ -81,6 +83,8 @@ jobs:
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script
+    - run: |
+        cd $CIRCLE_WORKING_DIRECTORY/..
         ./script/build-script --preset ${BUILD_PRESET}
 
 
