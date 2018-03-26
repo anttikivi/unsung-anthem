@@ -461,12 +461,15 @@ def main():
     The entry point function of the script.
     """
     checkout()
-    args = []
-    if platform.system() == "Windows":
-        args += [sys.executable]
-    args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
-    args += sys.argv[1:]
-    return caffeinate(args)
+    if "CI" in os.environ and os.environ["CI"]:
+        return 0
+    else:
+        args = []
+        if platform.system() == "Windows":
+            args += [sys.executable]
+        args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
+        args += sys.argv[1:]
+        return caffeinate(args)
 
 
 if __name__ == "__main__":
