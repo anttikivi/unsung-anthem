@@ -59,7 +59,7 @@ endfunction()
 
 function(SET_GTEST_SOURCES)
 
-  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/gtest/gtest_all.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/gtest/src/gtest-all.cc)
 
   set(ODE_TEST_SOURCES ${ODE_TEST_SOURCES} PARENT_SCOPE)
 
