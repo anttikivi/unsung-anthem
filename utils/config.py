@@ -44,12 +44,12 @@ LUA_VERSION = "5.3.4"
 NINJA_VERSION = "1.8.2"
 
 
-ODE_VERSION = "0.1.0-dev.1",
-ODE_NAME = "Obliging Ode",
-ODE_KEY = "ode",
+ODE_VERSION = "0.1.0-dev.1"
+ODE_NAME = "Obliging Ode"
+ODE_KEY = "ode"
 ODE_OPENGL_MAJOR_VERSION = 3
 ODE_OPENGL_MINOR_VERSION = 2
-ODE_LOGGER_NAME = "ode",
+ODE_LOGGER_NAME = "ode"
 
 
 SDL_VERSION = "2.0.8"
