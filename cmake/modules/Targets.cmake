@@ -121,6 +121,8 @@ function(SET_UP_COVERAGE TARGET COVERAGE_TARGET)
       ${ODE_INSTALL_PREFIX}/include/spdlog/fmt/bundled/*
       ${ODE_INSTALL_PREFIX}/include/spdlog/sinks/*
       ${ODE_INSTALL_PREFIX}/src/*
+      ${ODE_INSTALL_PREFIX}/src/benchmark/*
+      ${ODE_INSTALL_PREFIX}/src/gtest/src/*
       /usr/include/*
       /usr/include/c++*
       *v1*
