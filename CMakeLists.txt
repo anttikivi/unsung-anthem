@@ -44,8 +44,6 @@ option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
 
 option(ODE_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)
 
-option(ODE_SET_RPATH "Set the rpath to the install directory" OFF)
-
 option(ODE_LINK_LIBCXX "Manually link libc++" OFF)
 
 option(ODE_ADD_LUA_SOURCE
@@ -114,6 +112,8 @@ endif()
 print_status_if_defined(ODE_STDLIB "C++ standard library")
 
 print_status_if_defined(ODE_OPTIMIZATION_LEVEL "the optimization level")
+
+print_status_if_defined(ODE_RPATH "the rpath")
 
 set(ODE_STD)
 set(ANTHEM_STD)
