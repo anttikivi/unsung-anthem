@@ -121,8 +121,6 @@ matrix:
 install:
 - ${CC} --version
 - ${CXX} --version
-- echo $TRAVIS_OSX_IMAGE
-- pip install --user requests
 - if [ "${TRAVIS_OSX_IMAGE}" == "xcode8.3" ]; then pip2 install --user request; else pip install --user requests; fi
 - if [ "${ENABLE_COVERAGE}" == "true" ]; then gem install coveralls-lcov; fi
 
