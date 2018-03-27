@@ -21,7 +21,7 @@ This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDU
 
 ## Building
 
-Please ensure you have a C++14 compliant compiler, [Git](https://git-scm.com), and [Python](https://www.python.org).
+Please ensure you have a C++17 compliant compiler, [Git](https://git-scm.com), and [Python](https://www.python.org).
 
 First, create a directory for the Obliging Ode and Unsung Anthem sources and switch to it.
 
