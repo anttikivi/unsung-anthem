@@ -64,3 +64,25 @@ function(SET_GTEST_SOURCES)
   set(ODE_TEST_SOURCES ${ODE_TEST_SOURCES} PARENT_SCOPE)
 
 endfunction()
+
+function(SET_BENCHMARK_SOURCES)
+
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/benchmark_register.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/benchmark.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/colorprint.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/commandlineflags.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/complexity.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/console_reporter.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/counter.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/csv_reporter.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/json_reporter.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/reporter.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/sleep.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/statistics.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/string_util.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/sysinfo.cc)
+  list(APPEND ODE_TEST_SOURCES ${ODE_INSTALL_PREFIX}/src/timers.cc)
+
+  set(ODE_TEST_SOURCES ${ODE_TEST_SOURCES} PARENT_SCOPE)
+
+endfunction()

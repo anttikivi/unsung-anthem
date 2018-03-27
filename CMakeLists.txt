@@ -53,6 +53,9 @@ option(ODE_ADD_LUA_SOURCE
 option(ODE_ADD_GTEST_SOURCE
     "Add Google Test source files directly to the Ode sources" OFF)
 
+option(ODE_ADD_BENCHMARK_SOURCE
+    "Add Google Benchmark source files directly to the Ode sources" OFF)
+
 option(ODE_INSTALL_ONLY_SCRIPTS "Install only the scripts" OFF)
 
 option(ODE_USE_LOCAL_LLVM "Use an LLVM which is in the local directory" OFF)
@@ -137,7 +140,7 @@ if(NOT ODE_ADD_GTEST_SOURCE)
   endif()
 endif()
 
-if(ODE_TEST_BENCHMARKING)
+if(ODE_TEST_BENCHMARKING AND NOT ODE_ADD_BENCHMARK_SOURCE)
   list(APPEND ODE_LIBRARIES "benchmark")
 endif()
 
@@ -235,6 +238,13 @@ if(ODE_ADD_GTEST_SOURCE)
   if("${ODE_TYPE}" STREQUAL "test" OR "${ANTHEM_TYPE}" STREQUAL "test")
     set_gtest_sources()
     include_directories(${ODE_INSTALL_PREFIX}/src/gtest)
+  endif()
+endif()
+
+if(ODE_TEST_BENCHMARKING AND NOT ODE_ADD_BENCHMARK_SOURCE)
+  if("${ODE_TYPE}" STREQUAL "test" OR "${ANTHEM_TYPE}" STREQUAL "test")
+    set_benchmark_sources()
+    include_directories(${ODE_INSTALL_PREFIX}/src/benchmark)
   endif()
 endif()
 
