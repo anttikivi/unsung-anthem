@@ -121,6 +121,7 @@ matrix:
 install:
 - ${CC} --version
 - ${CXX} --version
+- echo $TRAVIS_OSX_IMAGE
 - pip install --user requests
 - if [ "${ENABLE_COVERAGE}" == "true" ]; then gem install coveralls-lcov; fi
 
