@@ -48,7 +48,7 @@ jobs:
     - run: pip install --user requests
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script
+        $ANTHEM_REPO_NAME/utils/build-script --develop-script
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         ./script/build-script --preset ${BUILD_PRESET}
@@ -82,7 +82,7 @@ jobs:
     - run: pip install --user requests
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script
+        $ANTHEM_REPO_NAME/utils/build-script --develop-script
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         ./script/build-script --preset ${BUILD_PRESET}

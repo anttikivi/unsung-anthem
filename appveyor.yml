@@ -33,5 +33,5 @@ install:
 
 build_script:
  - cd %APPVEYOR_BUILD_FOLDER%\..
- - python unsung-anthem\utils\build-script
+ - python unsung-anthem\utils\build-script --develop-script
  - python .\script\build-script --preset=%ANTHEM_PRESET%
