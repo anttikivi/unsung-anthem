@@ -379,11 +379,30 @@ def checkout_tag(tag_ref_name):
             "{}_anthem_branch".format(tag_ref_name)])
 
 
+URL_QUERY_GRAPHQL = "github_url.graphql"
+
+
+def _download_v4_develop():
+    response_json_data = call_query(URL_QUERY_GRAPHQL, {
+        "{REPOSITORY_OWNER}": REPO_OWNER,
+        "{REPOSITORY_NAME}": REPO_NAME
+    })
+
+    if platform.system() == "Windows":
+        head, tail = os.path.split(SOURCE_DIR)
+        with pushd(head):
+            call([find_tool("git"), "clone", "{}.git".format(
+                response_json_data["repository"]["url"]), tail])
+    else:
+        with pushd(TEMP_DIR):
+            call([find_tool("git"), "clone", "{}.git".format(
+                response_json_data["repository"]["url"])])
+
+
 TAG_QUERY_GRAPHQL = "github_tag.graphql"
 
 
-def download_v4():
-    """Download a tag from GitHub."""
+def _download_v4():
     response_json_data = call_query(TAG_QUERY_GRAPHQL, {
         "{REPOSITORY_OWNER}": REPO_OWNER,
         "{REPOSITORY_NAME}": REPO_NAME
@@ -412,12 +431,27 @@ def download_v4():
         checkout_tag(tag_ref_name)
 
 
-def get():
+def _get_develop():
     rmtree(SOURCE_DIR)
     rmtree(TEMP_DIR)
     makedirs(SOURCE_DIR)
     makedirs(TEMP_DIR)
-    download_v4()
+    _download_v4_develop()
+    if platform.system() != "Windows":
+        source_dir = SOURCE_DIR
+        version_dir = os.path.dirname(source_dir)
+        rmtree(source_dir)
+        rmtree(version_dir)
+        copytree(os.path.join(TEMP_DIR, ODE_BUILD_KEY), SOURCE_DIR)
+    rmtree(TEMP_DIR)
+
+
+def _get():
+    rmtree(SOURCE_DIR)
+    rmtree(TEMP_DIR)
+    makedirs(SOURCE_DIR)
+    makedirs(TEMP_DIR)
+    _download_v4()
     if platform.system() != "Windows":
         source_dir = SOURCE_DIR
         version_dir = os.path.dirname(source_dir)
@@ -433,7 +467,25 @@ def write_version_file(versions):
         json.dump(versions, outfile)
 
 
-def checkout():
+def _checkout_develop():
+    if os.path.isfile(CHECKOUT_FILE):
+        with open(CHECKOUT_FILE) as json_file:
+            versions = json.load(json_file)
+    else:
+        versions = {}
+    key = ODE_BUILD_KEY
+    version = "develop"
+    if key in versions and version == versions[key]["version"]:
+        print("{} is re-downloaded".format(key))
+    _get_develop()
+    info = {"version": version, "targets": "src"}
+    versions[key] = info
+    write_version_file(versions)
+    rmtree(ODE_BUILD_ROOT)
+    copytree(os.path.join(SOURCE_DIR, "utils"), ODE_BUILD_ROOT)
+
+
+def _checkout():
     if os.path.isfile(CHECKOUT_FILE):
         with open(CHECKOUT_FILE) as json_file:
             versions = json.load(json_file)
@@ -443,7 +495,7 @@ def checkout():
     if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
         print("{} should not be re-downloaded, skipping".format(key))
         return 0
-    get()
+    _get()
     info = {"version": ODE_BUILD_VERSION, "targets": "src"}
     versions[key] = info
     write_version_file(versions)
@@ -456,11 +508,8 @@ def checkout():
 #===------------------------------------------------------------------------===#
 
 
-def main():
-    """
-    The entry point function of the script.
-    """
-    checkout()
+def _main_develop():
+    _checkout_develop()
     if "CI" in os.environ and os.environ["CI"]:
         return 0
     else:
@@ -470,6 +519,31 @@ def main():
         args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
         args += sys.argv[1:]
         return caffeinate(args)
+
+
+def _main_normal():
+    _checkout()
+    if "CI" in os.environ and os.environ["CI"]:
+        return 0
+    else:
+        args = []
+        if platform.system() == "Windows":
+            args += [sys.executable]
+        args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
+        args += sys.argv[1:]
+        return caffeinate(args)
+
+
+def main():
+    """
+    The entry point function of the script.
+    """
+    if any([(opt == "-D" or opt == "--develop-script")
+            for opt in sys.argv[1:]]):
+        print("Downloading the development version of the build script")
+        return _main_develop()
+    else:
+        return _main_normal()
 
 
 if __name__ == "__main__":
