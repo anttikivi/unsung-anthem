@@ -141,6 +141,8 @@ install:
 - if [ "${ENABLE_COVERAGE}" == "true" ]; then gem install coveralls-lcov; fi
 
 script:
+- echo $TRAVIS_BUILD_NUMBER
+- echo $TRAVIS_JOB_NUMBER
 - cd $TRAVIS_BUILD_DIR/..
 - unsung-anthem/utils/build-script --develop-script
 - ./script/build-script --preset ${BUILD_PRESET}
