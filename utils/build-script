@@ -36,8 +36,13 @@ from contextlib import contextmanager
 import requests
 
 
-ODE_BUILD_VERSION = "0.3.0-alpha.3"
+ODE_DEFAULT_BUILD_VERSION = "0.3.0-alpha.3"
 ODE_BUILD_KEY = "ode-build"
+
+
+ODE_BUILD_VERSION = "develop" if any([(opt == "-D"
+    or opt == "--develop-script") for opt in sys.argv[1:]]) \
+    else ODE_DEFAULT_BUILD_VERSION
 
 
 REPO_OWNER = "venturesomestone"
@@ -474,11 +479,10 @@ def _checkout_develop():
     else:
         versions = {}
     key = ODE_BUILD_KEY
-    version = "develop"
-    if key in versions and version == versions[key]["version"]:
+    if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
         print("{} is re-downloaded".format(key))
     _get_develop()
-    info = {"version": version, "targets": "src"}
+    info = {"version": ODE_BUILD_VERSION, "targets": "src"}
     versions[key] = info
     write_version_file(versions)
     rmtree(ODE_BUILD_ROOT)

@@ -14,6 +14,11 @@ function(ADD_NAME_DEFINITIONS)
   add_definitions(-DANTHEM_WINDOW_NAME="${ANTHEM_WINDOW_NAME}")
 endfunction()
 
+function(ADD_VERSION_DEFINITIONS)
+  add_definitions(-DODE_VERSION="${ODE_VERSION}")
+  add_definitions(-DANTHEM_VERSION="${ANTHEM_VERSION}")
+endfunction()
+
 function(ADD_OPENGL_DEFINITIONS)
   add_definitions(-DODE_OPENGL_VERSION_MAJOR=${ODE_OPENGL_VERSION_MAJOR})
   add_definitions(-DODE_OPENGL_VERSION_MINOR=${ODE_OPENGL_VERSION_MINOR})

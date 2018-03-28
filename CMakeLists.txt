@@ -69,6 +69,9 @@ assert_variable(ODE_CXX_VERSION "C++ standard version" "c++2a and c++17")
 
 assert_variable(ODE_INSTALL_PREFIX "dependency installation directory")
 
+assert_variable(ODE_VERSION "Obliging Ode version")
+assert_variable(ANTHEM_VERSION "Unsung Anthem version")
+
 assert_variable(ODE_BIN_DIR_NAME "name of the binary installation directory")
 assert_variable(ODE_INCLUDE_DIR_NAME
     "name of the include installation directory")
