@@ -78,14 +78,14 @@ matrix:
     compiler: clang
     env:
     - COMPILER_NAME=clang
-    - CXX=clang++-5.0
-    - CC=clang-5.0
-    - BUILD_PRESET=travis_linux_clang50_cxx17
+    - CXX=clang++-6.0
+    - CC=clang-6.0
+    - BUILD_PRESET=travis_linux_clang60_cxx17
     - ENABLE_COVERAGE=false
     addons:
       apt:
         packages:
-        - clang-5.0
+        - clang-6.0
         - xorg-dev
         - libglu1-mesa-dev
         - build-essential
