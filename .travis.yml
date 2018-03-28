@@ -43,10 +43,6 @@ matrix:
         - build-essential
         sources: &sources
         - ubuntu-toolchain-r-test
-        - llvm-toolchain-trusty
-        - llvm-toolchain-trusty-4.0
-        - llvm-toolchain-precise
-        - llvm-toolchain-precise-3.5
 
   # Linux: Ubuntu Trusty 14.04 C++17 GCC 7 + Coverage
   - os: linux
@@ -72,24 +68,22 @@ matrix:
   #==- Linux - Clang --------------------------------------------------------==#
   #===----------------------------------------------------------------------===#
 
-  # Linux: Ubuntu Trusty 14.04 C++17 Clang 5.0
+  # Linux: Ubuntu Trusty 14.04 C++17 Clang 6.0
   - os: linux
     dist: trusty
     compiler: clang
     env:
     - COMPILER_NAME=clang
-    - CXX=clang++-6.0
-    - CC=clang-6.0
+    - CXX=clang++
+    - CC=clang
     - BUILD_PRESET=travis_linux_clang60_cxx17
     - ENABLE_COVERAGE=false
     addons:
       apt:
         packages:
-        - clang-6.0
         - xorg-dev
         - libglu1-mesa-dev
         - build-essential
-        - libc++-dev
         sources: *sources
 
   #===----------------------------------------------------------------------===#
