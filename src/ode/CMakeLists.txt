@@ -10,7 +10,6 @@
 
 add_subdirectory(lua)
 
-list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/command_line_interface.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/execute.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/logging.cpp)
 

@@ -15,20 +15,20 @@
 /// \brief The definitions of the utilities related to parsing command line
 /// arguments.
 /// \author Antti Kivi
-/// \date 2 February 2018
+/// \date 29 March 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/command_line_interface.h"
+#include "anthem/command_line_interface.h"
 
 #include <iostream>
 
-#include "ode/logger.h"
+#include "anthem/logger.h"
 
-namespace ode
+namespace anthem
 {
   std::ostream& operator<<(std::ostream& os, const arguments& a)
   {
@@ -41,9 +41,9 @@ namespace ode
         << "}";
   }
 
-  arguments parse_arguments(const int argc, argv_array argv[]) noexcept
+  arguments parse_arguments(const int argc, ode::argv_array argv[]) noexcept
   {
-    ODE_DEBUG("Going to parse {} argument(s)", argc - 1);
+    ANTHEM_DEBUG("Going to parse {} argument(s)", argc - 1);
 
     bool show_help_flag = false;
     auto window_width = default_window_width;
@@ -82,4 +82,4 @@ namespace ode
         window_height,
         window_name};
   }
-} // namespace ode
+} // namespace anthem
