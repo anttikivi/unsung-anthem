@@ -13,7 +13,7 @@
 ///
 /// \file initialize.h
 /// \brief Declarations of the initialization utility function for Simple
-/// DirectMedia Layer. 
+/// DirectMedia Layer.
 /// \author Antti Kivi
 /// \date 29 March 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
