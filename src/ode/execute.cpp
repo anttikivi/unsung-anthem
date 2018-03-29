@@ -26,6 +26,7 @@
 #include <cstdlib>
 
 #include "ode/logger.h"
+#include "ode/sdl/initialize.h"
 
 #include "ode/config.h"
 #include "ode/logging_config.h"
@@ -42,10 +43,10 @@ namespace ode
         logger_name,
         logger_pattern,
         logger_level);
+    
+    const auto sdl_quit_action = ode::sdl::initialize();
 
     /*
-    const auto sdl_quit_action = initialize_sdl();
-
     // TODO: Maybe return some value.
     create_managers();
 
