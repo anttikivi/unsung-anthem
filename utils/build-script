@@ -512,6 +512,18 @@ def _checkout():
 #===------------------------------------------------------------------------===#
 
 
+def _main_skip_download():
+    if "CI" in os.environ and os.environ["CI"]:
+        return 0
+    else:
+        args = []
+        if platform.system() == "Windows":
+            args += [sys.executable]
+        args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
+        args += sys.argv[1:]
+        return caffeinate(args)
+
+
 def _main_develop():
     _checkout_develop()
     if "CI" in os.environ and os.environ["CI"]:
@@ -546,6 +558,10 @@ def main():
             for opt in sys.argv[1:]]):
         print("Downloading the development version of the build script")
         return _main_develop()
+    elif any([(opt == "-N" or opt == "--no-script-update")
+            for opt in sys.argv[1:]]):
+        print("Not downloading the build script")
+        return _main_skip_download()
     else:
         return _main_normal()
 
