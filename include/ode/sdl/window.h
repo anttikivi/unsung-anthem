@@ -75,14 +75,14 @@ namespace ode::sdl
   };
 
   ///
-  /// \brief Initializes a new Simple DirectMedia Layer window with OpenGL
+  /// \brief Initializes a new Simple DirectMedia Layer window with an OpenGL
   /// context.
   ///
-  /// \param args the parsed command line arguments.
+  /// \param info the info with which the window is created.
   ///
   /// \return Pointer to the created object of type \c GLFWwindow.
   ///
-  window_ptr create_window(const window_creation_info& args);
+  window_ptr create_window(const window_creation_info& info);
 
 } // namespace ode::sdl
 

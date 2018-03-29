@@ -27,6 +27,7 @@
 
 #include "ode/logging.h"
 #include "ode/execute.h"
+#include "ode/execution_info.h"
 
 #include "anthem/command_line_interface.h"
 #include "anthem/logger.h"

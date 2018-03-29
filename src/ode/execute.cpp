@@ -25,6 +25,7 @@
 
 #include <cstdlib>
 
+#include "ode/execution_info.h"
 #include "ode/logger.h"
 #include "ode/sdl/initialize.h"
 #include "ode/sdl/window.h"

@@ -25,7 +25,11 @@
 #define ODE_EXECUTE_H
 
 #include "ode/argv_array.h"
-#include "ode/execution_info.h"
+
+namespace ode
+{
+  struct execution_info;
+}
 
 namespace ode
 {
