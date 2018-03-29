@@ -42,12 +42,12 @@ namespace ode
     ///
     /// \brief The starting width of the window.
     ///
-    const ode::pixel_count window_width = 0_px;
+    const pixel_count window_width = 0_px;
 
     ///
     /// \brief The starting height of the window.
     ///
-    const ode::pixel_count window_height = 0_px;
+    const pixel_count window_height = 0_px;
 
     ///
     /// \brief The name of the window.

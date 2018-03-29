@@ -32,7 +32,7 @@
 
 namespace ode
 {
-  int execute(int argc, argv_array argv[])
+  int execute(int argc, argv_array argv[], const execution_info& info)
   {
     logger = create_logger(logger_name, logger_pattern, logger_level);
 
@@ -44,10 +44,6 @@ namespace ode
         logger_level);
 
     /*
-    auto args = parse_arguments(argc, argv);
-
-    logging::trace("The following values are set to the arguments:\n{}", args);
-
     const auto sdl_quit_action = initialize_sdl();
 
     // TODO: Maybe return some value.

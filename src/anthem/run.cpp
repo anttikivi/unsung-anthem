@@ -46,9 +46,18 @@ namespace anthem
         logger_name,
         logger_pattern,
         logger_level);
+    
+    const auto args = parse_arguments(argc, argv);
+
+    ANTHEM_TRACE("The following values are set to the arguments:\n{}", args);
+
+    const auto info = ode::execution_info{
+        args.window_width,
+        args.window_height,
+        args.window_name};
 
     // TODO Add custom, anthem-only arguments via this function.
-    ode::execute(argc, argv);
+    ode::execute(argc, argv, info);
 
     return EXIT_SUCCESS;
   }
