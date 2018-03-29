@@ -27,6 +27,7 @@
 
 #include "ode/logger.h"
 #include "ode/sdl/initialize.h"
+#include "ode/sdl/window.h"
 
 #include "ode/config.h"
 #include "ode/logging_config.h"
@@ -46,11 +47,17 @@ namespace ode
     
     const auto sdl_quit_action = ode::sdl::initialize();
 
+    sdl::window_ptr window = sdl::create_window({
+        info.window_width,
+        info.window_height,
+        info.window_name});
+    
+    ODE_DEBUG("The main window of {} is created", ode_name);
+
     /*
     // TODO: Maybe return some value.
     create_managers();
 
-    window_ptr window = create_window(args);
     auto context = create_gl_context(window.get());
 
     game_loop(std::move(args), std::move(window));

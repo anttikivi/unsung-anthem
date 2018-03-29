@@ -54,6 +54,24 @@ namespace ode
   constexpr auto test_script_root = "script/test/ode";
 #endif // !defined(ODE_TEST_SCRIPT_ROOT)
 
+  ///
+  /// \brief The major OpenGL version to be used.
+  ///
+#ifdef ODE_OPENGL_VERSION_MAJOR
+  constexpr int opengl_version_major = ODE_OPENGL_VERSION_MAJOR;
+#else
+# error "ODE_OPENGL_VERSION_MAJOR is not set"
+#endif // !defined(ODE_OPENGL_VERSION_MAJOR)
+
+  ///
+  /// \brief The minor OpenGL version to be used.
+  ///
+#ifdef ODE_OPENGL_VERSION_MINOR
+  constexpr int opengl_version_minor = ODE_OPENGL_VERSION_MINOR;
+#else
+# error "ODE_OPENGL_VERSION_MINOR is not set"
+#endif // !defined(ODE_OPENGL_VERSION_MINOR)
+
 } // namespace ode
 
 #endif // !ODE_CONFIG_H
