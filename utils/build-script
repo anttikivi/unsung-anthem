@@ -56,6 +56,24 @@ REPO_NAME = ODE_BUILD_KEY
 
 DEVNULL = getattr(subprocess, "DEVNULL", subprocess.PIPE)
 
+DRY_RUN = any([(opt == "-n" or opt == "--dry-run") for opt in sys.argv[1:]])
+
+ECHO = any([(opt == "-v" or opt == "--verbose-build") for opt in sys.argv[1:]])
+
+
+def _coerce_dry_run(dry_run_override):
+    if dry_run_override is None:
+        return DRY_RUN
+    else:
+        return dry_run_override
+
+
+def _coerce_echo(echo_override):
+    if echo_override is None:
+        return ECHO
+    else:
+        return echo_override
+
 
 def _quote(arg):
     return pipes.quote(str(arg))
@@ -66,45 +84,53 @@ def quote_command(args):
     return " ".join([_quote(a) for a in args])
 
 
-def _echo_command(command, env=None, prompt="+ "):
+def _echo_command(dry_run, command, env=None, prompt="+ "):
     output = []
     if env is not None:
         output += ["env"] + [_quote("%s=%s" % (k, v))
                              for (k, v) in sorted(env.items())]
     output += [_quote(arg) for arg in command]
     file = sys.stderr
-    # if dry_run:
-    #     file = sys.stdout
+    if dry_run:
+        file = sys.stdout
     print(prompt + " ".join(output), file=file)
     file.flush()
 
 
-def call(command, stderr=None, env=None):
+def call(command, stderr=None, env=None, dry_run=None, echo=None):
     """Execute the given command."""
-    _echo_command(command, env=env)
+    dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
+    if dry_run or echo:
+        _echo_command(dry_run, command, env=env)
+    if dry_run:
+        return
     _env = None
     if env is not None:
         _env = dict(os.environ)
         _env.update(env)
     try:
         subprocess.check_call(command, env=_env, stderr=stderr)
-        return 0
     except subprocess.CalledProcessError as e:
         SystemExit(
             "Command terminated with a non-zero exit status {}, "
             "aborting".format(e.returncode))
-        return 3
     except OSError as e:
         SystemExit("Could not execute '{}': {}".format(
-            quote_command(command), e.strerror))
-        return 3
+            quote_command(command),
+            e.strerror))
 
 
 def capture(
-        command, stderr=None, env=None, optional=False,
-        allow_non_zero_exit=False):
+        command, stderr=None, env=None, dry_run=None, echo=None,
+        optional=False, allow_non_zero_exit=False):
     """Execute the given command and return the standard output."""
-    _echo_command(command, env=env)
+    dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
+    if dry_run or echo:
+        _echo_command(dry_run, command, env=env)
+    if dry_run:
+        return
     _env = None
     if env is not None:
         _env = dict(os.environ)
@@ -121,29 +147,59 @@ def capture(
         SystemExit(
             "Command terminated with a non-zero exit status {}, "
             "aborting".format(e.returncode))
-        return 3
     except OSError as e:
         if optional:
             return None
         SystemExit("Could not execute '{}': {}".format(
-            quote_command(command), e.strerror))
-        return 3
+            quote_command(command),
+            e.strerror))
 
 
-def makedirs(path):
-    _echo_command(["mkdir", "-p", path])
+@contextmanager
+def pushd(path, dry_run=None, echo=None):
+    dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
+    old_dir = os.getcwd()
+    if dry_run or echo:
+        _echo_command(dry_run, ["pushd", path])
+    if not dry_run:
+        os.chdir(path)
+    yield
+    if dry_run or echo:
+        _echo_command(dry_run, ["popd"])
+    if not dry_run:
+        os.chdir(old_dir)
+
+
+def makedirs(path, dry_run=None, echo=None):
+    dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
+    if dry_run or echo:
+        _echo_command(dry_run, ["mkdir", "-p", path])
+    if dry_run:
+        return
     if not os.path.isdir(path):
         os.makedirs(path)
 
 
-def rmtree(path):
-    _echo_command(["rm", "-rf", path])
+def rmtree(path, dry_run=None, echo=None):
+    dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
+    if dry_run or echo:
+        _echo_command(dry_run, ["rm", "-rf", path])
+    if dry_run:
+        return
     if os.path.exists(path):
         shutil.rmtree(path)
 
 
-def copytree(src, dest):
-    _echo_command(["cp", "-r", src, dest])
+def copytree(src, dest, dry_run=None, echo=None):
+    dry_run = _coerce_dry_run(dry_run)
+    echo = _coerce_echo(echo)
+    if dry_run or echo:
+        _echo_command(dry_run, ["cp", "-r", src, dest])
+    if dry_run:
+        return
     # A workaround
     if os.path.isdir(dest):  # and data.build.ci:
         for item in os.listdir(src):
@@ -155,16 +211,6 @@ def copytree(src, dest):
                 shutil.copy2(s, d)
     else:
         shutil.copytree(src, dest)
-
-
-@contextmanager
-def pushd(path):
-    old_dir = os.getcwd()
-    _echo_command(["pushd", path])
-    os.chdir(path)
-    yield
-    _echo_command(["popd"])
-    os.chdir(old_dir)
 
 
 def which(cmd):
@@ -216,7 +262,7 @@ def find_tool(tool):
         "The platform '{}' does not have a defined toolchain".format(sys))
 
 
-def caffeinate(command, env=None):
+def caffeinate(command, env=None, dry_run=False, echo=None):
     """
     Execute a command during which system sleep is disabled.
     By default, this ignores the state of the 'shell.dry_run' flag.
@@ -225,7 +271,7 @@ def caffeinate(command, env=None):
     if platform.system() == "Darwin":
         # Don't mutate the caller's copy of the arguments.
         command = ["caffeinate"] + list(command)
-    call(command, env=env)
+    call(command, env=env, dry_run=dry_run, echo=echo)
 
 
 #===------------------------------------------------------------------------===#
@@ -466,35 +512,35 @@ def _get():
     rmtree(TEMP_DIR)
 
 
-def write_version_file(versions):
+def _get_checkout_versions():
+    if os.path.isfile(CHECKOUT_FILE):
+        with open(CHECKOUT_FILE) as json_file:
+            return json.load(json_file)
+    else:
+        return {}
+
+
+def _write_version_file(versions):
     """Writes the version information to the versions file."""
     with open(CHECKOUT_FILE, "w") as outfile:
         json.dump(versions, outfile)
 
 
 def _checkout_develop():
-    if os.path.isfile(CHECKOUT_FILE):
-        with open(CHECKOUT_FILE) as json_file:
-            versions = json.load(json_file)
-    else:
-        versions = {}
+    versions = _get_checkout_versions()
     key = ODE_BUILD_KEY
     if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
         print("{} is re-downloaded".format(key))
     _get_develop()
     info = {"version": ODE_BUILD_VERSION, "targets": "src"}
     versions[key] = info
-    write_version_file(versions)
+    _write_version_file(versions)
     rmtree(ODE_BUILD_ROOT)
     copytree(os.path.join(SOURCE_DIR, "utils"), ODE_BUILD_ROOT)
 
 
 def _checkout():
-    if os.path.isfile(CHECKOUT_FILE):
-        with open(CHECKOUT_FILE) as json_file:
-            versions = json.load(json_file)
-    else:
-        versions = {}
+    versions = _get_checkout_versions()
     key = ODE_BUILD_KEY
     if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
         print("{} should not be re-downloaded, skipping".format(key))
@@ -502,7 +548,7 @@ def _checkout():
     _get()
     info = {"version": ODE_BUILD_VERSION, "targets": "src"}
     versions[key] = info
-    write_version_file(versions)
+    _write_version_file(versions)
     rmtree(ODE_BUILD_ROOT)
     copytree(os.path.join(SOURCE_DIR, "utils"), ODE_BUILD_ROOT)
 
@@ -512,42 +558,40 @@ def _checkout():
 #===------------------------------------------------------------------------===#
 
 
-def _main_skip_download():
+def _execute():
     if "CI" in os.environ and os.environ["CI"]:
         return 0
     else:
-        args = []
-        if platform.system() == "Windows":
-            args += [sys.executable]
+        args = [sys.executable]
         args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
         args += sys.argv[1:]
         return caffeinate(args)
+
+
+def _run():
+    if DRY_RUN:
+        versions = _get_checkout_versions()
+        key = ODE_BUILD_KEY
+        if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
+            return _execute()
+        else:
+            return 0
+    else:
+        return _execute()
+
+
+def _main_skip_download():
+    return _run()
 
 
 def _main_develop():
     _checkout_develop()
-    if "CI" in os.environ and os.environ["CI"]:
-        return 0
-    else:
-        args = []
-        if platform.system() == "Windows":
-            args += [sys.executable]
-        args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
-        args += sys.argv[1:]
-        return caffeinate(args)
+    return _run()
 
 
 def _main_normal():
     _checkout()
-    if "CI" in os.environ and os.environ["CI"]:
-        return 0
-    else:
-        args = []
-        if platform.system() == "Windows":
-            args += [sys.executable]
-        args += [os.path.join(ODE_BUILD_ROOT, "build-script")]
-        args += sys.argv[1:]
-        return caffeinate(args)
+    return _run()
 
 
 def main():
