@@ -12,7 +12,7 @@
 //
 ///
 /// \file main_loop.h
-/// \brief Declarations of the game loop functions.
+/// \brief Declarations of the main loop functions.
 /// \author Antti Kivi
 /// \date 3 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_FRAMEWORK_GAME_LOOP_H
-#define ODE_FRAMEWORK_GAME_LOOP_H
+#ifndef ODE_FRAMEWORK_MAIN_LOOP_H
+#define ODE_FRAMEWORK_MAIN_LOOP_H
 
 #include <chrono>
 
@@ -51,4 +51,4 @@ namespace ode
 
 } // namespace ode
 
-#endif // !ODE_FRAMEWORK_GAME_LOOP_H
+#endif // !ODE_FRAMEWORK_MAIN_LOOP_H

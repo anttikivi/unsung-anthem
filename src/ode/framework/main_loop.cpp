@@ -12,7 +12,7 @@
 //
 ///
 /// \file main_loop.cpp
-/// \brief Definitions of the game loop functions.
+/// \brief Definitions of the main loop functions.
 /// \author Antti Kivi
 /// \date 3 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
