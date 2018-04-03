@@ -11,6 +11,7 @@
 add_subdirectory(framework)
 add_subdirectory(lua)
 add_subdirectory(sdl)
+add_subdirectory(thread)
 
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/execute.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/logging.cpp)
