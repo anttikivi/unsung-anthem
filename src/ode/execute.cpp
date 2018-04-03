@@ -27,11 +27,12 @@
 
 #include "ode/execution_info.h"
 #include "ode/logger.h"
-#include "ode/sdl/initialize.h"
-#include "ode/sdl/window.h"
 
 #include "ode/config.h"
 #include "ode/logging_config.h"
+#include "ode/sdl/initialize.h"
+#include "ode/sdl/opengl.h"
+#include "ode/sdl/window.h"
 
 namespace ode
 {
@@ -55,16 +56,14 @@ namespace ode
     
     ODE_DEBUG("The main window of {} is created", ode_name);
 
-    /*
-    // TODO: Maybe return some value.
-    create_managers();
+    // TODO Maybe return some value.
+    // create_managers();
 
-    auto context = create_gl_context(window.get());
+    auto context = sdl::create_gl_context(window.get());
 
-    game_loop(std::move(args), std::move(window));
+    // main_loop(std::move(args), std::move(window));
 
     SDL_GL_DeleteContext(context);
-    */
 
     return EXIT_SUCCESS;
   }

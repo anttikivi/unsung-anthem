@@ -24,20 +24,13 @@
 #ifndef ODE_SDL_WINDOW_H
 #define ODE_SDL_WINDOW_H
 
-#include <memory>
 #include <string>
 
 #include "ode/types.h"
-
-#include <SDL2/SDL.h>
+#include "ode/sdl/window_ptr.h"
 
 namespace ode::sdl
 {
-  ///
-  /// \brief The type of the pointer to the window object.
-  ///
-  using window_ptr = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
-
   using namespace std::literals::string_literals;
 
   ///
