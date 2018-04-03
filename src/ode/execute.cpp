@@ -29,6 +29,7 @@
 #include "ode/logger.h"
 
 #include "ode/config.h"
+#include "ode/framework/main_loop.h"
 #include "ode/logging_config.h"
 #include "ode/sdl/initialize.h"
 #include "ode/sdl/opengl.h"
@@ -61,7 +62,7 @@ namespace ode
 
     auto context = sdl::create_gl_context(window.get());
 
-    // main_loop(std::move(args), std::move(window));
+    main_loop(std::move(window));
 
     SDL_GL_DeleteContext(context);
 
