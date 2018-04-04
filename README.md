@@ -7,7 +7,7 @@ insert a logo here
 
 This README isn’t ready yet!
 
-Unsung Anthem is a video game with its own game engine, ‘Obliging Ode’. The game strives for thriving on openness in all aspects of the project. The development of the project is still in very earle stage. This repository contains the source code for both Unsung Anthem and Obliging Ode.
+Unsung Anthem is a video game with its own game engine, ‘Obliging Ode’. The game strives for thriving on openness in all aspects of the project. The development of the project is still in very early stage. This repository contains the source code for both Unsung Anthem and Obliging Ode.
 
 ## Installing
 
