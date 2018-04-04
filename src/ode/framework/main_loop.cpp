@@ -33,40 +33,64 @@ namespace ode
 {
   void main_loop(sdl::window_ptr&& window_r)
   {
+#ifndef ODE_SDL_TICK_CLOCK
+
     using clock = std::chrono::high_resolution_clock;
 
-    // arguments args = std::move(args_r);
+#endif // !defined(ODE_SDL_TICK_CLOCK)
+
     sdl::window_ptr window = std::move(window_r);
 
     ODE_TRACE("Entering the game loop");
 
     bool quit = false;
 
+#ifdef ODE_SDL_TICK_CLOCK
+
+    Uint32 delay = 0;
+    Uint32 t = SDL_GetTicks();
+
+#else
+
     auto delay = 0ns;
     auto t = clock::now();
+
+#endif // !defined(ODE_SDL_TICK_CLOCK)
 
     SDL_Event event;
 
     while (!quit)
     {
+#ifdef ODE_SDL_TICK_CLOCK
+
+      Uint32 dt = SDL_GetTicks() - t;
+      t = SDL_GetTicks();
+      delay += dt;
+
+      ODE_TRACE("The current delay in update time is {}", delay);
+
+#else
+
       auto dt = clock::now() - t;
       t = clock::now();
       delay += std::chrono::duration_cast<std::chrono::nanoseconds>(dt);
 
-#ifndef ODE_PRINT_LOOP_MILLISECONDS
+# ifndef ODE_PRINT_LOOP_MILLISECONDS
 
       ODE_TRACE("The current delay in update time is {}", delay.count());
 
-#else
+# else
 
       ODE_TRACE(
           "The current delay in update time is {}",
           std::chrono::duration_cast<std::chrono::milliseconds>(
               delay).count());
 
-#endif // defined(ODE_PRINT_LOOP_NANOSECONDS)
+# endif // defined(ODE_PRINT_LOOP_NANOSECONDS)
 
-      while(delay >= time_step)
+#endif // !defined(ODE_SDL_TICK_CLOCK)
+
+      while (delay >= time_step)
       {
         delay -= time_step;
 
@@ -82,13 +106,22 @@ namespace ode
 
         // previous_state = std::move(current_state);
         // current_state = update_state(previous_state);
-      }
+
+      } // while (delay >= time_step)
+
+#ifdef ODE_SDL_TICK_CLOCK
+
+      const float alpha = static_cast<float>(delay) / time_step;
+
+#else
 
       using ms = std::chrono::milliseconds;
 
       const float alpha
           = static_cast<float>(std::chrono::duration_cast<ms>(delay).count())
               / time_step.count();
+
+#endif // !defined(ODE_SDL_TICK_CLOCK)
 
       ODE_TRACE(
           "The alpha value for state-rendering interpolation is {}",
@@ -101,6 +134,7 @@ namespace ode
       // render_state(interpolated_state);
 
       SDL_GL_SwapWindow(window.get());
-    }
+
+    } // while (!quit)
   }
-}
+} // namespace ode

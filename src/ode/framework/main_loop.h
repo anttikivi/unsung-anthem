@@ -30,7 +30,11 @@
 
 namespace ode
 {
+#ifndef ODE_SDL_TICK_CLOCK
+
   using namespace std::chrono_literals;
+
+#endif // !defined(ODE_SDL_TICK_CLOCK)
 
   ///
   /// \brief The time duration between two game ticks.
@@ -38,7 +42,15 @@ namespace ode
   /// The game should run 60 frames a second. Therefore, this is equal to 16 as
   /// 1 / 60 = 0.01666...
   ///
+#ifdef ODE_SDL_TICK_CLOCK
+
+  constexpr Uint32 time_step = 16;
+
+#else
+
   constexpr auto time_step = 16ms;
+
+#endif // !defined(ODE_SDL_TICK_CLOCK)
 
   ///
   /// \brief Runs the main loop of the game.
