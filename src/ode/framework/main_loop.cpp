@@ -53,7 +53,18 @@ namespace ode
       t = clock::now();
       delay += std::chrono::duration_cast<std::chrono::nanoseconds>(dt);
 
+#ifndef ODE_PRINT_LOOP_MILLISECONDS
+
       ODE_TRACE("The current delay in update time is {}", delay.count());
+
+#else
+
+      ODE_TRACE(
+          "The current delay in update time is {}",
+          std::chrono::duration_cast<std::chrono::milliseconds>(
+              delay).count());
+
+#endif // defined(ODE_PRINT_LOOP_NANOSECONDS)
 
       while(delay >= time_step)
       {
