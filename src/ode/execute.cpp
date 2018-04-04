@@ -37,7 +37,7 @@
 
 namespace ode
 {
-  int execute(int argc, argv_array argv[], const execution_info& info)
+  int execute(const execution_info& info)
   {
     logger = create_logger(logger_name, logger_pattern, logger_level);
 

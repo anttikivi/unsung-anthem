@@ -24,8 +24,6 @@
 #ifndef ODE_EXECUTE_H
 #define ODE_EXECUTE_H
 
-#include "ode/argv_array.h"
-
 namespace ode
 {
   struct execution_info;
@@ -42,13 +40,11 @@ namespace ode
   /// TODO Allow adding the custom, game-specific command line options via this
   /// function.
   ///
-  /// \param argc the number of arguments passed in the execution.
-  /// \param argv array containing the arguments passed in the execution.
   /// \param info object containing the starting execution information.
   ///
   /// \return Does not return anything and, thus, this function is impure.
   ///
-  int execute(int argc, argv_array argv[], const execution_info& info);
+  int execute(const execution_info& info);
 
   ///
   /// \brief Creates and initializes the managers for the framework.

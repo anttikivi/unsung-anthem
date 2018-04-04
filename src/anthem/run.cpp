@@ -53,12 +53,13 @@ namespace anthem
     ANTHEM_TRACE("The following values are set to the arguments:\n{}", args);
 
     const auto info = ode::execution_info{
+        argc,
+        argv,
         args.window_width,
         args.window_height,
         args.window_name};
 
-    // TODO Add custom, anthem-only arguments via this function.
-    ode::execute(argc, argv, info);
+    ode::execute(info);
 
     return EXIT_SUCCESS;
   }

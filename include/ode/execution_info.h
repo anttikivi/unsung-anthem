@@ -26,6 +26,7 @@
 
 #include <string>
 
+#include "ode/argv_array.h"
 #include "ode/types.h"
 
 namespace ode
@@ -39,6 +40,16 @@ namespace ode
   ///
   struct execution_info final
   {
+    ///
+    /// \brief The number of the command line arguments passed to the program.
+    ///
+    const int argc;
+
+    ///
+    /// The command line arguments passed to the program.
+    ///
+    const argv_array* argv;
+
     ///
     /// \brief The starting width of the window.
     ///
