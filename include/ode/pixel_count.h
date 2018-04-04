@@ -1,4 +1,4 @@
-//===------------------------------ types.h ---------------------*- C++ -*-===//
+//===--------------------------- pixel_count.h ------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,18 +11,18 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file types.h
-/// \brief The declarations of various helper types.
+/// \file pixel_count.h
+/// \brief Declaration of the pixel count type.
 /// \author Antti Kivi
-/// \date 31 January 2018
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \date 4 April 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_TYPES_H
-#define ODE_TYPES_H
+#ifndef ODE_PIXEL_COUNT_H
+#define ODE_PIXEL_COUNT_H
 
 namespace ode
 {
@@ -45,4 +45,4 @@ constexpr ode::pixel_count operator""_px(const unsigned long long i) noexcept
   return static_cast<ode::pixel_count>(i);
 }
 
-#endif // !ODE_TYPES_H
+#endif // !ODE_PIXEL_COUNT_H

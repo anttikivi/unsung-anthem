@@ -37,9 +37,6 @@ namespace ode
   ///
   /// This function is impure.
   ///
-  /// TODO Allow adding the custom, game-specific command line options via this
-  /// function.
-  ///
   /// \param info object containing the starting execution information.
   ///
   /// \return Does not return anything and, thus, this function is impure.

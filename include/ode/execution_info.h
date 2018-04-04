@@ -27,7 +27,7 @@
 #include <string>
 
 #include "ode/argv_array.h"
-#include "ode/types.h"
+#include "ode/pixel_count.h"
 
 namespace ode
 {

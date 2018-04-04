@@ -26,7 +26,7 @@
 
 #include <string>
 
-#include "ode/types.h"
+#include "ode/pixel_count.h"
 #include "ode/sdl/window_ptr.h"
 
 namespace ode::sdl
