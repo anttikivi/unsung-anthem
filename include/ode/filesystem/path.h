@@ -36,12 +36,6 @@ namespace ode::filesystem::path
   constexpr char preferred_separator = '/';
 #endif // !_WIN32
 
-  ///
-  /// \brief Creates a path for the current system.
-  ///
-  /// \param source the path with 
-  // std::string path(const std::string& source);
-
 } // namespace ode::filesystem::path
 
 #endif // !ODE_FILESYSTEM_PATH_H
