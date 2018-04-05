@@ -25,6 +25,8 @@
 #ifndef ODE_SDL_INITIALIZE_H
 #define ODE_SDL_INITIALIZE_H
 
+#include <stdexcept>
+
 #include "gsl/util"
 
 #include "ode/logger.h"
@@ -44,6 +46,8 @@ namespace ode::sdl
     if (0 != SDL_Init(SDL_INIT_VIDEO))
     {
       ODE_ERROR("The Simple DirectMedia Layer initialization failed");
+      throw std::runtime_error{
+          "The Simple DirectMedia Layer initialization failed"};
     }
 
     ODE_DEBUG("Simple DirectMedia Layer is initialized");
