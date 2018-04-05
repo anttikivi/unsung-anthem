@@ -126,7 +126,7 @@ TEST(ode_lua_call, called)
 
 #if ODE_TEST_BENCHMARKING
 
-static void ode_bm_lua_get_str(benchmark::State& state)
+static void ode_lua_get_str(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -149,9 +149,9 @@ static void ode_bm_lua_get_str(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_str);
+BENCHMARK(ode_lua_get_str);
 
-static void ode_bm_lua_get_greeting(benchmark::State& state)
+static void ode_lua_get_greeting(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -174,9 +174,9 @@ static void ode_bm_lua_get_greeting(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_greeting);
+BENCHMARK(ode_lua_get_greeting);
 
-static void ode_bm_lua_get_int(benchmark::State& state)
+static void ode_lua_get_int(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -199,9 +199,9 @@ static void ode_bm_lua_get_int(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_int);
+BENCHMARK(ode_lua_get_int);
 
-static void ode_bm_lua_get_integer(benchmark::State& state)
+static void ode_lua_get_integer(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -224,9 +224,9 @@ static void ode_bm_lua_get_integer(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_integer);
+BENCHMARK(ode_lua_get_integer);
 
-static void ode_bm_lua_get_f(benchmark::State& state)
+static void ode_lua_get_f(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -249,9 +249,9 @@ static void ode_bm_lua_get_f(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_f);
+BENCHMARK(ode_lua_get_f);
 
-static void ode_bm_lua_get_float(benchmark::State& state)
+static void ode_lua_get_float(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -274,9 +274,9 @@ static void ode_bm_lua_get_float(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_float);
+BENCHMARK(ode_lua_get_float);
 
-static void ode_bm_lua_get_b(benchmark::State& state)
+static void ode_lua_get_b(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -299,9 +299,9 @@ static void ode_bm_lua_get_b(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_b);
+BENCHMARK(ode_lua_get_b);
 
-static void ode_bm_lua_get_bool(benchmark::State& state)
+static void ode_lua_get_bool(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -324,9 +324,9 @@ static void ode_bm_lua_get_bool(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_bool);
+BENCHMARK(ode_lua_get_bool);
 
-static void ode_bm_lua_get_table_str(benchmark::State& state)
+static void ode_lua_get_table_str(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -349,9 +349,9 @@ static void ode_bm_lua_get_table_str(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_table_str);
+BENCHMARK(ode_lua_get_table_str);
 
-static void ode_bm_lua_get_table_greeting(benchmark::State& state)
+static void ode_lua_get_table_greeting(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -374,9 +374,9 @@ static void ode_bm_lua_get_table_greeting(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_table_greeting);
+BENCHMARK(ode_lua_get_table_greeting);
 
-static void ode_bm_lua_get_table_int(benchmark::State& state)
+static void ode_lua_get_table_int(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -399,9 +399,9 @@ static void ode_bm_lua_get_table_int(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_table_int);
+BENCHMARK(ode_lua_get_table_int);
 
-static void ode_bm_lua_get_table_integer(benchmark::State& state)
+static void ode_lua_get_table_integer(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -424,9 +424,9 @@ static void ode_bm_lua_get_table_integer(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_table_integer);
+BENCHMARK(ode_lua_get_table_integer);
 
-static void ode_bm_lua_get_table_f(benchmark::State& state)
+static void ode_lua_get_table_f(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -449,9 +449,9 @@ static void ode_bm_lua_get_table_f(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_table_f);
+BENCHMARK(ode_lua_get_table_f);
 
-static void ode_bm_lua_get_table_float(benchmark::State& state)
+static void ode_lua_get_table_float(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -474,9 +474,9 @@ static void ode_bm_lua_get_table_float(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_table_float);
+BENCHMARK(ode_lua_get_table_float);
 
-static void ode_bm_lua_get_table_b(benchmark::State& state)
+static void ode_lua_get_table_b(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -499,9 +499,9 @@ static void ode_bm_lua_get_table_b(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_table_b);
+BENCHMARK(ode_lua_get_table_b);
 
-static void ode_bm_lua_get_table_bool(benchmark::State& state)
+static void ode_lua_get_table_bool(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -524,9 +524,9 @@ static void ode_bm_lua_get_table_bool(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_get_table_bool);
+BENCHMARK(ode_lua_get_table_bool);
 
-static void ode_bm_lua_call_add(benchmark::State& state)
+static void ode_lua_call_add(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -549,9 +549,9 @@ static void ode_bm_lua_call_add(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_call_add);
+BENCHMARK(ode_lua_call_add);
 
-static void ode_bm_lua_call_pow(benchmark::State& state)
+static void ode_lua_call_pow(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -574,6 +574,6 @@ static void ode_bm_lua_call_pow(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_lua_call_pow);
+BENCHMARK(ode_lua_call_pow);
 
 #endif // ODE_TEST_BENCHMARKING

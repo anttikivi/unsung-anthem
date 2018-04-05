@@ -84,7 +84,7 @@ TEST(ode_lua_push, is_pushed_to_stack)
 
 #if ODE_TEST_BENCHMARKING
 
-static void ode_bm_to_stack(benchmark::State& state)
+static void ode_to_stack(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -108,9 +108,9 @@ static void ode_bm_to_stack(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_to_stack);
+BENCHMARK(ode_to_stack);
 
-static void ode_bm_push_bool(benchmark::State& state)
+static void ode_push_bool(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -128,9 +128,9 @@ static void ode_bm_push_bool(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_push_bool);
+BENCHMARK(ode_push_bool);
 
-static void ode_bm_push_float(benchmark::State& state)
+static void ode_push_float(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -148,9 +148,9 @@ static void ode_bm_push_float(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_push_float);
+BENCHMARK(ode_push_float);
 
-static void ode_bm_push_int(benchmark::State& state)
+static void ode_push_int(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -168,9 +168,9 @@ static void ode_bm_push_int(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_push_int);
+BENCHMARK(ode_push_int);
 
-static void ode_bm_push_string(benchmark::State& state)
+static void ode_push_string(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -188,9 +188,9 @@ static void ode_bm_push_string(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_push_string);
+BENCHMARK(ode_push_string);
 
-static void ode_bm_push_string_longer(benchmark::State& state)
+static void ode_push_string_longer(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -219,9 +219,9 @@ static void ode_bm_push_string_longer(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_push_string_longer);
+BENCHMARK(ode_push_string_longer);
 
-static void ode_bm_push(benchmark::State& state)
+static void ode_push(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -239,6 +239,6 @@ static void ode_bm_push(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_push);
+BENCHMARK(ode_push);
 
 #endif // ODE_TEST_BENCHMARKING

@@ -108,7 +108,7 @@ TEST(ode_lua_clean, cleaned)
 
 #if ODE_TEST_BENCHMARKING
 
-static void ode_bm_lua_make_state(benchmark::State& state)
+static void ode_lua_make_state(benchmark::State& state)
 {
   for (auto _ : state)
   {
@@ -116,6 +116,6 @@ static void ode_bm_lua_make_state(benchmark::State& state)
   }
 }
 
-BENCHMARK(ode_bm_lua_make_state);
+BENCHMARK(ode_lua_make_state);
 
 #endif // ODE_TEST_BENCHMARKING

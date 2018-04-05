@@ -78,7 +78,7 @@ TEST(ode_lua_load_script_file, file_is_loaded)
 
 #if ODE_TEST_BENCHMARKING
 
-static void ode_bm_load_script_file(benchmark::State& state)
+static void ode_load_script_file(benchmark::State& state)
 {
   const std::string filename = 
       std::string{ode::test_script_root}
@@ -95,6 +95,6 @@ static void ode_bm_load_script_file(benchmark::State& state)
   lua_close(l);
 }
 
-BENCHMARK(ode_bm_load_script_file);
+BENCHMARK(ode_load_script_file);
 
 #endif // ODE_TEST_BENCHMARKING
