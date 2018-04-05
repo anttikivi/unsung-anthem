@@ -53,6 +53,12 @@ function(ADD_FEATURE_DEFINITIONS)
     add_definitions(-DANTHEM_TEST_BENCHMARKING=1)
   endif()
 
+  if(ODE_TEST_USE_NULL_SINK)
+    add_definitions(-DODE_TEST_USE_NULL_SINK=1)
+  else()
+    add_definitions(-DODE_TEST_USE_NULL_SINK=0)
+  endif()
+
   if(ODE_MULTITHREADING)
     add_definitions(-DODE_MULTITHREADING=1)
     add_definitions(-DANTHEM_MULTITHREADING=1)

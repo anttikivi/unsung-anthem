@@ -69,15 +69,6 @@ TEST(anthem_parse_arguments, parsed)
   ASSERT_EQ(f.window_width, anthem::default_window_width);
   ASSERT_NE(f.window_height, anthem::default_window_height);
   ASSERT_EQ(f.window_name, default_name);
-
-  /*
-  INFO("A: " << a);
-  INFO("B: " << b);
-  INFO("C: " << c);
-  INFO("D: " << d);
-  INFO("E: " << e);
-  INFO("F: " << f);
-  */
 }
 
 TEST(anthem_parse_arguments, help_argument)

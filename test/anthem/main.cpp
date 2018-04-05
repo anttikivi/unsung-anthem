@@ -31,12 +31,32 @@
 
 #include <SDL2/SDL.h>
 
+#if ODE_TEST_USE_NULL_SINK
+# include <spdlog/sinks/null_sink.h>
+#endif // ODE_TEST_USE_NULL_SINK
+
 int main(int argc, char* argv[])
 {
+
+#if ODE_TEST_USE_NULL_SINK
+
+  auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
+
+  anthem::logger = ode::create_logger(
+      "anthem_test_logger",
+      anthem::logger_pattern,
+      anthem::logger_level,
+      null_sink);
+
+#else
+
   anthem::logger = ode::create_logger(
       "anthem_test_logger",
       anthem::logger_pattern,
       anthem::logger_level);
+
+#endif // !ODE_TEST_USE_NULL_SINK
+
   ode::test::set_up(argc, argv);
   const int result = ode::test::run(argc, argv);
   ode::test::clean_up();

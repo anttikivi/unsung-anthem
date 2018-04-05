@@ -35,12 +35,16 @@
 
 #include <gtest/gtest.h>
 
-#include <spdlog/sinks/null_sink.h>
+#if ODE_TEST_USE_NULL_SINK
+# include <spdlog/sinks/null_sink.h>
+#endif // ODE_TEST_USE_NULL_SINK
 
 namespace ode::test
 {
   int set_up(int argc, char* argv[])
   {
+#if ODE_TEST_USE_NULL_SINK
+
     auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
 
     ode::logger = ode::create_logger(
@@ -48,6 +52,15 @@ namespace ode::test
         ode::logger_pattern,
         ode::logger_level,
         null_sink);
+
+#else
+
+    ode::logger = ode::create_logger(
+        "ode_test_logger",
+        ode::logger_pattern,
+        ode::logger_level);
+
+#endif // !ODE_TEST_USE_NULL_SINK
 
     ::testing::InitGoogleTest(&argc, argv);
 
