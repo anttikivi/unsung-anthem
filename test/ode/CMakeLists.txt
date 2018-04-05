@@ -11,6 +11,7 @@
 add_subdirectory(common)
 add_subdirectory(lua)
 
+list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/logger_test.cpp)
 list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 
 set(ODE_TEST_SOURCES ${ODE_TEST_SOURCES} PARENT_SCOPE)
