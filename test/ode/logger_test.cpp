@@ -175,7 +175,7 @@ static void ode_logger_trace(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::trace("This is a benchmarking {}-level message", "trace");
+    ode::logging::trace("This is a benchmarking {}-level message", "trace");
   }
 }
 
@@ -185,7 +185,7 @@ static void ode_logger_debug(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::debug("This is a benchmarking {}-level message", "debug");
+    ode::logging::debug("This is a benchmarking {}-level message", "debug");
   }
 }
 
@@ -195,7 +195,7 @@ static void ode_logger_info(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::info("This is a benchmarking {}-level message", "info");
+    ode::logging::info("This is a benchmarking {}-level message", "info");
   }
 }
 
@@ -205,7 +205,7 @@ static void ode_logger_warn(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::warn("This is a benchmarking {}-level message", "warn");
+    ode::logging::warn("This is a benchmarking {}-level message", "warn");
   }
 }
 
@@ -215,7 +215,7 @@ static void ode_logger_error(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::error("This is a benchmarking {}-level message", "error");
+    ode::logging::error("This is a benchmarking {}-level message", "error");
   }
 }
 
@@ -225,7 +225,7 @@ static void ode_logger_critical(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::critical(
+    ode::logging::critical(
         "This is a benchmarking {}-level message",
         "critical");
   }
@@ -237,7 +237,7 @@ static void ode_logger_trace_number(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::trace(5534.3334568854928853923);
+    ode::logging::trace(5534.3334568854928853923);
   }
 }
 
@@ -247,7 +247,7 @@ static void ode_logger_debug_number(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::debug(5534.3334568854928853923);
+    ode::logging::debug(5534.3334568854928853923);
   }
 }
 
@@ -257,7 +257,7 @@ static void ode_logger_info_number(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::info(5534.3334568854928853923);
+    ode::logging::info(5534.3334568854928853923);
   }
 }
 
@@ -267,7 +267,7 @@ static void ode_logger_warn_number(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::warn(5534.3334568854928853923);
+    ode::logging::warn(5534.3334568854928853923);
   }
 }
 
@@ -277,7 +277,7 @@ static void ode_logger_error_number(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::error(5534.3334568854928853923);
+    ode::logging::error(5534.3334568854928853923);
   }
 }
 
@@ -287,7 +287,7 @@ static void ode_logger_critical_number(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ode::logger::critical(5534.3334568854928853923);
+    ode::logging::critical(5534.3334568854928853923);
   }
 }
 
