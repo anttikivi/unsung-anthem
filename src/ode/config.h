@@ -12,8 +12,8 @@
 //
 ///
 /// \file config.h
-/// \brief The declarations and the definitions of the Obliging Ode
-/// miscellaneous constants.
+/// \brief Declarations and definitions of miscellaneous Obliging Ode
+/// constants.
 /// \author Antti Kivi
 /// \date 6 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

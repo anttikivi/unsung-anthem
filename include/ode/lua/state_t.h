@@ -1,4 +1,4 @@
-//===------------------------------ state.h ---------------------*- C++ -*-===//
+//===----------------------------- state_t.h --------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,37 +11,38 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file state.h
-/// \brief Declarations of Lua state utilities
+/// \file state_t.h
+/// \brief Declarations of Lua state types.
 /// \author Antti Kivi
-/// \date 6 February 2018
+/// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_LUA_STATE_H
-#define ODE_LUA_STATE_H
+#ifndef ODE_LUA_STATE_T_H
+#define ODE_LUA_STATE_T_H
 
-#include "ode/lua/state_t.h"
+#include <memory>
+
+#include "gsl/view"
+
+#include <lua.hpp>
 
 namespace ode::lua
 {
   ///
-  /// \brief Initializes a new Lua state.
+  /// \brief Type of Lua state objects.
   ///
-  /// \return Pointer to the new \c lua_State.
-  ///
-  state_t make_state() noexcept;
+  using state_t = std::unique_ptr<lua_State, decltype(&lua_close)>;
 
   ///
-  /// \brief Resets the given Lua state.
+  /// \brief Pointer type which is used as parameter for passing a raw Lua
+  /// state.
   ///
-  /// \param state Lua state to reset.
-  ///
-  void clean(const state_ptr_t state) noexcept;
+  using state_ptr_t = gsl::not_null<lua_State*>;
 
 } // namespace ode::lua
 
-#endif // !ODE_LUA_STATE_H
+#endif // !ODE_LUA_STATE_T_H

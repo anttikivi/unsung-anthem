@@ -28,13 +28,8 @@
 #include <string_view>
 #include <utility>
 
-#include "gsl/view"
-
 #include "ode/__config"
-
-#include <lua.hpp>
-
-struct lua_State;
+#include "ode/lua/state_t.h"
 
 namespace ode::lua
 {
@@ -48,30 +43,28 @@ namespace ode::lua
   /// \c false.
   ///
   bool to_stack(
-      const gsl::not_null<lua_State*> state,
+      const state_ptr_t state,
       std::string_view var) ODE_CONTRACT_NOEXCEPT;
 
   namespace detail
   {
-    inline void push(const gsl::not_null<lua_State*> state, bool b) noexcept
+    inline void push(const state_ptr_t state, bool b) noexcept
     {
       lua_pushboolean(state, b);
     }
 
-    inline void push(const gsl::not_null<lua_State*> state, float f) noexcept
+    inline void push(const state_ptr_t state, float f) noexcept
     {
       lua_pushnumber(state, f);
     }
 
-    inline void push(const gsl::not_null<lua_State*> state, int i) noexcept
+    inline void push(const state_ptr_t state, int i) noexcept
     {
       lua_pushinteger(state, i);
     }
 
     // TODO Consider making this constexpr
-    inline void push(
-        const gsl::not_null<lua_State*> state,
-        const std::string& s) noexcept
+    inline void push(const state_ptr_t state, const std::string& s) noexcept
     {
       // TODO Consider making the ‘const std::string&’ a ‘std::string_view’
       // TODO Consider storing the pointer returned by ‘lua_pushstring’
@@ -88,7 +81,7 @@ namespace ode::lua
   /// \param t the first value to be pushed.
   ///
   template <typename T>
-  constexpr void push(const gsl::not_null<lua_State*> state, T&& t) noexcept
+  constexpr void push(const state_ptr_t state, T&& t) noexcept
   {
     detail::push(state, std::forward<T>(t));
   }
@@ -105,7 +98,7 @@ namespace ode::lua
   ///
   template <typename T, typename... Types>
   constexpr void push(
-      const gsl::not_null<lua_State*> state,
+      const state_ptr_t state,
       T&& t,
       Types&&... types) noexcept
   {

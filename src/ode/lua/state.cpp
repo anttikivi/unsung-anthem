@@ -12,7 +12,7 @@
 //
 ///
 /// \file state.cpp
-/// \brief The definition of the Lua state.
+/// \brief Definitions of Lua state utilities.
 /// \author Antti Kivi
 /// \date 6 February 2018
 /// \copyright Copyright (c) 2017 Venturesome Stone
@@ -25,12 +25,12 @@
 
 namespace ode::lua
 {
-  state_ptr make_state() noexcept
+  state_t make_state() noexcept
   {
-    return state_ptr{luaL_newstate(), &lua_close};
+    return state_t{luaL_newstate(), &lua_close};
   }
 
-  void clean(const gsl::not_null<lua_State*> state) noexcept
+  void clean(const state_ptr_t state) noexcept
   {
     lua_pop(state, lua_gettop(state));
   }

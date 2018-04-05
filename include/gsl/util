@@ -38,7 +38,7 @@
 #   pragma push_macro("constexpr")
 #   define constexpr /* constexpr */
 # endif // _MSC_VER < 1910
-#endif // _MSC_VER
+#endif // defined(_MSC_VER)
 
 namespace gsl
 {
@@ -288,7 +288,7 @@ namespace gsl
   /// \brief Performs a narrowing \c static_cast checking that the value does
   /// not change in the cast.
   ///
-  /// \tparam T a new, narrowed type.
+  /// \tparam T a new narrowed type.
   /// \tparam U a type to narrow from.
   ///
   /// \param u an object, the type of which shall be narrowed.
@@ -331,6 +331,6 @@ namespace gsl
 
 # pragma warning(pop)
 
-#endif // _MSC_VER
+#endif // defined(_MSC_VER)
 
 #endif // !ODE_GSL_UTIL

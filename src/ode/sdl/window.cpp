@@ -39,9 +39,11 @@ namespace ode::sdl
 
       // MacOS only supports forward-compatible core contexts.
 #if __APPLE__
+
       SDL_GL_SetAttribute(
           SDL_GL_CONTEXT_FLAGS,
           SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+
 #endif // __APPLE__
 
       ODE_TRACE(

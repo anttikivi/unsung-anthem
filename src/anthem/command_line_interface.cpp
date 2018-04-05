@@ -66,7 +66,7 @@ namespace anthem
     auto result = cli.parse(clara::Args(argc, const_cast<char**>(argv)));
 #endif
 
-    if(!result)
+    if (!result)
     {
       std::cerr << "Error in command line, '"
           << result.errorMessage()

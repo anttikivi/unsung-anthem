@@ -12,10 +12,10 @@
 //
 ///
 /// \file main.cpp
-/// \brief The declaration and definition of the entry function of the program.
+/// \brief Declaration and definition of the main function of the program.
 /// \author Antti Kivi
 /// \date 31 January 2018
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //

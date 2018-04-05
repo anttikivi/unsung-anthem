@@ -8,8 +8,6 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-list(APPEND ANTHEM_LIB_INCLUDES
-    ${CMAKE_CURRENT_SOURCE_DIR}/command_line_interface.h)
 list(APPEND ANTHEM_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/logger.h)
 
 set(ANTHEM_LIB_INCLUDES ${ANTHEM_LIB_INCLUDES} PARENT_SCOPE)

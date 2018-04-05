@@ -228,7 +228,7 @@ namespace gsl
       return get();
     }
 
-    // TODO: Documentation for explicitly deleted operators.
+    // TODO Documentation for explicitly deleted operators.
     not_null& operator++() = delete;
     not_null& operator--() = delete;
     not_null operator++(int) = delete;

@@ -31,7 +31,7 @@
 namespace ode::lua
 {
   bool to_stack(
-      const gsl::not_null<lua_State*> state,
+      const state_ptr_t state,
       std::string_view var) ODE_CONTRACT_NOEXCEPT
   {
     int index = 0;

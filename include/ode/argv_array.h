@@ -12,8 +12,8 @@
 //
 ///
 /// \file argv_array.h
-/// \brief The declaration of the type of the argument array passed into the
-/// main function.
+/// \brief Declaration of the type of the argument array passed into the main
+/// function.
 /// \author Antti Kivi
 /// \date 6 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

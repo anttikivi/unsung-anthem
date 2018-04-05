@@ -83,7 +83,7 @@ namespace ode
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
-    template <class... Args>
+    template <typename... Args>
     inline void trace(const char* fmt, const Args&... args)
     {
       trace(logger, fmt, args...);
@@ -99,7 +99,7 @@ namespace ode
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void trace(const T& msg)
+    template <typename T> inline void trace(const T& msg)
     {
       trace(logger, msg);
     }
@@ -115,7 +115,7 @@ namespace ode
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
-    template <class... Args>
+    template <typename... Args>
     inline void debug(const char* fmt, const Args&... args)
     {
       debug(logger, fmt, args...);
@@ -131,7 +131,7 @@ namespace ode
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void debug(const T& msg)
+    template <typename T> inline void debug(const T& msg)
     {
       debug(logger, msg);
     }
@@ -147,7 +147,7 @@ namespace ode
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
-    template <class... Args>
+    template <typename... Args>
     inline void info(const char* fmt, const Args&... args)
     {
       info(logger, fmt, args...);
@@ -163,7 +163,7 @@ namespace ode
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void info(const T& msg)
+    template <typename T> inline void info(const T& msg)
     {
       info(logger, msg);
     }
@@ -179,7 +179,7 @@ namespace ode
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
-    template <class... Args>
+    template <typename... Args>
     inline void warn(const char* fmt, const Args&... args)
     {
       warn(logger, fmt, args...);
@@ -195,7 +195,7 @@ namespace ode
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void warn(const T& msg)
+    template <typename T> inline void warn(const T& msg)
     {
       warn(logger, msg);
     }
@@ -211,7 +211,7 @@ namespace ode
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
-    template <class... Args>
+    template <typename... Args>
     inline void error(const char* fmt, const Args&... args)
     {
       error(logger, fmt, args...);
@@ -227,7 +227,7 @@ namespace ode
     ///
     /// \param msg the logger message.
     ///
-    template <class T> inline void error(const T& msg)
+    template <typename T> inline void error(const T& msg)
     {
       error(logger, msg);
     }
@@ -243,7 +243,7 @@ namespace ode
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
     ///
-    template <class... Args>
+    template <typename... Args>
     inline void critical(const char* fmt, const Args&... args)
     {
       critical(logger, fmt, args...);
@@ -259,7 +259,7 @@ namespace ode
     ///
     /// \param msg the logger message.
     ///
-    template <class T>
+    template <typename T>
     inline void critical(const T& msg)
     {
       critical(logger, msg);

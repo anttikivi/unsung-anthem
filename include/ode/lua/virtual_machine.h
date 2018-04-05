@@ -24,32 +24,31 @@
 #ifndef ODE_LUA_VIRTUAL_MACHINE_H
 #define ODE_LUA_VIRTUAL_MACHINE_H
 
+#include <cstddef>
+
 #include <string>
 #include <string_view>
 #include <tuple>
 #include <type_traits>
 
-#include <cstddef>
+#include "gsl/assert"
 
 #include "ode/lua/config.h"
 #include "ode/lua/stack.h"
 #include "ode/lua/state.h"
 #include "ode/logger.h"
 
-#include "gsl/assert"
-#include "gsl/view"
-
-#include <lua.hpp>
-
 namespace ode::lua
 {
   namespace detail
   {
-    template <typename T> constexpr T get_default() noexcept {
+    template <typename T> constexpr T get_default() noexcept
+    {
       return 0;
     }
 
-    template <> inline std::string get_default<std::string>() noexcept {
+    template <> inline std::string get_default<std::string>() noexcept
+    {
       return "null";
     }
   } // namespace detail
@@ -65,7 +64,7 @@ namespace ode::lua
   /// \return the value on the top of the stack.
   ///
   template <typename T> constexpr auto read(
-      const gsl::not_null<lua_State*> state,
+      const state_ptr_t state,
       const int index) ODE_CONTRACT_NOEXCEPT
   {
     if constexpr (std::is_same_v<std::remove_cv_t<T>, bool>)
@@ -103,7 +102,7 @@ namespace ode::lua
   /// \return the value on the top of the stack.
   ///
   template <typename T>
-  constexpr T read(const gsl::not_null<lua_State*> state) ODE_CONTRACT_NOEXCEPT
+  constexpr T read(const state_ptr_t state) ODE_CONTRACT_NOEXCEPT
   {
     return read<T>(state, stack_top);
   }
@@ -119,7 +118,7 @@ namespace ode::lua
   /// \return the value of the variable.
   ///
   template <typename T> inline T get(
-      const gsl::not_null<lua_State*> state,
+      const state_ptr_t state,
       std::string_view var) ODE_CONTRACT_NOEXCEPT
   {
     T ret;
@@ -145,7 +144,7 @@ namespace ode::lua
       using type = std::tuple<Types...>;
 
       template <typename T> static constexpr std::tuple<T> worker(
-          const gsl::not_null<lua_State*> state,
+          const state_ptr_t state,
           const int index) noexcept
       {
         return std::make_tuple(read<T>(state, index));
@@ -153,15 +152,14 @@ namespace ode::lua
 
       template <typename T1, typename T2, typename... Rest>
       static constexpr std::tuple<T1, T2, Rest...> worker(
-          const gsl::not_null<lua_State*> state,
+          const state_ptr_t state,
           const int index) noexcept
       {
         std::tuple<T1> head = std::make_tuple(read<T1>(state, index));
         return std::tuple_cat(head, worker<T2, Rest...>(state, index + 1));
       }
 
-      static constexpr type apply(
-          const gsl::not_null<lua_State*> state) noexcept
+      static constexpr type apply(const state_ptr_t state) noexcept
       {
         auto ret = worker<Types...>(state, 1);
         lua_pop(state, sizeof...(Types));
@@ -174,7 +172,7 @@ namespace ode::lua
       using type = T;
 
       static constexpr type apply(
-          const gsl::not_null<lua_State*> state) ODE_CONTRACT_NOEXCEPT
+          const state_ptr_t state) ODE_CONTRACT_NOEXCEPT
       {
         T ret = read<T>(state);
         lua_pop(state, 1);
@@ -186,8 +184,7 @@ namespace ode::lua
     {
       using type = void;
 
-      static constexpr type apply(
-          const gsl::not_null<lua_State*> state) noexcept
+      static constexpr type apply(const state_ptr_t state) noexcept
       {
 
       }
@@ -197,7 +194,7 @@ namespace ode::lua
     using pop_t = typename pop<sizeof...(Types), Types...>::type;
 
     template <typename... Types> constexpr pop_t<Types...> pop_value(
-        const gsl::not_null<lua_State*> state) ODE_CONTRACT_NOEXCEPT
+        const state_ptr_t state) ODE_CONTRACT_NOEXCEPT
     {
       return pop<sizeof...(Types), Types...>::apply(state);
     }
@@ -217,7 +214,7 @@ namespace ode::lua
   ///
   template <typename... Types, typename... Args>
   constexpr detail::pop_t<Types...> call(
-      const gsl::not_null<lua_State*> state,
+      const state_ptr_t state,
       const std::string& name,
       Args&&... args) ODE_CONTRACT_NOEXCEPT
   {

@@ -29,12 +29,10 @@
 
 #include "ode/logger.h"
 
-#include <lua.hpp>
-
 namespace ode::lua
 {
   int load_script_file(
-      const gsl::not_null<lua_State*> state,
+      const state_ptr_t state,
       std::string_view filename) ODE_CONTRACT_NOEXCEPT
   {
     const auto load_error = luaL_loadfile(state, filename.data());

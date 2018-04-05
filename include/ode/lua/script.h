@@ -29,21 +29,20 @@
 #include "gsl/view"
 
 #include "ode/__config"
-
-struct lua_State;
+#include "ode/lua/state_t.h"
 
 namespace ode::lua
 {
   ///
   /// \brief Loads a Lua script from the given file.
   ///
-  /// \param state pointer to the Lua state.
+  /// \param state Lua state.
   /// \param filename the name of the file.
   ///
-  /// \return The error code which the Lua API gives.
+  /// \return Error code which the Lua API gives.
   ///
   int load_script_file(
-      const gsl::not_null<lua_State*> state,
+      const state_ptr_t state,
       std::string_view filename) ODE_CONTRACT_NOEXCEPT;
 
 } // namespace ode::lua

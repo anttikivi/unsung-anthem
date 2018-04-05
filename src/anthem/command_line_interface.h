@@ -12,8 +12,7 @@
 //
 ///
 /// \file command_line_interface.h
-/// \brief The declarations of the utilities related to parsing command line
-/// arguments.
+/// \brief Declarations of utilities related to parsing command line arguments.
 /// \author Antti Kivi
 /// \date 29 March 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
