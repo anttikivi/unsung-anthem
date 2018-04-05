@@ -27,7 +27,7 @@
 #include <string>
 
 #include "ode/pixel_count.h"
-#include "ode/sdl/window_ptr.h"
+#include "ode/sdl/window_t.h"
 
 namespace ode::sdl
 {
@@ -75,7 +75,7 @@ namespace ode::sdl
   ///
   /// \return Pointer to the created object of type \c GLFWwindow.
   ///
-  window_ptr create_window(const window_creation_info& info);
+  window_t create_window(const window_creation_info& info);
 
 } // namespace ode::sdl
 

@@ -1,4 +1,4 @@
-//===----------------------------- opengl.cpp -------------------*- C++ -*-===//
+//===------------------------------- quit.h ---------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,31 +11,33 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file opengl.cpp
-/// \brief Definitions of utility functions for Simple DirectMedia Layer
-/// OpenGL context.
+/// \file quit.h
+/// \brief Declarations of quitting functions of Obliging Ode.
 /// \author Antti Kivi
-/// \date 2 April 2018
+/// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/sdl/opengl.h"
+#ifndef ODE_QUIT_H
+#define ODE_QUIT_H
 
-#include <glad/glad.h>
+#include <SDL2/SDL.h>
 
-namespace ode::sdl
+namespace ode
 {
-  SDL_GLContext create_gl_context(window_ptr_t window)
+  ///
+  /// \brief Destructs the graphics context of Obliging Ode.
+  ///
+  /// \param context the graphics context.
+  ///
+  template <typename T> void quit_graphics(T context)
   {
-    auto context = SDL_GL_CreateContext(window);
-
-    SDL_GL_SwapWindow(window);
-    gladLoadGLLoader(static_cast<GLADloadproc>(SDL_GL_GetProcAddress));
-    SDL_GL_SetSwapInterval(1);
-
-    return context;
+    SDL_GL_DeleteContext(context);
   }
-} // namespace ode::sdl
+
+} // namespace ode
+
+#endif // !ODE_QUIT_H

@@ -12,16 +12,16 @@
 //
 ///
 /// \file main_loop.cpp
-/// \brief Definitions of the main loop functions.
+/// \brief Definitions of main loop functions of Obliging Ode.
 /// \author Antti Kivi
-/// \date 3 April 2018
+/// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/framework/main_loop.h"
+#include "ode/main_loop.h"
 
 #include <type_traits>
 
@@ -31,7 +31,7 @@
 
 namespace ode
 {
-  void main_loop(sdl::window_ptr&& window_r)
+  void main_loop(window_t&& window_r)
   {
 #ifndef ODE_SDL_TICK_CLOCK
 
@@ -39,7 +39,7 @@ namespace ode
 
 #endif // !defined(ODE_SDL_TICK_CLOCK)
 
-    sdl::window_ptr window = std::move(window_r);
+    window_t window = std::move(window_r);
 
     ODE_TRACE("Entering the game loop");
 

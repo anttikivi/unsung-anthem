@@ -1,4 +1,4 @@
-//===----------------------------- opengl.cpp -------------------*- C++ -*-===//
+//===------------------------------ opengl.h --------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,31 +11,35 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file opengl.cpp
-/// \brief Definitions of utility functions for Simple DirectMedia Layer
+/// \file opengl.h
+/// \brief Declarations of utility functions for Simple DirectMedia Layer
 /// OpenGL context.
 /// \author Antti Kivi
-/// \date 2 April 2018
+/// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/sdl/opengl.h"
+#ifndef ODE_SDL_OPENGL_H
+#define ODE_SDL_OPENGL_H
 
-#include <glad/glad.h>
+#include "ode/sdl/window_t.h"
+
+#include <SDL2/SDL.h>
 
 namespace ode::sdl
 {
-  SDL_GLContext create_gl_context(window_ptr_t window)
-  {
-    auto context = SDL_GL_CreateContext(window);
+  ///
+  /// \brief Initializes a new OpenGL context.
+  ///
+  /// \param window a pointer to a window.
+  ///
+  /// \return The object of type \c SDL_GLContext.
+  ///
+  SDL_GLContext create_gl_context(window_ptr_t window);
 
-    SDL_GL_SwapWindow(window);
-    gladLoadGLLoader(static_cast<GLADloadproc>(SDL_GL_GetProcAddress));
-    SDL_GL_SetSwapInterval(1);
-
-    return context;
-  }
 } // namespace ode::sdl
+
+#endif // !ODE_SDL_OPENGL_H

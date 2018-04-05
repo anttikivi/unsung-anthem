@@ -12,21 +12,21 @@
 //
 ///
 /// \file main_loop.h
-/// \brief Declarations of the main loop functions.
+/// \brief Declarations of main loop functions of Obliging Ode.
 /// \author Antti Kivi
-/// \date 3 April 2018
+/// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_FRAMEWORK_MAIN_LOOP_H
-#define ODE_FRAMEWORK_MAIN_LOOP_H
+#ifndef ODE_MAIN_LOOP_H
+#define ODE_MAIN_LOOP_H
 
 #include <chrono>
 
-#include "ode/sdl/window_ptr.h"
+#include "ode/window_t.h"
 
 namespace ode
 {
@@ -53,14 +53,14 @@ namespace ode
 #endif // !defined(ODE_SDL_TICK_CLOCK)
 
   ///
-  /// \brief Runs the main loop of the game.
+  /// \brief Runs the main loop of Obliging Ode.
   ///
   /// This function is impure.
   ///
-  /// \param window_r pointer to the window.
+  /// \param window_r rvalue reference of pointer to main window.
   ///
-  void main_loop(sdl::window_ptr&& window_r);
+  void main_loop(window_t&& window_r);
 
 } // namespace ode
 
-#endif // !ODE_FRAMEWORK_MAIN_LOOP_H
+#endif // !ODE_MAIN_LOOP_H

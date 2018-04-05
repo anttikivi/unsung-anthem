@@ -29,7 +29,7 @@
 
 namespace ode::sdl
 {
-  window_ptr create_window(const window_creation_info& info)
+  window_t create_window(const window_creation_info& info)
   {
       SDL_GL_SetAttribute(
           SDL_GL_CONTEXT_PROFILE_MASK,
@@ -49,7 +49,7 @@ namespace ode::sdl
           opengl_version_major,
           opengl_version_minor);
 
-      window_ptr window = {
+      window_t window = {
           SDL_CreateWindow(
               info.window_name.data(),
               SDL_WINDOWPOS_CENTERED,

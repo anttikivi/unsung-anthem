@@ -8,13 +8,13 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-add_subdirectory(framework)
 add_subdirectory(lua)
 add_subdirectory(sdl)
 add_subdirectory(thread)
 
-list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/execute.cpp)
+list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/initialize.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/logging.cpp)
+list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main_loop.cpp)
 
 list(APPEND ODE_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/config.h)
 list(APPEND ODE_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/logging_config.h)

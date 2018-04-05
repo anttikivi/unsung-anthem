@@ -15,7 +15,7 @@
 /// \brief Declarations of the initialization utility function for Simple
 /// DirectMedia Layer.
 /// \author Antti Kivi
-/// \date 29 March 2018
+/// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
@@ -33,7 +33,12 @@
 
 namespace ode::sdl
 {
-
+  ///
+  /// \brief Initializes the Simple DirectMedia Layer.
+  ///
+  /// \return An object of type \c gsl::finally which terminates Simple
+  /// DirectMedia Layer.
+  ///
   inline auto initialize()
   {
     if (0 != SDL_Init(SDL_INIT_VIDEO))
@@ -49,7 +54,6 @@ namespace ode::sdl
       ODE_DEBUG("Simple DirectMedia Layer is terminated");
     });
   }
-
 } // namespace ode::sdl
 
 #endif // !ODE_SDL_INITIALIZE_H

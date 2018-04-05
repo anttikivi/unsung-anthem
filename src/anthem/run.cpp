@@ -12,7 +12,7 @@
 //
 ///
 /// \file run.cpp
-/// \brief The definition of the main execution function of Unsung Anthem.
+/// \brief Definition of the main execution function of Unsung Anthem.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -25,9 +25,13 @@
 
 #include <cstdlib>
 
-#include "ode/logging.h"
-#include "ode/execute.h"
+#include <type_traits>
+
 #include "ode/execution_info.h"
+#include "ode/initialize.h"
+#include "ode/logging.h"
+#include "ode/main_loop.h"
+#include "ode/quit.h"
 
 #include "anthem/command_line_interface.h"
 #include "anthem/logger.h"
@@ -58,8 +62,16 @@ namespace anthem
         args.window_width,
         args.window_height,
         args.window_name};
+    
+    ode::initialize_logging();
 
-    ode::execute(info);
+    const auto sdl_quit_action = ode::initialize_sdl();
+    auto window = ode::initialize_window(info);
+    auto graphics_context = ode::initialize_graphics(window.get());
+
+    ode::main_loop(std::move(window));
+
+    ode::quit_graphics(graphics_context);
 
     return EXIT_SUCCESS;
   }
