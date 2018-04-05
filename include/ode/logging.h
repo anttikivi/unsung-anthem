@@ -15,7 +15,7 @@
 /// \brief Declarations of the logging-related utility functions.
 /// \author Antti Kivi
 /// \date 31 January 2018
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
