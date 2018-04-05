@@ -15,7 +15,7 @@
 /// \brief The declaration of the Lua state.
 /// \author Antti Kivi
 /// \date 6 February 2018
-/// \copyright Copyright (c) 2017 Venturesome Stone
+/// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
