@@ -12,7 +12,7 @@
 //
 ///
 /// \file thread_pool.cpp
-/// \brief Definitions of the thread-pooling functions.
+/// \brief Definitions of thread-pooling functions.
 /// \author Antti Kivi
 /// \date 3 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -43,7 +43,7 @@ namespace ode
     {
       threads.emplace_back([this]
       {
-        for(;;)
+        for (;;)
         {
           std::function<void()> t;
 
@@ -55,7 +55,7 @@ namespace ode
               return this->quit || !this->c.empty();
             });
 
-            if(this->quit && this->c.empty())
+            if (this->quit && this->c.empty())
             {
               return;
             }

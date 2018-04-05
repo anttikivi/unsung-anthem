@@ -12,7 +12,7 @@
 //
 ///
 /// \file run.h
-/// \brief The declaration of the main execution function of the game.
+/// \brief Declaration of the main execution function of Unsung Anthem.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

@@ -12,9 +12,9 @@
 //
 ///
 /// \file thread_pool.h
-/// \brief Declarations of the thread-pooling functions.
+/// \brief Declarations of thread-pooling functions.
 /// \author Antti Kivi
-/// \date 3 April 2018
+/// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
@@ -37,9 +37,9 @@
 namespace ode
 {
   ///
-  /// \brief Returns the number of threads to be created in the thread pool.
+  /// \brief Returns the number of threads to be created in a thread pool.
   ///
-  /// \return The number of threads to be created in the thread pool.
+  /// \return Number of threads to be created in a thread pool.
   ///
   unsigned int number_of_threads() noexcept;
 
@@ -55,7 +55,7 @@ namespace ode
     ///
     /// \brief Constructs an object of type \c thread_pool.
     ///
-    /// \param n the number of threads to be created.
+    /// \param n number of threads to be created.
     ///
     thread_pool(const unsigned int n = number_of_threads());
 
@@ -122,7 +122,7 @@ namespace ode
       {
         std::unique_lock<std::mutex> lock{m};
 
-        if(quit)
+        if (quit)
         {
           // This isn't cool
           throw std::runtime_error("Enqueue on quitting thread_pool");
@@ -151,13 +151,13 @@ namespace ode
     std::queue<std::function<void()>> c;
 
     ///
-    /// \brief The condition variable which is used to notify the threads
-    /// whenever a new task is pushed to the queue.
+    /// \brief Condition variable which is used to notify the threads whenever
+    /// a new task is pushed to the queue.
     ///
     std::condition_variable cond;
 
     ///
-    /// \brief The mutex used to lock the queue.
+    /// \brief Mutex used to lock the queue.
     ///
     std::mutex m;
 
