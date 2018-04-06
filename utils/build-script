@@ -49,6 +49,10 @@ REPO_OWNER = "venturesomestone"
 REPO_NAME = ODE_BUILD_KEY
 
 
+CLEAN = any([(opt == "-c" or opt == "--clean" 
+        or opt == "-U" or opt == "--update-script") for opt in sys.argv[1:]])
+
+
 #===------------------------------------------------------------------------===#
 #==- Shell ------------------------------------------------------------------==#
 #===------------------------------------------------------------------------===#
@@ -482,27 +486,12 @@ def _download_v4():
         checkout_tag(tag_ref_name)
 
 
-def _get_develop():
+def _get(download_function):
     rmtree(SOURCE_DIR)
     rmtree(TEMP_DIR)
     makedirs(SOURCE_DIR)
     makedirs(TEMP_DIR)
-    _download_v4_develop()
-    if platform.system() != "Windows":
-        source_dir = SOURCE_DIR
-        version_dir = os.path.dirname(source_dir)
-        rmtree(source_dir)
-        rmtree(version_dir)
-        copytree(os.path.join(TEMP_DIR, ODE_BUILD_KEY), SOURCE_DIR)
-    rmtree(TEMP_DIR)
-
-
-def _get():
-    rmtree(SOURCE_DIR)
-    rmtree(TEMP_DIR)
-    makedirs(SOURCE_DIR)
-    makedirs(TEMP_DIR)
-    _download_v4()
+    download_function()
     if platform.system() != "Windows":
         source_dir = SOURCE_DIR
         version_dir = os.path.dirname(source_dir)
@@ -526,13 +515,14 @@ def _write_version_file(versions):
         json.dump(versions, outfile)
 
 
-def _checkout(get_function):
+def _checkout(download_function):
     versions = _get_checkout_versions()
     key = ODE_BUILD_KEY
-    if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
+    if key in versions and ODE_BUILD_VERSION == versions[key]["version"] \
+            and not CLEAN:
         print("{} should not be re-downloaded, skipping".format(key))
         return 0
-    get_function()
+    _get(download_function)
     info = {"version": ODE_BUILD_VERSION, "targets": "src"}
     versions[key] = info
     _write_version_file(versions)
@@ -574,14 +564,14 @@ def main():
     if any([(opt == "-D" or opt == "--develop-script")
             for opt in sys.argv[1:]]):
         print("Downloading the development version of the build script")
-        _checkout(_get_develop)
+        _checkout(_download_v4_develop)
         return _run()
     elif any([(opt == "-N" or opt == "--no-script-update")
             for opt in sys.argv[1:]]):
         print("Not downloading the build script")
         return _run()
     else:
-        _checkout(_get)
+        _checkout(_download_v4)
         return _run()
 
 
