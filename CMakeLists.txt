@@ -61,6 +61,8 @@ option(ODE_INSTALL_ONLY_SCRIPTS "Install only the scripts" OFF)
 
 option(ODE_USE_LOCAL_LLVM "Use an LLVM which is in the local directory" OFF)
 
+option(ODE_VERBOSE_BUILD "Print more information while building" OFF)
+
 if(BUILD_ODE)
   assert_variable(ODE_TYPE "Obliging Ode product type" "lib and test")
 else()
@@ -273,6 +275,11 @@ if(NOT WIN32)
   else()
     add_anthem_installation_target(${ANTHEM_TYPE})
   endif()
+endif()
+
+if(ODE_VERBOSE_BUILD)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -v")
 endif()
 
 message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")

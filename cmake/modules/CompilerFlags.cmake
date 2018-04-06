@@ -46,10 +46,10 @@ function(SET_LINKER_FLAGS)
     else()
       if("${ODE_RPATH}" STREQUAL ".")
         set(CMAKE_EXE_LINKER_FLAGS
-            "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,'$$ORIGIN'")
+            "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,'$ORIGIN'")
       else()
         set(CMAKE_EXE_LINKER_FLAGS
-            "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,'$$ORIGIN/${ODE_RPATH}'")
+            "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,'$ORIGIN/${ODE_RPATH}'")
       endif()
     endif()
   endif()
