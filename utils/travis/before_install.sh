@@ -10,10 +10,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-set -v
-
-${CC} --version
-${CXX} --version
+set -ev
 
 if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
   export PATH=~/Library/Python/2.7/bin:$PATH
@@ -23,4 +20,16 @@ ${ODE_PIP:-pip} install --user requests
 
 if [ "${ENABLE_COVERAGE}" == "true" ]; then
   gem install coveralls-lcov
+fi
+
+if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+  mkdir clang-temp
+  cd clang-temp
+  curl -O http://releases.llvm.org/6.0.0/clang+llvm-6.0.0-x86_64-apple-darwin.tar.xz
+  tar -xf clang+llvm-6.0.0-x86_64-apple-darwin.tar.xz
+  cd clang+llvm-6.0.0-x86_64-apple-darwin
+  yes | cp -Rf bin/ /usr/local/bin
+  yes | cp -Rf include/ /usr/local/include
+  yes | cp -Rf lib/ /usr/local/lib
+  yes | cp -Rf share/ /usr/local/share
 fi
