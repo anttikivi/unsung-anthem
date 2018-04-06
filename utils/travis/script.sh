@@ -16,4 +16,4 @@ if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
   export PATH=~/Library/Python/2.7/bin:$PATH
 fi
 
-${ODE_PYTHON:-python} script/build-script --preset ${BUILD_PRESET}
+${ODE_PYTHON:-python} script/build-script --preset ${BUILD_PRESET} -v
