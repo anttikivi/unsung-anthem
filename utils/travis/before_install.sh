@@ -32,4 +32,9 @@ if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
   yes | cp -Rf include/ /usr/local/include
   yes | cp -Rf lib/ /usr/local/lib
   yes | cp -Rf share/ /usr/local/share
+  cd ..
+  cd ..
+  rm -Rf clang-temp
+  /usr/local/bin/clang --version
+  /usr/local/bin/clang++ --version
 fi
