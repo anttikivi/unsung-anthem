@@ -19,6 +19,8 @@ if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
   export PATH=$PATH:~/Library/Python/2.7/bin
 fi
 
+pip install --user request
+
 # if [ "${TRAVIS_OS_NAME}" == "osx" ] \
 #     && [ "${TRAVIS_OSX_IMAGE}" == "xcode6.4" ]; then
 #   # export PATH=$PATH:~/Library/Python/2.7/bin
