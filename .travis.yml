@@ -140,11 +140,11 @@ before_install:
 - ./unsung-anthem/utils/travis/before_install.sh
 
 install:
-- if [ "${TRAVIS_OSX_IMAGE}" == "xcode6.4" ] || [ "${TRAVIS_OSX_IMAGE}" == "xcode8.3" ] || [ "${TRAVIS_OSX_IMAGE}" == "xcode9.3beta" ]; then echo Using pip2 instead of pip; fi
-- if [ "${TRAVIS_OSX_IMAGE}" == "xcode6.4" ] || [ "${TRAVIS_OSX_IMAGE}" == "xcode8.3" ] || [ "${TRAVIS_OSX_IMAGE}" == "xcode9.3beta" ]; then pip2 install --user request; else pip install --user requests; fi
-- if [ "${ENABLE_COVERAGE}" == "true" ]; then gem install coveralls-lcov; fi
+- cd $TRAVIS_BUILD_DIR/..
+- chmod +x unsung-anthem/utils/travis/install.sh
+- ./unsung-anthem/utils/travis/install.sh
 
 script:
 - cd $TRAVIS_BUILD_DIR/..
-- unsung-anthem/utils/build-script --develop-script
-- ./script/build-script --preset ${BUILD_PRESET}
+- chmod +x unsung-anthem/utils/travis/script.sh
+- ./unsung-anthem/utils/travis/script.sh
