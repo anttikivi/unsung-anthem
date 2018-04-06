@@ -12,6 +12,12 @@
 
 set -v
 
+if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+  # export PATH=$PATH:~/Library/Python/2.7/bin
+  brew update
+  brew install python
+fi
+
 ${CC} --version
 ${CXX} --version
 which python
