@@ -135,14 +135,9 @@ matrix:
     - ENABLE_COVERAGE=false
 
 before_install:
-- ${CC} --version
-- ${CXX} --version
-- which python
-- which python2
-- which python3
-- which pip
-- which pip2
-- which pip3
+- cd $TRAVIS_BUILD_DIR/..
+- chmod +x unsung-anthem/utils/travis/before_install.sh
+- ./unsung-anthem/utils/travis/before_install.sh
 
 install:
 - if [ "${TRAVIS_OSX_IMAGE}" == "xcode6.4" ] || [ "${TRAVIS_OSX_IMAGE}" == "xcode8.3" ] || [ "${TRAVIS_OSX_IMAGE}" == "xcode9.3beta" ]; then echo Using pip2 instead of pip; fi
