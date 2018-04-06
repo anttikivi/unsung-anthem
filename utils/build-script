@@ -526,26 +526,13 @@ def _write_version_file(versions):
         json.dump(versions, outfile)
 
 
-def _checkout_develop():
-    versions = _get_checkout_versions()
-    key = ODE_BUILD_KEY
-    if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
-        print("{} is re-downloaded".format(key))
-    _get_develop()
-    info = {"version": ODE_BUILD_VERSION, "targets": "src"}
-    versions[key] = info
-    _write_version_file(versions)
-    rmtree(ODE_BUILD_ROOT)
-    copytree(os.path.join(SOURCE_DIR, "utils"), ODE_BUILD_ROOT)
-
-
-def _checkout():
+def _checkout(get_function):
     versions = _get_checkout_versions()
     key = ODE_BUILD_KEY
     if key in versions and ODE_BUILD_VERSION == versions[key]["version"]:
         print("{} should not be re-downloaded, skipping".format(key))
         return 0
-    _get()
+    get_function()
     info = {"version": ODE_BUILD_VERSION, "targets": "src"}
     versions[key] = info
     _write_version_file(versions)
@@ -580,20 +567,6 @@ def _run():
         return _execute()
 
 
-def _main_skip_download():
-    return _run()
-
-
-def _main_develop():
-    _checkout_develop()
-    return _run()
-
-
-def _main_normal():
-    _checkout()
-    return _run()
-
-
 def main():
     """
     The entry point function of the script.
@@ -601,13 +574,15 @@ def main():
     if any([(opt == "-D" or opt == "--develop-script")
             for opt in sys.argv[1:]]):
         print("Downloading the development version of the build script")
-        return _main_develop()
+        _checkout(_get_develop)
+        return _run()
     elif any([(opt == "-N" or opt == "--no-script-update")
             for opt in sys.argv[1:]]):
         print("Not downloading the build script")
-        return _main_skip_download()
+        return _run()
     else:
-        return _main_normal()
+        _checkout(_get)
+        return _run()
 
 
 if __name__ == "__main__":

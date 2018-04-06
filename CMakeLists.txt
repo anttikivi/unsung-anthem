@@ -136,6 +136,7 @@ add_feature_definitions()
 add_directory_definitions()
 
 set_compiler_flags()
+set_linker_flags()
 
 set(ODE_LIBRARIES)
 set(ANTHEM_LIBRARIES)
@@ -278,6 +279,8 @@ message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")
 message(STATUS
     "The CMake installation prefix is set to ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
+message(STATUS
+    "The C++ executable linker flags are set to ${CMAKE_EXE_LINKER_FLAGS}")
 message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
 message(STATUS "The C++ compiler flag is set to ${CMAKE_CXX_COMPILER}")
 message(STATUS "The C compiler environment variable is set to $ENV{CC}")
