@@ -12,8 +12,4 @@
 
 set -ev
 
-if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-  export PATH=~/Library/Python/2.7/bin:$PATH
-fi
-
 ${ODE_PYTHON:-python} unsung-anthem/utils/build-script --develop-script

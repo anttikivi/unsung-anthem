@@ -12,10 +12,6 @@
 
 set -ev
 
-if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-  export PATH=~/Library/Python/2.7/bin:$PATH
-fi
-
 if [ "${TRAVIS_OSX_IMAGE}" == "xcode6.4" ]; then
   brew install python
 fi
