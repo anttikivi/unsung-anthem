@@ -100,6 +100,8 @@ matrix:
     - CC=clang
     - BUILD_PRESET=travis_darwin_xcode64_clang_cxx17
     - ENABLE_COVERAGE=false
+    - ODE_PYTHON=python2
+    - ODE_PIP=python2
 
   # Darwin: macOS 10.11 Xcode 7.3.1 C++17 Clang
   - os: osx
@@ -122,6 +124,8 @@ matrix:
     - CC=clang
     - BUILD_PRESET=travis_darwin_xcode83_clang_cxx17
     - ENABLE_COVERAGE=false
+    - ODE_PYTHON=python2
+    - ODE_PIP=python2
 
   # Darwin: macOS 10.13 Xcode 9.3 beta C++17 Clang
   - os: osx
