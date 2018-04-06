@@ -13,6 +13,7 @@
 set -ev
 
 if [ "${TRAVIS_OSX_IMAGE}" == "xcode6.4" ]; then
+  brew upgrade
   brew install python
 fi
 
