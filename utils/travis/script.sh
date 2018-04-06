@@ -12,12 +12,18 @@
 
 set -ev
 
-if [ "${TRAVIS_OSX_IMAGE}" == "xcode7.3" ] \
-    || [ "${TRAVIS_OSX_IMAGE}" == "xcode8.3" ] \
-    || [ "${TRAVIS_OSX_IMAGE}" == "xcode9.3beta" ]; then
-  python2 script/build-script --preset ${BUILD_PRESET}
-elif [ "${TRAVIS_OSX_IMAGE}" == "xcode6.4" ]; then
-  python3 script/build-script --preset ${BUILD_PRESET}
-else
-  python script/build-script --preset ${BUILD_PRESET}
+if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+  export PATH=$PATH:~/Library/Python/2.7/bin
 fi
+
+# if [ "${TRAVIS_OSX_IMAGE}" == "xcode7.3" ] \
+#     || [ "${TRAVIS_OSX_IMAGE}" == "xcode8.3" ] \
+#     || [ "${TRAVIS_OSX_IMAGE}" == "xcode9.3beta" ]; then
+#   python2 script/build-script --preset ${BUILD_PRESET}
+# elif [ "${TRAVIS_OSX_IMAGE}" == "xcode6.4" ]; then
+#   python3 script/build-script --preset ${BUILD_PRESET}
+# else
+#   python script/build-script --preset ${BUILD_PRESET}
+# fi
+
+python script/build-script --preset ${BUILD_PRESET}
