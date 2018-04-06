@@ -16,4 +16,4 @@ if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
   export PATH=~/Library/Python/2.7/bin:$PATH
 fi
 
-python2 unsung-anthem/utils/build-script --develop-script
+python unsung-anthem/utils/build-script --develop-script

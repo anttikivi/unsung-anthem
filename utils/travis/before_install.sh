@@ -19,8 +19,7 @@ if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
   export PATH=~/Library/Python/2.7/bin:$PATH
 fi
 
-which pip2
-pip2 install --user request
+pip install --user requests
 
 if [ "${ENABLE_COVERAGE}" == "true" ]; then
   gem install coveralls-lcov
