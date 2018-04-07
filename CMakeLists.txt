@@ -13,6 +13,10 @@ project(anthem)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
+#===------------------------------------------------------------------------===#
+#==- Modules ---------------------------------------------------------------===#
+#===------------------------------------------------------------------------===#
+
 include(CompilerFlags)
 include(Definitions)
 include(ExternalSources)
@@ -22,44 +26,47 @@ include(StdDefinitions)
 include(Targets)
 include(Variables)
 
-option(BUILD_ODE "Build Obliging Ode" OFF)
+#===------------------------------------------------------------------------===#
+#==- Options ---------------------------------------------------------------===#
+#===------------------------------------------------------------------------===#
 
+#==- Obliging Ode Build Options --------------------------------------------===#
+
+option(BUILD_ODE "Build Obliging Ode" OFF)
+option(ODE_TEST_BENCHMARKING "Build the benchmarkings in Obliging Ode" OFF)
 option(ODE_ENABLE_GCOV "Add target for gcov code coverage" OFF)
+option(ODE_LINK_LIBCXX "Manually link libc++" OFF)
+option(ODE_ADD_LUA_SOURCE
+    "Add Lua source files directly to the Ode sources" OFF)
+option(ODE_ADD_GTEST_SOURCE
+    "Add Google Test source files directly to the Ode sources" OFF)
+option(ODE_ADD_BENCHMARK_SOURCE
+    "Add Google Benchmark source files directly to the Ode sources" OFF)
+option(ODE_INSTALL_ONLY_SCRIPTS "Install only the scripts" OFF)
+option(ODE_USE_LOCAL_LLVM "Use an LLVM which is in the local directory" OFF)
+option(ODE_VERBOSE_BUILD "Print more information while building" OFF)
+
+#==- Obliging Ode Feature Options ------------------------------------------===#
 
 option(ODE_ENABLE_ASSERTIONS
     "Option for enabling assertions in Obliging Ode" ON)
-
-option(ANTHEM_ENABLE_ASSERTIONS
-    "Option for enabling assertions in Unsung Anthem" ON)
-
 option(ODE_DEVELOPER "Enable developer mode in Obliging Ode" OFF)
+option(ODE_TEST_USE_NULL_SINK "Log the tests to a null sink" ON)
+option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
 
-option(ANTHEM_DEVELOPER "Enable developer mode in Unsung Anthem" OFF)
-
-option(ODE_TEST_BENCHMARKING "Build the benchmarkings in Obliging Ode" OFF)
+#==- Unsung Anthem Build Options -------------------------------------------===#
 
 option(ANTHEM_TEST_BENCHMARKING "Build the benchmarkings in Unsung Anthem" OFF)
 
-option(ODE_TEST_USE_NULL_SINK "Log the tests to a null sink" ON)
+#==- Unsung Anthem Feature Options -----------------------------------------===#
 
-option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
+option(ANTHEM_ENABLE_ASSERTIONS
+    "Option for enabling assertions in Unsung Anthem" ON)
+option(ANTHEM_DEVELOPER "Enable developer mode in Unsung Anthem" OFF)
 
-option(ODE_LINK_LIBCXX "Manually link libc++" OFF)
-
-option(ODE_ADD_LUA_SOURCE
-    "Add Lua source files directly to the Ode sources" OFF)
-
-option(ODE_ADD_GTEST_SOURCE
-    "Add Google Test source files directly to the Ode sources" OFF)
-
-option(ODE_ADD_BENCHMARK_SOURCE
-    "Add Google Benchmark source files directly to the Ode sources" OFF)
-
-option(ODE_INSTALL_ONLY_SCRIPTS "Install only the scripts" OFF)
-
-option(ODE_USE_LOCAL_LLVM "Use an LLVM which is in the local directory" OFF)
-
-option(ODE_VERBOSE_BUILD "Print more information while building" OFF)
+#===------------------------------------------------------------------------===#
+#==- Variable Assertions ---------------------------------------------------===#
+#===------------------------------------------------------------------------===#
 
 if(BUILD_ODE)
   assert_variable(ODE_TYPE "Obliging Ode product type" "lib and test")
@@ -68,28 +75,17 @@ else()
 endif()
 
 assert_variable(ODE_CXX_VERSION "C++ standard version" "c++2a and c++17")
-
 assert_variable(ODE_INSTALL_PREFIX "dependency installation directory")
-
 assert_variable(ODE_VERSION "Obliging Ode version")
 assert_variable(ANTHEM_VERSION "Unsung Anthem version")
-
 assert_variable(ODE_BIN_DIR_NAME "name of the binary installation directory")
 assert_variable(ODE_INCLUDE_DIR_NAME
     "name of the include installation directory")
 assert_variable(ODE_LIB_DIR_NAME "name of the library installation directory")
 assert_variable(ODE_SCRIPT_DIR_NAME 
     "name of the script installation directory")
-
-set(ODE_LIB_SCRIPT_DIR_NAME "${ODE_SCRIPT_DIR_NAME}/lib")
-set(ODE_TEST_SCRIPT_DIR_NAME "${ODE_SCRIPT_DIR_NAME}/test")
-
-print_status(ODE_LIB_SCRIPT_DIR_NAME "library script installation directory")
-print_status(ODE_TEST_SCRIPT_DIR_NAME "test script installation directory")
-
 assert_variable(ODE_OPENGL_VERSION_MAJOR "OpenGL major version")
 assert_variable(ODE_OPENGL_VERSION_MINOR "OpenGL minor version")
-
 assert_variable(ODE_LOGGER_NAME "engine logger name")
 assert_variable(ODE_WINDOW_NAME "engine window name")
 
@@ -98,27 +94,37 @@ if(NOT BUILD_ODE)
   assert_variable(ANTHEM_WINDOW_NAME "program window name")
 endif()
 
+#===------------------------------------------------------------------------===#
+#==- Variable Statuses -----------------------------------------------------===#
+#===------------------------------------------------------------------------===#
+
+set(ODE_LIB_SCRIPT_DIR_NAME "${ODE_SCRIPT_DIR_NAME}/lib")
+set(ODE_TEST_SCRIPT_DIR_NAME "${ODE_SCRIPT_DIR_NAME}/test")
+
+print_status(ODE_LIB_SCRIPT_DIR_NAME "library script installation directory")
+print_status(ODE_TEST_SCRIPT_DIR_NAME "test script installation directory")
+
 if(BUILD_ODE)
   default_value(ODE_NAME ode_name_not_set)
   default_value(ODE_TEST_NAME test-${ODE_NAME})
-
   print_status(ODE_NAME "Obliging Ode library name")
   print_status(ODE_TEST_NAME "Obliging Ode test executable name")
 else()
   default_value(ANTHEM_NAME name_not_set)
   default_value(ANTHEM_LIB_NAME ${ANTHEM_NAME})
   default_value(ANTHEM_TEST_NAME test-${ANTHEM_NAME})
-
   print_status(ANTHEM_NAME "executable name")
   print_status(ANTHEM_LIB_NAME "Unsung Anthem library name")
   print_status(ANTHEM_TEST_NAME "Unsung Anthem test executable name")
 endif()
 
 print_status_if_defined(ODE_STDLIB "C++ standard library")
-
 print_status_if_defined(ODE_OPTIMIZATION_LEVEL "the optimization level")
-
 print_status_if_defined(ODE_RPATH "the rpath")
+
+#===------------------------------------------------------------------------===#
+#==- Definitions and Flags -------------------------------------------------===#
+#===------------------------------------------------------------------------===#
 
 set(ODE_STD)
 set(ANTHEM_STD)
@@ -137,6 +143,10 @@ add_directory_definitions()
 
 set_compiler_flags()
 set_linker_flags()
+
+#===------------------------------------------------------------------------===#
+#==- Libraries -------------------------------------------------------------===#
+#===------------------------------------------------------------------------===#
 
 set(ODE_LIBRARIES)
 set(ANTHEM_LIBRARIES)
@@ -173,6 +183,10 @@ endif()
 
 print_status_plural(ODE_LIBRARIES "libraries")
 
+#===------------------------------------------------------------------------===#
+#==- Search Paths ----------------------------------------------------------===#
+#===------------------------------------------------------------------------===#
+
 print_status(ODE_USE_LOCAL_LLVM "LLVM use status")
 
 if (ODE_USE_LOCAL_LLVM)
@@ -184,8 +198,6 @@ link_directories(${ODE_INSTALL_PREFIX}/lib)
 
 include_directories(include)
 include_directories(lib)
-
-# TODO Should the subdirectories in src be set separately for ode and anthem?
 include_directories(src)
 
 if(BUILD_ODE)
@@ -197,6 +209,10 @@ else()
     include_directories(test)
   endif()
 endif()
+
+#===------------------------------------------------------------------------===#
+#==- Source Files ----------------------------------------------------------===#
+#===------------------------------------------------------------------------===#
 
 set(ODE_LIB_INCLUDES)
 set(ODE_INCLUDES)
