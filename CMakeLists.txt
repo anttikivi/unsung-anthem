@@ -158,21 +158,14 @@ if(ODE_LINK_LIBCXX)
 endif()
 
 if(UNIX)
-  find_library(SDL2_LIBRARY SDL2)
-
-  assert_variable(SDL2_LIBRARY "SDL2 libraries")
-
-  if(ODE_MANUAL_SDL)
-    list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d")
-  else()
-    list(APPEND ODE_LIBRARIES "${SDL2_LIBRARY}")
-  endif()
-
   if(APPLE)
-    # TODO
+    find_library(SDL2_LIBRARY SDL2
+        PATHS "${ODE_INSTALL_PREFIX}/lib" "${ODE_INSTALL_PREFIX}"
+        NO_DEFAULT_PATH)
+    print_status(SDL2_LIBRARY "SDL2 library")
+    list(APPEND ODE_LIBRARIES "${SDL2_LIBRARY}")
   else()
-    # set(ODE_LIBRARIES ${ODE_LIBRARIES} SDL2main SDL2 pthread)
-    list(APPEND ODE_LIBRARIES "dl" "pthread")
+    list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d" "dl" "pthread")
   endif()
 else()
   if(WIN32)
