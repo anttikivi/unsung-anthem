@@ -44,8 +44,6 @@ option(ODE_TEST_USE_NULL_SINK "Log the tests to a null sink" ON)
 
 option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
 
-option(ODE_MANUAL_SDL "Simple DirectMedia Layer is linked manually" OFF)
-
 option(ODE_LINK_LIBCXX "Manually link libc++" OFF)
 
 option(ODE_ADD_LUA_SOURCE
@@ -160,10 +158,10 @@ endif()
 if(UNIX)
   if(APPLE)
     find_library(SDL2_LIBRARY SDL2
-        PATHS "${ODE_INSTALL_PREFIX}/lib" "${ODE_INSTALL_PREFIX}"
-        NO_DEFAULT_PATH)
+        PATHS "${ODE_INSTALL_PREFIX}" NO_DEFAULT_PATH)
     print_status(SDL2_LIBRARY "SDL2 library")
     list(APPEND ODE_LIBRARIES "${SDL2_LIBRARY}")
+    list(APPEND CMAKE_EXE_LINKER_FLAGS "-F${ODE_INSTALL_PREFIX}")
   else()
     list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d" "dl" "pthread")
   endif()
