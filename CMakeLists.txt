@@ -157,12 +157,7 @@ endif()
 
 if(UNIX)
   if(APPLE)
-    # find_library(SDL2_LIBRARY SDL2
-    #     PATHS "${ODE_INSTALL_PREFIX}" NO_DEFAULT_PATH)
-    # print_status(SDL2_LIBRARY "SDL2 library")
-    # list(APPEND ODE_LIBRARIES "${SDL2_LIBRARY}")
-    list(APPEND ODE_LIBRARIES "-framework SDL2")
-    list(APPEND CMAKE_EXE_LINKER_FLAGS "-Wl,-F${ODE_INSTALL_PREFIX}")
+    list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d")
   else()
     list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d" "dl" "pthread")
   endif()
