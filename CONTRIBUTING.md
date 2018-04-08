@@ -132,7 +132,7 @@ If you want to read about using Unsung Anthem, the [Unsung Anthem Flight Manual]
     * :art: `:art:` when improving the format or structure of the code
     * :racehorse: `:racehorse:` when improving performance
     * :non-potable_water: `:non-potable_water:` when plugging memory leaks
-    * :wrench: `:wrench:` when fixing compiler or linker errors
+    * :wrench: `:wrench:` when fixing compiler or linker errors or warnings
     * :hammer: `:hammer:` when fixing or improving the build system
     * :memo: `:memo:` when writing docs
     * :penguin: `:penguin:` when fixing something on Linux
@@ -140,12 +140,11 @@ If you want to read about using Unsung Anthem, the [Unsung Anthem Flight Manual]
     * :checkered_flag: `:checkered_flag:` when fixing something on Windows
     * :bug: `:bug:` when fixing a bug
     * :fire: `:fire:` when removing code or files
-    * :green_heart: `:green_heart:` when fixing the CI build
+    * :green_heart: `:green_heart:` when fixing the CI builds
     * :white_check_mark: `:white_check_mark:` when adding tests
     * :lock: `:lock:` when dealing with security
     * :arrow_up: `:arrow_up:` when upgrading dependencies
     * :arrow_down: `:arrow_down:` when downgrading dependencies
-    * :shirt: `:shirt:` when removing linter warnings
 
 ## Additional Notes
 
