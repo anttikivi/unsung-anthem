@@ -42,7 +42,6 @@ option(ODE_ADD_GTEST_SOURCE
     "Add Google Test source files directly to the Ode sources" OFF)
 option(ODE_ADD_BENCHMARK_SOURCE
     "Add Google Benchmark source files directly to the Ode sources" OFF)
-option(ODE_INSTALL_ONLY_SCRIPTS "Install only the scripts" OFF)
 option(ODE_USE_LOCAL_LLVM "Use an LLVM which is in the local directory" OFF)
 option(ODE_VERBOSE_BUILD "Print more information while building" OFF)
 
