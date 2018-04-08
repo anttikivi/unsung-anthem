@@ -33,36 +33,42 @@ TEST(ode_logger_macro, trace)
 {
   ASSERT_NO_THROW(
       ODE_TRACE("This is a test {}-level message in a macro", "trace"));
+  ASSERT_NO_THROW(ODE_TRACE(1));
 }
 
 TEST(ode_logger_macro, debug)
 {
   ASSERT_NO_THROW(
       ODE_DEBUG("This is a test {}-level message in a macro", "debug"));
+  ASSERT_NO_THROW(ODE_DEBUG(2));
 }
 
 TEST(ode_logger_macro, info)
 {
   ASSERT_NO_THROW(
       ODE_INFO("This is a test {}-level message in a macro", "info"));
+  ASSERT_NO_THROW(ODE_INFO(3));
 }
 
 TEST(ode_logger_macro, warn)
 {
   ASSERT_NO_THROW(
       ODE_WARN("This is a test {}-level message in a macro", "warning"));
+  ASSERT_NO_THROW(ODE_WARN(4));
 }
 
 TEST(ode_logger_macro, error)
 {
   ASSERT_NO_THROW(
       ODE_ERROR("This is a test {}-level message in a macro", "warning"));
+  ASSERT_NO_THROW(ODE_ERROR(5));
 }
 
 TEST(ode_logger_macro, critical)
 {
   ASSERT_NO_THROW(
       ODE_CRITICAL("This is a test {}-level message in a macro", "critical"));
+  ASSERT_NO_THROW(ODE_CRITICAL(6));
 }
 
 TEST(ode_logger, trace)
@@ -170,6 +176,66 @@ static void ode_logger_critical_macro(benchmark::State& state)
 }
 
 BENCHMARK(ode_logger_critical_macro);
+
+static void ode_logger_trace_macro_number(benchmark::State& state)
+{
+  for (auto _ : state)
+  {
+    ODE_TRACE(5534.3334568854928853923);
+  }
+}
+
+BENCHMARK(ode_logger_trace_macro_number);
+
+static void ode_logger_debug_macro_number(benchmark::State& state)
+{
+  for (auto _ : state)
+  {
+    ODE_DEBUG(5534.3334568854928853923);
+  }
+}
+
+BENCHMARK(ode_logger_debug_macro_number);
+
+static void ode_logger_info_macro_number(benchmark::State& state)
+{
+  for (auto _ : state)
+  {
+    ODE_INFO(5534.3334568854928853923);
+  }
+}
+
+BENCHMARK(ode_logger_info_macro_number);
+
+static void ode_logger_warn_macro_number(benchmark::State& state)
+{
+  for (auto _ : state)
+  {
+    ODE_WARN(5534.3334568854928853923);
+  }
+}
+
+BENCHMARK(ode_logger_warn_macro_number);
+
+static void ode_logger_error_macro_number(benchmark::State& state)
+{
+  for (auto _ : state)
+  {
+    ODE_ERROR(5534.3334568854928853923);
+  }
+}
+
+BENCHMARK(ode_logger_error_macro_number);
+
+static void ode_logger_critical_macro_number(benchmark::State& state)
+{
+  for (auto _ : state)
+  {
+    ODE_CRITICAL(5534.3334568854928853923);
+  }
+}
+
+BENCHMARK(ode_logger_critical_macro_number);
 
 static void ode_logger_trace(benchmark::State& state)
 {
