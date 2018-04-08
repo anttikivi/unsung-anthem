@@ -91,17 +91,17 @@ matrix:
   #===----------------------------------------------------------------------===#
 
   # Darwin: macOS 10.10 Xcode 6.4 C++17 Clang
-  - os: osx
-    osx_image: xcode6.4
-    compiler: clang
-    env:
-    - COMPILER_NAME=clang
-    - CXX=clang++
-    - CC=clang
-    - BUILD_PRESET=travis_darwin_xcode64_clang_cxx17
-    - ENABLE_COVERAGE=false
-    - ODE_PYTHON=python3
-    - ODE_PIP=pip3
+  # - os: osx
+  #   osx_image: xcode6.4
+  #   compiler: clang
+  #   env:
+  #   - COMPILER_NAME=clang
+  #   - CXX=clang++
+  #   - CC=clang
+  #   - BUILD_PRESET=travis_darwin_xcode64_clang_cxx17
+  #   - ENABLE_COVERAGE=false
+  #   - ODE_PYTHON=python3
+  #   - ODE_PIP=pip3
 
   # Darwin: macOS 10.11 Xcode 7.3.1 C++17 Clang
   - os: osx
