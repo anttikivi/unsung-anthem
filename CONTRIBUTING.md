@@ -129,9 +129,11 @@ If you want to read about using Unsung Anthem, the [Unsung Anthem Flight Manual]
 * Reference issues and pull requests liberally after the first line
 * When only changing documentation, include `[ci skip]` in the commit description
 * Consider starting the commit message with an applicable emoji:
-    * :art: `:art:` when improving the format/structure of the code
+    * :art: `:art:` when improving the format or structure of the code
     * :racehorse: `:racehorse:` when improving performance
     * :non-potable_water: `:non-potable_water:` when plugging memory leaks
+    * :wrench: `:wrench:` when fixing compiler or linker errors
+    * :hammer: `:hammer:` when fixing or improving the build system
     * :memo: `:memo:` when writing docs
     * :penguin: `:penguin:` when fixing something on Linux
     * :apple: `:apple:` when fixing something on macOS
