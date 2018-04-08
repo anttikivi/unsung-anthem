@@ -261,11 +261,26 @@ if(ODE_TEST_BENCHMARKING AND ODE_ADD_BENCHMARK_SOURCE)
   endif()
 endif()
 
+#===------------------------------------------------------------------------===#
+#==- Targets ---------------------------------------------------------------===#
+#===------------------------------------------------------------------------===#
+
+if(APPLE)
+  set(CMAKE_MACOSX_RPATH 1)
+endif()
+
+set(ODE_DYNAMIC_MARK d)
+set(ODE_COVERAGE_MARK c)
+
 if(BUILD_ODE)
   create_ode(${ODE_TYPE})
 else()
   create_anthem(${ANTHEM_TYPE})
 endif()
+
+#===------------------------------------------------------------------------===#
+#==- Installation Targets --------------------------------------------------===#
+#===------------------------------------------------------------------------===#
 
 if(NOT WIN32)
   if(BUILD_ODE)
@@ -274,6 +289,10 @@ if(NOT WIN32)
     add_anthem_installation_target(${ANTHEM_TYPE})
   endif()
 endif()
+
+#===------------------------------------------------------------------------===#
+#==- Compilation and Linking -----------------------------------------------===#
+#===------------------------------------------------------------------------===#
 
 if(ODE_VERBOSE_BUILD)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v")

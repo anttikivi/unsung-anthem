@@ -9,16 +9,18 @@
 # Licensed under GNU Affero General Public License v3.0
 
 function(CREATE_ODE_LIB)
+  message(STATUS "Creating target '${ODE_NAME}'")
   add_library(${ODE_NAME} STATIC
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
       ${ODE_SOURCES})
-  add_library(${ODE_NAME}_shared SHARED
+  message(STATUS "Creating target '${ODE_NAME}${ODE_DYNAMIC_MARK}'")
+  add_library(${ODE_NAME}${ODE_DYNAMIC_MARK} SHARED
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
       ${ODE_SOURCES})
   target_link_libraries(${ODE_NAME} ${ODE_LIBRARIES})
-  target_link_libraries(${ODE_NAME}_shared ${ODE_LIBRARIES})
+  target_link_libraries(${ODE_NAME}${ODE_DYNAMIC_MARK} ${ODE_LIBRARIES})
 
   set_target_properties(${ODE_NAME} PROPERTIES
       PUBLIC_HEADER "${ODE_LIB_INCLUDES}")
@@ -26,12 +28,13 @@ function(CREATE_ODE_LIB)
       PRIVATE_HEADER "${ODE_INCLUDES}")
 
   if(UNIX)
-    set_target_properties(${ODE_NAME}_shared PROPERTIES
+    set_target_properties(${ODE_NAME}${ODE_DYNAMIC_MARK} PROPERTIES
         OUTPUT_NAME ${ODE_NAME})
   endif()
 endfunction()
 
 function(CREATE_ODE_TEST_EXECUTABLE)
+  message(STATUS "Creating target '${ODE_TEST_NAME}'")
   add_executable(${ODE_TEST_NAME}
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
@@ -42,6 +45,7 @@ function(CREATE_ODE_TEST_EXECUTABLE)
 endfunction()
 
 function(CREATE_ANTHEM_EXECUTABLE)
+  message(STATUS "Creating target '${ANTHEM_NAME}'")
   add_executable(${ANTHEM_NAME}
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
@@ -54,13 +58,15 @@ function(CREATE_ANTHEM_EXECUTABLE)
 endfunction()
 
 function(CREATE_ANTHEM_LIB)
+  message(STATUS "Creating target '${ANTHEM_LIB_NAME}'")
   add_library(${ANTHEM_LIB_NAME} STATIC
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
       ${ODE_SOURCES}
       ${ANTHEM_LIB_INCLUDES}
       ${ANTHEM_LIB_SOURCES})
-  add_library(${ANTHEM_LIB_NAME}_shared SHARED
+  message(STATUS "Creating target '${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK}'")
+  add_library(${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK} SHARED
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
       ${ODE_SOURCES}
@@ -69,7 +75,7 @@ function(CREATE_ANTHEM_LIB)
   target_link_libraries(${ANTHEM_LIB_NAME}
       ${ODE_LIBRARIES}
       ${ANTHEM_LIBRARIES})
-  target_link_libraries(${ANTHEM_LIB_NAME}_shared
+  target_link_libraries(${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK}
       ${ODE_LIBRARIES}
       ${ANTHEM_LIBRARIES})
 
@@ -79,7 +85,7 @@ function(CREATE_ANTHEM_LIB)
       PRIVATE_HEADER "${ANTHEM_INCLUDES}")
 
   if(UNIX)
-    set_target_properties(${ANTHEM_LIB_NAME}_shared PROPERTIES
+    set_target_properties(${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK} PROPERTIES
         OUTPUT_NAME ${ANTHEM_LIB_NAME})
   endif()
 endfunction()
@@ -89,6 +95,7 @@ function(CREATE_ANTHEM_TEST_EXECUTABLE)
       ${CMAKE_CURRENT_SOURCE_DIR}/test/ode/main.cpp)
   list(REMOVE_ITEM ANTHEM_SOURCES
       ${CMAKE_CURRENT_SOURCE_DIR}/src/anthem/main.cpp)
+  message(STATUS "Creating target '${ANTHEM_TEST_NAME}'")
   add_executable(${ANTHEM_TEST_NAME}
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
@@ -130,7 +137,8 @@ function(SET_UP_COVERAGE TARGET COVERAGE_TARGET)
       /usr/include/c++*
       *v1*
       *7*)
-  setup_target_for_coverage(NAME ${TARGET}_coverage
+  message(STATUS "Creating target '${TARGET}${ODE_COVERAGE_MARK}'")
+  setup_target_for_coverage(NAME ${TARGET}${ODE_COVERAGE_MARK}
       EXECUTABLE ${COVERAGE_TARGET})
 endfunction()
 
