@@ -48,10 +48,10 @@ jobs:
     - run: pip install --user requests
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script --develop-script
+        $ANTHEM_REPO_NAME/utils/build-script --develop-script -v
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        ./script/build-script --preset ${BUILD_PRESET}
+        ./script/build-script --preset ${BUILD_PRESET} -v
 
   #===----------------------------------------------------------------------===#
   #==- Clang ----------------------------------------------------------------==#
@@ -64,28 +64,21 @@ jobs:
     environment:
       <<: *default_variables
       BUILD_PRESET: circleci_linux_clang60_cxx17
-      # COMPILER_NAME: clang
-      # CXX: clang++-6.0
-      # CC: clang-6.0
     steps:
     - checkout
     - run: sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
-    # - run: sudo apt-add-repository -y "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main"
     - run: sudo apt-get -y update
-    # - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install clang-6.0 libc++-dev xorg-dev libglu1-mesa-dev build-essential
     - run: sudo apt-get -y --no-install-suggests --no-install-recommends --force-yes install xorg-dev libglu1-mesa-dev build-essential
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         chmod +x $ANTHEM_REPO_NAME/utils/build-script
-    # - run: ${CC} --version
-    # - run: ${CXX} --version
     - run: pip install --user requests
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        $ANTHEM_REPO_NAME/utils/build-script --develop-script
+        $ANTHEM_REPO_NAME/utils/build-script --develop-script -v
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
-        ./script/build-script --preset ${BUILD_PRESET}
+        ./script/build-script --preset ${BUILD_PRESET} -v
 
 
 workflows:

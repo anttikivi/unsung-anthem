@@ -12,4 +12,4 @@
 
 set -ev
 
-${ODE_PYTHON:-python} unsung-anthem/utils/build-script --develop-script
+${ODE_PYTHON:-python} unsung-anthem/utils/build-script --develop-script -v
