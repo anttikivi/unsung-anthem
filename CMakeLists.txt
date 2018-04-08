@@ -266,8 +266,8 @@ if(APPLE)
   set(CMAKE_MACOSX_RPATH 1)
 endif()
 
-set(ODE_DYNAMIC_MARK d)
-set(ODE_COVERAGE_MARK c)
+default_value(ODE_DYNAMIC_MARK d "dynamic library mark")
+default_value(ODE_COVERAGE_MARK c "coverage target mark")
 
 if(BUILD_ODE)
   create_ode(${ODE_TYPE})
