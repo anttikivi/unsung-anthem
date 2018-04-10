@@ -10,7 +10,7 @@
 
 language: cpp
 
-sudo: false
+sudo: required
 
 env:
   global:
@@ -141,14 +141,14 @@ matrix:
 before_install:
 - cd $TRAVIS_BUILD_DIR/..
 - chmod +x unsung-anthem/utils/travis/before_install.sh
-- ./unsung-anthem/utils/travis/before_install.sh
+- sudo ./unsung-anthem/utils/travis/before_install.sh
 
 install:
 - cd $TRAVIS_BUILD_DIR/..
 - chmod +x unsung-anthem/utils/travis/install.sh
-- ./unsung-anthem/utils/travis/install.sh
+- sudo ./unsung-anthem/utils/travis/install.sh
 
 script:
 - cd $TRAVIS_BUILD_DIR/..
 - chmod +x unsung-anthem/utils/travis/script.sh
-- ./unsung-anthem/utils/travis/script.sh
+- sudo ./unsung-anthem/utils/travis/script.sh
