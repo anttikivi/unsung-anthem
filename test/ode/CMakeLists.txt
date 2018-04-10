@@ -13,6 +13,7 @@ add_subdirectory(gl)
 add_subdirectory(lua)
 add_subdirectory(sdl)
 
+list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/initialize_test.cpp)
 list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/logger_test.cpp)
 list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/logging_set_up.cpp)
 list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/logging_test.cpp)
