@@ -12,4 +12,10 @@
 
 set -ev
 
+if [ "${ENABLE_COVERAGE}" == "true" ]; then
+  cd /
+  mkdir unsung-anthem
+  cp -a ${TRAVIS_BUILD_DIR}/unsung-anthem/. /unsung-anthem/
+fi
+
 ${ODE_PYTHON:-python} unsung-anthem/utils/build-script --develop-script -v

@@ -12,4 +12,8 @@
 
 set -ev
 
+if [ "${ENABLE_COVERAGE}" == "true" ]; then
+  cd /
+fi
+
 ${ODE_PYTHON:-python} script/build-script --preset ${BUILD_PRESET} -v
