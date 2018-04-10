@@ -59,6 +59,12 @@ namespace ode::sdl
           opengl_version_major,
           opengl_version_minor);
 
+#if __APPLE__
+      Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI;
+#else
+      Uint32 flags = SDL_WINDOW_OPENGL;
+#endif // !__APPLE__
+
       window_t window = {
           SDL_CreateWindow(
               info.window_name.data(),
@@ -66,7 +72,7 @@ namespace ode::sdl
               SDL_WINDOWPOS_CENTERED,
               info.window_width,
               info.window_height,
-              SDL_WINDOW_OPENGL),
+              flags),
           &SDL_DestroyWindow};
 
       if (!window)
