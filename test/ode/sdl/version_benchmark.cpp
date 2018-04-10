@@ -26,6 +26,8 @@
 
 #include <benchmark/benchmark.h>
 
+#include <SDL2/SDL.h>
+
 static void ode_sdl_compiled_version(benchmark::State& state)
 {
   for (auto _ : state)
