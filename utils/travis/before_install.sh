@@ -21,7 +21,6 @@ ${ODE_PIP:-pip} install --user requests
 
 if [ "${ENABLE_COVERAGE}" == "true" ]; then
   gem install coveralls-lcov
-  which coveralls-lcov
 fi
 
 if [ "${TRAVIS_OS_NAME}" == "osx" ]; then

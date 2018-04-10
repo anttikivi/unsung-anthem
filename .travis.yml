@@ -10,7 +10,7 @@
 
 language: cpp
 
-sudo: required
+sudo: false
 
 env:
   global:

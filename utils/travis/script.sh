@@ -12,9 +12,4 @@
 
 set -ev
 
-if [ "${ENABLE_COVERAGE}" == "true" ]; then
-  cd /
-  sudo ${ODE_PYTHON:-python} script/build-script --preset ${BUILD_PRESET} -v
-else
-  ${ODE_PYTHON:-python} script/build-script --preset ${BUILD_PRESET} -v
-fi
+${ODE_PYTHON:-python} script/build-script --preset ${BUILD_PRESET} -v
