@@ -30,10 +30,6 @@
 
 #include "ode/config.h"
 
-#if ODE_TEST_BENCHMARKING
-# include <benchmark/benchmark.h>
-#endif // ODE_TEST_BENCHMARKING
-
 #include <gtest/gtest.h>
 
 TEST(ode_lua_make_state, created)
@@ -105,17 +101,3 @@ TEST(ode_lua_clean, cleaned)
 
   state = nullptr;
 }
-
-#if ODE_TEST_BENCHMARKING
-
-static void ode_lua_make_state(benchmark::State& state)
-{
-  for (auto _ : state)
-  {
-    auto state = ode::lua::make_state();
-  }
-}
-
-BENCHMARK(ode_lua_make_state);
-
-#endif // ODE_TEST_BENCHMARKING

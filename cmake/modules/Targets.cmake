@@ -35,12 +35,22 @@ endfunction()
 
 function(CREATE_ODE_TEST_EXECUTABLE)
   message(STATUS "Creating target '${ODE_TEST_NAME}'")
-  add_executable(${ODE_TEST_NAME}
-      ${ODE_LIB_INCLUDES}
-      ${ODE_INCLUDES}
-      ${ODE_TEST_INCLUDES}
-      ${ODE_TEST_SOURCES}
-      ${ODE_SOURCES})
+  if(ODE_TEST_BENCHMARKING)
+    add_executable(${ODE_TEST_NAME}
+        ${ODE_LIB_INCLUDES}
+        ${ODE_INCLUDES}
+        ${ODE_TEST_INCLUDES}
+        ${ODE_TEST_SOURCES}
+        ${ODE_BENCHMARK_SOURCES}
+        ${ODE_SOURCES})
+  else()
+    add_executable(${ODE_TEST_NAME}
+        ${ODE_LIB_INCLUDES}
+        ${ODE_INCLUDES}
+        ${ODE_TEST_INCLUDES}
+        ${ODE_TEST_SOURCES}
+        ${ODE_SOURCES})
+  endif()
   target_link_libraries(${ODE_TEST_NAME} ${ODE_LIBRARIES})
 endfunction()
 
@@ -96,17 +106,33 @@ function(CREATE_ANTHEM_TEST_EXECUTABLE)
   list(REMOVE_ITEM ANTHEM_SOURCES
       ${CMAKE_CURRENT_SOURCE_DIR}/src/anthem/main.cpp)
   message(STATUS "Creating target '${ANTHEM_TEST_NAME}'")
-  add_executable(${ANTHEM_TEST_NAME}
-      ${ODE_LIB_INCLUDES}
-      ${ODE_INCLUDES}
-      ${ODE_TEST_INCLUDES}
-      ${ODE_TEST_SOURCES}
-      ${ODE_SOURCES}
-      ${ANTHEM_LIB_INCLUDES}
-      ${ANTHEM_INCLUDES}
-      ${ANTHEM_LIB_SOURCES}
-      ${ANTHEM_TEST_SOURCES}
-      ${ANTHEM_SOURCES})
+  if(ANTHEM_TEST_BENCHMARKING)
+    add_executable(${ANTHEM_TEST_NAME}
+        ${ODE_LIB_INCLUDES}
+        ${ODE_INCLUDES}
+        ${ODE_TEST_INCLUDES}
+        ${ODE_TEST_SOURCES}
+        ${ODE_BENCHMARK_SOURCES}
+        ${ODE_SOURCES}
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_BENCHMARK_SOURCES}
+        ${ANTHEM_SOURCES})
+  else()
+    add_executable(${ANTHEM_TEST_NAME}
+        ${ODE_LIB_INCLUDES}
+        ${ODE_INCLUDES}
+        ${ODE_TEST_INCLUDES}
+        ${ODE_TEST_SOURCES}
+        ${ODE_SOURCES}
+        ${ANTHEM_LIB_INCLUDES}
+        ${ANTHEM_INCLUDES}
+        ${ANTHEM_LIB_SOURCES}
+        ${ANTHEM_TEST_SOURCES}
+        ${ANTHEM_SOURCES})
+  endif()
   target_link_libraries(${ANTHEM_TEST_NAME}
       ${ODE_LIBRARIES}
       ${ANTHEM_LIBRARIES})

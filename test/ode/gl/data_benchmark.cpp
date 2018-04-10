@@ -1,4 +1,4 @@
-//===--------------------------- data_test.cpp ------------------*- C++ -*-===//
+//===------------------------- data_benchmark.cpp ---------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,9 +11,9 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file data_test.cpp
-/// \brief Tests of definitions of utility functions which allow to get data
-/// from the OpenGL API.
+/// \file data_benchmark.cpp
+/// \brief Benchmarks of definitions of utility functions which allow to get
+/// data from the OpenGL API.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -24,17 +24,15 @@
 
 #include "ode/gl/data.h"
 
-#include <cstring>
-
 #include "ode/argv_t.h"
 #include "ode/execution_info.h"
 #include "ode/initialize.h"
 #include "ode/pixel_count.h"
 #include "ode/quit.h"
 
-#include <gtest/gtest.h>
+#include <benchmark/benchmark.h>
 
-TEST(ode_gl_data, vendor)
+static void ode_gl_data_vendor(benchmark::State& state)
 {
   const int argc = 1;
   ode::argv_t argv[] = {"exe"};
@@ -47,18 +45,17 @@ TEST(ode_gl_data, vendor)
       "window_name"});
   auto graphics_context = ode::initialize_graphics(window.get());
 
-  auto original = glGetString(GL_VENDOR);
-  std::size_t len = std::strlen(reinterpret_cast<const char*>(original));
-  auto s = std::string{reinterpret_cast<const char*>(original), len};
-
-  auto r = ode::gl::vendor();
-
-  ASSERT_EQ(r, s);
+  for (auto _ : state)
+  {
+    auto r = ode::gl::vendor();
+  }
 
   ode::quit_graphics(graphics_context);
 }
 
-TEST(ode_gl_data, renderer)
+BENCHMARK(ode_gl_data_vendor);
+
+static void ode_gl_data_renderer(benchmark::State& state)
 {
   const int argc = 1;
   ode::argv_t argv[] = {"exe"};
@@ -71,18 +68,17 @@ TEST(ode_gl_data, renderer)
       "window_name"});
   auto graphics_context = ode::initialize_graphics(window.get());
 
-  auto original = glGetString(GL_RENDERER);
-  std::size_t len = std::strlen(reinterpret_cast<const char*>(original));
-  auto s = std::string{reinterpret_cast<const char*>(original), len};
-
-  auto r = ode::gl::renderer();
-
-  ASSERT_EQ(r, s);
+  for (auto _ : state)
+  {
+    auto r = ode::gl::renderer();
+  }
 
   ode::quit_graphics(graphics_context);
 }
 
-TEST(ode_gl_data, version)
+BENCHMARK(ode_gl_data_renderer);
+
+static void ode_gl_data_version(benchmark::State& state)
 {
   const int argc = 1;
   ode::argv_t argv[] = {"exe"};
@@ -95,18 +91,17 @@ TEST(ode_gl_data, version)
       "window_name"});
   auto graphics_context = ode::initialize_graphics(window.get());
 
-  auto original = glGetString(GL_VERSION);
-  std::size_t len = std::strlen(reinterpret_cast<const char*>(original));
-  auto s = std::string{reinterpret_cast<const char*>(original), len};
-
-  auto r = ode::gl::version();
-
-  ASSERT_EQ(r, s);
+  for (auto _ : state)
+  {
+    auto r = ode::gl::version();
+  }
 
   ode::quit_graphics(graphics_context);
 }
 
-TEST(ode_gl_data, shading_language_version)
+BENCHMARK(ode_gl_data_version);
+
+static void ode_gl_data_shading_language_version(benchmark::State& state)
 {
   const int argc = 1;
   ode::argv_t argv[] = {"exe"};
@@ -119,13 +114,12 @@ TEST(ode_gl_data, shading_language_version)
       "window_name"});
   auto graphics_context = ode::initialize_graphics(window.get());
 
-  auto original = glGetString(GL_SHADING_LANGUAGE_VERSION);
-  std::size_t len = std::strlen(reinterpret_cast<const char*>(original));
-  auto s = std::string{reinterpret_cast<const char*>(original), len};
-
-  auto r = ode::gl::shading_language_version();
-
-  ASSERT_EQ(r, s);
+  for (auto _ : state)
+  {
+    auto r = ode::gl::shading_language_version();
+  }
 
   ode::quit_graphics(graphics_context);
 }
+
+BENCHMARK(ode_gl_data_shading_language_version);

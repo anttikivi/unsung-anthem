@@ -28,10 +28,6 @@
 
 #include "ode/config.h"
 
-#if ODE_TEST_BENCHMARKING
-# include <benchmark/benchmark.h>
-#endif // ODE_TEST_BENCHMARKING
-
 #include <gtest/gtest.h>
 
 TEST(ode_lua_load_script_file, file_is_loaded)
@@ -75,26 +71,3 @@ TEST(ode_lua_load_script_file, file_is_loaded)
 #endif // defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
     GSL_THROW_ON_CONTRACT_VIOLATION
 }
-
-#if ODE_TEST_BENCHMARKING
-
-static void ode_load_script_file(benchmark::State& state)
-{
-  const std::string filename = 
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "script.lua";
-
-  lua_State* l = luaL_newstate();
-
-  for (auto _ : state)
-  {
-    ode::lua::load_script_file(l, filename.c_str());
-  }
-
-  lua_close(l);
-}
-
-BENCHMARK(ode_load_script_file);
-
-#endif // ODE_TEST_BENCHMARKING

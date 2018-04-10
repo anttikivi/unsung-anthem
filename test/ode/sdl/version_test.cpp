@@ -1,4 +1,4 @@
-//===-------------------------- script_test.cpp -----------------*- C++ -*-===//
+//===-------------------------- version_test.cpp ----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file script_test.cpp
+/// \file version_test.cpp
 /// \brief Tests of definitions of Simple DirectMedia Layer version utility
 /// functions.
 /// \author Antti Kivi
@@ -23,10 +23,6 @@
 //===----------------------------------------------------------------------===//
 
 #include "ode/sdl/version.h"
-
-#if ODE_TEST_BENCHMARKING
-# include <benchmark/benchmark.h>
-#endif // ODE_TEST_BENCHMARKING
 
 #include <gtest/gtest.h>
 
@@ -63,27 +59,3 @@ TEST(ode_sdl_version, linked)
   ASSERT_EQ(v.minor, linked.minor);
   ASSERT_EQ(v.patch, linked.patch);
 }
-
-#if ODE_TEST_BENCHMARKING
-
-static void ode_sdl_compiled_version(benchmark::State& state)
-{
-  for (auto _ : state)
-  {
-    auto v = ode::sdl::compiled_version();
-  }
-}
-
-BENCHMARK(ode_sdl_compiled_version);
-
-static void ode_sdl_linked_version(benchmark::State& state)
-{
-  for (auto _ : state)
-  {
-    auto v = ode::sdl::linked_version();
-  }
-}
-
-BENCHMARK(ode_sdl_linked_version);
-
-#endif // ODE_TEST_BENCHMARKING
