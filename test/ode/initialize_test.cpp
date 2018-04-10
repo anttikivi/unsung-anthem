@@ -25,10 +25,10 @@
 
 #include <gtest/gtest.h>
 
-TEST(ode_initalize, sdl)
-{
-  // Use a separate scope to ensure that SDL is quit.
-  {
-    ASSERT_NO_THROW(ode::initialize_sdl());
-  }
-}
+// TEST(ode_initalize, sdl)
+// {
+//   // Use a separate scope to ensure that SDL is quit.
+//   {
+//     ASSERT_NO_THROW(ode::initialize_sdl());
+//   }
+// }

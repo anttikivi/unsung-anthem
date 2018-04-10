@@ -1,4 +1,4 @@
-//===---------------------------- clean_up.cpp ------------------*- C++ -*-===//
+//===------------------------------ window.h --------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,26 +11,33 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file clean_up.cpp
-/// \brief Definition of the common cleanup function of the tests.
+/// \file window.h
+/// \brief Declaration of the window for the tests.
 /// \author Antti Kivi
-/// \date 8 February 2018
+/// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/common/clean_up.h"
+#ifndef ODE_TEST_COMMON_WINDOW_H
+#define ODE_TEST_COMMON_WINDOW_H
 
-#include "ode/common/window.h"
+#include <SDL2/SDL.h>
 
 namespace ode::test
 {
-  void clean_up()
-  {
-    SDL_GL_DeleteContext(test_gl_context);
-    SDL_DestroyWindow(test_window);
-    SDL_Quit();
-  }
+  ///
+  /// \brief Common window of the tests.
+  ///
+  inline SDL_Window* test_window = nullptr;
+
+  ///
+  /// \brief Common OpenGL context of the tests.
+  ///
+  inline SDL_GLContext test_gl_context = nullptr;
+
 } // namespace ode::test
+
+#endif // !ODE_TEST_COMMON_WINDOW_H
