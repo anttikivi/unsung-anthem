@@ -72,6 +72,15 @@ namespace ode
 # error "ODE_OPENGL_VERSION_MINOR is not set"
 #endif // !defined(ODE_OPENGL_VERSION_MINOR)
 
+  ///
+  /// \brief The default swap interval setting to be used with OpenGL.
+  ///
+#ifdef ODE_OPENGL_SWAP_INTERVAL
+  constexpr int opengl_swap_interval = ODE_OPENGL_SWAP_INTERVAL;
+#else
+  constexpr int opengl_swap_interval = 1;
+#endif // !defined(ODE_OPENGL_SWAP_INTERVAL)
+
 } // namespace ode
 
 #endif // !ODE_CONFIG_H

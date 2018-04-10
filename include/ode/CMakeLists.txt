@@ -9,12 +9,13 @@
 # Licensed under GNU Affero General Public License v3.0
 
 add_subdirectory(filesystem)
+add_subdirectory(gl)
 add_subdirectory(lua)
 add_subdirectory(sdl)
 add_subdirectory(thread)
 
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/__config)
-list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/argv_array.h)
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/argv_t.h)
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/execution_info.h)
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/initialize.h)
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/logger.h)

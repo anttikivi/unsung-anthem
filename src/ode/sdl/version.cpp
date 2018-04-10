@@ -23,6 +23,8 @@
 
 #include "ode/sdl/version.h"
 
+#include "ode/logger.h"
+
 #include <SDL2/SDL.h>
 
 namespace ode::sdl
@@ -31,6 +33,7 @@ namespace ode::sdl
   {
     SDL_version v;
     SDL_VERSION(&v);
+    ODE_TRACE("Got the compiled version of the Simple DirectMedia Layer");
     return v;
   }
 
@@ -38,6 +41,7 @@ namespace ode::sdl
   {
     SDL_version v;
     SDL_GetVersion(&v);
+    ODE_TRACE("Got the linked version of the Simple DirectMedia Layer");
     return v;
   }
 

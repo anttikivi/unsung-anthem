@@ -8,6 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
+add_subdirectory(gl)
 add_subdirectory(lua)
 add_subdirectory(sdl)
 add_subdirectory(thread)

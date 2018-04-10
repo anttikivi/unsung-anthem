@@ -27,6 +27,8 @@
 
 #include "ode/logger.h"
 
+#include <glad/glad.h>
+
 #include <SDL2/SDL.h>
 
 namespace ode
@@ -132,6 +134,9 @@ namespace ode
       //     alpha);
 
       // render_state(interpolated_state);
+
+      // TODO This is a temporary solution
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       SDL_GL_SwapWindow(window.get());
 

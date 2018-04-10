@@ -25,8 +25,11 @@
 #define ODE_INITIALIZE_H
 
 #include "ode/window_t.h"
+#include "ode/gl/data.h"
 #include "ode/sdl/initialize.h"
 #include "ode/sdl/opengl.h"
+
+#include <glad/glad.h>
 
 namespace ode
 {
@@ -51,6 +54,7 @@ namespace ode
   ///
   inline auto initialize_sdl()
   {
+    ODE_TRACE("Initializing Simple DirectMedia Layer");
     return sdl::initialize();
   }
 
@@ -78,7 +82,21 @@ namespace ode
   ///
   inline auto initialize_graphics(window_ptr_t window)
   {
-    return sdl::create_gl_context(window);
+    auto context = sdl::create_gl_context(window);
+
+    ODE_DEBUG("OpenGL is loaded");
+    ODE_DEBUG("The OpenGL vendor is {}", gl::vendor());
+    ODE_DEBUG("The OpenGL renderer is {}", gl::renderer());
+    ODE_DEBUG("The OpenGL version is {}", gl::version());
+    ODE_DEBUG(
+        "The OpenGL shading language version is {}",
+        gl::shading_language_version());
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+    ODE_TRACE("Set the OpenGL clear colour");
+
+    return context;
   }
 
 } // namespace ode

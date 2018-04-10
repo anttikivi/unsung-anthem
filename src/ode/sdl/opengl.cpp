@@ -24,6 +24,10 @@
 
 #include "ode/sdl/opengl.h"
 
+#include "ode/logger.h"
+
+#include "ode/config.h"
+
 #include <glad/glad.h>
 
 namespace ode::sdl
@@ -32,9 +36,19 @@ namespace ode::sdl
   {
     auto context = SDL_GL_CreateContext(window);
 
+    ODE_TRACE("Created the OpenGL context with SDL");
+
     SDL_GL_SwapWindow(window);
+
+    ODE_TRACE("Set the window to the OpenGL context");
+
     gladLoadGLLoader(static_cast<GLADloadproc>(SDL_GL_GetProcAddress));
-    SDL_GL_SetSwapInterval(1);
+
+    ODE_TRACE("Loaded the OpenGL functions");
+
+    SDL_GL_SetSwapInterval(opengl_swap_interval);
+
+    ODE_TRACE("Set the swap interval of OpenGL to {}", opengl_swap_interval);
 
     return context;
   }

@@ -36,6 +36,12 @@ namespace ode::sdl
           SDL_GL_CONTEXT_PROFILE_CORE);
       SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, opengl_version_major);
 	    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, opengl_version_minor);
+	    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+      // SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+#if ODE_OPENGL_SDL_ACCELERATED_VISUAL
+      SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+#endif // ODE_OPENGL_SDL_ACCELERATED_VISUAL
 
       // MacOS only supports forward-compatible core contexts.
 #if __APPLE__

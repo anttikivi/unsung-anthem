@@ -26,7 +26,7 @@
 
 #include <string>
 
-#include "ode/argv_array.h"
+#include "ode/argv_t.h"
 #include "ode/pixel_count.h"
 
 namespace ode
@@ -48,7 +48,7 @@ namespace ode
     ///
     /// The command line arguments passed to the program.
     ///
-    const argv_array* argv;
+    const argv_t* argv;
 
     ///
     /// \brief The starting width of the window.

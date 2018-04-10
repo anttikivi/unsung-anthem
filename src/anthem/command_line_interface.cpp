@@ -41,7 +41,7 @@ namespace anthem
         << "}";
   }
 
-  arguments parse_arguments(const int argc, ode::argv_array argv[]) noexcept
+  arguments parse_arguments(const int argc, ode::argv_t argv[]) noexcept
   {
     ANTHEM_DEBUG("Going to parse {} argument(s)", argc - 1);
 

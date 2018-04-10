@@ -34,22 +34,22 @@ TEST(anthem_parse_arguments, parsed)
       555_px,
       13_px,
       std::string{"window"}};
-  ode::argv_array argv_b[] = {
+  ode::argv_t argv_b[] = {
       "exe",
       "--window-height=13",
       "--window-width=555",
       "--window-name=window"};
-  ode::argv_array argv_c[] = {
+  ode::argv_t argv_c[] = {
       "exe",
       "--window-height=423",
       "--window-width=22"};
-  ode::argv_array argv_d[] = {
+  ode::argv_t argv_d[] = {
       "exe",
       "--window-height", "13",
       "--window-width", "555",
       "--window-name", "window"};
-  ode::argv_array argv_e[] = {"exe"};
-  ode::argv_array argv_f[] = {"exe", "--window-height", "13"};
+  ode::argv_t argv_e[] = {"exe"};
+  ode::argv_t argv_f[] = {"exe", "--window-height", "13"};
   const auto b = anthem::parse_arguments(4, argv_b);
   const auto c = anthem::parse_arguments(3, argv_c);
   const auto d = anthem::parse_arguments(7, argv_d);
@@ -74,7 +74,7 @@ TEST(anthem_parse_arguments, parsed)
 TEST(anthem_parse_arguments, help_argument)
 {
   const anthem::arguments a = {true, true};
-  ode::argv_array argv_b[] = {"exe", "--help"};
+  ode::argv_t argv_b[] = {"exe", "--help"};
   const auto b = anthem::parse_arguments(2, argv_b);
 
   ASSERT_EQ(b.parsed, a.parsed);
@@ -85,7 +85,7 @@ TEST(anthem_parse_arguments, help_argument)
 TEST(anthem_parse_arguments, parse_error_is_caught)
 {
   const anthem::arguments a = {false};
-  ode::argv_array argv_b[] = {"exe", "--xd"};
+  ode::argv_t argv_b[] = {"exe", "--xd"};
   const auto b = anthem::parse_arguments(2, argv_b);
 
   ASSERT_EQ(b, a);

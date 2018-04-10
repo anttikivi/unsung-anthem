@@ -12,9 +12,10 @@
 //
 ///
 /// \file script_test.cpp
-/// \brief Tests of the definitions of the utilities for Lua scripts.
+/// \brief Tests of definitions of Simple DirectMedia Layer version utility
+/// functions.
 /// \author Antti Kivi
-/// \date 8 February 2018
+/// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///

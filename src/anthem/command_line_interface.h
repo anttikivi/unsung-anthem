@@ -28,7 +28,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "ode/argv_array.h"
+#include "ode/argv_t.h"
 #include "ode/pixel_count.h"
 
 #include <clara.hpp>
@@ -150,7 +150,7 @@ namespace anthem
   ///
   /// \return An object of class \c arguments.
   ///
-  arguments parse_arguments(const int argc, ode::argv_array argv[]) noexcept;
+  arguments parse_arguments(const int argc, ode::argv_t argv[]) noexcept;
 
 } // namespace anthem
 
