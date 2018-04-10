@@ -12,7 +12,7 @@
 //
 ///
 /// \file initialize.cpp
-/// \brief Definitions of initialization functions of the game engine.
+/// \brief Definitions of initialization functions of Obliging Ode.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
