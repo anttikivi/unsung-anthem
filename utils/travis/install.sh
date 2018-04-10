@@ -16,6 +16,7 @@ if [ "${ENABLE_COVERAGE}" == "true" ]; then
   cd /
   sudo mkdir unsung-anthem
   sudo cp -a ${TRAVIS_BUILD_DIR}/. /unsung-anthem/
+  sudo ${ODE_PYTHON:-python} unsung-anthem/utils/build-script --develop-script -v
+else
+  ${ODE_PYTHON:-python} unsung-anthem/utils/build-script --develop-script -v
 fi
-
-${ODE_PYTHON:-python} unsung-anthem/utils/build-script --develop-script -v
