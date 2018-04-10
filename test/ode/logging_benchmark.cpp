@@ -23,6 +23,8 @@
 
 #include "ode/logging.h"
 
+#include "ode/logging_set_up.h"
+
 #include <benchmark/benchmark.h>
 
 static void ode_logging_trace(benchmark::State& state)

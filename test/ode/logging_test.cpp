@@ -23,6 +23,8 @@
 
 #include "ode/logging.h"
 
+#include "ode/logging_set_up.h"
+
 #include "ode/logging_config.h"
 
 #include <gtest/gtest.h>
@@ -50,30 +52,6 @@ TEST(ode_logging, create_logger)
   ASSERT_EQ(spdlog::level::info, logger_2->level());
   ASSERT_EQ(null_sink, logger_2->sinks()[0]);
 }
-
-auto create_logging_test_logger()
-{
-#if ODE_TEST_USE_NULL_SINK
-
-  auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
-
-  return ode::create_logger(
-      "test_logger_ode",
-      ode::logger_pattern,
-      ode::logger_level,
-      null_sink);
-
-#else
-
-  return ode::create_logger(
-      "test_logger_ode",
-      ode::logger_pattern,
-      ode::logger_level);
-
-#endif // !ODE_TEST_USE_NULL_SINK
-}
-
-auto test_log = create_logging_test_logger();
 
 TEST(ode_logging, trace)
 {
