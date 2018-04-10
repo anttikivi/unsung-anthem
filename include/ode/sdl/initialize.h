@@ -30,6 +30,7 @@
 #include "gsl/util"
 
 #include "ode/logger.h"
+#include "ode/sdl/version.h"
 
 #include <SDL2/SDL.h>
 
@@ -51,6 +52,20 @@ namespace ode::sdl
     }
 
     ODE_DEBUG("Simple DirectMedia Layer is initialized");
+
+    auto compiled = compiled_version();
+    auto linked = linked_version();
+
+    ODE_DEBUG(
+        "The program is compiled againts Simple DirectMedia Layer {}.{}.{}",
+        compiled.major,
+        compiled.minor,
+        compiled.patch);
+    ODE_DEBUG(
+        "The program is linked againts Simple DirectMedia Layer {}.{}.{}",
+        linked.major,
+        linked.minor,
+        linked.patch);
 
     return gsl::finally([&]()
     {

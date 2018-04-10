@@ -9,6 +9,7 @@
 # Licensed under GNU Affero General Public License v3.0
 
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/opengl.cpp)
+list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/version.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/window.cpp)
 
 list(APPEND ODE_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/window.h)
