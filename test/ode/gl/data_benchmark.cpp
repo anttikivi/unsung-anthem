@@ -34,92 +34,104 @@
 
 static void ode_gl_data_vendor(benchmark::State& state)
 {
-  const int argc = 1;
-  ode::argv_t argv[] = {"exe"};
-  const auto sdl_quit_action = ode::initialize_sdl();
-  auto window = ode::initialize_window({
-      argc,
-      argv,
-      0_px,
-      0_px,
-      "window_name"});
-  auto graphics_context = ode::initialize_graphics(window.get());
-
-  for (auto _ : state)
+  // Use a separate scope to ensure that everything is quit.
   {
-    auto r = ode::gl::vendor();
-  }
+    const int argc = 1;
+    ode::argv_t argv[] = {"exe"};
+    const auto sdl_quit_action = ode::initialize_sdl();
+    auto window = ode::initialize_window({
+        argc,
+        argv,
+        0_px,
+        0_px,
+        "window_name"});
+    auto graphics_context = ode::initialize_graphics(window.get());
 
-  ode::quit_graphics(graphics_context);
+    for (auto _ : state)
+    {
+      auto r = ode::gl::vendor();
+    }
+
+    ode::quit_graphics(graphics_context);
+  }
 }
 
 BENCHMARK(ode_gl_data_vendor);
 
 static void ode_gl_data_renderer(benchmark::State& state)
 {
-  const int argc = 1;
-  ode::argv_t argv[] = {"exe"};
-  const auto sdl_quit_action = ode::initialize_sdl();
-  auto window = ode::initialize_window({
-      argc,
-      argv,
-      0_px,
-      0_px,
-      "window_name"});
-  auto graphics_context = ode::initialize_graphics(window.get());
-
-  for (auto _ : state)
+  // Use a separate scope to ensure that everything is quit.
   {
-    auto r = ode::gl::renderer();
-  }
+    const int argc = 1;
+    ode::argv_t argv[] = {"exe"};
+    const auto sdl_quit_action = ode::initialize_sdl();
+    auto window = ode::initialize_window({
+        argc,
+        argv,
+        0_px,
+        0_px,
+        "window_name"});
+    auto graphics_context = ode::initialize_graphics(window.get());
 
-  ode::quit_graphics(graphics_context);
+    for (auto _ : state)
+    {
+      auto r = ode::gl::renderer();
+    }
+
+    ode::quit_graphics(graphics_context);
+  }
 }
 
 BENCHMARK(ode_gl_data_renderer);
 
 static void ode_gl_data_version(benchmark::State& state)
 {
-  const int argc = 1;
-  ode::argv_t argv[] = {"exe"};
-  const auto sdl_quit_action = ode::initialize_sdl();
-  auto window = ode::initialize_window({
-      argc,
-      argv,
-      0_px,
-      0_px,
-      "window_name"});
-  auto graphics_context = ode::initialize_graphics(window.get());
-
-  for (auto _ : state)
+  // Use a separate scope to ensure that everything is quit.
   {
-    auto r = ode::gl::version();
-  }
+    const int argc = 1;
+    ode::argv_t argv[] = {"exe"};
+    const auto sdl_quit_action = ode::initialize_sdl();
+    auto window = ode::initialize_window({
+        argc,
+        argv,
+        0_px,
+        0_px,
+        "window_name"});
+    auto graphics_context = ode::initialize_graphics(window.get());
 
-  ode::quit_graphics(graphics_context);
+    for (auto _ : state)
+    {
+      auto r = ode::gl::version();
+    }
+
+    ode::quit_graphics(graphics_context);
+  }
 }
 
 BENCHMARK(ode_gl_data_version);
 
 static void ode_gl_data_shading_language_version(benchmark::State& state)
 {
-  const int argc = 1;
-  ode::argv_t argv[] = {"exe"};
-  const auto sdl_quit_action = ode::initialize_sdl();
-  auto window = ode::initialize_window({
-      argc,
-      argv,
-      0_px,
-      0_px,
-      "window_name"});
-  auto graphics_context = ode::initialize_graphics(window.get());
-
-  for (auto _ : state)
+  // Use a separate scope to ensure that everything is quit.
   {
-    auto r = ode::gl::shading_language_version();
-  }
+    const int argc = 1;
+    ode::argv_t argv[] = {"exe"};
+    const auto sdl_quit_action = ode::initialize_sdl();
+    auto window = ode::initialize_window({
+        argc,
+        argv,
+        0_px,
+        0_px,
+        "window_name"});
+    auto graphics_context = ode::initialize_graphics(window.get());
 
-  ode::quit_graphics(graphics_context);
+    for (auto _ : state)
+    {
+      auto r = ode::gl::shading_language_version();
+    }
+
+    ode::quit_graphics(graphics_context);
+  }
 }
 
 BENCHMARK(ode_gl_data_shading_language_version);

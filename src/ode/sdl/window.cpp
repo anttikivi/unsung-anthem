@@ -23,6 +23,8 @@
 
 #include "ode/sdl/window.h"
 
+#include <stdexcept>
+
 #include "ode/logger.h"
 
 #include "ode/config.h"
@@ -70,7 +72,12 @@ namespace ode::sdl
       if (!window)
       {
         ODE_ERROR("The Simple DirectMedia Layer window creation failed");
-        return {nullptr, nullptr};
+        const std::string error = std::string{SDL_GetError()};
+        throw std::runtime_error{
+            std::string{
+                "The Simple DirectMedia Layer window creation failed, '"}
+            + error
+            + "'"};
       }
 
       return window;
