@@ -28,6 +28,7 @@
 
 #include "gsl/assert"
 
+#include "ode/config.h"
 #include "ode/logger.h"
 
 namespace ode::gl
@@ -38,11 +39,19 @@ namespace ode::gl
         || GL_RENDERER == name
         || GL_VERSION == name
         || GL_SHADING_LANGUAGE_VERSION == name);
-    auto s = glGetString(name);
-    ODE_TRACE("Got the unsigned byte array '{}'", s);
-    std::size_t len = std::strlen(reinterpret_cast<const char*>(s));
-    ODE_TRACE("The length of the string is {}", len);
-    return std::string{reinterpret_cast<const char*>(s), len};
+
+    if constexpr (disable_gl_calls)
+    {
+      return std::string{data::disabled_value};
+    }
+    else
+    {
+      auto s = glGetString(name);
+      ODE_TRACE("Got the unsigned byte array '{}'", s);
+      std::size_t len = std::strlen(reinterpret_cast<const char*>(s));
+      ODE_TRACE("The length of the string is {}", len);
+      return std::string{reinterpret_cast<const char*>(s), len};
+    }
   }
 
   std::string vendor() noexcept

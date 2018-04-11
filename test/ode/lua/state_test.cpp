@@ -25,10 +25,9 @@
 
 #include "gsl/util"
 
+#include "ode/config.h"
 #include "ode/filesystem/path.h"
 #include "ode/lua/config.h"
-
-#include "ode/config.h"
 
 #include <gtest/gtest.h>
 

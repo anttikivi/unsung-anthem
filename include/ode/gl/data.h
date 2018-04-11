@@ -31,6 +31,15 @@
 
 namespace ode::gl
 {
+  namespace data
+  {
+    ///
+    /// \brief Value returned by the data calls when the OpenGL is disabled.
+    ///
+    constexpr auto disabled_value = "call_disabled";
+
+  } // namespace data
+
   ///
   /// \brief Gives an OpenGL data string.
   ///

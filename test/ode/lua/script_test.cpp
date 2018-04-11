@@ -23,10 +23,9 @@
 
 #include "ode/lua/script.h"
 
+#include "ode/config.h"
 #include "ode/filesystem/path.h"
 #include "ode/lua/state.h"
-
-#include "ode/config.h"
 
 #include <gtest/gtest.h>
 

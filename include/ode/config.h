@@ -15,7 +15,7 @@
 /// \brief Declarations and definitions of miscellaneous Obliging Ode
 /// constants.
 /// \author Antti Kivi
-/// \date 6 February 2018
+/// \date 11 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
@@ -80,6 +80,15 @@ namespace ode
 #else
   constexpr int opengl_swap_interval = 1;
 #endif // !defined(ODE_OPENGL_SWAP_INTERVAL)
+
+  ///
+  /// \brief Whether or not the OpenGL calls should be disabled.
+  ///
+#if ODE_DISABLE_GL_CALLS
+  constexpr bool disable_gl_calls = true;
+#else
+  constexpr bool disable_gl_calls = false;
+#endif // !ODE_DISABLE_GL_CALLS
 
 } // namespace ode
 

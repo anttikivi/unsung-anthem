@@ -23,9 +23,8 @@
 
 #include "ode/lua/stack.h"
 
-#include "ode/filesystem/path.h"
-
 #include "ode/config.h"
+#include "ode/filesystem/path.h"
 
 #include <benchmark/benchmark.h>
 

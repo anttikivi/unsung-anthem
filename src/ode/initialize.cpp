@@ -25,9 +25,9 @@
 
 #include <cstdlib>
 
+#include "ode/config.h"
 #include "ode/execution_info.h"
 
-#include "ode/config.h"
 #include "ode/logging_config.h"
 #include "ode/sdl/window.h"
 

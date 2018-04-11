@@ -54,6 +54,7 @@ option(ODE_SDL_TICK_CLOCK
     "Use SDL clock instead of standard library clock" OFF)
 option(ODE_TEST_USE_NULL_SINK "Log the tests to a null sink" ON)
 option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
+option(ODE_DISABLE_GL_CALLS "Disable the OpenGL calls in Obliging Ode" OFF)
 
 #==- Unsung Anthem Build Options -------------------------------------------===#
 

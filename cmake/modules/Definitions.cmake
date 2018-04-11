@@ -72,6 +72,12 @@ function(ADD_FEATURE_DEFINITIONS)
     add_definitions(-DODE_MULTITHREADING=0)
     add_definitions(-DANTHEM_MULTITHREADING=0)
   endif()
+
+  if(ODE_DISABLE_GL_CALLS)
+    add_definitions(-DODE_DISABLE_GL_CALLS=1)
+  else()
+    add_definitions(-DODE_DISABLE_GL_CALLS=0)
+  endif()
 endfunction()
 
 function(ADD_DIRECTORY_DEFINITIONS)

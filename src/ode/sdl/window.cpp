@@ -25,9 +25,8 @@
 
 #include <stdexcept>
 
-#include "ode/logger.h"
-
 #include "ode/config.h"
+#include "ode/logger.h"
 
 namespace ode::sdl
 {

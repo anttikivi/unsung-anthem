@@ -25,12 +25,12 @@
 
 #include <stdexcept>
 
+#include "ode/config.h"
 #include "ode/logger.h"
 #include "ode/filesystem/path.h"
 
 #include "ode/common/window.h"
 
-#include "ode/config.h"
 #include "ode/logging_config.h"
 
 #if ODE_TEST_BENCHMARKING

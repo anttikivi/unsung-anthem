@@ -23,9 +23,8 @@
 
 #include "ode/lua/virtual_machine.h"
 
-#include "ode/filesystem/path.h"
-
 #include "ode/config.h"
+#include "ode/filesystem/path.h"
 
 #include <benchmark/benchmark.h>
 
