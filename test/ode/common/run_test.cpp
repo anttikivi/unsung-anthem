@@ -37,10 +37,11 @@ namespace ode::test
   {
     const int result = RUN_ALL_TESTS();
 
-    if constexpr (::ode::test_benchmarking)
-    {
-      ::benchmark::RunSpecifiedBenchmarks();
-    }
+#if ODE_TEST_BENCHMARKING
+
+    ::benchmark::RunSpecifiedBenchmarks();
+
+#endif // ODE_TEST_BENCHMARKING
 
     return result;
   }

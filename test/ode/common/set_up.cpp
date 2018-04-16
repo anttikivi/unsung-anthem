@@ -145,15 +145,16 @@ namespace ode::test
 
     ::testing::InitGoogleTest(&argc, argv);
 
-    if constexpr (::ode::test_benchmarking)
-    {
-      ::benchmark::Initialize(&argc, argv);
+#if ODE_TEST_BENCHMARKING
 
-      if (::benchmark::ReportUnrecognizedArguments(argc, argv))
-      {
-        return 5;
-      }
+    ::benchmark::Initialize(&argc, argv);
+
+    if (::benchmark::ReportUnrecognizedArguments(argc, argv))
+    {
+      return 5;
     }
+
+#endif // ODE_TEST_BENCHMARKING
 
     return 0;
   }
