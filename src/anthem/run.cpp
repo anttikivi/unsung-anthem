@@ -31,6 +31,7 @@
 #include "ode/initialize.h"
 #include "ode/logging.h"
 #include "ode/main_loop.h"
+#include "ode/platform.h"
 #include "ode/quit.h"
 
 #include "anthem/command_line_interface.h"
@@ -52,6 +53,23 @@ namespace anthem
         logger_pattern,
         logger_level);
     
+    if constexpr (ode::platform::windows == ode::current_platform)
+    {
+      ANTHEM_DEBUG("{} is built for Windows", anthem_name);
+    }
+    else if constexpr (ode::platform::macos == ode::current_platform)
+    {
+      ANTHEM_DEBUG("{} is built for macOS", anthem_name);
+    }
+    else if constexpr (ode::platform::linux == ode::current_platform)
+    {
+      ANTHEM_DEBUG("{} is built for Linux", anthem_name);
+    }
+    else
+    {
+      ANTHEM_ERROR("{} is built for an unknown platform", anthem_name);
+    }
+    
     const auto args = parse_arguments(argc, argv);
 
     ANTHEM_TRACE("The following values are set to the arguments:\n{}", args);
@@ -72,6 +90,8 @@ namespace anthem
     ode::main_loop(std::move(window));
 
     ode::quit_graphics(graphics_context);
+
+    window.reset(nullptr);
 
     return EXIT_SUCCESS;
   }

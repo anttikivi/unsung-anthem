@@ -27,6 +27,7 @@
 
 #include "ode/config.h"
 #include "ode/logger.h"
+#include "ode/platform.h"
 
 namespace ode::sdl
 {
@@ -45,24 +46,23 @@ namespace ode::sdl
 #endif // ODE_OPENGL_SDL_ACCELERATED_VISUAL
 
     // MacOS only supports forward-compatible core contexts.
-#if __APPLE__
-
-    SDL_GL_SetAttribute(
-        SDL_GL_CONTEXT_FLAGS,
-        SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-
-#endif // __APPLE__
+    if constexpr (ode::platform::macos == ode::current_platform)
+    {
+      SDL_GL_SetAttribute(
+          SDL_GL_CONTEXT_FLAGS,
+          SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+    }
 
     ODE_TRACE(
         "Set the OpenGL version hint for the window to {}.{}",
         opengl_version_major,
         opengl_version_minor);
 
-#if __APPLE__
+#if ODE_MACOS
     Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI;
 #else
     Uint32 flags = SDL_WINDOW_OPENGL;
-#endif // !__APPLE__
+#endif // !ODE_MACOS
 
     window_t window = {
         SDL_CreateWindow(

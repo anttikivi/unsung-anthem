@@ -35,7 +35,7 @@ TEST(ode_gl_data, vendor)
   if constexpr (ode::disable_gl_calls)
   {
     auto r = ode::gl::vendor();
-    ASSERT_EQ(r, ode::gl::data::disabled_value);
+    ASSERT_EQ(r, ode::gl::data::disabled_string_value);
   }
   else
   {
@@ -54,7 +54,7 @@ TEST(ode_gl_data, renderer)
   if constexpr (ode::disable_gl_calls)
   {
     auto r = ode::gl::renderer();
-    ASSERT_EQ(r, ode::gl::data::disabled_value);
+    ASSERT_EQ(r, ode::gl::data::disabled_string_value);
   }
   else
   {
@@ -73,7 +73,7 @@ TEST(ode_gl_data, version)
   if constexpr (ode::disable_gl_calls)
   {
     auto r = ode::gl::version();
-    ASSERT_EQ(r, ode::gl::data::disabled_value);
+    ASSERT_EQ(r, ode::gl::data::disabled_string_value);
   }
   else
   {
@@ -92,7 +92,7 @@ TEST(ode_gl_data, shading_language_version)
   if constexpr (ode::disable_gl_calls)
   {
     auto r = ode::gl::shading_language_version();
-    ASSERT_EQ(r, ode::gl::data::disabled_value);
+    ASSERT_EQ(r, ode::gl::data::disabled_string_value);
   }
   else
   {

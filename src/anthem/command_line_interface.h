@@ -107,7 +107,9 @@ namespace anthem
   /// \return \c true if the member values of the parameters are equal,
   /// otherwise \c false.
   ///
-  constexpr auto operator==(const arguments& lhs, const arguments& rhs) noexcept
+  constexpr auto operator==(
+      const arguments& lhs,
+      const arguments& rhs) noexcept
   {
     return lhs.parsed == rhs.parsed &&
         lhs.show_help == rhs.show_help && 
@@ -125,7 +127,9 @@ namespace anthem
   /// \return \c true if the member values of the parameters are not equal,
   /// otherwise \c false.
   ///
-  constexpr auto operator!=(const arguments& lhs, const arguments& rhs) noexcept
+  constexpr auto operator!=(
+      const arguments& lhs,
+      const arguments& rhs) noexcept
   {
     return !(lhs == rhs);
   }

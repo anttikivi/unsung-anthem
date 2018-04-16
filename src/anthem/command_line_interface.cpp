@@ -26,6 +26,8 @@
 
 #include <iostream>
 
+#include "ode/platform.h"
+
 #include "anthem/logger.h"
 
 namespace anthem
@@ -59,8 +61,7 @@ namespace anthem
         | clara::Opt(window_name, "window-name")["--window-name"]
         ("The name of the game window");
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && \
-    !defined(__CYGWIN__)
+#if ODE_WINDOWS
     auto result = cli.parse(clara::Args(argc, argv));
 #else
     auto result = cli.parse(clara::Args(argc, const_cast<char**>(argv)));

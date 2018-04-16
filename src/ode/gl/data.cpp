@@ -42,7 +42,7 @@ namespace ode::gl
 
     if constexpr (disable_gl_calls)
     {
-      return std::string{data::disabled_value};
+      return std::string{data::disabled_string_value};
     }
     else
     {

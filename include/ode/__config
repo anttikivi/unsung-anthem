@@ -35,4 +35,26 @@
 #endif // !(defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
     GSL_THROW_ON_CONTRACT_VIOLATION)
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && \
+    !defined(__CYGWIN__)
+
+# define ODE_WINDOWS 1
+
+#else
+
+# define ODE_WINDOWS 0
+
+#endif // defined(WIN32) || defined(_WIN32) || defined(__WIN32) && \
+    !defined(__CYGWIN__)
+
+#if __APPLE__
+
+# define ODE_MACOS 1
+
+#else
+
+# define ODE_MACOS 0
+
+#endif // !__APPLE__
+
 #endif // !ODE___CONFIG_H

@@ -35,11 +35,11 @@ namespace ode
 {
   void main_loop(window_t&& window_r)
   {
-#ifndef ODE_SDL_TICK_CLOCK
+#if !ODE_SDL_TICK_CLOCK
 
     using clock = std::chrono::high_resolution_clock;
 
-#endif // !defined(ODE_SDL_TICK_CLOCK)
+#endif // !ODE_SDL_TICK_CLOCK
 
     window_t window = std::move(window_r);
 
@@ -47,7 +47,7 @@ namespace ode
 
     bool quit = false;
 
-#ifdef ODE_SDL_TICK_CLOCK
+#if ODE_SDL_TICK_CLOCK
 
     Uint32 delay = 0;
     Uint32 t = SDL_GetTicks();
@@ -57,13 +57,13 @@ namespace ode
     auto delay = 0ns;
     auto t = clock::now();
 
-#endif // !defined(ODE_SDL_TICK_CLOCK)
+#endif // !ODE_SDL_TICK_CLOCK
 
     SDL_Event event;
 
     while (!quit)
     {
-#ifdef ODE_SDL_TICK_CLOCK
+#if ODE_SDL_TICK_CLOCK
 
       Uint32 dt = SDL_GetTicks() - t;
       t = SDL_GetTicks();
@@ -77,7 +77,7 @@ namespace ode
       t = clock::now();
       delay += std::chrono::duration_cast<std::chrono::nanoseconds>(dt);
 
-# ifndef ODE_PRINT_LOOP_MILLISECONDS
+# if !ODE_PRINT_LOOP_MILLISECONDS
 
       ODE_TRACE("The current delay in update time is {}", delay.count());
 
@@ -88,9 +88,9 @@ namespace ode
           std::chrono::duration_cast<std::chrono::milliseconds>(
               delay).count());
 
-# endif // defined(ODE_PRINT_LOOP_NANOSECONDS)
+# endif // ODE_PRINT_LOOP_NANOSECONDS
 
-#endif // !defined(ODE_SDL_TICK_CLOCK)
+#endif // !ODE_SDL_TICK_CLOCK
 
       while (delay >= time_step)
       {
@@ -111,7 +111,7 @@ namespace ode
 
       } // while (delay >= time_step)
 
-#ifdef ODE_SDL_TICK_CLOCK
+#if ODE_SDL_TICK_CLOCK
 
       const float alpha = static_cast<float>(delay) / time_step;
 
@@ -123,7 +123,7 @@ namespace ode
           = static_cast<float>(std::chrono::duration_cast<ms>(delay).count())
               / time_step.count();
 
-#endif // !defined(ODE_SDL_TICK_CLOCK)
+#endif // !ODE_SDL_TICK_CLOCK
 
       ODE_TRACE(
           "The alpha value for state-rendering interpolation is {}",

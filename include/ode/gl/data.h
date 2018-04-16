@@ -36,7 +36,7 @@ namespace ode::gl
     ///
     /// \brief Value returned by the data calls when the OpenGL is disabled.
     ///
-    constexpr auto disabled_value = "call_disabled";
+    constexpr auto disabled_string_value = "call_disabled";
 
   } // namespace data
 
