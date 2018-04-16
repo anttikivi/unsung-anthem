@@ -23,6 +23,8 @@
 
 #include "ode/common/run_test.h"
 
+#include "ode/config.h"
+
 #if ODE_TEST_BENCHMARKING
 # include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
@@ -35,11 +37,10 @@ namespace ode::test
   {
     const int result = RUN_ALL_TESTS();
 
-#if ODE_TEST_BENCHMARKING
-
-    ::benchmark::RunSpecifiedBenchmarks();
-
-#endif // ODE_TEST_BENCHMARKING
+    if constexpr (::ode::test_benchmarking)
+    {
+      ::benchmark::RunSpecifiedBenchmarks();
+    }
 
     return result;
   }

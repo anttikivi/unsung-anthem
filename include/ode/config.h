@@ -82,6 +82,15 @@ namespace ode
 #endif // !defined(ODE_OPENGL_SWAP_INTERVAL)
 
   ///
+  /// \brief Whether or not the benchmarks are built.
+  ///
+#if ODE_TEST_BENCHMARKING
+  constexpr bool test_benchmarking = true;
+#else
+  constexpr bool test_benchmarking = false;
+#endif // !ODE_TEST_BENCHMARKING
+
+  ///
   /// \brief Whether or not the OpenGL calls should be disabled.
   ///
 #if ODE_DISABLE_GL_CALLS
@@ -89,6 +98,15 @@ namespace ode
 #else
   constexpr bool disable_gl_calls = false;
 #endif // !ODE_DISABLE_GL_CALLS
+
+  ///
+  /// \brief Whether or not the tests should use null sinks for loggers.
+  ///
+#if ODE_TEST_USE_NULL_SINK
+  constexpr bool test_use_null_sink = true;
+#else
+  constexpr bool test_use_null_sink = false;
+#endif // !ODE_TEST_USE_NULL_SINK
 
 } // namespace ode
 

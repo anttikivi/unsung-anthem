@@ -25,6 +25,8 @@
 #include "ode/common/run_test.h"
 #include "ode/common/set_up.h"
 
+#include "ode/config.h"
+
 #include "anthem/logger.h"
 
 #include "anthem/logging_config.h"
@@ -37,25 +39,23 @@
 
 int main(int argc, char* argv[])
 {
+  if constexpr (ode::test_use_null_sink)
+  {
+    auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
 
-#if ODE_TEST_USE_NULL_SINK
-
-  auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
-
-  anthem::logger = ode::create_logger(
-      "anthem_test_logger",
-      anthem::logger_pattern,
-      anthem::logger_level,
-      null_sink);
-
-#else
-
-  anthem::logger = ode::create_logger(
-      "anthem_test_logger",
-      anthem::logger_pattern,
-      anthem::logger_level);
-
-#endif // !ODE_TEST_USE_NULL_SINK
+    anthem::logger = ode::create_logger(
+        "anthem_test_logger",
+        anthem::logger_pattern,
+        anthem::logger_level,
+        null_sink);
+  }
+  else
+  {
+    anthem::logger = ode::create_logger(
+        "anthem_test_logger",
+        anthem::logger_pattern,
+        anthem::logger_level);
+  }
 
   ode::test::set_up(argc, argv);
   const int result = ode::test::run(argc, argv);

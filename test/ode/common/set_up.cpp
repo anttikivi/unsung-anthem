@@ -27,6 +27,7 @@
 
 #include "ode/config.h"
 #include "ode/logger.h"
+#include "ode/platform.h"
 #include "ode/filesystem/path.h"
 
 #include "ode/common/window.h"
@@ -64,24 +65,23 @@ namespace ode::test
 #endif // ODE_OPENGL_SDL_ACCELERATED_VISUAL
 
       // MacOS only supports forward-compatible core contexts.
-#if __APPLE__
-
-      SDL_GL_SetAttribute(
-          SDL_GL_CONTEXT_FLAGS,
-          SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-
-#endif // __APPLE__
+      if constexpr (ode::platform::macos == ode::current_platform)
+      {
+        SDL_GL_SetAttribute(
+            SDL_GL_CONTEXT_FLAGS,
+            SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+      }
 
       ODE_TRACE(
           "Set the OpenGL version hint for the window to {}.{}",
           opengl_version_major,
           opengl_version_minor);
 
-#if __APPLE__
+#if ODE_MACOS
       Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI;
 #else
       Uint32 flags = SDL_WINDOW_OPENGL;
-#endif // !__APPLE__
+#endif // !ODE_MACOS
 
       test_window = SDL_CreateWindow(
           "info.window_name.data()",
@@ -113,24 +113,23 @@ namespace ode::test
 
   int set_up(int argc, char* argv[])
   {
-#if ODE_TEST_USE_NULL_SINK
+    if constexpr (::ode::test_use_null_sink)
+    {
+      auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
 
-    auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
-
-    ode::logger = ode::create_logger(
-        "ode_test_logger",
-        ode::logger_pattern,
-        ode::logger_level,
-        null_sink);
-
-#else
-
-    ode::logger = ode::create_logger(
-        "ode_test_logger",
-        ode::logger_pattern,
-        ode::logger_level);
-
-#endif // !ODE_TEST_USE_NULL_SINK
+      ode::logger = ode::create_logger(
+          "ode_test_logger",
+          ode::logger_pattern,
+          ode::logger_level,
+          null_sink);
+    }
+    else
+    {
+      ode::logger = ode::create_logger(
+          "ode_test_logger",
+          ode::logger_pattern,
+          ode::logger_level);
+    }
 
     if (0 != SDL_Init(SDL_INIT_VIDEO))
     {
@@ -146,16 +145,15 @@ namespace ode::test
 
     ::testing::InitGoogleTest(&argc, argv);
 
-#if ODE_TEST_BENCHMARKING
-
-    ::benchmark::Initialize(&argc, argv);
-
-    if (::benchmark::ReportUnrecognizedArguments(argc, argv))
+    if constexpr (::ode::test_benchmarking)
     {
-      return 5;
-    }
+      ::benchmark::Initialize(&argc, argv);
 
-#endif // ODE_TEST_BENCHMARKING
+      if (::benchmark::ReportUnrecognizedArguments(argc, argv))
+      {
+        return 5;
+      }
+    }
 
     return 0;
   }
