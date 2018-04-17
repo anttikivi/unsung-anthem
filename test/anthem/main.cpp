@@ -33,13 +33,11 @@
 
 #include <SDL2/SDL.h>
 
-#if ODE_TEST_USE_NULL_SINK
-# include <spdlog/sinks/null_sink.h>
-#endif // ODE_TEST_USE_NULL_SINK
+#include <spdlog/sinks/null_sink.h>
 
 int main(int argc, char* argv[])
 {
-  if constexpr (ode::test_use_null_sink)
+  if constexpr (::ode::test_use_null_sink)
   {
     auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
 

@@ -42,9 +42,7 @@
 
 #include <gtest/gtest.h>
 
-#if ODE_TEST_USE_NULL_SINK
-# include <spdlog/sinks/null_sink.h>
-#endif // ODE_TEST_USE_NULL_SINK
+#include <spdlog/sinks/null_sink.h>
 
 namespace ode::test
 {
