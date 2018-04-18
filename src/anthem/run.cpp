@@ -31,7 +31,7 @@
 #include "ode/initialize.h"
 #include "ode/logging.h"
 #include "ode/main_loop.h"
-#include "ode/platform.h"
+#include "ode/platform_manager.h"
 #include "ode/quit.h"
 
 #include "anthem/command_line_interface.h"

@@ -1,4 +1,4 @@
-//===----------------------------- platform.h -------------------*- C++ -*-===//
+//===------------------------- platform_manager.h ---------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,20 +11,24 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file platform.h
-/// \brief Declarations of platform-related utilities of Obliging Ode.
+/// \file platform_manager.h
+/// \brief Declaration of manager which holds platform-related utilities of
+/// Obliging Ode.
 /// \author Antti Kivi
-/// \date 16 April 2018
+/// \date 18 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_PLATFORM_H
-#define ODE_PLATFORM_H
+#ifndef ODE_PLATFORM_MANAGER_H
+#define ODE_PLATFORM_MANAGER_H
+
+#include <vector>
 
 #include "ode/__config"
+#include "ode/event_t.h"
 
 namespace ode
 {
@@ -50,6 +54,15 @@ namespace ode
   constexpr platform current_platform = platform::linux;
 #endif // !ODE_WINDOWS && !ODE_MACOS
 
+  ///
+  /// \brief Polls all of the current system events waiting, removes them from
+  /// the queue, and returns them.
+  ///
+  /// \return An object of type \c std::vector which holds objects of type
+  /// \c event_t.
+  ///
+  std::vector<event_t> poll_events();
+
 } // namespace ode
 
-#endif // !ODE_PLATFORM_H
+#endif // !ODE_PLATFORM_MANAGER_H

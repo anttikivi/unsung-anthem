@@ -26,6 +26,7 @@
 #include <type_traits>
 
 #include "ode/logger.h"
+#include "ode/platform_manager.h"
 
 #include <glad/glad.h>
 
@@ -96,9 +97,12 @@ namespace ode
       {
         delay -= time_step;
 
-        while (SDL_PollEvent(&event))
+        auto events = poll_events();
+
+        // TODO This is ugly
+        for (auto& e : events)
         {
-          if (event.type == SDL_QUIT)
+          if (SDL_QUIT == e.type)
           {
             quit = true;
           }
