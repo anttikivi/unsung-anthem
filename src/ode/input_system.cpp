@@ -1,4 +1,4 @@
-//===----------------------------- systems.h --------------------*- C++ -*-===//
+//===-------------------------- input_system.cpp ----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,36 +11,25 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file systems.h
-/// \brief Declaration of system container of Obliging Ode.
+/// \file input_system.cpp
+/// \brief Definition of type of input system object of Obliging Ode.
 /// \author Antti Kivi
-/// \date 18 April 2018
+/// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEMS_H
-#define ODE_SYSTEMS_H
+#include "ode/input_system.h"
 
-#include <map>
-
-#include "ode/system_type.h"
-
-// Forward declaration
-namespace ode
-{
-  class system_t;
-} // namespace ode
+#include "ode/input_scene.h"
+#include "ode/scene_t.h"
 
 namespace ode
 {
-  ///
-  /// \brief Systems of Obliging Ode.
-  ///
-  extern std::map<system_type, system_t> systems;
-
+  scene_t input_system::create_scene() const
+  {
+    return input_scene{};
+  }
 } // namespace ode
-
-#endif // !ODE_SYSTEMS_H

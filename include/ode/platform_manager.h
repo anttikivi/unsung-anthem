@@ -33,8 +33,8 @@
 namespace ode
 {
   ///
-  /// \brief An enumeration type, enumerators of which represent platforms on
-  /// which Obliging Ode can run.
+  /// \brief An enumeration type, the enumerators of which represent platforms
+  /// on which Obliging Ode can run.
   ///
   enum class platform
   {

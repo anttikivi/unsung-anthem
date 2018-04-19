@@ -61,9 +61,9 @@ namespace ode
   void initialize_ode()
   {
     ODE_DEBUG("Initializing the system container of {}", ode_name);
-    systems = std::vector<system_t>{};
-    ODE_DEBUG("Reserving space for {} systems", system_space_reservation);
-    systems.reserve(system_space_reservation);
+    systems = std::map<system_type, system_t>{};
+    // ODE_DEBUG("Reserving space for {} systems", system_space_reservation);
+    // systems.reserve(system_space_reservation);
   }
 
 } // namespace ode

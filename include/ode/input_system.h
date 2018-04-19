@@ -12,7 +12,7 @@
 //
 ///
 /// \file input_system.h
-/// \brief Declaration of type of input system object of Unsung Anthem.
+/// \brief Declaration of type of input system object of Obliging Ode.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,18 +21,24 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_INPUT_SYSTEM_H
-#define ANTHEM_INPUT_SYSTEM_H
+#ifndef ODE_INPUT_SYSTEM_H
+#define ODE_INPUT_SYSTEM_H
 
+#include "ode/system_type.h"
 #include "ode/system.h"
 
-namespace anthem
+namespace ode
 {
   ///
-  /// \brief Type of input system object of Unsung Anthem.
+  /// \brief Type of input system object.
   ///
   struct input_system final : public ode::system
   {
+    ///
+    /// \brief The system type of this system.
+    ///
+    static constexpr system_type type = system_type::input;
+
     ///
     /// \brief Destructs an object of type \c input_system.
     ///
@@ -41,11 +47,11 @@ namespace anthem
     ///
     /// \brief Creates a scene object containing the type \c input_scene.
     ///
-    /// \return An object of type \c ode::scene_t.
+    /// \return An object of type \c scene_t.
     ///
-    ode::scene_t create_scene() const;
+    scene_t create_scene() const;
   };
 
-} // namespace anthem
+} // namespace ode
 
-#endif // !ANTHEM_INPUT_SYSTEM_H
+#endif // !ODE_INPUT_SYSTEM_H

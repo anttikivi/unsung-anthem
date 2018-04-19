@@ -12,7 +12,7 @@
 //
 ///
 /// \file input_scene.h
-/// \brief Declaration of type of input system scene of Unsung Anthem.
+/// \brief Declaration of type of input system scene.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,24 +21,30 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_INPUT_SCENE_H
-#define ANTHEM_INPUT_SCENE_H
+#ifndef ODE_INPUT_SCENE_H
+#define ODE_INPUT_SCENE_H
 
 #include "ode/scene.h"
+#include "ode/system_type.h"
 
-namespace anthem
+namespace ode
 {
   ///
   /// \brief Type of input system scene objects.
   ///
-  struct input_scene final : public ode::scene
+  struct input_scene final : public scene
   {
+    ///
+    /// \brief The system type of this scene.
+    ///
+    static constexpr system_type type = system_type::input;
+
     ///
     /// \brief Destructs an object of type \c input_scene.
     ///
     ~input_scene() = default;
   };
 
-} // namespace anthem
+} // namespace ode
 
-#endif // !ANTHEM_INPUT_SCENE_H
+#endif // !ODE_INPUT_SCENE_H

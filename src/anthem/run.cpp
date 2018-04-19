@@ -29,6 +29,7 @@
 
 #include "ode/execution_info.h"
 #include "ode/initialize.h"
+#include "ode/input_system.h"
 #include "ode/logging.h"
 #include "ode/main_loop.h"
 #include "ode/platform_manager.h"
@@ -39,7 +40,6 @@
 #include "anthem/logger.h"
 
 #include "anthem/config.h"
-#include "anthem/input_system.h"
 #include "anthem/logging_config.h"
 
 namespace anthem
@@ -91,7 +91,7 @@ namespace anthem
 
     ode::initialize_ode();
 
-    ode::initialize_system<input_system>();
+    ode::initialize_system<ode::input_system>();
 
     ode::main_loop(std::move(window));
 

@@ -27,5 +27,5 @@
 
 namespace ode
 {
-  std::vector<system_t> systems;
+  std::map<system_type, system_t> systems;
 } // namespace ode

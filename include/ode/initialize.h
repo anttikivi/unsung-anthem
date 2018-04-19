@@ -118,8 +118,11 @@ namespace ode
   template <typename T, typename... Args>
   void initialize_system(Args&&... args)
   {
-    ODE_DEBUG("Initializing system with type {}", type_name<T>());
-    systems.emplace_back(T{args...});
+    ODE_DEBUG(
+        "Initializing system of type {} with system type {}",
+        type_name<T>(),
+        T::type);
+    systems.emplace(T::type, T{args...});
   }
 
 } // namespace ode

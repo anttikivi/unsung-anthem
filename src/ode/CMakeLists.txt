@@ -14,10 +14,12 @@ add_subdirectory(sdl)
 add_subdirectory(thread)
 
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/initialize.cpp)
+list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/input_system.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/logging.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main_loop.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/platform_manager.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/system_t.cpp)
+list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/system_type.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/systems.cpp)
 
 list(APPEND ODE_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/logging_config.h)
