@@ -27,9 +27,12 @@
 #include <memory>
 #include <utility>
 
+#include "ode/system.h"
+
+// Forward declarations
 namespace ode
 {
-  struct system;
+  class scene_t;
 } // namespace ode
 
 namespace ode
@@ -93,6 +96,12 @@ namespace ode
     /// \return Reference to \c *this.
     ///
     system_t& operator=(system_t&& a) = default;
+    
+    ///
+    /// \brief Creates a scene object implementing functionalities of this
+    /// system.
+    ///
+    scene_t create_scene();
 
   private:
     ///

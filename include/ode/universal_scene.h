@@ -29,6 +29,7 @@
 namespace ode
 {
   class scene_t;
+  class system_t;
 } // namespace ode
 
 namespace ode
@@ -40,10 +41,12 @@ namespace ode
   class universal_scene final
   {
   public:
+    using scene_reference = scene_t&;
+
     ///
     /// \brief Constructs an object of type \c universal_scene.
     ///
-    universal_scene() = default;
+    universal_scene();
 
     ///
     /// \brief Constructs an object of type \c universal_scene by copying the
@@ -85,6 +88,16 @@ namespace ode
     /// \return Reference to \c *this.
     ///
     universal_scene& operator=(universal_scene&& a) = default;
+
+    ///
+    /// \brief Extends the universal scene with the functionalities of the
+    /// given system.
+    ///
+    /// \param sys system with which the universal scene is extended.
+    ///
+    /// \return reference to the created object of type \c scene_t.
+    ///
+    scene_reference extend(const system_t& sys);
 
   private:
     ///

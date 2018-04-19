@@ -24,6 +24,12 @@
 #ifndef ODE_SYSTEM_H
 #define ODE_SYSTEM_H
 
+// Forward declarations
+namespace ode
+{
+  class scene_t;
+} // namespace ode
+
 namespace ode
 {
   ///
@@ -36,6 +42,14 @@ namespace ode
     /// \brief Destructs an object of type \c system.
     ///
     virtual ~system() = default;
+
+    ///
+    /// \brief Creates a scene object implementing functionalities of this
+    /// system.
+    ///
+    /// \return An object of type \c scene_t.
+    ///
+    virtual scene_t create_scene() const = 0;
   };
 
 } // namespace ode

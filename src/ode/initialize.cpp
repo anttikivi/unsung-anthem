@@ -27,6 +27,7 @@
 
 #include "ode/config.h"
 #include "ode/execution_info.h"
+#include "ode/system_t.h"
 
 #include "ode/logging_config.h"
 #include "ode/sdl/window.h"
@@ -55,6 +56,14 @@ namespace ode
     ODE_DEBUG("The main window of {} is created", ode_name);
 
     return window;
+  }
+
+  void initialize_ode()
+  {
+    ODE_DEBUG("Initializing the system container of {}", ode_name);
+    systems = std::vector<system_t>{};
+    ODE_DEBUG("Reserving space for {} systems", system_space_reservation);
+    systems.reserve(system_space_reservation);
   }
 
 } // namespace ode

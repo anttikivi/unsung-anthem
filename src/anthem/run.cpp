@@ -33,11 +33,13 @@
 #include "ode/main_loop.h"
 #include "ode/platform_manager.h"
 #include "ode/quit.h"
+#include "ode/system_t.h"
 
 #include "anthem/command_line_interface.h"
 #include "anthem/logger.h"
 
 #include "anthem/config.h"
+#include "anthem/input_system.h"
 #include "anthem/logging_config.h"
 
 namespace anthem
@@ -86,6 +88,10 @@ namespace anthem
     const auto sdl_quit_action = ode::initialize_sdl();
     auto window = ode::initialize_window(info);
     auto graphics_context = ode::initialize_graphics(window.get());
+
+    ode::initialize_ode();
+
+    ode::initialize_system<input_system>();
 
     ode::main_loop(std::move(window));
 

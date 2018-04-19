@@ -24,6 +24,8 @@
 #ifndef ODE_INITIALIZE_H
 #define ODE_INITIALIZE_H
 
+#include "ode/systems.h"
+#include "ode/type_name.h"
 #include "ode/window_t.h"
 #include "ode/gl/data.h"
 #include "ode/sdl/initialize.h"
@@ -97,6 +99,27 @@ namespace ode
     ODE_TRACE("Set the OpenGL clear colour");
 
     return context;
+  }
+
+  ///
+  /// \brief Initializes miscellaneous capabilities of Obliging Ode.
+  ///
+  void initialize_ode();
+
+  ///
+  /// \brief Initializes a system of Obliging Ode.
+  ///
+  /// \tparam T type of the system object.
+  /// \tparam Args types of arguments to be passed to the system in
+  /// construction.
+  ///
+  /// \param args arguments to be passed to the system in construction.
+  ///
+  template <typename T, typename... Args>
+  void initialize_system(Args&&... args)
+  {
+    ODE_DEBUG("Initializing system with type {}", type_name<T>());
+    systems.emplace_back(T{args...});
   }
 
 } // namespace ode

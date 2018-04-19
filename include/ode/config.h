@@ -108,6 +108,16 @@ namespace ode
   constexpr bool test_use_null_sink = false;
 #endif // !ODE_TEST_USE_NULL_SINK
 
+  ///
+  /// \brief The number of systems for which space is reserved in the system
+  /// container initialization.
+  ///
+#ifdef ODE_SYSTEM_SPACE_RESERVATION
+  constexpr int system_space_reservation = ODE_SYSTEM_SPACE_RESERVATION;
+#else
+  constexpr int system_space_reservation = 5;
+#endif // !defined(ODE_SYSTEM_SPACE_RESERVATION)
+
 } // namespace ode
 
 #endif // !ODE_CONFIG_H

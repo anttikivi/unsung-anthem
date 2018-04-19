@@ -49,7 +49,7 @@ namespace ode
     /// \param t system implementation.
     ///
     template <typename T>
-    scene_t(T t) : sys_ptr{std::make_shared<T>(std::move(t))}
+    scene_t(T t) : scene_ptr{std::make_shared<T>(std::move(t))}
     {
 
     }
