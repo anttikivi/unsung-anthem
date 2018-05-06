@@ -28,7 +28,7 @@
 
 #include "ode/system_type.h"
 
-// Forward declaration
+// Forward declarations
 namespace ode
 {
   class system_t;
@@ -37,7 +37,7 @@ namespace ode
 namespace ode
 {
   ///
-  /// \brief Systems of Obliging Ode.
+  /// \brief The systems of Obliging Ode.
   ///
   extern std::map<system_type, system_t> systems;
 

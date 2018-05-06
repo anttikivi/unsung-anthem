@@ -23,7 +23,7 @@
 
 #include "ode/thread/thread_pool.h"
 
-#include <algorithm>
+#include <functional>
 
 namespace ode
 {
@@ -33,55 +33,52 @@ namespace ode
   }
 
   thread_pool::thread_pool(const unsigned int n) :
-      quit{false},
-      c{},
-      cond{},
-      m{},
-      threads{}
+      count{static_cast<const int>(n)},
+      queues{static_cast<std::size_t>(count)},
+      index{0}
   {
     for (unsigned int i = 0; i < n; ++i)
     {
-      threads.emplace_back([this]
+      threads.emplace_back([&, i]
       {
-        for (;;)
-        {
-          std::function<void()> t;
-
-          {
-            std::unique_lock<std::mutex> lock{this->m};
-
-            this->cond.wait(lock, [this]
-            {
-              return this->quit || !this->c.empty();
-            });
-
-            if (this->quit && this->c.empty())
-            {
-              return;
-            }
-
-            t = std::move(this->c.front());
-            this->c.pop();
-          }
-
-          t();
-        }
+        run_thread(i);
       });
     }
   }
 
   thread_pool::~thread_pool()
   {
+    for (auto& queue : queues)
     {
-      std::unique_lock<std::mutex> lock{m};
-      quit = true;
+      queue.quit();
     }
-
-    cond.notify_all();
 
     for (auto& thread : threads)
     {
       thread.join();
+    }
+  }
+
+  void thread_pool::run_thread(const int i)
+  {
+    while (true)
+    {
+      std::function<void()> f;
+
+      for (unsigned int n = 0; n != count; ++n)
+      {
+        if (queues[(i + n) % count].try_pop(f))
+        {
+          break;
+        }
+      }
+
+      if (!f && !queues[i].pop(f))
+      {
+        break;
+      }
+
+      f();
     }
   }
 } // namespace ode

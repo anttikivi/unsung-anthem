@@ -12,7 +12,7 @@
 //
 ///
 /// \file system_type.cpp
-/// \brief Definitions of system type utilities.
+/// \brief Definitions of the system type utilities.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

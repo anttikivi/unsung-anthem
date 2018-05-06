@@ -12,7 +12,7 @@
 //
 ///
 /// \file thread_pool.h
-/// \brief Declarations of thread-pooling functions.
+/// \brief The declarations of the thread-pooling functions.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -25,14 +25,13 @@
 #define ODE_THREAD_THREAD_POOL_H
 
 #include <atomic>
-#include <condition_variable>
-#include <functional>
 #include <future>
-#include <memory>
-#include <queue>
 #include <thread>
-#include <utility>
 #include <vector>
+
+#include "gsl/util"
+
+#include "ode/thread/notification_queue.h"
 
 namespace ode
 {
@@ -44,14 +43,13 @@ namespace ode
   unsigned int number_of_threads() noexcept;
 
   ///
-  /// \struct thread_pool
+  /// \class thread_pool
   /// \brief Type of objects which hold a queue of functions and execute them
   /// in parallel.
   ///
-  struct thread_pool final
+  class thread_pool final
   {
   public:
-
     ///
     /// \brief Constructs an object of type \c thread_pool.
     ///
@@ -119,52 +117,48 @@ namespace ode
 
       std::future<return_t> result = task->get_future();
 
+      auto i = index++;
+
+      constexpr int loop_multiplier = 3;
+
+      for (unsigned int n = 0; n < count * loop_multiplier; ++n)
       {
-        std::unique_lock<std::mutex> lock{m};
-
-        if (quit)
+        if (queues[(i + n) % count].try_push([task](){(*task)();}))
         {
-          // This isn't cool
-          throw std::runtime_error("Enqueue on quitting thread_pool");
+          return result;
         }
-
-        c.emplace([task]()
-        {
-          (*task)();
-        });
       }
 
-      cond.notify_one();
+      queues[i % count].push([task](){(*task)();});
+
       return result;
     }
 
   private:
+    ///
+    /// \brief The number of the threads in use.
+    ///
+    const int count;
 
     ///
-    /// \brief Whether or not the thread pool is quitting execution.
-    ///
-    std::atomic_bool quit;
-
-    ///
-    /// \brief Queue which holds tasks to be executed.
-    ///
-    std::queue<std::function<void()>> c;
-
-    ///
-    /// \brief Condition variable which is used to notify the threads whenever
-    /// a new task is pushed to the queue.
-    ///
-    std::condition_variable cond;
-
-    ///
-    /// \brief Mutex used to lock the queue.
-    ///
-    std::mutex m;
-
-    ///
-    /// \brief Vector which holds the worker threads.
+    /// \brief A vector which holds the worker threads.
     ///
     std::vector<std::thread> threads;
+
+    ///
+    /// \brief A vector which holds the task queues for the worker threads.
+    ///
+    std::vector<notification_queue> queues;
+
+    ///
+    /// \brief The index of the thread to which something was last pushed.
+    ///
+    std::atomic<gsl::index> index;
+
+    ///
+    /// \brief Runs the execution of a worker thread.
+    ///
+    void run_thread(const int i);
   };
 } // namespace ode
 

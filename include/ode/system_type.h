@@ -12,7 +12,7 @@
 //
 ///
 /// \file system_type.h
-/// \brief Declarations of system type utilities.
+/// \brief Declarations of the system type utilities.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -31,8 +31,8 @@
 namespace ode
 {
   ///
-  /// \brief An enumeration type, the enumerators of which represent possible
-  /// system types in Obliging Ode.
+  /// \brief An enumeration type, the enumerators of which represent the
+  /// possible system types in Obliging Ode.
   ///
   enum class system_type : ODE_SYSTEM_TYPE_ENUM_TYPE
   {
