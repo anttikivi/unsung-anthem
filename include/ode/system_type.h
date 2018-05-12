@@ -36,6 +36,7 @@ namespace ode
   ///
   enum class system_type : ODE_SYSTEM_TYPE_ENUM_TYPE
   {
+    graphics,
     input
   };
 

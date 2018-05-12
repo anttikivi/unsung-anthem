@@ -29,7 +29,7 @@
 namespace ode
 {
   ///
-  /// \brief Type of pointer to the window object.
+  /// \brief Type of pointers to the window object.
   ///
   using window_t = sdl::window_t;
 

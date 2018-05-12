@@ -34,6 +34,7 @@ namespace ode
 namespace ode
 {
   ///
+  /// \class universal_object
   /// \brief Type of objects which hold functional system objects of Obliging
   /// Ode.
   ///

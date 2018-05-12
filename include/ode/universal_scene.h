@@ -35,12 +35,15 @@ namespace ode
 namespace ode
 {
   ///
-  /// \brief Type of objects which hold functional system scenes of Obliging
-  /// Ode.
+  /// \brief Type of objects which hold the functional system scenes of
+  /// Obliging Ode.
   ///
   class universal_scene final
   {
   public:
+    ///
+    /// \brief The type of references to the scene objects.
+    /// 
     using scene_reference = scene_t&;
 
     ///

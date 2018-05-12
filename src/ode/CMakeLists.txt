@@ -11,7 +11,6 @@
 add_subdirectory(gl)
 add_subdirectory(lua)
 add_subdirectory(sdl)
-add_subdirectory(thread)
 
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/initialize.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/input_system.cpp)

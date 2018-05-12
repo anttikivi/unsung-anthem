@@ -43,12 +43,12 @@ namespace anthem
   ///
   /// \brief The default width of the window in pixels.
   ///
-  constexpr auto default_window_width = 120_px;
+  constexpr auto default_window_width = 400_px;
 
   ///
   /// \brief The default height of the window in pixels.
   ///
-  constexpr auto default_window_height = 120_px;
+  constexpr auto default_window_height = 240_px;
 
   ///
   /// \brief The default name of the window.

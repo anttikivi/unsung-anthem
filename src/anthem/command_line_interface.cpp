@@ -49,7 +49,7 @@ namespace anthem
 
     bool show_help_flag = false;
     auto window_width = default_window_width;
-    auto window_height = default_window_width;
+    auto window_height = default_window_height;
     auto window_name = std::string{default_window_name};
 
     auto cli

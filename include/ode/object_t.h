@@ -35,6 +35,7 @@ namespace ode
 namespace ode
 {
   ///
+  /// \class object_t
   /// \brief Type of objects which are functional system objects of Obliging
   /// Ode.
   ///
