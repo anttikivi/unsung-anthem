@@ -12,7 +12,7 @@
 //
 ///
 /// \file input_system.h
-/// \brief The declaration of the type of the input system object.
+/// \brief The declaration of the type of the input system.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -30,15 +30,37 @@
 namespace ode
 {
   ///
-  /// \struct input_system
-  /// \brief The type of the input system object.
+  /// \class input_system
+  /// \brief The type of the input system.
   ///
-  struct input_system final : public ode::system
+  class input_system : public system
   {
+  public:
     ///
     /// \brief The system type of this system.
     ///
     static constexpr system_type type = system_type::input;
+
+    ///
+    /// \brief Constructs an object of the type \c input_system.
+    ///
+    input_system() = default;
+
+    ///
+    /// \brief Constructs an object of the type \c input_system by copying the
+    /// given object of the type \c input_system.
+    ///
+    /// \param a a \c input_system from which the new one is constructed.
+    ///
+    input_system(const input_system& a) = delete;
+
+    ///
+    /// \brief Constructs an object of the type \c input_system by moving the
+    /// given object of the type \c input_system.
+    ///
+    /// \param a a \c input_system from which the new one is constructed.
+    ///
+    input_system(input_system&& a) = default;
 
     ///
     /// \brief Destructs an object of the type \c input_system.
@@ -46,7 +68,27 @@ namespace ode
     ~input_system() = default;
 
     ///
-    /// \brief Creates a scene object containing the type \c input_scene.
+    /// \brief Assigns the given object of the type \c input_system to this one
+    /// by copying.
+    ///
+    /// \param a a \c input_system from which this one is assigned.
+    ///
+    /// \return A reference to \c *this.
+    ///
+    input_system& operator=(const input_system& a) = delete;
+
+    ///
+    /// \brief Assigns the given object of the type \c input_system to this one
+    /// by moving.
+    ///
+    /// \param a a \c input_system from which this one is assigned.
+    ///
+    /// \return A reference to \c *this.
+    ///
+    input_system& operator=(input_system&& a) = default;
+
+    ///
+    /// \brief Creates a scene containing the type \c input_scene.
     ///
     /// \return An object of the type \c scene_t.
     ///
