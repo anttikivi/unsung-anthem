@@ -21,12 +21,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/universal_scene.h"
+#include "ode/framework/framework_scene.h"
 
 #include "ode/config.h"
 #include "ode/logger.h"
-#include "ode/scene_t.h"
-#include "ode/system_t.h"
+#include "ode/systems/scene_t.h"
+#include "ode/systems/system_t.h"
 
 namespace ode
 {

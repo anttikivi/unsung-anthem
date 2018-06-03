@@ -28,7 +28,7 @@
 
 #include "ode/config.h"
 #include "ode/logger.h"
-#include "ode/platform_manager.h"
+#include "ode/framework/platform_manager.h"
 
 namespace ode::sdl
 {

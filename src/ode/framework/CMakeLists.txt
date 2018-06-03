@@ -10,6 +10,7 @@
 
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/environment_manager.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/framework_scene.cpp)
+list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/main_loop.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/platform_manager.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/systems.cpp)
 

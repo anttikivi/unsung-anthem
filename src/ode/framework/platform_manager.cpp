@@ -22,16 +22,18 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/platform_manager.h"
+#include "ode/framework/platform_manager.h"
 
-#include "ode/environment_manager.h"
 #include "ode/logger.h"
+#include "ode/framework/environment_manager.h"
+
+#include <SDL2/SDL.h>
 
 namespace ode
 {
   void poll_events()
   {
-    event_t e;
+    SDL_Event e;
 
     while (SDL_PollEvent(&e))
     {

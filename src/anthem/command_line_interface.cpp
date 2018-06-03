@@ -26,7 +26,7 @@
 
 #include <iostream>
 
-#include "ode/platform_manager.h"
+#include "ode/framework/platform_manager.h"
 
 #include "anthem/logger.h"
 

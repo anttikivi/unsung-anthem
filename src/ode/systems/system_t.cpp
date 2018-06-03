@@ -21,9 +21,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/system_t.h"
+#include "ode/systems/system_t.h"
 
-#include "ode/scene_t.h"
+#include "ode/systems/scene_t.h"
 
 namespace ode
 {

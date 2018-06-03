@@ -29,12 +29,12 @@
 
 #include "ode/execution_info.h"
 #include "ode/initialize.h"
-#include "ode/input_system.h"
 #include "ode/logging.h"
-#include "ode/main_loop.h"
-#include "ode/platform_manager.h"
 #include "ode/quit.h"
-#include "ode/system_t.h"
+#include "ode/framework/main_loop.h"
+#include "ode/framework/platform_manager.h"
+#include "ode/systems/input_system.h"
+#include "ode/systems/system_t.h"
 
 #include "anthem/command_line_interface.h"
 #include "anthem/logger.h"

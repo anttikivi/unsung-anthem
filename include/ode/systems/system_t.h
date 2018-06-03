@@ -27,7 +27,7 @@
 #include <memory>
 #include <utility>
 
-#include "ode/system.h"
+#include "ode/systems/system.h"
 
 // Forward declarations
 namespace ode

@@ -24,9 +24,9 @@
 #ifndef ODE_INITIALIZE_H
 #define ODE_INITIALIZE_H
 
-#include "ode/systems.h"
 #include "ode/type_name.h"
 #include "ode/window_t.h"
+#include "ode/framework/systems.h"
 #include "ode/gl/data.h"
 #include "ode/sdl/initialize.h"
 #include "ode/sdl/opengl.h"

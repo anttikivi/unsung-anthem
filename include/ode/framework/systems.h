@@ -26,7 +26,7 @@
 
 #include <map>
 
-#include "ode/system_type.h"
+#include "ode/systems/system_type.h"
 
 // Forward declarations
 namespace ode

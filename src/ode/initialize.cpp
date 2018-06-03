@@ -26,9 +26,9 @@
 #include <cstdlib>
 
 #include "ode/config.h"
-#include "ode/environment_manager.h"
 #include "ode/execution_info.h"
-#include "ode/system_t.h"
+#include "ode/framework/environment_manager.h"
+#include "ode/systems/system_t.h"
 
 #include "ode/logging_config.h"
 #include "ode/sdl/window.h"

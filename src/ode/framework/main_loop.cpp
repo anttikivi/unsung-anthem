@@ -21,13 +21,13 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/main_loop.h"
+#include "ode/framework/main_loop.h"
 
 #include <type_traits>
 
-#include "ode/framework/environment_manager.h"
 #include "ode/logger.h"
-#include "ode/platform_manager.h"
+#include "ode/framework/environment_manager.h"
+#include "ode/framework/platform_manager.h"
 
 #include <glad/glad.h>
 
