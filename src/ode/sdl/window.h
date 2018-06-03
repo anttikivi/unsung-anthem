@@ -12,7 +12,8 @@
 //
 ///
 /// \file window.h
-/// \brief Declarations of the window utilities for Simple DirectMedia Layer.
+/// \brief The declarations of the window utilities for Simple DirectMedia
+/// Layer.
 /// \author Antti Kivi
 /// \date 29 March 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -35,31 +36,31 @@ namespace ode::sdl
 
   ///
   /// \struct window_info
-  /// \brief Type of objects which hold the information which is used to create
-  /// an SDL window.
+  /// \brief The type of the objects which hold the data which are used to
+  /// create a Simple DirectMedia Layer window.
   ///
   struct window_creation_info final
   {
     ///
-    /// \brief The current width of the window.
+    /// \brief The initial width of the window.
     ///
     const pixel_count window_width = 0_px;
 
     ///
-    /// \brief The current height of the window.
+    /// \brief The initial height of the window.
     ///
     const pixel_count window_height = 0_px;
 
     ///
-    /// \brief The current name of the window.
+    /// \brief The initial name of the window.
     ///
     const std::string window_name = "null"s;
   };
 
   ///
   /// \struct window_info
-  /// \brief Type of objects which hold the current information of an SDL
-  /// window.
+  /// \brief The type of the objects which hold the data of a Simple
+  /// DirectMedia Layer window.
   ///
   /// TODO
   ///
@@ -71,9 +72,9 @@ namespace ode::sdl
   /// \brief Initializes a new Simple DirectMedia Layer window with an OpenGL
   /// context.
   ///
-  /// \param info the info with which the window is created.
+  /// \param info the data with which the window is created.
   ///
-  /// \return Pointer to the created object of type \c GLFWwindow.
+  /// \return A pointer to the created window object.
   ///
   window_t create_window(const window_creation_info& info);
 

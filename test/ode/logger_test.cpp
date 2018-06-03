@@ -12,7 +12,7 @@
 //
 ///
 /// \file logger_test.cpp
-/// \brief Tests of declarations of main logging functions of Obliging Ode.
+/// \brief The tests of the main logging functions.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

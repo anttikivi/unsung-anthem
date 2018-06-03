@@ -12,8 +12,8 @@
 //
 ///
 /// \file opengl.cpp
-/// \brief Definitions of utility functions for Simple DirectMedia Layer
-/// OpenGL context.
+/// \brief The definitions of the utility functions for the Simple DirectMedia
+/// Layer OpenGL context.
 /// \author Antti Kivi
 /// \date 2 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

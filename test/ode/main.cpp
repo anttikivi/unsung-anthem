@@ -12,7 +12,7 @@
 //
 ///
 /// \file main.cpp
-/// \brief The main function of the Obliging Ode tests.
+/// \brief The main function of the tests.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

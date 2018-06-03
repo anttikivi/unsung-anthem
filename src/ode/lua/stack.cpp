@@ -12,7 +12,7 @@
 //
 ///
 /// \file stack.cpp
-/// \brief The definition of the Lua stack utility functions.
+/// \brief The definitions of the Lua stack utility functions.
 /// \author Antti Kivi
 /// \date 6 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

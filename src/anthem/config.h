@@ -12,8 +12,7 @@
 //
 ///
 /// \file config.h
-/// \brief The declarations and the definitions of the Unsung Anthem
-/// miscellaneous constants.
+/// \brief The declarations and definitions of miscellaneous constants.
 /// \author Antti Kivi
 /// \date 6 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

@@ -12,7 +12,7 @@
 //
 ///
 /// \file script_benchmark.cpp
-/// \brief Benchmarks of the definitions of the utilities for Lua scripts.
+/// \brief The benchmarks of the utilities for Lua scripts.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

@@ -12,8 +12,7 @@
 //
 ///
 /// \file config.h
-/// \brief Declarations and definitions of miscellaneous Obliging Ode
-/// constants.
+/// \brief The declarations and definitions of miscellaneous constants.
 /// \author Antti Kivi
 /// \date 11 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -55,7 +54,7 @@ namespace ode
 #endif // !defined(ODE_TEST_SCRIPT_ROOT)
 
   ///
-  /// \brief The major OpenGL version to be used.
+  /// \brief The major OpenGL version number to be used.
   ///
 #ifdef ODE_OPENGL_VERSION_MAJOR
   constexpr int opengl_version_major = ODE_OPENGL_VERSION_MAJOR;
@@ -64,7 +63,7 @@ namespace ode
 #endif // !defined(ODE_OPENGL_VERSION_MAJOR)
 
   ///
-  /// \brief The minor OpenGL version to be used.
+  /// \brief The minor OpenGL version number to be used.
   ///
 #ifdef ODE_OPENGL_VERSION_MINOR
   constexpr int opengl_version_minor = ODE_OPENGL_VERSION_MINOR;

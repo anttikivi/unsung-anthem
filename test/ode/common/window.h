@@ -12,7 +12,7 @@
 //
 ///
 /// \file window.h
-/// \brief Declaration of the window for the tests.
+/// \brief The declarations of the window for the tests.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -29,12 +29,12 @@
 namespace ode::test
 {
   ///
-  /// \brief Common window of the tests.
+  /// \brief The common window of the tests.
   ///
   inline SDL_Window* test_window = nullptr;
 
   ///
-  /// \brief Common OpenGL context of the tests.
+  /// \brief The common OpenGL context of the tests.
   ///
   inline SDL_GLContext test_gl_context = nullptr;
 

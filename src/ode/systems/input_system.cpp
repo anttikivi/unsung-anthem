@@ -1,4 +1,4 @@
-//===------------------------------ scene.h ---------------------*- C++ -*-===//
+//===-------------------------- input_system.cpp ----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,34 +11,25 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file scene.h
-/// \brief Declaration of base type of system scene implementations of Obliging
-/// Ode.
+/// \file input_system.cpp
+/// \brief The definition of the type of the input system object.
 /// \author Antti Kivi
-/// \date 18 April 2018
+/// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SCENE_H
-#define ODE_SCENE_H
+#include "ode/input_system.h"
+
+#include "ode/input_scene.h"
+#include "ode/scene_t.h"
 
 namespace ode
 {
-  ///
-  /// \brief Base type of objects which implement functionalities of different
-  /// system scenes.
-  ///
-  struct scene
+  scene_t input_system::create_scene() const
   {
-    ///
-    /// \brief Destructs an object of type \c scene.
-    ///
-    virtual ~scene() = default;
-  };
-
+    return input_scene{};
+  }
 } // namespace ode
-
-#endif // !ODE_SCENE_H

@@ -12,8 +12,8 @@
 //
 ///
 /// \file logging_set_up.h
-/// \brief Declarations of set up functions for tests and benchmarks of logging
-/// functions.
+/// \brief The declarations of the set up functions for the tests and
+/// benchmarks of the logging functions.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

@@ -12,7 +12,8 @@
 //
 ///
 /// \file command_line_interface.h
-/// \brief Declarations of utilities related to parsing command line arguments.
+/// \brief The declarations of the utilities related to parsing command line
+/// arguments.
 /// \author Antti Kivi
 /// \date 29 March 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -65,19 +66,19 @@ namespace anthem
 
   ///
   /// \struct arguments
-  /// \brief Type of objects which hold parsed information of command line
-  /// arguments.
+  /// \brief The type of the objects which hold the parsed information of
+  /// command line arguments.
   ///
   struct arguments final
   {
     ///
-    /// \brief Whether or not the arguments are parsed correctly by the parsing
-    /// function.
+    /// \brief Whether or not the arguments were parsed correctly by the
+    /// parsing function.
     ///
     const bool parsed = false;
 
     ///
-    /// \brief Whether or not the help message is shown.
+    /// \brief Whether or not the help message should be shown.
     ///
     const bool show_help = false;
 
@@ -99,10 +100,10 @@ namespace anthem
   }; // struct arguments final
 
   ///
-  /// \brief Compares the two objects of class \c arguments.
+  /// \brief Compares two objects of the type \c arguments.
   ///
-  /// \param lhs left-hand side object of the operator.
-  /// \param rhs right-hand side object of the operator.
+  /// \param lhs the left-hand side object of the operator.
+  /// \param rhs the right-hand side object of the operator.
   ///
   /// \return \c true if the member values of the parameters are equal,
   /// otherwise \c false.
@@ -119,10 +120,10 @@ namespace anthem
   }
 
   ///
-  /// \brief Compares the two objects of class \c arguments.
+  /// \brief Compares two objects of the type \c arguments.
   ///
-  /// \param lhs left-hand side object of the operator.
-  /// \param rhs right-hand side object of the operator.
+  /// \param lhs the left-hand side object of the operator.
+  /// \param rhs the right-hand side object of the operator.
   ///
   /// \return \c true if the member values of the parameters are not equal,
   /// otherwise \c false.
@@ -135,24 +136,24 @@ namespace anthem
   }
 
   ///
-  /// \brief Inserts the formatted data of an object of type \c arguments to
-  /// the \c std::ostream.
+  /// \brief Inserts the formatted data of an object of the type \c arguments
+  /// to the given \c std::ostream.
   ///
   /// \param os the stream to which the data is inserted.
   /// \param a the object, the data of which is inserted.
   ///
-  /// \return a reference of the \c std::ostream.
+  /// \return A reference of the \c std::ostream.
   ///
   std::ostream& operator<<(std::ostream& os, const arguments& a);
 
   ///
-  /// \brief Returns an object of class \c arguments which contains the values
-  /// set when executing the program from the command line.
+  /// \brief Returns an object of the type \c arguments which contains the
+  /// values set when executing the program from the command line.
   ///
   /// \param argc the number of arguments passed in the execution.
-  /// \param argv array containing the arguments passed in the execution.
+  /// \param argv the array containing the arguments passed in the execution.
   ///
-  /// \return An object of class \c arguments.
+  /// \return An object of the type \c arguments.
   ///
   arguments parse_arguments(const int argc, ode::argv_t argv[]) noexcept;
 

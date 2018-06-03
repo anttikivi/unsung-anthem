@@ -12,7 +12,7 @@
 //
 ///
 /// \file state.cpp
-/// \brief Definitions of Lua state utilities.
+/// \brief The definitions of the Lua state utilities.
 /// \author Antti Kivi
 /// \date 6 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

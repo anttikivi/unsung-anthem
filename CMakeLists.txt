@@ -50,8 +50,8 @@ option(ODE_VERBOSE_BUILD "Print more information while building" OFF)
 option(ODE_ENABLE_ASSERTIONS
     "Option for enabling assertions in Obliging Ode" ON)
 option(ODE_DEVELOPER "Enable developer mode in Obliging Ode" OFF)
-option(ODE_SDL_TICK_CLOCK
-    "Use SDL clock instead of standard library clock" OFF)
+option(ODE_STD_CLOCK
+    "Use the C++ standard library clock instead of the SDL clock" OFF)
 option(ODE_TEST_USE_NULL_SINK "Log the tests to a null sink" ON)
 option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
 option(ODE_DISABLE_GL_CALLS "Disable the OpenGL calls in Obliging Ode" OFF)

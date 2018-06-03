@@ -1,4 +1,4 @@
-//===------------------------------ object.h --------------------*- C++ -*-===//
+//===----------------------------- systems.h --------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,9 +11,8 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file object.h
-/// \brief Declaration of base type of system object implementations of
-/// Obliging Ode.
+/// \file systems.h
+/// \brief The declaration of the system container.
 /// \author Antti Kivi
 /// \date 18 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -22,23 +21,28 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_OBJECT_H
-#define ODE_OBJECT_H
+#ifndef ODE_FRAMEWORK_SYSTEMS_H
+#define ODE_FRAMEWORK_SYSTEMS_H
+
+#include <map>
+
+#include "ode/system_type.h"
+
+// Forward declarations
+namespace ode
+{
+  class system_t;
+} // namespace ode
 
 namespace ode
 {
   ///
-  /// \brief Base type of objects which implement functionalities of different
-  /// system objects.
+  /// \brief The systems.
   ///
-  struct object
-  {
-    ///
-    /// \brief Destructs an object of type \c object.
-    ///
-    virtual ~object() = default;
-  };
+  /// TODO Convert into a vector of pairs. That may be beneficial.
+  ///
+  extern std::map<system_type, system_t> systems;
 
 } // namespace ode
 
-#endif // !ODE_OBJECT_H
+#endif // !ODE_FRAMEWORK_SYSTEMS_H

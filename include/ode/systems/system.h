@@ -12,7 +12,7 @@
 //
 ///
 /// \file system.h
-/// \brief Declaration of base type of system objects of Obliging Ode.
+/// \brief The declaration of the base type of the system objects.
 /// \author Antti Kivi
 /// \date 17 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEM_H
-#define ODE_SYSTEM_H
+#ifndef ODE_SYSTEMS_SYSTEM_H
+#define ODE_SYSTEMS_SYSTEM_H
 
 // Forward declarations
 namespace ode
@@ -33,25 +33,26 @@ namespace ode
 namespace ode
 {
   ///
-  /// \brief Base type of objects which implement functionalities of different
-  /// the systems.
+  /// \struct system
+  /// \brief The base type of the objects which implement the functionalities
+  /// of the different systems.
   ///
   struct system
   {
     ///
-    /// \brief Destructs an object of type \c system.
+    /// \brief Destructs an object of the type \c system.
     ///
     virtual ~system() = default;
 
     ///
-    /// \brief Creates a scene object implementing functionalities of this
+    /// \brief Creates a scene object implementing the functionalities of this
     /// system.
     ///
-    /// \return An object of type \c scene_t.
+    /// \return An object of the type \c scene_t.
     ///
     virtual scene_t create_scene() const = 0;
   };
 
 } // namespace ode
 
-#endif // !ODE_SYSTEM_H
+#endif // !ODE_SYSTEMS_SYSTEM_H

@@ -12,7 +12,7 @@
 //
 ///
 /// \file virtual_machine_benchmark.cpp
-/// \brief Benchmarks of the definitions of the Lua virtual machine utilities.
+/// \brief The benchmarks of the Lua virtual machine utilities.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

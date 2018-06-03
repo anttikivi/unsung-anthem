@@ -12,7 +12,7 @@
 //
 ///
 /// \file set_up.cpp
-/// \brief Definition of the common set up function of the tests.
+/// \brief The definitions of the common set up functions of the tests.
 /// \author Antti Kivi
 /// \date 4 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

@@ -12,7 +12,7 @@
 //
 ///
 /// \file clean_up.h
-/// \brief Declaration of the common cleanup function of the tests.
+/// \brief The declarations of the common cleanup functions of the tests.
 /// \author Antti Kivi
 /// \date 8 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

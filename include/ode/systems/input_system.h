@@ -12,7 +12,7 @@
 //
 ///
 /// \file input_system.h
-/// \brief Declaration of type of input system object of Obliging Ode.
+/// \brief The declaration of the type of the input system object.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_INPUT_SYSTEM_H
-#define ODE_INPUT_SYSTEM_H
+#ifndef ODE_SYSTEMS_INPUT_SYSTEM_H
+#define ODE_SYSTEMS_INPUT_SYSTEM_H
 
 #include "ode/system_type.h"
 #include "ode/system.h"
@@ -30,7 +30,8 @@
 namespace ode
 {
   ///
-  /// \brief Type of input system object.
+  /// \struct input_system
+  /// \brief The type of the input system object.
   ///
   struct input_system final : public ode::system
   {
@@ -40,18 +41,18 @@ namespace ode
     static constexpr system_type type = system_type::input;
 
     ///
-    /// \brief Destructs an object of type \c input_system.
+    /// \brief Destructs an object of the type \c input_system.
     ///
     ~input_system() = default;
 
     ///
     /// \brief Creates a scene object containing the type \c input_scene.
     ///
-    /// \return An object of type \c scene_t.
+    /// \return An object of the type \c scene_t.
     ///
     scene_t create_scene() const;
   };
 
 } // namespace ode
 
-#endif // !ODE_INPUT_SYSTEM_H
+#endif // !ODE_SYSTEMS_INPUT_SYSTEM_H

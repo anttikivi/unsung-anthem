@@ -12,8 +12,8 @@
 //
 ///
 /// \file data_benchmark.cpp
-/// \brief Benchmarks of definitions of utility functions which allow to get
-/// data from the OpenGL API.
+/// \brief The benchmarks of the utility functions which allow to get data from
+/// the OpenGL API.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

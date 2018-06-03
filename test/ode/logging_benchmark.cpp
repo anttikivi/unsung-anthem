@@ -12,7 +12,7 @@
 //
 ///
 /// \file logging_benchmark.cpp
-/// \brief Benchmarks of declarations of logging-related utility functions.
+/// \brief The benchmarks of the logging-related utility functions.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

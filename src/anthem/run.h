@@ -12,7 +12,7 @@
 //
 ///
 /// \file run.h
-/// \brief Declaration of the main execution function of Unsung Anthem.
+/// \brief The declaration of the main execution function.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -29,13 +29,15 @@
 namespace anthem
 {
   ///
-  /// \brief Returns the object of type \c game_state after executing the
+  /// \brief Returns an object of the type \c game_state after executing the
   /// program with the given arguments.
   ///
   /// This function is impure.
   ///
+  /// TODO
+  ///
   /// \param argc the number of arguments passed in the execution.
-  /// \param argv array containing the arguments passed in the execution.
+  /// \param argv the array containing the arguments passed in the execution.
   ///
   /// \return Does not return anything and, thus, this function is impure.
   ///

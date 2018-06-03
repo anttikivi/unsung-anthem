@@ -12,7 +12,7 @@
 //
 ///
 /// \file set_up.h
-/// \brief Declaration of the common set up function of the tests.
+/// \brief The declarations of the common set up functions of the tests.
 /// \author Antti Kivi
 /// \date 4 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -28,6 +28,11 @@ namespace ode::test
 {
   ///
   /// \brief Sets up the common dependencies of the tests.
+  ///
+  /// \param argc the number of arguments passed in the execution.
+  /// \param argv the array containing the arguments passed in the execution.
+  ///
+  /// \return The end code of the program.
   ///
   int set_up(int argc, char* argv[]);
 

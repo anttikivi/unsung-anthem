@@ -1,4 +1,4 @@
-//===-------------------------- system_type.cpp -----------------*- C++ -*-===//
+//===---------------------- environment_manager.cpp -------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,22 +11,34 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file system_type.cpp
-/// \brief Definitions of the system type utilities.
+/// \file environment_manager.cpp
+/// \brief The definition of the manager which holds execution-related
+/// information and utilities.
 /// \author Antti Kivi
-/// \date 19 April 2018
+/// \date 17 May 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/system_type.h"
+#include "ode/framework/environment_manager.h"
+
+#include "ode/logger.h"
 
 namespace ode
 {
-  std::ostream& operator<<(std::ostream& os, const system_type& a)
+  environment_manager::environment_manager() : execute{true}
   {
-    return os << static_cast<ODE_SYSTEM_TYPE_ENUM_TYPE>(a);
+
   }
+
+  void environment_manager::schedule_termination()
+  {
+    execute = false;
+    ODE_DEBUG("The program was scheduled to quit");
+  }
+
+  environment_manager environment;
+
 } // namespace ode

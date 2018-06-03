@@ -12,7 +12,7 @@
 //
 ///
 /// \file logging_test.cpp
-/// \brief Tests of declarations of logging-related utility functions.
+/// \brief The tests of the logging-related utility functions.
 /// \author Antti Kivi
 /// \date 8 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

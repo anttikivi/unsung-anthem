@@ -12,7 +12,7 @@
 //
 ///
 /// \file script_test.cpp
-/// \brief Tests of the definitions of the utilities for Lua scripts.
+/// \brief The tests of the utilities for Lua scripts.
 /// \author Antti Kivi
 /// \date 8 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

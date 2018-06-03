@@ -12,7 +12,7 @@
 //
 ///
 /// \file virtual_machine.h
-/// \brief The declaration of the Lua virtual machine utilities.
+/// \brief The declarations of the Lua virtual machine utilities.
 /// \author Antti Kivi
 /// \date 7 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -58,7 +58,7 @@ namespace ode::lua
   ///
   /// \tparam T the type of the value on the stack.
   ///
-  /// \param state pointer to the Lua state.
+  /// \param state a pointer to the Lua state.
   /// \param index the index of the value.
   ///
   /// \return the value on the top of the stack.
@@ -97,7 +97,7 @@ namespace ode::lua
   ///
   /// \tparam T the type of the value on the stack.
   ///
-  /// \param state pointer to the Lua state.
+  /// \param state a pointer to the Lua state.
   ///
   /// \return the value on the top of the stack.
   ///
@@ -108,11 +108,11 @@ namespace ode::lua
   }
 
   ///
-  /// \brief Gets a variable from Lua.
+  /// \brief Gets a variable from a Lua virtual machine.
   ///
   /// \tparam T the type of the variable.
   ///
-  /// \param state the Lua state.
+  /// \param state a pointer to the Lua state.
   /// \param var the name of the variable.
   ///
   /// \return the value of the variable.
@@ -206,7 +206,7 @@ namespace ode::lua
   /// \tparam Types the types of the return values.
   /// \tparam Args the types of the function parameters.
   ///
-  /// \param state the Lua state.
+  /// \param state a pointer to the Lua state.
   /// \param name the name of the Lua function.
   /// \param args the parameters of the Lua function.
   ///

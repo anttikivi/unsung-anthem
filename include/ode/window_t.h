@@ -12,7 +12,7 @@
 //
 ///
 /// \file window_t.h
-/// \brief Declarations of window types of Obliging Ode.
+/// \brief The declarations of the window types.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -29,13 +29,13 @@
 namespace ode
 {
   ///
-  /// \brief Type of pointers to the window object.
+  /// \brief The type of the window object.
   ///
   using window_t = sdl::window_t;
 
   ///
-  /// \brief Pointer type which is used as parameter for passing the raw window
-  /// pointer.
+  /// \brief A pointer type which is used as the parameter type for raw window
+  /// pointers.
   ///
   using window_ptr_t = sdl::window_ptr_t;
 

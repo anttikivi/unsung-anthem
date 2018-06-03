@@ -12,7 +12,7 @@
 //
 ///
 /// \file assert
-/// \brief Declarations of the guideline support library assertions.
+/// \brief The declarations of the guideline support library assertions.
 /// \author Antti Kivi
 /// \date 2 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -29,7 +29,7 @@
 
 //
 // There are three configuration options for this behaviour of GSL
-// implementation when pre-conditions or post-conditions on the GSL types are
+// implementation when preconditions or postconditions on the GSL types are
 // violated:
 //
 // 1. GSL_TERMINATE_ON_CONTRACT_VIOLATION: std::terminate will be called
@@ -75,15 +75,16 @@
 namespace gsl
 {
   ///
-  /// \brief Type of exception objects which are thrown by assertions whenever
-  /// \c GSL_THROW_ON_CONTRACT_VIOLATION is enabled.
+  /// \struct fail_fast
+  /// \brief The type of the exception objects which are thrown by assertions
+  /// whenever \c GSL_THROW_ON_CONTRACT_VIOLATION is enabled.
   ///
   struct fail_fast final : public std::logic_error
   {
     ///
-    /// \brief Constructs an object of type \c fail_fast.
+    /// \brief Constructs an object of the type \c fail_fast.
     ///
-    /// \param message description of the failure.
+    /// \param message a description of the failure.
     ///
     explicit fail_fast(char const* const message) : std::logic_error(message)
     {

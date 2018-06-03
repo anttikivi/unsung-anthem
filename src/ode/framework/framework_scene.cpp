@@ -1,4 +1,4 @@
-//===--------------------------- input_scene.h ------------------*- C++ -*-===//
+//===------------------------ framework_scene.cpp ---------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,8 +11,8 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file input_scene.h
-/// \brief Declaration of type of input system scene.
+/// \file framework_scene.cpp
+/// \brief The definition of the framework scene.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,30 +21,25 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_INPUT_SCENE_H
-#define ODE_INPUT_SCENE_H
+#include "ode/universal_scene.h"
 
-#include "ode/scene.h"
-#include "ode/system_type.h"
+#include "ode/config.h"
+#include "ode/logger.h"
+#include "ode/scene_t.h"
+#include "ode/system_t.h"
 
 namespace ode
 {
-  ///
-  /// \brief Type of input system scene objects.
-  ///
-  struct input_scene final : public scene
+  framework_scene::framework_scene() : scenes{}
   {
-    ///
-    /// \brief The system type of this scene.
-    ///
-    static constexpr system_type type = system_type::input;
+    ODE_DEBUG(
+        "Reserving space for {} system scenes",
+        system_space_reservation);
+    scenes.reserve(system_space_reservation);
+  }
 
-    ///
-    /// \brief Destructs an object of type \c input_scene.
-    ///
-    ~input_scene() = default;
-  };
-
+  framework_scene::scene_reference framework_scene::extend(const system_t& sys)
+  {
+    return scenes.emplace_back(sys.create_scene());
+  }
 } // namespace ode
-
-#endif // !ODE_INPUT_SCENE_H

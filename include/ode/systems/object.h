@@ -1,4 +1,4 @@
-//===------------------------ platform_manager.cpp --------------*- C++ -*-===//
+//===------------------------------ object.h --------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,9 +11,9 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file platform_manager.cpp
-/// \brief Definition of manager which holds platform-related utilities of
-/// Obliging Ode.
+/// \file object.h
+/// \brief The declaration of the base type of the system object
+/// implementations.
 /// \author Antti Kivi
 /// \date 18 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -22,24 +22,24 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/platform_manager.h"
-
-#include "ode/logger.h"
+#ifndef ODE_SYSTEMS_OBJECT_H
+#define ODE_SYSTEMS_OBJECT_H
 
 namespace ode
 {
-  std::vector<event_t> poll_events()
+  ///
+  /// \struct object
+  /// \brief The base type of the objects which implement the functionalities
+  /// of the different system objects.
+  ///
+  struct object
   {
-    std::vector<event_t> v{};
-    event_t event;
-
-    while (SDL_PollEvent(&event))
-    {
-      ODE_TRACE("System event: {}", event.type);
-      v.push_back(event);
-    }
-
-    return v;
-  }
+    ///
+    /// \brief Destructs an object of the type \c object.
+    ///
+    virtual ~object() = default;
+  };
 
 } // namespace ode
+
+#endif // !ODE_SYSTEMS_OBJECT_H

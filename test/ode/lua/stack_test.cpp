@@ -12,7 +12,7 @@
 //
 ///
 /// \file stack_test.cpp
-/// \brief Tests of the definitions of the Lua stack utility functions.
+/// \brief The tests of the Lua stack utility functions.
 /// \author Antti Kivi
 /// \date 8 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

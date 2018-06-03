@@ -12,7 +12,7 @@
 //
 ///
 /// \file logging.cpp
-/// \brief Definitions of the logging-related utility functions.
+/// \brief The definitions of the logging-related utility functions.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

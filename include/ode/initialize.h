@@ -12,7 +12,7 @@
 //
 ///
 /// \file initialize.h
-/// \brief Declarations of initialization functions of Obliging Ode.
+/// \brief The declarations of the initialization functions.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -41,17 +41,17 @@ namespace ode
 namespace ode
 {
   ///
-  /// \brief Initializes the logging capabilities of Obliging Ode.
+  /// \brief Initializes the logging capabilities.
   ///
   void initialize_logging();
 
   ///
-  /// \brief Initializes the Simple DirectMedia Layer.
+  /// \brief Initializes Simple DirectMedia Layer.
   ///
-  /// Remarks: The logging capabilities of Obliging Ode must be initialized
-  /// before this function may be called.
+  /// Remarks: The logging capabilities must be initialized before this
+  /// function may be called.
   ///
-  /// \return An object of type \c gsl::finally which terminates Simple
+  /// \return An object of the type \c gsl::finally which terminates Simple
   /// DirectMedia Layer.
   ///
   inline auto initialize_sdl()
@@ -61,24 +61,24 @@ namespace ode
   }
 
   ///
-  /// \brief Initializes the main window of Obliging Ode.
+  /// \brief Initializes the main window.
   ///
-  /// Remarks: The logging capabilities of Obliging Ode and Simple DirectMedia
-  /// Layer must be initialized before this function may be called.
+  /// Remarks: The logging capabilities and Simple DirectMedia Layer must be
+  /// initialized before this function may be called.
   ///
-  /// \param info object containing the starting execution information.
+  /// \param info an object containing the initial execution information.
   ///
-  /// \return Pointer to created window object.
+  /// \return A pointer to the created window object.
   ///
   window_t initialize_window(const execution_info& info);
 
   ///
-  /// \brief Initializes the graphics context of Obliging Ode.
+  /// \brief Initializes the graphics context.
   ///
-  /// Remarks: The logging capabilities of Obliging Ode and Simple DirectMedia
-  /// Layer must be initialized before this function may be called.
+  /// Remarks: The logging capabilities and Simple DirectMedia Layer must be
+  /// initialized before this function may be called.
   ///
-  /// \param window Pointer to the main window object.
+  /// \param window a pointer to the main window object.
   ///
   /// \return An object representing the graphics context.
   ///
@@ -102,15 +102,15 @@ namespace ode
   }
 
   ///
-  /// \brief Initializes miscellaneous capabilities of Obliging Ode.
+  /// \brief Initializes miscellaneous capabilities.
   ///
   void initialize_ode();
 
   ///
-  /// \brief Initializes a system of Obliging Ode.
+  /// \brief Initializes a system.
   ///
-  /// \tparam T type of the system object.
-  /// \tparam Args types of arguments to be passed to the system in
+  /// \tparam T the type of the system object.
+  /// \tparam Args the types of arguments to be passed to the system in
   /// construction.
   ///
   /// \param args arguments to be passed to the system in construction.

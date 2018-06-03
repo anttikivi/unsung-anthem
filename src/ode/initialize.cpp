@@ -12,7 +12,7 @@
 //
 ///
 /// \file initialize.cpp
-/// \brief Definitions of initialization functions of Obliging Ode.
+/// \brief The definitions of the initialization functions.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -26,6 +26,7 @@
 #include <cstdlib>
 
 #include "ode/config.h"
+#include "ode/environment_manager.h"
 #include "ode/execution_info.h"
 #include "ode/system_t.h"
 
@@ -61,6 +62,7 @@ namespace ode
   void initialize_ode()
   {
     ODE_DEBUG("Initializing the system container of {}", ode_name);
+    environment = environment_manager{};
     systems = std::map<system_type, system_t>{};
     // ODE_DEBUG("Reserving space for {} systems", system_space_reservation);
     // systems.reserve(system_space_reservation);

@@ -12,7 +12,8 @@
 //
 ///
 /// \file window.cpp
-/// \brief Definitions of the window utilities for Simple DirectMedia Layer.
+/// \brief The definitions of the window utilities for Simple DirectMedia
+/// Layer.
 /// \author Antti Kivi
 /// \date 29 March 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

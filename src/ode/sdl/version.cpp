@@ -12,7 +12,8 @@
 //
 ///
 /// \file version.cpp
-/// \brief Definitions of Simple DirectMedia Layer version utility functions.
+/// \brief The definitions of the Simple DirectMedia Layer version utility
+/// functions.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -33,7 +34,7 @@ namespace ode::sdl
   {
     SDL_version v;
     SDL_VERSION(&v);
-    ODE_TRACE("Got the compiled version of the Simple DirectMedia Layer");
+    ODE_TRACE("Got the compiled version of Simple DirectMedia Layer");
     return v;
   }
 
@@ -41,7 +42,7 @@ namespace ode::sdl
   {
     SDL_version v;
     SDL_GetVersion(&v);
-    ODE_TRACE("Got the linked version of the Simple DirectMedia Layer");
+    ODE_TRACE("Got the linked version of Simple DirectMedia Layer");
     return v;
   }
 

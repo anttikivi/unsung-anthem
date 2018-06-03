@@ -12,7 +12,7 @@
 //
 ///
 /// \file quit.h
-/// \brief Declarations of quitting functions of Obliging Ode.
+/// \brief The declarations of the quitting functions.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -29,7 +29,7 @@
 namespace ode
 {
   ///
-  /// \brief Destructs the graphics context of Obliging Ode.
+  /// \brief Destructs the graphics context.
   ///
   /// \param context the graphics context.
   ///

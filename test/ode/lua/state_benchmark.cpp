@@ -12,7 +12,7 @@
 //
 ///
 /// \file state_benchmark.cpp
-/// \brief Benchmarks of the definition of the Lua state.
+/// \brief The benchmarks of the Lua state.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

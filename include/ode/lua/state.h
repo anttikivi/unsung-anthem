@@ -12,7 +12,7 @@
 //
 ///
 /// \file state.h
-/// \brief Declarations of Lua state utilities
+/// \brief The declarations of the Lua state utilities
 /// \author Antti Kivi
 /// \date 6 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -31,14 +31,14 @@ namespace ode::lua
   ///
   /// \brief Initializes a new Lua state.
   ///
-  /// \return Pointer to the new \c lua_State.
+  /// \return A pointer to the new \c lua_State.
   ///
   state_t make_state() noexcept;
 
   ///
   /// \brief Resets the given Lua state.
   ///
-  /// \param state Lua state to reset.
+  /// \param state the Lua state to reset.
   ///
   void clean(const state_ptr_t state) noexcept;
 

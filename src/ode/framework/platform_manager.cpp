@@ -1,4 +1,4 @@
-//===-------------------------- input_system.cpp ----------------*- C++ -*-===//
+//===------------------------ platform_manager.cpp --------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,26 +11,37 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file input_system.cpp
-/// \brief Definition of type of input system object of Unsung Anthem.
+/// \file platform_manager.cpp
+/// \brief The definition of the manager which holds the platform-related
+/// utilities.
 /// \author Antti Kivi
-/// \date 19 April 2018
+/// \date 18 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "anthem/input_system.h"
+#include "ode/platform_manager.h"
 
-#include "ode/scene_t.h"
+#include "ode/environment_manager.h"
+#include "ode/logger.h"
 
-#include "anthem/input_scene.h"
-
-namespace anthem
+namespace ode
 {
-  ode::scene_t input_system::create_scene() const
+  void poll_events()
   {
-    return input_scene{};
+    event_t e;
+
+    while (SDL_PollEvent(&e))
+    {
+      ODE_TRACE("System event: {}", e.type);
+
+      if (SDL_QUIT == e.type)
+      {
+        environment.schedule_termination();
+      }
+    }
   }
-} // namespace anthem
+
+} // namespace ode

@@ -27,7 +27,7 @@
 namespace ode::filesystem::path
 {
   ///
-  /// \brief The character which should be used as path separator on the
+  /// \brief The character which should be used as the path separator on the
   /// current system.
   ///
 #if _WIN32

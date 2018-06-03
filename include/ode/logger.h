@@ -12,7 +12,7 @@
 //
 ///
 /// \file logger.h
-/// \brief Declarations of main logging functions of Obliging Ode.
+/// \brief The declarations of the main logging functions.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -28,57 +28,58 @@
 
 ///
 /// \def ODE_TRACE(...)
-/// \brief Preprocessor macro which is used for trace-level logging.
+/// \brief The preprocessor macro used for trace-level logging.
 ///
 #define ODE_TRACE(...) ::ode::logging::trace(__VA_ARGS__)
 
 ///
 /// \def ODE_DEBUG(...)
-/// \brief Preprocessor macro which is used for debug-level logging.
+/// \brief The preprocessor macro which is used for debug-level logging.
 ///
 #define ODE_DEBUG(...) ::ode::logging::debug(__VA_ARGS__)
 
 ///
 /// \def ODE_INFO(...)
-/// \brief Preprocessor macro which is used for info-level logging.
+/// \brief The preprocessor macro which is used for info-level logging.
 ///
 #define ODE_INFO(...) ::ode::logging::info(__VA_ARGS__)
 
 ///
 /// \def ODE_WARN(...)
-/// \brief Preprocessor macro which is used for warning-level logging.
+/// \brief The preprocessor macro which is used for warning-level logging.
 ///
 #define ODE_WARN(...) ::ode::logging::warn(__VA_ARGS__)
 
 ///
 /// \def ODE_ERROR(...)
-/// \brief Preprocessor macro which is used for error-level logging.
+/// \brief The preprocessor macro which is used for error-level logging.
 ///
 #define ODE_ERROR(...) ::ode::logging::error(__VA_ARGS__)
 
 ///
 /// \def ODE_CRITICAL(...)
-/// \brief Preprocessor macro which is used for critical-level logging.
+/// \brief The preprocessor macro which is used for critical-level logging.
 ///
 #define ODE_CRITICAL(...) ::ode::logging::critical(__VA_ARGS__)
 
 namespace ode
 {
   ///
-  /// \brief The main logger of the engine.
+  /// \brief The main logger.
   ///
   inline logger_t logger = nullptr;
   
-  // Logging methods which use the global logger.
+  // The logging methods which use the global logger.
   namespace logging
   {
     ///
     /// \brief Writes a trace-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -95,7 +96,7 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -110,7 +111,8 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -127,7 +129,7 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -142,7 +144,8 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -159,7 +162,7 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -174,7 +177,8 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -191,7 +195,7 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -206,7 +210,8 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -223,7 +228,7 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -238,7 +243,8 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -255,7 +261,7 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///

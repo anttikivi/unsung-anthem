@@ -1,4 +1,4 @@
-//===----------------------------- systems.h --------------------*- C++ -*-===//
+//===-------------------------- system_type.cpp -----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,36 +11,22 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file systems.h
-/// \brief Declaration of system container of Obliging Ode.
+/// \file system_type.cpp
+/// \brief The definitions of the system type utilities.
 /// \author Antti Kivi
-/// \date 18 April 2018
+/// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEMS_H
-#define ODE_SYSTEMS_H
-
-#include <map>
-
 #include "ode/system_type.h"
 
-// Forward declarations
 namespace ode
 {
-  class system_t;
+  std::ostream& operator<<(std::ostream& os, const system_type& a)
+  {
+    return os << static_cast<ODE_SYSTEM_TYPE_ENUM_TYPE>(a);
+  }
 } // namespace ode
-
-namespace ode
-{
-  ///
-  /// \brief The systems of Obliging Ode.
-  ///
-  extern std::map<system_type, system_t> systems;
-
-} // namespace ode
-
-#endif // !ODE_SYSTEMS_H

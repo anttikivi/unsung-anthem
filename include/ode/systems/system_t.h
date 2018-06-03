@@ -12,7 +12,7 @@
 //
 ///
 /// \file system_t.h
-/// \brief Declarations of type templates of system objects of Obliging Ode.
+/// \brief The declarations of the type templates of system objects.
 /// \author Antti Kivi
 /// \date 17 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEM_T_H
-#define ODE_SYSTEM_T_H
+#ifndef ODE_SYSTEMS_SYSTEM_T_H
+#define ODE_SYSTEMS_SYSTEM_T_H
 
 #include <memory>
 #include <utility>
@@ -38,17 +38,18 @@ namespace ode
 namespace ode
 {
   ///
-  /// \brief Type of objects which are functional systems of Obliging Ode.
+  /// \class system_t
+  /// \brief The type of the objects which are the functional systems.
   ///
   class system_t final
   {
   public:
     ///
-    /// \brief Constructs an object of type \c system_t.
+    /// \brief Constructs an object of the type \c system_t.
     ///
-    /// \tparam T type of the system implementation.
+    /// \tparam T the type of the system implementation.
     ///
-    /// \param t system implementation.
+    /// \param t the system implementation.
     ///
     template <typename T>
     system_t(T t) : sys_ptr{std::make_shared<T>(std::move(t))}
@@ -57,58 +58,61 @@ namespace ode
     }
 
     ///
-    /// \brief Constructs an object of type \c system_t by copying the given
-    /// object of type \c system_t.
+    /// \brief Constructs an object of the type \c system_t by copying the
+    /// given object of the type \c system_t.
     ///
     /// \param a \c system_t from which the new one is constructed.
     ///
     system_t(const system_t& a) = default;
 
     ///
-    /// \brief Constructs an object of type \c system_t by moving the given
-    /// object of type \c system_t.
+    /// \brief Constructs an object of the type \c system_t by moving the given
+    /// object of the type \c system_t.
     ///
     /// \param a \c system_t from which the new one is constructed.
     ///
     system_t(system_t&& a) = default;
 
     ///
-    /// \brief Destructs an object of type \c system_t.
+    /// \brief Destructs an object of the type \c system_t.
     ///
     ~system_t() = default;
 
     ///
-    /// \brief Assigns the given object of type \c system_t to this one by
+    /// \brief Assigns the given object of the type \c system_t to this one by
     /// copying.
     ///
     /// \param a \c system_t from which this one is assigned.
     ///
-    /// \return Reference to \c *this.
+    /// \return A reference to \c *this.
     ///
     system_t& operator=(const system_t& a) = default;
 
     ///
-    /// \brief Assigns the given object of type \c system_t to this one by
+    /// \brief Assigns the given object of the type \c system_t to this one by
     /// moving.
     ///
     /// \param a \c system_t from which this one is assigned.
     ///
-    /// \return Reference to \c *this.
+    /// \return A reference to \c *this.
     ///
     system_t& operator=(system_t&& a) = default;
     
     ///
-    /// \brief Creates a scene object implementing functionalities of this
+    /// \brief Creates a scene object implementing the functionalities of this
     /// system.
     ///
-    scene_t create_scene();
+    /// \return An object of the type \c scene_t which has the functionality of
+    /// this system.
+    ///
+    scene_t create_scene() const;
 
   private:
     ///
-    /// \brief Pointer to the contained system implementation.
+    /// \brief A pointer to the contained system implementation.
     ///
     std::shared_ptr<const system> sys_ptr;
   };
 } // namespace ode
 
-#endif // !ODE_SYSTEM_T_H
+#endif // !ODE_SYSTEMS_SYSTEM_T_H

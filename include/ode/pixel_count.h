@@ -12,7 +12,7 @@
 //
 ///
 /// \file pixel_count.h
-/// \brief Declaration of the pixel count type.
+/// \brief The declaration of the pixel count type.
 /// \author Antti Kivi
 /// \date 4 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -27,18 +27,18 @@
 namespace ode
 {
   ///
-  /// \brief Type of values which represent some number of pixels.
+  /// \brief The type of the values which represent some number of pixels.
   ///
   using pixel_count = int;
 
 } // namespace ode
 
 ///
-/// \brief A \c pixel value representing an integer of pixels.
+/// \brief A \c pixel_count value representing an integer of pixels.
 ///
-/// \param i integer of pixels.
+/// \param i an integer of pixels.
 ///
-/// \return The \c pixel literal.
+/// \return The \c pixel_count literal.
 ///
 constexpr ode::pixel_count operator""_px(const unsigned long long i) noexcept
 {

@@ -12,8 +12,7 @@
 //
 ///
 /// \file logging_config.h
-/// \brief The declarations and the definitions of the Unsung Anthem
-/// logger-related constants.
+/// \brief The declarations and definitions of logger-related constants.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

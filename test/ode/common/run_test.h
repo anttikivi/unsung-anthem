@@ -12,7 +12,7 @@
 //
 ///
 /// \file run_test.h
-/// \brief Declaration of the common running function of the tests.
+/// \brief The declarations of the common running functions of the tests.
 /// \author Antti Kivi
 /// \date 4 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -30,7 +30,7 @@ namespace ode::test
   /// \brief Runs the tests and benchmarks.
   ///
   /// \param argc the number of arguments passed in the execution.
-  /// \param argv array containing the arguments passed in the execution.
+  /// \param argv the array containing the arguments passed in the execution.
   ///
   /// \return The end code of the tests.
   ///

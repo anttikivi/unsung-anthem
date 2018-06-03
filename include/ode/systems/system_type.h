@@ -12,7 +12,7 @@
 //
 ///
 /// \file system_type.h
-/// \brief Declarations of the system type utilities.
+/// \brief The declarations of the system type utilities.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEM_TYPE_H
-#define ODE_SYSTEM_TYPE_H
+#ifndef ODE_SYSTEMS_SYSTEM_TYPE_H
+#define ODE_SYSTEMS_SYSTEM_TYPE_H
 
 #include <iostream>
 
@@ -32,7 +32,7 @@ namespace ode
 {
   ///
   /// \brief An enumeration type, the enumerators of which represent the
-  /// possible system types in Obliging Ode.
+  /// possible system types.
   ///
   enum class system_type : ODE_SYSTEM_TYPE_ENUM_TYPE
   {
@@ -41,16 +41,16 @@ namespace ode
   };
 
   ///
-  /// \brief Inserts an enumerator of type \c system_type to the
+  /// \brief Inserts an enumerator of the type \c system_type to the
   /// \c std::ostream.
   ///
   /// \param os the stream to which the data is inserted.
   /// \param a the enumerator which is inserted.
   ///
-  /// \return a reference of the \c std::ostream.
+  /// \return A reference of the \c std::ostream.
   ///
   std::ostream& operator<<(std::ostream& os, const system_type& a);
 
 } // namespace ode
 
-#endif // !ODE_SYSTEM_TYPE_H
+#endif // !ODE_SYSTEMS_SYSTEM_TYPE_H

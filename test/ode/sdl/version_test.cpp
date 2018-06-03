@@ -12,8 +12,7 @@
 //
 ///
 /// \file version_test.cpp
-/// \brief Tests of definitions of Simple DirectMedia Layer version utility
-/// functions.
+/// \brief The tests of the Simple DirectMedia Layer version utility functions.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

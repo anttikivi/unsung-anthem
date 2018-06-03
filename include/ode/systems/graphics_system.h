@@ -12,7 +12,7 @@
 //
 ///
 /// \file graphics_system.h
-/// \brief The declaration of the type of the graphics system object.
+/// \brief The declaration of the type of the graphics system.
 /// \author Antti Kivi
 /// \date 8 May 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_GRAPHICS_SYSTEM_H
-#define ODE_GRAPHICS_SYSTEM_H
+#ifndef ODE_SYSTEMS_GRAPHICS_SYSTEM_H
+#define ODE_SYSTEMS_GRAPHICS_SYSTEM_H
 
 #include "ode/system_type.h"
 #include "ode/system.h"
@@ -31,11 +31,11 @@ namespace ode
 {
   ///
   /// \struct graphics_system
-  /// \brief The type of the graphics system object.
+  /// \brief The type of the graphics system.
   ///
   /// The graphics system controls only the viewport inside the program window.
   ///
-  struct graphics_system final : public ode::system
+  struct graphics_system final : public system
   {
     ///
     /// \brief The system type of this system.
@@ -43,18 +43,18 @@ namespace ode
     static constexpr system_type type = system_type::graphics;
 
     ///
-    /// \brief Destructs an object of type \c graphics_system.
+    /// \brief Destructs an object of the type \c graphics_system.
     ///
     ~graphics_system() = default;
 
     ///
     /// \brief Creates a scene object containing the type \c graphics_scene.
     ///
-    /// \return An object of type \c scene_t.
+    /// \return An object of the type \c scene_t.
     ///
     scene_t create_scene() const;
   };
 
 } // namespace ode
 
-#endif // !ODE_GRAPHICS_SYSTEM_H
+#endif // !ODE_SYSTEMS_GRAPHICS_SYSTEM_H

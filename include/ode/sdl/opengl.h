@@ -12,8 +12,8 @@
 //
 ///
 /// \file opengl.h
-/// \brief Declarations of utility functions for Simple DirectMedia Layer
-/// OpenGL context.
+/// \brief The declarations of the utility functions for the Simple DirectMedia
+/// Layer OpenGL contexts.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -36,7 +36,7 @@ namespace ode::sdl
   ///
   /// \param window a pointer to a window.
   ///
-  /// \return The object of type \c SDL_GLContext.
+  /// \return An object of the type \c SDL_GLContext.
   ///
   SDL_GLContext create_gl_context(window_ptr_t window);
 

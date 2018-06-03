@@ -12,7 +12,7 @@
 //
 ///
 /// \file __config
-/// \brief The declaration of the preprocessor configurations of Obliging Ode.
+/// \brief The declarations of the preprocessor configurations.
 /// \author Antti Kivi
 /// \date 20 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -46,5 +46,13 @@
 #endif // !__APPLE__
 
 #define ODE_SYSTEM_TYPE_ENUM_TYPE int
+
+#if ODE_PRINT_MULTITHREADING_WARNING
+# if ODE_WINDOWS
+#   pragma message ("Multithreading is not currently supported")
+# else
+#   warning "Multithreading is not currently supported"
+# endif // !ODE_WINDOWS
+#endif // ODE_PRINT_MULTITHREADING_WARNING
 
 #endif // !ODE___CONFIG_H

@@ -12,8 +12,9 @@
 //
 ///
 /// \file view_test.cpp
-/// \brief Tests of the implementations of guideline support library types
-/// which allow distinction between owning and non-owning objects.
+/// \brief The tests of the guideline support library types which are used as
+/// viewers for various objects and which do distinction between owning and
+/// non-owning types.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

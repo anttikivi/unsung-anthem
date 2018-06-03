@@ -12,7 +12,7 @@
 //
 ///
 /// \file run.cpp
-/// \brief Definition of the main execution function of Unsung Anthem.
+/// \brief The definition of the main execution function.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

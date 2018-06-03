@@ -12,7 +12,7 @@
 //
 ///
 /// \file util
-/// \brief Declarations of the guideline support library utility types.
+/// \brief The declarations of the guideline support library utility types.
 /// \author Antti Kivi
 /// \date 2 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -49,8 +49,8 @@ namespace gsl
   //===--- final_action ---------------------------------------------------===//
 
   ///
-  /// \brief Class template of objects which hold an object of a Callable type
-  /// and invoke it at the end of the current scope.
+  /// \brief The class template of the objects which hold an object of a
+  /// Callable type and invoke it at the end of the current scope.
   ///
   /// \tparam F a Callable type.
   ///
@@ -59,16 +59,16 @@ namespace gsl
   public:
 
     ///
-    /// \brief Constructs an object of type \final_action.
+    /// \brief Constructs an object of the type \final_action.
     ///
     /// Remarks: This default constructor is explicit deleted as an object of
-    /// type \c final_action must hold a Callable object to be invoked at the
-    /// end of the current scope.
+    /// the type \c final_action must hold a Callable object to be invoked at
+    /// the end of the current scope.
     ///
     constexpr final_action() noexcept = delete;
 
     ///
-    /// \brief Constructs an object of type \final_action.
+    /// \brief Constructs an object of the type \final_action.
     ///
     /// \param f an object of a Callable type which shall be invoked at the end
     /// of the current scope.
@@ -80,22 +80,22 @@ namespace gsl
     }
 
     ///
-    /// \brief Constructs an object of type \c final_action which has the same
-    /// value as the original object \c o.
+    /// \brief Constructs an object of the type \c final_action which has the
+    /// same value as the original object \c o.
     ///
     /// Remarks: This copy constructor is explicitly deleted to avoid
     /// unintended duplicate invocation of the Callable object.
     ///
-    /// \param o object from which the value is copied into the constructed
+    /// \param o the object from which the value is copied into the constructed
     /// object.
     ///
     constexpr final_action(const final_action& o) noexcept = delete;
 
     ///
-    /// \brief Constructs an object of type \c final_action and moves the value
-    /// of \c o to the constructed object.
+    /// \brief Constructs an object of the type \c final_action and moves the
+    /// value of \c o to the constructed object.
     ///
-    /// \param o object from which the value is moved into the constructed
+    /// \param o the object from which the value is moved into the constructed
     /// object.
     ///
     constexpr final_action(final_action&& o) noexcept
@@ -107,11 +107,12 @@ namespace gsl
     }
 
     ///
-    /// \brief Destructs an object of type \c final_action.
+    /// \brief Destructs an object of the type \c final_action.
     ///
-    /// Remarks: Destruction of an object of type \c final_action invokes the
-    /// Callable object held by the object of type \c final_action as it is
-    /// guaranteed to be at the end of the current scope.
+    /// Remarks: The destruction of an object of the type \c final_action
+    /// invokes the Callable object held by the object of the type
+    /// \c final_action as it is guaranteed to be at the end of the current
+    /// scope.
     ///
     ~final_action() noexcept
     {
@@ -124,40 +125,42 @@ namespace gsl
     }
 
     ///
-    /// \brief Copies the values of \c o and replaces the value of \c *this by
-    /// it.
+    /// \brief Copies the values of \c o and replaces the values of \c *this by
+    /// its.
     ///
     /// Remarks: This assignment operator is explicitly deleted.
     ///
-    /// \param o object of type \c final_action from which the value is copied.
+    /// \param o an object of the type \c final_action from which the values
+    /// are copied.
     ///
-    /// \return Reference to \c *this.
+    /// \return A reference to \c *this.
     ///
     constexpr final_action& operator=(const final_action& o) noexcept = delete;
 
     ///
     /// \brief Moves the values of \c o and replaces the values of \c *this by
-    /// it.
+    /// its.
     ///
     /// Remarks: This assignment operator is explicitly deleted.
     ///
-    /// \param o object of type \c final_action from which the value is moved.
+    /// \param o an object of the type \c final_action from which the values
+    /// are moved.
     ///
-    /// \return Reference to \c *this.
+    /// \return A reference to \c *this.
     ///
     constexpr final_action& operator=(final_action&& o) noexcept = delete;
 
   private:
 
     ///
-    /// \brief An action which shall be executed at the end of the current
+    /// \brief The action which shall be executed at the end of the current
     /// scope.
     ///
     const F f;
 
     ///
-    /// \brief Value describing whether or not the action shall be executed at
-    /// the end of the current scope.
+    /// \brief The value describing whether or not the action shall be executed
+    /// at the end of the current scope.
     ///
     /// Remarks: Set to \c false if and only if the enclosing \c final_action
     /// is moved.
@@ -168,14 +171,14 @@ namespace gsl
   //===--- finally --------------------------------------------------------===//
 
   ///
-  /// \brief Makes an object of type \c final_action.
+  /// \brief Makes an object of the type \c final_action.
   ///
   /// \tparam F a Callable type.
   ///
-  /// \param f an object of a Callable type which shall be invoked at the end
+  /// \param f an object of the Callable type which shall be invoked at the end
   /// of the current scope.
   ///
-  /// \return A constructed object of type \c final_action.
+  /// \return A constructed object of the type \c final_action.
   ///
   template <typename F> constexpr final_action<F> finally(const F& f) noexcept
   {
@@ -183,14 +186,14 @@ namespace gsl
   }
 
   ///
-  /// \brief Makes an object of type \c final_action.
+  /// \brief Makes an object of the type \c final_action.
   ///
   /// \tparam F a Callable type.
   ///
   /// \param f an object of a Callable type which shall be invoked at the end
   /// of the current scope.
   ///
-  /// \return A constructed object of type \c final_action.
+  /// \return A constructed object of the type \c final_action.
   ///
   template <typename F> constexpr final_action<F> finally(F&& f) noexcept
   {
@@ -202,8 +205,8 @@ namespace gsl
   ///
   /// \brief Performs a narrowing \c static_cast.
   ///
-  /// \tparam T a new, narrowed type.
-  /// \tparam U a type to narrow from.
+  /// \tparam T the new, narrowed type.
+  /// \tparam U the type to narrow from.
   ///
   /// \param u an object, the type of which shall be narrowed.
   ///
@@ -216,32 +219,37 @@ namespace gsl
 
   //===--- narrowing_error ------------------------------------------------===//
 
+  ///
+  /// \struct narrowing_error
+  /// \brief TODO
+  ///
   struct narrowing_error final : public std::exception
   {
     ///
-    /// \brief Constructs an object of class \c narrowing_error.
+    /// \brief Constructs an object of the type \c narrowing_error.
     ///
     narrowing_error() noexcept = default;
 
     ///
-    /// \brief Constructs an object of class \c narrowing_error which has the
-    /// same values as the original object \c a.
+    /// \brief Constructs an object of the type \c narrowing_error which has
+    /// the same values as the original object \c a.
     ///
-    /// \param a object from which values are copied into the constructed
+    /// \param a an object from which values are copied into the constructed
     /// object.
     ///
     constexpr narrowing_error(const narrowing_error& a) noexcept = default;
 
     ///
-    /// \brief Constructs an object of class \c narrowing_error and moves the
-    /// values of \c a to the constructed object.
+    /// \brief Constructs an object of the type \c narrowing_error and moves
+    /// the values of \c a to the constructed object.
     ///
-    /// \param a object from which values are moved into the constructed object.
+    /// \param a an object from which values are moved into the constructed
+    /// object.
     ///
     constexpr narrowing_error(narrowing_error&& a) noexcept = default;
 
     ///
-    /// \brief Destructs an object of class \c narrowing_error.
+    /// \brief Destructs an object of the type \c narrowing_error.
     ///
     ~narrowing_error() noexcept = default;
 
@@ -249,10 +257,10 @@ namespace gsl
     /// \brief Copies the values of \c a and replaces the values of \c *this by
     /// them.
     ///
-    /// \param a object of class \c narrowing_error from which the values are
-    /// copied.
+    /// \param a an object of the type \c narrowing_error from which the values
+    /// are copied.
     ///
-    /// \return Reference to \c *this.
+    /// \return A reference to \c *this.
     ///
     narrowing_error& operator=(const narrowing_error& a) noexcept = default;
 
@@ -260,10 +268,10 @@ namespace gsl
     /// \brief Moves the values of \c a and replaces the values of \c *this by
     /// them.
     ///
-    /// \param a object of class \c narrowing_error from which the values are
-    /// moved.
+    /// \param a an object of the type \c narrowing_error from which the values
+    /// are moved.
     ///
-    /// \return Reference to \c *this.
+    /// \return A reference to \c *this.
     ///
     narrowing_error& operator=(narrowing_error&& a) noexcept = default;
   };
@@ -288,8 +296,8 @@ namespace gsl
   /// \brief Performs a narrowing \c static_cast checking that the value does
   /// not change in the cast.
   ///
-  /// \tparam T a new narrowed type.
-  /// \tparam U a type to narrow from.
+  /// \tparam T the new, narrowed type.
+  /// \tparam U the type to narrow from.
   ///
   /// \param u an object, the type of which shall be narrowed.
   ///
@@ -315,7 +323,7 @@ namespace gsl
   //===--- index ----------------------------------------------------------===//
 
   ///
-  /// \brief Type of values which represent an index of a loop.
+  /// \brief The type of the values which represent an index of a loop.
   ///
   using index = std::ptrdiff_t;
 

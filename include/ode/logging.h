@@ -12,7 +12,7 @@
 //
 ///
 /// \file logging.h
-/// \brief Declarations of logging-related utility functions.
+/// \brief The declarations of the logging-related utility functions.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -32,14 +32,14 @@
 namespace ode
 {
   ///
-  /// \brief Type of objects which do logging.
+  /// \brief The the type of the objects which do logging.
   ///
   using logger_t = std::shared_ptr<spdlog::logger>;
 
   namespace detail
   {
     ///
-    /// \brief Creates a shared pointer to an object of the logger type.
+    /// \brief Creates a shared pointer to an object of the logger the type.
     ///
     /// \param name the name of the logger.
     /// \param sink the sink to be used in the logger.
@@ -51,7 +51,7 @@ namespace ode
   } // namespace detail
 
   ///
-  /// \brief Creates a shared pointer to an object of the logger type provided
+  /// \brief Creates a shared pointer to an object of the logger the type provided
   /// by spdlog.
   ///
   /// \param name the name of the logger.
@@ -73,12 +73,13 @@ namespace ode
     ///
     /// \brief Writes a trace-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -98,9 +99,9 @@ namespace ode
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param msg the logger message.
     ///
@@ -113,12 +114,13 @@ namespace ode
     ///
     /// \brief Writes a debug-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -135,12 +137,12 @@ namespace ode
     ///
     /// \brief Writes a debug-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param msg the logger message.
     ///
@@ -153,12 +155,13 @@ namespace ode
     ///
     /// \brief Writes an info-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -175,12 +178,12 @@ namespace ode
     ///
     /// \brief Writes an info-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param msg the logger message.
     ///
@@ -193,12 +196,13 @@ namespace ode
     ///
     /// \brief Writes a warning-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -215,12 +219,12 @@ namespace ode
     ///
     /// \brief Writes a warning-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param msg the logger message.
     ///
@@ -233,12 +237,13 @@ namespace ode
     ///
     /// \brief Writes an error-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -255,12 +260,12 @@ namespace ode
     ///
     /// \brief Writes an error-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param msg the logger message.
     ///
@@ -273,12 +278,13 @@ namespace ode
     ///
     /// \brief Writes a critical-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -295,12 +301,12 @@ namespace ode
     ///
     /// \brief Writes a critical-level log message into the logger.
     ///
-    /// Remarks: This object is impure as it writes into the logger. Thus, it
+    /// Remarks: This function is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
-    /// \param logger an object of type shared_ptr containing the logger
+    /// \param logger an object of the type shared_ptr containing the logger
     /// object.
     /// \param msg the logger message.
     ///

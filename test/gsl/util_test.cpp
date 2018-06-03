@@ -12,8 +12,7 @@
 //
 ///
 /// \file util_test.cpp
-/// \brief Tests of the implementations of guideline support library utility
-/// types.
+/// \brief The tests of the guideline support library utility types.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

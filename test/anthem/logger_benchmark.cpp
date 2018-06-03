@@ -12,8 +12,7 @@
 //
 ///
 /// \file logger_benchmark.cpp
-/// \brief Benchmarks of declarations of main logging functions of Unsung
-/// Anthem.
+/// \brief The benchmarks of the main logging functions.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

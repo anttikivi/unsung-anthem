@@ -1,4 +1,4 @@
-//===----------------------------- event_t.h --------------------*- C++ -*-===//
+//===---------------------------- systems.cpp -------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,8 +11,8 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file event_t.h
-/// \brief Declaration of type of objects which represent system events.
+/// \file systems.cpp
+/// \brief The definition of the system container.
 /// \author Antti Kivi
 /// \date 18 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,18 +21,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_EVENT_T_H
-#define ODE_EVENT_T_H
+#include "ode/systems.h"
 
-#include <SDL2/SDL.h>
+#include "ode/system_t.h"
 
 namespace ode
 {
-  ///
-  /// \brief Type of objects which represent system events.
-  ///
-  using event_t = SDL_Event;
-
+  std::map<system_type, system_t> systems;
 } // namespace ode
-
-#endif // !ODE_EVENT_T_H

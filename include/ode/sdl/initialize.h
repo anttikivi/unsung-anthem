@@ -12,7 +12,7 @@
 //
 ///
 /// \file initialize.h
-/// \brief Declarations of the initialization utility function for Simple
+/// \brief The declaration of the initialization utility function for Simple
 /// DirectMedia Layer.
 /// \author Antti Kivi
 /// \date 5 April 2018
@@ -37,9 +37,9 @@
 namespace ode::sdl
 {
   ///
-  /// \brief Initializes the Simple DirectMedia Layer.
+  /// \brief Initializes Simple DirectMedia Layer.
   ///
-  /// \return An object of type \c gsl::finally which terminates Simple
+  /// \return An object of the type \c gsl::finally which terminates Simple
   /// DirectMedia Layer.
   ///
   inline auto initialize()

@@ -1,0 +1,51 @@
+//===------------------------- graphics_object.h ----------------*- C++ -*-===//
+//
+//                        Obliging Ode & Unsung Anthem
+//
+// This source file is part of the Obliging Ode and Unsung Anthem open source
+// projects.
+//
+// Copyright (c) 2018 Venturesome Stone
+// Licensed under GNU Affero General Public License v3.0
+//
+//===----------------------------------------------------------------------===//
+//
+///
+/// \file graphics_object.h
+/// \brief The declaration of the type of the graphics system objects.
+/// \author Antti Kivi
+/// \date 8 May 2018
+/// \copyright Copyright (c) 2018 Venturesome Stone
+/// Licensed under GNU Affero General Public License v3.0
+///
+//
+//===----------------------------------------------------------------------===//
+
+#ifndef ODE_SYSTEMS_GRAPHICS_OBJECT_H
+#define ODE_SYSTEMS_GRAPHICS_OBJECT_H
+
+#include "ode/object.h"
+#include "ode/system_type.h"
+
+namespace ode
+{
+  ///
+  /// \struct graphics_object
+  /// \brief The type of the graphics system objects.
+  ///
+  struct graphics_object final : public object
+  {
+    ///
+    /// \brief The system type of this object.
+    ///
+    static constexpr system_type type = system_type::graphics;
+
+    ///
+    /// \brief Destructs an object of the type \c graphics_object.
+    ///
+    ~graphics_object() = default;
+  };
+
+} // namespace ode
+
+#endif // !ODE_SYSTEMS_GRAPHICS_OBJECT_H

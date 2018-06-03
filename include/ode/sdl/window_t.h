@@ -12,7 +12,7 @@
 //
 ///
 /// \file window_t.h
-/// \brief Declarations of window types for Simple DirectMedia Layer.
+/// \brief The declarations of the window types for Simple DirectMedia Layer.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -31,13 +31,13 @@
 namespace ode::sdl
 {
   ///
-  /// \brief Type of window objects.
+  /// \brief The type of the window objects.
   ///
   using window_t = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
 
   ///
-  /// \brief Pointer type which is used as parameter for passing the raw window
-  /// pointer.
+  /// \brief A pointer type which is used as the parameter type for raw window
+  /// pointers.
   ///
   using window_ptr_t = SDL_Window*;
 

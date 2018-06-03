@@ -12,8 +12,8 @@
 //
 ///
 /// \file command_line_interface_test.cpp
-/// \brief Tests of the definitions of the utilities related to parsing command
-/// line arguments.
+/// \brief The tests of the utilities related to parsing command line
+/// arguments.
 /// \author Antti Kivi
 /// \date 29 March 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

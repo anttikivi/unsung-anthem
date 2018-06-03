@@ -12,7 +12,7 @@
 //
 ///
 /// \file stack.h
-/// \brief The declaration of the Lua stack utility functions.
+/// \brief The declarations of the Lua stack utility functions.
 /// \author Antti Kivi
 /// \date 6 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -36,7 +36,7 @@ namespace ode::lua
   ///
   /// \brief Puts a Lua variable to the top of the Lua stack.
   ///
-  /// \param state pointer to the Lua state.
+  /// \param state a pointer to the Lua state.
   /// \param var the name of the variable to put to the top of the stack.
   ///
   /// \return \c true if the variable was moved successfully, otherwise
@@ -77,7 +77,7 @@ namespace ode::lua
   ///
   /// \tparam T the type of the first value to be pushed.
   ///
-  /// \param state pointer to the Lua state.
+  /// \param state a pointer to the Lua state.
   /// \param t the first value to be pushed.
   ///
   template <typename T>
@@ -92,7 +92,7 @@ namespace ode::lua
   /// \tparam T the type of the first value to be pushed.
   /// \tparam Types the types of the rest of the values to be pushed.
   ///
-  /// \param state pointer to the Lua state.
+  /// \param state a pointer to the Lua state.
   /// \param t the first value to be pushed.
   /// \param types the rest of the values to be pushed.
   ///

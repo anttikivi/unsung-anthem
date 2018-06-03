@@ -12,7 +12,7 @@
 //
 ///
 /// \file run_test.cpp
-/// \brief Definition of the common running function of the tests.
+/// \brief The definitions of the common running functions of the tests.
 /// \author Antti Kivi
 /// \date 4 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

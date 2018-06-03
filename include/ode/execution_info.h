@@ -12,7 +12,7 @@
 //
 ///
 /// \file logger.h
-/// \brief Declarations of execution information types of Obliging Ode.
+/// \brief The declarations of the execution information types.
 /// \author Antti Kivi
 /// \date 29 March 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -35,8 +35,8 @@ namespace ode
 
   ///
   /// \struct execution_info
-  /// \brief Type of objects which are used to pass information according to
-  /// which the execution of Obliging Ode is started.
+  /// \brief The type of the objects which are used to pass information
+  /// according to which the execution of the engine is started.
   ///
   struct execution_info final
   {

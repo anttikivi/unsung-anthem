@@ -12,7 +12,7 @@
 //
 ///
 /// \file logger.h
-/// \brief Declarations of main logging functions of Unsung Anthem.
+/// \brief The declarations of the main logging functions.
 /// \author Antti Kivi
 /// \date 31 January 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -28,44 +28,44 @@
 
 ///
 /// \def ANTHEM_TRACE(...)
-/// \brief Preprocessor macro which is used for trace-level logging.
+/// \brief The preprocessor macro which is used for trace-level logging.
 ///
 #define ANTHEM_TRACE(...) ::anthem::logging::trace(__VA_ARGS__)
 
 ///
 /// \def ANTHEM_DEBUG(...)
-/// \brief Preprocessor macro which is used for debug-level logging.
+/// \brief The preprocessor macro which is used for debug-level logging.
 ///
 #define ANTHEM_DEBUG(...) ::anthem::logging::debug(__VA_ARGS__)
 
 ///
 /// \def ANTHEM_INFO(...)
-/// \brief Preprocessor macro which is used for info-level logging.
+/// \brief The preprocessor macro which is used for info-level logging.
 ///
 #define ANTHEM_INFO(...) ::anthem::logging::info(__VA_ARGS__)
 
 ///
 /// \def ANTHEM_WARN(...)
-/// \brief Preprocessor macro which is used for warning-level logging.
+/// \brief The preprocessor macro which is used for warning-level logging.
 ///
 #define ANTHEM_WARN(...) ::anthem::logging::warn(__VA_ARGS__)
 
 ///
 /// \def ANTHEM_ERROR(...)
-/// \brief Preprocessor macro which is used for error-level logging.
+/// \brief The preprocessor macro which is used for error-level logging.
 ///
 #define ANTHEM_ERROR(...) ::anthem::logging::error(__VA_ARGS__)
 
 ///
 /// \def ANTHEM_CRITICAL(...)
-/// \brief Preprocessor macro which is used for critical-level logging.
+/// \brief The preprocessor macro which is used for critical-level logging.
 ///
 #define ANTHEM_CRITICAL(...) ::anthem::logging::critical(__VA_ARGS__)
 
 namespace anthem
 {
   ///
-  /// \brief The main logger of Unsung Anthem.
+  /// \brief The main logger.
   ///
   inline ode::logger_t logger = nullptr;
   
@@ -78,7 +78,8 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -95,7 +96,7 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -110,7 +111,8 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -127,7 +129,7 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -142,7 +144,8 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -159,7 +162,7 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -174,7 +177,8 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -191,7 +195,7 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -206,7 +210,8 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -223,7 +228,7 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///
@@ -238,7 +243,8 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam Args types of the arguments in the formatting substitutions.
+    /// \tparam Args the types of the arguments in the formatting
+    /// substitutions.
     ///
     /// \param fmt the format of the logger message.
     /// \param args the substitutions for the message format.
@@ -255,7 +261,7 @@ namespace anthem
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
     ///
-    /// \tparam T type of the log message.
+    /// \tparam T the type of the log message.
     ///
     /// \param msg the logger message.
     ///

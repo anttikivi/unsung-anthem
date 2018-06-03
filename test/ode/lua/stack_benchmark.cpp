@@ -12,7 +12,7 @@
 //
 ///
 /// \file stack_benchmark.cpp
-/// \brief Benchmarks of the definitions of the Lua stack utility functions.
+/// \brief The benchmarks of the Lua stack utility functions.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

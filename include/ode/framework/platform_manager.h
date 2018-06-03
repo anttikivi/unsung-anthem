@@ -12,8 +12,8 @@
 //
 ///
 /// \file platform_manager.h
-/// \brief Declaration of manager which holds platform-related utilities of
-/// Obliging Ode.
+/// \brief The declaration of the manager which holds platform-related
+/// utilities.
 /// \author Antti Kivi
 /// \date 18 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -22,19 +22,18 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_PLATFORM_MANAGER_H
-#define ODE_PLATFORM_MANAGER_H
+#ifndef ODE_FRAMEWORK_PLATFORM_MANAGER_H
+#define ODE_FRAMEWORK_PLATFORM_MANAGER_H
 
 #include <vector>
 
 #include "ode/__config"
-#include "ode/event_t.h"
 
 namespace ode
 {
   ///
   /// \brief An enumeration type, the enumerators of which represent platforms
-  /// on which Obliging Ode can run.
+  /// on which the program can run.
   ///
   enum class platform
   {
@@ -44,7 +43,7 @@ namespace ode
   };
 
   ///
-  /// \brief Platform on which Obliging Ode is currently running.
+  /// \brief The platform on which the program is currently running.
   ///
 #if ODE_WINDOWS
   constexpr platform current_platform = platform::windows;
@@ -55,14 +54,10 @@ namespace ode
 #endif // !ODE_WINDOWS && !ODE_MACOS
 
   ///
-  /// \brief Polls all of the current system events waiting, removes them from
-  /// the queue, and returns them.
+  /// \brief Polls all of the current system events waiting and forwards them.
   ///
-  /// \return An object of type \c std::vector which holds objects of type
-  /// \c event_t.
-  ///
-  std::vector<event_t> poll_events();
+  void poll_events();
 
 } // namespace ode
 
-#endif // !ODE_PLATFORM_MANAGER_H
+#endif // !ODE_FRAMEWORK_PLATFORM_MANAGER_H

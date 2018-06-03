@@ -12,8 +12,8 @@
 //
 ///
 /// \file version_benchmark.cpp
-/// \brief Benchmarks of definitions of Simple DirectMedia Layer version
-/// utility functions.
+/// \brief The benchmarks of the Simple DirectMedia Layer version utility
+/// functions.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

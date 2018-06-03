@@ -36,10 +36,10 @@ namespace ode::lua
   ///
   /// \brief Loads a Lua script from the given file.
   ///
-  /// \param state Lua state.
+  /// \param state the Lua state.
   /// \param filename the name of the file.
   ///
-  /// \return Error code which the Lua API gives.
+  /// \return The error code which the Lua API gives.
   ///
   int load_script_file(
       const state_ptr_t state,

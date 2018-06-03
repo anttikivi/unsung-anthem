@@ -12,7 +12,8 @@
 //
 ///
 /// \file type_name.h
-/// \brief Declaration of type trait utility used to get type as a string view.
+/// \brief The declaration of the type trait utility used to get a type as a
+/// string view.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -28,6 +29,9 @@
 
 namespace ode
 {
+  ///
+  /// \brief TODO
+  ///
   template <typename T> constexpr std::string_view type_name()
   {
 #ifdef __clang__

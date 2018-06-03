@@ -12,7 +12,7 @@
 //
 ///
 /// \file graphics_scene.h
-/// \brief The declaration of the type of graphics system scenes.
+/// \brief The declaration of the type of the graphics system scenes.
 /// \author Antti Kivi
 /// \date 8 May 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_GRAPHICS_SCENE_H
-#define ODE_GRAPHICS_SCENE_H
+#ifndef ODE_SYSTEMS_GRAPHICS_SCENE_H
+#define ODE_SYSTEMS_GRAPHICS_SCENE_H
 
 #include "ode/scene.h"
 #include "ode/system_type.h"
@@ -30,7 +30,8 @@
 namespace ode
 {
   ///
-  /// \brief The type of graphics system scene objects.
+  /// \struct graphics_scene
+  /// \brief The type of the graphics system scene objects.
   ///
   struct graphics_scene final : public scene
   {
@@ -40,11 +41,11 @@ namespace ode
     static constexpr system_type type = system_type::graphics;
 
     ///
-    /// \brief Destructs an object of type \c graphics_scene.
+    /// \brief Destructs an object of the type \c graphics_scene.
     ///
     ~graphics_scene() = default;
   };
 
 } // namespace ode
 
-#endif // !ODE_GRAPHICS_SCENE_H
+#endif // !ODE_SYSTEMS_GRAPHICS_SCENE_H

@@ -12,7 +12,7 @@
 //
 ///
 /// \file virtual_machine_test.cpp
-/// \brief Tests of the definitions of the Lua virtual machine utilities.
+/// \brief The tests of the Lua virtual machine utilities.
 /// \author Antti Kivi
 /// \date 10 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

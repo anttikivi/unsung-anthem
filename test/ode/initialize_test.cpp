@@ -12,7 +12,7 @@
 //
 ///
 /// \file initialize_test.cpp
-/// \brief Tests of definitions of initialization functions of Obliging Ode.
+/// \brief The tests of the initialization functions.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

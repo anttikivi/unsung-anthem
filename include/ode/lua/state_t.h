@@ -12,7 +12,7 @@
 //
 ///
 /// \file state_t.h
-/// \brief Declarations of Lua state types.
+/// \brief The declarations of the Lua state types.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -33,13 +33,13 @@
 namespace ode::lua
 {
   ///
-  /// \brief Type of Lua state objects.
+  /// \brief The type of the Lua state objects.
   ///
   using state_t = std::unique_ptr<lua_State, decltype(&lua_close)>;
 
   ///
-  /// \brief Pointer type which is used as parameter for passing a raw Lua
-  /// state.
+  /// \brief The pointer type which is used as the parameter type for raw Lua
+  /// states.
   ///
   using state_ptr_t = gsl::not_null<lua_State*>;
 

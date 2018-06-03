@@ -12,8 +12,8 @@
 //
 ///
 /// \file data.h
-/// \brief Declarations of utility functions which allow to get data from the
-/// OpenGL API.
+/// \brief The declarations of the utility functions which are used to get data
+/// from the OpenGL API.
 /// \author Antti Kivi
 /// \date 10 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -34,7 +34,7 @@ namespace ode::gl
   namespace data
   {
     ///
-    /// \brief Value returned by the data calls when the OpenGL is disabled.
+    /// \brief The value returned by the data calls when OpenGL is disabled.
     ///
     constexpr auto disabled_string_value = "call_disabled";
 

@@ -12,7 +12,7 @@
 //
 ///
 /// \file state_test.cpp
-/// \brief Tests of the definition of the Lua state.
+/// \brief The tests of the Lua state.
 /// \author Antti Kivi
 /// \date 7 February 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone

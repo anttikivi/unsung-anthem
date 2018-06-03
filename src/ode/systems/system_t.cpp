@@ -1,4 +1,4 @@
-//===-------------------------- input_system.cpp ----------------*- C++ -*-===//
+//===---------------------------- system_t.cpp ------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,8 +11,8 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file input_system.cpp
-/// \brief Definition of type of input system object of Obliging Ode.
+/// \file system_t.cpp
+/// \brief The definitions of the type templates of the system objects.
 /// \author Antti Kivi
 /// \date 19 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,15 +21,14 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/input_system.h"
+#include "ode/system_t.h"
 
-#include "ode/input_scene.h"
 #include "ode/scene_t.h"
 
 namespace ode
 {
-  scene_t input_system::create_scene() const
+  scene_t system_t::create_scene() const
   {
-    return input_scene{};
+    return sys_ptr->create_scene();
   }
 } // namespace ode

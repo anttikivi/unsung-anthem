@@ -12,7 +12,7 @@
 //
 ///
 /// \file main_loop.h
-/// \brief Declarations of main loop functions of Obliging Ode.
+/// \brief The declaration of the main loop function.
 /// \author Antti Kivi
 /// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -21,22 +21,22 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_MAIN_LOOP_H
-#define ODE_MAIN_LOOP_H
+#ifndef ODE_FRAMEWORK_MAIN_LOOP_H
+#define ODE_FRAMEWORK_MAIN_LOOP_H
 
-#if !ODE_SDL_TICK_CLOCK
+#if ODE_STD_CLOCK
 # include <chrono>
-#endif // !ODE_SDL_TICK_CLOCK
+#endif // ODE_STD_CLOCK
 
 #include "ode/window_t.h"
 
 namespace ode
 {
-#if !ODE_SDL_TICK_CLOCK
+#if ODE_STD_CLOCK
 
   using namespace std::chrono_literals;
 
-#endif // !ODE_SDL_TICK_CLOCK
+#endif // !ODE_STD_CLOCK
 
   ///
   /// \brief The time duration between two game ticks.
@@ -44,25 +44,25 @@ namespace ode
   /// The game should run 60 frames a second. Therefore, this is equal to 16 as
   /// 1 / 60 = 0.01666...
   ///
-#if ODE_SDL_TICK_CLOCK
-
-  constexpr Uint32 time_step = 16;
-
-#else
+#if ODE_STD_CLOCK
 
   constexpr auto time_step = 16ms;
 
-#endif // !ODE_SDL_TICK_CLOCK
+#else
+
+  constexpr Uint32 time_step = 16;
+
+#endif // !ODE_STD_CLOCK
 
   ///
-  /// \brief Runs the main loop of Obliging Ode.
+  /// \brief Runs the main loop.
   ///
-  /// This function is impure.
+  /// Remarks: This function is impure.
   ///
-  /// \param window_r rvalue reference of pointer to main window.
+  /// \param window_r an rvalue reference of a pointer to the main window.
   ///
   void main_loop(window_t&& window_r);
 
 } // namespace ode
 
-#endif // !ODE_MAIN_LOOP_H
+#endif // !ODE_FRAMEWORK_MAIN_LOOP_H
