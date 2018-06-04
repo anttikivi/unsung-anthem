@@ -59,8 +59,6 @@ namespace ode
 
 #endif // !ODE_STD_CLOCK
 
-    SDL_Event event;
-
     while (environment.should_execute())
     {
 #if ODE_STD_CLOCK
