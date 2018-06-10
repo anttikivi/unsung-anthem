@@ -31,10 +31,10 @@
 
 #include "gsl/assert"
 
+#include "ode/logger.h"
 #include "ode/lua/lua_config.h"
 #include "ode/lua/stack.h"
 #include "ode/lua/state.h"
-#include "ode/logger.h"
 
 namespace ode::lua
 {

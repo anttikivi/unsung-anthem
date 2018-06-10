@@ -27,7 +27,7 @@
 
 #include "ode/config.h"
 #include "ode/filesystem/path.h"
-#include "ode/lua/config.h"
+#include "ode/lua/lua_config.h"
 
 #include <gtest/gtest.h>
 

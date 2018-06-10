@@ -21,11 +21,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/sdl/version.h"
+#include "ode/sdl/sdl_version.h"
 
 #include <gtest/gtest.h>
-
-#include <SDL2/SDL.h>
 
 TEST(ode_sdl_version, compiled)
 {

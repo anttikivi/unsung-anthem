@@ -26,7 +26,7 @@
 
 #include <cstring>
 
-#include "ode/config.h"
+#include "ode/gl/gl_config.h"
 
 #include <gtest/gtest.h>
 

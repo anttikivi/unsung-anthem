@@ -29,6 +29,7 @@
 #include "ode/logger.h"
 #include "ode/filesystem/path.h"
 #include "ode/framework/platform_manager.h"
+#include "ode/gl/gl_config.h"
 
 #include "ode/common/window.h"
 

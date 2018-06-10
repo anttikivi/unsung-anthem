@@ -23,8 +23,6 @@
 
 #include "ode/common/run_test.h"
 
-#include "ode/config.h"
-
 #if ODE_TEST_BENCHMARKING
 # include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
