@@ -35,10 +35,16 @@ namespace ode
   /// \brief An enumeration type, the enumerators of which represent the
   /// possible system types.
   ///
+  /// The system types other than ‘other’ are used for the systems which have
+  /// special, engine-defined responsibilities. For systems which are
+  /// application-specific and should run in accord with the basic schedule,
+  /// the system type ‘other’ should be used.
+  ///
   enum class system_type : ODE_SYSTEM_TYPE_ENUM_TYPE
   {
     graphics,
-    input
+    input,
+    other
   };
 
   ///
@@ -58,9 +64,9 @@ namespace ode
   ///
   /// \return An object of the type \c std::array.
   ///
-  constexpr std::array<system_type, 2> system_types() noexcept
+  constexpr std::array<system_type, 3> system_types() noexcept
   {
-    return {system_type::graphics, system_type::input};
+    return {system_type::graphics, system_type::input, system_type::other};
   }
 
 } // namespace ode
