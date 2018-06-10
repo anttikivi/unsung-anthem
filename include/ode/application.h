@@ -1,4 +1,4 @@
-//===------------------------------- quit.h ---------------------*- C++ -*-===//
+//===--------------------------- application.h ------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,33 +11,25 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file quit.h
-/// \brief The declarations of the quitting functions.
+/// \file application.h
+/// \brief The declaration of the application concept.
 /// \author Antti Kivi
-/// \date 5 April 2018
+/// \date 9 June 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_QUIT_H
-#define ODE_QUIT_H
+#ifndef ODE_APPLICATION_H
+#define ODE_APPLICATION_H
 
-#include <SDL2/SDL.h>
+#include "ode/__config"
 
 namespace ode
 {
-  ///
-  /// \brief Destructs the graphics context.
-  ///
-  /// \param context the graphics context.
-  ///
-  template <typename T> void quit_graphics(T context)
-  {
-    SDL_GL_DeleteContext(context);
-  }
-
+#if ODE_CONCEPTS
+#endif // ODE_CONCEPTS
 } // namespace ode
 
-#endif // !ODE_QUIT_H
+#endif // !ODE_APPLICATION_H

@@ -30,6 +30,8 @@
 
 #include "anthem/logger.h"
 
+#include <clara.hpp>
+
 namespace anthem
 {
   std::ostream& operator<<(std::ostream& os, const arguments& a)

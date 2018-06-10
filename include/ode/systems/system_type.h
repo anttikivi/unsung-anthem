@@ -24,6 +24,7 @@
 #ifndef ODE_SYSTEMS_SYSTEM_TYPE_H
 #define ODE_SYSTEMS_SYSTEM_TYPE_H
 
+#include <array>
 #include <iostream>
 
 #include "ode/__config"
@@ -50,6 +51,17 @@ namespace ode
   /// \return A reference of the \c std::ostream.
   ///
   std::ostream& operator<<(std::ostream& os, const system_type& a);
+
+  ///
+  /// \brief Gives an array containing all of the systems types for iterating
+  /// over them.
+  ///
+  /// \return An object of the type \c std::array.
+  ///
+  constexpr std::array<system_type, 2> system_types() noexcept
+  {
+    return {system_type::graphics, system_type::input};
+  }
 
 } // namespace ode
 

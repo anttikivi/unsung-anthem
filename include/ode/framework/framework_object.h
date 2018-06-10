@@ -26,7 +26,7 @@
 
 #include <vector>
 
-#include "ode/object_t.h"
+#include "ode/systems/object_t.h"
 
 namespace ode
 {

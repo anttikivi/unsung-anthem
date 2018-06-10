@@ -24,24 +24,24 @@
 #ifndef ANTHEM_RUN_H
 #define ANTHEM_RUN_H
 
+#include <cstdlib>
+
 #include "ode/argv_t.h"
 
 namespace anthem
 {
   ///
-  /// \brief Returns an object of the type \c game_state after executing the
-  /// program with the given arguments.
+  /// \brief Returns the end code of the program after executing it with the
+  /// given arguments.
   ///
   /// This function is impure.
-  ///
-  /// TODO
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.
   ///
-  /// \return Does not return anything and, thus, this function is impure.
+  /// \return A value which represents the end code of the program.
   ///
-  int run(int argc, ode::argv_t argv[]);
+  auto run(int argc, ode::argv_t argv[]) -> decltype(EXIT_SUCCESS);
 
 } // namespace anthem
 

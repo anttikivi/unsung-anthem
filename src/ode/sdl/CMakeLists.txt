@@ -8,8 +8,9 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
+list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/initialize_sdl.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/opengl.cpp)
-list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/version.cpp)
+list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/sdl_version.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/window.cpp)
 
 list(APPEND ODE_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/window.h)

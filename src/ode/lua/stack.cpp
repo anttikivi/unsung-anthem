@@ -26,7 +26,7 @@
 #include "gsl/assert"
 
 #include "ode/logger.h"
-#include "ode/lua/config.h"
+#include "ode/lua/lua_config.h"
 
 namespace ode::lua
 {

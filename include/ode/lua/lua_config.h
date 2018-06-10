@@ -1,4 +1,4 @@
-//===------------------------------ config.h --------------------*- C++ -*-===//
+//===---------------------------- lua_config.h ------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file config.h
+/// \file lua_config.h
 /// \brief The declarations and the definitions of the Lua constants.
 /// \author Antti Kivi
 /// \date 6 February 2018
@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_LUA_CONFIG_H
-#define ODE_LUA_CONFIG_H
+#ifndef ODE_LUA_LUA_CONFIG_H
+#define ODE_LUA_LUA_CONFIG_H
 
 namespace ode::lua
 {
@@ -33,4 +33,4 @@ namespace ode::lua
 
 } // namespace ode::lua
 
-#endif // !ODE_LUA_CONFIG_H
+#endif // !ODE_LUA_LUA_CONFIG_H

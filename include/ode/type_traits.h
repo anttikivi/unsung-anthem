@@ -1,4 +1,4 @@
-//===---------------------------- systems.cpp -------------------*- C++ -*-===//
+//===---------------------------- type_traits.h -----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,21 +11,23 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file systems.cpp
-/// \brief The definition of the system container.
+/// \file type_traits.h
+/// \brief The declarations of the type trait utility types.
 /// \author Antti Kivi
-/// \date 18 April 2018
+/// \date 9 June 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/framework/systems.h"
+#ifndef ODE_TYPE_TRAITS_H
+#define ODE_TYPE_TRAITS_H
 
-#include "ode/systems/system_t.h"
+#include <type_traits>
 
 namespace ode
 {
-  std::map<system_type, system_t> systems;
 } // namespace ode
+
+#endif // !ODE_TYPE_TRAITS_H

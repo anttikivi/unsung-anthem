@@ -29,6 +29,12 @@
 
 #include "ode/__config"
 
+// Forward declarations.
+namespace ode
+{
+  class environment_manager;
+}
+
 namespace ode
 {
   ///
@@ -56,7 +62,12 @@ namespace ode
   ///
   /// \brief Polls all of the current system events waiting and forwards them.
   ///
-  void poll_events();
+  /// Remarks: The reference to the engine which is passed to the function is
+  /// not constant and, thus, modifies the original engine object.
+  ///
+  /// \param e a reference to the application engine.
+  ///
+  void poll_events(environment_manager& env);
 
 } // namespace ode
 

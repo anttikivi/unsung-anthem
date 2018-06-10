@@ -1,4 +1,4 @@
-//===------------------------ platform_manager.cpp --------------*- C++ -*-===//
+//===---------------------- scene_configuration.cpp -------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,39 +11,37 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file platform_manager.cpp
-/// \brief The definition of the manager which holds the platform-related
-/// utilities.
+/// \file scene_configuration.cpp
+/// \brief The definition of the type of the scene configurations.
 /// \author Antti Kivi
-/// \date 18 April 2018
+/// \date 5 June 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/framework/platform_manager.h"
+#include "ode/scenes/scene_configuration.h"
 
-#include "ode/logger.h"
-#include "ode/framework/environment_manager.h"
-
-#include <SDL2/SDL.h>
+#include <algorithm>
 
 namespace ode
 {
-  void poll_events(environment_manager& env)
+  scene_configuration::scene_configuration()
   {
-    SDL_Event event;
+    const auto a = system_types();
+    systems = {a.cbegin(), a.cend()};
+  }
 
-    while (SDL_PollEvent(&event))
+  scene_configuration::scene_configuration(const std::vector<system_type>& d)
+  {
+    systems = {};
+    for (auto a : system_types())
     {
-      ODE_TRACE("System event: {}", event.type);
-
-      if (SDL_QUIT == event.type)
+      if (std::find(d.cbegin(), d.cend(), a) == d.cend())
       {
-        env.schedule_termination();
+        systems.push_back(a);
       }
     }
   }
-
 } // namespace ode

@@ -26,11 +26,9 @@
 
 #include <vector>
 
-namespace ode
-{
-  class scene_t;
-  class system_t;
-} // namespace ode
+#include "ode/scenes/scene_configuration.h"
+#include "ode/systems/scene_t.h"
+#include "ode/systems/system_t.h"
 
 namespace ode
 {
@@ -103,6 +101,11 @@ namespace ode
     scene_reference extend(const system_t& sys);
 
   private:
+    ///
+    /// \brief The configuration of this scene.
+    ///
+    scene_configuration config;
+
     ///
     /// \brief The scenes which implement the different functionalities of the
     /// systems.

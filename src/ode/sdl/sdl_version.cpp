@@ -1,4 +1,4 @@
-//===---------------------------- version.cpp -------------------*- C++ -*-===//
+//===-------------------------- sdl_version.cpp -----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file version.cpp
+/// \file sdl_version.cpp
 /// \brief The definitions of the Simple DirectMedia Layer version utility
 /// functions.
 /// \author Antti Kivi
@@ -22,7 +22,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/sdl/version.h"
+#include "ode/sdl/sdl_version.h"
 
 #include "ode/logger.h"
 

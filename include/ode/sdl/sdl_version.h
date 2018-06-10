@@ -1,4 +1,4 @@
-//===----------------------------- version.h --------------------*- C++ -*-===//
+//===--------------------------- sdl_version.h ------------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file version.h
+/// \file sdl_version.h
 /// \brief The declarations of the Simple DirectMedia Layer version utility
 /// functions.
 /// \author Antti Kivi
@@ -22,8 +22,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SDL_VERSION_H
-#define ODE_SDL_VERSION_H
+#ifndef ODE_SDL_SDL_VERSION_H
+#define ODE_SDL_SDL_VERSION_H
 
 struct SDL_version;
 
@@ -49,4 +49,4 @@ namespace ode::sdl
 
 } // namespace ode::sdl
 
-#endif // !ODE_SDL_VERSION_H
+#endif // !ODE_SDL_SDL_VERSION_H

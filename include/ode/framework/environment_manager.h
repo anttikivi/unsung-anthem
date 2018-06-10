@@ -103,11 +103,6 @@ namespace ode
     bool execute;
   };
 
-  ///
-  /// \brief The environment manager.
-  ////
-  extern environment_manager environment;
-
 } // namespace ode
 
 #endif // !ODE_FRAMEWORK_ENVIRONMENT_MANAGER_H

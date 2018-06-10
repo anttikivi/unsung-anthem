@@ -1,4 +1,4 @@
-//===----------------------------- systems.h --------------------*- C++ -*-===//
+//===-------------------------- initialize_sdl.h ----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,38 +11,29 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file systems.h
-/// \brief The declaration of the system container.
+/// \file initialize_sdl.h
+/// \brief The declaration of the initialization utility function for Simple
+/// DirectMedia Layer.
 /// \author Antti Kivi
-/// \date 18 April 2018
+/// \date 5 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_FRAMEWORK_SYSTEMS_H
-#define ODE_FRAMEWORK_SYSTEMS_H
+#ifndef ODE_SDL_INITIALIZE_SDL_H
+#define ODE_SDL_INITIALIZE_SDL_H
 
-#include <map>
-
-#include "ode/systems/system_type.h"
-
-// Forward declarations
-namespace ode
-{
-  class system_t;
-} // namespace ode
-
-namespace ode
+namespace ode::sdl
 {
   ///
-  /// \brief The systems.
+  /// \brief Initializes Simple DirectMedia Layer.
   ///
-  /// TODO Convert into a vector of pairs. That may be beneficial.
+  /// Remarks: This function is impure.
   ///
-  extern std::map<system_type, system_t> systems;
+  void initialize();
 
-} // namespace ode
+} // namespace ode::sdl
 
-#endif // !ODE_FRAMEWORK_SYSTEMS_H
+#endif // !ODE_SDL_INITIALIZE_SDL_H

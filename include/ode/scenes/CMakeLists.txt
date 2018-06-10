@@ -8,8 +8,6 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/environment_manager.cpp)
-list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/framework_scene.cpp)
-list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/platform_manager.cpp)
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/scene_configuration.h)
 
-set(ODE_SOURCES ${ODE_SOURCES} PARENT_SCOPE)
+set(ODE_LIB_INCLUDES ${ODE_LIB_INCLUDES} PARENT_SCOPE)

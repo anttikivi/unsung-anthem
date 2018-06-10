@@ -39,6 +39,4 @@ namespace ode
     ODE_DEBUG("The program was scheduled to quit");
   }
 
-  environment_manager environment;
-
 } // namespace ode

@@ -26,13 +26,9 @@
 #define ANTHEM_COMMAND_LINE_INTERFACE_H
 
 #include <string>
-#include <type_traits>
-#include <vector>
 
 #include "ode/argv_t.h"
 #include "ode/pixel_count.h"
-
-#include <clara.hpp>
 
 #include <spdlog/fmt/ostr.h> // This must be included for the custom logger
                              // object to work.

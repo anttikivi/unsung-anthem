@@ -24,19 +24,14 @@
 #ifndef ODE_INITIALIZE_H
 #define ODE_INITIALIZE_H
 
-#include "ode/type_name.h"
+#include "ode/execution_info.h"
+#include "ode/logger.h"
 #include "ode/window_t.h"
-#include "ode/framework/systems.h"
 #include "ode/gl/data.h"
-#include "ode/sdl/initialize.h"
+#include "ode/sdl/initialize_sdl.h"
 #include "ode/sdl/opengl.h"
 
 #include <glad/glad.h>
-
-namespace ode
-{
-  struct execution_info;
-}
 
 namespace ode
 {
@@ -44,21 +39,6 @@ namespace ode
   /// \brief Initializes the logging capabilities.
   ///
   void initialize_logging();
-
-  ///
-  /// \brief Initializes Simple DirectMedia Layer.
-  ///
-  /// Remarks: The logging capabilities must be initialized before this
-  /// function may be called.
-  ///
-  /// \return An object of the type \c gsl::finally which terminates Simple
-  /// DirectMedia Layer.
-  ///
-  inline auto initialize_sdl()
-  {
-    ODE_TRACE("Initializing Simple DirectMedia Layer");
-    return sdl::initialize();
-  }
 
   ///
   /// \brief Initializes the main window.
@@ -99,30 +79,6 @@ namespace ode
     ODE_TRACE("Set the OpenGL clear colour");
 
     return context;
-  }
-
-  ///
-  /// \brief Initializes miscellaneous capabilities.
-  ///
-  void initialize_ode();
-
-  ///
-  /// \brief Initializes a system.
-  ///
-  /// \tparam T the type of the system object.
-  /// \tparam Args the types of arguments to be passed to the system in
-  /// construction.
-  ///
-  /// \param args arguments to be passed to the system in construction.
-  ///
-  template <typename T, typename... Args>
-  void initialize_system(Args&&... args)
-  {
-    ODE_DEBUG(
-        "Initializing system of type {} with system type {}",
-        type_name<T>(),
-        T::type);
-    systems.emplace(T::type, T{args...});
   }
 
 } // namespace ode

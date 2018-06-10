@@ -23,22 +23,14 @@
 
 #include "anthem/run.h"
 
-#include <cstdlib>
+#include <utility>
 
-#include <type_traits>
-
-#include "ode/execution_info.h"
-#include "ode/initialize.h"
-#include "ode/logging.h"
-#include "ode/quit.h"
 #include "ode/framework/main_loop.h"
-#include "ode/framework/platform_manager.h"
-#include "ode/systems/input_system.h"
-#include "ode/systems/system_t.h"
 
-#include "anthem/command_line_interface.h"
 #include "anthem/logger.h"
 
+#include "anthem/application.h"
+#include "anthem/command_line_interface.h"
 #include "anthem/config.h"
 #include "anthem/logging_config.h"
 
@@ -82,22 +74,10 @@ namespace anthem
         args.window_width,
         args.window_height,
         args.window_name};
-    
-    ode::initialize_logging();
 
-    const auto sdl_quit_action = ode::initialize_sdl();
-    auto window = ode::initialize_window(info);
-    auto graphics_context = ode::initialize_graphics(window.get());
+    auto e = ode::create_engine<application>(info);
 
-    ode::initialize_ode();
-
-    ode::initialize_system<ode::input_system>();
-
-    ode::main_loop(std::move(window));
-
-    ode::quit_graphics(graphics_context);
-
-    window.reset(nullptr);
+    ode::main_loop(std::move(e));
 
     return EXIT_SUCCESS;
   }

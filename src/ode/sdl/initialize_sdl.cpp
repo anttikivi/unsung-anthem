@@ -1,4 +1,4 @@
-//===---------------------------- initialize.h ------------------*- C++ -*-===//
+//===-------------------------- initialize_sdl.h ----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,38 +11,29 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file initialize.h
-/// \brief The declaration of the initialization utility function for Simple
+/// \file initialize_sdl.h
+/// \brief The definition of the initialization utility function for Simple
 /// DirectMedia Layer.
 /// \author Antti Kivi
-/// \date 5 April 2018
+/// \date 6 June 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SDL_INITIALIZE_H
-#define ODE_SDL_INITIALIZE_H
+#include "ode/sdl/initialize_sdl.h"
 
 #include <stdexcept>
 
-#include "gsl/util"
-
 #include "ode/logger.h"
-#include "ode/sdl/version.h"
+#include "ode/sdl/sdl_version.h"
 
 #include <SDL2/SDL.h>
 
 namespace ode::sdl
 {
-  ///
-  /// \brief Initializes Simple DirectMedia Layer.
-  ///
-  /// \return An object of the type \c gsl::finally which terminates Simple
-  /// DirectMedia Layer.
-  ///
-  inline auto initialize()
+  void initialize()
   {
     if (0 != SDL_Init(SDL_INIT_VIDEO))
     {
@@ -69,13 +60,5 @@ namespace ode::sdl
         linked.major,
         linked.minor,
         linked.patch);
-
-    return gsl::finally([&]()
-    {
-      SDL_Quit();
-      ODE_DEBUG("Simple DirectMedia Layer is terminated");
-    });
   }
 } // namespace ode::sdl
-
-#endif // !ODE_SDL_INITIALIZE_H

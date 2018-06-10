@@ -24,6 +24,12 @@
 #ifndef ODE___CONFIG_H
 #define ODE___CONFIG_H
 
+#if ODE_CXX2A
+# define ODE_CONCEPTS 1
+#else
+# define ODE_CONCEPTS 0
+#endif // !ODE_CXX2A
+
 #if defined(GSL_THROW_ON_CONTRACT_VIOLATION) && GSL_THROW_ON_CONTRACT_VIOLATION
 # define ODE_CONTRACT_NOEXCEPT
 #else

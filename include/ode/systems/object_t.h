@@ -25,12 +25,8 @@
 #define ODE_SYSTEMS_OBJECT_T_H
 
 #include <memory>
-#include <utility>
 
-namespace ode
-{
-  struct object;
-} // namespace ode
+#include "ode/systems/object.h"
 
 namespace ode
 {
