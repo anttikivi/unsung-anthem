@@ -24,7 +24,7 @@
 #ifndef ODE_WINDOW_T_H
 #define ODE_WINDOW_T_H
 
-#include "ode/sdl/window_t.h"
+#include "ode/sdl/sdl_window_t.h"
 
 namespace ode
 {

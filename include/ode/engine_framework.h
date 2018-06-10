@@ -31,6 +31,7 @@
 #include "ode/type_name.h"
 #include "ode/framework/environment_manager.h"
 #include "ode/framework/state_manager.h"
+#include "ode/sdl/initialize_sdl.h"
 #include "ode/systems/system_t.h"
 #include "ode/systems/system_type.h"
 
@@ -215,8 +216,7 @@ namespace ode
   ///
   /// \return An object of the type \c engine_framework.
   ///
-  template <typename A>
-  engine_framework<A> create_engine(const execution_info& i)
+  template <typename A> auto create_engine(const execution_info& i)
   {
     initialize_logging();
     return engine_framework<A>{i};

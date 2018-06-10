@@ -1,4 +1,4 @@
-//===----------------------------- window_t.h -------------------*- C++ -*-===//
+//===--------------------------- sdl_window_t.h -----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file window_t.h
+/// \file sdl_window_t.h
 /// \brief The declarations of the window types for Simple DirectMedia Layer.
 /// \author Antti Kivi
 /// \date 5 April 2018
@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SDL_WINDOW_T_H
-#define ODE_SDL_WINDOW_T_H
+#ifndef ODE_SDL_SDL_WINDOW_T_H
+#define ODE_SDL_SDL_WINDOW_T_H
 
 #include <memory>
 
@@ -43,4 +43,4 @@ namespace ode::sdl
 
 } // namespace ode::sdl
 
-#endif // !ODE_SDL_WINDOW_T_H
+#endif // !ODE_SDL_SDL_WINDOW_T_H

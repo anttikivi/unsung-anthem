@@ -28,7 +28,7 @@
 #include <string>
 
 #include "ode/pixel_count.h"
-#include "ode/sdl/window_t.h"
+#include "ode/sdl/sdl_window_t.h"
 
 namespace ode::sdl
 {

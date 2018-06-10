@@ -28,10 +28,7 @@
 #include "ode/logger.h"
 #include "ode/window_t.h"
 #include "ode/gl/data.h"
-#include "ode/sdl/initialize_sdl.h"
 #include "ode/sdl/opengl.h"
-
-#include <glad/glad.h>
 
 namespace ode
 {

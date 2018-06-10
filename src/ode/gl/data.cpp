@@ -28,8 +28,8 @@
 
 #include "gsl/assert"
 
-#include "ode/config.h"
 #include "ode/logger.h"
+#include "ode/gl/gl_config.h"
 
 namespace ode::gl
 {
