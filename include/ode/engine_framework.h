@@ -221,7 +221,7 @@ namespace ode
   ///
   /// \return An object of the type \c engine_framework.
   ///
-  template <typename A> auto create_engine(A&& a, const execution_info& i)
+  template <typename A> auto make_engine(A&& a, const execution_info& i)
   {
     initialize_logging();
     return engine_framework{std::forward<A>(a), i};
