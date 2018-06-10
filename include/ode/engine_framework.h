@@ -24,6 +24,7 @@
 #ifndef ODE_ENGINE_FRAMEWORK_H
 #define ODE_ENGINE_FRAMEWORK_H
 
+#include <utility>
 #include <vector>
 
 #include "ode/config.h"
@@ -57,10 +58,13 @@ namespace ode
     ///
     /// \brief Constructs an object of the type \c engine_framework.
     ///
+    /// \param a the application.
     /// \param i an object of the type \c execution_info which holds the
     /// startup data.
     ///
-    engine_framework(const execution_info& i) : w{nullptr, nullptr}
+    engine_framework(A&& a, const execution_info& i)
+    : app{std::forward<A>(a)},
+    w{nullptr, nullptr}
     {
       ODE_DEBUG("Initializing the engine of the application");
 
@@ -211,15 +215,16 @@ namespace ode
   ///
   /// \tparam A the type of the type of the application implementation.
   ///
+  /// \param a the application.
   /// \param i an object of the type \c execution_info which holds the startup
   /// data.
   ///
   /// \return An object of the type \c engine_framework.
   ///
-  template <typename A> auto create_engine(const execution_info& i)
+  template <typename A> auto create_engine(A&& a, const execution_info& i)
   {
     initialize_logging();
-    return engine_framework<A>{i};
+    return engine_framework{std::forward<A>(a), i};
   }
 
 } // namespace ode

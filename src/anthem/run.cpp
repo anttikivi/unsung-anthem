@@ -75,9 +75,10 @@ namespace anthem
         args.window_height,
         args.window_name};
 
-    auto e = ode::create_engine<application>(info);
+    auto app = application{};
+    auto engine = ode::create_engine(std::move(app), info);
 
-    ode::main_loop(std::move(e));
+    ode::main_loop(std::move(engine));
 
     return EXIT_SUCCESS;
   }
