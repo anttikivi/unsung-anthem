@@ -26,8 +26,6 @@
 
 #include <string_view>
 
-#include "gsl/view"
-
 #include "ode/__config"
 #include "ode/lua/state_t.h"
 

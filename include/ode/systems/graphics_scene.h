@@ -24,8 +24,8 @@
 #ifndef ODE_SYSTEMS_GRAPHICS_SCENE_H
 #define ODE_SYSTEMS_GRAPHICS_SCENE_H
 
-#include "ode/scene.h"
-#include "ode/system_type.h"
+#include "ode/systems/scene.h"
+#include "ode/systems/system_type.h"
 
 namespace ode
 {

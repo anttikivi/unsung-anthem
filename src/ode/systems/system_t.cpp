@@ -23,8 +23,6 @@
 
 #include "ode/systems/system_t.h"
 
-#include "ode/systems/scene_t.h"
-
 namespace ode
 {
   scene_t system_t::create_scene() const

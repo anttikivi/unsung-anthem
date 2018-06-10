@@ -24,8 +24,8 @@
 #ifndef ODE_SYSTEMS_INPUT_SYSTEM_H
 #define ODE_SYSTEMS_INPUT_SYSTEM_H
 
-#include "ode/systems/system_type.h"
 #include "ode/systems/system.h"
+#include "ode/systems/system_type.h"
 
 namespace ode
 {

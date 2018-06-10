@@ -24,8 +24,8 @@
 #ifndef ODE_SYSTEMS_GRAPHICS_SYSTEM_H
 #define ODE_SYSTEMS_GRAPHICS_SYSTEM_H
 
-#include "ode/system_type.h"
-#include "ode/system.h"
+#include "ode/systems/system.h"
+#include "ode/systems/system_type.h"
 
 namespace ode
 {

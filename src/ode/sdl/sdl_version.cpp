@@ -26,8 +26,6 @@
 
 #include "ode/logger.h"
 
-#include <SDL2/SDL.h>
-
 namespace ode::sdl
 {
   SDL_version compiled_version()

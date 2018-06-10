@@ -26,14 +26,12 @@
 
 #include <cstddef>
 
-#include <string>
-#include <string_view>
 #include <tuple>
 #include <type_traits>
 
 #include "gsl/assert"
 
-#include "ode/lua/config.h"
+#include "ode/lua/lua_config.h"
 #include "ode/lua/stack.h"
 #include "ode/lua/state.h"
 #include "ode/logger.h"

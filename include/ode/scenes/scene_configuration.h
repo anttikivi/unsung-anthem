@@ -24,10 +24,6 @@
 #ifndef ODE_SCENES_SCENE_CONFIGURATION_H
 #define ODE_SCENES_SCENE_CONFIGURATION_H
 
-#include <vector>
-
-#include "ode/systems/system_type.h"
-
 namespace ode
 {
   ///
@@ -41,7 +37,7 @@ namespace ode
     ///
     /// \brief Constructs an object of the type \c scene_configuration.
     ///
-    scene_configuration();
+    scene_configuration() = default;
 
     ///
     /// \brief Constructs an object of the type \c scene_configuration.
@@ -49,7 +45,7 @@ namespace ode
     /// \param d a vector which contains the types of the systems which should
     /// be disabled.
     ///
-    scene_configuration(const std::vector<system_type>& d);
+    // scene_configuration(const std::vector<system_type>& d);
 
     ///
     /// \brief Constructs an object of the type \c scene_configuration by
@@ -93,14 +89,8 @@ namespace ode
     /// \return A reference to \c *this.
     ///
     scene_configuration& operator=(scene_configuration&& a) = default;
-  
-  private:
-    ///
-    /// \brief A vector which contains the system types of the systems which
-    /// should create scenes for this configuration.
-    ///
-    std::vector<system_type> systems;
   };
+
 } // namespace ode
 
 #endif // !ODE_SCENES_SCENE_CONFIGURATION_H

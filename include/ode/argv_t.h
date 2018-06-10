@@ -25,14 +25,15 @@
 #ifndef ODE_ARGV_T_H
 #define ODE_ARGV_T_H
 
+#include "ode/__config"
+
 namespace ode
 {
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && \
-    !defined(__CYGWIN__)
+#if ODE_WINDOWS
   using argv_t = char*;
 #else
   using argv_t = const char*;
-#endif
+#endif // !ODE_WINDOWS
 } // namespace ode
 
 #endif // !ODE_ARGV_T_H

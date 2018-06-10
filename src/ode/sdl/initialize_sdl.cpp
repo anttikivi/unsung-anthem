@@ -25,11 +25,10 @@
 #include "ode/sdl/initialize_sdl.h"
 
 #include <stdexcept>
+#include <string>
 
 #include "ode/logger.h"
 #include "ode/sdl/sdl_version.h"
-
-#include <SDL2/SDL.h>
 
 namespace ode::sdl
 {

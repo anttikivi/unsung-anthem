@@ -27,13 +27,8 @@
 #include <memory>
 #include <utility>
 
+#include "ode/systems/scene_t.h"
 #include "ode/systems/system.h"
-
-// Forward declarations
-namespace ode
-{
-  class scene_t;
-} // namespace ode
 
 namespace ode
 {

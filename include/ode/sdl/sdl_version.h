@@ -25,7 +25,7 @@
 #ifndef ODE_SDL_SDL_VERSION_H
 #define ODE_SDL_SDL_VERSION_H
 
-struct SDL_version;
+#include <SDL2/SDL.h>
 
 namespace ode::sdl
 {

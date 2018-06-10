@@ -23,8 +23,6 @@
 
 #include "ode/lua/script.h"
 
-#include <iostream>
-
 #include "gsl/assert"
 
 #include "ode/logger.h"

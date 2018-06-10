@@ -27,10 +27,7 @@
 #include <memory>
 #include <utility>
 
-namespace ode
-{
-  struct scene;
-} // namespace ode
+#include "ode/systems/scene.h"
 
 namespace ode
 {
@@ -98,6 +95,9 @@ namespace ode
   private:
     ///
     /// \brief A pointer to the contained scene implementation.
+    ///
+    /// TODO Consider making this a gsl::owner so this type won’t limit the
+    /// whole type.
     ///
     std::shared_ptr<const scene> scene_ptr;
   };

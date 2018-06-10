@@ -24,8 +24,8 @@
 
 #include "ode/sdl/opengl.h"
 
-#include "ode/config.h"
 #include "ode/logger.h"
+#include "ode/gl/gl_config.h"
 
 #include <glad/glad.h>
 

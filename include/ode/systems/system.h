@@ -24,11 +24,7 @@
 #ifndef ODE_SYSTEMS_SYSTEM_H
 #define ODE_SYSTEMS_SYSTEM_H
 
-// Forward declarations
-namespace ode
-{
-  class scene_t;
-} // namespace ode
+#include "ode/systems/scene_t.h"
 
 namespace ode
 {

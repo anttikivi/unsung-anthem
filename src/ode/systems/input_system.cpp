@@ -24,7 +24,6 @@
 #include "ode/systems/input_system.h"
 
 #include "ode/systems/input_scene.h"
-#include "ode/systems/scene_t.h"
 
 namespace ode
 {

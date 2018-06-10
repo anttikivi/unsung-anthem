@@ -25,6 +25,7 @@
 #define ODE_SYSTEMS_OBJECT_T_H
 
 #include <memory>
+#include <utility>
 
 #include "ode/systems/object.h"
 
@@ -94,6 +95,9 @@ namespace ode
   private:
     ///
     /// \brief A pointer to the contained object implementation.
+    ///
+    /// TODO Consider making this a gsl::owner so this type won’t limit the
+    /// whole type.
     ///
     std::shared_ptr<const object> obj_ptr;
   };

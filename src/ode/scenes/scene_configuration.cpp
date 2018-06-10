@@ -23,25 +23,6 @@
 
 #include "ode/scenes/scene_configuration.h"
 
-#include <algorithm>
-
 namespace ode
 {
-  scene_configuration::scene_configuration()
-  {
-    const auto a = system_types();
-    systems = {a.cbegin(), a.cend()};
-  }
-
-  scene_configuration::scene_configuration(const std::vector<system_type>& d)
-  {
-    systems = {};
-    for (auto a : system_types())
-    {
-      if (std::find(d.cbegin(), d.cend(), a) == d.cend())
-      {
-        systems.push_back(a);
-      }
-    }
-  }
 } // namespace ode

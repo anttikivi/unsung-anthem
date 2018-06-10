@@ -26,9 +26,9 @@
 
 #include <stdexcept>
 
-#include "ode/config.h"
 #include "ode/logger.h"
 #include "ode/framework/platform_manager.h"
+#include "ode/gl/gl_config.h"
 
 namespace ode::sdl
 {
