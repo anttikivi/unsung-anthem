@@ -78,6 +78,11 @@ namespace ode
       ODE_TRACE("Initializing the system container", ode_name);
       systems = std::vector<system_t>{};
 
+      ODE_TRACE("Initializing the graphics system");
+      
+      auto gs = app.make_system(system_type::graphics);
+      add_system(std::move(gs));
+
       ODE_DEBUG("The engine of the application is initialized");
     }
 
@@ -147,6 +152,17 @@ namespace ode
           type_name<T>(),
           T::type);
       systems.emplace_back(args...);
+    }
+
+    ///
+    /// \brief Adds a system to the engine container.
+    ///
+    /// \param sys the system object.
+    ///
+    void add_system(system_t&& sys)
+    {
+      ODE_DEBUG("Adding a system");
+      systems.push_back(std::forward<system_t>(sys));
     }
 
     ///

@@ -24,6 +24,9 @@
 #ifndef ANTHEM_APPLICATION_H
 #define ANTHEM_APPLICATION_H
 
+#include "ode/systems/system_t.h"
+#include "ode/systems/system_type.h"
+
 namespace anthem
 {
   ///
@@ -78,6 +81,22 @@ namespace anthem
     /// \return A reference to \c *this.
     ///
     application& operator=(application&& a) = default;
+
+    ///
+    /// \brief Creates the application-specific instance of the requested
+    /// system type.
+    ///
+    /// TODO Consider using templates for the type and for the return type so
+    /// when the systems with the type ‘other’ are requested, a container
+    /// containing them is made. Alternatively, a second function may be used
+    /// for that to avoid templates.
+    ///
+    /// \param type the type of the system which should be made.
+    ///
+    /// \return An object of the type \c ode::system_t which holds the system
+    /// instance.
+    ///
+    ode::system_t make_system(const ode::system_type type);
   };
 
 } // namespace anthem

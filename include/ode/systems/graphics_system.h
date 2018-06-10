@@ -35,7 +35,7 @@ namespace ode
   ///
   /// The graphics system controls only the viewport inside the program window.
   ///
-  class graphics_system final : public system
+  class graphics_system : public system
   {
   public:
     ///
