@@ -26,7 +26,7 @@
 
 #include <vector>
 
-#include "ode/scenes/scene_configuration.h"
+#include "ode/systems/scene_configuration.h"
 #include "ode/systems/scene_t.h"
 #include "ode/systems/system_t.h"
 
