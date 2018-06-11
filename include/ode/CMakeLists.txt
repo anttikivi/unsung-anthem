@@ -17,9 +17,9 @@ add_subdirectory(sdl)
 add_subdirectory(systems)
 
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/__config)
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/application.h)
 list(APPEND ODE_LIB_INCLUDES
     ${CMAKE_CURRENT_SOURCE_DIR}/application_type_traits.h)
-list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/application.h)
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/argv_t.h)
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/config.h)
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/engine_framework.h)
