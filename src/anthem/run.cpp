@@ -78,7 +78,7 @@ namespace anthem
     auto app = application{};
     auto engine = ode::make_engine(std::move(app), info);
 
-    ode::main_loop(std::move(engine));
+    ode::main_loop<application>(std::move(engine));
 
     return EXIT_SUCCESS;
   }
