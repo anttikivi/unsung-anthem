@@ -25,11 +25,17 @@
 #define ODE_APPLICATION_H
 
 #include "ode/__config"
+#include "ode/application_type_traits.h"
 
 namespace ode
 {
+
 #if ODE_CONCEPTS
+
+  template <typename T> concept Application = is_application_v<T>;
+
 #endif // ODE_CONCEPTS
+
 } // namespace ode
 
 #endif // !ODE_APPLICATION_H

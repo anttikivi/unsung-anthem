@@ -27,6 +27,7 @@
 #include <utility>
 #include <vector>
 
+#include "ode/application.h"
 #include "ode/config.h"
 #include "ode/initialize.h"
 #include "ode/type_name.h"
@@ -47,7 +48,11 @@ namespace ode
   ///
   /// \tparam A the type of the type of the application implementation.
   ///
+#if ODE_CONCEPTS
+  template <Application A> class engine_framework final
+#else
   template <typename A> class engine_framework final
+#endif // !ODE_CONCEPTS
   {
   public:
     ///
@@ -66,6 +71,15 @@ namespace ode
     : app{std::forward<A>(a)},
     w{nullptr, nullptr}
     {
+#if !ODE_CONCEPTS
+
+      static_assert(
+          is_application_v<A>,
+          "The template argument passed to the engine is not a valid "
+          "application type");
+
+#endif // !ODE_CONCEPTS
+
       ODE_DEBUG("Initializing the engine of the application");
 
       sdl::initialize();
@@ -136,33 +150,17 @@ namespace ode
     engine_framework& operator=(engine_framework&& a) = default;
 
     ///
-    /// \brief Initializes a system.
-    ///
-    /// \tparam T the type of the system object.
-    /// \tparam Args the types of arguments to be passed to the system in
-    /// construction.
-    ///
-    /// \param args arguments to be passed to the system in construction.
-    ///
-    template <typename T, typename... Args>
-    void initialize_system(Args&&... args)
-    {
-      ODE_DEBUG(
-          "Initializing system of type {} with system type {}",
-          type_name<T>(),
-          T::type);
-      systems.emplace_back(args...);
-    }
-
-    ///
     /// \brief Adds a system to the engine container.
     ///
     /// \param sys the system object.
     ///
-    void add_system(system_t&& sys)
+    /// \return A reference to the added system.
+    ///
+    system_t& add_system(system_t&& sys)
     {
       ODE_DEBUG("Adding a system");
       systems.push_back(std::forward<system_t>(sys));
+      return systems.back();
     }
 
     ///
@@ -237,8 +235,22 @@ namespace ode
   ///
   /// \return An object of the type \c engine_framework.
   ///
+#if ODE_CONCEPTS
+  template <Application A> auto make_engine(A&& a, const execution_info& i)
+#else
   template <typename A> auto make_engine(A&& a, const execution_info& i)
+#endif // !ODE_CONCEPTS
   {
+    
+#if !ODE_CONCEPTS
+
+    static_assert(
+        is_application_v<A>,
+        "The template argument passed to the engine creation is not a valid "
+        "application type");
+
+#endif // !ODE_CONCEPTS
+
     initialize_logging();
     return engine_framework{std::forward<A>(a), i};
   }

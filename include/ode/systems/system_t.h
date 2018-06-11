@@ -27,7 +27,6 @@
 #include <memory>
 #include <utility>
 
-#include "ode/systems/scene_t.h"
 #include "ode/systems/system.h"
 
 namespace ode
