@@ -8,8 +8,9 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-add_subdirectory(input)
-add_subdirectory(scenes)
+list(APPEND ANTHEM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/world_configuration.cpp)
+
+list(APPEND ANTHEM_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/world_configuration.h)
 
 set(ANTHEM_SOURCES ${ANTHEM_SOURCES} PARENT_SCOPE)
 set(ANTHEM_INCLUDES ${ANTHEM_INCLUDES} PARENT_SCOPE)

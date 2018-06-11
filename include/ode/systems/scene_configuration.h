@@ -31,21 +31,13 @@ namespace ode
   /// \brief The type of the objects which hold the configurations of the
   /// scenes which determine how a scene is loaded and run.
   ///
-  class scene_configuration final
+  class scene_configuration
   {
   public:
     ///
     /// \brief Constructs an object of the type \c scene_configuration.
     ///
     scene_configuration() = default;
-
-    ///
-    /// \brief Constructs an object of the type \c scene_configuration.
-    ///
-    /// \param d a vector which contains the types of the systems which should
-    /// be disabled.
-    ///
-    // scene_configuration(const std::vector<system_type>& d);
 
     ///
     /// \brief Constructs an object of the type \c scene_configuration by
@@ -68,7 +60,7 @@ namespace ode
     ///
     /// \brief Destructs an object of the type \c scene_configuration.
     ///
-    ~scene_configuration() = default;
+    virtual ~scene_configuration() = default;
 
     ///
     /// \brief Assigns the given object of the type \c scene_configuration to
