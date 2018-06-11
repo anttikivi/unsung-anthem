@@ -24,8 +24,9 @@
 #ifndef ODE_ENGINE_FRAMEWORK_H
 #define ODE_ENGINE_FRAMEWORK_H
 
+#include <algorithm>
+#include <iterator>
 #include <utility>
-#include <vector>
 
 #include "ode/application.h"
 #include "ode/config.h"
@@ -96,6 +97,20 @@ namespace ode
       
       auto gs = app.make_system(system_type::graphics);
       add_system(std::move(gs));
+
+      ODE_TRACE("Initializing the input system");
+      
+      auto is = app.make_system(system_type::input);
+      add_system(std::move(is));
+
+      ODE_TRACE("Initializing the other systems");
+
+      auto os = app.make_other_systems();
+
+      if (!os.empty())
+      {
+        std::move(os.begin(), os.end(), std::back_inserter(systems));
+      }
 
       ODE_DEBUG("The engine of the application is initialized");
     }

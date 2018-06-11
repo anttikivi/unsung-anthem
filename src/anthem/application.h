@@ -24,6 +24,8 @@
 #ifndef ANTHEM_APPLICATION_H
 #define ANTHEM_APPLICATION_H
 
+#include <vector>
+
 #include "ode/systems/system_t.h"
 #include "ode/systems/system_type.h"
 
@@ -86,10 +88,8 @@ namespace anthem
     /// \brief Creates the application-specific instance of the requested
     /// system type.
     ///
-    /// TODO Consider using templates for the type and for the return type so
-    /// when the systems with the type ‘other’ are requested, a container
-    /// containing them is made. Alternatively, a second function may be used
-    /// for that to avoid templates.
+    /// Remarks: The systems with the system type ‘other’ cannot be created
+    /// with this function.
     ///
     /// \param type the type of the system which should be made.
     ///
@@ -97,6 +97,13 @@ namespace anthem
     /// instance.
     ///
     ode::system_t make_system(const ode::system_type type);
+
+    ///
+    /// \brief Creates the application-specific systems.
+    ///
+    /// \return A vector containing the system instances of the other systems.
+    ///
+    std::vector<ode::system_t> make_other_systems();
   };
 
 } // namespace anthem

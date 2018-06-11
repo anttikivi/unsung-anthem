@@ -26,6 +26,7 @@
 #include <stdexcept>
 
 #include "ode/systems/graphics_system.h"
+#include "ode/systems/input_system.h"
 
 namespace anthem
 {
@@ -35,8 +36,16 @@ namespace anthem
     {
       return ode::graphics_system{};
     }
+    else if (ode::system_type::input == type)
+    {
+      return ode::input_system{};
+    }
 
-    // TODO
-    throw std::runtime_error{""};
+    throw std::runtime_error{"The system type is invalid"};
+  }
+
+  std::vector<ode::system_t> application::make_other_systems()
+  {
+    return {};
   }
 } // namespace anthem
