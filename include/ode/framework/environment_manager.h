@@ -44,15 +44,17 @@ namespace ode
     /// \brief Constructs an object of the type \c environment_manager by
     /// copying the given object of the type \c environment_manager.
     ///
-    /// \param an \c environment_manager from which the new one is constructed.
+    /// \param a an \c environment_manager from which the new one is
+    /// constructed.
     ///
-    environment_manager(const environment_manager& a) = default;
+    environment_manager(const environment_manager& a) = delete;
 
     ///
     /// \brief Constructs an object of the type \c environment_manager by
     /// moving the given object of the type \c environment_manager.
     ///
-    /// \param an \c environment_manager from which the new one is constructed.
+    /// \param a an \c environment_manager from which the new one is
+    /// constructed.
     ///
     environment_manager(environment_manager&& a) = default;
 
@@ -69,7 +71,7 @@ namespace ode
     ///
     /// \return A reference to \c *this.
     ///
-    environment_manager& operator=(const environment_manager& a) = default;
+    environment_manager& operator=(const environment_manager& a) = delete;
 
     ///
     /// \brief Assigns the given object of the type \c environment_manager to

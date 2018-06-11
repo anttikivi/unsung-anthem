@@ -32,9 +32,10 @@
 #include "ode/config.h"
 #include "ode/initialize.h"
 #include "ode/type_name.h"
-#include "ode/framework/environment_manager.h"
+#include "ode/framework/platform_manager.h"
 #include "ode/framework/state_manager.h"
 #include "ode/sdl/initialize_sdl.h"
+#include "ode/systems/object_t.h"
 
 #include <SDL2/SDL.h>
 
@@ -84,9 +85,6 @@ namespace ode
       sdl::initialize();
       w = initialize_window(i);
       gl_context = initialize_graphics(w.get());
-      env = {};
-      scene_state = {};
-      object_state = {};
 
       ODE_TRACE("Initializing the system container", ode_name);
       systems = std::vector<system_t>{};
@@ -109,6 +107,11 @@ namespace ode
       {
         std::move(os.begin(), os.end(), std::back_inserter(systems));
       }
+
+      pfm = {&is};
+      envm = {};
+      ssm = {};
+      osm = {};
 
       ODE_DEBUG("The engine of the application is initialized");
     }
@@ -189,6 +192,18 @@ namespace ode
     }
 
     ///
+    /// \brief Gives a reference to the platform manager of the application.
+    ///
+    /// Remarks: The reference returned by this function is not constant.
+    ///
+    /// \return A reference to the platform manager.
+    ///
+    inline platform_manager& platform()
+    {
+      return pfm;
+    }
+
+    ///
     /// \brief Gives a reference to the environment manager of the application.
     ///
     /// Remarks: The reference returned by this function is not constant.
@@ -197,7 +212,7 @@ namespace ode
     ///
     inline environment_manager& environment()
     {
-      return env;
+      return envm;
     }
 
   private:
@@ -217,24 +232,29 @@ namespace ode
     SDL_GLContext gl_context;
 
     ///
+    /// \brief The systems.
+    ///
+    std::vector<system_t> systems;
+
+    ///
+    /// \brief The platform manager.
+    ///
+    platform_manager pfm;
+
+    ///
     /// \brief The environment manager.
     ///
-    environment_manager env;
+    environment_manager envm;
 
     ///
     /// \brief The state manager which distributes the scene-level changes.
     ///
-    state_manager<scene_t> scene_state;
+    state_manager<scene_t> ssm;
 
     ///
     /// \brief The state manager which distributes the object-level changes.
     ///
-    state_manager<object_t> object_state;
-
-    ///
-    /// \brief The systems.
-    ///
-    std::vector<system_t> systems;
+    state_manager<object_t> osm;
   };
 
   ///

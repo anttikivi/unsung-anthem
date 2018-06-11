@@ -124,7 +124,7 @@ namespace ode
       {
         delay -= time_step;
 
-        poll_events(framework.environment());
+        framework.platform().poll_events(framework.environment());
 
         ODE_TRACE("Updating the game state");
 

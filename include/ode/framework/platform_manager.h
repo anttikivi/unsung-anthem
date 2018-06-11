@@ -25,15 +25,9 @@
 #ifndef ODE_FRAMEWORK_PLATFORM_MANAGER_H
 #define ODE_FRAMEWORK_PLATFORM_MANAGER_H
 
-#include <vector>
-
 #include "ode/__config"
-
-// Forward declarations.
-namespace ode
-{
-  class environment_manager;
-}
+#include "ode/framework/environment_manager.h"
+#include "ode/systems/system_t.h"
 
 namespace ode
 {
@@ -60,14 +54,82 @@ namespace ode
 #endif // !ODE_WINDOWS && !ODE_MACOS
 
   ///
-  /// \brief Polls all of the current system events waiting and forwards them.
+  /// \class platform_manager
+  /// \brief The type of the object which holds platform-related utilities.
   ///
-  /// Remarks: The reference to the engine which is passed to the function is
-  /// not constant and, thus, modifies the original engine object.
-  ///
-  /// \param e a reference to the application engine.
-  ///
-  void poll_events(environment_manager& env);
+  class platform_manager final
+  {
+  public:
+    ///
+    /// \brief Constructs an object of the type \c platform_manager.
+    ///
+    platform_manager() = default;
+
+    ///
+    /// \brief Constructs an object of the type \c platform_manager.
+    ///
+    /// \param is a pointer to the input system.
+    ///
+    platform_manager(system_t* is);
+
+    ///
+    /// \brief Constructs an object of the type \c platform_manager by copying
+    /// the given object of the type \c platform_manager.
+    ///
+    /// \param a a \c platform_manager from which the new one is constructed.
+    ///
+    platform_manager(const platform_manager& a) = default;
+
+    ///
+    /// \brief Constructs an object of the type \c platform_manager by moving
+    /// the given object of the type \c platform_manager.
+    ///
+    /// \param a a \c platform_manager from which the new one is constructed.
+    ///
+    platform_manager(platform_manager&& a) = default;
+
+    ///
+    /// \brief Destructs an object of the type \c platform_manager.
+    ///
+    ~platform_manager() = default;
+
+    ///
+    /// \brief Assigns the given object of the type \c platform_manager to this
+    /// one by copying.
+    ///
+    /// \param a a \c platform_manager from which this one is assigned.
+    ///
+    /// \return A reference to \c *this.
+    ///
+    platform_manager& operator=(const platform_manager& a) = default;
+
+    ///
+    /// \brief Assigns the given object of the type \c platform_manager to this
+    /// one by moving.
+    ///
+    /// \param a a \c platform_manager from which this one is assigned.
+    ///
+    /// \return A reference to \c *this.
+    ///
+    platform_manager& operator=(platform_manager&& a) = default;
+
+    ///
+    /// \brief Polls all of the current system events waiting and forwards them.
+    ///
+    /// Remarks: The reference to the environment manager which is passed to
+    /// the function is not constant and, thus, modifies the original
+    /// environment manager object.
+    ///
+    /// \param e a reference to the environment manager.
+    ///
+    void poll_events(environment_manager& env);
+
+  private:
+    ///
+    /// \brief A pointer to the input system.
+    ///
+    system_t* input_system;
+  };
 
 } // namespace ode
 

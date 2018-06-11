@@ -25,13 +25,17 @@
 #include "ode/framework/platform_manager.h"
 
 #include "ode/logger.h"
-#include "ode/framework/environment_manager.h"
 
 #include <SDL2/SDL.h>
 
 namespace ode
 {
-  void poll_events(environment_manager& env)
+  platform_manager::platform_manager(system_t* is) : input_system{is}
+  {
+
+  }
+
+  void platform_manager::poll_events(environment_manager& env)
   {
     SDL_Event event;
 
