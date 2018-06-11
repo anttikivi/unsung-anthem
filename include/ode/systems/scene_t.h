@@ -41,12 +41,17 @@ namespace ode
     ///
     /// \brief Constructs an object of the type \c scene_t.
     ///
-    /// \tparam T the type of the system implementation.
+    scene_t() = default;
+
     ///
-    /// \param t the system implementation.
+    /// \brief Constructs an object of the type \c scene_t.
+    ///
+    /// \tparam T the type of the scene implementation.
+    ///
+    /// \param t the scene implementation.
     ///
     template <typename T>
-    scene_t(T t) : scene_ptr{std::make_shared<T>(std::move(t))}
+    scene_t(T t) : scene_ptr{std::make_unique<T>(std::move(t))}
     {
 
     }
@@ -57,7 +62,7 @@ namespace ode
     ///
     /// \param a \c scene_t from which the new one is constructed.
     ///
-    scene_t(const scene_t& a) = default;
+    scene_t(const scene_t& a) = delete;
 
     ///
     /// \brief Constructs an object of the type \c scene_t by moving the given
@@ -80,7 +85,7 @@ namespace ode
     ///
     /// \return A reference to \c *this.
     ///
-    scene_t& operator=(const scene_t& a) = default;
+    scene_t& operator=(const scene_t& a) = delete;
 
     ///
     /// \brief Assigns the given object of the type \c scene_t to this one by
@@ -96,10 +101,7 @@ namespace ode
     ///
     /// \brief A pointer to the contained scene implementation.
     ///
-    /// TODO Consider making this a gsl::owner so this type won’t limit the
-    /// whole type.
-    ///
-    std::shared_ptr<const scene> scene_ptr;
+    std::unique_ptr<scene> scene_ptr;
   };
 } // namespace ode
 

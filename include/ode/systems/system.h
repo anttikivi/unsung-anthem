@@ -24,6 +24,7 @@
 #ifndef ODE_SYSTEMS_SYSTEM_H
 #define ODE_SYSTEMS_SYSTEM_H
 
+#include "ode/systems/scene_configuration_t.h"
 #include "ode/systems/scene_t.h"
 
 namespace ode
@@ -86,9 +87,12 @@ namespace ode
     /// \brief Creates a scene object implementing the functionalities of this
     /// system.
     ///
+    /// \param cfg the scene configuration according to which the scene is
+    /// constructed.
+    ///
     /// \return An object of the type \c scene_t.
     ///
-    virtual scene_t create_scene() const = 0;
+    virtual scene_t make_scene(const scene_configuration_t& cfg) const = 0;
   };
 
 } // namespace ode

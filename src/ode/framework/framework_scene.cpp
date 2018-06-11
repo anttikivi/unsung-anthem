@@ -40,6 +40,7 @@ namespace ode
 
   framework_scene::scene_reference framework_scene::extend(const system_t& sys)
   {
-    return scenes.emplace_back(sys.create_scene());
+    // TODO
+    return scenes.emplace_back(sys.make_scene({}));
   }
 } // namespace ode

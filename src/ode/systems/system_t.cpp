@@ -25,8 +25,8 @@
 
 namespace ode
 {
-  scene_t system_t::create_scene() const
+  scene_t system_t::make_scene(const scene_configuration_t& cfg) const
   {
-    return sys_ptr->create_scene();
+    return sys_ptr->make_scene(cfg);
   }
 } // namespace ode

@@ -94,12 +94,12 @@ namespace ode
       ODE_TRACE("Initializing the graphics system");
       
       auto gs = app.make_system(system_type::graphics);
-      auto gs_ref = add_system(std::move(gs));
+      system_t& gs_ref = add_system(std::move(gs));
 
       ODE_TRACE("Initializing the input system");
       
       auto is = app.make_system(system_type::input);
-      auto is_ref = add_system(std::move(is));
+      system_t& is_ref = add_system(std::move(is));
 
       ODE_TRACE("Initializing the other systems");
 

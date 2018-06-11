@@ -1,4 +1,4 @@
-//===------------------------ graphics_system.cpp ---------------*- C++ -*-===//
+//===-------------------------- input_system.cpp ----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,24 +11,25 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file graphics_system.cpp
-/// \brief The definition of the type of the graphics system.
+/// \file input_system.cpp
+/// \brief The definition of the type of the input system.
 /// \author Antti Kivi
-/// \date 10 June 2018
+/// \date 11 June 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/systems/graphics/graphics_system.h"
+#include "anthem/systems/input/input_system.h"
 
-#include "ode/systems/graphics/graphics_scene.h"
+#include "anthem/systems/input/input_scene.h"
 
-namespace ode
+namespace anthem
 {
-  scene_t graphics_system::make_scene(const scene_configuration_t& cfg) const
+  ode::scene_t input_system::make_scene(
+      const ode::scene_configuration_t& cfg) const
   {
-    return graphics_scene{};
+    return ode::scene_t{input_scene{}};
   }
-} // namespace ode
+} // namespace anthem

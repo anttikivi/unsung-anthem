@@ -12,7 +12,7 @@
 //
 ///
 /// \file object_t.h
-/// \brief The declarations of the type templates of the system objects.
+/// \brief The declaration of the type templates of the objects of the systems.
 /// \author Antti Kivi
 /// \date 18 April 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
@@ -33,7 +33,8 @@ namespace ode
 {
   ///
   /// \class object_t
-  /// \brief The type of the objects which are the functional system objects.
+  /// \brief The type of the objects which are the functional objects of the
+  /// systems.
   ///
   class object_t final
   {
@@ -41,12 +42,17 @@ namespace ode
     ///
     /// \brief Constructs an object of the type \c object_t.
     ///
-    /// \tparam T the type of the system implementation.
+    object_t() = default;
+
     ///
-    /// \param t the system implementation.
+    /// \brief Constructs an object of the type \c object_t.
+    ///
+    /// \tparam T the type of the object implementation.
+    ///
+    /// \param t the object implementation.
     ///
     template <typename T>
-    object_t(T t) : sys_ptr{std::make_shared<T>(std::move(t))}
+    object_t(T t) : obj_ptr{std::make_unique<T>(std::move(t))}
     {
 
     }
@@ -57,7 +63,7 @@ namespace ode
     ///
     /// \param an \c object_t from which the new one is constructed.
     ///
-    object_t(const object_t& a) = default;
+    object_t(const object_t& a) = delete;
 
     ///
     /// \brief Constructs an object of the type \c object_t by moving the given
@@ -80,7 +86,7 @@ namespace ode
     ///
     /// \return A reference to \c *this.
     ///
-    object_t& operator=(const object_t& a) = default;
+    object_t& operator=(const object_t& a) = delete;
 
     ///
     /// \brief Assigns the given object of the type \c object_t to this one by
@@ -96,10 +102,7 @@ namespace ode
     ///
     /// \brief A pointer to the contained object implementation.
     ///
-    /// TODO Consider making this a gsl::owner so this type won’t limit the
-    /// whole type.
-    ///
-    std::shared_ptr<const object> obj_ptr;
+    std::unique_ptr<object> obj_ptr;
   };
 } // namespace ode
 

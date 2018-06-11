@@ -14,32 +14,31 @@
 /// \file input_scene.h
 /// \brief The declaration of the type of the input system scene.
 /// \author Antti Kivi
-/// \date 19 April 2018
+/// \date 11 June 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEMS_INPUT_INPUT_SCENE_H
-#define ODE_SYSTEMS_INPUT_INPUT_SCENE_H
+#ifndef ANTHEM_SYSTEMS_INPUT_INPUT_SCENE_H
+#define ANTHEM_SYSTEMS_INPUT_INPUT_SCENE_H
 
-#include "ode/systems/scene.h"
-#include "ode/systems/system_type.h"
+#include "ode/systems/input/input_scene.h"
 
-namespace ode
+namespace anthem
 {
   ///
   /// \class input_scene
   /// \brief The type of the input system scene objects.
   ///
-  class input_scene : public scene
+  class input_scene final : public ode::input_scene
   {
   public:
     ///
     /// \brief The system type of this scene.
     ///
-    static constexpr system_type type = system_type::input;
+    static constexpr ode::system_type type = ode::system_type::input;
 
     ///
     /// \brief Constructs an object of the type \c input_scene.
@@ -65,7 +64,7 @@ namespace ode
     ///
     /// \brief Destructs an object of the type \c input_scene.
     ///
-    virtual ~input_scene() = default;
+    ~input_scene() = default;
 
     ///
     /// \brief Assigns the given object of the type \c input_scene to this one
@@ -88,6 +87,6 @@ namespace ode
     input_scene& operator=(input_scene&& a) = default;
   };
 
-} // namespace ode
+} // namespace anthem
 
-#endif // !ODE_SYSTEMS_INPUT_INPUT_SCENE_H
+#endif // !ANTHEM_SYSTEMS_INPUT_INPUT_SCENE_H

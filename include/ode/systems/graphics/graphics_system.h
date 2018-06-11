@@ -92,9 +92,12 @@ namespace ode
     ///
     /// \brief Creates a scene object containing the type \c graphics_scene.
     ///
+    /// \param cfg the scene configuration according to which the scene is
+    /// constructed.
+    ///
     /// \return An object of the type \c scene_t.
     ///
-    scene_t create_scene() const;
+    scene_t make_scene(const scene_configuration_t& cfg) const;
   };
 
 } // namespace ode

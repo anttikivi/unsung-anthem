@@ -27,7 +27,7 @@
 
 namespace ode
 {
-  scene_t input_system::create_scene() const
+  scene_t input_system::make_scene(const scene_configuration_t& cfg) const
   {
     return input_scene{};
   }

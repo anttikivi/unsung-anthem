@@ -14,32 +14,31 @@
 /// \file input_system.h
 /// \brief The declaration of the type of the input system.
 /// \author Antti Kivi
-/// \date 19 April 2018
+/// \date 11 June 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEMS_INPUT_INPUT_SYSTEM_H
-#define ODE_SYSTEMS_INPUT_INPUT_SYSTEM_H
+#ifndef ANTHEM_SYSTEMS_INPUT_INPUT_SYSTEM_H
+#define ANTHEM_SYSTEMS_INPUT_INPUT_SYSTEM_H
 
-#include "ode/systems/system.h"
-#include "ode/systems/system_type.h"
+#include "ode/systems/input/input_system.h"
 
-namespace ode
+namespace anthem
 {
   ///
   /// \class input_system
   /// \brief The type of the input system.
   ///
-  class input_system : public system
+  class input_system final : public ode::input_system
   {
   public:
     ///
     /// \brief The system type of this system.
     ///
-    static constexpr system_type type = system_type::input;
+    static constexpr ode::system_type type = ode::system_type::input;
 
     ///
     /// \brief Constructs an object of the type \c input_system.
@@ -65,7 +64,7 @@ namespace ode
     ///
     /// \brief Destructs an object of the type \c input_system.
     ///
-    virtual ~input_system() = default;
+    ~input_system() = default;
 
     ///
     /// \brief Assigns the given object of the type \c input_system to this one
@@ -95,9 +94,9 @@ namespace ode
     ///
     /// \return An object of the type \c scene_t.
     ///
-    virtual scene_t make_scene(const scene_configuration_t& cfg) const;
+    ode::scene_t make_scene(const ode::scene_configuration_t& cfg) const;
   };
 
-} // namespace ode
+} // namespace anthem
 
-#endif // !ODE_SYSTEMS_INPUT_INPUT_SYSTEM_H
+#endif // !ANTHEM_SYSTEMS_INPUT_INPUT_SYSTEM_H
