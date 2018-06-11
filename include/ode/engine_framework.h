@@ -224,12 +224,12 @@ namespace ode
     ///
     /// \brief The state manager which distributes the scene-level changes.
     ///
-    state_manager scene_state;
+    state_manager<scene_t> scene_state;
 
     ///
     /// \brief The state manager which distributes the object-level changes.
     ///
-    state_manager object_state;
+    state_manager<object_t> object_state;
 
     ///
     /// \brief The systems.
