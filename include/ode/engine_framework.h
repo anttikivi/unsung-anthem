@@ -35,8 +35,6 @@
 #include "ode/framework/environment_manager.h"
 #include "ode/framework/state_manager.h"
 #include "ode/sdl/initialize_sdl.h"
-#include "ode/systems/system_t.h"
-#include "ode/systems/system_type.h"
 
 #include <SDL2/SDL.h>
 
@@ -96,12 +94,12 @@ namespace ode
       ODE_TRACE("Initializing the graphics system");
       
       auto gs = app.make_system(system_type::graphics);
-      add_system(std::move(gs));
+      auto gs_ref = add_system(std::move(gs));
 
       ODE_TRACE("Initializing the input system");
       
       auto is = app.make_system(system_type::input);
-      add_system(std::move(is));
+      auto is_ref = add_system(std::move(is));
 
       ODE_TRACE("Initializing the other systems");
 
