@@ -8,11 +8,8 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-add_subdirectory(graphics)
-add_subdirectory(input)
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/graphics_object.h)
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/graphics_scene.h)
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/graphics_system.h)
 
-list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/scene_configuration.cpp)
-list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/system_t.cpp)
-list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/system_type.cpp)
-
-set(ODE_SOURCES ${ODE_SOURCES} PARENT_SCOPE)
+set(ODE_LIB_INCLUDES ${ODE_LIB_INCLUDES} PARENT_SCOPE)

@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEMS_INPUT_SYSTEM_H
-#define ODE_SYSTEMS_INPUT_SYSTEM_H
+#ifndef ODE_SYSTEMS_INPUT_INPUT_SYSTEM_H
+#define ODE_SYSTEMS_INPUT_INPUT_SYSTEM_H
 
 #include "ode/systems/system.h"
 #include "ode/systems/system_type.h"
@@ -97,4 +97,4 @@ namespace ode
 
 } // namespace ode
 
-#endif // !ODE_SYSTEMS_INPUT_SYSTEM_H
+#endif // !ODE_SYSTEMS_INPUT_INPUT_SYSTEM_H

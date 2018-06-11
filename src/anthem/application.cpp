@@ -25,8 +25,8 @@
 
 #include <stdexcept>
 
-#include "ode/systems/graphics_system.h"
-#include "ode/systems/input_system.h"
+#include "ode/systems/graphics/graphics_system.h"
+#include "ode/systems/input/input_system.h"
 
 namespace anthem
 {

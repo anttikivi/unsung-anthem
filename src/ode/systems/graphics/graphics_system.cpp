@@ -21,9 +21,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/systems/graphics_system.h"
+#include "ode/systems/graphics/graphics_system.h"
 
-#include "ode/systems/graphics_scene.h"
+#include "ode/systems/graphics/graphics_scene.h"
 
 namespace ode
 {

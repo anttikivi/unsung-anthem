@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEMS_GRAPHICS_SCENE_H
-#define ODE_SYSTEMS_GRAPHICS_SCENE_H
+#ifndef ODE_SYSTEMS_GRAPHICS_GRAPHICS_SCENE_H
+#define ODE_SYSTEMS_GRAPHICS_GRAPHICS_SCENE_H
 
 #include "ode/systems/scene.h"
 #include "ode/systems/system_type.h"
@@ -90,4 +90,4 @@ namespace ode
 
 } // namespace ode
 
-#endif // !ODE_SYSTEMS_GRAPHICS_SCENE_H
+#endif // !ODE_SYSTEMS_GRAPHICS_GRAPHICS_SCENE_H

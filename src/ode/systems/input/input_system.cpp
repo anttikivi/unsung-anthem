@@ -21,9 +21,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/systems/input_system.h"
+#include "ode/systems/input/input_system.h"
 
-#include "ode/systems/input_scene.h"
+#include "ode/systems/input/input_scene.h"
 
 namespace ode
 {

@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SYSTEMS_GRAPHICS_OBJECT_H
-#define ODE_SYSTEMS_GRAPHICS_OBJECT_H
+#ifndef ODE_SYSTEMS_GRAPHICS_GRAPHICS_OBJECT_H
+#define ODE_SYSTEMS_GRAPHICS_GRAPHICS_OBJECT_H
 
 #include "ode/systems/object.h"
 #include "ode/systems/system_type.h"
@@ -90,4 +90,4 @@ namespace ode
 
 } // namespace ode
 
-#endif // !ODE_SYSTEMS_GRAPHICS_OBJECT_H
+#endif // !ODE_SYSTEMS_GRAPHICS_GRAPHICS_OBJECT_H
