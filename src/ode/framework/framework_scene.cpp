@@ -30,7 +30,9 @@
 
 namespace ode
 {
-  framework_scene::framework_scene() : scenes{}
+  framework_scene::framework_scene(const scene_configuration_t& cfg)
+  : config{cfg},
+  scenes{}
   {
     ODE_DEBUG(
         "Reserving space for {} system scenes",

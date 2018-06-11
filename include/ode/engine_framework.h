@@ -180,6 +180,18 @@ namespace ode
     }
 
     ///
+    /// \brief Gives a reference to the application.
+    ///
+    /// Remarks: The reference returned by this function is not constant.
+    ///
+    /// \return A reference to the application.
+    ///
+    inline A& application()
+    {
+      return app;
+    }
+
+    ///
     /// \brief Gives a pointer to the window of the application.
     ///
     /// Remarks: The pointer returned by this function is not constant.

@@ -26,6 +26,7 @@
 
 #include <vector>
 
+#include "ode/systems/scene_configuration_t.h"
 #include "ode/systems/system_t.h"
 #include "ode/systems/system_type.h"
 
@@ -104,6 +105,13 @@ namespace anthem
     /// \return A vector containing the system instances of the other systems.
     ///
     std::vector<ode::system_t> make_other_systems();
+
+    ///
+    /// \brief Gives the configuration for the first scene that is created.
+    ///
+    /// \return An object of the type \c ode::scene_configuration_t.
+    ///
+    ode::scene_configuration_t first_scene() const;
   };
 
 } // namespace anthem

@@ -28,6 +28,7 @@
 #include "ode/systems/graphics/graphics_system.h"
 
 #include "anthem/systems/input/input_system.h"
+#include "anthem/systems/scenes/world_configuration.h"
 
 namespace anthem
 {
@@ -48,5 +49,10 @@ namespace anthem
   std::vector<ode::system_t> application::make_other_systems()
   {
     return {};
+  }
+
+  ode::scene_configuration_t application::first_scene() const
+  {
+    return ode::scene_configuration_t{world_configuration{}};
   }
 } // namespace anthem

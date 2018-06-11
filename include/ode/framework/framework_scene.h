@@ -26,7 +26,7 @@
 
 #include <vector>
 
-#include "ode/systems/scene_configuration.h"
+#include "ode/systems/scene_configuration_t.h"
 #include "ode/systems/scene_t.h"
 #include "ode/systems/system_t.h"
 
@@ -47,7 +47,15 @@ namespace ode
     ///
     /// \brief Constructs an object of the type \c framework_scene.
     ///
-    framework_scene();
+    framework_scene() = default;
+
+    ///
+    /// \brief Constructs an object of the type \c framework_scene.
+    ///
+    /// \param cfg the scene configuration according to which the scene is
+    /// constructed.
+    ///
+    framework_scene(const scene_configuration_t& cfg);
 
     ///
     /// \brief Constructs an object of the type \c framework_scene by copying
@@ -55,7 +63,7 @@ namespace ode
     ///
     /// \param a a \c framework_scene from which the new one is constructed.
     ///
-    framework_scene(const framework_scene& a) = default;
+    framework_scene(const framework_scene& a) = delete;
 
     ///
     /// \brief Constructs an object of the type \c framework_scene by moving
@@ -78,7 +86,7 @@ namespace ode
     ///
     /// \return A reference to \c *this.
     ///
-    framework_scene& operator=(const framework_scene& a) = default;
+    framework_scene& operator=(const framework_scene& a) = delete;
 
     ///
     /// \brief Assigns the given object of the type \c framework_scene to this
@@ -104,7 +112,7 @@ namespace ode
     ///
     /// \brief The configuration of this scene.
     ///
-    scene_configuration config;
+    scene_configuration_t config;
 
     ///
     /// \brief The scenes which implement the different functionalities of the

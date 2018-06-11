@@ -30,6 +30,7 @@
 
 #include "ode/engine_framework.h"
 #include "ode/window_t.h"
+#include "ode/framework/framework_scene.h"
 #include "ode/framework/platform_manager.h"
 
 namespace ode
@@ -75,7 +76,11 @@ namespace ode
 
     auto framework = std::move(engine);
 
-    ODE_TRACE("Entering the game loop");
+    framework_scene current_scene
+        = std::move(framework.application().first_scene());
+
+    // Previous scene holds the data of the previous frame.
+    framework_scene previous_scene{};
 
 #if ODE_STD_CLOCK
 
@@ -88,6 +93,8 @@ namespace ode
     Uint32 t = SDL_GetTicks();
 
 #endif // !ODE_STD_CLOCK
+
+    ODE_TRACE("Entering the main loop");
 
     while (framework.environment().should_execute())
     {
@@ -128,8 +135,8 @@ namespace ode
 
         ODE_TRACE("Updating the game state");
 
-        // previous_state = std::move(current_state);
-        // current_state = update_state(previous_state);
+        previous_scene = std::move(current_scene);
+        // current_scene = update_state(previous_state);
 
       } // while (delay >= time_step)
 
