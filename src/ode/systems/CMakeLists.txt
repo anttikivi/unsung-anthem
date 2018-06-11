@@ -10,6 +10,7 @@
 
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/graphics_system.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/input_system.cpp)
+list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/scene_configuration.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/system_t.cpp)
 list(APPEND ODE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/system_type.cpp)
 

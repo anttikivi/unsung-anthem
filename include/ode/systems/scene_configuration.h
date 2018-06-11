@@ -21,8 +21,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ODE_SCENES_SCENE_CONFIGURATION_H
-#define ODE_SCENES_SCENE_CONFIGURATION_H
+#ifndef ODE_SYSTEMS_SCENE_CONFIGURATION_H
+#define ODE_SYSTEMS_SCENE_CONFIGURATION_H
 
 namespace ode
 {
@@ -93,4 +93,4 @@ namespace ode
 
 } // namespace ode
 
-#endif // !ODE_SCENES_SCENE_CONFIGURATION_H
+#endif // !ODE_SYSTEMS_SCENE_CONFIGURATION_H

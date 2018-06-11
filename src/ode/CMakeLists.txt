@@ -11,7 +11,6 @@
 add_subdirectory(framework)
 add_subdirectory(gl)
 add_subdirectory(lua)
-add_subdirectory(scenes)
 add_subdirectory(sdl)
 add_subdirectory(systems)
 

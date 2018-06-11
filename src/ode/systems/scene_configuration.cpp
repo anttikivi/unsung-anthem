@@ -21,7 +21,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "ode/scenes/scene_configuration.h"
+#include "ode/systems/scene_configuration.h"
 
 namespace ode
 {
