@@ -24,6 +24,8 @@
 #ifndef ODE_FRAMEWORK_STATE_MANAGER_H
 #define ODE_FRAMEWORK_STATE_MANAGER_H
 
+#include "ode/framework/state.h"
+
 namespace ode
 {
   ///
@@ -45,7 +47,7 @@ namespace ode
     /// \brief Constructs an object of the type \c state_manager by copying the
     /// given object of the type \c state_manager.
     ///
-    /// \param an \c state_manager from which the new one is constructed.
+    /// \param a a \c state_manager from which the new one is constructed.
     ///
     state_manager(const state_manager& a) = default;
 
@@ -53,7 +55,7 @@ namespace ode
     /// \brief Constructs an object of the type \c state_manager by moving the
     /// given object of the type \c state_manager.
     ///
-    /// \param an \c state_manager from which the new one is constructed.
+    /// \param a a \c state_manager from which the new one is constructed.
     ///
     state_manager(state_manager&& a) = default;
 
@@ -81,6 +83,17 @@ namespace ode
     /// \return A reference to \c *this.
     ///
     state_manager& operator=(state_manager&& a) = default;
+
+    ///
+    /// \brief Distributes the changes contained in the given state to the
+    /// objects of this state manager.
+    ///
+    /// \param s the state, the changes of which are distributed.
+    ///
+    void distribute_state(const state& s)
+    {
+      // TODO
+    }
   };
 
 } // namespace ode
