@@ -35,4 +35,12 @@ namespace anthem::world
     const std::string var = name + ".width";
     return ode::lua::get<int>(state, var);
   }
+
+  int load_map_height(
+      const ode::lua::state_ptr_t state,
+      const std::string& name) ODE_CONTRACT_NOEXCEPT
+  {
+    const std::string var = name + ".height";
+    return ode::lua::get<int>(state, var);
+  }
 } // namespace anthem

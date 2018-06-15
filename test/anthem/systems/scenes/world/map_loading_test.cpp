@@ -45,6 +45,23 @@ TEST(anthem_systems_scenes_world_map_loading, width)
       + ode::filesystem::path::preferred_separator
       + "map.lua";
   ode::lua::load_script_file(state.get(), s);
-  const auto width = anthem::world::load_map_width(state.get(), "demo");
+  const auto width = anthem::world::load_map_width(state.get(), "test");
   ASSERT_EQ(width, 100);
+}
+
+TEST(anthem_systems_scenes_world_map_loading, height)
+{
+  auto state = ode::lua::make_state();
+  std::string s = std::string{anthem::test_script_root}
+      + ode::filesystem::path::preferred_separator
+      + "systems"
+      + ode::filesystem::path::preferred_separator
+      + "scenes"
+      + ode::filesystem::path::preferred_separator
+      + "world"
+      + ode::filesystem::path::preferred_separator
+      + "map.lua";
+  ode::lua::load_script_file(state.get(), s);
+  const auto height = anthem::world::load_map_height(state.get(), "test");
+  ASSERT_EQ(height, 100);
 }

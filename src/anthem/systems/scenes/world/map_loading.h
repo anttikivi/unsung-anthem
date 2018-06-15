@@ -46,6 +46,22 @@ namespace anthem::world
   int load_map_width(
       const ode::lua::state_ptr_t state,
       const std::string& name) ODE_CONTRACT_NOEXCEPT;
+  
+
+  ///
+  /// \brief Loads the height of the map in tiles from the scripts.
+  ///
+  /// Remarks: The script containing the data of the map must be loaded into
+  /// the Lua state before this function may be called.
+  ///
+  /// \param state the Lua state to be used.
+  /// \param name the name of the map.
+  ///
+  /// \return The height of the map in tiles.
+  ///
+  int load_map_height(
+      const ode::lua::state_ptr_t state,
+      const std::string& name) ODE_CONTRACT_NOEXCEPT;
 
 } // namespace anthem
 

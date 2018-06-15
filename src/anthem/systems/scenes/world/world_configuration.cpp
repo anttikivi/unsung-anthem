@@ -45,5 +45,6 @@ namespace anthem
         + "map.lua";
     ode::lua::load_script_file(state.get(), s);
     width = world::load_map_width(state.get(), name);
+    height = world::load_map_height(state.get(), name);
   }
 } // namespace anthem

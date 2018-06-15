@@ -10,7 +10,7 @@
 --
 --------------------------------------------------------------------------------
 
-demo = {
+test = {
   version = "1.1",
   luaversion = "5.1",
   tiledversion = "1.1.5",
@@ -24,14 +24,14 @@ demo = {
   properties = {},
   tilesets = {
     {
-      name = "demo",
+      name = "test",
       firstgid = 1,
-      filename = "demo.tsx",
+      filename = "test.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      image = "assets/anthem/demo/map/tileset.png",
+      image = "assets/anthem/test/map/tileset.png",
       imagewidth = 128,
       imageheight = 64,
       transparentcolour = "#ff00ff",

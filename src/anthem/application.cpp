@@ -53,6 +53,6 @@ namespace anthem
 
   ode::scene_configuration_t application::first_scene() const
   {
-    return ode::scene_configuration_t{world_configuration{"demo"}};
+    return ode::scene_configuration_t{world_configuration{"test"}};
   }
 } // namespace anthem

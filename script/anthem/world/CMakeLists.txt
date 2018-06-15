@@ -8,7 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-add_subdirectory(world)
+add_subdirectory(test)
 
 set(ANTHEM_LIB_SCRIPTS ${ANTHEM_LIB_SCRIPTS} PARENT_SCOPE)
 set(ANTHEM_SCRIPTS ${ANTHEM_SCRIPTS} PARENT_SCOPE)
