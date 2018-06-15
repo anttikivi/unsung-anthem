@@ -25,6 +25,7 @@
 #ifndef ODE_FRAMEWORK_SCHEDULER_H
 #define ODE_FRAMEWORK_SCHEDULER_H
 
+#include "ode/engine_framework.h"
 #include "ode/framework/state.h"
 
 namespace ode
@@ -35,7 +36,11 @@ namespace ode
   ///
   /// TODO
   ///
-  state update_state(const state& previous);
+  template <typename A>
+  state update_state(const state& previous, engine_framework<A>& engine)
+  {
+    return {};
+  }
 
 } // namespace ode
 

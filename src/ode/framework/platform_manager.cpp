@@ -47,6 +47,9 @@ namespace ode
       {
         env.schedule_termination();
       }
+      else
+      {
+      }
     }
   }
 

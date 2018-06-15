@@ -30,12 +30,10 @@ namespace ode
 {
   ///
   /// \class state_manager
-  /// \brief The type of the objects which hold the game state.
+  /// \brief The type of the objects which are responsible for distributing the
+  /// changes in the state.
   ///
-  /// \tparam T the type of the objects, the changes of which this manager
-  /// keeps track of.
-  ///
-  template <typename T> class state_manager final
+  class state_manager final
   {
   public:
     ///

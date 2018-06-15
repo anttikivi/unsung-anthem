@@ -1,4 +1,4 @@
-//===---------------------- world_configuration.cpp -------------*- C++ -*-===//
+//===-------------------------- map_loading.cpp -----------------*- C++ -*-===//
 //
 //                        Obliging Ode & Unsung Anthem
 //
@@ -11,19 +11,28 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file world_configuration.cpp
-/// \brief The definition of the type of the scene configurations for the basic
-/// gameplay scenes.
+/// \file map_loading.cpp
+/// \brief The definitions of the utility functions for loading the data of the
+/// maps from the scripts.
 /// \author Antti Kivi
-/// \date 11 June 2018
+/// \date 15 June 2018
 /// \copyright Copyright (c) 2018 Venturesome Stone
 /// Licensed under GNU Affero General Public License v3.0
 ///
 //
 //===----------------------------------------------------------------------===//
 
-#include "anthem/systems/scenes/world_configuration.h"
+#include "anthem/systems/scenes/world/map_loading.h"
 
-namespace anthem
+#include "ode/lua/virtual_machine.h"
+
+namespace anthem::world
 {
+  int load_map_width(
+      const ode::lua::state_ptr_t state,
+      const std::string& name) ODE_CONTRACT_NOEXCEPT
+  {
+    const std::string var = name + ".width";
+    return ode::lua::get<int>(state, var);
+  }
 } // namespace anthem

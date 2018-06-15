@@ -22,9 +22,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef ANTHEM_SYSTEMS_SCENES_WORLD_CONFIGURATION_H
-#define ANTHEM_SYSTEMS_SCENES_WORLD_CONFIGURATION_H
+#ifndef ANTHEM_SYSTEMS_SCENES_WORLD_WORLD_CONFIGURATION_H
+#define ANTHEM_SYSTEMS_SCENES_WORLD_WORLD_CONFIGURATION_H
 
+#include <string>
+
+#include "ode/lua/state.h"
 #include "ode/systems/scene_configuration.h"
 
 namespace anthem
@@ -41,6 +44,13 @@ namespace anthem
     /// \brief Constructs an object of the type \c world_configuration.
     ///
     world_configuration() = default;
+
+    ///
+    /// \brief Constructs an object of the type \c world_configuration.
+    ///
+    /// \param n the name of the configuration.
+    ///
+    world_configuration(const std::string& n);
 
     ///
     /// \brief Constructs an object of the type \c world_configuration by
@@ -84,8 +94,29 @@ namespace anthem
     /// \return A reference to \c *this.
     ///
     world_configuration& operator=(world_configuration&& a) = default;
+
+  private:
+    ///
+    /// \brief The Lua state this configuration uses to load its data.
+    ///
+    ode::lua::state_t state;
+
+    ///
+    /// \brief The name of the configuration.
+    ///
+    const std::string name;
+
+    ///
+    /// \brief The width of the map in tiles.
+    ///
+    int width;
+
+    ///
+    /// \brief The height of the map in tiles.
+    ///
+    int height;
   };
 
 } // namespace anthem
 
-#endif // !ANTHEM_SYSTEMS_SCENES_WORLD_CONFIGURATION_H
+#endif // !ANTHEM_SYSTEMS_SCENES_WORLD_WORLD_CONFIGURATION_H

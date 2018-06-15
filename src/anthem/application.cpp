@@ -28,7 +28,7 @@
 #include "ode/systems/graphics/graphics_system.h"
 
 #include "anthem/systems/input/input_system.h"
-#include "anthem/systems/scenes/world_configuration.h"
+#include "anthem/systems/scenes/world/world_configuration.h"
 
 namespace anthem
 {
@@ -53,6 +53,6 @@ namespace anthem
 
   ode::scene_configuration_t application::first_scene() const
   {
-    return ode::scene_configuration_t{world_configuration{}};
+    return ode::scene_configuration_t{world_configuration{"demo"}};
   }
 } // namespace anthem

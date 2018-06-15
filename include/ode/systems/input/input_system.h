@@ -27,6 +27,8 @@
 #include "ode/systems/system.h"
 #include "ode/systems/system_type.h"
 
+#include <SDL2/SDL.h>
+
 namespace ode
 {
   ///

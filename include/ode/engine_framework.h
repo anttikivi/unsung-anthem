@@ -32,8 +32,6 @@
 #include "ode/config.h"
 #include "ode/initialize.h"
 #include "ode/type_name.h"
-#include "ode/framework/framework_object.h"
-#include "ode/framework/framework_scene.h"
 #include "ode/framework/platform_manager.h"
 #include "ode/framework/state_manager.h"
 #include "ode/sdl/initialize_sdl.h"
@@ -56,18 +54,6 @@ namespace ode
 #endif // !ODE_CONCEPTS
   {
   public:
-    ///
-    /// \brief The type of the state manager responsible for the scene-level
-    /// changes.
-    ///
-    using scene_state_manager = state_manager<framework_scene>;
-
-    ///
-    /// \brief The type of the state manager responsible for the object-level
-    /// changes.
-    ///
-    using object_state_manager = state_manager<framework_object>;
-
     ///
     /// \brief Constructs an object of the type \c engine_framework.
     ///
@@ -123,8 +109,7 @@ namespace ode
 
       pfm = {&is};
       envm = {};
-      ssm = {};
-      osm = {};
+      sm = {};
 
       ODE_DEBUG("The engine of the application is initialized");
     }
@@ -247,22 +232,9 @@ namespace ode
     ///
     /// \return A reference to the scene state manager.
     ///
-    inline scene_state_manager& scene_state()
+    inline state_manager& state()
     {
-      return ssm;
-    }
-
-    ///
-    /// \brief Gives a reference to the object state manager of the
-    /// application.
-    ///
-    /// Remarks: The reference returned by this function is not constant.
-    ///
-    /// \return A reference to the object state manager.
-    ///
-    inline object_state_manager& object_state()
-    {
-      return osm;
+      return sm;
     }
 
   private:
@@ -297,14 +269,9 @@ namespace ode
     environment_manager envm;
 
     ///
-    /// \brief The state manager which distributes the scene-level changes.
+    /// \brief The state manager which distributes the state changes.
     ///
-    scene_state_manager ssm;
-
-    ///
-    /// \brief The state manager which distributes the object-level changes.
-    ///
-    object_state_manager osm;
+    state_manager sm;
   };
 
   ///

@@ -137,10 +137,9 @@ namespace ode
         ODE_TRACE("Updating the game state");
 
         previous_state = std::move(current_state);
-        current_state = update_state(previous_state);
+        current_state = update_state(previous_state, framework);
 
-        framework.scene_state().distribute_state(current_state);
-        framework.object_state().distribute_state(current_state);
+        framework.state().distribute_state(current_state);
 
       } // while (delay >= time_step)
 
@@ -168,7 +167,7 @@ namespace ode
 
       // render_state(interpolated_state);
 
-      // TODO This is a temporary solution
+      // TODO This is a temporary solution.
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       SDL_GL_SwapWindow(framework.window());
