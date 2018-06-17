@@ -172,3 +172,8 @@ script:
 - cd $TRAVIS_BUILD_DIR/..
 - chmod +x unsung-anthem/utils/travis/script.sh
 - ./unsung-anthem/utils/travis/script.sh
+
+after_script:
+- cd $TRAVIS_BUILD_DIR
+- chmod +x utils/travis/after_script.sh
+- ./utils/travis/after_script.sh

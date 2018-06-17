@@ -46,12 +46,14 @@ jobs:
     - run: ${CC} --version
     - run: ${CXX} --version
     - run: pip install --user requests
+    - run: npm install -g cloc
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script --develop-script -v
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         ./script/build-script --preset ${BUILD_PRESET} -v
+    - run: cloc cmake include lib script src test utils
 
   #===----------------------------------------------------------------------===#
   #==- Clang ----------------------------------------------------------------==#
@@ -73,12 +75,14 @@ jobs:
         cd $CIRCLE_WORKING_DIRECTORY/..
         chmod +x $ANTHEM_REPO_NAME/utils/build-script
     - run: pip install --user requests
+    - run: npm install -g cloc
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         $ANTHEM_REPO_NAME/utils/build-script --develop-script -v
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         ./script/build-script --preset ${BUILD_PRESET} -v
+    - run: cloc cmake include lib script src test utils
 
 
 workflows:

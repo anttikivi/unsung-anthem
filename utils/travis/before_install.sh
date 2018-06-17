@@ -19,6 +19,8 @@ fi
 
 ${ODE_PIP:-pip} install --user requests
 
+npm install -g cloc
+
 if [ "${ENABLE_COVERAGE}" == "true" ]; then
   gem install coveralls-lcov
 fi
