@@ -35,7 +35,7 @@
 TEST(anthem_systems_scenes_world_map_loading, width)
 {
   auto state = ode::lua::make_state();
-  constexpr auto name = "test";
+  const std::string name = "test";
   std::string s = std::string{anthem::script_root}
       + ode::filesystem::path::preferred_separator
       + "world"
@@ -51,7 +51,7 @@ TEST(anthem_systems_scenes_world_map_loading, width)
 TEST(anthem_systems_scenes_world_map_loading, height)
 {
   auto state = ode::lua::make_state();
-  constexpr auto name = "test";
+  const std::string name = "test";
   std::string s = std::string{anthem::script_root}
       + ode::filesystem::path::preferred_separator
       + "world"
