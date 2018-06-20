@@ -53,7 +53,7 @@ jobs:
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         ./script/build-script --preset ${BUILD_PRESET} -v
-    - run: cloc cmake include lib script src test utils
+    - run: cloc assets cmake docs include lib script src test utils ../script
 
   #===----------------------------------------------------------------------===#
   #==- Clang ----------------------------------------------------------------==#
@@ -82,7 +82,7 @@ jobs:
     - run: |
         cd $CIRCLE_WORKING_DIRECTORY/..
         ./script/build-script --preset ${BUILD_PRESET} -v
-    - run: cloc cmake include lib script src test utils
+    - run: cloc assets cmake docs include lib script src test utils ../script
 
 
 workflows:

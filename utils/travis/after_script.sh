@@ -12,4 +12,4 @@
 
 set -ev
 
-cloc cmake include lib script src test utils
+cloc assets cmake docs include lib script src test utils ../script
