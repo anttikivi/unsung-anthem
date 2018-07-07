@@ -17,15 +17,13 @@ CMake call.
 import os
 import platform
 
-from build_utils import diagnostics, workspace
+from build_utils import diagnostics, reflection, workspace
 
 from script_support import data
 
 from script_support.defaults import COVERAGE_TARGET_MARK
 
 from script_support.variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
-
-from .directory import anthem_build_dir, ode_build_dir
 
 
 def construct_call(is_ode=False, lib=False, test=False):
@@ -49,9 +47,11 @@ def construct_call(is_ode=False, lib=False, test=False):
         local_root = data.build.local_root
 
     if is_ode:
-        build_dir = ode_build_dir(lib=lib, test=test)
+        build_dir = reflection.anthem_common_directory_call(
+            "ode_build_dir", lib=lib, test=test)
     else:
-        build_dir = anthem_build_dir(lib=lib, test=test)
+        build_dir = reflection.anthem_common_directory_call(
+            "anthem_build_dir", lib=lib, test=test)
 
     install_root = data.build.install_root if not args.enable_gcov \
         else build_dir

@@ -11,19 +11,21 @@
 """The support module containing the utilities for Obliging Ode build."""
 
 
-from products.common import final
+from build_utils import reflection
 
 
 def ode_build_dir(lib=False, test=False):
     """
     Create the directory name for the full build subdirectory of Obliging Ode.
     """
-    return final.build.ode_build_dir(lib=lib, test=test)
+    return reflection.anthem_common_build_call(
+        "ode_build_dir", lib=lib, test=test)
 
 
 def do_build(lib=False, test=False):
     """Build Obliging Ode."""
-    final.build.do_build(is_ode=True, lib=lib, test=test)
+    reflection.anthem_common_build_call(
+        "do_build", is_ode=True, lib=lib, test=test)
 
 
 def should_build():

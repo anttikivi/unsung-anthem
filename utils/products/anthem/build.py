@@ -11,19 +11,21 @@
 """The support module containing the utilities for Unsung Anthem build."""
 
 
-from products.common import final
+from build_utils import reflection
 
 
 def anthem_build_dir(lib=False, test=False):
     """
     Create the directory name for the full build subdirectory of Unsung Anthem.
     """
-    return final.build.anthem_build_dir(lib=lib, test=test)
+    return reflection.anthem_common_build_call(
+        "anthem_build_dir", lib=lib, test=test)
 
 
 def do_build(lib=False, test=False):
     """Build Unsung Anthem."""
-    final.build.do_build(is_ode=False, lib=lib, test=test)
+    reflection.anthem_common_build_call(
+        "do_build", is_ode=False, lib=lib, test=test)
 
 
 def should_build():
