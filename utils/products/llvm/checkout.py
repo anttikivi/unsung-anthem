@@ -20,14 +20,26 @@ from products import common
 
 from script_support import data
 
-from . import platforms
+
+def resolve_platform():
+    """Resolve the platform which is used in the LLVM filename."""
+    product = data.build.products.llvm
+    if platform.system() == "Linux":
+        return "x86_64-linux-gnu-ubuntu-14.04"
+    elif platform.system() == "Darwin":
+        return "x86_64-apple-darwin"
+
+    diagnostics.warn(
+        "{} will not be downloaded as the platform is not supported".format(
+            product.repr))
+    return None
 
 
 def move_files():
     """Move the LLVM files to the correct location after the download."""
     product = data.build.products.llvm
     version = product.version
-    llvm_platform = platforms.resolve()
+    llvm_platform = resolve_platform()
     subdir = "clang+llvm-{}-{}".format(version, llvm_platform)
     shell.rmtree(workspace.source_dir(product=product))
     diagnostics.debug("The name of the {} subdirectory is {}".format(
@@ -44,7 +56,7 @@ def get_dependency():
     product = data.build.products.llvm
     common.checkout.clean_checkout(product)
     version = product.version
-    llvm_platform = platforms.resolve()
+    llvm_platform = resolve_platform()
     archive_extension = "tar.xz"
     url = product.url_format.format(
         protocol=data.build.connection_protocol, version=version,
