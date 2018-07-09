@@ -8,7 +8,7 @@
 # Copyright (c) 2018 Venturesome Stone
 # Licensed under GNU Affero General Public License v3.0
 
-"""Default option value definitions."""
+"""Product option value definitions."""
 
 
 import os
