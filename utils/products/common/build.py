@@ -30,14 +30,30 @@ from script_support.variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
 def do_build(is_ode=False, lib=False, test=False):
     """Build Obliging Ode or Unsung Anthem."""
-    if lib and test:
-        diagnostics.fatal(
-            "The CMake script cannot build both 'lib' and 'test' "
-            "configurations at the same time")
     args = data.build.args
     toolchain = data.build.toolchain
     ode = data.build.products.ode
     anthem = data.build.products.anthem
+
+    def _copy_scripts():
+        if args.enable_gcov and test:
+            if is_ode:
+                build_dir = reflection.anthem_common_directory_call(
+                    "ode_build_dir", lib=lib, test=test)
+            else:
+                build_dir = reflection.anthem_common_directory_call(
+                    "anthem_build_dir", lib=lib, test=test)
+            script_dir = os.path.join(
+                ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "script")
+            dest = os.path.join(build_dir, "all_scripts")
+            diagnostics.trace("Copying the scripts from {} to {}".format(
+                script_dir, dest))
+            shell.copytree(script_dir, dest)
+
+    if lib and test:
+        diagnostics.fatal(
+            "The CMake script cannot build both 'lib' and 'test' "
+            "configurations at the same time")
 
     if is_ode:
         product = ode
@@ -62,6 +78,7 @@ def do_build(is_ode=False, lib=False, test=False):
 
     with shell.pushd(build_dir):
         shell.call(cmake_call, env=cmake_env)
+        _copy_scripts()
         if args.cmake_generator == "Ninja":
             common.build.ninja()
             common.build.ninja(target="install")

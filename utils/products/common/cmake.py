@@ -46,13 +46,6 @@ def construct_call(is_ode=False, lib=False, test=False):
     else:
         local_root = data.build.local_root
 
-    if is_ode:
-        build_dir = reflection.anthem_common_directory_call(
-            "ode_build_dir", lib=lib, test=test)
-    else:
-        build_dir = reflection.anthem_common_directory_call(
-            "anthem_build_dir", lib=lib, test=test)
-
     install_root = data.build.install_root
 
     cmake_call += [
@@ -63,6 +56,8 @@ def construct_call(is_ode=False, lib=False, test=False):
         "-DODE_BIN_DIR_NAME=bin",
         "-DODE_INCLUDE_DIR_NAME=include",
         "-DODE_LIB_DIR_NAME=lib",
+        "-DODE_SCRIPT_DIR_NAME={}".format(
+            "all_scripts" if args.enable_gcov and test else "script"),
         "-DODE_CXX_VERSION={}".format(data.build.std),
         "-DODE_LOGGER_NAME={}".format(ode.logger_name),
         "-DODE_WINDOW_NAME={}".format("ode_window"),
@@ -183,17 +178,6 @@ def construct_call(is_ode=False, lib=False, test=False):
 
     if args.rpath:
         cmake_call += ["-DODE_RPATH={}".format(args.rpath)]
-
-    if args.enable_gcov:
-        cmake_call += [
-            "-DODE_SCRIPT_DIR_NAME={}".format(os.path.join(
-                os.path.relpath(ANTHEM_SOURCE_ROOT, build_dir),
-                install_root,
-                "script"
-            ))
-        ]
-    else:
-        cmake_call += ["-DODE_SCRIPT_DIR_NAME=script"]
 
     if data.build.lua_in_source:
         cmake_call += ["-DODE_ADD_LUA_SOURCE=ON"]
