@@ -26,6 +26,10 @@ from script_support.defaults import COVERAGE_TARGET_MARK
 from script_support.variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
 
+def _config_value(name):
+    return reflection.config_value(name)
+
+
 def construct_call(is_ode=False, lib=False, test=False):
     """Construct the CMake call for building Ode and Unsung Anthem."""
     if lib and test:
@@ -57,7 +61,9 @@ def construct_call(is_ode=False, lib=False, test=False):
         "-DODE_INCLUDE_DIR_NAME=include",
         "-DODE_LIB_DIR_NAME=lib",
         "-DODE_SCRIPT_DIR_NAME={}".format(
-            "all_scripts" if args.enable_gcov and test else "script"),
+            _config_value("GCOV_SCRIPT_DIRECTORY_NAME")
+            if args.enable_gcov and test
+            else _config_value("SCRIPT_DIRECTORY_NAME")),
         "-DODE_CXX_VERSION={}".format(data.build.std),
         "-DODE_LOGGER_NAME={}".format(ode.logger_name),
         "-DODE_WINDOW_NAME={}".format("ode_window"),

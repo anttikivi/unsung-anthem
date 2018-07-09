@@ -28,6 +28,10 @@ from script_support.defaults import COVERAGE_TARGET_MARK
 from script_support.variables import ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME
 
 
+def _config_value(name):
+    return reflection.config_value(name)
+
+
 def do_build(is_ode=False, lib=False, test=False):
     """Build Obliging Ode or Unsung Anthem."""
     args = data.build.args
@@ -45,7 +49,8 @@ def do_build(is_ode=False, lib=False, test=False):
                     "anthem_build_dir", lib=lib, test=test)
             script_dir = os.path.join(
                 ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "script")
-            dest = os.path.join(build_dir, "all_scripts")
+            dest = os.path.join(
+                build_dir, _config_value("GCOV_SCRIPT_DIRECTORY_NAME"))
             diagnostics.trace("Copying the scripts from {} to {}".format(
                 script_dir, dest))
             shell.copytree(script_dir, dest)
