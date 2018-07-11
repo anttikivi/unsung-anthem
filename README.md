@@ -1,4 +1,4 @@
-insert a logo here
+![temporary logo](https://raw.githubusercontent.com/venturesomestone/unsung-anthem/develop/assets/github_logo.png "Not the real logo")
 
 # Unsung Anthem
 **with Obliging Ode**
