@@ -41,7 +41,7 @@ namespace anthem
   ///
   /// \return A value which represents the end code of the program.
   ///
-  auto run(int argc, ode::argv_t argv[]) -> decltype(EXIT_SUCCESS);
+  int run(int argc, ode::argv_t argv[]);
 
 } // namespace anthem
 
