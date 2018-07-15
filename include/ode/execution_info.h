@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===//
 //
 ///
-/// \file logger.h
+/// \file execution_info.h
 /// \brief The declarations of the execution information types.
 /// \author Antti Kivi
 /// \date 29 March 2018
