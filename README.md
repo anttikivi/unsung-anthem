@@ -1,9 +1,9 @@
-![Alt logo](https://raw.githubusercontent.com/venturesomestone/unsung-anthem/develop/assets/github_logo.png "Not the real logo")
+![Alt logo](https://raw.githubusercontent.com/anttikivi/unsung-anthem/develop/assets/github_logo.png "Not the real logo")
 
 # Unsung Anthem
 **with Obliging Ode**
 
-[![Build Status](https://travis-ci.org/venturesomestone/unsung-anthem.svg?branch=develop)](https://travis-ci.org/venturesomestone/unsung-anthem) [![CircleCI](https://circleci.com/gh/venturesomestone/unsung-anthem/tree/develop.svg?style=svg)](https://circleci.com/gh/venturesomestone/unsung-anthem/tree/develop) [![Build status](https://ci.appveyor.com/api/projects/status/h387p7t5hw89s8ty/branch/develop?svg=true)](https://ci.appveyor.com/project/venturesomestone/unsung-anthem/branch/develop) [![Coverage Status](https://coveralls.io/repos/github/venturesomestone/unsung-anthem/badge.svg?branch=develop)](https://coveralls.io/github/venturesomestone/unsung-anthem?branch=develop)
+[![Build Status](https://travis-ci.org/anttikivi/unsung-anthem.svg?branch=develop)](https://travis-ci.org/anttikivi/unsung-anthem) [![CircleCI](https://circleci.com/gh/anttikivi/unsung-anthem/tree/develop.svg?style=svg)](https://circleci.com/gh/anttikivi/unsung-anthem/tree/develop) [![Build status](https://ci.appveyor.com/api/projects/status/h387p7t5hw89s8ty/branch/develop?svg=true)](https://ci.appveyor.com/project/anttikivi/unsung-anthem/branch/develop) [![Coverage Status](https://coveralls.io/repos/github/anttikivi/unsung-anthem/badge.svg?branch=develop)](https://coveralls.io/github/anttikivi/unsung-anthem?branch=develop)
 
 This README isn’t ready yet!
 
@@ -15,9 +15,9 @@ There are no pre-built binaries available yet. To use Unsung Anthem, please foll
 
 ## Contribute
 
-Contributions to Obliging Ode and Unsung Anthem are welcome and encouraged! There are many ways to [contribute](https://github.com/venturesomestone/unsung-anthem/blob/develop/CONTRIBUTING.md) to Obliging Ode and Unsung Anthem.
+Contributions to Obliging Ode and Unsung Anthem are welcome and encouraged! There are many ways to [contribute](https://github.com/anttikivi/unsung-anthem/blob/develop/CONTRIBUTING.md) to Obliging Ode and Unsung Anthem.
 
-This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to venturesomestone@gmail.com.
+This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to antti@anttikivi.fi.
 
 ## Building
 
@@ -34,11 +34,11 @@ Then clone the GitHub repository of Obliging Ode and Unsung Anthem.
 
 **Via HTTPS:** If you’re checking out sources as read-only, HTTPS works best.
 
-    git clone https://github.com/venturesomestone/unsung-anthem.git
+    git clone https://github.com/anttikivi/unsung-anthem.git
 
 **Via SSH:** If you’re planning on regularly making direct commits, cloning over SSH may provide a better experience (it requires [uploading SSH keys to GitHub](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/))
 
-    git clone git@github.com:venturesomestone/unsung-anthem.git
+    git clone git@github.com:anttikivi/unsung-anthem.git
 
 After cloning the source, run the build script.
 
@@ -47,4 +47,4 @@ After cloning the source, run the build script.
 
 ## Roadmap
 
-For details on our planned features and future direction please refer to the [roadmap (not available yet)](https://github.com/venturesomestone/unsung-anthem) project.
+For details on our planned features and future direction please refer to the [roadmap (not available yet)](https://github.com/anttikivi/unsung-anthem) project.
