@@ -37,7 +37,7 @@ import requests
 
 
 ODE_DEFAULT_BUILD_VERSION = "0.3.0"
-ODE_BUILD_KEY = "ode-build"
+ODE_BUILD_KEY = "ode-composer"
 
 
 ODE_BUILD_VERSION = "develop" if any([(opt == "-D"
@@ -45,11 +45,11 @@ ODE_BUILD_VERSION = "develop" if any([(opt == "-D"
     else ODE_DEFAULT_BUILD_VERSION
 
 
-REPO_OWNER = "venturesomestone"
+REPO_OWNER = "anttikivi"
 REPO_NAME = ODE_BUILD_KEY
 
 
-CLEAN = any([(opt == "-c" or opt == "--clean" 
+CLEAN = any([(opt == "-c" or opt == "--clean"
         or opt == "-U" or opt == "--update-script") for opt in sys.argv[1:]])
 
 
@@ -336,10 +336,10 @@ ANTHEM_REPO_NAME = os.environ.get(
 SCRIPT_DIR = os.path.join(ANTHEM_SOURCE_ROOT, ANTHEM_REPO_NAME, "utils")
 
 
-SOURCE_DIR = os.path.join("checkout", "ode-build", ODE_BUILD_VERSION, "src")
+SOURCE_DIR = os.path.join("checkout", "ode-composer", ODE_BUILD_VERSION, "src")
 
 
-TEMP_DIR = os.path.join("checkout", "ode-build", "temp")
+TEMP_DIR = os.path.join("checkout", "ode-composer", "temp")
 
 
 #===------------------------------------------------------------------------===#
@@ -376,7 +376,7 @@ def call_query(file_name, replacements=None):
         url=GITHUB_API_V4_ENDPOINT,
         data=query,
         headers={
-            "User-Agent": "venturesomestone", "Accept": "application/json",
+            "User-Agent": "anttikivi", "Accept": "application/json",
             "Authorization": "bearer {}".format(_auth_token())
         })
     return response.json()["data"]
