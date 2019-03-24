@@ -3,7 +3,7 @@
 # Unsung Anthem
 **with Obliging Ode**
 
-[![Build Status](https://travis-ci.org/anttikivi/unsung-anthem.svg?branch=develop)](https://travis-ci.org/anttikivi/unsung-anthem) [![CircleCI](https://circleci.com/gh/anttikivi/unsung-anthem/tree/develop.svg?style=svg)](https://circleci.com/gh/anttikivi/unsung-anthem/tree/develop) [![Build status](https://ci.appveyor.com/api/projects/status/h387p7t5hw89s8ty/branch/develop?svg=true)](https://ci.appveyor.com/project/anttikivi/unsung-anthem/branch/develop) [![Coverage Status](https://coveralls.io/repos/github/anttikivi/unsung-anthem/badge.svg?branch=develop)](https://coveralls.io/github/anttikivi/unsung-anthem?branch=develop)
+[![Build Status](https://travis-ci.org/anttikivi/unsung-anthem.svg?branch=develop)](https://travis-ci.org/anttikivi/unsung-anthem) [![CircleCI](https://circleci.com/gh/anttikivi/unsung-anthem/tree/develop.svg?style=svg)](https://circleci.com/gh/anttikivi/unsung-anthem/tree/develop) [![Build status](https://ci.appveyor.com/api/projects/status/hghv4rea10jrvird/branch/develop?svg=true)](https://ci.appveyor.com/project/anttikivi/unsung-anthem/branch/develop) [![Coverage Status](https://coveralls.io/repos/github/anttikivi/unsung-anthem/badge.svg?branch=develop)](https://coveralls.io/github/anttikivi/unsung-anthem?branch=develop)
 
 This README isn’t ready yet!
 
