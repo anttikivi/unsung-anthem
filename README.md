@@ -17,7 +17,7 @@ There are no pre-built binaries available yet. To use Unsung Anthem, please foll
 
 Contributions to Obliging Ode and Unsung Anthem are welcome and encouraged! There are many ways to [contribute](CONTRIBUTING.md) to Obliging Ode and Unsung Anthem.
 
-This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to antti@anttikivi.fi.
+This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to antti@anttikivi.fi.
 
 ## Building
 
