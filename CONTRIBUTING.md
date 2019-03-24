@@ -26,7 +26,7 @@ The following is a set of guidelines for contributing to Unsung Anthem. These ar
 
 ## Code of Conduct
 
-This project and everyone participating in it are governed by the [Unsung Anthem Code of Conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to [venturesomestone@gmail.com](mailto:venturesomestone@gmail.com).
+This project and everyone participating in it are governed by the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to [antti@anttikivi.fi](mailto:antti@anttikivi.fi).
 
 ## How Can I Contribute?
 
