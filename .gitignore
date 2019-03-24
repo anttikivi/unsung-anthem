@@ -31,6 +31,10 @@
 *.out
 *.app
 
+# Licensing
+GPL
+OLD LICENCE
+
 # CLion CMake files
 cmake-build-*
 
