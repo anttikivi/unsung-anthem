@@ -1,5 +1,3 @@
-![Alt logo](https://raw.githubusercontent.com/anttikivi/unsung-anthem/develop/assets/github_logo.png "Not the real logo")
-
 # Unsung Anthem
 **with Obliging Ode**
 
