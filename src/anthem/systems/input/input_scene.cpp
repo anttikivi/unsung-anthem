@@ -5,8 +5,8 @@
 // This source file is part of the Obliging Ode and Unsung Anthem open source
 // projects.
 //
-// Copyright (c) 2019 Antti Kivi
-// Licensed under GNU Affero General Public License v3.0
+// Copyright (C) 2019 Antti Kivi
+// All rights reserved
 //
 //===----------------------------------------------------------------------===//
 //
@@ -15,8 +15,8 @@
 /// \brief The definition of the type of the input system scene.
 /// \author Antti Kivi
 /// \date 11 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// Licensed under GNU Affero General Public License v3.0
+/// \copyright Copyright (C) 2019 Antti Kivi
+/// All rights reserved
 ///
 //
 //===----------------------------------------------------------------------===//

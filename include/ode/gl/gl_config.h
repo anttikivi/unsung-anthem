@@ -5,8 +5,8 @@
 // This source file is part of the Obliging Ode and Unsung Anthem open source
 // projects.
 //
-// Copyright (c) 2019 Antti Kivi
-// Licensed under GNU Affero General Public License v3.0
+// Copyright (C) 2019 Antti Kivi
+// All rights reserved
 //
 //===----------------------------------------------------------------------===//
 //
@@ -15,8 +15,8 @@
 /// \brief The declarations and definitions of the OpenGL-related constants.
 /// \author Antti Kivi
 /// \date 10 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// Licensed under GNU Affero General Public License v3.0
+/// \copyright Copyright (C) 2019 Antti Kivi
+/// All rights reserved
 ///
 //
 //===----------------------------------------------------------------------===//
