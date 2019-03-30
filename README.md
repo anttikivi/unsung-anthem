@@ -7,6 +7,12 @@ This README isn’t ready yet!
 
 *Unsung Anthem* is a video game with its own game engine, *Obliging Ode*. The game strives for thriving on openness in all aspects of the project. The development of the project is still in very early stage. This repository contains the source code for both Unsung Anthem and Obliging Ode.
 
+This repository also hosts the guidelines et cetera for the projects related to Unsung Anthem and Obliging Ode. Those projects are used, for example, to build Unsung Anthem and Obliging Ode, and they’re:
+
+* Ode Composer ([ode-composer](https://github.com/anttikivi/ode-composer))
+* Obliging Ode Licence ([ode-licence](https://github.com/anttikivi/ode-licence))
+* Git Utilities for Ode Composer ([ode-git](https://github.com/anttikivi/ode-git))
+
 ## Installing
 
 There are no pre-built binaries available yet. To use Unsung Anthem, please follow the building instructions down below.
