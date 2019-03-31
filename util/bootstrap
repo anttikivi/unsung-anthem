@@ -1,20 +1,21 @@
 #!/usr/bin/env python
 
-# --------------------------------------------------------------------------- #
-#                         Obliging Ode & Unsung Anthem
-# --------------------------------------------------------------------------- #
+# ------------------------------------------------------------- #
+#                 Obliging Ode & Unsung Anthem
+# ------------------------------------------------------------- #
 #
-# This source file is part of the Obliging Ode and Unsung Anthem projects.
+# This source file is part of the Obliging Ode and Unsung Anthem
+# projects.
 #
 # Copyright (C) 2019 Antti Kivi
 # All rights reserved
 #
-# --------------------------------------------------------------------------- #
+# ------------------------------------------------------------- #
 
 
 """
-This tool sets up the dependencies of Obliging Ode and Unsung Anthem so you can
-develop and build them.
+This tool sets up the dependencies of Obliging Ode and Unsung
+Anthem so you can develop and build them.
 """
 
 
@@ -64,8 +65,8 @@ def _copy_script_dev():
 
 def caffeinate(command):
     """
-    Run a command during which system sleep is disabled. This ignores the
-    'shell.dry_run' flag.
+    Run a command during which system sleep is disabled. This
+    ignores the 'shell.dry_run' flag.
     """
     # Disable system sleep, if possible.
     if platform.system() == "Darwin":
