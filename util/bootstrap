@@ -13,7 +13,7 @@
 
 
 """
-This tool set up the dependencies of Obliging Ode and Unsung Anthem so you can
+This tool sets up the dependencies of Obliging Ode and Unsung Anthem so you can
 develop and build them.
 """
 
@@ -22,6 +22,7 @@ from __future__ import print_function
 
 import os
 import platform
+import shutil
 import subprocess
 import sys
 
@@ -32,6 +33,10 @@ DRY_RUN = any([(opt == "-n" or opt == "--dry-run") for opt in sys.argv[1:]])
 
 ODE_DEFAULT_BUILD_VERSION = "0.3.0"
 ODE_BUILD_KEY = "ode-composer"
+REPO_OWNER = "anttikivi"
+REPO_NAME = ODE_BUILD_KEY
+BUILD_LOCATION = os.path.join("build")
+BUILD_SCRIPT_LOCATION = os.path.join(BUILD_LOCATION, "script")
 
 
 ODE_BUILD_VERSION = "develop" \
@@ -39,18 +44,32 @@ ODE_BUILD_VERSION = "develop" \
     else ODE_DEFAULT_BUILD_VERSION
 
 
-REPO_OWNER = "anttikivi"
-REPO_NAME = ODE_BUILD_KEY
+def _copy_script_dev():
+    if not os.path.isdir(BUILD_LOCATION):
+        print("The directory " + BUILD_LOCATION + " doesn't exist")
+        os.makedirs(BUILD_LOCATION)
+    else:
+        if os.path.isdir(BUILD_SCRIPT_LOCATION):
+            shutil.rmtree(BUILD_SCRIPT_LOCATION)
+            os.makedirs(BUILD_SCRIPT_LOCATION)
+    src_dir = os.path.join(REPO_NAME, "src")
+    for item in os.listdir(src_dir):
+        src = os.path.join(src_dir, item)
+        dest = os.path.join(BUILD_SCRIPT_LOCATION, item)
+        if os.path.isdir(src):
+            shutil.copytree(src, dest)
+        else:
+            shutil.copy2(src, dest)
 
 
-def caffeinate(command, env=None, dry_run=False, echo=None):
+def caffeinate(command):
     """
-    Execute a command during which system sleep is disabled. By default, this
-    ignores the state of the 'shell.dry_run' flag.
+    Run a command during which system sleep is disabled. This ignores the
+    'shell.dry_run' flag.
     """
     # Disable system sleep, if possible.
     if platform.system() == "Darwin":
-        # Don't mutate the caller's copy of the arguments.
+        # Don't change the caller's copy of the arguments.
         command = ["caffeinate"] + list(command)
     try:
         subprocess.check_call(command)
@@ -63,13 +82,14 @@ def caffeinate(command, env=None, dry_run=False, echo=None):
 
 
 def _run_dev():
+    _copy_script_dev()
     args = [sys.executable]
-    args += [os.path.join(ODE_BUILD_KEY, "bootstrap")]
+    args += [os.path.join(BUILD_SCRIPT_LOCATION, "bootstrap")]
     args += sys.argv[1:]
     return caffeinate(args)
 
 
-def main():
+def _main():
     if USE_DEVELOP_STACK:
         print(
             "Ode Composer and related project won't be downloaded as you "
@@ -81,4 +101,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(_main())
