@@ -28,7 +28,8 @@ import subprocess
 import sys
 
 
-USE_DEVELOP_STACK = any([(opt == "--develop-stack") for opt in sys.argv[1:]])
+USE_DEVELOP_STACK = any([(opt == "-S" or opt == "--develop-stack")
+                        for opt in sys.argv[1:]])
 DRY_RUN = any([(opt == "-n" or opt == "--dry-run") for opt in sys.argv[1:]])
 
 

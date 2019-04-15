@@ -1,0 +1,10 @@
+{
+  "ode": {
+    "version": "0.1.0-dev.1",
+    "name": "Obliging Ode"
+  },
+  "anthem": {
+    "version": "0.1.0-dev.1",
+    "name": "Unsung Anthem"
+  }
+}
