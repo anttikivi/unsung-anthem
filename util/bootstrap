@@ -48,7 +48,7 @@ def _copy_script_dev():
     else:
         if os.path.isdir(BUILD_SCRIPT_LOCATION):
             shutil.rmtree(BUILD_SCRIPT_LOCATION)
-            os.makedirs(BUILD_SCRIPT_LOCATION)
+    os.makedirs(BUILD_SCRIPT_LOCATION)
     src_dir = os.path.join(REPO_NAME, "src")
     for item in os.listdir(src_dir):
         src = os.path.join(src_dir, item)
