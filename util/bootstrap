@@ -58,6 +58,15 @@ def _copy_script_dev():
         else:
             shutil.copy2(src, dest)
 
+    graphql_dir = os.path.join(REPO_NAME, "graphql")
+    for item in os.listdir(graphql_dir):
+        src = os.path.join(graphql_dir, item)
+        dest = os.path.join(BUILD_SCRIPT_LOCATION, item)
+        if os.path.isdir(src):
+            shutil.copytree(src, dest)
+        else:
+            shutil.copy2(src, dest)
+
 
 def caffeinate(command):
     """
