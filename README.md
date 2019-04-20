@@ -11,7 +11,7 @@ This repository also hosts the guidelines et cetera for the projects related to 
 
 * Ode Composer ([ode-composer](https://github.com/anttikivi/ode-composer))
 * Obliging Ode Licence ([ode-licence](https://github.com/anttikivi/ode-licence))
-* Git Utilities for Ode Composer ([ode-git](https://github.com/anttikivi/ode-git))
+* Linguista ([linguista](https://github.com/anttikivi/linguista))
 
 ## Installing
 
