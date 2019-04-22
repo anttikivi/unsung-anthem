@@ -9,7 +9,7 @@ This README isn’t ready yet!
 
 This repository also hosts the guidelines et cetera for the projects related to Unsung Anthem and Obliging Ode. Those projects are used, for example, to build Unsung Anthem and Obliging Ode, and they’re:
 
-* Ode Composer ([ode-composer](https://github.com/anttikivi/ode-composer))
+* Couplet Composer ([couplet-composer](https://github.com/anttikivi/couplet-composer))
 * Effective Elegy ([effective-elegy](https://github.com/anttikivi/effective-elegy))
 * Linguista ([linguista](https://github.com/anttikivi/linguista))
 
