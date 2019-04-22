@@ -87,8 +87,8 @@ def _build_script_dev(dir_name):
     #     else:
     #         shutil.copy2(src, dest)
     # shutil.copy2(
-    #     os.path.join(BUILD_SCRIPT_LOCATION, "dev.py"),
-    #     os.path.join(SCRIPT_LOCATION, "dev.py"))
+    #     os.path.join(BUILD_SCRIPT_LOCATION, "run.py"),
+    #     os.path.join(SCRIPT_LOCATION, "run.py"))
 
 
 def _copy_script_dev():
@@ -124,7 +124,7 @@ def _copy_script_dev():
         src_file = os.path.join(REPO_NAME, name)
         dest_file = os.path.join(destination, name)
         shutil.copy2(src_file, dest_file)
-    _copy_script_file("dev.py")
+    _copy_script_file("run.py")
     _copy_script_file("LICENCE")
     _copy_script_file("MANIFEST.in")
     _copy_script_file("README.md")
@@ -150,7 +150,7 @@ def _run_dev():
     # _build_script_dev()
     _copy_graphql()
     args = [sys.executable]
-    args += [os.path.join(SCRIPT_LOCATION, "dev.py")]
+    args += [os.path.join(SCRIPT_LOCATION, "run.py")]
     args += ["bootstrap"]
     args += sys.argv[1:]
     return caffeinate(args)
