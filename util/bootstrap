@@ -34,7 +34,7 @@ DRY_RUN = any([(opt == "-n" or opt == "--dry-run") for opt in sys.argv[1:]])
 
 
 ODE_DEFAULT_BUILD_VERSION = "0.3.0"
-ODE_BUILD_KEY = "ode-composer"
+ODE_BUILD_KEY = "couplet-composer"
 REPO_OWNER = "anttikivi"
 REPO_NAME = ODE_BUILD_KEY
 BUILD_LOCATION = os.path.join("build")
@@ -66,7 +66,7 @@ def caffeinate(command):
 
 
 def _build_script_dev(dir_name):
-    """Build Ode Composer."""
+    """Build Couplet Composer."""
     # destination = os.path.join(BUILD_LOCATION, SCRIPT_DIR_NAME)
     # args = [
     #     sys.executable,
@@ -92,7 +92,7 @@ def _build_script_dev(dir_name):
 
 
 def _copy_script_dev():
-    """Copy Ode Composer to the build directory."""
+    """Copy Couplet Composer to the build directory."""
     destination = os.path.join(BUILD_LOCATION, SCRIPT_DIR_NAME)
     if not os.path.isdir(BUILD_LOCATION):
         print("The directory " + BUILD_LOCATION + " doesn't exist")
@@ -116,7 +116,7 @@ def _copy_script_dev():
     _copy_script_dir("components")
     _copy_script_dir("github")
     _copy_script_dir("graphql")
-    _copy_script_dir("ode_composer")
+    _copy_script_dir(REPO_NAME.replace("-", "_").lower())
     _copy_script_dir("support")
     _copy_script_dir("util")
 
@@ -159,7 +159,7 @@ def _run_dev():
 def _main():
     if USE_DEVELOP_STACK:
         print(
-            "Ode Composer and related project won't be downloaded as you "
+            "Couplet Composer and related project won't be downloaded as you "
             "chose the development stack")
         return _run_dev()
     else:
