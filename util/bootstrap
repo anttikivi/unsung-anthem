@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/bin/bash
 
 # ------------------------------------------------------------- #
 #                 Obliging Ode & Unsung Anthem
@@ -12,160 +12,113 @@
 #
 # ------------------------------------------------------------- #
 
+# ------------------------------------------------------------- #
+# Constants
+# ------------------------------------------------------------- #
 
-"""
-This tool sets up the dependencies of Obliging Ode and Unsung
-Anthem so you can develop and build them.
-"""
+readonly ROOT_DIR="."
+readonly COMPOSER_REPO_NAME="couplet-composer"
+readonly COMPOSER_REPO="$ROOT_DIR/$COMPOSER_REPO_NAME"
+readonly BUILD_DIR="$ROOT_DIR/build"
+readonly COMPOSER_SCRIPT_DIR="$BUILD_DIR/script"
+readonly COMPOSER_SCRIPT_RUN="$COMPOSER_SCRIPT_DIR/run.py"
+readonly GRAPHQL_DIR="$BUILD_DIR/graphql"
+readonly DEV_STACK_LONG_ARG="--development-stack"
+readonly DEV_STACK_SHORT_ARG="-S"
 
+# ------------------------------------------------------------- #
+# Variables
+# ------------------------------------------------------------- #
 
-from __future__ import print_function
+dev_stack=false
 
-import os
-import platform
-import shutil
-import subprocess
-import sys
+# ------------------------------------------------------------- #
+# Checks if the development stack is already in use and take it
+# into use if it isn't already
+# ------------------------------------------------------------- #
 
+set_dev_stack() {
+  if [[ $dev_stack == true ]]; then
+    echo "The development stack is already taken in use" 1>&2
+    exit 4
+  else
+    dev_stack=true
+  fi
+}
 
-USE_DEVELOP_STACK = any([(opt == "-S" or opt == "--develop-stack")
-                        for opt in sys.argv[1:]])
-DRY_RUN = any([(opt == "-n" or opt == "--dry-run") for opt in sys.argv[1:]])
+# ------------------------------------------------------------- #
+# Loop through the command line arguments
+# ------------------------------------------------------------- #
 
+for arg in "$@"; do
+  if [[ "$arg" == $DEV_STACK_LONG_ARG ]]; then
+    set_dev_stack
+  fi
+  if [[ "$arg" == $DEV_STACK_SHORT_ARG ]]; then
+    set_dev_stack
+  fi
+done
 
-ODE_DEFAULT_BUILD_VERSION = "0.3.0"
-ODE_BUILD_KEY = "couplet-composer"
-REPO_OWNER = "anttikivi"
-REPO_NAME = ODE_BUILD_KEY
-BUILD_LOCATION = os.path.join("build")
-# The name of the directory where the script is stored for build
-SCRIPT_DIR_NAME = "script"
-# The location where the script is stored when using the
-# development version
-SCRIPT_LOCATION = os.path.join(BUILD_LOCATION, SCRIPT_DIR_NAME)
-GRAPHQL_LOCATION = os.path.join(BUILD_LOCATION, "graphql")
+# TODO The development stack is currently always on
+dev_stack=true
 
+echo "The development stack is automatically turned on"
 
-def caffeinate(command):
-    """
-    Run a command during which system sleep is disabled. This
-    ignores the 'shell.dry_run' flag.
-    """
-    # Disable system sleep, if possible.
-    if platform.system() == "Darwin":
-        # Don't change the caller's copy of the arguments.
-        command = ["caffeinate"] + list(command)
-    try:
-        subprocess.check_call(command)
-    except subprocess.CalledProcessError as e:
-        SystemExit(
-            "Command ended with a non-zero exit status "
-            "{}".format(e.returncode))
-    except OSError as e:
-        SystemExit("Could not run the build script: {}".format(e.strerror))
+# ------------------------------------------------------------- #
+# Create the build directory if it doesn't exist
+# ------------------------------------------------------------- #
 
+if [[ ! -d $BUILD_DIR ]]; then
+  mkdir -p $BUILD_DIR
+fi
 
-def _build_script_dev(dir_name):
-    """Build Couplet Composer."""
-    # destination = os.path.join(BUILD_LOCATION, SCRIPT_DIR_NAME)
-    # args = [
-    #     sys.executable,
-    #     os.path.join(destination, "setup.py"),
-    #     "install"
-    # ]
-    # print("Running the build of the composer: {}".format(args))
-    # caffeinate(args)
-    # if os.path.isdir(SCRIPT_LOCATION):
-    #     shutil.rmtree(SCRIPT_LOCATION)
-    # os.makedirs(SCRIPT_LOCATION)
-    # src_dir = os.path.join(BUILD_SCRIPT_LOCATION, "build", "lib")
-    # for item in os.listdir(src_dir):
-    #     src = os.path.join(src_dir, item)
-    #     dest = os.path.join(SCRIPT_LOCATION, item)
-    #     if os.path.isdir(src):
-    #         shutil.copytree(src, dest)
-    #     else:
-    #         shutil.copy2(src, dest)
-    # shutil.copy2(
-    #     os.path.join(BUILD_SCRIPT_LOCATION, "run.py"),
-    #     os.path.join(SCRIPT_LOCATION, "run.py"))
+# ------------------------------------------------------------- #
+# Copies a directory to the composer directory from the
+# development stack composer
+# ------------------------------------------------------------- #
 
+copy_dev_dir() {
+  cp -r $COMPOSER_REPO/$1 $COMPOSER_SCRIPT_DIR/$1
+}
 
-def _copy_script_dev():
-    """Copy Couplet Composer to the build directory."""
-    destination = os.path.join(BUILD_LOCATION, SCRIPT_DIR_NAME)
-    if not os.path.isdir(BUILD_LOCATION):
-        print("The directory " + BUILD_LOCATION + " doesn't exist")
-        os.makedirs(BUILD_LOCATION)
-    else:
-        if os.path.isdir(destination):
-            shutil.rmtree(destination)
-    os.makedirs(destination)
+# ------------------------------------------------------------- #
+# Copies a file to the composer directory from the development
+# stack composer
+# ------------------------------------------------------------- #
 
-    def _copy_script_dir(name):
-        src_dir = os.path.join(REPO_NAME, name)
-        dest_dir = os.path.join(destination, name)
-        os.makedirs(dest_dir)
-        for item in os.listdir(src_dir):
-            src = os.path.join(src_dir, item)
-            dest = os.path.join(dest_dir, item)
-            if os.path.isdir(src):
-                shutil.copytree(src, dest)
-            else:
-                shutil.copy2(src, dest)
-    _copy_script_dir("components")
-    _copy_script_dir("github")
-    _copy_script_dir("graphql")
-    _copy_script_dir(REPO_NAME.replace("-", "_").lower())
-    _copy_script_dir("support")
-    _copy_script_dir("util")
+copy_dev_file() {
+  cp $COMPOSER_REPO/$1 $COMPOSER_SCRIPT_DIR/$1
+}
 
-    def _copy_script_file(name):
-        src_file = os.path.join(REPO_NAME, name)
-        dest_file = os.path.join(destination, name)
-        shutil.copy2(src_file, dest_file)
-    _copy_script_file("run.py")
-    _copy_script_file("LICENCE")
-    _copy_script_file("MANIFEST.in")
-    _copy_script_file("README.md")
-    _copy_script_file("setup.py")
+# ------------------------------------------------------------- #
+# If the development stack is used, copy the files to the right
+# location
+# ------------------------------------------------------------- #
 
+if [[ $dev_stack == true ]]; then
+  if [[ -d $COMPOSER_SCRIPT_DIR ]]; then
+    rm -rf $COMPOSER_SCRIPT_DIR
+  fi
 
-def _copy_graphql():
-    if os.path.isdir(GRAPHQL_LOCATION):
-        shutil.rmtree(GRAPHQL_LOCATION)
-    os.makedirs(GRAPHQL_LOCATION)
-    src_dir = os.path.join(SCRIPT_LOCATION, "graphql")
-    for item in os.listdir(src_dir):
-        src = os.path.join(src_dir, item)
-        dest = os.path.join(GRAPHQL_LOCATION, item)
-        if os.path.isdir(src):
-            shutil.copytree(src, dest)
-        else:
-            shutil.copy2(src, dest)
+  mkdir $COMPOSER_SCRIPT_DIR
 
+  # copy_dev_dir components
+  # copy_dev_dir github
+  copy_dev_dir couplet_composer
+  copy_dev_dir support
+  copy_dev_dir util
 
-def _run_dev():
-    _copy_script_dev()
-    # _build_script_dev()
-    _copy_graphql()
-    args = [sys.executable]
-    args += [os.path.join(SCRIPT_LOCATION, "run.py")]
-    args += ["bootstrap"]
-    args += sys.argv[1:]
-    return caffeinate(args)
+  copy_dev_file run.py
 
+  if [[ -d $GRAPHQL_DIR ]]; then
+    rm -rf $GRAPHQL_DIR
+  fi
 
-def _main():
-    if USE_DEVELOP_STACK:
-        print(
-            "Couplet Composer and related project won't be downloaded as you "
-            "chose the development stack")
-        return _run_dev()
-    else:
-        # _checkout(_download_v4)
-        return 0  # _run()
+  mkdir $GRAPHQL_DIR
+fi
 
+# ------------------------------------------------------------- #
+# Call the Python script
+# ------------------------------------------------------------- #
 
-if __name__ == "__main__":
-    sys.exit(_main())
+python $COMPOSER_SCRIPT_RUN bootstrap "$@"

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# ------------------------------------------------------------- #
+#                 Obliging Ode & Unsung Anthem
+# ------------------------------------------------------------- #
+#
+# This source file is part of the Obliging Ode and Unsung Anthem
+# projects.
+#
+# Copyright (C) 2019 Antti Kivi
+# All rights reserved
+#
+# ------------------------------------------------------------- #
+
+# ------------------------------------------------------------- #
+# Constants
+# ------------------------------------------------------------- #
+
+readonly ROOT_DIR="."
+readonly BUILD_DIR="$ROOT_DIR/build"
+readonly COMPOSER_SCRIPT_DIR="$BUILD_DIR/script"
+readonly COMPOSER_SCRIPT_RUN="$COMPOSER_SCRIPT_DIR/run.py"
+
+# ------------------------------------------------------------- #
+# Call the Python script
+# ------------------------------------------------------------- #
+
+python $COMPOSER_SCRIPT_RUN build "$@"
