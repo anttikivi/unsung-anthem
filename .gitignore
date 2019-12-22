@@ -31,6 +31,9 @@
 *.out
 *.app
 
+# CMake and other build files
+build/
+
 # Licensing
 GPL
 OLD LICENCE
