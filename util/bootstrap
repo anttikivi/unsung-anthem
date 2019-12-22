@@ -102,8 +102,8 @@ if [[ $dev_stack == true ]]; then
 
   mkdir $COMPOSER_SCRIPT_DIR
 
-  # copy_dev_dir components
-  # copy_dev_dir github
+  copy_dev_dir components
+  copy_dev_dir github
   copy_dev_dir couplet_composer
   copy_dev_dir support
   copy_dev_dir util
@@ -114,7 +114,9 @@ if [[ $dev_stack == true ]]; then
     rm -rf $GRAPHQL_DIR
   fi
 
-  mkdir $GRAPHQL_DIR
+  # mkdir $GRAPHQL_DIR
+
+  cp -r $COMPOSER_REPO/graphql $GRAPHQL_DIR
 fi
 
 # ------------------------------------------------------------- #

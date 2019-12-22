@@ -7,8 +7,7 @@
     "version": "0.1.0-dev.1",
     "name": "Unsung Anthem"
   },
-  "build_variant": "Debug",
-  "cmake_generator": "Ninja",
-  "cxx_standard": "c++17",
-  "darwin_deployment_version": "10.9"
+  "opengl": {
+    "version": "3.2"
+  }
 }
