@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# ------------------------------------------------------------- #
+#                 Obliging Ode & Unsung Anthem
+# ------------------------------------------------------------- #
+#
+# This source file is part of the Obliging Ode and Unsung Anthem
+# projects.
+#
+# Copyright (c) 2019 Antti Kivi
+# All rights reserved
+#
+# ------------------------------------------------------------- #
+
+# ------------------------------------------------------------- #
+# Constants
+# ------------------------------------------------------------- #
+
+readonly GITHUB_URL="https://github.com"
+readonly COMPOSER_REPO_OWNER="anttikivi"
+readonly COMPOSER_REPO_NAME="couplet-composer"
+readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
+    $COMPOSER_REPO_NAME.git"
+
+readonly ROOT_DIR="."
+readonly COMPOSER_DIRECTORY_NAME="composer"
+readonly COMPOSER_DIRECTORY="$ROOT_DIR/$COMPOSER_DIRECTORY_NAME"
+
+readonly PRESET_MODE_ARGUMENT="preset"
+readonly CONFIGURE_MODE_ARGUMENT="configure"
+
+readonly COMPOSER_EXECUTABLE_NAME="composer"
+
+# ------------------------------------------------------------- #
+# Run the installation and script
+# ------------------------------------------------------------- #
+
+git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
+
+pip install --user $COMPOSER_DIRECTORY
+
+preset_mode=false
+
+for arg in "$@"; do
+  if [[ "$arg" == $PRESET_MODE_OPTION ]]; then
+    preset_mode=true
+  fi
+done
+
+if [[ $preset_mode == true ]]; then
+  $COMPOSER_EXECUTABLE_NAME $PRESET_MODE_ARGUMENT "$@" $CONFIGURE_MODE_ARGUMENT
+else
+  $COMPOSER_EXECUTABLE_NAME $CONFIGURE_MODE_ARGUMENT "$@"
+fi

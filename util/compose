@@ -7,7 +7,7 @@
 # This source file is part of the Obliging Ode and Unsung Anthem
 # projects.
 #
-# Copyright (C) 2019 Antti Kivi
+# Copyright (c) 2019 Antti Kivi
 # All rights reserved
 #
 # ------------------------------------------------------------- #
@@ -16,13 +16,25 @@
 # Constants
 # ------------------------------------------------------------- #
 
-readonly ROOT_DIR="."
-readonly BUILD_DIR="$ROOT_DIR/build"
-readonly COMPOSER_SCRIPT_DIR="$BUILD_DIR/script"
-readonly COMPOSER_SCRIPT_RUN="$COMPOSER_SCRIPT_DIR/run.py"
+readonly PRESET_MODE_ARGUMENT="preset"
+readonly COMPOSE_MODE_ARGUMENT="compose"
+
+readonly COMPOSER_EXECUTABLE_NAME="composer"
 
 # ------------------------------------------------------------- #
-# Call the Python script
+# Run the build script
 # ------------------------------------------------------------- #
 
-python $COMPOSER_SCRIPT_RUN build "$@"
+preset_mode=false
+
+for arg in "$@"; do
+  if [[ "$arg" == $PRESET_MODE_OPTION ]]; then
+    preset_mode=true
+  fi
+done
+
+if [[ $preset_mode == true ]]; then
+  $COMPOSER_EXECUTABLE_NAME $PRESET_MODE_ARGUMENT "$@" $COMPOSE_MODE_ARGUMENT
+else
+  $COMPOSER_EXECUTABLE_NAME $COMPOSE_MODE_ARGUMENT "$@"
+fi
