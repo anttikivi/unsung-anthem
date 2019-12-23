@@ -12,8 +12,6 @@ This repository also hosts the guidelines and other documentation for projects t
 * Unsung Anthem ([unsung-anthem](https://github.com/anttikivi/unsung-anthem))
 * Obliging Ode ([unsung-anthem](https://github.com/anttikivi/unsung-anthem))
 * Couplet Composer ([couplet-composer](https://github.com/anttikivi/couplet-composer))
-* Effective Elegy ([effective-elegy](https://github.com/anttikivi/effective-elegy))
-* Linguista ([linguista](https://github.com/anttikivi/linguista))
 
 ## Installing
 
@@ -23,7 +21,7 @@ There are no pre-built binaries available yet. To use Unsung Anthem, please foll
 
 Contributions to Obliging Ode and Unsung Anthem are welcome and encouraged! There are many ways to [contribute](CONTRIBUTING.md) to Obliging Ode and Unsung Anthem.
 
-This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to antti@anttikivi.fi.
+This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to antti.kivi@visiosto.fi.
 
 ## Building
 
