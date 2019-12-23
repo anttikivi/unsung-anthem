@@ -25,7 +25,7 @@ This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDU
 
 ## Building
 
-Please ensure you have a C++17 compliant compiler, [Git](https://git-scm.com), and [Python](https://www.python.org).
+Please ensure you have a C++17 compliant compiler, [Git](https://git-scm.com), and [Python](https://python.org).
 
 First, create a directory for the Obliging Ode and Unsung Anthem sources and switch to it.
 
@@ -44,9 +44,13 @@ Then clone the GitHub repository of Obliging Ode and Unsung Anthem.
 
     git clone git@github.com:anttikivi/unsung-anthem.git
 
-After cloning the source, run the build script.
+After cloning the source, run the configuring script to set up the build environment.
 
-    ./unsung-anthem/utils/build-script
+    ./unsung-anthem/util/configure
+
+When the configuring script has finished, run the build script.
+
+    ./unsung-anthem/util/compose
 
 
 ## Roadmap
