@@ -33,21 +33,11 @@ endfunction()
 function(SET_LINKER_FLAGS)
   if(DEFINED ODE_RPATH)
     if(APPLE)
-      if("${ODE_RPATH}" STREQUAL ".")
-        set(CMAKE_EXE_LINKER_FLAGS
-            "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,@loader_path")
-      else()
-        set(CMAKE_EXE_LINKER_FLAGS
-            "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,@loader_path/${ODE_RPATH}")
-      endif()
+      set(CMAKE_EXE_LINKER_FLAGS
+          "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,${ODE_RPATH}")
     else()
-      if("${ODE_RPATH}" STREQUAL ".")
-        set(CMAKE_EXE_LINKER_FLAGS
-            "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,'$ORIGIN'")
-      else()
-        set(CMAKE_EXE_LINKER_FLAGS
-            "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,'$ORIGIN/${ODE_RPATH}'")
-      endif()
+      set(CMAKE_EXE_LINKER_FLAGS
+          "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,'${ODE_RPATH}'")
     endif()
   endif()
   set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} PARENT_SCOPE)

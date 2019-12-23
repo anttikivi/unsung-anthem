@@ -24,6 +24,13 @@ function(ADD_OPENGL_DEFINITIONS)
   add_definitions(-DODE_OPENGL_VERSION_MINOR=${ODE_OPENGL_VERSION_MINOR})
 endfunction()
 
+function(ADD_DIRECTORY_DEFINITIONS)
+  add_definitions(-DODE_SCRIPT_ROOT="${CMAKE_INSTALL_LIBDIR}/ode")
+  add_definitions(-DODE_TEST_SCRIPT_ROOT="${CMAKE_INSTALL_LIBDIR}/ode")
+  add_definitions(-DANTHEM_SCRIPT_ROOT="${CMAKE_INSTALL_LIBDIR}/anthem")
+  add_definitions(-DANTHEM_TEST_SCRIPT_ROOT="${CMAKE_INSTALL_LIBDIR}/anthem")
+endfunction()
+
 function(ADD_FEATURE_DEFINITIONS)
   add_definitions(-DGSL_THROW_ON_CONTRACT_VIOLATION=1)
   # add_definitions(-DGSL_UNENFORCED_ON_CONTRACT_VIOLATION=1)

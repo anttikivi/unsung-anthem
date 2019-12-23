@@ -26,12 +26,18 @@ include(Targets)
 include(Variables)
 
 #===------------------------------------------------------------------------===#
+#==- CMake Variables -------------------------------------------------------===#
+#===------------------------------------------------------------------------===#
+
+set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
+
+#===------------------------------------------------------------------------===#
 #==- Options ---------------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
 #==- Obliging Ode Build Options --------------------------------------------===#
 
-option(ODE_TEST "Build the tests" OFF)
+option(ODE_BUILD_TEST "Build the tests" OFF)
 option(ODE_TEST_BENCHMARKING "Build the benchmarkings" OFF)
 option(ODE_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 
@@ -89,6 +95,7 @@ set_std_flags(${ODE_STD})
 add_name_definitions()
 add_opengl_definitions()
 add_feature_definitions()
+add_directory_definitions()
 
 set_compiler_flags()
 set_linker_flags()
@@ -99,7 +106,7 @@ set_linker_flags()
 
 set(ODE_LIBRARIES)
 
-if(ODE_TEST)
+if(ODE_BUILD_TEST)
   list(APPEND ODE_LIBRARIES "gtest")
 endif()
 
@@ -113,7 +120,7 @@ endif()
 
 if(UNIX)
   if(APPLE)
-    list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d")
+    list(APPEND ODE_LIBRARIES "SDL2main" "SDL2")
   else()
     list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d" "dl" "pthread")
   endif()
@@ -138,7 +145,7 @@ include_directories(include)
 include_directories(lib)
 include_directories(src)
 
-if(ODE_TEST)
+if(ODE_BUILD_TEST)
   include_directories(test)
 endif()
 
@@ -208,6 +215,8 @@ endif()
 message(STATUS "The CMake build type is set to ${CMAKE_BUILD_TYPE}")
 message(STATUS
     "The CMake installation prefix is set to ${CMAKE_INSTALL_PREFIX}")
+message(STATUS
+    "The CMake library installation prefix is set to ${CMAKE_INSTALL_LIBDIR}")
 message(STATUS "The C++ compile flags are set to ${CMAKE_CXX_FLAGS}")
 message(STATUS
     "The C++ executable linker flags are set to ${CMAKE_EXE_LINKER_FLAGS}")
@@ -215,3 +224,7 @@ message(STATUS "The C compiler flag is set to ${CMAKE_C_COMPILER}")
 message(STATUS "The C++ compiler flag is set to ${CMAKE_CXX_COMPILER}")
 message(STATUS "The C compiler environment variable is set to $ENV{CC}")
 message(STATUS "The C++ compiler environment variable is set to $ENV{CXX}")
+
+get_directory_property(COMPILE_DEFS COMPILE_DEFINITIONS)
+
+message(STATUS "The compile definitions are ${COMPILE_DEFS}")

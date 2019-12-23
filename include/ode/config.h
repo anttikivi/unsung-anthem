@@ -41,7 +41,7 @@ namespace ode
 #ifdef ODE_SCRIPT_ROOT
   constexpr auto script_root = ODE_SCRIPT_ROOT;
 #else
-  constexpr auto script_root = "script/ode";
+  constexpr auto script_root = "lib/ode";
 #endif // !defined(ODE_SCRIPT_ROOT)
 
   ///
@@ -50,7 +50,7 @@ namespace ode
 #ifdef ODE_TEST_SCRIPT_ROOT
   constexpr auto test_script_root = ODE_TEST_SCRIPT_ROOT;
 #else
-  constexpr auto test_script_root = "script/test/ode";
+  constexpr auto test_script_root = "lib/ode";
 #endif // !defined(ODE_TEST_SCRIPT_ROOT)
 
   ///

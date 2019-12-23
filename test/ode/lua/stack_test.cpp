@@ -33,7 +33,7 @@ TEST(ode_lua_to_stack, is_set_to_stack)
 {
   lua_State* l = luaL_newstate();
 
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack.lua";
@@ -57,7 +57,7 @@ TEST(ode_lua_push, is_pushed_to_stack)
 {
   lua_State* l = luaL_newstate();
 
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack.lua";
