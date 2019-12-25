@@ -40,6 +40,13 @@ set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
 option(ODE_BUILD_TEST "Build the tests" OFF)
 option(ODE_TEST_BENCHMARKING "Build the benchmarkings" OFF)
 option(ODE_ENABLE_GCOV "Add target for gcov code coverage" OFF)
+option(ODE_BUILD_STATIC "Build the static Obliging Ode library" OFF)
+option(ODE_BUILD_SHARED "Build the shared Obliging Ode library" OFF)
+
+#==- Unsung Anthem Build Options -------------------------------------------===#
+
+option(ANTHEM_BUILD_STATIC "Build the static Unsung Anthem library" OFF)
+option(ANTHEM_BUILD_SHARED "Build the shared Unsung Anthem library" OFF)
 
 #==- Obliging Ode Feature Options ------------------------------------------===#
 
@@ -70,13 +77,15 @@ assert_variable(ANTHEM_WINDOW_NAME "program window name")
 #==- Variable Statuses -----------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-default_value(ANTHEM_NAME name_not_set "executable name")
+default_value(ODE_NAME ode-name_not_set "Obliging Ode binaries name")
+default_value(ODE_LIB_NAME ${ODE_NAME} "Obliging Ode library name")
+
+default_value(ANTHEM_NAME anthem-name_not_set "executable name")
 default_value(ANTHEM_LIB_NAME ${ANTHEM_NAME} "Unsung Anthem library name")
 default_value(ANTHEM_TEST_NAME test-${ANTHEM_NAME}
     "Unsung Anthem test executable name")
 
 print_status_if_defined(ODE_STDLIB "C++ standard library")
-print_status_if_defined(ODE_OPTIMIZATION_LEVEL "the optimization level")
 print_status_if_defined(ODE_RPATH "the rpath")
 
 #===------------------------------------------------------------------------===#
@@ -86,19 +95,17 @@ print_status_if_defined(ODE_RPATH "the rpath")
 set(ODE_STD)
 
 set_cxx_definitions(${ODE_CXX_VERSION})
+set_std_feature_definitions(${ODE_CXX_VERSION})
 
 print_status(ODE_STD "Obliging Ode C++ standard")
 
-set_std_feature_definitions(${ODE_CXX_VERSION})
 set_std_flags(${ODE_STD})
+set_linker_flags()
 
 add_name_definitions()
 add_opengl_definitions()
-add_feature_definitions()
 add_directory_definitions()
-
-set_compiler_flags()
-set_linker_flags()
+add_feature_definitions()
 
 #===------------------------------------------------------------------------===#
 #==- Libraries -------------------------------------------------------------===#
@@ -153,26 +160,26 @@ endif()
 #==- Source Files ----------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-set(ODE_LIB_INCLUDES)
 set(ODE_INCLUDES)
+set(ODE_LIB_INCLUDES)
 set(ODE_TEST_INCLUDES)
+set(ODE_SOURCES)
 set(ODE_TEST_SOURCES)
 set(ODE_BENCHMARK_SOURCES)
-set(ODE_SOURCES)
 
-set(ANTHEM_LIB_INCLUDES)
 set(ANTHEM_INCLUDES)
+set(ANTHEM_LIB_INCLUDES)
+set(ANTHEM_SOURCES)
 set(ANTHEM_LIB_SOURCES)
 set(ANTHEM_TEST_SOURCES)
 set(ANTHEM_BENCHMARK_SOURCES)
-set(ANTHEM_SOURCES)
 
-set(ODE_TEST_SCRIPTS)
 set(ODE_SCRIPTS)
+set(ODE_TEST_SCRIPTS)
 
+set(ANTHEM_SCRIPTS)
 set(ANTHEM_LIB_SCRIPTS)
 set(ANTHEM_TEST_SCRIPTS)
-set(ANTHEM_SCRIPTS)
 
 add_subdirectory(include)
 add_subdirectory(lib)
@@ -186,7 +193,7 @@ set_glad_sources()
 #==- Targets ---------------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-if(APPLE)
+if(DEFINED ODE_RPATH AND APPLE)
   set(CMAKE_MACOSX_RPATH 1)
 endif()
 
@@ -196,7 +203,7 @@ default_value(ODE_COVERAGE_MARK c "coverage target mark")
 create_targets()
 
 #===------------------------------------------------------------------------===#
-#==- Installation Targets --------------------------------------------------===#
+#==- Install Targets -------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
 if(NOT WIN32)
@@ -207,6 +214,7 @@ endif()
 #==- Compilation and Linking -----------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
+# TODO Consider adding the option
 if(ODE_VERBOSE_BUILD)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -v")
