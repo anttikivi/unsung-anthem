@@ -10,6 +10,7 @@
 
 function(ADD_NAME_DEFINITIONS)
   add_definitions(-DODE_LOGGER_NAME="${ODE_LOGGER_NAME}")
+  add_definitions(-DODE_WINDOW_NAME="${ODE_WINDOW_NAME}")
   add_definitions(-DANTHEM_LOGGER_NAME="${ANTHEM_LOGGER_NAME}")
   add_definitions(-DANTHEM_WINDOW_NAME="${ANTHEM_WINDOW_NAME}")
 endfunction()
