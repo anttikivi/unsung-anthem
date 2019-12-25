@@ -80,7 +80,7 @@ if [[ $clone_composer == true ]]; then
   git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
   cd ..
   pip install --user $COMPOSER_DIRECTORY
-  echo "$COMPOSER_VERSION" >> $COMPOSER_VERSION_FILE
+  echo "$COMPOSER_VERSION" > $COMPOSER_VERSION_FILE
 fi
 
 preset_mode=false
