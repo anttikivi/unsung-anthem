@@ -1,0 +1,42 @@
+{
+  "benchmark": {
+    "version": "1.4.1",
+    "name": "Google Benchmark",
+    "testonly": true
+  },
+  "clara": {
+    "version": "1.1.5",
+    "name": "Clara",
+    "testonly": false
+  },
+  "glad": {
+    "version": "0.1.24",
+    "name": "Glad",
+    "testonly": false
+  },
+  "googletest": {
+    "version": "1.10.0",
+    "name": "Google Test",
+    "testonly": true
+  },
+  "lua": {
+    "version": "5.3.5",
+    "name": "Lua",
+    "testonly": false
+  },
+  "sdl": {
+    "version": "2.0.9",
+    "name": "Simple DirectMedia Layer",
+    "testonly": false
+  },
+  "spdlog": {
+    "version": "1.4.2",
+    "name": "spdlog",
+    "testonly": false
+  },
+  "stb_image": {
+    "version": "2.22",
+    "name": "stb_image",
+    "testonly": false
+  }
+}

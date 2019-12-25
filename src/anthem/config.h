@@ -41,7 +41,7 @@ namespace anthem
 #ifdef ANTHEM_SCRIPT_ROOT
   constexpr auto script_root = ANTHEM_SCRIPT_ROOT;
 #else
-  constexpr auto script_root = "script/anthem";
+  constexpr auto script_root = "lib/anthem";
 #endif // !defined(ANTHEM_SCRIPT_ROOT)
 
   ///
@@ -50,7 +50,7 @@ namespace anthem
 #ifdef ANTHEM_TEST_SCRIPT_ROOT
   constexpr auto test_script_root = ANTHEM_TEST_SCRIPT_ROOT;
 #else
-  constexpr auto test_script_root = "script/test/anthem";
+  constexpr auto test_script_root = "lib/anthem";
 #endif // !defined(ANTHEM_TEST_SCRIPT_ROOT)
 
 } // namespace anthem

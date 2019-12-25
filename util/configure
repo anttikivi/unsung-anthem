@@ -1,0 +1,100 @@
+#!/bin/bash
+
+# ------------------------------------------------------------- #
+#                 Obliging Ode & Unsung Anthem
+# ------------------------------------------------------------- #
+#
+# This source file is part of the Obliging Ode and Unsung Anthem
+# projects.
+#
+# Copyright (c) 2019 Antti Kivi
+# All rights reserved
+#
+# ------------------------------------------------------------- #
+
+readonly PRINT_DEBUG_OPTION="--print-debug"
+
+for arg in "$@"; do
+  if [[ "$arg" == "$PRINT_DEBUG_OPTION" ]]; then
+    set -x
+  fi
+done
+
+readonly COMPOSER_VERSION="0.4.0-rc.2"
+
+readonly GITHUB_URL="https://github.com"
+readonly COMPOSER_REPO_OWNER="anttikivi"
+readonly COMPOSER_REPO_NAME="couplet-composer"
+readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
+$COMPOSER_REPO_NAME.git"
+
+readonly ROOT_DIR="."
+readonly COMPOSER_DIRECTORY_NAME="composer"
+readonly COMPOSER_DIRECTORY="$ROOT_DIR/$COMPOSER_DIRECTORY_NAME"
+readonly COMPOSER_VERSION_FILE="$COMPOSER_DIRECTORY/.composer-version"
+
+readonly CLEAN_BUILD_OPTION="-c"
+readonly CLEAN_BUILD_SHORT_OPTION="--clean"
+
+readonly PRESET_MODE_ARGUMENT="preset"
+readonly CONFIGURE_MODE_ARGUMENT="configure"
+
+readonly COMPOSER_EXECUTABLE_NAME="composer"
+
+# Clean the script if clean build is enabled
+
+clean_build=false
+
+for arg in "$@"; do
+  if [[ "$arg" == "$CLEAN_BUILD_OPTION" ]] || \
+      [[ "$arg" == "$CLEAN_BUILD_SHORT_OPTION" ]]; then
+    clean_build=true
+  fi
+done
+
+if [[ $clean_build == true ]] && [[ -d "$COMPOSER_DIRECTORY" ]]; then
+  rm -rf $COMPOSER_DIRECTORY
+fi
+
+# Run the installation and script
+
+clone_composer=false
+
+if [[ ! -d "$COMPOSER_DIRECTORY" ]]; then
+  clone_composer=true
+fi
+
+if [[ -f "$COMPOSER_VERSION_FILE" ]]; then
+  installed_version=$(<"$COMPOSER_VERSION_FILE")
+  echo "The installed local Couplet Composer version is $installed_version"
+  if [[ "$COMPOSER_VERSION" != "$installed_version" ]]; then
+    clone_composer=true
+  fi
+else
+  clone_composer=true
+fi
+
+if [[ $clone_composer == true ]]; then
+  git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
+  cd $COMPOSER_DIRECTORY_NAME
+  git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
+  cd ..
+  pip install --user $COMPOSER_DIRECTORY
+  echo "$COMPOSER_VERSION" > $COMPOSER_VERSION_FILE
+fi
+
+preset_mode=false
+
+for arg in "$@"; do
+  if [[ "$arg" == "$PRESET_MODE_ARGUMENT" ]]; then
+    preset_mode=true
+  fi
+done
+
+if [[ $preset_mode == true ]]; then
+  # $COMPOSER_EXECUTABLE_NAME $PRESET_MODE_ARGUMENT "$@"
+  # $CONFIGURE_MODE_ARGUMENT
+  $COMPOSER_EXECUTABLE_NAME "$@" $CONFIGURE_MODE_ARGUMENT
+else
+  $COMPOSER_EXECUTABLE_NAME $CONFIGURE_MODE_ARGUMENT "$@"
+fi

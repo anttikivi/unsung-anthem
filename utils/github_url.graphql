@@ -1,5 +1,0 @@
-query { 
-  repository(owner: "{REPOSITORY_OWNER}", name: "{REPOSITORY_NAME}") {
-    url
-  }
-}

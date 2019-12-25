@@ -7,11 +7,11 @@ This README isn’t ready yet!
 
 *Unsung Anthem* is a video game with its own game engine, *Obliging Ode*. The game strives for thriving on openness in all aspects of the project. The development of the project is still in very early stage. This repository contains the source code for both Unsung Anthem and Obliging Ode.
 
-This repository also hosts the guidelines et cetera for the projects related to Unsung Anthem and Obliging Ode. Those projects are used, for example, to build Unsung Anthem and Obliging Ode, and they’re:
+This repository also hosts the guidelines and other documentation for projects that are related to *the stack* of Unsung Anthem and Obliging Ode. Those projects are used, for example, to build Unsung Anthem and Obliging Ode. The projects (with the Git repositories where they’re stored) that are part of the stack are:
 
-* Ode Composer ([ode-composer](https://github.com/anttikivi/ode-composer))
-* Obliging Ode Licence ([ode-licence](https://github.com/anttikivi/ode-licence))
-* Git Utilities for Ode Composer ([ode-git](https://github.com/anttikivi/ode-git))
+* Unsung Anthem ([unsung-anthem](https://github.com/anttikivi/unsung-anthem))
+* Obliging Ode ([unsung-anthem](https://github.com/anttikivi/unsung-anthem))
+* Couplet Composer ([couplet-composer](https://github.com/anttikivi/couplet-composer))
 
 ## Installing
 
@@ -21,11 +21,11 @@ There are no pre-built binaries available yet. To use Unsung Anthem, please foll
 
 Contributions to Obliging Ode and Unsung Anthem are welcome and encouraged! There are many ways to [contribute](CONTRIBUTING.md) to Obliging Ode and Unsung Anthem.
 
-This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to antti@anttikivi.fi.
+This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you’re expected to uphold this code. Please report unacceptable behaviour to antti.kivi@visiosto.fi.
 
 ## Building
 
-Please ensure you have a C++17 compliant compiler, [Git](https://git-scm.com), and [Python](https://www.python.org).
+Please ensure you have a C++17 compliant compiler, [Git](https://git-scm.com), and [Python](https://python.org).
 
 First, create a directory for the Obliging Ode and Unsung Anthem sources and switch to it.
 
@@ -44,9 +44,13 @@ Then clone the GitHub repository of Obliging Ode and Unsung Anthem.
 
     git clone git@github.com:anttikivi/unsung-anthem.git
 
-After cloning the source, run the build script.
+After cloning the source, run the configuring script to set up the build environment.
 
-    ./unsung-anthem/utils/build-script
+    ./unsung-anthem/util/configure
+
+When the configuring script has finished, run the build script.
+
+    ./unsung-anthem/util/compose
 
 
 ## Roadmap

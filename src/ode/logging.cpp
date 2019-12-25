@@ -23,6 +23,8 @@
 
 #include "ode/logging.h"
 
+#include <spdlog/sinks/stdout_color_sinks.h>
+
 namespace ode
 {
   namespace detail
@@ -37,7 +39,7 @@ namespace ode
       }
       else
       {
-        return spdlog::stdout_logger_mt(name);
+        return spdlog::stdout_color_mt(name);
       }
     }
   } // namespace detail
