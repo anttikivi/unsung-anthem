@@ -64,7 +64,7 @@ if [[ ! -d "$COMPOSER_DIRECTORY" ]]; then
   clone_composer=true
 fi
 
-if [[ -f "$COMPOSER_VERSION_FILE" ]] then
+if [[ -f "$COMPOSER_VERSION_FILE" ]]; then
   installed_version=$(<"$COMPOSER_VERSION_FILE")
   echo "The installed local Couplet Composer version is $installed_version"
   if [[ "$COMPOSER_VERSION" != "$installed_version" ]]; then
@@ -76,7 +76,9 @@ fi
 
 if [[ $clone_composer == true ]]; then
   git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
+  cd $COMPOSER_DIRECTORY_NAME
   git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
+  cd ..
   pip install --user $COMPOSER_DIRECTORY
   echo "$COMPOSER_VERSION" >> $COMPOSER_VERSION_FILE
 fi
