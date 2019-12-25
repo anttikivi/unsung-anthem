@@ -31,7 +31,6 @@ $COMPOSER_REPO_NAME.git"
 readonly ROOT_DIR="."
 readonly COMPOSER_DIRECTORY_NAME="composer"
 readonly COMPOSER_DIRECTORY="$ROOT_DIR/$COMPOSER_DIRECTORY_NAME"
-readonly COMPOSER_VERSION_FILE="$COMPOSER_DIRECTORY/.composer-version"
 
 readonly CLEAN_BUILD_OPTION="-c"
 readonly CLEAN_BUILD_SHORT_OPTION="--clean"
@@ -64,8 +63,12 @@ if [[ ! -d "$COMPOSER_DIRECTORY" ]]; then
   clone_composer=true
 fi
 
-if [[ -f "$COMPOSER_VERSION_FILE" ]]; then
-  installed_version=$(<"$COMPOSER_VERSION_FILE")
+composer_executable=""
+
+if command -v $COMPOSER_EXECUTABLE_NAME >/dev/null 2>&1; then
+  composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
+  echo "The installed Couplet Composer executable is $composer_executable"
+  installed_version="$($composer_executable --version)"
   echo "The installed local Couplet Composer version is $installed_version"
   if [[ "$COMPOSER_VERSION" != "$installed_version" ]]; then
     clone_composer=true
@@ -80,7 +83,6 @@ if [[ $clone_composer == true ]]; then
   git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
   cd ..
   pip install --user $COMPOSER_DIRECTORY
-  echo "$COMPOSER_VERSION" > $COMPOSER_VERSION_FILE
 fi
 
 preset_mode=false
@@ -92,9 +94,8 @@ for arg in "$@"; do
 done
 
 if [[ $preset_mode == true ]]; then
-  # $COMPOSER_EXECUTABLE_NAME $PRESET_MODE_ARGUMENT "$@"
-  # $CONFIGURE_MODE_ARGUMENT
-  $COMPOSER_EXECUTABLE_NAME "$@" $CONFIGURE_MODE_ARGUMENT
+  # $composer_executable $PRESET_MODE_ARGUMENT "$@" $CONFIGURE_MODE_ARGUMENT
+  $composer_executable "$@" $CONFIGURE_MODE_ARGUMENT
 else
-  $COMPOSER_EXECUTABLE_NAME $CONFIGURE_MODE_ARGUMENT "$@"
+  $composer_executable $CONFIGURE_MODE_ARGUMENT "$@"
 fi
