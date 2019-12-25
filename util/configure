@@ -68,7 +68,7 @@ composer_executable=""
 if command -v $COMPOSER_EXECUTABLE_NAME >/dev/null 2>&1; then
   composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
   echo "The installed Couplet Composer executable is $composer_executable"
-  installed_version="$($composer_executable --version)"
+  installed_version="$($composer_executable --version 2>&1)"
   echo "The installed local Couplet Composer version is $installed_version"
   if [[ "$COMPOSER_VERSION" != "$installed_version" ]]; then
     clone_composer=true
