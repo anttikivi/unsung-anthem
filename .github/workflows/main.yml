@@ -25,12 +25,12 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/..
         echo "Switched to $GITHUB_WORKSPACE/.."
-        ./unsung-anthem/util/configure preset --name main_workflow --print-debug --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        ./unsung-anthem/util/configure preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
     - name: Build Obliging Ode and Unsung Anthem
       run: |
         cd $GITHUB_WORKSPACE/..
         echo "Switched to $GITHUB_WORKSPACE/.."
-        ./unsung-anthem/util/compose preset --name main_workflow --print-debug --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        ./unsung-anthem/util/compose preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
     - name: Run the tests
       run: |
         cd $GITHUB_WORKSPACE/..
