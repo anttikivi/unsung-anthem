@@ -95,6 +95,8 @@ for arg in "$@"; do
   fi
 done
 
+set -e
+
 if [[ $preset_mode == true ]]; then
   # $composer_executable $PRESET_MODE_ARGUMENT "$@" $CONFIGURE_MODE_ARGUMENT
   $composer_executable "$@" $CONFIGURE_MODE_ARGUMENT
