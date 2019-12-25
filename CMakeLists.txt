@@ -114,7 +114,7 @@ add_feature_definitions()
 set(ODE_LIBRARIES)
 
 if(ODE_BUILD_TEST)
-  list(APPEND ODE_LIBRARIES "gtest")
+  list(APPEND ODE_LIBRARIES "gtestd")
 endif()
 
 if(ODE_TEST_BENCHMARKING)
@@ -127,7 +127,7 @@ endif()
 
 if(UNIX)
   if(APPLE)
-    list(APPEND ODE_LIBRARIES "SDL2main" "SDL2")
+    list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d")
   else()
     list(APPEND ODE_LIBRARIES "SDL2maind" "SDL2d" "dl" "pthread")
   endif()
