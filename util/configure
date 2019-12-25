@@ -12,7 +12,15 @@
 #
 # ------------------------------------------------------------- #
 
-set -x
+readonly PRINT_DEBUG_OPTION="--print-debug"
+
+for arg in "$@"; do
+  if [[ "$arg" == "$PRINT_DEBUG_OPTION" ]]; then
+    set -x
+  fi
+done
+
+readonly COMPOSER_VERSION="0.4.0-rc.1"
 
 readonly GITHUB_URL="https://github.com"
 readonly COMPOSER_REPO_OWNER="anttikivi"
@@ -23,6 +31,7 @@ $COMPOSER_REPO_NAME.git"
 readonly ROOT_DIR="."
 readonly COMPOSER_DIRECTORY_NAME="composer"
 readonly COMPOSER_DIRECTORY="$ROOT_DIR/$COMPOSER_DIRECTORY_NAME"
+readonly COMPOSER_VERSION_FILE="$COMPOSER_DIRECTORY/.composer-version"
 
 readonly CLEAN_BUILD_OPTION="-c"
 readonly CLEAN_BUILD_SHORT_OPTION="--clean"
@@ -49,9 +58,27 @@ fi
 
 # Run the installation and script
 
+clone_composer=false
+
 if [[ ! -d "$COMPOSER_DIRECTORY" ]]; then
+  clone_composer=true
+fi
+
+if [[ -f "$COMPOSER_VERSION_FILE" ]] then
+  installed_version=$(<"$COMPOSER_VERSION_FILE")
+  echo "The installed local Couplet Composer version is $installed_version"
+  if [[ "$COMPOSER_VERSION" != "$installed_version" ]]; then
+    clone_composer=true
+  fi
+else
+  clone_composer=true
+fi
+
+if [[ $clone_composer == true ]]; then
   git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
+  git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
   pip install --user $COMPOSER_DIRECTORY
+  echo "$COMPOSER_VERSION" >> $COMPOSER_VERSION_FILE
 fi
 
 preset_mode=false
