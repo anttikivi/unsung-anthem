@@ -20,7 +20,7 @@ for arg in "$@"; do
   fi
 done
 
-readonly COMPOSER_VERSION="0.4.0-rc.3"
+readonly COMPOSER_VERSION="0.4.0-rc.4"
 
 readonly GITHUB_URL="https://github.com"
 readonly COMPOSER_REPO_OWNER="anttikivi"
@@ -38,7 +38,7 @@ readonly CLEAN_BUILD_SHORT_OPTION="--clean"
 readonly PRESET_MODE_ARGUMENT="preset"
 readonly CONFIGURE_MODE_ARGUMENT="configure"
 
-readonly COMPOSER_EXECUTABLE_NAME="composer"
+readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
 
 # Clean the script if clean build is enabled
 
