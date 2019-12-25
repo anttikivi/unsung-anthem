@@ -83,6 +83,8 @@ if [[ $clone_composer == true ]]; then
   git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
   cd ..
   pip install --user $COMPOSER_DIRECTORY
+  composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
+  echo "The installed Couplet Composer executable is $composer_executable"
 fi
 
 preset_mode=false
