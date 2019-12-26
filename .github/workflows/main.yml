@@ -13,9 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install dependencies
+    - name: Install Linux dependencies
       if: runner.os == 'Linux'
-      run: sudo apt-get install xorg-dev libglu1-mesa-dev lib32ncurses5 lib32z1
+      run: sudo apt-get install xorg-dev mercurial make cmake autoconf automake libtool libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libesd0-dev libdbus-1-dev libudev-dev libgles1-mesa-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
     - name: Setup Python environment
       uses: actions/setup-python@v1.1.1
       with:
