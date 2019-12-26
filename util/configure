@@ -22,7 +22,7 @@ for arg in "$@"; do
   fi
 done
 
-readonly COMPOSER_VERSION="0.4.0-rc.6"
+readonly COMPOSER_VERSION="0.4.0"
 
 readonly GITHUB_URL="https://github.com"
 readonly COMPOSER_REPO_OWNER="anttikivi"
