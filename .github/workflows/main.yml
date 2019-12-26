@@ -24,12 +24,14 @@ jobs:
         # The target architecture (x86, x64) of the Python interpreter.
         architecture: x64 # optional, default is x64
     - name: Set up build environment
-      run: ./unsung-anthem/util/configure preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
-      working-directory: $GITHUB_WORKSPACE/..
+      run: |
+        cd $GITHUB_WORKSPACE/..
+        ./unsung-anthem/util/configure preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
     - name: Build Obliging Ode and Unsung Anthem
-      run: ./unsung-anthem/util/compose preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
-      working-directory: $GITHUB_WORKSPACE/..
-    - name: Run the tests
+      run: |
+        cd $GITHUB_WORKSPACE/..
+        ./unsung-anthem/util/compose preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+    - name: Retrive the path to tests
       run: export ODE_TEST_PATH="$(cat ./build/latest-install)"
       working-directory: $GITHUB_WORKSPACE/..
     - name: Run the tests
