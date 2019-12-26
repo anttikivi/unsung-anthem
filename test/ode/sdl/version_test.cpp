@@ -31,7 +31,7 @@ TEST(ode_sdl_version, compiled)
 
   ASSERT_EQ(v.major, 2);
   ASSERT_EQ(v.minor, 0);
-  ASSERT_EQ(v.patch, 8);
+  ASSERT_EQ(v.patch, 10);
 
   SDL_version compiled;
   SDL_VERSION(&compiled);
@@ -47,7 +47,7 @@ TEST(ode_sdl_version, linked)
 
   ASSERT_EQ(v.major, 2);
   ASSERT_EQ(v.minor, 0);
-  ASSERT_EQ(v.patch, 8);
+  ASSERT_EQ(v.patch, 10);
 
   SDL_version linked;
   SDL_GetVersion(&linked);
