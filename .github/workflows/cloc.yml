@@ -10,6 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
-      run: npm install -g cloc
+      run: sudo npm install -g cloc
     - name: Count the lines of code
       run: cloc .
