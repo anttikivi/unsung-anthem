@@ -80,6 +80,9 @@ else
 fi
 
 if [[ $clone_composer == true ]]; then
+  if [[ -d "$COMPOSER_DIRECTORY" ]]; then
+    rm -rf $COMPOSER_DIRECTORY
+  fi
   git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
   cd $COMPOSER_DIRECTORY_NAME
   git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
