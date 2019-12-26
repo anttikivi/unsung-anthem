@@ -26,23 +26,14 @@ jobs:
     - name: Install Python dependencies
       run: python -m pip install --upgrade pip
     - name: Set up build environment
-      run: |
-        cd $GITHUB_WORKSPACE/..
-        echo "Switched to $GITHUB_WORKSPACE/.."
-        ./unsung-anthem/util/configure preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+      run: ./unsung-anthem/util/configure preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+      working-directory: $GITHUB_WORKSPACE/..
     - name: Build Obliging Ode and Unsung Anthem
-      run: |
-        cd $GITHUB_WORKSPACE/..
-        echo "Switched to $GITHUB_WORKSPACE/.."
-        ./unsung-anthem/util/compose preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+      run: ./unsung-anthem/util/compose preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+      working-directory: $GITHUB_WORKSPACE/..
     - name: Run the tests
-      run: |
-        cd $GITHUB_WORKSPACE/..
-        echo "Switched to $GITHUB_WORKSPACE/.."
-        ODE_TEST_PATH="$(cat ./build/latest-install)"
-        ODE_TEST_VERSION="$(cat ./build/latest-install-version)"
-        echo "The path to the tests is $ODE_TEST_PATH"
-        echo "The version number of the tests is $ODE_TEST_VERSION"
-        cd build/$ODE_TEST_PATH
-        echo "Switched to ./build/$ODE_TEST_PATH"
-        ./bin/test-anthem
+      run: export ODE_TEST_PATH="$(cat ./build/latest-install)"
+      working-directory: $GITHUB_WORKSPACE/..
+    - name: Run the tests
+      run: ./bin/test-anthem
+      working-directory: $GITHUB_WORKSPACE/../build/$ODE_TEST_PATH
