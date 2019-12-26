@@ -38,7 +38,7 @@ endfunction()
 # endfunction()
 
 function(ANTHEM_TEST_INSTALLATION)
-  install(TARGETS ${ANTHEM_TEST_NAME})
+  install(TARGETS ${ANTHEM_TEST_NAME} RUNTIME DESTINATION bin)
 endfunction()
 
 function(ODE_SCRIPT_INSTALLATION)
