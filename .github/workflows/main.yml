@@ -13,9 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install video device
+    - name: Install dependencies
       if: runner.os == 'Linux'
-      run: sudo apt-get install xorg-dev
+      run: sudo apt-get install xorg-dev libglu1-mesa-dev
     - name: Setup Python environment
       uses: actions/setup-python@v1.1.1
       with:
