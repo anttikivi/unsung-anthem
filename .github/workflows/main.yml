@@ -32,8 +32,10 @@ jobs:
         cd $GITHUB_WORKSPACE/..
         ./unsung-anthem/util/compose preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
     - name: Retrive the path to tests
-      run: export ODE_TEST_PATH="$(cat ./build/latest-install)"
-      working-directory: $GITHUB_WORKSPACE/..
+      run: |
+        cd $GITHUB_WORKSPACE/..
+        export ODE_TEST_PATH="$(cat ./build/latest-install)"
     - name: Run the tests
-      run: ./bin/test-anthem
-      working-directory: $GITHUB_WORKSPACE/../build/$ODE_TEST_PATH
+      run: |
+        cd $GITHUB_WORKSPACE/../build/$ODE_TEST_PATH
+        ./bin/test-anthem
