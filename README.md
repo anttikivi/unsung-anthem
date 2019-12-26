@@ -1,7 +1,7 @@
 # Unsung Anthem
 **with Obliging Ode**
 
-![](https://github.com/anttikivi/unsung-anthem/workflows/Main%20workflow/badge.svg) [![Build status](https://ci.appveyor.com/api/projects/status/hghv4rea10jrvird/branch/develop?svg=true)](https://ci.appveyor.com/project/anttikivi/unsung-anthem/branch/develop) [![Coverage Status](https://coveralls.io/repos/github/anttikivi/unsung-anthem/badge.svg?branch=develop)](https://coveralls.io/github/anttikivi/unsung-anthem?branch=develop)
+![](https://github.com/anttikivi/unsung-anthem/workflows/Main%20workflow/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/anttikivi/unsung-anthem/badge.svg?branch=develop)](https://coveralls.io/github/anttikivi/unsung-anthem?branch=develop)
 
 This README isn’t ready yet!
 
