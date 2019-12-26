@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install dependencies
       if: runner.os == 'Linux'
-      run: sudo apt-get install xorg-dev libglu1-mesa-dev ia32-libs
+      run: sudo apt-get install xorg-dev libglu1-mesa-dev lib32ncurses5 lib32z1
     - name: Setup Python environment
       uses: actions/setup-python@v1.1.1
       with:
