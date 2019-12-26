@@ -39,6 +39,6 @@ jobs:
         ODE_TEST_VERSION="$(cat ./build/latest-install-version)"
         echo "The path to the tests is $ODE_TEST_PATH"
         echo "The version number of the tests is $ODE_TEST_VERSION"
-        cd $GITHUB_WORKSPACE/$ODE_TEST_PATH
-        echo "Switched to $GITHUB_WORKSPACE/$ODE_TEST_PATH"
+        cd build/$ODE_TEST_PATH
+        echo "Switched to ./build/$ODE_TEST_PATH"
         ./bin/test-anthem
