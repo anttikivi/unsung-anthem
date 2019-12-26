@@ -32,8 +32,16 @@ jobs:
         cd $GITHUB_WORKSPACE/..
         ./unsung-anthem/util/compose preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
     - name: Run the tests
+      if: runner.os != 'Linux'
       run: |
         cd $GITHUB_WORKSPACE/../build
         ODE_TEST_PATH="$(cat ./latest-install)"
         cd $ODE_TEST_PATH
         ./bin/test-anthem
+    - name: Run the tests with virtual framebuffer
+      if: runner.os == 'Linux'
+      run: |
+        cd $GITHUB_WORKSPACE/../build
+        ODE_TEST_PATH="$(cat ./latest-install)"
+        cd $ODE_TEST_PATH
+        xvfb-run --server-args -screen 0 1920x1080x24 -e /dev/stdout -a ./bin/test-anthem
