@@ -25,11 +25,7 @@
 # endfunction()
 
 function(ANTHEM_INSTALLATION)
-  install(TARGETS ${ANTHEM_NAME})
-  # install(TARGETS ${ANTHEM_NAME}
-  #     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/${ODE_BIN_DIR_NAME}
-  #     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/${ODE_LIB_DIR_NAME}
-  #     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/${ODE_LIB_DIR_NAME})
+  install(TARGETS ${ANTHEM_NAME} RUNTIME DESTINATION bin)
 endfunction()
 
 # function(ANTHEM_LIB_INSTALLATION)
@@ -43,37 +39,38 @@ endfunction()
 
 function(ANTHEM_TEST_INSTALLATION)
   install(TARGETS ${ANTHEM_TEST_NAME})
-  # install(TARGETS ${ANTHEM_TEST_NAME}
-  #     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/${ODE_BIN_DIR_NAME})
 endfunction()
 
 function(ODE_SCRIPT_INSTALLATION)
-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/ode
-      TYPE LIB
-      FILES_MATCHING PATTERN "*.lua")
+  # TODO Reserved for a world with newer CMake versions
   # install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/ode
-  #     DESTINATION ${CMAKE_INSTALL_PREFIX}/${ODE_SCRIPT_DIR_NAME}
+  #     TYPE LIB
   #     FILES_MATCHING PATTERN "*.lua")
+  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/ode
+      DESTINATION lib
+      FILES_MATCHING PATTERN "*.lua")
 endfunction()
 
 function(ODE_TEST_SCRIPT_INSTALLATION)
   ode_script_installation()
-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/test/ode
-      TYPE LIB
-      FILES_MATCHING PATTERN "*.lua")
+  # TODO Reserved for a world with newer CMake versions
   # install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/test/ode
-  #     DESTINATION ${CMAKE_INSTALL_PREFIX}/${ODE_TEST_SCRIPT_DIR_NAME}
+  #     TYPE LIB
   #     FILES_MATCHING PATTERN "*.lua")
+  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/test/ode
+      DESTINATION lib
+      FILES_MATCHING PATTERN "*.lua")
 endfunction()
 
 function(ANTHEM_SCRIPT_INSTALLATION)
   ode_script_installation()
-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/anthem
-      TYPE LIB
-      FILES_MATCHING PATTERN "*.lua")
+  # TODO Reserved for a world with newer CMake versions
   # install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/anthem
-  #     DESTINATION ${CMAKE_INSTALL_PREFIX}/${ODE_SCRIPT_DIR_NAME}
+  #     TYPE LIB
   #     FILES_MATCHING PATTERN "*.lua")
+  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/anthem
+      DESTINATION lib
+      FILES_MATCHING PATTERN "*.lua")
 endfunction()
 
 function(ANTHEM_LIB_SCRIPT_INSTALLATION)
@@ -85,8 +82,12 @@ endfunction()
 
 function(ANTHEM_TEST_SCRIPT_INSTALLATION)
   ode_test_script_installation()
+  # TODO Reserved for a world with newer CMake versions
+  # install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/test/anthem
+  #     TYPE LIB
+  #     FILES_MATCHING PATTERN "*.lua")
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/test/anthem
-      TYPE LIB
+      DESTINATION lib
       FILES_MATCHING PATTERN "*.lua")
   # install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/script/test/anthem
   #     DESTINATION ${CMAKE_INSTALL_PREFIX}/${ODE_TEST_SCRIPT_DIR_NAME}
