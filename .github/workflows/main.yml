@@ -63,6 +63,11 @@ jobs:
         cd $GITHUB_WORKSPACE/../build
         ODE_TEST_PATH="$(cat ./latest-install)"
         cd $ODE_TEST_PATH
+        if [ "${{ runner.os }}" = "Linux" ]; then
+          xvfb :99 -screen 0 1920x1080x24
+          export SDL_VIDEODRIVER=x11
+          export DISPLAY=:99.0
+        fi
         ./bin/test-anthem
       if: runner.os != 'Windows'
     - name: Run the tests on Windows
