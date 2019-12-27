@@ -64,12 +64,12 @@ jobs:
         ODE_TEST_PATH="$(cat ./latest-install)"
         cd $ODE_TEST_PATH
         if [ "${{ runner.os }}" = "Linux" ]; then
-          xvfb_executable="$(which Xvfb)"
-          $xvfb_executable :99 -screen 0 1920x1080x24
           export SDL_VIDEODRIVER=x11
           export DISPLAY=:99.0
+          /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24" -e /dev/stdout ./bin/test-anthem
+        else
+          ./bin/test-anthem
         fi
-        ./bin/test-anthem
       if: runner.os != 'Windows'
     - name: Run the tests on Windows
       run: Write-Host "Windows builds are still in development"
