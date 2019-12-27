@@ -64,9 +64,7 @@ jobs:
         ODE_TEST_PATH="$(cat ./latest-install)"
         cd $ODE_TEST_PATH
         if [ "${{ runner.os }}" = "Linux" ]; then
-          xvfb_exe="$(which xvfb)"
-          echo "The path to X virtual framebuffer executable is '$xvfb_exe'"
-          $xvfb_exe :99 -screen 0 1920x1080x24
+          /usr/bin/xvfb :99 -screen 0 1920x1080x24
           export SDL_VIDEODRIVER=x11
           export DISPLAY=:99.0
         fi
