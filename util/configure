@@ -54,7 +54,7 @@ for arg in "$@"; do
   fi
 done
 
-if [ $clean_build = true ] && [ -d "$COMPOSER_DIRECTORY" ]; then
+if [ "$clean_build" = true ] && [ -d "$COMPOSER_DIRECTORY" ]; then
   rm -rf $COMPOSER_DIRECTORY
 fi
 
@@ -82,18 +82,18 @@ fi
 
 checkout_release=true
 
-if [ $ODE_USE_DEVELOPMENT_COMPOSER = true ]; then
+if [ "$ODE_USE_DEVELOPMENT_COMPOSER" = true ]; then
   checkout_release=false
   clone_composer=true
   echo "The development version of $COMPOSER_NAME will be installed"
 fi
 
-if [ $clone_composer = true ]; then
+if [ "$clone_composer" = true ]; then
   if [ -d "$COMPOSER_DIRECTORY" ]; then
     rm -rf $COMPOSER_DIRECTORY
   fi
   git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
-  if [ $checkout_release = true ]; then
+  if [ "$checkout_release" = true ]; then
     cd $COMPOSER_DIRECTORY_NAME
     git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
     cd ..
@@ -113,7 +113,7 @@ for arg in "$@"; do
   fi
 done
 
-if [ $preset_mode = true ]; then
+if [ "$preset_mode" = true ]; then
   # $composer_executable $PRESET_MODE_ARGUMENT "$@" $CONFIGURE_MODE_ARGUMENT
   $composer_executable "$@" $CONFIGURE_MODE_ARGUMENT
 else
