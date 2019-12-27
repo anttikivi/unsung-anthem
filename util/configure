@@ -84,9 +84,15 @@ if [[ $clone_composer == true ]]; then
     rm -rf $COMPOSER_DIRECTORY
   fi
   git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
-  cd $COMPOSER_DIRECTORY_NAME
-  git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
-  cd ..
+  checkout_release=true
+  if [[ $ODE_USE_DEVELOPMENT_COMPOSER == true ]]; then
+    checkout_release=false
+  fi
+  if [[ $checkout_release == true ]]; then
+    cd $COMPOSER_DIRECTORY_NAME
+    git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
+    cd ..
+  fi
   pip install $COMPOSER_DIRECTORY
   composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
   echo "The installed Couplet Composer executable is $composer_executable"
