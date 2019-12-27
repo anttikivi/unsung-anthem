@@ -113,23 +113,24 @@ add_feature_definitions()
 
 set(ODE_LIBRARIES)
 
+find_package(SDL2 REQUIRED HINTS ${ODE_DEPENDENCY_PREFIX})
+
+list(APPEND ODE_LIBRARIES ${SDL2_LIBRARIES})
+
 if(ODE_BUILD_TEST)
-  list(APPEND ODE_LIBRARIES "gtestd")
+  find_library(GTEST_LIBRARY gtestd HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
+  list(APPEND ODE_LIBRARIES ${GTEST_LIBRARY})
 endif()
 
 if(ODE_TEST_BENCHMARKING)
-  list(APPEND ODE_LIBRARIES "benchmark")
-endif()
-
-if(ODE_LINK_LIBCXX)
-  list(APPEND ODE_LIBRARIES "c++")
+  find_library(BENCHMARK_LIBRARY benchmark
+      HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
+  list(APPEND ODE_LIBRARIES ${BENCHMARK_LIBRARY})
 endif()
 
 if(UNIX)
-  if(APPLE)
-    list(APPEND ODE_LIBRARIES "SDL2main" "SDL2")
-  else()
-    list(APPEND ODE_LIBRARIES "SDL2main" "SDL2" "dl" "pthread")
+  if(NOT APPLE)
+    list(APPEND ODE_LIBRARIES "dl" "pthread")
   endif()
 else()
   if(WIN32)
@@ -137,7 +138,9 @@ else()
   endif()
 endif()
 
-list(APPEND ODE_LIBRARIES "lua")
+find_library(LUA_LIBRARY lua HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
+
+list(APPEND ODE_LIBRARIES ${LUA_LIBRARY})
 
 print_status_plural(ODE_LIBRARIES "libraries")
 
@@ -145,8 +148,9 @@ print_status_plural(ODE_LIBRARIES "libraries")
 #==- Search Paths ----------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
+include_directories(${SDL2_INCLUDE_DIRS})
+
 include_directories(${ODE_DEPENDENCY_PREFIX}/include)
-link_directories(${ODE_DEPENDENCY_PREFIX}/lib)
 
 include_directories(include)
 include_directories(lib)
