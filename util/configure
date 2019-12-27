@@ -23,6 +23,7 @@ for arg in "$@"; do
 done
 
 readonly COMPOSER_VERSION="0.4.5"
+readonly COMPOSER_NAME="Couplet Composer"
 
 readonly GITHUB_URL="https://github.com"
 readonly COMPOSER_REPO_OWNER="anttikivi"
@@ -57,7 +58,7 @@ if [ $clean_build = true ] && [ -d "$COMPOSER_DIRECTORY" ]; then
   rm -rf $COMPOSER_DIRECTORY
 fi
 
-# Run the installation and script
+# Set up Couplet Composer
 
 clone_composer=false
 
@@ -69,9 +70,9 @@ composer_executable=""
 
 if command -v $COMPOSER_EXECUTABLE_NAME >/dev/null 2>&1; then
   composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
-  echo "The installed Couplet Composer executable is $composer_executable"
+  echo "The installed $COMPOSER_NAME executable is $composer_executable"
   installed_version="$($composer_executable --version 2>&1)"
-  echo "The installed local Couplet Composer version is $installed_version"
+  echo "The installed local $COMPOSER_NAME version is $installed_version"
   if [ "$COMPOSER_VERSION" != "$installed_version" ]; then
     clone_composer=true
   fi
@@ -79,15 +80,19 @@ else
   clone_composer=true
 fi
 
+checkout_release=true
+
+if [ $ODE_USE_DEVELOPMENT_COMPOSER = true ]; then
+  checkout_release=false
+  clone_composer=true
+  echo "The development version of $COMPOSER_NAME will be installed"
+fi
+
 if [ $clone_composer = true ]; then
   if [ -d "$COMPOSER_DIRECTORY" ]; then
     rm -rf $COMPOSER_DIRECTORY
   fi
   git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
-  checkout_release=true
-  if [ $ODE_USE_DEVELOPMENT_COMPOSER = true ]; then
-    checkout_release=false
-  fi
   if [ $checkout_release = true ]; then
     cd $COMPOSER_DIRECTORY_NAME
     git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
@@ -95,8 +100,10 @@ if [ $clone_composer = true ]; then
   fi
   pip install $COMPOSER_DIRECTORY
   composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
-  echo "The installed Couplet Composer executable is $composer_executable"
+  echo "The installed $COMPOSER_NAME executable is $composer_executable"
 fi
+
+# Run the script
 
 preset_mode=false
 
