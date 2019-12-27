@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # ------------------------------------------------------------- #
 #                 Obliging Ode & Unsung Anthem
@@ -17,7 +17,7 @@ set -e
 readonly PRINT_DEBUG_OPTION="--print-debug"
 
 for arg in "$@"; do
-  if [[ "$arg" == "$PRINT_DEBUG_OPTION" ]]; then
+  if [ "$arg" = "$PRINT_DEBUG_OPTION" ]; then
     set -x
   fi
 done
@@ -40,7 +40,7 @@ Anthem" 1>&2
   exit 1
 }
 
-if [[ ! -d "$BUILD_DIRECTORY" ]]; then
+if [ ! -d "$BUILD_DIRECTORY" ]; then
   exit_for_missing_configuration
 fi
 
@@ -56,12 +56,12 @@ echo "The installed Couplet Composer executable is $composer_executable"
 preset_mode=false
 
 for arg in "$@"; do
-  if [[ "$arg" == "$PRESET_MODE_ARGUMENT" ]]; then
+  if [ "$arg" = "$PRESET_MODE_ARGUMENT" ]; then
     preset_mode=true
   fi
 done
 
-if [[ $preset_mode == true ]]; then
+if [ $preset_mode = true ]; then
   # $composer_executable $PRESET_MODE_ARGUMENT "$@" $COMPOSE_MODE_ARGUMENT
   $composer_executable "$@" $COMPOSE_MODE_ARGUMENT
 else

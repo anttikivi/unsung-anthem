@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # ------------------------------------------------------------- #
 #                 Obliging Ode & Unsung Anthem
@@ -17,7 +17,7 @@ set -e
 readonly PRINT_DEBUG_OPTION="--print-debug"
 
 for arg in "$@"; do
-  if [[ "$arg" == "$PRINT_DEBUG_OPTION" ]]; then
+  if [ "$arg" = "$PRINT_DEBUG_OPTION" ]; then
     set -x
   fi
 done
@@ -47,13 +47,13 @@ readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
 clean_build=false
 
 for arg in "$@"; do
-  if [[ "$arg" == "$CLEAN_BUILD_OPTION" ]] || \
-      [[ "$arg" == "$CLEAN_BUILD_SHORT_OPTION" ]]; then
+  if [ "$arg" = "$CLEAN_BUILD_OPTION" ] || \
+      [ "$arg" = "$CLEAN_BUILD_SHORT_OPTION" ]; then
     clean_build=true
   fi
 done
 
-if [[ $clean_build == true ]] && [[ -d "$COMPOSER_DIRECTORY" ]]; then
+if [ $clean_build = true ] && [ -d "$COMPOSER_DIRECTORY" ]; then
   rm -rf $COMPOSER_DIRECTORY
 fi
 
@@ -61,7 +61,7 @@ fi
 
 clone_composer=false
 
-if [[ ! -d "$COMPOSER_DIRECTORY" ]]; then
+if [ ! -d "$COMPOSER_DIRECTORY" ]; then
   clone_composer=true
 fi
 
@@ -72,23 +72,23 @@ if command -v $COMPOSER_EXECUTABLE_NAME >/dev/null 2>&1; then
   echo "The installed Couplet Composer executable is $composer_executable"
   installed_version="$($composer_executable --version 2>&1)"
   echo "The installed local Couplet Composer version is $installed_version"
-  if [[ "$COMPOSER_VERSION" != "$installed_version" ]]; then
+  if [ "$COMPOSER_VERSION" != "$installed_version" ]; then
     clone_composer=true
   fi
 else
   clone_composer=true
 fi
 
-if [[ $clone_composer == true ]]; then
-  if [[ -d "$COMPOSER_DIRECTORY" ]]; then
+if [ $clone_composer = true ]; then
+  if [ -d "$COMPOSER_DIRECTORY" ]; then
     rm -rf $COMPOSER_DIRECTORY
   fi
   git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
   checkout_release=true
-  if [[ $ODE_USE_DEVELOPMENT_COMPOSER == true ]]; then
+  if [ $ODE_USE_DEVELOPMENT_COMPOSER = true ]; then
     checkout_release=false
   fi
-  if [[ $checkout_release == true ]]; then
+  if [ $checkout_release = true ]; then
     cd $COMPOSER_DIRECTORY_NAME
     git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
     cd ..
@@ -101,12 +101,12 @@ fi
 preset_mode=false
 
 for arg in "$@"; do
-  if [[ "$arg" == "$PRESET_MODE_ARGUMENT" ]]; then
+  if [ "$arg" = "$PRESET_MODE_ARGUMENT" ]; then
     preset_mode=true
   fi
 done
 
-if [[ $preset_mode == true ]]; then
+if [ $preset_mode = true ]; then
   # $composer_executable $PRESET_MODE_ARGUMENT "$@" $CONFIGURE_MODE_ARGUMENT
   $composer_executable "$@" $CONFIGURE_MODE_ARGUMENT
 else
