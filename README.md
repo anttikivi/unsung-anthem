@@ -12,6 +12,7 @@ This repository also hosts the guidelines and other documentation for projects t
 * Unsung Anthem ([unsung-anthem](https://github.com/anttikivi/unsung-anthem))
 * Obliging Ode ([unsung-anthem](https://github.com/anttikivi/unsung-anthem))
 * Couplet Composer ([couplet-composer](https://github.com/anttikivi/couplet-composer))
+* Effective Elegy ([effective-elegy](https://github.com/anttikivi/effective-elegy))
 
 ## Installing
 
