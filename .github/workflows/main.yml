@@ -29,13 +29,23 @@ jobs:
     - name: Set up build environment
       run: |
         cd $GITHUB_WORKSPACE/..
-        ./unsung-anthem/util/configure preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        if [ "${{ runner.os }}" = "Linux" ]; then
+          preset_name="main_workflow_linux"
+        else
+          preset_name="main_workflow"
+        fi
+        ./unsung-anthem/util/configure preset --name $preset_name --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       env:
         ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Build Obliging Ode and Unsung Anthem
       run: |
         cd $GITHUB_WORKSPACE/..
-        ./unsung-anthem/util/compose preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        if [ "${{ runner.os }}" = "Linux" ]; then
+          preset_name="main_workflow_linux"
+        else
+          preset_name="main_workflow"
+        fi
+        ./unsung-anthem/util/compose preset --name $preset_name --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
     - name: Run the tests
       run: |
         cd $GITHUB_WORKSPACE/../build
