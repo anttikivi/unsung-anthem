@@ -34,7 +34,7 @@ jobs:
         else
           preset_name="main_workflow"
         fi
-        sudo ./unsung-anthem/util/configure preset --name $preset_name --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        sudo -E ./unsung-anthem/util/configure preset --name $preset_name --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       env:
         ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Build Obliging Ode and Unsung Anthem
