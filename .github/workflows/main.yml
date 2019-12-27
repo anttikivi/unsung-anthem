@@ -30,6 +30,8 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/..
         ./unsung-anthem/util/configure preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+      env:
+        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Build Obliging Ode and Unsung Anthem
       run: |
         cd $GITHUB_WORKSPACE/..
