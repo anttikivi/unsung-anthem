@@ -39,8 +39,8 @@ jobs:
         ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Set up build environment on Windows
       run: |
-        cd %GITHUB_WORKSPACE%\..
-        %GITHUB_WORKSPACE%\..\unsung-anthem\util\configure
+        cd $Env:GITHUB_WORKSPACE\..
+        $Env:GITHUB_WORKSPACE\..\unsung-anthem\util\configure
       if: runner.os == 'Windows'
     - name: Build Obliging Ode and Unsung Anthem
       run: |
@@ -54,8 +54,8 @@ jobs:
       if: runner.os != 'Windows'
     - name: Build Obliging Ode and Unsung Anthem on Windows
       run: |
-        cd %GITHUB_WORKSPACE%\..
-        %GITHUB_WORKSPACE%\..\unsung-anthem\util\compose
+        cd $Env:GITHUB_WORKSPACE\..
+        $Env:GITHUB_WORKSPACE\..\unsung-anthem\util\compose
       if: runner.os == 'Windows'
     - name: Run the tests
       run: |
