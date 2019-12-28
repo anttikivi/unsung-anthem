@@ -89,13 +89,15 @@ if ($CloneComposer) {
 # Run the script
 
 $PresetMode = ($args -contains $PresetModeArgument)
+$Arguments = ""
 
 if ($PresetMode) {
   $Arguments = [string]($args += $ConfigureModeArgument)
   Write-Output "Invoking $ComposerExecutable in preset mode with arguments '$Arguments'"
-  Start-Process $ComposerExecutable -ArgumentList "$Arguments"
 } else {
   $Arguments = [string](@($ConfigureModeArgument) + $args)
   Write-Output "Invoking $ComposerExecutable with arguments '$Arguments'"
-  Start-Process $ComposerExecutable -ArgumentList "$Arguments"
 }
+
+$Process = Start-Process $ComposerExecutable -ArgumentList "$Arguments" -PassThru -Wait
+exit $Process.ExitCode
