@@ -25,8 +25,7 @@ jobs:
         python-version: 3.x # optional, default is 3.x
         # The target architecture (x86, x64) of the Python interpreter.
         architecture: x64 # optional, default is x64
-    - name: Cache build environment
-      uses: actions/cache@v1.0.3
+    - uses: actions/cache@v1.0.3
       with:
         # A directory to store and save the cache
         path: $GITHUB_WORKSPACE/../build/lib
