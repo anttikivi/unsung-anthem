@@ -46,6 +46,7 @@ jobs:
         Get-Location
         & $Executable $Arguments
       if: runner.os == 'Windows'
+      working-directory: ..
       env:
         ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Build Obliging Ode and Unsung Anthem
