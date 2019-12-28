@@ -41,8 +41,6 @@ jobs:
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
-        $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\configure.ps1"
-        $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
         Get-Location
         .\unsung-anthem\util\configure.ps1 preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       if: runner.os == 'Windows'
@@ -63,10 +61,8 @@ jobs:
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
-        $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\compose.ps1"
-        $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
         Get-Location
-        & $Executable $Arguments
+        .\unsung-anthem\util\compose.ps1 preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       if: runner.os == 'Windows'
     - name: Run the tests
       run: |
@@ -82,5 +78,5 @@ jobs:
         fi
       if: runner.os != 'Windows'
     - name: Run the tests on PowerShell
-      run: Write-Host "Windows builds are still in development"
+      run: Write-Host "Couplet Composer for Windows is still in development"
       if: runner.os == 'Windows'
