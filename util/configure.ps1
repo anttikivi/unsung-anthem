@@ -88,17 +88,9 @@ if ($CloneComposer) {
 
 # Run the script
 
-$PresetMode = $false
 $Arguments = ""
 
-foreach ($arg in $args) {
-  Write-Output "Looping through '$arg'"
-  if ($arg -eq $PresetModeArgument) {
-    $PresetMode = $true
-  }
-}
-
-if ($PresetMode) {
+if ($PresetModeArgument -in $args) {
   $Arguments = [string]($args += $ConfigureModeArgument)
   Write-Output "Invoking $ComposerExecutable in preset mode with arguments '$Arguments'"
 } else {
@@ -120,7 +112,5 @@ $StandardOutput = $Process.StandardOutput.ReadToEnd()
 $StandardError = $Process.StandardError.ReadToEnd()
 Write-Host "stdout: $StandardOutput"
 Write-Host "stderr: $StandardError"
-# Write-Host "exit code: ${Process.ExitCode}"
 
-# $Process = Start-Process $ComposerExecutable -ArgumentList "$Arguments" -PassThru -Wait
 exit $Process.ExitCode
