@@ -40,7 +40,7 @@ jobs:
     - name: Set up build environment on Windows
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
-        cd $WorkingDirectory
+        Set-Location -Path "$WorkingDirectory"
         $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\configure.ps1"
         $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
         & $Executable $Arguments
@@ -58,7 +58,7 @@ jobs:
     - name: Build Obliging Ode and Unsung Anthem on Windows
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
-        cd $WorkingDirectory
+        Set-Location -Path "$WorkingDirectory"
         $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\compose.ps1"
         $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
         & $Executable $Arguments
