@@ -11,7 +11,7 @@
 #
 # ---------------------------------------------------------------------------- #
 
-function set_printing_mode() {
+set_printing_mode () {
   for arg in "$@"; do
     if [ "$arg" = "$PRINT_DEBUG_OPTION" ]; then
       set -x
@@ -19,7 +19,7 @@ function set_printing_mode() {
   done
 }
 
-function is_clean_build() {
+is_clean_build () {
   internal_clean_build=false
   for arg in "$@"; do
     if [ "$arg" = "$CLEAN_BUILD_OPTION" ] || \
@@ -30,7 +30,7 @@ function is_clean_build() {
   echo "$internal_clean_build"
 }
 
-function set_up_composer() {
+set_up_composer () {
   clone_composer=false
 
   if [ ! -d "$COMPOSER_DIRECTORY" ]; then
