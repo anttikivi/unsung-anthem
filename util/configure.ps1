@@ -91,7 +91,7 @@ if ($CloneComposer) {
 $PresetMode = ($args -contains $PresetModeArgument)
 
 if ($PresetMode) {
-  & $ComposerExecutable $args $ConfigureModeArgument
+  & $ComposerExecutable ($args += $ConfigureModeArgument)
 } else {
-  & $ComposerExecutable $ConfigureModeArgument $args
+  & $ComposerExecutable (@($ConfigureModeArgument) + $args)
 }
