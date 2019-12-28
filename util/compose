@@ -14,6 +14,15 @@
 
 set -e
 
+readonly COMPOSER_VERSION="0.4.5"
+readonly COMPOSER_NAME="Couplet Composer"
+readonly ODE_NAME="Obliging Ode"
+readonly ANTHEM_NAME="Unsung Anthem"
+
+echo "Running the Bourne Shell wrapper for $COMPOSER_NAME $COMPOSER_VERSION, \
+the build script of $ODE_NAME and $ANTHEM_NAME"
+echo "$COMPOSER_NAME will be run in composing mode"
+
 readonly PRINT_DEBUG_OPTION="--print-debug"
 
 for arg in "$@"; do
