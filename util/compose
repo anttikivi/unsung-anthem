@@ -57,10 +57,10 @@ if ! command -v $COMPOSER_EXECUTABLE_NAME >/dev/null 2>&1; then
   exit_for_missing_configuration
 fi
 
+# Run the script
+
 composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
 echo "The installed Couplet Composer executable is $composer_executable"
-
-# Run the script
 
 preset_mode=false
 
