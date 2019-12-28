@@ -41,7 +41,7 @@ New-Variable ComposerExecutableName "couplet-composer" -Option Constant
 $CleanBuild = ($args -contains $CleanBuildOption) -or ($args -contains $CleanBuildShortOption)
 
 if ($CleanBuild -and (Test-Path "$ComposerDir")) {
-  Remove-Item $ComposerDir
+  Remove-Item $ComposerDir -Recurse
 }
 
 # Set up Couplet Composer
@@ -70,7 +70,7 @@ if ($Env:ODE_USE_DEVELOPMENT_COMPOSER) {
 
 if ($CloneComposer) {
   if (Test-Path "$ComposerDir") {
-    Remove-Item $ComposerDir
+    Remove-Item $ComposerDir -Recurse
   }
 
   git clone $ComposerRepoUrl $ComposerDir
