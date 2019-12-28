@@ -13,5 +13,8 @@
 
 New-Variable ComposerVersion "0.4.5" -Option Constant
 New-Variable ComposerName "Couplet Composer" -Option Constant
+New-Variable OdeName "Obliging Ode" -Option Constant
+New-Variable AnthemName "Unsung Anthem" -Option Constant
 
-Write-Output "Running the PowerShell implementation of the runner of $ComposerName in configuring mode"
+Write-Output "Running the PowerShell wrapper for $ComposerName $ComposerVersion, the build script of $OdeName and $AnthemName"
+Write-Output "$ComposerName will be run in composing mode"
