@@ -90,7 +90,7 @@ if ($CloneComposer) {
 
 $Arguments = ""
 
-if ($PresetModeArgument -in $args) {
+if ($args.Contains($PresetModeArgument)) {
   $Arguments = [string]($args += $ConfigureModeArgument)
   Write-Output "Invoking $ComposerExecutable in preset mode with arguments '$Arguments'"
 } else {
