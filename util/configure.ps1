@@ -93,11 +93,9 @@ $PresetMode = ($args -contains $PresetModeArgument)
 if ($PresetMode) {
   $Arguments = [string]($args += $ConfigureModeArgument)
   Write-Output "Invoking $ComposerExecutable in preset mode with arguments '$Arguments'"
-  $ComposerInvocation = "$ComposerExecutable " + $Arguments
-  & $ComposerInvocation
+  Start-Process $ComposerExecutable -ArgumentList "$Arguments"
 } else {
   $Arguments = [string](@($ConfigureModeArgument) + $args)
   Write-Output "Invoking $ComposerExecutable with arguments '$Arguments'"
-  $ComposerInvocation = "$ComposerExecutable " + $Arguments
-  & $ComposerInvocation
+  Start-Process $ComposerExecutable -ArgumentList "$Arguments"
 }
