@@ -99,5 +99,21 @@ if ($PresetMode) {
   Write-Output "Invoking $ComposerExecutable with arguments '$Arguments'"
 }
 
-$Process = Start-Process $ComposerExecutable -ArgumentList "$Arguments" -PassThru -Wait
+$ProcessStartInfo = New-Object System.Diagnostics.ProcessStartInfo
+$ProcessStartInfo.FileName = $ComposerExecutable
+$ProcessStartInfo.RedirectStandardError = $true
+$ProcessStartInfo.RedirectStandardOutput = $true
+$ProcessStartInfo.UseShellExecute = $false
+$ProcessStartInfo.Arguments = $Arguments
+$Process = New-Object System.Diagnostics.Process
+$Process.StartInfo = $ProcessStartInfo
+$Process.Start() | Out-Null
+$Process.WaitForExit()
+$StandardOutput = $Process.StandardOutput.ReadToEnd()
+$StandardError = $Process.StandardError.ReadToEnd()
+Write-Host "stdout: $StandardOutput"
+Write-Host "stderr: $StandardError"
+# Write-Host "exit code: ${Process.ExitCode}"
+
+# $Process = Start-Process $ComposerExecutable -ArgumentList "$Arguments" -PassThru -Wait
 exit $Process.ExitCode
