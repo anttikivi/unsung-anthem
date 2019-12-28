@@ -74,4 +74,3 @@ Write-Host "stdout: $StandardOutput"
 Write-Host "stderr: $StandardError"
 
 exit $Process.ExitCode
-
