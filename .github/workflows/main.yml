@@ -37,7 +37,7 @@ jobs:
       if: runner.os != 'Windows'
       env:
         ODE_USE_DEVELOPMENT_COMPOSER: true
-    - name: Set up build environment on Windows
+    - name: Set up build environment on PowerShell
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
@@ -55,7 +55,7 @@ jobs:
         fi
         ./unsung-anthem/util/compose preset --name $preset_name --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       if: runner.os != 'Windows'
-    - name: Build Obliging Ode and Unsung Anthem on Windows
+    - name: Build Obliging Ode and Unsung Anthem on PowerShell
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
@@ -76,6 +76,6 @@ jobs:
           ./bin/test-anthem
         fi
       if: runner.os != 'Windows'
-    - name: Run the tests on Windows
+    - name: Run the tests on PowerShell
       run: Write-Host "Windows builds are still in development"
       if: runner.os == 'Windows'
