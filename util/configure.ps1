@@ -88,9 +88,17 @@ if ($CloneComposer) {
 
 # Run the script
 
+$PresetMode = $false
 $Arguments = ""
 
-if ($args.Contains($PresetModeArgument)) {
+foreach ($arg in $args) {
+  Write-Output "Looping through '$arg'"
+  if ($arg -eq $PresetModeArgument) {
+    $PresetMode = $true
+  }
+}
+
+if ($PresetMode) {
   $Arguments = [string]($args += $ConfigureModeArgument)
   Write-Output "Invoking $ComposerExecutable in preset mode with arguments '$Arguments'"
 } else {
