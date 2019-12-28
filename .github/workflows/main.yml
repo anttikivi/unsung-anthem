@@ -41,7 +41,7 @@ jobs:
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         cd $WorkingDirectory
-        $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\configure"
+        $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\configure.ps1"
         $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
         & $Executable $Arguments
       if: runner.os == 'Windows'
@@ -59,7 +59,7 @@ jobs:
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         cd $WorkingDirectory
-        $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\composer"
+        $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\compose.ps1"
         $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
         & $Executable $Arguments
       if: runner.os == 'Windows'
