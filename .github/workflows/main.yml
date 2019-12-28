@@ -39,7 +39,7 @@ jobs:
     - name: Set up build environment on Windows
       run: |
         cd %GITHUB_WORKSPACE%\..
-        Write-Host "Windows builds are still in development"
+        .\unsung-anthem\util\configure
       if: runner.os == 'Windows'
     - name: Build Obliging Ode and Unsung Anthem
       run: |
@@ -54,7 +54,7 @@ jobs:
     - name: Build Obliging Ode and Unsung Anthem on Windows
       run: |
         cd %GITHUB_WORKSPACE%\..
-        Write-Host "Windows builds are still in development"
+        .\unsung-anthem\util\compose
       if: runner.os == 'Windows'
     - name: Run the tests
       run: |
