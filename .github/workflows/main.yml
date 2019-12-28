@@ -39,8 +39,11 @@ jobs:
         ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Set up build environment on Windows
       run: |
-        cd $Env:GITHUB_WORKSPACE\..
-        $Env:GITHUB_WORKSPACE\..\unsung-anthem\util\configure
+        $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
+        cd $WorkingDirectory
+        $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\configure"
+        $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
+        & $Executable $Arguments
       if: runner.os == 'Windows'
     - name: Build Obliging Ode and Unsung Anthem
       run: |
@@ -54,8 +57,11 @@ jobs:
       if: runner.os != 'Windows'
     - name: Build Obliging Ode and Unsung Anthem on Windows
       run: |
-        cd $Env:GITHUB_WORKSPACE\..
-        $Env:GITHUB_WORKSPACE\..\unsung-anthem\util\compose
+        $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
+        cd $WorkingDirectory
+        $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\composer"
+        $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
+        & $Executable $Arguments
       if: runner.os == 'Windows'
     - name: Run the tests
       run: |
