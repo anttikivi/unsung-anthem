@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# ---------------------------------------------------------------------------- #
+#                         Obliging Ode & Unsung Anthem
+# ---------------------------------------------------------------------------- #
+#
+# This source file is part of the Obliging Ode and Unsung Anthem projects.
+#
+# Copyright (c) 2019 Antti Kivi
+# All rights reserved
+#
+# ---------------------------------------------------------------------------- #
+
+function set_printing_mode() {
+  for arg in "$@"; do
+    if [ "$arg" = "$PRINT_DEBUG_OPTION" ]; then
+      set -x
+    fi
+  done
+}
+
+function is_clean_build() {
+  internal_clean_build=false
+  for arg in "$@"; do
+    if [ "$arg" = "$CLEAN_BUILD_OPTION" ] || \
+        [ "$arg" = "$CLEAN_BUILD_SHORT_OPTION" ]; then
+      internal_clean_build=true
+    fi
+  done
+  echo "$internal_clean_build"
+}
+
+function set_up_composer() {
+  clone_composer=false
+
+  if [ ! -d "$COMPOSER_DIRECTORY" ]; then
+    clone_composer=true
+  fi
+
+  composer_executable=""
+
+  if command -v $COMPOSER_EXECUTABLE_NAME >/dev/null 2>&1; then
+    composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
+    echo "The installed $COMPOSER_NAME executable is $composer_executable"
+    installed_version="$($composer_executable --version 2>&1)"
+    echo "The installed local $COMPOSER_NAME version is $installed_version"
+    if [ "$COMPOSER_VERSION" != "$installed_version" ]; then
+      clone_composer=true
+    fi
+  else
+    clone_composer=true
+  fi
+
+  checkout_release=true
+
+  if [ "$ODE_USE_DEVELOPMENT_COMPOSER" = true ]; then
+    checkout_release=false
+    clone_composer=true
+    echo "The development version of $COMPOSER_NAME will be installed"
+  fi
+
+  if [ "$clone_composer" = true ]; then
+    if [ -d "$COMPOSER_DIRECTORY" ]; then
+      rm -rf $COMPOSER_DIRECTORY
+    fi
+    git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
+    if [ "$checkout_release" = true ]; then
+      cd $COMPOSER_DIRECTORY_NAME
+      git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
+      cd ..
+    fi
+    pip install $COMPOSER_DIRECTORY
+    composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
+    echo "The installed $COMPOSER_NAME executable is $composer_executable"
+  fi
+  echo "$composer_executable"
+}
