@@ -43,6 +43,7 @@ jobs:
         Set-Location -Path "$WorkingDirectory"
         $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\configure.ps1"
         $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
+        Get-Location
         & $Executable $Arguments
       if: runner.os == 'Windows'
     - name: Build Obliging Ode and Unsung Anthem
@@ -61,6 +62,7 @@ jobs:
         Set-Location -Path "$WorkingDirectory"
         $Executable = Join-Path $WorkingDirectory "unsung-anthem\util\compose.ps1"
         $Arguments = "preset --name main_workflow --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}"
+        Get-Location
         & $Executable $Arguments
       if: runner.os == 'Windows'
     - name: Run the tests
