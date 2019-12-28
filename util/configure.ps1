@@ -41,7 +41,7 @@ New-Variable ComposerExecutableName "couplet-composer" -Option Constant
 $CleanBuild = ($args -contains $CleanBuildOption) -or ($args -contains $CleanBuildShortOption)
 
 if ($CleanBuild -and (Test-Path "$ComposerDir")) {
-  Remove-Item $ComposerDir -Recurse
+  Remove-Item $ComposerDir -Recurse -Force
 }
 
 # Set up Couplet Composer
@@ -50,7 +50,7 @@ $CloneComposer = -not (Test-Path "$ComposerDir")
 $ComposerExecutable = ""
 
 if (Get-Command $ComposerExecutableName -CommandType All -ErrorAction SilentlyContinue) {
-  $ComposerExecutable = Get-Command $ComposerExecutableName -CommandType All
+  $ComposerExecutable = (Get-Command $ComposerExecutableName -CommandType All | Select-Object -ExpandProperty Definition)
   Write-Output "The installed $ComposerName executable is $ComposerExecutable"
   $InstalledVersion = (& $ComposerExecutable "--version") | Out-String
   if ($ComposerVersion -ne $InstalledVersion) {
@@ -70,7 +70,7 @@ if ($Env:ODE_USE_DEVELOPMENT_COMPOSER) {
 
 if ($CloneComposer) {
   if (Test-Path "$ComposerDir") {
-    Remove-Item $ComposerDir -Recurse
+    Remove-Item $ComposerDir -Recurse -Force
   }
 
   git clone $ComposerRepoUrl $ComposerDir
@@ -82,7 +82,7 @@ if ($CloneComposer) {
   }
 
   pip install $ComposerDir
-  $ComposerExecutable = Get-Command $ComposerExecutableName -CommandType All
+  $ComposerExecutable = (Get-Command $ComposerExecutableName -CommandType All | Select-Object -ExpandProperty Definition)
   Write-Output "The installed $ComposerName executable is $ComposerExecutable"
 }
 
@@ -92,10 +92,12 @@ $PresetMode = ($args -contains $PresetModeArgument)
 
 if ($PresetMode) {
   $Arguments = [string]($args += $ConfigureModeArgument)
-  Write-Output "Invoking $ComposerExecutable with arguments '$Arguments'"
-  Invoke-Command -ScriptBlock $ComposerExecutable -ArgumentList $Arguments
+  Write-Output "Invoking $ComposerExecutable in preset mode with arguments '$Arguments'"
+  $ComposerInvocation = "$ComposerExecutable " + $Arguments
+  & $ComposerInvocation
 } else {
   $Arguments = [string](@($ConfigureModeArgument) + $args)
   Write-Output "Invoking $ComposerExecutable with arguments '$Arguments'"
-  Invoke-Command -ScriptBlock $ComposerExecutable -ArgumentList $Arguments
+  $ComposerInvocation = "$ComposerExecutable " + $Arguments
+  & $ComposerInvocation
 }
