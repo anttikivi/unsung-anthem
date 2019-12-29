@@ -45,8 +45,8 @@ jobs:
         ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Set up build environment on PowerShell
       run: |
-        msbuild -version
         C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\msbuild.exe -version
+        msbuild -version
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
         Get-Location
