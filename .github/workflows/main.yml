@@ -72,7 +72,7 @@ jobs:
       if: runner.os == 'Windows'
     - name: Run the tests
       run: |
-        cd $GITHUB_WORKSPACE/../build
+        cd $GITHUB_WORKSPACE/build
         ODE_TEST_PATH="$(cat ./latest-install)"
         cd $ODE_TEST_PATH
         if [ "${{ runner.os }}" = "Linux" ]; then
