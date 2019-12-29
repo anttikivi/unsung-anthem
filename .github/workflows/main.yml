@@ -32,7 +32,8 @@ jobs:
         # An explicit key for restoring and saving the cache
         key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}
     - name: Find Visual Studio
-      run: %ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe -latest -products * -requires Microsoft.Component.MSBuild
+      run: |
+        %ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe -latest -products * -requires Microsoft.Component.MSBuild
       shell: cmd
       if: runner.os == 'Windows'
     - name: Set up build environment
