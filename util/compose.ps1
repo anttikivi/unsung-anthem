@@ -21,7 +21,11 @@ Write-Output "$ComposerName will be run in composing mode"
 
 New-Variable RootDir "." -Option Constant
 New-Variable BuildDirName "build" -Option Constant
+New-Variable ProjectDirName "unsung-anthem" -Option Constant
 New-Variable BuildDir "$RootDir/$BuildDirName" -Option Constant
+New-Variable ProjectBuildDir "$RootDir/$ProjectDirName/$BuildDirName" -Option Constant
+
+New-Variable InTreeBuildOption "--in-tree-build" -Option Constant
 
 New-Variable PresetModeArgument "preset" -Option Constant
 New-Variable ComposeModeArgument "compose" -Option Constant
@@ -35,7 +39,11 @@ function Exit-MissingConfiguration {
   exit 1
 }
 
-if (-not (Test-Path "$BuildDir")) {
+if ((-not (Test-Path "$BuildDir")) -and (-not ($InTreeBuildOption -in $args))) {
+  Exit-MissingConfiguration
+}
+
+if ((-not (Test-Path "$ProjectBuildDir")) -and ($InTreeBuildOption -in $args)) {
   Exit-MissingConfiguration
 }
 

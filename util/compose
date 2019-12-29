@@ -33,7 +33,12 @@ done
 
 readonly ROOT_DIR="."
 readonly BUILD_DIRECTORY_NAME="build"
+readonly PROJECT_DIRECTORY_NAME="unsung-anthem"
 readonly BUILD_DIRECTORY="$ROOT_DIR/$BUILD_DIRECTORY_NAME"
+readonly IN_TREE_BUILD_DIRECTORY="$ROOT_DIR/$PROJECT_DIRECTORY_NAME\
+/$BUILD_DIRECTORY_NAME"
+
+readonly IN_TREE_BUILD_OPTION="--in-tree-build"
 
 readonly PRESET_MODE_ARGUMENT="preset"
 readonly COMPOSE_MODE_ARGUMENT="compose"
@@ -49,7 +54,19 @@ Anthem" 1>&2
   exit 1
 }
 
-if [ ! -d "$BUILD_DIRECTORY" ]; then
+in_tree_build=false
+
+for arg in "$@"; do
+  if [ "$arg" = "$IN_TREE_BUILD_OPTION" ]; then
+    in_tree_build=true
+  fi
+done
+
+if [ ! -d "$BUILD_DIRECTORY" ] && [ "$in_tree_build" = false ]; then
+  exit_for_missing_configuration
+fi
+
+if [ ! -d "$IN_TREE_BUILD_DIRECTORY" ] && [ "$in_tree_build" = true ]; then
   exit_for_missing_configuration
 fi
 
