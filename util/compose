@@ -19,7 +19,7 @@ readonly COMPOSER_NAME="Couplet Composer"
 readonly ODE_NAME="Obliging Ode"
 readonly ANTHEM_NAME="Unsung Anthem"
 
-echo "Running the Bourne Shell wrapper for $COMPOSER_NAME $COMPOSER_VERSION, \
+echo "Running the shell script wrapper for $COMPOSER_NAME $COMPOSER_VERSION, \
 the build script of $ODE_NAME and $ANTHEM_NAME"
 echo "$COMPOSER_NAME will be run in composing mode"
 
@@ -63,10 +63,12 @@ for arg in "$@"; do
 done
 
 if [ ! -d "$BUILD_DIRECTORY" ] && [ "$in_tree_build" = false ]; then
+  echo "The directory $BUILD_DIRECTORY is missing"
   exit_for_missing_configuration
 fi
 
 if [ ! -d "$IN_TREE_BUILD_DIRECTORY" ] && [ "$in_tree_build" = true ]; then
+  echo "The directory $IN_TREE_BUILD_DIRECTORY is missing"
   exit_for_missing_configuration
 fi
 

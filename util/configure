@@ -19,7 +19,7 @@ readonly COMPOSER_NAME="Couplet Composer"
 readonly ODE_NAME="Obliging Ode"
 readonly ANTHEM_NAME="Unsung Anthem"
 
-echo "Running the Bourne Shell wrapper for $COMPOSER_NAME $COMPOSER_VERSION, \
+echo "Running the shell script wrapper for $COMPOSER_NAME $COMPOSER_VERSION, \
 the build script of $ODE_NAME and $ANTHEM_NAME"
 echo "$COMPOSER_NAME will be run in configuring mode"
 
