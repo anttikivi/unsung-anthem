@@ -31,6 +31,10 @@ jobs:
         path: build/local
         # An explicit key for restoring and saving the cache
         key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}
+    - name: Find Visual Studio
+      run: %ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe -latest -products * -requires Microsoft.Component.MSBuild
+      shell: cmd
+      if: runner.os == 'Windows'
     - name: Set up build environment
       run: |
         cd $GITHUB_WORKSPACE/..
@@ -45,8 +49,6 @@ jobs:
         ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Set up build environment on PowerShell
       run: |
-        & "C:\Program Files (x86)\MSBuild\16.0\Bin\MSBuild.exe" "-version"
-        msbuild -version
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
         Get-Location
