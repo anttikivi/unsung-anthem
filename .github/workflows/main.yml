@@ -28,9 +28,9 @@ jobs:
     - uses: actions/cache@v1.0.3
       with:
         # A directory to store and save the cache
-        path: $GITHUB_WORKSPACE/build/local
+        path: build/local
         # An explicit key for restoring and saving the cache
-        key: ${{ runner.os }}-ode-${{ hashFiles('**/dependencies.json') }}
+        key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}
     - name: Set up build environment
       run: |
         cd $GITHUB_WORKSPACE/..
