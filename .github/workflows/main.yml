@@ -34,6 +34,7 @@ jobs:
     - name: Find Visual Studio
       run: |
         "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe
+        "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64
       shell: cmd
       if: runner.os == 'Windows'
     - name: Set up build environment
