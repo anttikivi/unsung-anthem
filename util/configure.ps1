@@ -12,6 +12,7 @@
 # ---------------------------------------------------------------------------- #
 
 New-Variable ComposerVersion "0.5.0" -Option Constant
+New-Variable ComposerVersionTag "v$ComposerVersion" -Option Constant
 New-Variable ComposerName "Couplet Composer" -Option Constant
 New-Variable OdeName "Obliging Ode" -Option Constant
 New-Variable AnthemName "Unsung Anthem" -Option Constant
@@ -77,7 +78,7 @@ if ($CloneComposer) {
 
   if ($CheckoutRelease) {
     Set-Location -Path "$ComposerDirName"
-    git checkout tags/$ComposerVersion -b local_install_$ComposerVersion
+    git checkout tags/$ComposerVersionTag -b local_install_$ComposerVersionTag
     Set-Location -Path ..
   }
 

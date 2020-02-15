@@ -15,6 +15,7 @@
 set -e
 
 readonly COMPOSER_VERSION="0.5.0"
+readonly COMPOSER_VERSION_TAG="v$COMPOSER_VERSION"
 readonly COMPOSER_NAME="Couplet Composer"
 readonly ODE_NAME="Obliging Ode"
 readonly ANTHEM_NAME="Unsung Anthem"
@@ -101,7 +102,7 @@ if [ "$clone_composer" = true ]; then
   git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
   if [ "$checkout_release" = true ]; then
     cd $COMPOSER_DIRECTORY_NAME
-    git checkout tags/$COMPOSER_VERSION -b local_install_$COMPOSER_VERSION
+    git checkout tags/$COMPOSER_VERSION_TAG -b local_install_$COMPOSER_VERSION_TAG
     cd ..
   fi
   pip install $COMPOSER_DIRECTORY
