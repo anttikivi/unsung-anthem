@@ -14,7 +14,7 @@
 
 set -e
 
-readonly COMPOSER_VERSION="0.4.5"
+readonly COMPOSER_VERSION="0.5.0"
 readonly COMPOSER_NAME="Couplet Composer"
 readonly ODE_NAME="Obliging Ode"
 readonly ANTHEM_NAME="Unsung Anthem"
