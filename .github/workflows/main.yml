@@ -49,6 +49,12 @@ jobs:
       if: runner.os != 'Windows'
       env:
         ODE_USE_DEVELOPMENT_COMPOSER: true
+    - name: Set up build environment on Windows
+      run: |
+        cd $GITHUB_WORKSPACE/..
+        ./unsung-anthem/util/configure preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+      shell: bash
+      if: runner.os == 'Windows'
     - name: Set up build environment on PowerShell
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
