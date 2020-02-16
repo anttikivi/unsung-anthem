@@ -77,12 +77,6 @@ $ProcessStartInfo.RedirectStandardOutput = $true
 $Process = New-Object System.Diagnostics.Process
 $Process.StartInfo = $ProcessStartInfo
 
-# $StandardOutput = New-Object System.Text.StringBuilder
-# $StandardError = New-Object System.Text.StringBuilder
-
-# $OutputWaitHandle = New-Object System.Threading.AutoResetEvent -ArgumentList $false
-# $ErrorWaitHandle = New-Object System.Threading.AutoResetEvent -ArgumentList $false
-
 $OutputEvent = Register-ObjectEvent -Action {
   Write-Host $Event.SourceEventArgs.Data
 } -InputObject $Process -EventName OutputDataReceived
@@ -101,13 +95,5 @@ do {
 } while (-not $Process.HasExited)
 
 $OutputEvent.Name, $ErrorEvent.Name | ForEach-Object {Unregister-Event -SourceIdentifier $_}
-
-# $StandardOutput = $Process.StandardOutput.ReadToEnd()
-# $StandardError = $Process.StandardError.ReadToEnd()
-
-# $Process.WaitForExit()
-
-# Write-Host "stdout: $StandardOutput"
-# Write-Host "stderr: $StandardError"
 
 exit $Process.ExitCode
