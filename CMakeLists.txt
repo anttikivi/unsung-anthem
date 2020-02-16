@@ -113,9 +113,10 @@ add_feature_definitions()
 
 set(ODE_LIBRARIES)
 
-find_package(SDL2 REQUIRED HINTS ${ODE_DEPENDENCY_PREFIX})
-
-list(APPEND ODE_LIBRARIES ${SDL2_LIBRARIES})
+if(NOT WIN32)
+  find_package(SDL2 REQUIRED HINTS ${ODE_DEPENDENCY_PREFIX})
+  list(APPEND ODE_LIBRARIES ${SDL2_LIBRARIES})
+endif()
 
 if(ODE_BUILD_TEST)
   find_library(GTEST_LIBRARY gtestd HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
@@ -148,7 +149,9 @@ print_status_plural(ODE_LIBRARIES "libraries")
 #==- Search Paths ----------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-include_directories(${SDL2_INCLUDE_DIRS})
+if(NOT WIN32)
+  include_directories(${SDL2_INCLUDE_DIRS})
+endif()
 
 include_directories(${ODE_DEPENDENCY_PREFIX}/include)
 
