@@ -76,6 +76,7 @@ jobs:
         Get-Location
         .\unsung-anthem\util\compose.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       if: runner.os == 'Windows'
+      working-directory: ..
     - name: Run the tests
       run: |
         cd $GITHUB_WORKSPACE/build
