@@ -149,6 +149,10 @@ print_status_plural(ODE_LIBRARIES "libraries")
 #==- Search Paths ----------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
+if(WIN32)
+  link_directories(${ODE_DEPENDENCY_PREFIX}/lib)
+endif()
+
 if(NOT WIN32)
   include_directories(${SDL2_INCLUDE_DIRS})
 endif()
