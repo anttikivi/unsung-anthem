@@ -43,7 +43,7 @@ jobs:
         if [ "${{ runner.os }}" = "Linux" ]; then
           preset_name="main_workflow_linux"
         else
-          preset_name="main_workflow"
+          preset_name="main_workflow_unix"
         fi
         ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       if: runner.os != 'Windows'
@@ -65,7 +65,7 @@ jobs:
         if [ "${{ runner.os }}" = "Linux" ]; then
           preset_name="main_workflow_linux"
         else
-          preset_name="main_workflow"
+          preset_name="main_workflow_unix"
         fi
         ./unsung-anthem/util/compose preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       if: runner.os != 'Windows'
