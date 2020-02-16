@@ -67,18 +67,47 @@ if ($PresetModeArgument -in $args) {
 }
 
 $ProcessStartInfo = New-Object System.Diagnostics.ProcessStartInfo
+$ProcessStartInfo.CreateNoWindow = $true
 $ProcessStartInfo.FileName = $ComposerExecutable
+$ProcessStartInfo.Arguments = $Arguments
+$ProcessStartInfo.UseShellExecute = $false
 $ProcessStartInfo.RedirectStandardError = $true
 $ProcessStartInfo.RedirectStandardOutput = $true
-$ProcessStartInfo.UseShellExecute = $false
-$ProcessStartInfo.Arguments = $Arguments
+
 $Process = New-Object System.Diagnostics.Process
 $Process.StartInfo = $ProcessStartInfo
+
+# $StandardOutput = New-Object System.Text.StringBuilder
+# $StandardError = New-Object System.Text.StringBuilder
+
+# $OutputWaitHandle = New-Object System.Threading.AutoResetEvent -ArgumentList $false
+# $ErrorWaitHandle = New-Object System.Threading.AutoResetEvent -ArgumentList $false
+
+$OutputEvent = Register-ObjectEvent -Action {
+  Write-Host $Event.SourceEventArgs.Data
+} -InputObject $Process -EventName OutputDataReceived
+
+$ErrorEvent = Register-ObjectEvent -Action {
+  Write-Host $Event.SourceEventArgs.Data
+} -InputObject $Process -EventName ErrorDataReceived
+
 $Process.Start() | Out-Null
-$StandardOutput = $Process.StandardOutput.ReadToEnd()
-$StandardError = $Process.StandardError.ReadToEnd()
-$Process.WaitForExit()
-Write-Host "stdout: $StandardOutput"
-Write-Host "stderr: $StandardError"
+
+$Process.BeginOutputReadLine()
+$Process.BeginErrorReadLine()
+
+do {
+  Start-Sleep -Seconds 1
+} while (-not $Process.HasExited)
+
+$OutputEvent.Name, $ErrorEvent.Name | ForEach-Object {Unregister-Event -SourceIdentifier $_}
+
+# $StandardOutput = $Process.StandardOutput.ReadToEnd()
+# $StandardError = $Process.StandardError.ReadToEnd()
+
+# $Process.WaitForExit()
+
+# Write-Host "stdout: $StandardOutput"
+# Write-Host "stderr: $StandardError"
 
 exit $Process.ExitCode
