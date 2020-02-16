@@ -108,9 +108,9 @@ $ProcessStartInfo.Arguments = $Arguments
 $Process = New-Object System.Diagnostics.Process
 $Process.StartInfo = $ProcessStartInfo
 $Process.Start() | Out-Null
-$Process.WaitForExit()
 $StandardOutput = $Process.StandardOutput.ReadToEnd()
 $StandardError = $Process.StandardError.ReadToEnd()
+$Process.WaitForExit()
 Write-Host "stdout: $StandardOutput"
 Write-Host "stderr: $StandardError"
 
