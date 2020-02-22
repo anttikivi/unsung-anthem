@@ -88,6 +88,8 @@ default_value(ANTHEM_TEST_NAME test-${ANTHEM_NAME}
 print_status_if_defined(ODE_STDLIB "C++ standard library")
 print_status_if_defined(ODE_RPATH "the rpath")
 
+print_status_if_defined(ODE_MSVC_RUNTIME_LIBRARY "the MSVC runtime library")
+
 #===------------------------------------------------------------------------===#
 #==- Definitions and Flags -------------------------------------------------===#
 #===------------------------------------------------------------------------===#

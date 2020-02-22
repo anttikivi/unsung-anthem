@@ -52,6 +52,11 @@ function(CREATE_ANTHEM_EXECUTABLE)
       ${ANTHEM_LIB_SOURCES}
       ${ANTHEM_SOURCES})
   target_link_libraries(${ANTHEM_NAME} ${ODE_LIBRARIES})
+
+  if(DEFINED ODE_MSVC_RUNTIME_LIBRARY)
+    set_property(TARGET ${ANTHEM_NAME} PROPERTY
+        MSVC_RUNTIME_LIBRARY "${ODE_MSVC_RUNTIME_LIBRARY}")
+  endif()
 endfunction()
 
 function(CREATE_ANTHEM_STATIC_LIB)
@@ -125,6 +130,11 @@ function(CREATE_ANTHEM_TEST_EXECUTABLE)
         ${ANTHEM_SOURCES})
   endif()
   target_link_libraries(${ANTHEM_TEST_NAME} ${ODE_LIBRARIES})
+
+  if(DEFINED ODE_MSVC_RUNTIME_LIBRARY)
+    set_property(TARGET ${ANTHEM_TEST_NAME} PROPERTY
+        MSVC_RUNTIME_LIBRARY "${ODE_MSVC_RUNTIME_LIBRARY}")
+  endif()
 endfunction()
 
 function(CREATE_TARGETS)
