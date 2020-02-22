@@ -45,7 +45,7 @@ jobs:
         else
           preset_name="main_workflow_unix"
         fi
-        ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --clean
       if: runner.os != 'Windows'
       env:
         ODE_USE_DEVELOPMENT_COMPOSER: true
