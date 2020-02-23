@@ -44,6 +44,8 @@ option(ODE_BUILD_STATIC "Build the static Obliging Ode library" OFF)
 option(ODE_BUILD_SHARED "Build the shared Obliging Ode library" OFF)
 option(ODE_USE_SDL_DEBUG_SUFFIX
     "Link Obliging Ode against SDL with debug suffix on Windows builds" OFF)
+option(ODE_ADD_GOOGLE_TEST_SOURCE
+    "Build Google Test source files with the Obliging Ode sources" OFF)
 
 #==- Unsung Anthem Build Options -------------------------------------------===#
 
@@ -74,6 +76,15 @@ assert_variable(ODE_LOGGER_NAME "engine logger name")
 assert_variable(ODE_WINDOW_NAME "engine window name")
 assert_variable(ANTHEM_LOGGER_NAME "program logger name")
 assert_variable(ANTHEM_WINDOW_NAME "program window name")
+
+#===------------------------------------------------------------------------===#
+#==- Conditional Variable Assertions ---------------------------------------===#
+#===------------------------------------------------------------------------===#
+
+if(ODE_ADD_GOOGLE_TEST_SOURCE)
+  assert_variable(ODE_GOOGLE_TEST_DIRECTORY_NAME
+      "Google Test source directory name")
+endif()
 
 #===------------------------------------------------------------------------===#
 #==- Variable Statuses -----------------------------------------------------===#
@@ -123,7 +134,7 @@ if(NOT WIN32)
   list(APPEND ODE_LIBRARIES ${SDL2_LIBRARIES})
 endif()
 
-if(ODE_BUILD_TEST)
+if(ODE_BUILD_TEST AND NOT ODE_ADD_GOOGLE_TEST_SOURCE)
   message(STATUS "Looking for Google Test libraries")
   find_library(GTEST_LIBRARY gtestd HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
   list(APPEND ODE_LIBRARIES ${GTEST_LIBRARY})
@@ -213,6 +224,11 @@ add_subdirectory(script)
 add_subdirectory(test)
 
 set_glad_sources()
+
+if(ODE_ADD_GOOGLE_TEST_SOURCE)
+  add_subdirectory(
+      ${ODE_DEPENDENCY_PREFIX}/src/${ODE_GOOGLE_TEST_DIRECTORY_NAME})
+endif()
 
 #===------------------------------------------------------------------------===#
 #==- Targets ---------------------------------------------------------------===#
