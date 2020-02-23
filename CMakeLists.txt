@@ -138,6 +138,8 @@ if(ODE_BUILD_TEST AND NOT ODE_ADD_GOOGLE_TEST_SOURCE)
   message(STATUS "Looking for Google Test libraries")
   find_library(GTEST_LIBRARY gtestd HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
   list(APPEND ODE_LIBRARIES ${GTEST_LIBRARY})
+elseif(ODE_BUILD_TEST AND ODE_ADD_GOOGLE_TEST_SOURCE)
+  list(APPEND ODE_LIBRARIES "gtest")
 endif()
 
 if(ODE_TEST_BENCHMARKING)
@@ -226,6 +228,7 @@ add_subdirectory(test)
 set_glad_sources()
 
 if(ODE_ADD_GOOGLE_TEST_SOURCE)
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
   add_subdirectory(
       ${ODE_DEPENDENCY_PREFIX}/src/${ODE_GOOGLE_TEST_DIRECTORY_NAME})
 endif()
