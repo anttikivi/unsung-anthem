@@ -99,3 +99,4 @@ jobs:
         cd d:\a\unsung-anthem\unsung-anthem\build\dest\0.1.0-dev.1\Windows-AMD64-Debug-Visual_Studio_16_2019
         .\bin\test-anthem.exe
       if: runner.os == 'Windows'
+      shell: bash
