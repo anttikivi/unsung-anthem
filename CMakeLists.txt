@@ -42,6 +42,8 @@ option(ODE_TEST_BENCHMARKING "Build the benchmarkings" OFF)
 option(ODE_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 option(ODE_BUILD_STATIC "Build the static Obliging Ode library" OFF)
 option(ODE_BUILD_SHARED "Build the shared Obliging Ode library" OFF)
+option(ODE_USE_SDL_DEBUG_SUFFIX
+    "Link Obliging Ode against SDL with debug suffix on Windows builds" OFF)
 
 #==- Unsung Anthem Build Options -------------------------------------------===#
 
@@ -142,7 +144,12 @@ if(UNIX)
 else()
   if(WIN32)
     message(STATUS "Setting SDL libraries manually")
-    list(APPEND ODE_LIBRARIES "opengl32" "SDL2main" "SDL2")
+    if(ODE_USE_SDL_DEBUG_SUFFIX)
+      message(STATUS "Linking against SDL libraries with debug suffix")
+      list(APPEND ODE_LIBRARIES "opengl32" "SDL2maind" "SDL2d")
+    else()
+      list(APPEND ODE_LIBRARIES "opengl32" "SDL2main" "SDL2")
+    endif()
   endif()
 endif()
 
