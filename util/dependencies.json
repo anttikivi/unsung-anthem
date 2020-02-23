@@ -35,7 +35,7 @@
     "testonly": false
   },
   "stb_image": {
-    "version": "2.22",
+    "version": "2.25",
     "name": "stb_image",
     "testonly": false
   }
