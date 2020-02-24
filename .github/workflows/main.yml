@@ -101,5 +101,25 @@ jobs:
         Get-Location
         $OdeBinPath = Join-Path $OdeTestPath "bin"
         $Env:Path += ";$OdeBinPath"
-        & ".\bin\test-anthem.exe"
+        $ProcessStartInfo = New-Object System.Diagnostics.ProcessStartInfo
+        $ProcessStartInfo.CreateNoWindow = $true
+        $ProcessStartInfo.FileName = ".\bin\test-anthem.exe"
+        $ProcessStartInfo.UseShellExecute = $false
+        $ProcessStartInfo.RedirectStandardError = $true
+        $ProcessStartInfo.RedirectStandardOutput = $true
+        $Process = New-Object System.Diagnostics.Process
+        $Process.StartInfo = $ProcessStartInfo
+        $OutputEvent = Register-ObjectEvent -Action {
+          Write-Host $Event.SourceEventArgs.Data
+        } -InputObject $Process -EventName OutputDataReceived
+        $ErrorEvent = Register-ObjectEvent -Action {
+          Write-Host $Event.SourceEventArgs.Data
+        } -InputObject $Process -EventName ErrorDataReceived
+        $Process.Start() | Out-Null
+        $Process.BeginOutputReadLine()
+        $Process.BeginErrorReadLine()
+        do {
+          Start-Sleep -Seconds 1
+        } while (-not $Process.HasExited)
+        $OutputEvent.Name, $ErrorEvent.Name | ForEach-Object {Unregister-Event -SourceIdentifier $_}
       if: runner.os == 'Windows'
