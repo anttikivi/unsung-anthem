@@ -92,13 +92,12 @@ jobs:
         fi
       if: runner.os != 'Windows'
     - name: Run the tests on PowerShell
-      run: Write-Host "Couplet Composer for Windows is still in development"
-      if: runner.os == 'Windows'
-    - name: Run the tests on Windows
       run: |
-        cd $GITHUB_WORKSPACE\\build
-        ODE_TEST_PATH="$(cat .\\latest-install)"
-        cd $ODE_TEST_PATH
-        .\\bin\\test-anthem.exe
+        $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE "build"
+        Set-Location -Path "$WorkingDirectory"
+        Get-Location
+        $OdeTestPath = Join-Path $WorkingDirectory (Get-Content -Path .\latest-install)
+        Set-Location -Path "$OdeTestPath"
+        Get-Location
+        .\bin\test-anthem.exe
       if: runner.os == 'Windows'
-      shell: bash
