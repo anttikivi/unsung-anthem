@@ -99,5 +99,7 @@ jobs:
         $OdeTestPath = Join-Path $WorkingDirectory (Get-Content -Path .\latest-install)
         Set-Location -Path "$OdeTestPath"
         Get-Location
-        .\bin\test-anthem.exe
+        $OdeBinPath = Join-Path $OdeTestPath "bin"
+        $Env:Path += ";$OdeBinPath"
+        & ".\bin\test-anthem.exe"
       if: runner.os == 'Windows'
