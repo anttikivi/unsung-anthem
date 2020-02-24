@@ -91,34 +91,14 @@ jobs:
           ./bin/test-anthem
         fi
       if: runner.os != 'Windows'
-    - name: Run the tests on PowerShell
+    - name: Run the tests on Windows
       run: |
-        $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE "build"
-        Set-Location -Path "$WorkingDirectory"
-        Get-Location
-        $OdeTestPath = Join-Path $WorkingDirectory (Get-Content -Path .\latest-install)
-        Set-Location -Path "$OdeTestPath"
-        Get-Location
-        $OdeBinPath = Join-Path $OdeTestPath "bin"
-        $Env:Path += ";$OdeBinPath"
-        $ProcessStartInfo = New-Object System.Diagnostics.ProcessStartInfo
-        $ProcessStartInfo.FileName = Join-Path $OdeBinPath "test-anthem.exe"
-        $ProcessStartInfo.UseShellExecute = $false
-        $ProcessStartInfo.RedirectStandardError = $true
-        $ProcessStartInfo.RedirectStandardOutput = $true
-        $Process = New-Object System.Diagnostics.Process
-        $Process.StartInfo = $ProcessStartInfo
-        $OutputEvent = Register-ObjectEvent -Action {
-          Write-Output $Event.SourceEventArgs.Data
-        } -InputObject $Process -EventName OutputDataReceived
-        $ErrorEvent = Register-ObjectEvent -Action {
-          Write-Output $Event.SourceEventArgs.Data
-        } -InputObject $Process -EventName ErrorDataReceived
-        $Process.Start() | Out-Null
-        $Process.BeginOutputReadLine()
-        $Process.BeginErrorReadLine()
-        do {
-          Start-Sleep -Seconds 1
-        } while (-not $Process.HasExited)
-        $OutputEvent.Name, $ErrorEvent.Name | ForEach-Object {Unregister-Event -SourceIdentifier $_}
+        cd %GITHUB_WORKSPACE%\build
+        set /p OdeDestPath=<latest-install
+        cd %OdeDestPath%
+        set OdeBinPath=%OdeDestPath%\bin
+        set PATH=%OdeBinPath%;%PATH%
+        cd %OdeDestPath%
+        .\bin\test-anthem.exe
       if: runner.os == 'Windows'
+      shell: cmd
