@@ -103,7 +103,7 @@ jobs:
         $Env:Path += ";$OdeBinPath"
         $ProcessStartInfo = New-Object System.Diagnostics.ProcessStartInfo
         $ProcessStartInfo.CreateNoWindow = $true
-        $ProcessStartInfo.FileName = ".\bin\test-anthem.exe"
+        $ProcessStartInfo.FileName = Join-Path $OdeBinPath "test-anthem.exe"
         $ProcessStartInfo.UseShellExecute = $false
         $ProcessStartInfo.RedirectStandardError = $true
         $ProcessStartInfo.RedirectStandardOutput = $true
@@ -115,6 +115,7 @@ jobs:
         $ErrorEvent = Register-ObjectEvent -Action {
           Write-Host $Event.SourceEventArgs.Data
         } -InputObject $Process -EventName ErrorDataReceived
+        Write-Host "Starting the tests of Unsung Anthem and Obliging Ode from the executable '$ProcessStartInfo.FileName'"
         $Process.Start() | Out-Null
         $Process.BeginOutputReadLine()
         $Process.BeginErrorReadLine()
