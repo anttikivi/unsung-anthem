@@ -95,8 +95,8 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE\\build
         ODE_TEST_PATH="$(cat .\\latest-install)"
-        cd $ODE_TEST_PATH
+        cd .\\$ODE_TEST_PATH
         PATH=$ODE_TEST_PATH\\bin;$PATH
-        .\\bin\\test-anthem
+        .\\bin\\test-anthem.exe
       if: runner.os == 'Windows'
       shell: bash
