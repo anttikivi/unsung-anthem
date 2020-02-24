@@ -93,16 +93,10 @@ jobs:
       if: runner.os != 'Windows'
     - name: Run the tests on Windows
       run: |
-        cd %GITHUB_WORKSPACE%\build
-        echo Switched the working directory to %GITHUB_WORKSPACE%\build
-        set /p OdeDestPath=<.\latest-install
-        echo The path to the destination of the built products is %OdeDestPath%
-        cd %OdeDestPath%
-        echo Switched the working directory to %OdeDestPath%
-        set OdeBinPath=%OdeDestPath%\bin
-        set PATH=%OdeBinPath%;%PATH%
-        echo Added %OdeBinPath% to PATH
-        echo Going to run the tests from the executable '.\bin\test-anthem.exe'
-        %OdeBinPath%\test-anthem.exe
+        cd $GITHUB_WORKSPACE\\build
+        ODE_TEST_PATH="$(cat .\\latest-install)"
+        cd $ODE_TEST_PATH
+        PATH=$ODE_TEST_PATH\\bin;$PATH
+        .\\bin\\test-anthem
       if: runner.os == 'Windows'
-      shell: cmd
+      shell: bash
