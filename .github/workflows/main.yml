@@ -103,6 +103,6 @@ jobs:
         set PATH=%OdeBinPath%;%PATH%
         echo Added %OdeBinPath% to PATH
         echo Going to run the tests from the executable '.\bin\test-anthem.exe'
-        .\bin\test-anthem.exe
+        %OdeBinPath%\test-anthem.exe
       if: runner.os == 'Windows'
       shell: cmd
