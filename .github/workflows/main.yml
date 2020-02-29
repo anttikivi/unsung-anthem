@@ -46,7 +46,7 @@ jobs:
         else
           preset_name="main_workflow_unix"
         fi
-        ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --clean
+        ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       if: runner.os != 'Windows'
       env:
         ODE_USE_DEVELOPMENT_COMPOSER: true
@@ -55,7 +55,7 @@ jobs:
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
         Get-Location
-        .\unsung-anthem\util\configure.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --clean
+        .\unsung-anthem\util\configure.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
       if: runner.os == 'Windows'
       working-directory: ..
       env:
