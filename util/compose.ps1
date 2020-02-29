@@ -11,7 +11,7 @@
 #
 # ---------------------------------------------------------------------------- #
 
-New-Variable ComposerVersion "0.5.3" -Option Constant
+New-Variable ComposerVersion "0.6.0" -Option Constant
 New-Variable ComposerName "Couplet Composer" -Option Constant
 New-Variable OdeName "Obliging Ode" -Option Constant
 New-Variable AnthemName "Unsung Anthem" -Option Constant
