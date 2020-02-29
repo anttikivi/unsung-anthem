@@ -98,6 +98,10 @@ namespace ode::gl
             gl_version);
         return std::string{data::disabled_string_value};
       }
+      else
+      {
+        return get_string(GL_SHADING_LANGUAGE_VERSION);
+      }
     }
   }
 
