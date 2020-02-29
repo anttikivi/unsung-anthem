@@ -27,14 +27,28 @@
 namespace ode::test
 {
   ///
-  /// \brief Runs the tests and benchmarks.
+  /// \brief Runs the tests.
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.
   ///
   /// \return The end code of the tests.
   ///
-  int run(int argc, char* argv[]);
+  int run_tests(int argc, char* argv[]);
+
+#if ODE_TEST_BENCHMARKING
+
+  ///
+  /// \brief Runs the benchmarks.
+  ///
+  /// \param argc the number of arguments passed in the execution.
+  /// \param argv the array containing the arguments passed in the execution.
+  ///
+  /// \return The end code of the tests.
+  ///
+  int run_benchmarks(int argc, char* argv[]);
+
+#endif // ODE_TEST_BENCHMARKING
 
 } // namespace ode::test
 

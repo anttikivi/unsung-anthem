@@ -31,16 +31,22 @@
 
 namespace ode::test
 {
-  int run(int argc, char* argv[])
+  int run_tests(int argc, char* argv[])
   {
     const int result = RUN_ALL_TESTS();
 
+    return result;
+  }
+
 #if ODE_TEST_BENCHMARKING
 
+  int run_benchmarks(int argc, char* argv[])
+  {
     ::benchmark::RunSpecifiedBenchmarks();
+
+    return 0;
+  }
 
 #endif // ODE_TEST_BENCHMARKING
 
-    return result;
-  }
 } // namespace ode::test

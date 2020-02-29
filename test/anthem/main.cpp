@@ -55,8 +55,27 @@ int main(int argc, char* argv[])
         anthem::logger_level);
   }
 
-  ode::test::set_up(argc, argv);
-  const int result = ode::test::run(argc, argv);
+  ode::test::set_up_tests(argc, argv);
+
+  const int result_tests = ode::test::run_tests(argc, argv);
+
+#if ODE_TEST_BENCHMARKING
+
+  auto benchmark_sink = std::make_shared<spdlog::sinks::null_sink_st>();
+
+  anthem::logger = ode::create_logger(
+      "anthem_benchmark_logger",
+      anthem::logger_pattern,
+      anthem::logger_level,
+      benchmark_sink);
+
+  ode::test::set_up_benchmarks(argc, argv);
+
+  const int result_benchmarks = ode::test::run_benchmarks(argc, argv);
+
+#endif // ODE_TEST_BENCHMARKING
+
   ode::test::clean_up();
-  return result;
+
+  return result_tests;
 }

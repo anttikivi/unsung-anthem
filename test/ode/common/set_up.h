@@ -34,7 +34,21 @@ namespace ode::test
   ///
   /// \return The end code of the program.
   ///
-  int set_up(int argc, char* argv[]);
+  int set_up_tests(int argc, char* argv[]);
+
+#if ODE_TEST_BENCHMARKING
+
+  ///
+  /// \brief Sets up the common dependencies of the benchmarks.
+  ///
+  /// \param argc the number of arguments passed in the execution.
+  /// \param argv the array containing the arguments passed in the execution.
+  ///
+  /// \return The end code of the program.
+  ///
+  int set_up_benchmarks(int argc, char* argv[]);
+
+#endif // ODE_TEST_BENCHMARKING
 
 } // namespace ode::test
 

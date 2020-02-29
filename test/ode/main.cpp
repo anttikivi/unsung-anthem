@@ -29,8 +29,19 @@
 
 int main(int argc, char* argv[])
 {
-  ode::test::set_up(argc, argv);
-  const int result = ode::test::run(argc, argv);
+  ode::test::set_up_tests(argc, argv);
+
+  const int result_tests = ode::test::run_tests(argc, argv);
+
+#if ODE_TEST_BENCHMARKING
+
+  ode::test::set_up_benchmarks(argc, argv);
+
+  const int result_benchmarks = ode::test::run_benchmarks(argc, argv);
+
+#endif // ODE_TEST_BENCHMARKING
+
   ode::test::clean_up();
-  return result;
+
+  return result_tests;
 }

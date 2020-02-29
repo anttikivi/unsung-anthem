@@ -50,3 +50,14 @@ ode::logger_t create_logging_test_logger()
         ode::logger_level);
   }
 }
+
+ode::logger_t create_logging_benchmark_logger()
+{
+  auto benchmark_sink = std::make_shared<spdlog::sinks::null_sink_st>();
+
+  return ode::create_logger(
+      "benchmark_logger_ode",
+      ode::logger_pattern,
+      ode::logger_level,
+      benchmark_sink);
+}

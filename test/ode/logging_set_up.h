@@ -27,3 +27,7 @@
 ode::logger_t create_logging_test_logger();
 
 inline auto test_log = create_logging_test_logger();
+
+ode::logger_t create_logging_benchmark_logger();
+
+inline auto benchmark_log = create_logging_benchmark_logger();

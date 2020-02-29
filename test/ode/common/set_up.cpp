@@ -110,7 +110,7 @@ namespace ode::test
     }
   } // namespace detail
 
-  int set_up(int argc, char* argv[])
+  int set_up_tests(int argc, char* argv[])
   {
     if constexpr (::ode::test_use_null_sink)
     {
@@ -144,8 +144,13 @@ namespace ode::test
 
     ::testing::InitGoogleTest(&argc, argv);
 
+    return 0;
+  }
+
 #if ODE_TEST_BENCHMARKING
 
+  int set_up_benchmarks(int argc, char* argv[])
+  {
     auto benchmark_sink = std::make_shared<spdlog::sinks::null_sink_st>();
 
     ode::logger = ode::create_logger(
@@ -161,8 +166,9 @@ namespace ode::test
       return 5;
     }
 
-#endif // ODE_TEST_BENCHMARKING
-
     return 0;
   }
+
+#endif // ODE_TEST_BENCHMARKING
+
 } // namespace ode::test
