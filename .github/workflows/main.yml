@@ -55,7 +55,7 @@ jobs:
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
         Get-Location
-        .\unsung-anthem\util\configure.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        .\unsung-anthem\util\configure.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --clean
       if: runner.os == 'Windows'
       working-directory: ..
       env:
