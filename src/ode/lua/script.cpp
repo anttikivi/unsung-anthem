@@ -31,11 +31,11 @@ namespace ode::lua
 {
   int load_script_file(
       const state_ptr_t state,
-      std::string_view filename) ODE_CONTRACT_NOEXCEPT
+      std::string filename) ODE_CONTRACT_NOEXCEPT
   {
     ODE_TRACE("Trying to load a Lua script from '{}'", filename.data());
 
-    const auto load_error = luaL_loadfile(state, filename.data());
+    const auto load_error = luaL_loadfile(state, filename.c_str());
 
     ODE_TRACE("The load returned: {}", load_error);
 
