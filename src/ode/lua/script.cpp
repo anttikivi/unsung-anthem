@@ -37,6 +37,8 @@ namespace ode::lua
 
     const auto load_error = luaL_loadfile(state, filename.data());
 
+    ODE_TRACE("The load returned: {}", load_error);
+
     Ensures(LUA_OK == load_error);
 
     ODE_TRACE(
