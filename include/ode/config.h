@@ -41,7 +41,11 @@ namespace ode
 #ifdef ODE_SCRIPT_ROOT
   constexpr auto script_root = ODE_SCRIPT_ROOT;
 #else
+# if _WIN32
+  constexpr auto script_root = "lib\\ode";
+# else
   constexpr auto script_root = "lib/ode";
+# endif // !_WIN32
 #endif // !defined(ODE_SCRIPT_ROOT)
 
   ///
@@ -50,7 +54,11 @@ namespace ode
 #ifdef ODE_TEST_SCRIPT_ROOT
   constexpr auto test_script_root = ODE_TEST_SCRIPT_ROOT;
 #else
+# if _WIN32
+  constexpr auto test_script_root = "lib\\ode";
+# else
   constexpr auto test_script_root = "lib/ode";
+# endif // !_WIN32
 #endif // !defined(ODE_TEST_SCRIPT_ROOT)
 
   ///
