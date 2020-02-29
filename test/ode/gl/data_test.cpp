@@ -89,19 +89,31 @@ TEST(ode_gl_data, version)
 
 TEST(ode_gl_data, shading_language_version)
 {
-  if constexpr (ode::disable_gl_calls)
+  const std::string gl_version = ode::gl::version();
+  const int gl_major_version = std::stoi(
+      gl_version.substr(0, gl_version.find(".")));
+
+  if (ode::gl::data::minimum_gl_major_version > gl_major_version)
   {
     auto r = ode::gl::shading_language_version();
     ASSERT_EQ(r, ode::gl::data::disabled_string_value);
   }
   else
   {
-    auto original = glGetString(GL_SHADING_LANGUAGE_VERSION);
-    std::size_t len = std::strlen(reinterpret_cast<const char*>(original));
-    auto s = std::string{reinterpret_cast<const char*>(original), len};
+    if constexpr (ode::disable_gl_calls)
+    {
+      auto r = ode::gl::shading_language_version();
+      ASSERT_EQ(r, ode::gl::data::disabled_string_value);
+    }
+    else
+    {
+      auto original = glGetString(GL_SHADING_LANGUAGE_VERSION);
+      std::size_t len = std::strlen(reinterpret_cast<const char*>(original));
+      auto s = std::string{reinterpret_cast<const char*>(original), len};
 
-    auto r = ode::gl::shading_language_version();
+      auto r = ode::gl::shading_language_version();
 
-    ASSERT_EQ(r, s);
+      ASSERT_EQ(r, s);
+    }
   }
 }
