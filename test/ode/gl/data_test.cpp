@@ -93,7 +93,7 @@ TEST(ode_gl_data, shading_language_version)
   const int gl_major_version = std::stoi(
       gl_version.substr(0, gl_version.find(".")));
 
-  if (ode::gl::data::minimum_gl_major_version > gl_major_version)
+  if (ode::minimum_gl_major_version > gl_major_version)
   {
     auto r = ode::gl::shading_language_version();
     ASSERT_EQ(r, ode::gl::data::disabled_string_value);
