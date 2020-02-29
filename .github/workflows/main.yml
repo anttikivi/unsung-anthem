@@ -96,7 +96,8 @@ jobs:
         cd $GITHUB_WORKSPACE\\build
         ODE_TEST_PATH="$(cat .\\latest-install)"
         cd .\\$ODE_TEST_PATH
-        PATH="$GITHUB_WORKSPACE\\build\\$ODE_TEST_PATH\\bin;$PATH"
+        export PATH="$GITHUB_WORKSPACE\\build\\$ODE_TEST_PATH\\bin;$PATH"
+        echo "PATH is currently set as $PATH"
         .\\bin\\test-anthem.exe
       if: runner.os == 'Windows'
       shell: bash
