@@ -90,6 +90,11 @@ TEST(ode_gl_data, version)
 TEST(ode_gl_data, shading_language_version)
 {
   const std::string gl_version = ode::gl::version();
+
+  ODE_TRACE(
+      "The OpenGL version got for getting the shading language version is {}",
+      gl_version);
+
   const int gl_major_version = std::stoi(
       gl_version.substr(0, gl_version.find(".")));
 
