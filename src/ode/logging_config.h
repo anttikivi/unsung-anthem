@@ -43,7 +43,7 @@ namespace ode
   constexpr auto logger_pattern = "[%l] [%d %b %Y] [%H.%M:%S] %v";
 
   ///
-  /// \brief The name of the engine logger.
+  /// \brief The logging level of the engine logger.
   ///
   constexpr auto logger_level = spdlog::level::trace;
 
