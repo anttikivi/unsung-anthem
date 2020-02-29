@@ -78,7 +78,11 @@ namespace ode::gl
         "Getting the OpenGL shading language version "
         "(GL_SHADING_LANGUAGE_VERSION)");
 
-    if constexpr (!disable_gl_calls)
+    if constexpr (disable_gl_calls)
+    {
+      return get_string(GL_SHADING_LANGUAGE_VERSION);
+    }
+    else
     {
       const std::string gl_version = version();
       const int gl_major_version = std::stoi(
@@ -94,10 +98,6 @@ namespace ode::gl
             gl_version);
         return std::string{data::disabled_string_value};
       }
-    }
-    else
-    {
-      return get_string(GL_SHADING_LANGUAGE_VERSION);
     }
   }
 

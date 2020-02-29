@@ -146,6 +146,14 @@ namespace ode::test
 
 #if ODE_TEST_BENCHMARKING
 
+    auto benchmark_sink = std::make_shared<spdlog::sinks::null_sink_st>();
+
+    ode::logger = ode::create_logger(
+        "ode_benchmark_logger",
+        ode::logger_pattern,
+        ode::logger_level,
+        benchmark_sink);
+
     ::benchmark::Initialize(&argc, argv);
 
     if (::benchmark::ReportUnrecognizedArguments(argc, argv))
