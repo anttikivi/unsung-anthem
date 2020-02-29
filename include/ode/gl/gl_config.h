@@ -62,6 +62,12 @@ namespace ode
   constexpr bool disable_gl_calls = false;
 #endif // !ODE_DISABLE_GL_CALLS
 
+  ///
+  /// \brief The minimum major version number of OpenGL that is required to use
+  /// all features of the application.
+  ///
+  constexpr int minimum_gl_major_version = 2;
+
 } // namespace ode
 
 #endif // !ODE_GL_GL_CONFIG_H

@@ -77,7 +77,19 @@ namespace ode::gl
     ODE_TRACE(
         "Getting the OpenGL shading language version "
         "(GL_SHADING_LANGUAGE_VERSION)");
-    return get_string(GL_SHADING_LANGUAGE_VERSION);
+    const std::string gl_version = version();
+    const int gl_major_version = std::stoi(
+        gl_version.substr(0, gl_version.find(".")));
+
+    // The OpenGL shading language isn't supported in OpenGL versions below 2.0
+    if (minimum_gl_major_version > gl_major_version) [[unlikely]]
+    {
+      return std::string{data::disabled_string_value};
+    }
+    else
+    {
+      return get_string(GL_SHADING_LANGUAGE_VERSION);
+    }
   }
 
 } // namespace ode::gl
