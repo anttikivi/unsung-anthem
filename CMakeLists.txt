@@ -82,8 +82,7 @@ assert_variable(ANTHEM_WINDOW_NAME "program window name")
 #===------------------------------------------------------------------------===#
 
 if(ODE_ADD_GOOGLE_TEST_SOURCE)
-  assert_variable(ODE_GOOGLE_TEST_DIRECTORY_NAME
-      "Google Test source directory name")
+  assert_variable(ODE_GOOGLE_TEST_DIRECTORY "Google Test source directory")
 endif()
 
 #===------------------------------------------------------------------------===#
@@ -229,8 +228,7 @@ set_glad_sources()
 
 if(ODE_ADD_GOOGLE_TEST_SOURCE)
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-  add_subdirectory(
-      ${ODE_DEPENDENCY_PREFIX}/src/${ODE_GOOGLE_TEST_DIRECTORY_NAME})
+  add_subdirectory(${ODE_GOOGLE_TEST_DIRECTORY})
 endif()
 
 #===------------------------------------------------------------------------===#
