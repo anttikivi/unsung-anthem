@@ -31,7 +31,8 @@ namespace ode::filesystem::path
   /// current system.
   ///
 #if _WIN32
-  constexpr char preferred_separator = '\\';
+  // constexpr char preferred_separator = '\\';
+  constexpr char preferred_separator = '/';
 #else
   constexpr char preferred_separator = '/';
 #endif // !_WIN32

@@ -27,12 +27,12 @@ endfunction()
 
 function(ADD_DIRECTORY_DEFINITIONS)
   if(WIN32)
-    string(REPLACE "/" "\\\\"
+    string(REPLACE "/" "/"
         ODE_WINDOWS_SCRIPT_PATH "${CMAKE_INSTALL_LIBDIR}")
-    add_definitions(-DODE_SCRIPT_ROOT="${ODE_WINDOWS_SCRIPT_PATH}\\\\ode")
-    add_definitions(-DODE_TEST_SCRIPT_ROOT="${ODE_WINDOWS_SCRIPT_PATH}\\\\ode")
-    add_definitions(-DANTHEM_SCRIPT_ROOT="${ODE_WINDOWS_SCRIPT_PATH}\\\\anthem")
-    add_definitions(-DANTHEM_TEST_SCRIPT_ROOT="${ODE_WINDOWS_SCRIPT_PATH}\\\\anthem")
+    add_definitions(-DODE_SCRIPT_ROOT="${ODE_WINDOWS_SCRIPT_PATH}/ode")
+    add_definitions(-DODE_TEST_SCRIPT_ROOT="${ODE_WINDOWS_SCRIPT_PATH}/ode")
+    add_definitions(-DANTHEM_SCRIPT_ROOT="${ODE_WINDOWS_SCRIPT_PATH}/anthem")
+    add_definitions(-DANTHEM_TEST_SCRIPT_ROOT="${ODE_WINDOWS_SCRIPT_PATH}/anthem")
   else()
     add_definitions(-DODE_SCRIPT_ROOT="lib/ode")
     add_definitions(-DODE_TEST_SCRIPT_ROOT="lib/ode")
