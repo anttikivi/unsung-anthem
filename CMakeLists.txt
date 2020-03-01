@@ -142,6 +142,9 @@ elseif(ODE_BUILD_TEST AND ODE_ADD_GOOGLE_TEST_SOURCE)
 endif()
 
 if(ODE_TEST_BENCHMARKING)
+  if(WIN32)
+    list(APPEND ODE_LIBRARIES "shlwapi")
+  endif()
   message(STATUS "Looking for Google Benchmark libraries")
   find_library(BENCHMARK_LIBRARY benchmark
       HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
