@@ -2,41 +2,49 @@
   "benchmark": {
     "version": "1.5.0",
     "name": "Google Benchmark",
-    "testonly": true
+    "testonly": true,
+    "benchmarkonly": true
   },
   "clara": {
     "version": "1.1.5",
     "name": "Clara",
-    "testonly": false
+    "testonly": false,
+    "benchmarkonly": false
   },
   "glad": {
     "version": "0.1.33",
     "name": "Glad",
-    "testonly": false
+    "testonly": false,
+    "benchmarkonly": false
   },
   "googletest": {
     "version": "1.10.0",
     "name": "Google Test",
-    "testonly": true
+    "testonly": true,
+    "benchmarkonly": false
   },
   "lua": {
     "version": "5.3.5",
     "name": "Lua",
-    "testonly": false
+    "testonly": false,
+    "benchmarkonly": false
   },
   "sdl": {
     "version": "2.0.10",
     "name": "Simple DirectMedia Layer",
-    "testonly": false
+    "testonly": false,
+    "benchmarkonly": false
   },
   "spdlog": {
     "version": "1.5.0",
     "name": "spdlog",
-    "testonly": false
+    "testonly": false,
+    "benchmarkonly": false
   },
   "stb_image": {
     "version": "2.25",
     "name": "stb_image",
-    "testonly": false
+    "testonly": false,
+    "benchmarkonly": false
   }
 }
