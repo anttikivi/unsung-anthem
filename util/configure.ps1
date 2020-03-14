@@ -82,7 +82,7 @@ if ($CloneComposer) {
     Set-Location -Path ..
   }
 
-  pip install $ComposerDir
+  pip install --user $ComposerDir
   $ComposerExecutable = (Get-Command $ComposerExecutableName -CommandType All | Select-Object -ExpandProperty Definition)
   Write-Output "The installed $ComposerName executable is $ComposerExecutable"
 }

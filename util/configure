@@ -105,7 +105,7 @@ if [ "$clone_composer" = true ]; then
     git checkout tags/$COMPOSER_VERSION_TAG -b local_install_$COMPOSER_VERSION_TAG
     cd ..
   fi
-  pip install $COMPOSER_DIRECTORY
+  pip install --user $COMPOSER_DIRECTORY
   composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
   echo "The installed $COMPOSER_NAME executable is $composer_executable"
 fi
