@@ -38,7 +38,11 @@ readonly COMPOSER_REPO_NAME="couplet-composer"
 readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
 $COMPOSER_REPO_NAME.git"
 
-readonly ROOT_DIR="."
+readonly ROOT_DIR=$PWD
+readonly PIP_DIRECTORY_NAME="pip"
+readonly PIP_DIRECTORY="$ROOT_DIR/$PIP_DIRECTORY_NAME"
+readonly PIP_BIN_DIRECTORY="$PIP_DIRECTORY/bin"
+
 readonly COMPOSER_DIRECTORY_NAME="composer"
 readonly COMPOSER_DIRECTORY="$ROOT_DIR/$COMPOSER_DIRECTORY_NAME"
 
@@ -77,6 +81,7 @@ composer_executable=""
 
 if command -v $COMPOSER_EXECUTABLE_NAME >/dev/null 2>&1; then
   composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
+  # composer_executable=$PIP_BIN_DIRECTORY/$COMPOSER_EXECUTABLE_NAME
   echo "The installed $COMPOSER_NAME executable is $composer_executable"
   installed_version="$($composer_executable --version 2>&1)"
   echo "The installed local $COMPOSER_NAME version is $installed_version"
@@ -105,8 +110,9 @@ if [ "$clone_composer" = true ]; then
     git checkout tags/$COMPOSER_VERSION_TAG -b local_install_$COMPOSER_VERSION_TAG
     cd ..
   fi
-  pip install --user $COMPOSER_DIRECTORY
+  pip install $COMPOSER_DIRECTORY
   composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
+  # composer_executable=$PIP_BIN_DIRECTORY/$COMPOSER_EXECUTABLE_NAME
   echo "The installed $COMPOSER_NAME executable is $composer_executable"
 fi
 
