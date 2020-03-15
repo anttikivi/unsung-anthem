@@ -13,6 +13,7 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
     * [Using PowerShell](#using-powershell)
 * [Configuring the Build](#configuring-the-build)
 * [Command Line Options](#command-line-options)
+  * [Common Top-level Options](#common-top-level-options)
 
 ## Prerequisites
 
@@ -217,9 +218,11 @@ You can specify the `--file` option multiple times to add more paths to the list
 
 ## Command Line Options
 
-### Top-level Options
+### Common Top-level Options
 
 These options can be used in all modes and should be added to presets sparingly. If you use these options as normal command line options when invoking Couplet Composer in preset mode, these will be passed through to the actual invocation of the script even though they’re not specified in the preset.
+
+#### Special Options
 
 **`-h`**, **`--help`**
 
@@ -228,3 +231,39 @@ Shows the help message of Couplet Composer and exits.
 **`-v`**, **`--version`**
 
 Shows the version of Couplet Composer and exits.
+
+#### Top-level Options
+
+**`-n`**, **`--dry-run`**
+
+Makes Couplet Composer run so that it only prints the commands that would be run but doesn’t actually run them.
+
+**`-j INTEGER`**, **`--jobs INTEGER`**
+
+Specifies the maximum number of parallel builds jobs Couplet Composer uses.
+
+**`-c`**, **`--clean`**
+
+Cleans the build environment before the build.
+
+**`--print-debug`**
+
+Prints debug-level logging output.
+
+**`--in-tree-build`**
+
+Creates the build directory inside the project directory. **Note:** This option should chiefly be used only on automated environments!
+
+#### GitHub Options
+
+**`--github-auth-file PATH`**
+
+Finds the user agent and API token for accessing the version 4 of the GitHub API from the given file by path relative to the root directory of the project repository (the default path is `util/.github_api`). The first line of the file must contain the user agent and the second the API token.
+
+**`--github-user-agent VALUE`**
+
+Sets the user agent used when accessing the version 4 of the GitHub API. Overrides the value read using the `--github-auth-file` option.
+
+**`--github-api-token TOKEN`**
+
+Sets the API token used when accessing the version 4 of the GitHub API. Overrides the value read using the `--github-auth-file` option.
