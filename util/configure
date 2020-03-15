@@ -7,21 +7,19 @@
 # This source file is part of the Obliging Ode and Unsung Anthem
 # projects.
 #
-# Copyright (c) 2019 Antti Kivi
+# Copyright (c) 2020 Antti Kivi
 # All rights reserved
 #
 # ------------------------------------------------------------- #
 
 set -e
 
-readonly COMPOSER_VERSION="0.7.0"
-readonly COMPOSER_VERSION_TAG="v$COMPOSER_VERSION"
 readonly COMPOSER_NAME="Couplet Composer"
 readonly ODE_NAME="Obliging Ode"
 readonly ANTHEM_NAME="Unsung Anthem"
 
-echo "Running the shell script wrapper for $COMPOSER_NAME $COMPOSER_VERSION, \
-the build script of $ODE_NAME and $ANTHEM_NAME"
+echo "Running the shell script wrapper for $COMPOSER_NAME, the build script \
+of $ODE_NAME and $ANTHEM_NAME"
 echo "$COMPOSER_NAME will be run in configuring mode"
 
 readonly PRINT_DEBUG_OPTION="--print-debug"
@@ -32,89 +30,16 @@ for arg in "$@"; do
   fi
 done
 
-readonly GITHUB_URL="https://github.com"
-readonly COMPOSER_REPO_OWNER="anttikivi"
-readonly COMPOSER_REPO_NAME="couplet-composer"
-readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
-$COMPOSER_REPO_NAME.git"
-
-readonly ROOT_DIR=$PWD
-readonly PIP_DIRECTORY_NAME="pip"
-readonly PIP_DIRECTORY="$ROOT_DIR/$PIP_DIRECTORY_NAME"
-readonly PIP_BIN_DIRECTORY="$PIP_DIRECTORY/bin"
-
-readonly COMPOSER_DIRECTORY_NAME="composer"
-readonly COMPOSER_DIRECTORY="$ROOT_DIR/$COMPOSER_DIRECTORY_NAME"
-
-readonly CLEAN_BUILD_OPTION="-c"
-readonly CLEAN_BUILD_SHORT_OPTION="--clean"
-
 readonly PRESET_MODE_ARGUMENT="preset"
 readonly CONFIGURE_MODE_ARGUMENT="configure"
 
 readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
 
-# Clean the script if clean build is enabled
-
-clean_build=false
-
-for arg in "$@"; do
-  if [ "$arg" = "$CLEAN_BUILD_OPTION" ] || \
-      [ "$arg" = "$CLEAN_BUILD_SHORT_OPTION" ]; then
-    clean_build=true
-  fi
-done
-
-if [ "$clean_build" = true ] && [ -d "$COMPOSER_DIRECTORY" ]; then
-  rm -rf $COMPOSER_DIRECTORY
-fi
-
 # Set up Couplet Composer
 
-clone_composer=false
+current_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-if [ ! -d "$COMPOSER_DIRECTORY" ]; then
-  clone_composer=true
-fi
-
-composer_executable=""
-
-if command -v $COMPOSER_EXECUTABLE_NAME >/dev/null 2>&1; then
-  composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
-  # composer_executable=$PIP_BIN_DIRECTORY/$COMPOSER_EXECUTABLE_NAME
-  echo "The installed $COMPOSER_NAME executable is $composer_executable"
-  installed_version="$($composer_executable --version 2>&1)"
-  echo "The installed local $COMPOSER_NAME version is $installed_version"
-  if [ "$COMPOSER_VERSION" != "$installed_version" ]; then
-    clone_composer=true
-  fi
-else
-  clone_composer=true
-fi
-
-checkout_release=true
-
-if [ "$ODE_USE_DEVELOPMENT_COMPOSER" = true ]; then
-  checkout_release=false
-  clone_composer=true
-  echo "The development version of $COMPOSER_NAME will be installed"
-fi
-
-if [ "$clone_composer" = true ]; then
-  if [ -d "$COMPOSER_DIRECTORY" ]; then
-    rm -rf $COMPOSER_DIRECTORY
-  fi
-  git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
-  if [ "$checkout_release" = true ]; then
-    cd $COMPOSER_DIRECTORY_NAME
-    git checkout tags/$COMPOSER_VERSION_TAG -b local_install_$COMPOSER_VERSION_TAG
-    cd ..
-  fi
-  pip install $COMPOSER_DIRECTORY
-  composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
-  # composer_executable=$PIP_BIN_DIRECTORY/$COMPOSER_EXECUTABLE_NAME
-  echo "The installed $COMPOSER_NAME executable is $composer_executable"
-fi
+$current_directory/set_up "$@"
 
 # Run the script
 
@@ -127,8 +52,7 @@ for arg in "$@"; do
 done
 
 if [ "$preset_mode" = true ]; then
-  # $composer_executable $PRESET_MODE_ARGUMENT "$@" $CONFIGURE_MODE_ARGUMENT
-  $composer_executable "$@" $CONFIGURE_MODE_ARGUMENT
+  pipenv run $COMPOSER_EXECUTABLE_NAME "$@" $CONFIGURE_MODE_ARGUMENT
 else
-  $composer_executable $CONFIGURE_MODE_ARGUMENT "$@"
+  pipenv run $COMPOSER_EXECUTABLE_NAME $CONFIGURE_MODE_ARGUMENT "$@"
 fi

@@ -1,0 +1,72 @@
+#!/bin/sh
+
+# ------------------------------------------------------------- #
+#                 Obliging Ode & Unsung Anthem
+# ------------------------------------------------------------- #
+#
+# This source file is part of the Obliging Ode and Unsung Anthem
+# projects.
+#
+# Copyright (c) 2020 Antti Kivi
+# All rights reserved
+#
+# ------------------------------------------------------------- #
+
+set -e
+
+readonly COMPOSER_VERSION="0.7.0"
+readonly COMPOSER_VERSION_TAG="v$COMPOSER_VERSION"
+readonly COMPOSER_NAME="Couplet Composer"
+readonly ODE_NAME="Obliging Ode"
+readonly ANTHEM_NAME="Unsung Anthem"
+
+echo "Running the set-up shell script for $COMPOSER_NAME $COMPOSER_VERSION, \
+the build script of $ODE_NAME and $ANTHEM_NAME"
+
+readonly PRINT_DEBUG_OPTION="--print-debug"
+
+for arg in "$@"; do
+  if [ "$arg" = "$PRINT_DEBUG_OPTION" ]; then
+    set -x
+  fi
+done
+
+readonly GITHUB_URL="https://github.com"
+readonly COMPOSER_REPO_OWNER="anttikivi"
+readonly COMPOSER_REPO_NAME="couplet-composer"
+readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
+$COMPOSER_REPO_NAME.git"
+
+readonly ROOT_DIR="."
+readonly BUILD_DIRECTORY_NAME="build"
+readonly COMPOSER_DIRECTORY_NAME="composer"
+readonly BUILD_DIRECTORY="$ROOT_DIR/$BUILD_DIRECTORY_NAME"
+readonly COMPOSER_DIRECTORY="$BUILD_DIRECTORY/$COMPOSER_DIRECTORY_NAME"
+
+readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
+
+# Set up the required directories
+
+if [ -d "$COMPOSER_DIRECTORY" ]; then
+  rm -rf $COMPOSER_DIRECTORY
+fi
+
+if [ ! -d "$BUILD_DIRECTORY" ]; then
+  mkdir $BUILD_DIRECTORY
+fi
+
+# Set up Couplet Composer
+
+cd $BUILD_DIRECTORY
+
+git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
+
+if [ "$ODE_USE_DEVELOPMENT_COMPOSER" != true ]; then
+  cd $COMPOSER_DIRECTORY_NAME
+  git checkout tags/$COMPOSER_VERSION_TAG -b local_install_$COMPOSER_VERSION_TAG
+  cd ..
+else
+  echo "The development version of $COMPOSER_NAME was installed"
+fi
+
+pipenv install $COMPOSER_DIRECTORY
