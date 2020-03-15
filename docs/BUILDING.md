@@ -12,6 +12,7 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
     * [Using Command Prompt](#using-command-prompt)
     * [Using PowerShell](#using-powershell)
 * [Configuring the Build](#configuring-the-build)
+* [Command Line Options](#command-line-options)
 
 ## Prerequisites
 
@@ -213,3 +214,17 @@ You can also your own local files containing presets for Couplet Composer. To ad
     ./unsung-anthem/util/compose preset --file /path/to/my/file/presets.ini --name some_preset
 
 You can specify the `--file` option multiple times to add more paths to the list of files.
+
+## Command Line Options
+
+### Top-level Options
+
+These options can be used in all modes and should be added to presets sparingly. If you use these options as normal command line options when invoking Couplet Composer in preset mode, these will be passed through to the actual invocation of the script even though they’re not specified in the preset.
+
+**`-h`**, **`--help`**
+
+Shows the help message of Couplet Composer and exits.
+
+**`-v`**, **`--version`**
+
+Shows the version of Couplet Composer and exits.
