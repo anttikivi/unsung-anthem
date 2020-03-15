@@ -74,4 +74,6 @@ else
   echo "The development version of $COMPOSER_NAME was installed"
 fi
 
+cd ..
+
 pipenv install $COMPOSER_DIRECTORY

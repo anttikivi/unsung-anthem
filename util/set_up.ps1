@@ -61,4 +61,6 @@ if ($Env:ODE_USE_DEVELOPMENT_COMPOSER) {
   Write-Output "The development version of $ComposerName was installed"
 }
 
-pipenv install $ComposerDirName
+Set-Location -Path ..
+
+pipenv install $ComposerDir
