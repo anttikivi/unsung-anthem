@@ -37,7 +37,8 @@ readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
 
 # Set up Couplet Composer
 
-current_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+# current_directory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+current_directory="${0%/*}"
 
 $current_directory/set_up "$@"
 
