@@ -16,6 +16,7 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
   * [Common Top-level Options](#common-top-level-options)
   * [Common Options](#common-options)
   * [Preset Mode Options](#preset-mode-options)
+  * [Compose: Common Options](#compose-common-options)
 
 ## Prerequisites
 
@@ -407,3 +408,21 @@ Shows the available presets in the preset files and exits.
 **`--expand-script-invocation`**
 
 Prints the build script invocation composed from the preset given using `--name` and exits without running it.
+
+### Compose: Common Options
+
+**`--ode-static-lib`**
+
+Builds the static library of Obliging Ode.
+
+**`--ode-shared-lib`**
+
+Builds the shared library of Obliging Ode.
+
+**`--anthem-static-lib`**
+
+Builds the static library of Unsung Anthem.
+
+**`--anthem-shared-lib`**
+
+Builds the shared library of Unsung Anthem.
