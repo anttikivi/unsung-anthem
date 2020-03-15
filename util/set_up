@@ -38,12 +38,17 @@ readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
 $COMPOSER_REPO_NAME.git"
 
 readonly ROOT_DIR="."
-readonly BUILD_DIRECTORY_NAME="build"
+readonly SCRIPT_DIRECTORY_NAME="script"
 readonly COMPOSER_DIRECTORY_NAME="composer"
-readonly BUILD_DIRECTORY="$ROOT_DIR/$BUILD_DIRECTORY_NAME"
-readonly COMPOSER_DIRECTORY="$BUILD_DIRECTORY/$COMPOSER_DIRECTORY_NAME"
+readonly SCRIPT_DIRECTORY="$ROOT_DIR/$SCRIPT_DIRECTORY_NAME"
+readonly COMPOSER_DIRECTORY="$SCRIPT_DIRECTORY/$COMPOSER_DIRECTORY_NAME"
 
 readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
+
+# Install pipenv
+
+# python -m pip install --upgrade pip
+pip install pipenv
 
 # Set up the required directories
 
@@ -51,13 +56,13 @@ if [ -d "$COMPOSER_DIRECTORY" ]; then
   rm -rf $COMPOSER_DIRECTORY
 fi
 
-if [ ! -d "$BUILD_DIRECTORY" ]; then
-  mkdir $BUILD_DIRECTORY
+if [ ! -d "$SCRIPT_DIRECTORY" ]; then
+  mkdir $SCRIPT_DIRECTORY
 fi
 
 # Set up Couplet Composer
 
-cd $BUILD_DIRECTORY
+cd $SCRIPT_DIRECTORY
 
 git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
 

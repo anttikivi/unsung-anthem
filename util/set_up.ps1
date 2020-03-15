@@ -25,12 +25,17 @@ New-Variable ComposerRepoName "couplet-composer" -Option Constant
 New-Variable ComposerRepoUrl "$GithubUrl/$ComposerRepoOwner/$ComposerRepoName.git" -Option Constant
 
 New-Variable RootDir "." -Option Constant
-New-Variable BuildDirName "build" -Option Constant
+New-Variable ScriptDirName "script" -Option Constant
 New-Variable ComposerDirName "composer" -Option Constant
-New-Variable BuildDir "$RootDir/$BuildDirName" -Option Constant
-New-Variable ComposerDir "$BuildDir/$ComposerDirName" -Option Constant
+New-Variable ScriptDir "$RootDir/$ScriptDirName" -Option Constant
+New-Variable ComposerDir "$ScriptDir/$ComposerDirName" -Option Constant
 
 New-Variable ComposerExecutableName "couplet-composer" -Option Constant
+
+# Install pipenv
+
+# python -m pip install --upgrade pip
+pip install pipenv
 
 # Set up the required directories
 
@@ -38,13 +43,13 @@ if (Test-Path "$ComposerDir") {
   Remove-Item $ComposerDir -Recurse -Force
 }
 
-if (-not (Test-Path "$BuildDir")) {
-  New-Item -Path $RootDir -Name $BuildDirName -ItemType "directory"
+if (-not (Test-Path "$ScriptDir")) {
+  New-Item -Path $RootDir -Name $ScriptDirName -ItemType "directory"
 }
 
 # Set up Couplet Composer
 
-Set-Location -Path "$BuildDir"
+Set-Location -Path "$ScriptDir"
 
 git clone $ComposerRepoUrl $ComposerDirName
 
