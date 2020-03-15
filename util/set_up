@@ -14,7 +14,7 @@
 
 set -e
 
-readonly COMPOSER_VERSION="0.7.0"
+readonly COMPOSER_VERSION="0.7.1"
 readonly COMPOSER_VERSION_TAG="v$COMPOSER_VERSION"
 readonly COMPOSER_NAME="Couplet Composer"
 readonly ODE_NAME="Obliging Ode"
