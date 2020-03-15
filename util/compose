@@ -7,20 +7,19 @@
 # This source file is part of the Obliging Ode and Unsung Anthem
 # projects.
 #
-# Copyright (c) 2019 Antti Kivi
+# Copyright (c) 2020 Antti Kivi
 # All rights reserved
 #
 # ------------------------------------------------------------- #
 
 set -e
 
-readonly COMPOSER_VERSION="0.7.0"
 readonly COMPOSER_NAME="Couplet Composer"
 readonly ODE_NAME="Obliging Ode"
 readonly ANTHEM_NAME="Unsung Anthem"
 
-echo "Running the shell script wrapper for $COMPOSER_NAME $COMPOSER_VERSION, \
-the build script of $ODE_NAME and $ANTHEM_NAME"
+echo "Running the shell script wrapper for $COMPOSER_NAME, the build script \
+of $ODE_NAME and $ANTHEM_NAME"
 echo "$COMPOSER_NAME will be run in composing mode"
 
 readonly PRINT_DEBUG_OPTION="--print-debug"
@@ -72,14 +71,13 @@ if [ ! -d "$IN_TREE_BUILD_DIRECTORY" ] && [ "$in_tree_build" = true ]; then
   exit_for_missing_configuration
 fi
 
-if ! command -v $COMPOSER_EXECUTABLE_NAME >/dev/null 2>&1; then
-  exit_for_missing_configuration
-fi
+# Set up Couplet Composer
+
+current_directory="${0%/*}"
+
+$current_directory/set_up "$@"
 
 # Run the script
-
-composer_executable="$(which $COMPOSER_EXECUTABLE_NAME)"
-echo "The installed Couplet Composer executable is $composer_executable"
 
 preset_mode=false
 
@@ -90,8 +88,7 @@ for arg in "$@"; do
 done
 
 if [ "$preset_mode" = true ]; then
-  # $composer_executable $PRESET_MODE_ARGUMENT "$@" $COMPOSE_MODE_ARGUMENT
-  $composer_executable "$@" $COMPOSE_MODE_ARGUMENT
+  pipenv run $COMPOSER_EXECUTABLE_NAME "$@" $COMPOSE_MODE_ARGUMENT
 else
-  $composer_executable $COMPOSE_MODE_ARGUMENT "$@"
+  pipenv run $COMPOSER_EXECUTABLE_NAME $COMPOSE_MODE_ARGUMENT "$@"
 fi

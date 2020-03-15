@@ -6,24 +6,23 @@
 #
 # This source file is part of the Obliging Ode and Unsung Anthem projects.
 #
-# Copyright (c) 2019 Antti Kivi
+# Copyright (c) 2020 Antti Kivi
 # All rights reserved
 #
 # ---------------------------------------------------------------------------- #
 
-New-Variable ComposerVersion "0.7.0" -Option Constant
 New-Variable ComposerName "Couplet Composer" -Option Constant
 New-Variable OdeName "Obliging Ode" -Option Constant
 New-Variable AnthemName "Unsung Anthem" -Option Constant
 
-Write-Output "Running the PowerShell wrapper for $ComposerName $ComposerVersion, the build script of $OdeName and $AnthemName"
+Write-Output "Running the PowerShell wrapper for $ComposerName, the build script of $OdeName and $AnthemName"
 Write-Output "$ComposerName will be run in composing mode"
 
 New-Variable RootDir "." -Option Constant
 New-Variable BuildDirName "build" -Option Constant
 New-Variable ProjectDirName "unsung-anthem" -Option Constant
-New-Variable BuildDir "$RootDir/$BuildDirName" -Option Constant
-New-Variable ProjectBuildDir "$RootDir/$ProjectDirName/$BuildDirName" -Option Constant
+New-Variable BuildDir (Join-Path "$RootDir" "$BuildDirName") -Option Constant
+New-Variable InTreeBuildDir (Join-Path "$RootDir" "$ProjectDirName" "$BuildDirName") -Option Constant
 
 New-Variable InTreeBuildOption "--in-tree-build" -Option Constant
 
@@ -40,35 +39,44 @@ function Exit-MissingConfiguration {
 }
 
 if ((-not (Test-Path "$BuildDir")) -and (-not ($InTreeBuildOption -in $args))) {
+  Write-Output "The directory $BuildDir is missing"
   Exit-MissingConfiguration
 }
 
-if ((-not (Test-Path "$ProjectBuildDir")) -and ($InTreeBuildOption -in $args)) {
+if ((-not (Test-Path "$InTreeBuildDir")) -and ($InTreeBuildOption -in $args)) {
+  Write-Output "The directory $InTreeBuildDir is missing"
   Exit-MissingConfiguration
 }
 
-if (-not (Get-Command $ComposerExecutableName -CommandType All -ErrorAction SilentlyContinue)) {
-  Exit-MissingConfiguration
-}
+# Set up Couplet Composer
+
+New-Variable SetUpPath (Join-Path $PSScriptRoot "set_up.ps1") -Option Constant
+
+Write-Output "Going to run the set-up script for $ComposerName from $SetUpPath"
+
+& $SetUpPath $args
+
+Write-Output "The set-up script for $ComposerName has finished"
 
 # Run the script
-
-$ComposerExecutable = (Get-Command $ComposerExecutableName -CommandType All | Select-Object -ExpandProperty Definition)
-Write-Output "The installed $ComposerName executable is $ComposerExecutable"
 
 $Arguments = ""
 
 if ($PresetModeArgument -in $args) {
-  $Arguments = [string]($args += $ComposeModeArgument)
-  Write-Output "Invoking $ComposerExecutable in preset mode with arguments '$Arguments'"
+  $ArgumentsList = $args + $ComposeModeArgument
+  $ArgumentsList = ,$ComposerExecutableName + $ArgumentsList
+  $ArgumentsList = ,"run" + $ArgumentsList
+  $Arguments = [string]($ArgumentsList)
 } else {
-  $Arguments = [string](@($ComposeModeArgument) + $args)
-  Write-Output "Invoking $ComposerExecutable with arguments '$Arguments'"
+  $ArgumentsList = @($ComposeModeArgument) + $args
+  $ArgumentsList = ,$ComposerExecutableName + $ArgumentsList
+  $ArgumentsList = ,"run" + $ArgumentsList
+  $Arguments = [string]($ArgumentsList)
 }
 
 $ProcessStartInfo = New-Object System.Diagnostics.ProcessStartInfo
 $ProcessStartInfo.CreateNoWindow = $true
-$ProcessStartInfo.FileName = $ComposerExecutable
+$ProcessStartInfo.FileName = "pipenv"
 $ProcessStartInfo.Arguments = $Arguments
 $ProcessStartInfo.UseShellExecute = $false
 $ProcessStartInfo.RedirectStandardError = $true
