@@ -299,19 +299,19 @@ Sets the build variant to the selected variant. The possible choices are `Debug`
 
 **`-d`**, **`--debug`**
 
-Sets the build variant to `Debug`.
+Sets the build variant to `Debug`. This option is a shorthand for `--build-variant Debug`.
 
 **`-r`**, **`--release-debuginfo`**
 
-Sets the build variant to `RelWithDebInfo`.
+Sets the build variant to `RelWithDebInfo`. This option is a shorthand for `--build-variant RelWithDebInfo`.
 
 **`-R`**, **`--release`**
 
-Sets the build variant to `Release`.
+Sets the build variant to `Release`. This option is a shorthand for `--build-variant Release`.
 
 **`-M`**, **`--minsize-release`**
 
-Sets the build variant to `MinSizeRel`.
+Sets the build variant to `MinSizeRel`. This option is a shorthand for `--build-variant MinSizeRel`.
 
 #### Build Target Options
 
@@ -320,3 +320,43 @@ Please note that as Couplet Composer is still in development, these options donâ
 **`--host-target TARGET`**
 
 Builds the binaries for the specified host target. The host target is resolved automatically by default.
+
+#### Toolchain Options
+
+In this group, the options `-C`, `--compiler-toolchain`, `--clang`, `--gcc`, and `--msvc` are mutually exclusive.
+
+**`-C {clang,gcc,msvc}`**, **`--compiler-toolchain {clang,gcc,msvc}`**
+
+Resolves the paths to the components of the the given compiler toolchain if no toolchain is given by using `--host-cc` and `--host-cxx` or `--host-compiler`. The possible choices are `clang`, `gcc`, and `msvc`. The default toolchain on Darwin and Linux platforms is `clang` and on Windows platforms `msvc`.
+
+**`--clang`**
+
+Resolves the paths to the components of the the `clang` compiler toolchain if no toolchain is given by using `--host-cc` and `--host-cxx` or `--host-compiler`. This option is a shorthand for `-C clang` or `--compiler-toolchain clang`.
+
+**`--gcc`**
+
+Resolves the paths to the components of the the `gcc` compiler toolchain if no toolchain is given by using `--host-cc` and `--host-cxx` or `--host-compiler`. This option is a shorthand for `-C gcc` or `--compiler-toolchain gcc`.
+
+**`--msvc`**
+
+Resolves the paths to the components of the the `msvc` compiler toolchain if no toolchain is given by using `--host-cc` and `--host-cxx` or `--host-compiler`. This option is a shorthand for `-C msvc` or `--compiler-toolchain msvc`.
+
+**`--compiler-version VERSION`**
+
+Uses the given version number for searching the set compiler toolchain if the compiler toolchain is resolved by the script and not given manually using `--host-cc` and `--host-cxx` or `--host-compiler`.
+
+**`--host-cc EXECUTABLE`**
+
+Specifies the path to the C compiler for the host platform and uses it instead of the automatically resolved C compiler.
+
+**`--host-cxx EXECUTABLE`**
+
+Specifies the path to the C++ compiler for the host platform and uses it instead of the automatically resolved C++ compiler.
+
+**`--host-compiler EXECUTABLE`**
+
+Specifies the path to the compiler for the host platform and uses it instead of the automatically resolved compiler. This option also overrides any value given through `--host-cc` and `--host-cxx`.
+
+**`--host-msbuild EXECUTABLE`**
+
+Specifies the path to MSBuild for the host platform and uses it instead of the automatically resolved MSBuild.
