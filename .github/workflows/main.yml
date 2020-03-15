@@ -46,14 +46,14 @@ jobs:
         else
           preset_name="main_workflow_unix"
         fi
-        ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os != 'Windows'
     - name: Set up build environment on PowerShell
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
         Get-Location
-        .\unsung-anthem\util\configure.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        .\unsung-anthem\util\configure.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       working-directory: ..
     - name: Build Obliging Ode and Unsung Anthem
@@ -64,14 +64,14 @@ jobs:
         else
           preset_name="main_workflow_unix"
         fi
-        ./unsung-anthem/util/compose preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        ./unsung-anthem/util/compose preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os != 'Windows'
     - name: Build Obliging Ode and Unsung Anthem on PowerShell
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
         Set-Location -Path "$WorkingDirectory"
         Get-Location
-        .\unsung-anthem\util\compose.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }}
+        .\unsung-anthem\util\compose.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       working-directory: ..
     - name: Run the tests
