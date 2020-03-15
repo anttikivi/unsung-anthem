@@ -312,3 +312,11 @@ Sets the build variant to `Release`.
 **`-M`**, **`--minsize-release`**
 
 Sets the build variant to `MinSizeRel`.
+
+#### Build Target Options
+
+Please note that as Couplet Composer is still in development, these options don’t have any effect on the built binaries yet.
+
+**`--host-target TARGET`**
+
+Builds the binaries for the specified host target. The host target is resolved automatically by default.
