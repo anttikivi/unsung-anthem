@@ -360,3 +360,9 @@ Specifies the path to the compiler for the host platform and uses it instead of 
 **`--host-msbuild EXECUTABLE`**
 
 Specifies the path to MSBuild for the host platform and uses it instead of the automatically resolved MSBuild.
+
+#### OpenGL Options
+
+**`--opengl-version`**
+
+Sets the version of OpenGL that Obliging Ode requests from the system.
