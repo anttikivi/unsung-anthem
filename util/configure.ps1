@@ -57,8 +57,6 @@ $ProcessStartInfo.UseShellExecute = $false
 $ProcessStartInfo.RedirectStandardError = $true
 $ProcessStartInfo.RedirectStandardOutput = $true
 
-Write-Output "$ComposerName will be run with the command ${ProcessStartInfo.File} ${ProcessStartInfo.Arguments}"
-
 $Process = New-Object System.Diagnostics.Process
 $Process.StartInfo = $ProcessStartInfo
 
