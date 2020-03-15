@@ -32,7 +32,7 @@ To build Obliging Ode and Unsung Anthem on any platform, you’ll need at least 
   * **Windows**
     * Install a compiler by using one of the two options
       1. The first options is to use the Windows Build Tools npm module
-        * Start PowerShell as Administrator and the [Windows Build Tools npm module](https://github.com/felixrieseberg/windows-build-tools)
+        * Start PowerShell as Administrator and install the [Windows Build Tools npm module](https://github.com/felixrieseberg/windows-build-tools)
 
                 npm install --global windows-build-tools
 
