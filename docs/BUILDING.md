@@ -366,3 +366,23 @@ Specifies the path to MSBuild for the host platform and uses it instead of the a
 **`--opengl-version`**
 
 Sets the version of OpenGL that Obliging Ode requests from the system.
+
+#### Build Generator Options
+
+You can use only one of the following options.
+
+**`-G {Ninja,Unix Makefiles,Visual Studio 16 2019}`**, **`--cmake-generator {Ninja,Unix Makefiles,Visual Studio 16 2019}`**
+
+Generates the build files using the selected CMake generator. The possible choices are `Ninja`, `Unix Makefiles`, and `Visual Studio 16 2019`. The default build variant is `Ninja`.
+
+**`-N`**, **`--ninja`**
+
+Generates the build files using the `Ninja` CMake generator. This option is a shorthand for `-G Ninja` or `--cmake-generator Ninja`.
+
+**`-m`**, **`--make`**
+
+Generates the build files using the `Unix Makefiles` CMake generator. This option is a shorthand for `-G Unix Makefiles` or `--cmake-generator Unix Makefiles`.
+
+**`--visual-studio-16`**
+
+Generates the build files using the `Visual Studio 16 2019` CMake generator. This option is a shorthand for `-G Visual Studio 16 2019` or `--cmake-generator Visual Studio 16 2019`.
