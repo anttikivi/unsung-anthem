@@ -37,6 +37,8 @@ New-Variable ComposerExecutableName "couplet-composer" -Option Constant
 # python -m pip install --upgrade pip
 pip install pipenv
 
+Write-Output "Installed pipenv"
+
 # Set up the required directories
 
 if (Test-Path "$ComposerDir") {
@@ -46,6 +48,8 @@ if (Test-Path "$ComposerDir") {
 if (-not (Test-Path "$ScriptDir")) {
   New-Item -Path $RootDir -Name $ScriptDirName -ItemType "directory"
 }
+
+Write-Output "Created the required directories for cloning $ComposerName"
 
 # Set up Couplet Composer
 
@@ -63,4 +67,4 @@ if ($Env:ODE_USE_DEVELOPMENT_COMPOSER) {
 
 Set-Location -Path ..
 
-pipenv install $ComposerDir
+pipenv install "$ComposerDir"

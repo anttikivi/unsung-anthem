@@ -27,7 +27,11 @@ New-Variable ComposerExecutableName "couplet-composer" -Option Constant
 
 New-Variable SetUpPath (Join-Path $PSScriptRoot "set_up") -Option Constant
 
+Write-Output "Going to run the set-up script for $ComposerName from $SetUpPath"
+
 & $SetUpPath $args
+
+Write-Output "The set-up script for $ComposerName has finished"
 
 # Run the script
 
@@ -52,6 +56,8 @@ $ProcessStartInfo.Arguments = $Arguments
 $ProcessStartInfo.UseShellExecute = $false
 $ProcessStartInfo.RedirectStandardError = $true
 $ProcessStartInfo.RedirectStandardOutput = $true
+
+Write-Output "$ComposerName will be run with the command ${ProcessStartInfo.File} ${ProcessStartInfo.Arguments}"
 
 $Process = New-Object System.Diagnostics.Process
 $Process.StartInfo = $ProcessStartInfo
