@@ -25,7 +25,7 @@ New-Variable ComposerExecutableName "couplet-composer" -Option Constant
 
 # Set up Couplet Composer
 
-New-Variable SetUpPath (Join-Path $PSScriptRoot "set_up") -Option Constant
+New-Variable SetUpPath (Join-Path $PSScriptRoot "set_up.ps1") -Option Constant
 
 Write-Output "Going to run the set-up script for $ComposerName from $SetUpPath"
 
