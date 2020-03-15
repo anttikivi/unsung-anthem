@@ -15,6 +15,7 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
 * [Command Line Options](#command-line-options)
   * [Common Top-level Options](#common-top-level-options)
   * [Common Options](#common-options)
+  * [Preset Mode Options](#preset-mode-options)
 
 ## Prerequisites
 
@@ -386,3 +387,23 @@ Generates the build files using the `Unix Makefiles` CMake generator. This optio
 **`--visual-studio-16`**
 
 Generates the build files using the `Visual Studio 16 2019` CMake generator. This option is a shorthand for `-G Visual Studio 16 2019` or `--cmake-generator Visual Studio 16 2019`.
+
+### Preset Mode Options
+
+These options can only be used through command line in preset mode.
+
+**`--file PATH`**
+
+Adds a path to the list of files from which Couplet Composer looks for the presets. You can use this options multiple times to add more paths to the list.
+
+**`--name PRESET`**
+
+Uses the given preset.
+
+**`--show`**
+
+Shows the available presets in the preset files and exits.
+
+**`--expand-script-invocation`**
+
+Prints the build script invocation composed from the preset given using `--name` and exits without running it.
