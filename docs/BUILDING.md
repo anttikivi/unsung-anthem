@@ -14,6 +14,7 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
 * [Configuring the Build](#configuring-the-build)
 * [Command Line Options](#command-line-options)
   * [Common Top-level Options](#common-top-level-options)
+  * [Common Options](#common-options)
 
 ## Prerequisites
 
@@ -267,3 +268,47 @@ Sets the user agent used when accessing the version 4 of the GitHub API. Overrid
 **`--github-api-token TOKEN`**
 
 Sets the API token used when accessing the version 4 of the GitHub API. Overrides the value read using the `--github-auth-file` option.
+
+### Common Options
+
+These options are common to both configuring mode and composing mode but cannot be specified through command line in preset mode.
+
+**`-t`**, **`--test`**
+
+Builds the tests of Obliging Ode and Unsung Anthem.
+
+**`-b`**, **`--benchmark`**
+
+Builds the benchmarks of Obliging Ode and Unsung Anthem with the tests.
+
+**`--ode-version VERSION`**
+
+Sets the version number of Obliging Ode. The default value is the version number specified in `util/values.json`.
+
+**`--anthem-version VERSION`**
+
+Sets the version number of Unsung Anthem. The default value is the version number specified in `util/values.json`.
+
+#### Build Variant Options
+
+You can use only one of the following options.
+
+**`--build-variant {Debug,RelWithDebInfo,Release,MinSizeRel}`**
+
+Sets the build variant to the selected variant. The possible choices are `Debug`, `RelWithDebInfo`, `Release`, and `MinSizeRel`. The default build variant is `Debug`.
+
+**`-d`**, **`--debug`**
+
+Sets the build variant to `Debug`.
+
+**`-r`**, **`--release-debuginfo`**
+
+Sets the build variant to `RelWithDebInfo`.
+
+**`-R`**, **`--release`**
+
+Sets the build variant to `Release`.
+
+**`-M`**, **`--minsize-release`**
+
+Sets the build variant to `MinSizeRel`.
