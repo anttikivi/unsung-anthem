@@ -57,7 +57,7 @@ Set-Location -Path "$ScriptDir"
 
 git clone $ComposerRepoUrl $ComposerDirName
 
-if ($Env:ODE_USE_DEVELOPMENT_COMPOSER) {
+if (-not $Env:ODE_USE_DEVELOPMENT_COMPOSER) {
   Set-Location -Path "$ComposerDirName"
   git checkout tags/$ComposerVersionTag -b local_install_$ComposerVersionTag
   Set-Location -Path ..
