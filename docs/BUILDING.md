@@ -442,3 +442,29 @@ Compiles Obliging Ode and Unsung Anthem using `c++17` as the C++ standard. This 
 **`--c++20`**
 
 Compiles Obliging Ode and Unsung Anthem using `c++20` as the C++ standard. This option is a shorthand for `--std c++20`.
+
+### Compose: Feature Options
+
+**`--ode-window-name NAME`**
+
+Sets the default name of the default window of Obliging Ode.
+
+**`--anthem-window-name NAME`**
+
+Sets the default name of the default window of Unsung Anthem.
+
+**`--ode-logger-name NAME`**
+
+Sets the default name of the default logger of Obliging Ode.
+
+**`--anthem-logger-name NAME`**
+
+Sets the default name of the default logger of Unsung Anthem.
+
+**`--ode-binaries-name NAME`**
+
+Sets the base name of the built binaries of Obliging Ode.
+
+**`--anthem-binaries-name NAME`**
+
+Sets the base name of the built binaries of Unsung Anthem.
