@@ -7,26 +7,31 @@ assignees: ''
 
 ---
 
-**Describe the bug**
+## Description
+
 A clear and concise description of what the bug is.
 
-**To reproduce**
-Steps to reproduce the behaviour:
-1. 
-2. 
-3. 
-4. 
+## Steps to reproduce
 
-**Expected behaviour**
+1. First step
+2. Second step
+3. Third step
+4. And so on
+
+## Expected behaviour
+
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+## Screenshots
+
 If applicable, add screenshots to help explain your problem.
 
-**Device (please complete the following information):**
+## Device
+
  - OS: [e.g. macOS]
  - Version: [e.g. 10.15.3]
  - Other information regarding the devices or platforms used
 
-**Additional context**
+## Additional context
+
 Add any other context about the problem here.
