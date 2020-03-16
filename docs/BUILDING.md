@@ -476,3 +476,11 @@ Enables assertions in Obliging Ode and Unsung Anthem. Assertions are enabled by 
 **`-A`, `--no-assertions`**
 
 Disables assertions in Obliging Ode and Unsung Anthem. Assertions are enabled by default.
+
+**`-D`, `--developer-build`**
+
+Enables developer features in the built binaries of Obliging Ode and Unsung Anthem.
+
+**`--test-logging`**
+
+Enables writing of the logger output in the tests if the tests are built.
