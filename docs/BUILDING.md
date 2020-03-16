@@ -468,3 +468,11 @@ Sets the base name of the built binaries of Obliging Ode.
 **`--anthem-binaries-name NAME`**
 
 Sets the base name of the built binaries of Unsung Anthem.
+
+**`-a`, `--assertions`**
+
+Enables assertions in Obliging Ode and Unsung Anthem. Assertions are enabled by default.
+
+**`-A`, `--no-assertions`**
+
+Disables assertions in Obliging Ode and Unsung Anthem. Assertions are enabled by default.
