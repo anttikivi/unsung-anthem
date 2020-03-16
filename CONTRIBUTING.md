@@ -98,7 +98,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 
 Unsure where to begin contributing to Obliging Ode and Unsung Anthem? You can start by looking through these `good first issue` and `help wanted` issues:
 
-* [`good first issue`][beginner]: issues which should only require a few lines of code and a test or two.
+* [`good first issue`][good-first-issue]: issues which should only require a few lines of code and a test or two.
 * [`help wanted`][help-wanted]: issues which should be a bit more involved than `good first issue` issues.
 
 Both issue lists are sorted by total number of comments. While not perfect, number of comments is a reasonable proxy for impact a given change will have.
@@ -139,3 +139,6 @@ While the prerequisites above must be satisfied prior to having your pull reques
 ### Documentation Styleguide
 
 <!-- TODO -->
+
+[good-first-issue]:https://github.com/search?q=is%3Aopen+is%3Aissue+label%3Agood+first+issue+user%3Aanttikivi+sort%3Acomments-desc
+[help-wanted]:https://github.com/search?q=is%3Aopen+is%3Aissue+label%3Ahelp+wanted+user%3Aanttikivi+sort%3Acomments-desc
