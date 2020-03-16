@@ -2,7 +2,7 @@
 
 Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try out the latest and greatest features of the projects, you need to build the projects from source. Luckily it’s quite simple. The building process for each officially supported platform is explained in this document.
 
-## Table of Contents
+#### Table of Contents
 
 [Prerequisites](#prerequisites)
 
