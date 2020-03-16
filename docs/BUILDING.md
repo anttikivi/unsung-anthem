@@ -426,3 +426,19 @@ Builds the static library of Unsung Anthem.
 **`--anthem-shared-lib`**
 
 Builds the shared library of Unsung Anthem.
+
+### Compose: C++ Standard Options
+
+You can use only one of the following options.
+
+**`--std {c++17,c++20}`**
+
+Compiles Obliging Ode and Unsung Anthem using the given C++ standard. The possible choices are `c++17` and `c++20`. The default standard is `c++17`.
+
+**`--c++17`**
+
+Compiles Obliging Ode and Unsung Anthem using `c++17` as the C++ standard. This option is a shorthand for `--std c++17`.
+
+**`--c++20`**
+
+Compiles Obliging Ode and Unsung Anthem using `c++20` as the C++ standard. This option is a shorthand for `--std c++20`.
