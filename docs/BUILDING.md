@@ -14,9 +14,20 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
 * [Configuring the Build](#configuring-the-build)
 * [Command Line Options](#command-line-options)
   * [Common Top-level Options](#common-top-level-options)
+    * [Special Options](#special-options)
+    * [Top-level Options](#top-level-options)
+    * [GitHub Options](#github-options)
   * [Common Options](#common-options)
+    * [Build Variant Options](#build-variant-options)
+    * [Build Target Options](#build-target-options)
+    * [Toolchain Options](#toolchain-options)
+    * [OpenGL Options](#opengl-options)
+    * [Build Generator Options](#build-generator-options)
   * [Preset Mode Options](#preset-mode-options)
-  * [Compose: Common Options](#compose-common-options)
+  * [Composing Mode Options](#composing-mode-options)
+    * [Compose: Common Options](#compose-common-options)
+    * [Compose: C++ Standard Options](#compose-c-standard-options)
+    * [Compose: Feature Options](#compose-feature-options)
 
 ## Prerequisites
 
@@ -409,7 +420,11 @@ Shows the available presets in the preset files and exits.
 
 Prints the build script invocation composed from the preset given using `--name` and exits without running it.
 
-### Compose: Common Options
+### Composing Mode Options
+
+These options are only usable in composing mode.
+
+#### Compose: Common Options
 
 **`--ode-static-lib`**
 
@@ -427,7 +442,7 @@ Builds the static library of Unsung Anthem.
 
 Builds the shared library of Unsung Anthem.
 
-### Compose: C++ Standard Options
+#### Compose: C++ Standard Options
 
 You can use only one of the following options.
 
@@ -443,7 +458,7 @@ Compiles Obliging Ode and Unsung Anthem using `c++17` as the C++ standard. This 
 
 Compiles Obliging Ode and Unsung Anthem using `c++20` as the C++ standard. This option is a shorthand for `--std c++20`.
 
-### Compose: Feature Options
+#### Compose: Feature Options
 
 **`--ode-window-name NAME`**
 
