@@ -489,6 +489,10 @@ Sets the base name of the built binaries of Obliging Ode.
 
 Sets the base name of the built binaries of Unsung Anthem.
 
+**`--anthem-artifacts-name NAME`**
+
+Sets the base name of the artifacts of Unsung Anthem.
+
 **`-a`, `--assertions`**
 
 Enables assertions in Obliging Ode and Unsung Anthem. Assertions are enabled by default.
