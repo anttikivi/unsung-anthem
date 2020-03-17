@@ -32,6 +32,8 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
   * [Compose: C++ Standard Options](#compose-c-standard-options)
   * [Compose: Feature Options](#compose-feature-options)
 
+[Environment Variables](#environment-variables)
+
 ## Prerequisites
 
 To build Obliging Ode and Unsung Anthem on any platform, you’ll need at least the following tools:
@@ -502,3 +504,11 @@ Enables developer features in the built binaries of Obliging Ode and Unsung Anth
 **`--test-logging`**
 
 Enables writing of the logger output in the tests if the tests are built.
+
+## Environment Variables
+
+In addition to the command line options, Couplet Composer and the utility scripts can be configured by a couple of environment variables. The environment variables are not for standard everyday use but rather for miscellaneous debugging and testing.
+
+**`ODE_USE_DEVELOPMENT_COMPOSER`**
+
+If `ODE_USE_DEVELOPMENT_COMPOSER` is set to `true`, the utility script uses the latest development version of Couplet Composer instead of the release version it normally would.
