@@ -32,12 +32,6 @@ jobs:
         path: build/local
         # An explicit key for restoring and saving the cache
         key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}
-    - name: Find Visual Studio
-      run: |
-        "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe
-        "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find VC\**\cl.exe
-      shell: cmd
-      if: runner.os == 'Windows'
     - name: Set up build environment
       run: |
         cd $GITHUB_WORKSPACE/..
