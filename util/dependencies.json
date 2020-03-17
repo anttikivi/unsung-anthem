@@ -30,7 +30,7 @@
     "benchmarkonly": false
   },
   "sdl": {
-    "version": "2.0.10",
+    "version": "2.0.12",
     "name": "Simple DirectMedia Layer",
     "testonly": false,
     "benchmarkonly": false
