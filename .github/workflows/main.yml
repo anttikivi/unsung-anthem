@@ -42,8 +42,6 @@ jobs:
         fi
         ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os != 'Windows'
-      env:
-        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Set up build environment on PowerShell
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
@@ -52,8 +50,6 @@ jobs:
         .\unsung-anthem\util\configure.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       working-directory: ..
-      env:
-        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Build Obliging Ode and Unsung Anthem
       run: |
         cd $GITHUB_WORKSPACE/..
@@ -64,8 +60,6 @@ jobs:
         fi
         ./unsung-anthem/util/compose preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os != 'Windows'
-      env:
-        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Build Obliging Ode and Unsung Anthem on PowerShell
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
@@ -74,8 +68,6 @@ jobs:
         .\unsung-anthem\util\compose.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       working-directory: ..
-      env:
-        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Run the tests
       run: |
         cd $GITHUB_WORKSPACE/build/run
