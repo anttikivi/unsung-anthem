@@ -42,6 +42,8 @@ jobs:
         fi
         ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os != 'Windows'
+      env:
+        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Set up build environment on PowerShell
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
@@ -50,6 +52,8 @@ jobs:
         .\unsung-anthem\util\configure.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       working-directory: ..
+      env:
+        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Build Obliging Ode and Unsung Anthem
       run: |
         cd $GITHUB_WORKSPACE/..
@@ -60,6 +64,8 @@ jobs:
         fi
         ./unsung-anthem/util/compose preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os != 'Windows'
+      env:
+        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Build Obliging Ode and Unsung Anthem on PowerShell
       run: |
         $WorkingDirectory = Join-Path $Env:GITHUB_WORKSPACE ".."
@@ -68,26 +74,24 @@ jobs:
         .\unsung-anthem\util\compose.ps1 preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       working-directory: ..
+      env:
+        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Run the tests
       run: |
-        cd $GITHUB_WORKSPACE/build
-        ODE_TEST_PATH="$(cat ./latest-install)"
-        cd $ODE_TEST_PATH
+        cd $GITHUB_WORKSPACE/build/run
         if [ "${{ runner.os }}" = "Linux" ]; then
           export SDL_VIDEODRIVER=x11
           export DISPLAY=:99.0
-          /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout ./bin/test-anthem
+          /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout ./test-anthem
         else
-          ./bin/test-anthem
+          ./test-anthem
         fi
       if: runner.os != 'Windows'
     - name: Run the tests on Windows
       run: |
-        cd $GITHUB_WORKSPACE\\build
-        ODE_TEST_PATH="$(cat .\\latest-install)"
-        cd .\\$ODE_TEST_PATH
-        export PATH="$GITHUB_WORKSPACE\\build\\$ODE_TEST_PATH\\bin;$PATH"
-        .\\bin\\test-anthem.exe
+        cd $GITHUB_WORKSPACE\\build\\run
+        export PATH="$GITHUB_WORKSPACE\\build\\run;$PATH"
+        .\\test-anthem.exe
       if: runner.os == 'Windows'
       shell: bash
     - name: Upload Linux artifacts
