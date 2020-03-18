@@ -491,7 +491,7 @@ Sets the base name of the built binaries of Unsung Anthem.
 
 **`--anthem-artefacts-name NAME`**
 
-Sets the base name of the artifacts of Unsung Anthem.
+Sets the base name of the artifacts of Unsung Anthem. This option also has an alias, `--anthem-artifacts-name NAME`.
 
 **`-a`, `--assertions`**
 
