@@ -94,17 +94,17 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name: anthem-0.1.0-dev.1-Linux-x86_64-Debug.tar.gz
-        path: $GITHUB_WORKSPACE/build/artifacts
+        path: build/artifacts
       if: runner.os == 'Linux'
     - name: Upload macOS artifacts
       uses: actions/upload-artifact@v1.0.0
       with:
         name: anthem-0.1.0-dev.1-Darwin-x86_64-Debug.tar.gz
-        path: $GITHUB_WORKSPACE/build/artifacts
+        path: build/artifacts
       if: runner.os == 'macOS'
     - name: Upload Windows artifacts
       uses: actions/upload-artifact@v1.0.0
       with:
         name: anthem-0.1.0-dev.1-Windows-AMD64-Debug.zip
-        path: $GITHUB_WORKSPACE/build/artifacts
+        path: build/artifacts
       if: runner.os == 'Windows'
