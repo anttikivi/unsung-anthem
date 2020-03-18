@@ -57,3 +57,6 @@ unsung-anthem.xcodeproj
 # GitHub Authorization Token
 token
 .github_api
+
+# Local helper files
+replace

@@ -5,7 +5,7 @@
 # This source file is part of the Obliging Ode and Unsung Anthem open source
 # projects.
 #
-# Copyright (C) 2019 Antti Kivi
+# Copyright (c) 2019 Antti Kivi
 # All rights reserved
 
 function(ADD_NAME_DEFINITIONS)

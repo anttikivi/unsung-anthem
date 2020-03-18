@@ -5,7 +5,7 @@
 // This source file is part of the Obliging Ode and Unsung Anthem open source
 // projects.
 //
-// Copyright (C) 2019 Antti Kivi
+// Copyright (c) 2019 Antti Kivi
 // All rights reserved
 //
 //===----------------------------------------------------------------------===//
@@ -15,7 +15,7 @@
 /// \brief The declarations and the definitions of the file system path values.
 /// \author Antti Kivi
 /// \date 11 February 2018
-/// \copyright Copyright (C) 2019 Antti Kivi
+/// \copyright Copyright (c) 2019 Antti Kivi
 /// All rights reserved
 ///
 //
