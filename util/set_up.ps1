@@ -11,7 +11,7 @@
 #
 # ---------------------------------------------------------------------------- #
 
-New-Variable ComposerVersion "0.8.0" -Option Constant
+New-Variable ComposerVersion "0.9.0" -Option Constant
 New-Variable ComposerVersionTag "v$ComposerVersion" -Option Constant
 New-Variable ComposerName "Couplet Composer" -Option Constant
 New-Variable OdeName "Obliging Ode" -Option Constant
