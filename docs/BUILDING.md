@@ -489,7 +489,7 @@ Sets the base name of the built binaries of Obliging Ode.
 
 Sets the base name of the built binaries of Unsung Anthem.
 
-**`--anthem-artifacts-name NAME`**
+**`--anthem-artefacts-name NAME`**
 
 Sets the base name of the artifacts of Unsung Anthem.
 
