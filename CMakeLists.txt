@@ -39,6 +39,7 @@ set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
 
 option(ODE_BUILD_TEST "Build the tests" OFF)
 option(ODE_TEST_BENCHMARKING "Build the benchmarkings" OFF)
+option(ODE_BUILD_DOCS "Build the documentation" OFF)
 option(ODE_ENABLE_GCOV "Add target for gcov code coverage" OFF)
 option(ODE_BUILD_STATIC "Build the static Obliging Ode library" OFF)
 option(ODE_BUILD_SHARED "Build the shared Obliging Ode library" OFF)
@@ -120,6 +121,14 @@ add_name_definitions()
 add_opengl_definitions()
 add_directory_definitions()
 add_feature_definitions()
+
+#===------------------------------------------------------------------------===#
+#==- Tools -----------------------------------------------------------------===#
+#===------------------------------------------------------------------------===#
+
+if(ODE_BUILD_DOCS)
+  find_package(Doxygen REQUIRED)
+endif()
 
 #===------------------------------------------------------------------------===#
 #==- Libraries -------------------------------------------------------------===#
@@ -221,6 +230,7 @@ set(ANTHEM_SCRIPTS)
 set(ANTHEM_LIB_SCRIPTS)
 set(ANTHEM_TEST_SCRIPTS)
 
+add_subdirectory(docs)
 add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(src)

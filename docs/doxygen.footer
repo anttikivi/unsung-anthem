@@ -1,0 +1,18 @@
+  <hr>
+  <p class="footer">
+  Generated on $datetime for
+  <a href="https://github.com/anttikivi/unsung-anthem">$projectname</a> by
+  <a href="http://www.doxygen.org">
+    <img src="doxygen.png" alt="Doxygen" align="middle" border="0"/>
+    $doxygenversion
+  </a>
+  <br>
+  Copyright &copy; 2020 Antti Kivi.
+  All rights reserved.</p>
+
+  <hr>
+
+  <!--#include virtual="/attrib.incl" -->
+
+</body>
+</html>
