@@ -299,6 +299,10 @@ Builds the tests of Obliging Ode and Unsung Anthem.
 
 Builds the benchmarks of Obliging Ode and Unsung Anthem with the tests.
 
+**`--docs`**
+
+Builds the documentation of Obliging Ode and Unsung Anthem. This option requires Doxygen, and you must install it manually—Couplet Composer cannot install it for the time being.
+
 **`--ode-version VERSION`**
 
 Sets the version number of Obliging Ode. The default value is the version number specified in `util/values.json`.
