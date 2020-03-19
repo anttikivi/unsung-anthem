@@ -8,6 +8,7 @@
 # Copyright (c) 2019 Antti Kivi
 # All rights reserved
 
+add_subdirectory(cli)
 add_subdirectory(framework)
 add_subdirectory(gl)
 add_subdirectory(lua)
