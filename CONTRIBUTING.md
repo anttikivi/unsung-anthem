@@ -107,11 +107,7 @@ Both issue lists are sorted by total number of comments. While not perfect, numb
 
 Please follow these steps to have your contribution considered by the maintainers:
 
-1. Select the [right template](.github/PULL_REQUEST_TEMPLATE) for your pull request and follow all the instructions in it. The templates are:
-  * [Bug fix](.github/PULL_REQUEST_TEMPLATE/bug_fix.md)
-  * [Documentation](.github/PULL_REQUEST_TEMPLATE/documentation.md)
-  * [Feature change](.github/PULL_REQUEST_TEMPLATE/feature_change.md)
-  * [Performance improvement](.github/PULL_REQUEST_TEMPLATE/performance_improvement.md)
+1. Follow the instructions in the [pull request template](PULL_REQUEST_TEMPLATE.md).
 2. Follow the [style guides](#style-guides).
 3. After you submit your pull request, verify that all [status checks](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-status-checks) are passing.
 
