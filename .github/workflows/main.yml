@@ -86,19 +86,19 @@ jobs:
         .\\test-anthem.exe
       if: runner.os == 'Windows'
       shell: bash
-    - name: Upload Linux artifacts
+    - name: Upload Linux artefacts
       uses: actions/upload-artifact@v1.0.0
       with:
         name: anthem-0.1.0-dev.1-Linux-x86_64.tar.gz
         path: build/artefacts
       if: runner.os == 'Linux'
-    - name: Upload macOS artifacts
+    - name: Upload macOS artefacts
       uses: actions/upload-artifact@v1.0.0
       with:
         name: anthem-0.1.0-dev.1-Darwin-x86_64.tar.gz
         path: build/artefacts
       if: runner.os == 'macOS'
-    - name: Upload Windows artifacts
+    - name: Upload Windows artefacts
       uses: actions/upload-artifact@v1.0.0
       with:
         name: anthem-0.1.0-dev.1-Windows-AMD64.zip
