@@ -11,7 +11,7 @@
 #
 # ---------------------------------------------------------------------------- #
 
-New-Variable ComposerVersion "0.10.0" -Option Constant
+New-Variable ComposerVersion (Get-Content -Path (Join-Path $PSScriptRoot "composer-version")) -Option Constant
 New-Variable ComposerVersionTag "v$ComposerVersion" -Option Constant
 New-Variable ComposerName "Couplet Composer" -Option Constant
 New-Variable OdeName "Obliging Ode" -Option Constant
