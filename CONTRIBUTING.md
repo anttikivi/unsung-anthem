@@ -16,11 +16,11 @@ The following is a set of guidelines for contributing to Obliging Ode and Unsung
   * [Your First Code Contribution](#your-first-code-contribution)
   * [Pull Requests](#pull-requests)
 
-[Styleguides](#styleguides)
+[Style Guides](#style-guides)
   * [Git Commit Messages](#git-commit-messages)
-  * [C++ Styleguide](#c-styleguide)
-  * [Python Styleguide](#python-styleguide)
-  * [Documentation Styleguide](#documentation-styleguide)
+  * [C++ Style Guide](#c-style-guide)
+  * [Python Style Guide](#python-style-guide)
+  * [Documentation Style Guide](#documentation-style-guide)
 
 ## Code of Conduct
 
@@ -112,14 +112,14 @@ Please follow these steps to have your contribution considered by the maintainer
   * [Documentation](.github/PULL_REQUEST_TEMPLATE/documentation.md)
   * [Feature change](.github/PULL_REQUEST_TEMPLATE/feature_change.md)
   * [Performance improvement](.github/PULL_REQUEST_TEMPLATE/performance_improvement.md)
-2. Follow the [styleguides](#styleguides).
+2. Follow the [style guides](#style-guides).
 3. After you submit your pull request, verify that all [status checks](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-status-checks) are passing.
 
     <details><summary>What if the status checks are failing?</summary>If a status check is failing and you believe that the failure is unrelated to your change, please leave a comment on the pull request explaining why you believe the failure is unrelated. A maintainer will re-run the status check for you. If we conclude that the failure was a false positive, then we will open an issue to track that problem with our status check suite.</details>
 
 While the prerequisites above must be satisfied prior to having your pull request reviewed, the reviewers may ask you to complete additional design work, tests, or other changes before your pull request can be ultimately accepted.
 
-## Styleguides
+## Style Guides
 
 ### Git Commit Messages
 
@@ -128,15 +128,15 @@ While the prerequisites above must be satisfied prior to having your pull reques
 * Try to limit the first line to 72 characters or fewer
 * Reference issues and pull requests liberally after the first line
 
-### C++ Styleguide
+### C++ Style Guide
 
 <!-- TODO -->
 
-### Python Styleguide
+### Python Style Guide
 
 <!-- TODO -->
 
-### Documentation Styleguide
+### Documentation Style Guide
 
 <!-- TODO -->
 
