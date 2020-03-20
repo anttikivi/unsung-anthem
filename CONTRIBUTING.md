@@ -4,7 +4,7 @@
 
 There are many ways in which you can contribute, beyond writing code. The goal of this document is to provide a high-level overview of how you can get involved.
 
-The following is a set of guidelines for contributing to Obliging Ode, Unsung Anthem, and the related projects. These are mostly guidelines, not rules. Use your best judgment and feel free to propose changes to this document in a pull request.
+The following is a set of guidelines for contributing to Obliging Ode and Unsung Anthem. These are mostly guidelines, not rules. Use your best judgment and feel free to propose changes to this document in a pull request.
 
 #### Table of Contents
 
@@ -125,7 +125,7 @@ While the prerequisites above must be satisfied prior to having your pull reques
 
 * Use the present tense (‘Add feature’, not ‘Added feature’)
 * Use the imperative mood (‘Move cursor to...’ not ‘Moves cursor to...’)
-* Try to limit the first line to 72 characters or less
+* Try to limit the first line to 72 characters or fewer
 * Reference issues and pull requests liberally after the first line
 
 ### C++ Styleguide
