@@ -230,7 +230,6 @@ set(ANTHEM_SCRIPTS)
 set(ANTHEM_LIB_SCRIPTS)
 set(ANTHEM_TEST_SCRIPTS)
 
-add_subdirectory(docs)
 add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(src)
@@ -264,6 +263,12 @@ create_targets()
 if(NOT WIN32)
   create_install_targets()
 endif()
+
+#===------------------------------------------------------------------------===#
+#==- Documentation ---------------------------------------------------------===#
+#===------------------------------------------------------------------------===#
+
+add_subdirectory(docs)
 
 #===------------------------------------------------------------------------===#
 #==- Compilation and Linking -----------------------------------------------===#
