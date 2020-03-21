@@ -1,3 +1,6 @@
+docs/doxygen.cfg.in linguist-language=INI
+docs/doxygen.footer linguist-language=HTML
+docs/doxygen.header linguist-language=HTML
 include/gsl/assert linguist-language=C++
 include/gsl/util linguist-language=C++
 include/gsl/view linguist-language=C++
