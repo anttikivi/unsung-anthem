@@ -1,12 +1,5 @@
-#===-------------------------- Definitions.cmake ---------------------------===#
-#
-#                         Obliging Ode & Unsung Anthem
-#
-# This source file is part of the Obliging Ode and Unsung Anthem open source
-# projects.
-#
-# Copyright (c) 2019 Antti Kivi
-# All rights reserved
+# Copyright (c) 2020 Antti Kivi
+# Licensed under the Effective Elegy Licence
 
 function(ADD_NAME_DEFINITIONS)
   add_definitions(-DODE_LOGGER_NAME="${ODE_LOGGER_NAME}")

@@ -1,12 +1,5 @@
-#===---------------------------- Install.cmake -----------------------------===#
-#
-#                         Obliging Ode & Unsung Anthem
-#
-# This source file is part of the Obliging Ode and Unsung Anthem open source
-# projects.
-#
-# Copyright (c) 2019 Antti Kivi
-# All rights reserved
+# Copyright (c) 2020 Antti Kivi
+# Licensed under the Effective Elegy Licence
 
 # TODO Resolve how to handle the Ode binaries installation
 # function(ODE_INSTALLATION)

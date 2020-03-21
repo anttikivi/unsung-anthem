@@ -1,12 +1,5 @@
-#===---------------------------- Targets.cmake -----------------------------===#
-#
-#                         Obliging Ode & Unsung Anthem
-#
-# This source file is part of the Obliging Ode and Unsung Anthem open source
-# projects.
-#
-# Copyright (c) 2019 Antti Kivi
-# All rights reserved
+# Copyright (c) 2020 Antti Kivi
+# Licensed under the Effective Elegy Licence
 
 function(CREATE_ODE_STATIC_LIB)
   message(STATUS "Creating target '${ODE_NAME}'")

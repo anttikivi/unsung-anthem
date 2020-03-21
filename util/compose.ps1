@@ -1,15 +1,7 @@
 #!/usr/bin/env pwsh
 
-# ---------------------------------------------------------------------------- #
-#                         Obliging Ode & Unsung Anthem
-# ---------------------------------------------------------------------------- #
-#
-# This source file is part of the Obliging Ode and Unsung Anthem projects.
-#
 # Copyright (c) 2020 Antti Kivi
-# All rights reserved
-#
-# ---------------------------------------------------------------------------- #
+# Licensed under the Effective Elegy Licence
 
 New-Variable ComposerName "Couplet Composer" -Option Constant
 New-Variable OdeName "Obliging Ode" -Option Constant

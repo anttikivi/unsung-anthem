@@ -1,12 +1,5 @@
-#===---------------------------- CMakeLists.txt ----------------------------===#
-#
-#                         Obliging Ode & Unsung Anthem
-#
-# This source file is part of the Obliging Ode and Unsung Anthem open source
-# projects.
-#
 # Copyright (c) 2020 Antti Kivi
-# All rights reserved
+# Licensed under the Effective Elegy Licence
 
 if(ODE_BUILD_DOCS AND DOXYGEN_FOUND)
   set(docs_srcdir ${CMAKE_CURRENT_SOURCE_DIR})

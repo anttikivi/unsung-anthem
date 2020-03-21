@@ -1,15 +1,7 @@
 #!/usr/bin/env pwsh
 
-# ---------------------------------------------------------------------------- #
-#                         Obliging Ode & Unsung Anthem
-# ---------------------------------------------------------------------------- #
-#
-# This source file is part of the Obliging Ode and Unsung Anthem projects.
-#
 # Copyright (c) 2020 Antti Kivi
-# All rights reserved
-#
-# ---------------------------------------------------------------------------- #
+# Licensed under the Effective Elegy Licence
 
 New-Variable ComposerVersion (Get-Content -Path (Join-Path $PSScriptRoot "composer-version")) -Option Constant
 New-Variable ComposerVersionTag "v$ComposerVersion" -Option Constant
