@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Antti Kivi
+# Copyright (c) 2019–2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
 function(SET_CXX_DEFINITIONS STD_VERSION)

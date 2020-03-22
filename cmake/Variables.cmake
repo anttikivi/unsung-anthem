@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Antti Kivi
+# Copyright (c) 2017–2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
 function(PRINT_STATUS NAME TITLE)
