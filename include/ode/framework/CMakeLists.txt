@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Antti Kivi
+# Copyright (c) 2018–2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/environment_manager.h)
