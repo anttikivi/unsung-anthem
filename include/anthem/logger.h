@@ -1,25 +1,9 @@
-//===------------------------------ logger.h --------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file logger.h
-/// \brief The declarations of the main logging functions.
+/// The declarations of the main logging functions.
+/// \file
 /// \author Antti Kivi
 /// \date 31 January 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ANTHEM_LOGGER_H
 #define ANTHEM_LOGGER_H
@@ -27,53 +11,53 @@
 #include "ode/logging.h"
 
 ///
+/// The preprocessor macro which is used for trace-level logging.
 /// \def ANTHEM_TRACE(...)
-/// \brief The preprocessor macro which is used for trace-level logging.
 ///
 #define ANTHEM_TRACE(...) ::anthem::logging::trace(__VA_ARGS__)
 
 ///
+/// The preprocessor macro which is used for debug-level logging.
 /// \def ANTHEM_DEBUG(...)
-/// \brief The preprocessor macro which is used for debug-level logging.
 ///
 #define ANTHEM_DEBUG(...) ::anthem::logging::debug(__VA_ARGS__)
 
 ///
+/// The preprocessor macro which is used for info-level logging.
 /// \def ANTHEM_INFO(...)
-/// \brief The preprocessor macro which is used for info-level logging.
 ///
 #define ANTHEM_INFO(...) ::anthem::logging::info(__VA_ARGS__)
 
 ///
+/// The preprocessor macro which is used for warning-level logging.
 /// \def ANTHEM_WARN(...)
-/// \brief The preprocessor macro which is used for warning-level logging.
 ///
 #define ANTHEM_WARN(...) ::anthem::logging::warn(__VA_ARGS__)
 
 ///
+/// The preprocessor macro which is used for error-level logging.
 /// \def ANTHEM_ERROR(...)
-/// \brief The preprocessor macro which is used for error-level logging.
 ///
 #define ANTHEM_ERROR(...) ::anthem::logging::error(__VA_ARGS__)
 
 ///
+/// The preprocessor macro which is used for critical-level logging.
 /// \def ANTHEM_CRITICAL(...)
-/// \brief The preprocessor macro which is used for critical-level logging.
 ///
 #define ANTHEM_CRITICAL(...) ::anthem::logging::critical(__VA_ARGS__)
 
 namespace anthem
 {
   ///
-  /// \brief The main logger.
+  /// The main logger.
   ///
   inline ode::logger_t logger = nullptr;
-  
+
   // Logging methods which use the global logger.
   namespace logging
   {
     ///
-    /// \brief Writes a trace-level log message into the logger.
+    /// Writes a trace-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -89,9 +73,9 @@ namespace anthem
     {
       ode::logging::trace(logger, fmt, args...);
     }
-    
+
     ///
-    /// \brief Writes a trace-level log message into the logger.
+    /// Writes a trace-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -104,9 +88,9 @@ namespace anthem
     {
       ode::logging::trace(logger, msg);
     }
-    
+
     ///
-    /// \brief Writes a debug-level log message into the logger.
+    /// Writes a debug-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -122,9 +106,9 @@ namespace anthem
     {
       ode::logging::debug(logger, fmt, args...);
     }
-    
+
     ///
-    /// \brief Writes a debug-level log message into the logger.
+    /// Writes a debug-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -137,9 +121,9 @@ namespace anthem
     {
       ode::logging::debug(logger, msg);
     }
-    
+
     ///
-    /// \brief Writes an info-level log message into the logger.
+    /// Writes an info-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -155,9 +139,9 @@ namespace anthem
     {
       ode::logging::info(logger, fmt, args...);
     }
-    
+
     ///
-    /// \brief Writes an info-level log message into the logger.
+    /// Writes an info-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -170,9 +154,9 @@ namespace anthem
     {
       ode::logging::info(logger, msg);
     }
-    
+
     ///
-    /// \brief Writes a warning-level log message into the logger.
+    /// Writes a warning-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -188,9 +172,9 @@ namespace anthem
     {
       ode::logging::warn(logger, fmt, args...);
     }
-    
+
     ///
-    /// \brief Writes a warning-level log message into the logger.
+    /// Writes a warning-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -203,9 +187,9 @@ namespace anthem
     {
       ode::logging::warn(logger, msg);
     }
-    
+
     ///
-    /// \brief Writes an error-level log message into the logger.
+    /// Writes an error-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -221,9 +205,9 @@ namespace anthem
     {
       ode::logging::error(logger, fmt, args...);
     }
-    
+
     ///
-    /// \brief Writes an error-level log message into the logger.
+    /// Writes an error-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -236,9 +220,9 @@ namespace anthem
     {
       ode::logging::error(logger, msg);
     }
-    
+
     ///
-    /// \brief Writes a critical-level log message into the logger.
+    /// Writes a critical-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -254,9 +238,9 @@ namespace anthem
     {
       ode::logging::critical(logger, fmt, args...);
     }
-    
+
     ///
-    /// \brief Writes a critical-level log message into the logger.
+    /// Writes a critical-level log message into the logger.
     ///
     /// Remarks: This object is impure as it writes into the logger. Thus, it
     /// does not return anything.
@@ -269,7 +253,7 @@ namespace anthem
     {
       ode::logging::critical(logger, msg);
     }
-    
+
   } // namespace logging
 } // namespace anthem
 

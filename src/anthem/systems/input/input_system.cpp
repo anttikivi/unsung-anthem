@@ -1,25 +1,9 @@
-//===-------------------------- input_system.cpp ----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file input_system.cpp
-/// \brief The definition of the type of the input system.
+/// The definition of the type of the input system.
+/// \file
 /// \author Antti Kivi
 /// \date 11 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "anthem/systems/input/input_system.h"
 

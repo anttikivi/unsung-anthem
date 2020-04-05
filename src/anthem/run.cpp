@@ -1,25 +1,9 @@
-//===------------------------------ run.cpp ---------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file run.cpp
-/// \brief The definition of the main execution function.
+/// The definition of the main execution function.
+/// \file
 /// \author Antti Kivi
 /// \date 31 January 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "anthem/run.h"
 
@@ -46,7 +30,7 @@ namespace anthem
         logger_name,
         logger_pattern,
         logger_level);
-    
+
     if constexpr (ode::platform::windows == ode::current_platform)
     {
       ANTHEM_DEBUG("{} is built for Windows", anthem_name);
@@ -63,7 +47,7 @@ namespace anthem
     {
       ANTHEM_ERROR("{} is built for an unknown platform", anthem_name);
     }
-    
+
     const auto args = parse_arguments(argc, argv);
 
     ANTHEM_TRACE("The following values are set to the arguments:\n{}", args);

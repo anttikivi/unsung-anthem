@@ -1,25 +1,9 @@
-//===--------------------- application_type_traits.h ------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file application_type_traits.h
-/// \brief The declaration of the application type traits.
+/// The declaration of the application type traits.
+/// \file
 /// \author Antti Kivi
 /// \date 11 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_APPLICATION_TYPE_TRAITS_H
 #define ODE_APPLICATION_TYPE_TRAITS_H
@@ -34,9 +18,8 @@ namespace ode
   namespace detail
   {
     ///
-    /// \struct has_make_system
-    /// \brief A type which checks whether or not the given type has a function
-    /// with the name ‘make_system’ which has the given signature.
+    /// A type which checks whether or not the given type has a function with
+    /// the name ‘make_system’ which has the given signature.
     ///
     /// \tparam T the type to check.
     ///
@@ -48,9 +31,8 @@ namespace ode
     };
 
     ///
-    /// \struct has_make_system
-    /// \brief A type which checks whether or not the given type has a function
-    /// with the name ‘make_system’ which has the given signature.
+    /// A type which checks whether or not the given type has a function with
+    /// the name ‘make_system’ which has the given signature.
     ///
     /// \tparam C the type to check.
     /// \tparam Ret the return type of the function ‘make_system’.
@@ -61,9 +43,9 @@ namespace ode
     {
     private:
       ///
-      /// \brief Checks whether or not the function ‘make_system’ exists in the
-      /// given type by attempting to call it and checking whether the type of
-      /// the return value is the same as the given return type.
+      /// Checks whether or not the function ‘make_system’ exists in the given
+      /// type by attempting to call it and checking whether the type of the
+      /// return value is the same as the given return type.
       ///
       /// \tparam T the type to check.
       ///
@@ -75,31 +57,30 @@ namespace ode
           Ret>::type;
 
       ///
-      /// \brief A specialization of the checking function for the specific
-      /// case of the result of the test being equal to false.
+      /// A specialization of the checking function for the specific case of
+      /// the result of the test being equal to false.
       ///
       /// \return This function doesn’t have a definition.
       ///
       template <typename> static constexpr std::false_type check(...);
 
       ///
-      /// \brief A type which is equal to the return type of the checking
-      /// function so by getting the value from this type, the value of the can
-      /// be determined.
+      /// A type which is equal to the return type of the checking function so
+      /// by getting the value from this type, the value of the can be
+      /// determined.
       ///
       using type = decltype(check<C>(0));
 
     public:
       ///
-      /// \brief The result of the check.
+      /// The result of the check.
       ///
       static constexpr bool value = type::value;
     };
 
     ///
-    /// \struct has_make_other_systems
-    /// \brief A type which checks whether or not the given type has a function
-    /// with the name ‘make_other_systems’ which has the given signature.
+    /// A type which checks whether or not the given type has a function with
+    /// the name ‘make_other_systems’ which has the given signature.
     ///
     /// \tparam T the type to check.
     ///
@@ -111,9 +92,8 @@ namespace ode
     };
 
     ///
-    /// \struct has_make_other_systems
-    /// \brief A type which checks whether or not the given type has a function
-    /// with the name ‘make_other_systems’ which has the given signature.
+    /// A type which checks whether or not the given type has a function with
+    /// the name ‘make_other_systems’ which has the given signature.
     ///
     /// \tparam C the type to check.
     /// \tparam Ret the return type of the function ‘make_other_systems’.
@@ -124,9 +104,9 @@ namespace ode
     {
     private:
       ///
-      /// \brief Checks whether or not the function ‘make_other_systems’ exists
-      /// in the given type by attempting to call it and checking whether the
-      /// type of the return value is the same as the given return type.
+      /// Checks whether or not the function ‘make_other_systems’ exists in the
+      /// given type by attempting to call it and checking whether the type of
+      /// the return value is the same as the given return type.
       ///
       /// \tparam T the type to check.
       ///
@@ -139,31 +119,30 @@ namespace ode
           Ret>::type;
 
       ///
-      /// \brief A specialization of the checking function for the specific
-      /// case of the result of the test being equal to false.
+      /// A specialization of the checking function for the specific case of
+      /// the result of the test being equal to false.
       ///
       /// \return This function doesn’t have a definition.
       ///
       template <typename> static constexpr std::false_type check(...);
 
       ///
-      /// \brief A type which is equal to the return type of the checking
-      /// function so by getting the value from this type, the value of the can
-      /// be determined.
+      /// A type which is equal to the return type of the checking function so
+      /// by getting the value from this type, the value of the can be
+      /// determined.
       ///
       using type = decltype(check<C>(0));
 
     public:
       ///
-      /// \brief The result of the check.
+      /// The result of the check.
       ///
       static constexpr bool value = type::value;
     };
 
     ///
-    /// \struct has_first_scene
-    /// \brief A type which checks whether or not the given type has a function
-    /// with the name ‘first_scene’ which has the given signature.
+    /// A type which checks whether or not the given type has a function with
+    /// the name ‘first_scene’ which has the given signature.
     ///
     /// \tparam T the type to check.
     ///
@@ -175,9 +154,8 @@ namespace ode
     };
 
     ///
-    /// \struct has_first_scene
-    /// \brief A type which checks whether or not the given type has a function
-    /// with the name ‘first_scene’ which has the given signature.
+    /// A type which checks whether or not the given type has a function with
+    /// the name ‘first_scene’ which has the given signature.
     ///
     /// \tparam C the type to check.
     /// \tparam Ret the return type of the function ‘first_scene’.
@@ -188,9 +166,9 @@ namespace ode
     {
     private:
       ///
-      /// \brief Checks whether or not the function ‘first_scene’ exists
-      /// in the given type by attempting to call it and checking whether the
-      /// type of the return value is the same as the given return type.
+      /// Checks whether or not the function ‘first_scene’ exists in the given
+      /// type by attempting to call it and checking whether the type of the
+      /// return value is the same as the given return type.
       ///
       /// \tparam T the type to check.
       ///
@@ -203,23 +181,23 @@ namespace ode
           Ret>::type;
 
       ///
-      /// \brief A specialization of the checking function for the specific
-      /// case of the result of the test being equal to false.
+      /// A specialization of the checking function for the specific case of
+      /// the result of the test being equal to false.
       ///
       /// \return This function doesn’t have a definition.
       ///
       template <typename> static constexpr std::false_type check(...);
 
       ///
-      /// \brief A type which is equal to the return type of the checking
-      /// function so by getting the value from this type, the value of the can
-      /// be determined.
+      /// A type which is equal to the return type of the checking function so
+      /// by getting the value from this type, the value of the can be
+      /// determined.
       ///
       using type = decltype(check<C>(0));
 
     public:
       ///
-      /// \brief The result of the check.
+      /// The result of the check.
       ///
       static constexpr bool value = type::value;
     };
@@ -227,9 +205,8 @@ namespace ode
   } // namespace detail
 
   ///
-  /// \struct is_application
-  /// \brief A integral constant type which checks whether or not the given
-  /// type is a valid application type.
+  /// A integral constant type which checks whether or not the given type is a
+  /// valid application type.
   ///
   /// \tparam T the type to check.
   ///
@@ -244,7 +221,7 @@ namespace ode
   };
 
   ///
-  /// \brief Checks whether or not the given type is a valid application type.
+  /// Checks whether or not the given type is a valid application type.
   ///
   /// \tparam T the type to check.
   ///

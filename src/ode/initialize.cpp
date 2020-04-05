@@ -1,25 +1,9 @@
-//===--------------------------- initialize.cpp -----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file initialize.cpp
-/// \brief The definitions of the initialization functions.
+/// The definitions of the initialization functions.
+/// \file
 /// \author Antti Kivi
 /// \date 5 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/initialize.h"
 

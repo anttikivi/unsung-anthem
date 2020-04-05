@@ -1,26 +1,10 @@
-//===------------------------------ argv_t.h --------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file argv_t.h
-/// \brief The declaration of the type of the argument array passed into the
-/// main function.
+/// The declaration of the type of the argument array passed into the main
+/// function.
+/// \file
 /// \author Antti Kivi
 /// \date 10 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_ARGV_T_H
 #define ODE_ARGV_T_H
@@ -29,6 +13,9 @@
 
 namespace ode
 {
+  ///
+  /// TODO
+  ///
 #if ODE_WINDOWS
   using argv_t = char*;
 #else

@@ -1,25 +1,9 @@
-//===--------------------------- application.h ------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file application.h
-/// \brief The declaration of the application type.
+/// The declaration of the application type.
+/// \file
 /// \author Antti Kivi
 /// \date 10 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ANTHEM_APPLICATION_H
 #define ANTHEM_APPLICATION_H
@@ -33,41 +17,40 @@
 namespace anthem
 {
   ///
-  /// \class application
-  /// \brief The type of the object which represents the application.
+  /// The type of the object which represents the application.
   ///
   class application final
   {
   public:
     ///
-    /// \brief Constructs an object of the type \c application.
+    /// Constructs an object of the type \c application.
     ///
     application() = default;
 
     ///
-    /// \brief Constructs an object of the type \c application by copying the
-    /// given object of the type \c application.
+    /// Constructs an object of the type \c application by copying the given
+    /// object of the type \c application.
     ///
     /// \param an \c application from which the new one is constructed.
     ///
     application(const application& a) = default;
 
     ///
-    /// \brief Constructs an object of the type \c application by moving the
-    /// given object of the type \c application.
+    /// Constructs an object of the type \c application by moving the given
+    /// object of the type \c application.
     ///
     /// \param an \c application from which the new one is constructed.
     ///
     application(application&& a) = default;
 
     ///
-    /// \brief Destructs an object of the type \c application.
+    /// Destructs an object of the type \c application.
     ///
     ~application() = default;
 
     ///
-    /// \brief Assigns the given object of the type \c application to this one
-    /// by copying.
+    /// Assigns the given object of the type \c application to this one by
+    /// copying.
     ///
     /// \param a an \c application from which this one is assigned.
     ///
@@ -76,8 +59,8 @@ namespace anthem
     application& operator=(const application& a) = default;
 
     ///
-    /// \brief Assigns the given object of the type \c application to this one
-    /// by moving.
+    /// Assigns the given object of the type \c application to this one by
+    /// moving.
     ///
     /// \param a an \c application from which this one is assigned.
     ///
@@ -86,8 +69,7 @@ namespace anthem
     application& operator=(application&& a) = default;
 
     ///
-    /// \brief Creates the application-specific instance of the requested
-    /// system type.
+    /// Creates the application-specific instance of the requested system type.
     ///
     /// Remarks: The systems with the system type ‘other’ cannot be created
     /// with this function.
@@ -100,14 +82,14 @@ namespace anthem
     ode::system_t make_system(const ode::system_type type);
 
     ///
-    /// \brief Creates the application-specific systems.
+    /// Creates the application-specific systems.
     ///
     /// \return A vector containing the system instances of the other systems.
     ///
     std::vector<ode::system_t> make_other_systems();
 
     ///
-    /// \brief Gives the configuration for the first scene that is created.
+    /// Gives the configuration for the first scene that is created.
     ///
     /// \return An object of the type \c ode::scene_configuration_t.
     ///

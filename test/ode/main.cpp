@@ -1,25 +1,9 @@
-//===------------------------------ main.cpp --------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file main.cpp
-/// \brief The main function of the tests.
+/// The main function of the tests.
+/// \file
 /// \author Antti Kivi
 /// \date 31 January 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/common/clean_up.h"
 #include "ode/common/run_test.h"

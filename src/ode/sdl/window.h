@@ -1,26 +1,9 @@
-//===------------------------------ window.h --------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file window.h
-/// \brief The declarations of the window utilities for Simple DirectMedia
-/// Layer.
+/// The declarations of the window utilities for Simple DirectMedia Layer.
+/// \file
 /// \author Antti Kivi
 /// \date 29 March 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_SDL_WINDOW_H
 #define ODE_SDL_WINDOW_H
@@ -35,32 +18,30 @@ namespace ode::sdl
   using namespace std::literals::string_literals;
 
   ///
-  /// \struct window_info
-  /// \brief The type of the objects which hold the data which are used to
-  /// create a Simple DirectMedia Layer window.
+  /// The type of the objects which hold the data which are used to create a
+  /// Simple DirectMedia Layer window.
   ///
   struct window_creation_info final
   {
     ///
-    /// \brief The initial width of the window.
+    /// The initial width of the window.
     ///
     const pixel_count window_width = 0_px;
 
     ///
-    /// \brief The initial height of the window.
+    /// The initial height of the window.
     ///
     const pixel_count window_height = 0_px;
 
     ///
-    /// \brief The initial name of the window.
+    /// The initial name of the window.
     ///
     const std::string window_name = "null"s;
   };
 
   ///
-  /// \struct window_info
-  /// \brief The type of the objects which hold the data of a Simple
-  /// DirectMedia Layer window.
+  /// The type of the objects which hold the data of a Simple DirectMedia Layer
+  /// window.
   ///
   /// TODO
   ///
@@ -69,8 +50,7 @@ namespace ode::sdl
   };
 
   ///
-  /// \brief Initializes a new Simple DirectMedia Layer window with an OpenGL
-  /// context.
+  /// Initializes a new Simple DirectMedia Layer window with an OpenGL context.
   ///
   /// \param info the data with which the window is created.
   ///

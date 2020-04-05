@@ -1,25 +1,9 @@
-//===---------------------------- initialize.h ------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file initialize.h
-/// \brief The declarations of the initialization functions.
+/// The declarations of the initialization functions.
+/// \file
 /// \author Antti Kivi
 /// \date 5 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_INITIALIZE_H
 #define ODE_INITIALIZE_H
@@ -33,12 +17,12 @@
 namespace ode
 {
   ///
-  /// \brief Initializes the logging capabilities.
+  /// Initializes the logging capabilities.
   ///
   void initialize_logging();
 
   ///
-  /// \brief Initializes the main window.
+  /// Initializes the main window.
   ///
   /// Remarks: The logging capabilities and Simple DirectMedia Layer must be
   /// initialized before this function may be called.
@@ -50,7 +34,7 @@ namespace ode
   window_t initialize_window(const execution_info& info);
 
   ///
-  /// \brief Initializes the graphics context.
+  /// Initializes the graphics context.
   ///
   /// Remarks: The logging capabilities and Simple DirectMedia Layer must be
   /// initialized before this function may be called.

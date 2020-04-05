@@ -1,25 +1,9 @@
-//===----------------------------- run_test.h -------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file run_test.h
-/// \brief The declarations of the common running functions of the tests.
+/// The declarations of the common running functions of the tests.
+/// \file
 /// \author Antti Kivi
 /// \date 4 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_TEST_COMMON_RUN_TEST_H
 #define ODE_TEST_COMMON_RUN_TEST_H
@@ -27,7 +11,7 @@
 namespace ode::test
 {
   ///
-  /// \brief Runs the tests.
+  /// Runs the tests.
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.
@@ -39,7 +23,7 @@ namespace ode::test
 #if ODE_TEST_BENCHMARKING
 
   ///
-  /// \brief Runs the benchmarks.
+  /// Runs the benchmarks.
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.

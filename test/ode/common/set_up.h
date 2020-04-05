@@ -1,25 +1,9 @@
-//===------------------------------ set_up.h --------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file set_up.h
-/// \brief The declarations of the common set up functions of the tests.
+/// The declarations of the common set up functions of the tests.
+/// \file
 /// \author Antti Kivi
 /// \date 4 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_TEST_COMMON_SET_UP_H
 #define ODE_TEST_COMMON_SET_UP_H
@@ -27,7 +11,7 @@
 namespace ode::test
 {
   ///
-  /// \brief Sets up the common dependencies of the tests.
+  /// Sets up the common dependencies of the tests.
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.
@@ -39,7 +23,7 @@ namespace ode::test
 #if ODE_TEST_BENCHMARKING
 
   ///
-  /// \brief Sets up the common dependencies of the benchmarks.
+  /// Sets up the common dependencies of the benchmarks.
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.

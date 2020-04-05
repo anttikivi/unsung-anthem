@@ -1,26 +1,10 @@
-//===---------------------- world_configuration.cpp -------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file world_configuration.cpp
-/// \brief The definition of the type of the scene configurations for the basic
+/// The definition of the type of the scene configurations for the basic
 /// gameplay scenes.
+/// \file
 /// \author Antti Kivi
 /// \date 11 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "anthem/systems/scenes/world/world_configuration.h"
 

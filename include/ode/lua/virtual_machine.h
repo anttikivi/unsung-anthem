@@ -1,25 +1,9 @@
-//===------------------------- virtual_machine.h ----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file virtual_machine.h
-/// \brief The declarations of the Lua virtual machine utilities.
+/// The declarations of the Lua virtual machine utilities.
+/// \file
 /// \author Antti Kivi
 /// \date 7 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_LUA_VIRTUAL_MACHINE_H
 #define ODE_LUA_VIRTUAL_MACHINE_H
@@ -52,7 +36,7 @@ namespace ode::lua
   } // namespace detail
 
   ///
-  /// \brief Reads a value on the Lua stack.
+  /// Reads a value on the Lua stack.
   ///
   /// \tparam T the type of the value on the stack.
   ///
@@ -77,7 +61,7 @@ namespace ode::lua
     else if constexpr (std::is_same_v<std::remove_cv_t<T>, int>)
     {
       Ensures(1 == lua_isnumber(state, index));
-      return static_cast<int>(lua_tonumber(state, index)); 
+      return static_cast<int>(lua_tonumber(state, index));
     }
     else if constexpr (std::is_same_v<std::remove_cv_t<T>, std::string>)
     {
@@ -91,7 +75,7 @@ namespace ode::lua
   }
 
   ///
-  /// \brief Reads the value on top of the Lua stack.
+  /// Reads the value on top of the Lua stack.
   ///
   /// \tparam T the type of the value on the stack.
   ///
@@ -106,7 +90,7 @@ namespace ode::lua
   }
 
   ///
-  /// \brief Gets a variable from a Lua virtual machine.
+  /// Gets a variable from a Lua virtual machine.
   ///
   /// \tparam T the type of the variable.
   ///
@@ -199,7 +183,7 @@ namespace ode::lua
   } // namespace detail
 
   ///
-  /// \brief Calls a Lua function.
+  /// Calls a Lua function.
   ///
   /// \tparam Types the types of the return values.
   /// \tparam Args the types of the function parameters.

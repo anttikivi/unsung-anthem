@@ -1,25 +1,9 @@
-//===----------------------------- script.cpp -------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file script.cpp
-/// \brief The definitions of the utilities for Lua scripts.
+/// The definitions of the utilities for Lua scripts.
+/// \file
 /// \author Antti Kivi
 /// \date 6 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/lua/script.h"
 

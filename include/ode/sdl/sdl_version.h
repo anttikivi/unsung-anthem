@@ -1,26 +1,9 @@
-//===--------------------------- sdl_version.h ------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file sdl_version.h
-/// \brief The declarations of the Simple DirectMedia Layer version utility
-/// functions.
+/// The declarations of the Simple DirectMedia Layer version utility functions.
+/// \file
 /// \author Antti Kivi
 /// \date 10 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_SDL_SDL_VERSION_H
 #define ODE_SDL_SDL_VERSION_H
@@ -30,18 +13,17 @@
 namespace ode::sdl
 {
   ///
-  /// \brief Gets an object of the type \c SDL_version which represents the
-  /// version of the Simple DirectMedia Layer against which the program was
-  /// compiled.
+  /// Gets an object of the type \c SDL_version which represents the version of
+  /// the Simple DirectMedia Layer against which the program was compiled.
   ///
   /// \return An object of the type \c SDL_version.
   ///
   SDL_version compiled_version();
 
   ///
-  /// \brief Gets an object of the type \c SDL_version which represents the
-  /// version of the Simple DirectMedia Layer against which the program is
-  /// currently linked.
+  /// Gets an object of the type \c SDL_version which represents the version of
+  /// the Simple DirectMedia Layer against which the program is currently
+  /// linked.
   ///
   /// \return An object of the type \c SDL_version.
   ///

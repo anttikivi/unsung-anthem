@@ -1,26 +1,10 @@
-//===-------------------------- initialize_sdl.h ----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file initialize_sdl.h
-/// \brief The definition of the initialization utility function for Simple
+/// The definition of the initialization utility function for Simple
 /// DirectMedia Layer.
+/// \file
 /// \author Antti Kivi
 /// \date 6 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/sdl/initialize_sdl.h"
 

@@ -1,25 +1,9 @@
-//===------------------------- graphics_system.h ----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file graphics_system.h
-/// \brief The declaration of the type of the graphics system.
+/// The declaration of the type of the graphics system.
+/// \file
 /// \author Antti Kivi
 /// \date 8 May 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_SYSTEMS_GRAPHICS_GRAPHICS_SYSTEM_H
 #define ODE_SYSTEMS_GRAPHICS_GRAPHICS_SYSTEM_H
@@ -30,8 +14,7 @@
 namespace ode
 {
   ///
-  /// \class graphics_system
-  /// \brief The type of the graphics system.
+  /// The type of the graphics system.
   ///
   /// The graphics system controls only the viewport inside the program window.
   ///
@@ -39,39 +22,39 @@ namespace ode
   {
   public:
     ///
-    /// \brief The system type of this system.
+    /// The system type of this system.
     ///
     static constexpr system_type type = system_type::graphics;
 
     ///
-    /// \brief Constructs an object of the type \c graphics_system.
+    /// Constructs an object of the type \c graphics_system.
     ///
     graphics_system() = default;
 
     ///
-    /// \brief Constructs an object of the type \c graphics_system by copying
-    /// the given object of the type \c graphics_system.
+    /// Constructs an object of the type \c graphics_system by copying the
+    /// given object of the type \c graphics_system.
     ///
     /// \param a a \c graphics_system from which the new one is constructed.
     ///
     graphics_system(const graphics_system& a) = delete;
 
     ///
-    /// \brief Constructs an object of the type \c graphics_system by moving
-    /// the given object of the type \c graphics_system.
+    /// Constructs an object of the type \c graphics_system by moving the given
+    /// object of the type \c graphics_system.
     ///
     /// \param a a \c graphics_system from which the new one is constructed.
     ///
     graphics_system(graphics_system&& a) = default;
 
     ///
-    /// \brief Destructs an object of the type \c graphics_system.
+    /// Destructs an object of the type \c graphics_system.
     ///
     ~graphics_system() = default;
 
     ///
-    /// \brief Assigns the given object of the type \c graphics_system to this
-    /// one by copying.
+    /// Assigns the given object of the type \c graphics_system to this one by
+    /// copying.
     ///
     /// \param a a \c graphics_system from which this one is assigned.
     ///
@@ -80,8 +63,8 @@ namespace ode
     graphics_system& operator=(const graphics_system& a) = delete;
 
     ///
-    /// \brief Assigns the given object of the type \c graphics_system to this
-    /// one by moving.
+    /// Assigns the given object of the type \c graphics_system to this one by
+    /// moving.
     ///
     /// \param a a \c graphics_system from which this one is assigned.
     ///
@@ -90,7 +73,7 @@ namespace ode
     graphics_system& operator=(graphics_system&& a) = default;
 
     ///
-    /// \brief Creates a scene object containing the type \c graphics_scene.
+    /// Creates a scene object containing the type \c graphics_scene.
     ///
     /// \param cfg the scene configuration according to which the scene is
     /// constructed.

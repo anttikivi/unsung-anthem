@@ -1,26 +1,10 @@
-//===---------------------- environment_manager.cpp -------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file environment_manager.cpp
-/// \brief The definition of the manager which holds execution-related
-/// information and utilities.
+/// The definition of the manager which holds execution-related information and
+/// utilities.
+/// \file
 /// \author Antti Kivi
 /// \date 17 May 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/framework/environment_manager.h"
 

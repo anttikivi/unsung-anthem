@@ -1,26 +1,10 @@
-//===--------------------------- map_loading.h ------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file map_loading.h
-/// \brief The declarations of the utility functions for loading the data of
-/// the maps from the scripts.
+/// The declarations of the utility functions for loading the data of the maps
+/// from the scripts.
+/// \file
 /// \author Antti Kivi
 /// \date 15 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ANTHEM_SYSTEMS_SCENES_WORLD_MAP_LOADING_H
 #define ANTHEM_SYSTEMS_SCENES_WORLD_MAP_LOADING_H
@@ -33,7 +17,7 @@
 namespace anthem::world
 {
   ///
-  /// \brief Loads the width of the map in tiles from the scripts.
+  /// Loads the width of the map in tiles from the scripts.
   ///
   /// Remarks: The script containing the data of the map must be loaded into
   /// the Lua state before this function may be called.
@@ -46,10 +30,10 @@ namespace anthem::world
   int load_map_width(
       const ode::lua::state_ptr_t state,
       const std::string& name) ODE_CONTRACT_NOEXCEPT;
-  
+
 
   ///
-  /// \brief Loads the height of the map in tiles from the scripts.
+  /// Loads the height of the map in tiles from the scripts.
   ///
   /// Remarks: The script containing the data of the map must be loaded into
   /// the Lua state before this function may be called.

@@ -1,25 +1,9 @@
-//===------------------------------ __config --------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file __config
-/// \brief The declarations of the preprocessor configurations.
+/// The declarations of the preprocessor configurations.
+/// \file
 /// \author Antti Kivi
 /// \date 20 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE___CONFIG_H
 #define ODE___CONFIG_H

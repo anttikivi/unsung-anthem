@@ -1,27 +1,11 @@
-//===---------------------------- view_test.h -------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file view_test.cpp
-/// \brief The tests of the guideline support library types which are used as
-/// viewers for various objects and which do distinction between owning and
-/// non-owning types.
+/// The tests of the guideline support library types which are used as viewers
+/// for various objects and which do distinction between owning and non-owning
+/// types.
+/// \file
 /// \author Antti Kivi
 /// \date 31 January 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include <iostream>
 

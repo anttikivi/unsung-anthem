@@ -1,25 +1,9 @@
-//===----------------------------- object_t.h -------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file object_t.h
-/// \brief The declaration of the type templates of the objects of the systems.
+/// The declaration of the type templates of the objects of the systems.
+/// \file
 /// \author Antti Kivi
 /// \date 18 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_SYSTEMS_OBJECT_T_H
 #define ODE_SYSTEMS_OBJECT_T_H
@@ -32,20 +16,18 @@
 namespace ode
 {
   ///
-  /// \class object_t
-  /// \brief The type of the objects which are the functional objects of the
-  /// systems.
+  /// The type of the objects which are the functional objects of the systems.
   ///
   class object_t final
   {
   public:
     ///
-    /// \brief Constructs an object of the type \c object_t.
+    /// Constructs an object of the type \c object_t.
     ///
     object_t() = default;
 
     ///
-    /// \brief Constructs an object of the type \c object_t.
+    /// Constructs an object of the type \c object_t.
     ///
     /// \tparam T the type of the object implementation.
     ///
@@ -58,28 +40,28 @@ namespace ode
     }
 
     ///
-    /// \brief Constructs an object of the type \c object_t by copying the
-    /// given object of the type \c object_t.
+    /// Constructs an object of the type \c object_t by copying the given
+    /// object of the type \c object_t.
     ///
     /// \param an \c object_t from which the new one is constructed.
     ///
     object_t(const object_t& a) = delete;
 
     ///
-    /// \brief Constructs an object of the type \c object_t by moving the given
-    /// object of the type \c object_t.
+    /// Constructs an object of the type \c object_t by moving the given object
+    /// of the type \c object_t.
     ///
     /// \param an \c object_t from which the new one is constructed.
     ///
     object_t(object_t&& a) = default;
 
     ///
-    /// \brief Destructs an object of the type \c object_t.
+    /// Destructs an object of the type \c object_t.
     ///
     ~object_t() = default;
 
     ///
-    /// \brief Assigns the given object of the type \c object_t to this one by
+    /// Assigns the given object of the type \c object_t to this one by
     /// copying.
     ///
     /// \param an \c object_t from which this one is assigned.
@@ -89,8 +71,7 @@ namespace ode
     object_t& operator=(const object_t& a) = delete;
 
     ///
-    /// \brief Assigns the given object of the type \c object_t to this one by
-    /// moving.
+    /// Assigns the given object of the type \c object_t to this one by moving.
     ///
     /// \param an \c object_t from which this one is assigned.
     ///
@@ -100,7 +81,7 @@ namespace ode
 
   private:
     ///
-    /// \brief A pointer to the contained object implementation.
+    /// A pointer to the contained object implementation.
     ///
     std::unique_ptr<object> obj_ptr;
   };

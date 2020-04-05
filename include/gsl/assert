@@ -1,25 +1,9 @@
-//===------------------------------- assert ---------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file assert
-/// \brief The declarations of the guideline support library assertions.
+/// The declarations of the guideline support library assertions.
+/// \file
 /// \author Antti Kivi
 /// \date 2 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_GSL_ASSERT
 #define ODE_GSL_ASSERT
@@ -55,12 +39,14 @@
 # define GSL_UNLIKELY(x) (!!(x))
 #endif // !(defined(__clang__) || defined(__GNUC__))
 
-//
-// GSL_ASSUME(cond)
-//
-// Tells the optimizer that the predicate condition must hold. It is
-// unspecified whether or not condition is actually evaluated.
-//
+///
+/// The preprocessor macro which tells the optimizer that the predicate
+/// condition must hold.
+///
+/// It is unspecified whether or not condition is actually evaluated.
+///
+/// \def GSL_ASSUME(cond)
+///
 #if defined(_MSC_VER)
 #define GSL_ASSUME(cond) __assume(cond)
 #elif defined(__clang__)
@@ -75,14 +61,13 @@
 namespace gsl
 {
   ///
-  /// \struct fail_fast
-  /// \brief The type of the exception objects which are thrown by assertions
-  /// whenever \c GSL_THROW_ON_CONTRACT_VIOLATION is enabled.
+  /// The type of the exception objects which are thrown by assertions whenever
+  /// \c GSL_THROW_ON_CONTRACT_VIOLATION is enabled.
   ///
   struct fail_fast final : public std::logic_error
   {
     ///
-    /// \brief Constructs an object of the type \c fail_fast.
+    /// Constructs an object of the type \c fail_fast.
     ///
     /// \param message a description of the failure.
     ///

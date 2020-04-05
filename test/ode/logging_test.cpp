@@ -1,25 +1,9 @@
-//===-------------------------- logging_test.cpp ----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file logging_test.cpp
-/// \brief The tests of the logging-related utility functions.
+/// The tests of the logging-related utility functions.
+/// \file
 /// \author Antti Kivi
 /// \date 8 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/logging.h"
 

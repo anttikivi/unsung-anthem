@@ -1,26 +1,10 @@
-//===-------------------------- map_loading.cpp -----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file map_loading.cpp
-/// \brief The definitions of the utility functions for loading the data of the
-/// maps from the scripts.
+/// The definitions of the utility functions for loading the data of the maps
+/// from the scripts.
+/// \file
 /// \author Antti Kivi
 /// \date 15 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "anthem/systems/scenes/world/map_loading.h"
 

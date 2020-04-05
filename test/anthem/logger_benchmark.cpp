@@ -1,25 +1,9 @@
-//===------------------------ logger_benchmark.cpp --------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file logger_benchmark.cpp
-/// \brief The benchmarks of the main logging functions.
+/// The benchmarks of the main logging functions.
+/// \file
 /// \author Antti Kivi
 /// \date 10 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "anthem/logger.h"
 

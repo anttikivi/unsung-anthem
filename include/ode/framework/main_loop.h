@@ -1,25 +1,9 @@
-//===---------------------------- main_loop.h -------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file main_loop.h
-/// \brief The declaration of the main loop function.
+/// The declaration of the main loop function.
+/// \file
 /// \author Antti Kivi
 /// \date 5 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_FRAMEWORK_MAIN_LOOP_H
 #define ODE_FRAMEWORK_MAIN_LOOP_H
@@ -43,7 +27,7 @@ namespace ode
 #endif // !ODE_STD_CLOCK
 
   ///
-  /// \brief The time duration between two game ticks.
+  /// The time duration between two game ticks.
   ///
   /// The game should run 60 frames a second. Therefore, this is equal to 16 as
   /// 1 / 60 = 0.01666...
@@ -59,7 +43,7 @@ namespace ode
 #endif // !ODE_STD_CLOCK
 
   ///
-  /// \brief Runs the main loop.
+  /// Runs the main loop.
   ///
   /// Remarks: This function is impure.
   ///

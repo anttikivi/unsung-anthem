@@ -1,26 +1,9 @@
-//===------------------------ platform_manager.cpp --------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file platform_manager.cpp
-/// \brief The definition of the manager which holds the platform-related
-/// utilities.
+/// The definition of the manager which holds the platform-related utilities.
+/// \file
 /// \author Antti Kivi
 /// \date 18 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/framework/platform_manager.h"
 

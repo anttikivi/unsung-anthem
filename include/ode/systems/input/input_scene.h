@@ -1,25 +1,9 @@
-//===--------------------------- input_scene.h ------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file input_scene.h
-/// \brief The declaration of the type of the input system scene.
+/// The declaration of the type of the input system scene.
+/// \file
 /// \author Antti Kivi
 /// \date 19 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_SYSTEMS_INPUT_INPUT_SCENE_H
 #define ODE_SYSTEMS_INPUT_INPUT_SCENE_H
@@ -30,46 +14,45 @@
 namespace ode
 {
   ///
-  /// \class input_scene
-  /// \brief The type of the input system scene objects.
+  /// The type of the input system scene objects.
   ///
   class input_scene : public scene
   {
   public:
     ///
-    /// \brief The system type of this scene.
+    /// The system type of this scene.
     ///
     static constexpr system_type type = system_type::input;
 
     ///
-    /// \brief Constructs an object of the type \c input_scene.
+    /// Constructs an object of the type \c input_scene.
     ///
     input_scene() = default;
 
     ///
-    /// \brief Constructs an object of the type \c input_scene by copying the
-    /// given object of the type \c input_scene.
+    /// Constructs an object of the type \c input_scene by copying the given
+    /// object of the type \c input_scene.
     ///
     /// \param a a \c input_scene from which the new one is constructed.
     ///
     input_scene(const input_scene& a) = default;
 
     ///
-    /// \brief Constructs an object of the type \c input_scene by moving the
-    /// given object of the type \c input_scene.
+    /// Constructs an object of the type \c input_scene by moving the given
+    /// object of the type \c input_scene.
     ///
     /// \param a a \c input_scene from which the new one is constructed.
     ///
     input_scene(input_scene&& a) = default;
 
     ///
-    /// \brief Destructs an object of the type \c input_scene.
+    /// Destructs an object of the type \c input_scene.
     ///
     virtual ~input_scene() = default;
 
     ///
-    /// \brief Assigns the given object of the type \c input_scene to this one
-    /// by copying.
+    /// Assigns the given object of the type \c input_scene to this one by
+    /// copying.
     ///
     /// \param a a \c input_scene from which this one is assigned.
     ///
@@ -78,8 +61,8 @@ namespace ode
     input_scene& operator=(const input_scene& a) = default;
 
     ///
-    /// \brief Assigns the given object of the type \c input_scene to this one
-    /// by moving.
+    /// Assigns the given object of the type \c input_scene to this one by
+    /// moving.
     ///
     /// \param a a \c input_scene from which this one is assigned.
     ///

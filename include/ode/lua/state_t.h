@@ -1,25 +1,9 @@
-//===----------------------------- state_t.h --------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file state_t.h
-/// \brief The declarations of the Lua state types.
+/// The declarations of the Lua state types.
+/// \file
 /// \author Antti Kivi
 /// \date 5 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_LUA_STATE_T_H
 #define ODE_LUA_STATE_T_H
@@ -33,13 +17,12 @@
 namespace ode::lua
 {
   ///
-  /// \brief The type of the Lua state objects.
+  /// The type of the Lua state objects.
   ///
   using state_t = std::unique_ptr<lua_State, decltype(&lua_close)>;
 
   ///
-  /// \brief The pointer type which is used as the parameter type for raw Lua
-  /// states.
+  /// The pointer type which is used as the parameter type for raw Lua states.
   ///
   using state_ptr_t = gsl::not_null<lua_State*>;
 

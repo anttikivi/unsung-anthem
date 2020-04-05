@@ -1,26 +1,10 @@
-//===---------------------- command_line_interface.h ------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file command_line_interface.h
-/// \brief The declarations of the utilities related to parsing command line
+/// The declarations of the utilities related to parsing command line
 /// arguments.
+/// \file
 /// \author Antti Kivi
 /// \date 29 March 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ANTHEM_COMMAND_LINE_INTERFACE_H
 #define ANTHEM_COMMAND_LINE_INTERFACE_H
@@ -38,17 +22,17 @@ namespace anthem
   using namespace std::literals::string_literals;
 
   ///
-  /// \brief The default width of the window in pixels.
+  /// The default width of the window in pixels.
   ///
   constexpr auto default_window_width = 400_px;
 
   ///
-  /// \brief The default height of the window in pixels.
+  /// The default height of the window in pixels.
   ///
   constexpr auto default_window_height = 240_px;
 
   ///
-  /// \brief The default name of the window.
+  /// The default name of the window.
   ///
 #ifdef ANTHEM_WINDOW_NAME
   constexpr auto default_window_name = ANTHEM_WINDOW_NAME;
@@ -61,42 +45,41 @@ namespace anthem
 #endif // !defined(ANTHEM_WINDOW_NAME)
 
   ///
-  /// \struct arguments
-  /// \brief The type of the objects which hold the parsed information of
-  /// command line arguments.
+  /// The type of the objects which hold the parsed information of command line
+  /// arguments.
   ///
   struct arguments final
   {
     ///
-    /// \brief Whether or not the arguments were parsed correctly by the
-    /// parsing function.
+    /// Whether or not the arguments were parsed correctly by the parsing
+    /// function.
     ///
     const bool parsed = false;
 
     ///
-    /// \brief Whether or not the help message should be shown.
+    /// Whether or not the help message should be shown.
     ///
     const bool show_help = false;
 
     ///
-    /// \brief The starting width of the window.
+    /// The starting width of the window.
     ///
     const ode::pixel_count window_width = 0_px;
 
     ///
-    /// \brief The starting height of the window.
+    /// The starting height of the window.
     ///
     const ode::pixel_count window_height = 0_px;
 
     ///
-    /// \brief The name of the window.
+    /// The name of the window.
     ///
     const std::string window_name = "null"s;
 
   }; // struct arguments final
 
   ///
-  /// \brief Compares two objects of the type \c arguments.
+  /// Compares two objects of the type \c arguments.
   ///
   /// \param lhs the left-hand side object of the operator.
   /// \param rhs the right-hand side object of the operator.
@@ -109,14 +92,14 @@ namespace anthem
       const arguments& rhs) noexcept
   {
     return lhs.parsed == rhs.parsed &&
-        lhs.show_help == rhs.show_help && 
+        lhs.show_help == rhs.show_help &&
         lhs.window_width == rhs.window_width &&
         lhs.window_height == rhs.window_height &&
         lhs.window_name == rhs.window_name;
   }
 
   ///
-  /// \brief Compares two objects of the type \c arguments.
+  /// Compares two objects of the type \c arguments.
   ///
   /// \param lhs the left-hand side object of the operator.
   /// \param rhs the right-hand side object of the operator.
@@ -132,8 +115,8 @@ namespace anthem
   }
 
   ///
-  /// \brief Inserts the formatted data of an object of the type \c arguments
-  /// to the given \c std::ostream.
+  /// Inserts the formatted data of an object of the type \c arguments to the
+  /// given \c std::ostream.
   ///
   /// \param os the stream to which the data is inserted.
   /// \param a the object, the data of which is inserted.
@@ -143,8 +126,8 @@ namespace anthem
   std::ostream& operator<<(std::ostream& os, const arguments& a);
 
   ///
-  /// \brief Returns an object of the type \c arguments which contains the
-  /// values set when executing the program from the command line.
+  /// Returns an object of the type \c arguments which contains the values set
+  /// when executing the program from the command line.
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.

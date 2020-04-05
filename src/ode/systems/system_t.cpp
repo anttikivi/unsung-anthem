@@ -1,25 +1,9 @@
-//===---------------------------- system_t.cpp ------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file system_t.cpp
-/// \brief The definitions of the type templates of the system objects.
+/// The definitions of the type templates of the system objects.
+/// \file
 /// \author Antti Kivi
 /// \date 19 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/systems/system_t.h"
 

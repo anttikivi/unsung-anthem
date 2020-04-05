@@ -1,25 +1,9 @@
-//===------------------------------ stack.h ---------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file stack.h
-/// \brief The declarations of the Lua stack utility functions.
+/// The declarations of the Lua stack utility functions.
+/// \file
 /// \author Antti Kivi
 /// \date 6 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_LUA_STACK_H
 #define ODE_LUA_STACK_H
@@ -34,7 +18,7 @@
 namespace ode::lua
 {
   ///
-  /// \brief Puts a Lua variable to the top of the Lua stack.
+  /// Puts a Lua variable to the top of the Lua stack.
   ///
   /// \param state a pointer to the Lua state.
   /// \param var the name of the variable to put to the top of the stack.
@@ -73,7 +57,7 @@ namespace ode::lua
   } // namespace detail
 
   ///
-  /// \brief Pushes the given value to the stack of the Lua state.
+  /// Pushes the given value to the stack of the Lua state.
   ///
   /// \tparam T the type of the first value to be pushed.
   ///
@@ -87,7 +71,7 @@ namespace ode::lua
   }
 
   ///
-  /// \brief Pushes the given values to the stack of the Lua state.
+  /// Pushes the given values to the stack of the Lua state.
   ///
   /// \tparam T the type of the first value to be pushed.
   /// \tparam Types the types of the rest of the values to be pushed.

@@ -1,26 +1,9 @@
-//===------------------------- platform_manager.h ---------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file platform_manager.h
-/// \brief The declaration of the manager which holds platform-related
-/// utilities.
+/// The declaration of the manager which holds platform-related utilities.
+/// \file
 /// \author Antti Kivi
 /// \date 18 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_FRAMEWORK_PLATFORM_MANAGER_H
 #define ODE_FRAMEWORK_PLATFORM_MANAGER_H
@@ -32,8 +15,8 @@
 namespace ode
 {
   ///
-  /// \brief An enumeration type, the enumerators of which represent platforms
-  /// on which the program can run.
+  /// An enumeration type, the enumerators of which represent platforms on
+  /// which the program can run.
   ///
   enum class platform
   {
@@ -43,7 +26,7 @@ namespace ode
   };
 
   ///
-  /// \brief The platform on which the program is currently running.
+  /// The platform on which the program is currently running.
   ///
 #if ODE_WINDOWS
   constexpr platform current_platform = platform::windows;
@@ -54,48 +37,47 @@ namespace ode
 #endif // !ODE_WINDOWS && !ODE_MACOS
 
   ///
-  /// \class platform_manager
-  /// \brief The type of the object which holds platform-related utilities.
+  /// The type of the object which holds platform-related utilities.
   ///
   class platform_manager final
   {
   public:
     ///
-    /// \brief Constructs an object of the type \c platform_manager.
+    /// Constructs an object of the type \c platform_manager.
     ///
     platform_manager() = default;
 
     ///
-    /// \brief Constructs an object of the type \c platform_manager.
+    /// Constructs an object of the type \c platform_manager.
     ///
     /// \param is a pointer to the input system.
     ///
     platform_manager(system_t* is);
 
     ///
-    /// \brief Constructs an object of the type \c platform_manager by copying
-    /// the given object of the type \c platform_manager.
+    /// Constructs an object of the type \c platform_manager by copying the
+    /// given object of the type \c platform_manager.
     ///
     /// \param a a \c platform_manager from which the new one is constructed.
     ///
     platform_manager(const platform_manager& a) = default;
 
     ///
-    /// \brief Constructs an object of the type \c platform_manager by moving
-    /// the given object of the type \c platform_manager.
+    /// Constructs an object of the type \c platform_manager by moving the
+    /// given object of the type \c platform_manager.
     ///
     /// \param a a \c platform_manager from which the new one is constructed.
     ///
     platform_manager(platform_manager&& a) = default;
 
     ///
-    /// \brief Destructs an object of the type \c platform_manager.
+    /// Destructs an object of the type \c platform_manager.
     ///
     ~platform_manager() = default;
 
     ///
-    /// \brief Assigns the given object of the type \c platform_manager to this
-    /// one by copying.
+    /// Assigns the given object of the type \c platform_manager to this one by
+    /// copying.
     ///
     /// \param a a \c platform_manager from which this one is assigned.
     ///
@@ -104,8 +86,8 @@ namespace ode
     platform_manager& operator=(const platform_manager& a) = default;
 
     ///
-    /// \brief Assigns the given object of the type \c platform_manager to this
-    /// one by moving.
+    /// Assigns the given object of the type \c platform_manager to this one by
+    /// moving.
     ///
     /// \param a a \c platform_manager from which this one is assigned.
     ///
@@ -114,7 +96,7 @@ namespace ode
     platform_manager& operator=(platform_manager&& a) = default;
 
     ///
-    /// \brief Polls all of the current system events waiting and forwards them.
+    /// Polls all of the current system events waiting and forwards them.
     ///
     /// Remarks: The reference to the environment manager which is passed to
     /// the function is not constant and, thus, modifies the original
@@ -126,7 +108,7 @@ namespace ode
 
   private:
     ///
-    /// \brief A pointer to the input system.
+    /// A pointer to the input system.
     ///
     system_t* input_system;
   };

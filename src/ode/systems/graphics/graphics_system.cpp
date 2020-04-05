@@ -1,25 +1,9 @@
-//===------------------------ graphics_system.cpp ---------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file graphics_system.cpp
-/// \brief The definition of the type of the graphics system.
+/// The definition of the type of the graphics system.
+/// \file
 /// \author Antti Kivi
 /// \date 10 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/systems/graphics/graphics_system.h"
 

@@ -1,25 +1,9 @@
-//===------------------------------ system.h --------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file system.h
-/// \brief The declaration of the base type of the system objects.
+/// The declaration of the base type of the system objects.
+/// \file
 /// \author Antti Kivi
 /// \date 17 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_SYSTEMS_SYSTEM_H
 #define ODE_SYSTEMS_SYSTEM_H
@@ -30,42 +14,40 @@
 namespace ode
 {
   ///
-  /// \class system
-  /// \brief The base type of the objects which implement the functionalities
-  /// of the different systems.
+  /// The base type of the objects which implement the functionalities of the
+  /// different systems.
   ///
   class system
   {
   public:
     ///
-    /// \brief Constructs an object of the type \c system.
+    /// Constructs an object of the type \c system.
     ///
     system() = default;
 
     ///
-    /// \brief Constructs an object of the type \c system by copying the given
-    /// object of the type \c system.
+    /// Constructs an object of the type \c system by copying the given object
+    /// of the type \c system.
     ///
     /// \param a a \c system from which the new one is constructed.
     ///
     system(const system& a) = delete;
 
     ///
-    /// \brief Constructs an object of the type \c system by moving the given
-    /// object of the type \c system.
+    /// Constructs an object of the type \c system by moving the given object
+    /// of the type \c system.
     ///
     /// \param a a \c system from which the new one is constructed.
     ///
     system(system&& a) = default;
 
     ///
-    /// \brief Destructs an object of the type \c system.
+    /// Destructs an object of the type \c system.
     ///
     virtual ~system() = default;
 
     ///
-    /// \brief Assigns the given object of the type \c system to this one by
-    /// copying.
+    /// Assigns the given object of the type \c system to this one by copying.
     ///
     /// \param a a \c system from which this one is assigned.
     ///
@@ -74,8 +56,7 @@ namespace ode
     system& operator=(const system& a) = delete;
 
     ///
-    /// \brief Assigns the given object of the type \c system to this one by
-    /// moving.
+    /// Assigns the given object of the type \c system to this one by moving.
     ///
     /// \param a a \c system from which this one is assigned.
     ///
@@ -84,8 +65,7 @@ namespace ode
     system& operator=(system&& a) = default;
 
     ///
-    /// \brief Creates a scene object implementing the functionalities of this
-    /// system.
+    /// Creates a scene object implementing the functionalities of this system.
     ///
     /// \param cfg the scene configuration according to which the scene is
     /// constructed.

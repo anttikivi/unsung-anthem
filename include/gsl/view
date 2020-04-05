@@ -1,27 +1,11 @@
-//===-------------------------------- view ----------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file view
-/// \brief The declarations of the guideline support library types which are
-/// used as viewers for various objects and which do distinction between owning
-/// and non-owning types.
+/// The declarations of the guideline support library types which are used as
+/// viewers for various objects and which do distinction between owning and
+/// non-owning types.
+/// \file
 /// \author Antti Kivi
 /// \date 2 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_GSL_VIEW
 #define ODE_GSL_VIEW
@@ -39,7 +23,7 @@ namespace gsl
   //===--- owner ----------------------------------------------------------===//
 
   ///
-  /// \brief The type template of the objects which hold owning pointer.
+  /// The type template of the objects which hold owning pointer.
   ///
   /// Remarks: The lifetime of the pointer must be handled manually.
   ///
@@ -51,9 +35,8 @@ namespace gsl
   //===--- not_null -------------------------------------------------------===//
 
   ///
-  /// \class not_null
-  /// \brief The class template of the objects which hold a pointer value which
-  /// shall not be equal to \c nullptr.
+  /// The class template of the objects which hold a pointer value which shall
+  /// not be equal to \c nullptr.
   ///
   /// \tparam T the type of the object which shall be held by the object.
   ///
@@ -66,7 +49,7 @@ namespace gsl
         "T cannot be assigned nullptr.");
 
     ///
-    /// \brief Constructs an object of the type \c not_null.
+    /// Constructs an object of the type \c not_null.
     ///
     /// \tparam U the type of the object held by the constructed \c not_null.
     /// \tparam D a dummy template parameter which is used by the ‘Substitution
@@ -83,8 +66,8 @@ namespace gsl
     }
 
     ///
-    /// \brief Constructs an object of the type \c not_null which has the same
-    /// value as the original object \c o.
+    /// Constructs an object of the type \c not_null which has the same value
+    /// as the original object \c o.
     ///
     /// \param o the object from which the value is copied into the constructed
     /// object.
@@ -92,8 +75,8 @@ namespace gsl
     constexpr not_null(const not_null& o) noexcept = default;
 
     ///
-    /// \brief Constructs an object of the type \c not_null which has the same
-    /// value as the original object \c o.
+    /// Constructs an object of the type \c not_null which has the same value
+    /// as the original object \c o.
     ///
     /// \tparam U the type of the object held by the constructed \c not_null.
     /// \tparam D a dummy template parameter which is used by the ‘Substitution
@@ -111,15 +94,15 @@ namespace gsl
     }
 
     ///
-    /// \brief Constructs an object of the type \c not_null.
+    /// Constructs an object of the type \c not_null.
     ///
     /// \param o the object to be held by the constructed \c not_null.
     ///
     constexpr not_null(std::nullptr_t o) noexcept = delete;
 
     ///
-    /// \brief Constructs an object of the type \c not_null and moves the value
-    /// of \c o to the constructed object.
+    /// Constructs an object of the type \c not_null and moves the value of
+    /// \c o to the constructed object.
     ///
     /// \param o the object from which the value is moved into the constructed
     /// object.
@@ -127,8 +110,8 @@ namespace gsl
     constexpr not_null(not_null&& o) noexcept = default;
 
     ///
-    /// \brief Constructs an object of the type \c not_null and moves the value
-    /// of \c o to the constructed object.
+    /// Constructs an object of the type \c not_null and moves the value of
+    /// \c o to the constructed object.
     ///
     /// \tparam U the type of the object held by the constructed \c not_null.
     /// \tparam D a dummy template parameter which is used by the ‘Substitution
@@ -146,20 +129,19 @@ namespace gsl
     }
 
     ///
-    /// \brief Constructs an object of the type \c not_null.
+    /// Constructs an object of the type \c not_null.
     ///
     /// \param o the object to be held by the constructed \c not_null.
     ///
     constexpr not_null(std::nullptr_t&& o) noexcept = delete;
 
     ///
-    /// \brief Destructs an object of the type \c not_null.
+    /// Destructs an object of the type \c not_null.
     ///
     ~not_null() noexcept = default;
 
     ///
-    /// \brief Copies the values of \c o and replaces the values of \c *this by
-    /// its.
+    /// Copies the values of \c o and replaces the values of \c *this by its.
     ///
     /// Remarks: This assignment operator is explicitly deleted.
     ///
@@ -171,8 +153,7 @@ namespace gsl
     constexpr not_null& operator=(const not_null& o) noexcept = delete;
 
     ///
-    /// \brief Copies the values of \c o and replaces the values of \c *this by
-    /// its.
+    /// Copies the values of \c o and replaces the values of \c *this by its.
     ///
     /// Remarks: This assignment operator is explicitly deleted.
     ///
@@ -184,8 +165,7 @@ namespace gsl
     constexpr not_null& operator=(std::nullptr_t o) noexcept = delete;
 
     ///
-    /// \brief Moves the values of \c o and replaces the values of \c *this by
-    /// its.
+    /// Moves the values of \c o and replaces the values of \c *this by its.
     ///
     /// Remarks: This assignment operator is explicitly deleted.
     ///
@@ -197,8 +177,7 @@ namespace gsl
     constexpr not_null& operator=(not_null&& o) noexcept = delete;
 
     ///
-    /// \brief Moves the values of \c o and replaces the values of \c *this by
-    /// its.
+    /// Moves the values of \c o and replaces the values of \c *this by its.
     ///
     /// Remarks: This assignment operator is explicitly deleted.
     ///
@@ -210,8 +189,7 @@ namespace gsl
     constexpr not_null& operator=(std::nullptr_t&& o) noexcept = delete;
 
     ///
-    /// \brief The type cast operator on an object of the class template
-    /// \c not_null.
+    /// The type cast operator on an object of the class template \c not_null.
     ///
     /// \return The stored pointer.
     ///
@@ -221,8 +199,8 @@ namespace gsl
     }
 
     ///
-    /// \brief The class member access operator on an object of the class
-    /// template \c not_null.
+    /// The class member access operator on an object of the class template
+    /// \c not_null.
     ///
     /// \return The stored pointer.
     ///
@@ -241,7 +219,7 @@ namespace gsl
     void operator[](std::ptrdiff_t) const = delete;
 
     ///
-    /// \brief The dereference operator on an object of the class template
+    /// The dereference operator on an object of the class template
     /// \c not_null.
     ///
     /// \return The object pointed by the stored pointer.
@@ -264,14 +242,14 @@ namespace gsl
 
   private:
     ///
-    /// \brief The value held by the object.
+    /// The value held by the object.
     ///
     const T ptr;
 
   }; // template <typename T> class not_null
 
   ///
-  /// \brief The shift operator which inserts an object of the class template
+  /// The shift operator which inserts an object of the class template
   /// \c not_null into the given stream.
   ///
   /// \tparam T the type of the object which is held by the \c not_null.
@@ -291,8 +269,8 @@ namespace gsl
   }
 
   ///
-  /// \brief The comparison operator which compares two objects of the class
-  /// template \c not_null for equality.
+  /// The comparison operator which compares two objects of the class template
+  /// \c not_null for equality.
   ///
   /// \tparam T the type of the object which is held by the left-hand side
   /// \c not_null.
@@ -302,7 +280,7 @@ namespace gsl
   /// \param lhs an object of the class template \c not_null.
   /// \param rhs an object of the class template \c not_null.
   ///
-  /// \return \c lhs.get() == rhs.get().
+  /// \return <tt>lhs.get() == rhs.get()</tt>.
   ///
   template <typename T, typename U>
   constexpr auto operator==(const not_null<T>& lhs, const not_null<U>& rhs)
@@ -311,8 +289,8 @@ namespace gsl
   }
 
   ///
-  /// \brief The comparison operator which compares two objects of the class
-  /// template \c not_null for inequality.
+  /// The comparison operator which compares two objects of the class template
+  /// \c not_null for inequality.
   ///
   /// \tparam T the type of the object which is held by the left-hand side
   /// \c not_null.
@@ -322,7 +300,7 @@ namespace gsl
   /// \param lhs an object of the class template \c not_null.
   /// \param rhs an object of the class template \c not_null.
   ///
-  /// \return \c lhs.get() != rhs.get().
+  /// \return <tt>lhs.get() != rhs.get()</tt>.
   ///
   template <typename T, typename U>
   constexpr auto operator!=(const not_null<T>& lhs, const not_null<U>& rhs)
@@ -331,8 +309,8 @@ namespace gsl
   }
 
   ///
-  /// \brief The comparison operator which compares two objects of the class
-  /// template \c not_null.
+  /// The comparison operator which compares two objects of the class template
+  /// \c not_null.
   ///
   /// \tparam T the type of the object which is held by the left-hand side
   /// \c not_null.
@@ -342,7 +320,7 @@ namespace gsl
   /// \param lhs an object of the class template \c not_null.
   /// \param rhs an object of the class template \c not_null.
   ///
-  /// \return \c lhs.get() < rhs.get().
+  /// \return <tt>lhs.get() < rhs.get()</tt>.
   ///
   template <typename T, typename U>
   constexpr auto operator<(const not_null<T>& lhs, const not_null<U>& rhs)
@@ -351,8 +329,8 @@ namespace gsl
   }
 
   ///
-  /// \brief The comparison operator which compares two objects of the class
-  /// template \c not_null.
+  /// The comparison operator which compares two objects of the class template
+  /// \c not_null.
   ///
   /// \tparam T the type of the object which is held by the left-hand side
   /// \c not_null.
@@ -362,7 +340,7 @@ namespace gsl
   /// \param lhs an object of the class template \c not_null.
   /// \param rhs an object of the class template \c not_null.
   ///
-  /// \return \c lhs.get() <= rhs.get().
+  /// \return <tt>lhs.get() <= rhs.get()</tt>.
   ///
   template <typename T, typename U>
   constexpr auto operator<=(const not_null<T>& lhs, const not_null<U>& rhs)
@@ -371,8 +349,8 @@ namespace gsl
   }
 
   ///
-  /// \brief The comparison operator which compares two objects of the class
-  /// template \c not_null.
+  /// The comparison operator which compares two objects of the class template
+  /// \c not_null.
   ///
   /// \tparam T the type of the object which is held by the left-hand side
   /// \c not_null.
@@ -382,7 +360,7 @@ namespace gsl
   /// \param lhs an object of the class template \c not_null.
   /// \param rhs an object of the class template \c not_null.
   ///
-  /// \return \c lhs.get() > rhs.get().
+  /// \return <tt>lhs.get() > rhs.get()</tt>.
   ///
   template <typename T, typename U>
   constexpr auto operator>(const not_null<T>& lhs, const not_null<U>& rhs)
@@ -391,8 +369,8 @@ namespace gsl
   }
 
   ///
-  /// \brief The comparison operator which compares two objects of the class
-  /// template \c not_null.
+  /// The comparison operator which compares two objects of the class template
+  /// \c not_null.
   ///
   /// \tparam T the type of the object which is held by the left-hand side
   /// \c not_null.
@@ -402,7 +380,7 @@ namespace gsl
   /// \param lhs an object of the class template \c not_null.
   /// \param rhs an object of the class template \c not_null.
   ///
-  /// \return \c lhs.get() >= rhs.get().
+  /// \return <tt>lhs.get() >= rhs.get()</tt>.
   ///
   template <typename T, typename U>
   constexpr auto operator>=(const not_null<T>& lhs, const not_null<U>& rhs)

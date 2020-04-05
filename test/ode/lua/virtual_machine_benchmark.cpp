@@ -1,25 +1,9 @@
-//===------------------- virtual_machine_benchmark.cpp ----------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file virtual_machine_benchmark.cpp
-/// \brief The benchmarks of the Lua virtual machine utilities.
+/// The benchmarks of the Lua virtual machine utilities.
+/// \file
 /// \author Antti Kivi
 /// \date 10 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/lua/virtual_machine.h"
 
@@ -30,7 +14,7 @@
 
 static void ode_lua_get_str(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -55,7 +39,7 @@ BENCHMARK(ode_lua_get_str);
 
 static void ode_lua_get_greeting(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -80,7 +64,7 @@ BENCHMARK(ode_lua_get_greeting);
 
 static void ode_lua_get_int(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -105,7 +89,7 @@ BENCHMARK(ode_lua_get_int);
 
 static void ode_lua_get_integer(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -130,7 +114,7 @@ BENCHMARK(ode_lua_get_integer);
 
 static void ode_lua_get_f(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -155,7 +139,7 @@ BENCHMARK(ode_lua_get_f);
 
 static void ode_lua_get_float(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -180,7 +164,7 @@ BENCHMARK(ode_lua_get_float);
 
 static void ode_lua_get_b(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -205,7 +189,7 @@ BENCHMARK(ode_lua_get_b);
 
 static void ode_lua_get_bool(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -230,7 +214,7 @@ BENCHMARK(ode_lua_get_bool);
 
 static void ode_lua_get_table_str(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -255,7 +239,7 @@ BENCHMARK(ode_lua_get_table_str);
 
 static void ode_lua_get_table_greeting(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -280,7 +264,7 @@ BENCHMARK(ode_lua_get_table_greeting);
 
 static void ode_lua_get_table_int(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -305,7 +289,7 @@ BENCHMARK(ode_lua_get_table_int);
 
 static void ode_lua_get_table_integer(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -330,7 +314,7 @@ BENCHMARK(ode_lua_get_table_integer);
 
 static void ode_lua_get_table_f(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -355,7 +339,7 @@ BENCHMARK(ode_lua_get_table_f);
 
 static void ode_lua_get_table_float(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -380,7 +364,7 @@ BENCHMARK(ode_lua_get_table_float);
 
 static void ode_lua_get_table_b(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -405,7 +389,7 @@ BENCHMARK(ode_lua_get_table_b);
 
 static void ode_lua_get_table_bool(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -430,7 +414,7 @@ BENCHMARK(ode_lua_get_table_bool);
 
 static void ode_lua_call_add(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";
@@ -455,7 +439,7 @@ BENCHMARK(ode_lua_call_add);
 
 static void ode_lua_call_pow(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "virtual_machine_benchmark.lua";

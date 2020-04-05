@@ -1,25 +1,9 @@
-//===--------------------------- pixel_count.h ------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file pixel_count.h
-/// \brief The declaration of the pixel count type.
+/// The declaration of the pixel count type.
+/// \file
 /// \author Antti Kivi
 /// \date 4 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_PIXEL_COUNT_H
 #define ODE_PIXEL_COUNT_H
@@ -27,14 +11,14 @@
 namespace ode
 {
   ///
-  /// \brief The type of the values which represent some number of pixels.
+  /// The type of the values which represent some number of pixels.
   ///
   using pixel_count = int;
 
 } // namespace ode
 
 ///
-/// \brief A \c pixel_count value representing an integer of pixels.
+/// A \c pixel_count value representing an integer of pixels.
 ///
 /// \param i an integer of pixels.
 ///

@@ -1,25 +1,9 @@
-//===------------------------- parse_arguments.h ----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2020 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file parse_arguments.h
-/// \brief The declarations of the utility for parsing command line arguments.
+/// The declarations of the utility for parsing command line arguments.
+/// \file
 /// \author Antti Kivi
 /// \date 18 March 2020
-/// \copyright Copyright (c) 2020 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_CLI_PARSE_ARGUMENTS_H
 #define ODE_CLI_PARSE_ARGUMENTS_H
@@ -29,8 +13,8 @@
 namespace ode::cli {
 
   ///
-  /// \brief Returns an object of the type \c arguments which contains the
-  /// values set when executing the program from the command line.
+  /// Returns an object of the type \c arguments which contains the values set
+  /// when executing the program from the command line.
   ///
   /// TODO Return value.
   ///

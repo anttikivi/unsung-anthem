@@ -1,25 +1,9 @@
-//===------------------------ script_benchmark.cpp --------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file script_benchmark.cpp
-/// \brief The benchmarks of the utilities for Lua scripts.
+/// The benchmarks of the utilities for Lua scripts.
+/// \file
 /// \author Antti Kivi
 /// \date 10 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/lua/script.h"
 
@@ -30,7 +14,7 @@
 
 static void ode_load_script_file(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "script.lua";

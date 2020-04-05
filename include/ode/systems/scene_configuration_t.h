@@ -1,25 +1,9 @@
-//===---------------------- scene_configuration_t.h -------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file scene_configuration_t.h
-/// \brief The declaration of the type of the scene configuration wrappers.
+/// The declaration of the type of the scene configuration wrappers.
+/// \file
 /// \author Antti Kivi
 /// \date 11 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_SYSTEMS_SCENE_CONFIGURATION_T_H
 #define ODE_SYSTEMS_SCENE_CONFIGURATION_T_H
@@ -32,20 +16,19 @@
 namespace ode
 {
   ///
-  /// \class scene_configuration_t
-  /// \brief The type of the objects which hold the scene configuration object
+  /// The type of the objects which hold the scene configuration object
   /// implementations.
   ///
   class scene_configuration_t final
   {
   public:
     ///
-    /// \brief Constructs an object of the type \c scene_configuration_t.
+    /// Constructs an object of the type \c scene_configuration_t.
     ///
     scene_configuration_t() = default;
 
     ///
-    /// \brief Constructs an object of the type \c scene_configuration_t.
+    /// Constructs an object of the type \c scene_configuration_t.
     ///
     /// \tparam T the type of the configuration implementation.
     ///
@@ -58,8 +41,8 @@ namespace ode
     }
 
     ///
-    /// \brief Constructs an object of the type \c scene_configuration_t by
-    /// copying the given object of the type \c scene_configuration_t.
+    /// Constructs an object of the type \c scene_configuration_t by copying
+    /// the given object of the type \c scene_configuration_t.
     ///
     /// \param a a \c scene_configuration_t from which the new one is
     /// constructed.
@@ -67,8 +50,8 @@ namespace ode
     scene_configuration_t(const scene_configuration_t& a) = default;
 
     ///
-    /// \brief Constructs an object of the type \c scene_configuration_t by
-    /// moving the given object of the type \c scene_configuration_t.
+    /// Constructs an object of the type \c scene_configuration_t by moving the
+    /// given object of the type \c scene_configuration_t.
     ///
     /// \param a a \c scene_configuration_t from which the new one is
     /// constructed.
@@ -76,13 +59,13 @@ namespace ode
     scene_configuration_t(scene_configuration_t&& a) = default;
 
     ///
-    /// \brief Destructs an object of the type \c scene_configuration_t.
+    /// Destructs an object of the type \c scene_configuration_t.
     ///
     ~scene_configuration_t() = default;
 
     ///
-    /// \brief Assigns the given object of the type \c scene_configuration_t to
-    /// this one by copying.
+    /// Assigns the given object of the type \c scene_configuration_t to this
+    /// one by copying.
     ///
     /// \param a a \c scene_configuration_t from which this one is assigned.
     ///
@@ -91,8 +74,8 @@ namespace ode
     scene_configuration_t& operator=(const scene_configuration_t& a) = default;
 
     ///
-    /// \brief Assigns the given object of the type \c scene_configuration_t to
-    /// this one by moving.
+    /// Assigns the given object of the type \c scene_configuration_t to this
+    /// one by moving.
     ///
     /// \param a a \c scene_configuration_t from which this one is assigned.
     ///
@@ -102,7 +85,7 @@ namespace ode
 
   private:
     ///
-    /// \brief A pointer to the contained configuration implementation.
+    /// A pointer to the contained configuration implementation.
     ///
     std::shared_ptr<const scene_configuration> config_ptr;
   };

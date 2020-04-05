@@ -1,25 +1,9 @@
-//===---------------------- virtual_machine_test.cpp ------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file virtual_machine_test.cpp
-/// \brief The tests of the Lua virtual machine utilities.
+/// The tests of the Lua virtual machine utilities.
+/// \file
 /// \author Antti Kivi
 /// \date 10 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/lua/virtual_machine.h"
 
@@ -81,7 +65,7 @@ TEST(ode_lua_make_state, values_are_got)
   ASSERT_ANY_THROW(ode::lua::get<int>(state, made_up_var));
   ASSERT_ANY_THROW(ode::lua::get<float>(state, made_up_var));
   ASSERT_ANY_THROW(ode::lua::get<bool>(state, made_up_var));
-  
+
 #endif // defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
     GSL_THROW_ON_CONTRACT_VIOLATION
 

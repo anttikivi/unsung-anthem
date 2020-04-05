@@ -1,25 +1,9 @@
-//===----------------------------- window_t.h -------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file window_t.h
-/// \brief The declarations of the window types.
+/// The declarations of the window types.
+/// \file
 /// \author Antti Kivi
 /// \date 5 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_WINDOW_T_H
 #define ODE_WINDOW_T_H
@@ -29,12 +13,12 @@
 namespace ode
 {
   ///
-  /// \brief The type of the window object.
+  /// The type of the window object.
   ///
   using window_t = sdl::window_t;
 
   ///
-  /// \brief A pointer type which is used as the parameter type for raw window
+  /// A pointer type which is used as the parameter type for raw window
   /// pointers.
   ///
   using window_ptr_t = sdl::window_ptr_t;

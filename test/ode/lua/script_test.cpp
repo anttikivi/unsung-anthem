@@ -1,25 +1,9 @@
-//===-------------------------- script_test.cpp -----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file script_test.cpp
-/// \brief The tests of the utilities for Lua scripts.
+/// The tests of the utilities for Lua scripts.
+/// \file
 /// \author Antti Kivi
 /// \date 8 February 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/lua/script.h"
 
@@ -33,7 +17,7 @@ TEST(ode_lua_load_script_file, file_is_loaded)
 {
   auto state = ode::lua::make_state();
 
-  const std::string filename1 = 
+  const std::string filename1 =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "script.lua";
@@ -46,7 +30,7 @@ TEST(ode_lua_load_script_file, file_is_loaded)
   ASSERT_NE(LUA_ERRFILE, error_code);
   ASSERT_EQ(LUA_OK, error_code);
 
-  const std::string filename2 = 
+  const std::string filename2 =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "not_script.lua";

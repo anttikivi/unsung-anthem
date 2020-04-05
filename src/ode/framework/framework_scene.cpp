@@ -1,25 +1,9 @@
-//===------------------------ framework_scene.cpp ---------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file framework_scene.cpp
-/// \brief The definition of the framework scene.
+/// The definition of the framework scene.
+/// \file
 /// \author Antti Kivi
 /// \date 19 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/framework/framework_scene.h"
 

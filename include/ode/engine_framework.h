@@ -1,25 +1,9 @@
-//===------------------------- engine_framework.h ---------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file engine_framework.h
-/// \brief The declaration of the main engine framework.
+/// The declaration of the main engine framework.
+/// \file
 /// \author Antti Kivi
 /// \date 6 June 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_ENGINE_FRAMEWORK_H
 #define ODE_ENGINE_FRAMEWORK_H
@@ -41,9 +25,8 @@
 namespace ode
 {
   ///
-  /// \class engine_framework
-  /// \brief The type of the object which contains the required frameworks of
-  /// the application.
+  /// The type of the object which contains the required frameworks of the
+  /// application.
   ///
   /// \tparam A the type of the type of the application implementation.
   ///
@@ -55,12 +38,12 @@ namespace ode
   {
   public:
     ///
-    /// \brief Constructs an object of the type \c engine_framework.
+    /// Constructs an object of the type \c engine_framework.
     ///
     engine_framework() = delete;
 
     ///
-    /// \brief Constructs an object of the type \c engine_framework.
+    /// Constructs an object of the type \c engine_framework.
     ///
     /// \param a the application.
     /// \param i an object of the type \c execution_info which holds the
@@ -89,12 +72,12 @@ namespace ode
       systems = std::vector<system_t>{};
 
       ODE_TRACE("Initializing the graphics system");
-      
+
       auto gs = app.make_system(system_type::graphics);
       system_t& gs_ref = add_system(std::move(gs));
 
       ODE_TRACE("Initializing the input system");
-      
+
       auto is = app.make_system(system_type::input);
       system_t& is_ref = add_system(std::move(is));
 
@@ -115,23 +98,23 @@ namespace ode
     }
 
     ///
-    /// \brief Constructs an object of the type \c engine_framework by copying
-    /// the given object of the type \c engine_framework.
+    /// Constructs an object of the type \c engine_framework by copying the
+    /// given object of the type \c engine_framework.
     ///
     /// \param an \c engine_framework from which the new one is constructed.
     ///
     engine_framework(const engine_framework& a) = delete;
 
     ///
-    /// \brief Constructs an object of the type \c engine_framework by moving
-    /// the given object of the type \c engine_framework.
+    /// Constructs an object of the type \c engine_framework by moving the
+    /// given object of the type \c engine_framework.
     ///
     /// \param an \c engine_framework from which the new one is constructed.
     ///
     engine_framework(engine_framework&& a) = default;
 
     ///
-    /// \brief Destructs an object of the type \c engine_framework.
+    /// Destructs an object of the type \c engine_framework.
     ///
     ~engine_framework()
     {
@@ -144,8 +127,8 @@ namespace ode
     }
 
     ///
-    /// \brief Assigns the given object of the type \c engine_framework to this
-    /// one by copying.
+    /// Assigns the given object of the type \c engine_framework to this one by
+    /// copying.
     ///
     /// \param a an \c engine_framework from which this one is assigned.
     ///
@@ -154,8 +137,8 @@ namespace ode
     engine_framework& operator=(const engine_framework& a) = delete;
 
     ///
-    /// \brief Assigns the given object of the type \c engine_framework to this
-    /// one by moving.
+    /// Assigns the given object of the type \c engine_framework to this one by
+    /// moving.
     ///
     /// \param a an \c engine_framework from which this one is assigned.
     ///
@@ -164,7 +147,7 @@ namespace ode
     engine_framework& operator=(engine_framework&& a) = default;
 
     ///
-    /// \brief Adds a system to the engine container.
+    /// Adds a system to the engine container.
     ///
     /// \param sys the system object.
     ///
@@ -178,7 +161,7 @@ namespace ode
     }
 
     ///
-    /// \brief Gives a reference to the application.
+    /// Gives a reference to the application.
     ///
     /// Remarks: The reference returned by this function is not constant.
     ///
@@ -190,7 +173,7 @@ namespace ode
     }
 
     ///
-    /// \brief Gives a pointer to the window of the application.
+    /// Gives a pointer to the window of the application.
     ///
     /// Remarks: The pointer returned by this function is not constant.
     ///
@@ -202,7 +185,7 @@ namespace ode
     }
 
     ///
-    /// \brief Gives a reference to the platform manager of the application.
+    /// Gives a reference to the platform manager of the application.
     ///
     /// Remarks: The reference returned by this function is not constant.
     ///
@@ -214,7 +197,7 @@ namespace ode
     }
 
     ///
-    /// \brief Gives a reference to the environment manager of the application.
+    /// Gives a reference to the environment manager of the application.
     ///
     /// Remarks: The reference returned by this function is not constant.
     ///
@@ -226,7 +209,7 @@ namespace ode
     }
 
     ///
-    /// \brief Gives a reference to the scene state manager of the application.
+    /// Gives a reference to the scene state manager of the application.
     ///
     /// Remarks: The reference returned by this function is not constant.
     ///
@@ -239,43 +222,43 @@ namespace ode
 
   private:
     ///
-    /// \brief The application implementation object.
+    /// The application implementation object.
     ///
     A app;
 
     ///
-    /// \brief A pointer to the main window of the application.
+    /// A pointer to the main window of the application.
     ///
     window_t w;
 
     ///
-    /// \brief The object representing the OpenGL context.
+    /// The object representing the OpenGL context.
     ///
     SDL_GLContext gl_context;
 
     ///
-    /// \brief The systems.
+    /// The systems.
     ///
     std::vector<system_t> systems;
 
     ///
-    /// \brief The platform manager.
+    /// The platform manager.
     ///
     platform_manager pfm;
 
     ///
-    /// \brief The environment manager.
+    /// The environment manager.
     ///
     environment_manager envm;
 
     ///
-    /// \brief The state manager which distributes the state changes.
+    /// The state manager which distributes the state changes.
     ///
     state_manager sm;
   };
 
   ///
-  /// \brief Initializes the engine framework and the components related to it.
+  /// Initializes the engine framework and the components related to it.
   ///
   /// \tparam A the type of the type of the application implementation.
   ///
@@ -291,7 +274,7 @@ namespace ode
   template <typename A> auto make_engine(A&& a, const execution_info& i)
 #endif // !ODE_CONCEPTS
   {
-    
+
 #if !ODE_CONCEPTS
 
     static_assert(

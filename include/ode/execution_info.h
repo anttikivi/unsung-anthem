@@ -1,25 +1,9 @@
-//===-------------------------- execution_info.h ----------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file execution_info.h
-/// \brief The declarations of the execution information types.
+/// The declarations of the execution information types.
+/// \file
 /// \author Antti Kivi
 /// \date 29 March 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_EXECUTION_INFO_H
 #define ODE_EXECUTION_INFO_H
@@ -34,14 +18,13 @@ namespace ode
   using namespace std::literals::string_literals;
 
   ///
-  /// \struct execution_info
-  /// \brief The type of the objects which are used to pass information
-  /// according to which the execution of the engine is started.
+  /// The type of the objects which are used to pass information according to
+  /// which the execution of the engine is started.
   ///
   struct execution_info final
   {
     ///
-    /// \brief The number of the command line arguments passed to the program.
+    /// The number of the command line arguments passed to the program.
     ///
     const int argc;
 
@@ -51,17 +34,17 @@ namespace ode
     const argv_t* argv;
 
     ///
-    /// \brief The starting width of the window.
+    /// The starting width of the window.
     ///
     const pixel_count window_width = 0_px;
 
     ///
-    /// \brief The starting height of the window.
+    /// The starting height of the window.
     ///
     const pixel_count window_height = 0_px;
 
     ///
-    /// \brief The name of the window.
+    /// The name of the window.
     ///
     const std::string window_name = "null"s;
   };

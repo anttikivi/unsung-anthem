@@ -1,25 +1,9 @@
-//===------------------------ stack_benchmark.cpp ---------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file stack_benchmark.cpp
-/// \brief The benchmarks of the Lua stack utility functions.
+/// The benchmarks of the Lua stack utility functions.
+/// \file
 /// \author Antti Kivi
 /// \date 10 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/lua/stack.h"
 
@@ -30,7 +14,7 @@
 
 static void ode_to_stack(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack.lua";
@@ -56,7 +40,7 @@ BENCHMARK(ode_to_stack);
 
 static void ode_push_bool(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack_push.lua";
@@ -76,7 +60,7 @@ BENCHMARK(ode_push_bool);
 
 static void ode_push_float(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack_push.lua";
@@ -96,7 +80,7 @@ BENCHMARK(ode_push_float);
 
 static void ode_push_int(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack_push.lua";
@@ -116,7 +100,7 @@ BENCHMARK(ode_push_int);
 
 static void ode_push_string(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack_push.lua";
@@ -136,7 +120,7 @@ BENCHMARK(ode_push_string);
 
 static void ode_push_string_longer(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack_push.lua";
@@ -167,7 +151,7 @@ BENCHMARK(ode_push_string_longer);
 
 static void ode_push(benchmark::State& state)
 {
-  const std::string filename = 
+  const std::string filename =
       std::string{ode::test_script_root}
       + ode::filesystem::path::preferred_separator
       + "stack_push.lua";

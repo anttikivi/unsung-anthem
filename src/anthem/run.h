@@ -1,25 +1,9 @@
-//===------------------------------- run.h ----------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file run.h
-/// \brief The declaration of the main execution function.
+/// The declaration of the main execution function.
+/// \file
 /// \author Antti Kivi
 /// \date 31 January 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ANTHEM_RUN_H
 #define ANTHEM_RUN_H
@@ -31,8 +15,8 @@
 namespace anthem
 {
   ///
-  /// \brief Returns the end code of the program after executing it with the
-  /// given arguments.
+  /// Returns the end code of the program after executing it with the given
+  /// arguments.
   ///
   /// This function is impure.
   ///

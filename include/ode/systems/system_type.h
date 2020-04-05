@@ -1,25 +1,9 @@
-//===--------------------------- system_type.h ------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file system_type.h
-/// \brief The declarations of the system type utilities.
+/// The declarations of the system type utilities.
+/// \file
 /// \author Antti Kivi
 /// \date 19 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_SYSTEMS_SYSTEM_TYPE_H
 #define ODE_SYSTEMS_SYSTEM_TYPE_H
@@ -32,8 +16,8 @@
 namespace ode
 {
   ///
-  /// \brief An enumeration type, the enumerators of which represent the
-  /// possible system types.
+  /// An enumeration type, the enumerators of which represent the possible
+  /// system types.
   ///
   /// The system types other than ‘other’ are used for the systems which have
   /// special, engine-defined responsibilities. For systems which are
@@ -48,8 +32,7 @@ namespace ode
   };
 
   ///
-  /// \brief Inserts an enumerator of the type \c system_type to the
-  /// \c std::ostream.
+  /// Inserts an enumerator of the type \c system_type to the \c std::ostream.
   ///
   /// \param os the stream to which the data is inserted.
   /// \param a the enumerator which is inserted.
@@ -59,8 +42,8 @@ namespace ode
   std::ostream& operator<<(std::ostream& os, const system_type& a);
 
   ///
-  /// \brief Gives an array containing all of the systems types for iterating
-  /// over them.
+  /// Gives an array containing all of the systems types for iterating over
+  /// them.
   ///
   /// \return An object of the type \c std::array.
   ///

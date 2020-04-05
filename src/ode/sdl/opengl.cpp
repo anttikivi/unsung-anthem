@@ -1,26 +1,10 @@
-//===----------------------------- opengl.cpp -------------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file opengl.cpp
-/// \brief The definitions of the utility functions for the Simple DirectMedia
-/// Layer OpenGL context.
+/// The definitions of the utility functions for the Simple DirectMedia Layer
+/// OpenGL context.
+/// \file
 /// \author Antti Kivi
 /// \date 2 April 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #include "ode/sdl/opengl.h"
 

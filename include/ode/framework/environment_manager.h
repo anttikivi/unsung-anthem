@@ -1,26 +1,10 @@
-//===----------------------- environment_manager.h --------------*- C++ -*-===//
-//
-//                        Obliging Ode & Unsung Anthem
-//
-// This source file is part of the Obliging Ode and Unsung Anthem open source
-// projects.
-//
-// Copyright (c) 2019 Antti Kivi
-// All rights reserved
-//
-//===----------------------------------------------------------------------===//
-//
-///
-/// \file environment_manager.h
-/// \brief The declaration of the manager which holds execution-related
-/// information and utilities.
+/// The declaration of the manager which holds execution-related information
+/// and utilities.
+/// \file
 /// \author Antti Kivi
 /// \date 12 May 2018
-/// \copyright Copyright (c) 2019 Antti Kivi
-/// All rights reserved
-///
-//
-//===----------------------------------------------------------------------===//
+/// \copyright Copyright (c) 2018–2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
 
 #ifndef ODE_FRAMEWORK_ENVIRONMENT_MANAGER_H
 #define ODE_FRAMEWORK_ENVIRONMENT_MANAGER_H
@@ -28,21 +12,20 @@
 namespace ode
 {
   ///
-  /// \class environment_manager
-  /// \brief The type of the object which holds execution-related information
-  /// and utilities.
+  /// The type of the object which holds execution-related information and
+  /// utilities.
   ///
   class environment_manager final
   {
   public:
     ///
-    /// \brief Constructs an object of the type \c environment_manager.
+    /// Constructs an object of the type \c environment_manager.
     ///
     environment_manager();
 
     ///
-    /// \brief Constructs an object of the type \c environment_manager by
-    /// copying the given object of the type \c environment_manager.
+    /// Constructs an object of the type \c environment_manager by copying the
+    /// given object of the type \c environment_manager.
     ///
     /// \param a an \c environment_manager from which the new one is
     /// constructed.
@@ -50,8 +33,8 @@ namespace ode
     environment_manager(const environment_manager& a) = delete;
 
     ///
-    /// \brief Constructs an object of the type \c environment_manager by
-    /// moving the given object of the type \c environment_manager.
+    /// Constructs an object of the type \c environment_manager by moving the
+    /// given object of the type \c environment_manager.
     ///
     /// \param a an \c environment_manager from which the new one is
     /// constructed.
@@ -59,13 +42,13 @@ namespace ode
     environment_manager(environment_manager&& a) = default;
 
     ///
-    /// \brief Destructs an object of the type \c environment_manager.
+    /// Destructs an object of the type \c environment_manager.
     ///
     ~environment_manager() = default;
 
     ///
-    /// \brief Assigns the given object of the type \c environment_manager to
-    /// this one by copying.
+    /// Assigns the given object of the type \c environment_manager to this one
+    /// by copying.
     ///
     /// \param a an \c environment_manager from which this one is assigned.
     ///
@@ -74,8 +57,8 @@ namespace ode
     environment_manager& operator=(const environment_manager& a) = delete;
 
     ///
-    /// \brief Assigns the given object of the type \c environment_manager to
-    /// this one by moving.
+    /// Assigns the given object of the type \c environment_manager to this one
+    /// by moving.
     ///
     /// \param a an \c environment_manager from which this one is assigned.
     ///
@@ -84,12 +67,12 @@ namespace ode
     environment_manager& operator=(environment_manager&& a) = default;
 
     ///
-    /// \brief Marks the environment to quit execution.
+    /// Marks the environment to quit execution.
     ///
     void schedule_termination();
 
     ///
-    /// \brief Tells whether or not the program should continue its execution.
+    /// Tells whether or not the program should continue its execution.
     ///
     /// \return A \c bool.
     ///
@@ -100,7 +83,7 @@ namespace ode
 
   private:
     ///
-    /// \brief Whether or not the execution of the program should continue.
+    /// Whether or not the execution of the program should continue.
     ///
     bool execute;
   };
