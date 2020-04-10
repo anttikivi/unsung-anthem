@@ -38,7 +38,7 @@ namespace ode::cli
   arguments parse_arguments(
       const int argc,
       ode::argv_t argv[],
-      std::vector<option_group_t> option_groups) noexcept;
+      std::vector<option_group_t> option_groups);
 
 } // namespace ode::cli
 
