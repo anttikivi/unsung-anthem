@@ -8,22 +8,37 @@
 #ifndef ODE_CLI_PARSE_ARGUMENTS_H
 #define ODE_CLI_PARSE_ARGUMENTS_H
 
+#include <vector>
+
 #include "ode/argv_t.h"
 
-namespace ode::cli {
+namespace ode::cli
+{
+  struct arguments;
+  class option_group_t;
+}
 
+namespace ode::cli
+{
+  ///
+  /// Parses the given command line arguments and resolves the values for the
+  /// command line options.
   ///
   /// Returns an object of the type \c arguments which contains the values set
   /// when executing the program from the command line.
   ///
-  /// TODO Return value.
-  ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.
+  /// \param options a vector of command line option group objects holding the
+  /// information of the possible command line option for parsing the
+  /// arguments.
   ///
   /// \return An object of the type \c arguments.
   ///
-  void parse_arguments(const int argc, ode::argv_t argv[]) noexcept;
+  arguments parse_arguments(
+      const int argc,
+      ode::argv_t argv[],
+      std::vector<option_group_t> option_groups) noexcept;
 
 } // namespace ode::cli
 

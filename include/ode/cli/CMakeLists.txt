@@ -1,6 +1,14 @@
 # Copyright (c) 2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/arguments.h)
+list(APPEND ODE_LIB_INCLUDES
+    ${CMAKE_CURRENT_SOURCE_DIR}/inclusive_option_group.h)
+list(APPEND ODE_LIB_INCLUDES
+    ${CMAKE_CURRENT_SOURCE_DIR}/mutually_exclusive_option_group.h)
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/option_group_t.h)
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/option_group.h)
+list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/option_type.h)
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/option.h)
 list(APPEND ODE_LIB_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/parse_arguments.h)
 
