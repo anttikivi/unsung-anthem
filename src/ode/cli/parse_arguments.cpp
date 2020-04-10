@@ -8,7 +8,7 @@
 #include "ode/cli/parse_arguments.h"
 
 #include "ode/cli/arguments.h"
-#include "ode/cli/option_group.h"
+#include "ode/cli/option_group_t.h"
 
 namespace ode::cli
 {
