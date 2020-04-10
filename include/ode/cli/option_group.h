@@ -14,12 +14,8 @@
 #include <vector>
 
 #include "ode/argv_t.h"
+#include "ode/cli/arguments.h"
 #include "ode/cli/option.h"
-
-namespace ode::cli
-{
-  struct arguments;
-}
 
 namespace ode::cli
 {
