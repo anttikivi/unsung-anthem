@@ -43,6 +43,22 @@ namespace ode
     return false;
   }
 
+  bool is_number(const std::string& str)
+  {
+    const int delimiter_index = str.find('.');
+
+    if (std::string::npos == delimiter_index)
+    {
+      return is_integer(str);
+    }
+    else
+    {
+      return is_integer(str.substr(0, delimiter_index)) &&
+          is_integer(str.substr(delimiter_index + 1)) &&
+          std::isdigit(static_cast<unsigned char>(str[delimiter_index + 1]));
+    }
+  }
+
   std::string trim(const std::string& str)
   {
     // Explicitly copy the parameter to make it clear.
@@ -75,6 +91,17 @@ namespace ode
       return is_integer(str) || "false"s == str || "true"s == str;
     }
   } // namespace detail
+
+  bool is_boolean(const std::string& str)
+  {
+    std::string working_str{trim(str)};
+    std::transform(
+        working_str.begin(),
+        working_str.end(),
+        working_str.begin(),
+        ::tolower);
+    return detail::is_valid_bool(working_str);
+  }
 
   bool stob(const std::string& str)
   {

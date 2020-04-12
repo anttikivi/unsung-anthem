@@ -26,6 +26,20 @@ namespace ode
   bool is_integer(const std::string& str);
 
   ///
+  /// Checks if the given object of the type \c std::string contains only
+  /// characters that are decimal digits or characters which convert to a
+  /// decimal number.
+  ///
+  /// Currently only decimal notation is supported.
+  ///
+  /// \param str the string to classify.
+  ///
+  /// \return \c true if the string contains a valid number, otherwise
+  /// \c false.
+  ///
+  bool is_number(const std::string& str);
+
+  ///
   /// Removes the leading and trailing whitespace characters from a string.
   ///
   /// The whitespace characters are identified by calling \c std::isspace.
@@ -35,6 +49,17 @@ namespace ode
   /// \return A copy of the string with whitespace characters removed.
   ///
   std::string trim(const std::string& str);
+
+  ///
+  /// Checks if the given object of the type \c std::string contains a Boolean
+  /// value.
+  ///
+  /// \param str the string to classify.
+  ///
+  /// \return \c true if the string contains a valid Boolean, otherwise
+  /// \c false.
+  ///
+  bool is_boolean(const std::string& str);
 
   ///
   /// Interprets a Boolean value in an object of the type \c std::string.

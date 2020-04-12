@@ -24,6 +24,27 @@ TEST(ode_string_utility, is_integer)
   ASSERT_FALSE(ode::is_integer(str_not_int));
 }
 
+TEST(ode_string_utility, is_number)
+{
+  const std::string str_int{"1532"};
+  const std::string str_int_prefix_0{"+14"};
+  const std::string str_int_prefix_1{"-37"};
+  const std::string str_num{"32.6367"};
+  const std::string str_num_prefix_0{"+2.64"};
+  const std::string str_num_prefix_1{"-90.532"};
+  const std::string str_not_num_0{"3 funny 4 string"};
+  const std::string str_not_num_1{"3.+4"};
+
+  ASSERT_TRUE(ode::is_number(str_int));
+  ASSERT_TRUE(ode::is_number(str_int_prefix_0));
+  ASSERT_TRUE(ode::is_number(str_int_prefix_1));
+  ASSERT_TRUE(ode::is_number(str_num));
+  ASSERT_TRUE(ode::is_number(str_num_prefix_0));
+  ASSERT_TRUE(ode::is_number(str_num_prefix_1));
+  ASSERT_FALSE(ode::is_number(str_not_num_0));
+  ASSERT_FALSE(ode::is_number(str_not_num_1));
+}
+
 TEST(ode_string_utility, trim)
 {
   const std::string test_str_0{"a string"};
@@ -44,6 +65,23 @@ TEST(ode_string_utility, trim)
   ASSERT_EQ(trimmed_0, trimmed_1);
   ASSERT_EQ(trimmed_1, trimmed_2);
   ASSERT_EQ(trimmed_2, trimmed_3);
+}
+
+TEST(ode_string_utility, is_boolean)
+{
+  const std::string str_0{"1532"};
+  const std::string str_1{"0"};
+  const std::string str_2{"-37"};
+  const std::string str_3{"true"};
+  const std::string str_4{"false"};
+  const std::string str_5{"3 funny 4 string"};
+
+  ASSERT_TRUE(ode::is_boolean(str_0));
+  ASSERT_TRUE(ode::is_boolean(str_1));
+  ASSERT_TRUE(ode::is_boolean(str_2));
+  ASSERT_TRUE(ode::is_boolean(str_3));
+  ASSERT_TRUE(ode::is_boolean(str_4));
+  ASSERT_FALSE(ode::is_boolean(str_5));
 }
 
 TEST(ode_string_utility, string_to_boolean_parses)
