@@ -299,6 +299,8 @@ namespace ode::cli
     ///
     /// \param argc the number of arguments passed in the execution.
     /// \param argv an array containing the arguments passed in the execution.
+    /// \param all_options an object of the type \c std::vector containing a
+    /// simple list of pointers to all of the possible options.
     /// \param parsed_indices an object of the type \c std::vector containing
     /// the values and indices of the command line arguments which are already
     /// parsed and, thus, should be skipped when parsing this option.
@@ -326,6 +328,7 @@ namespace ode::cli
     parsed_value_t parse_option(
         const int argc,
         ode::argv_t argv[],
+        const std::vector<option*> all_options,
         const std::vector<parsed_value_t>& parsed_indices,
         const std::string_view prefix,
         const std::string_view short_prefix,
@@ -352,6 +355,8 @@ namespace ode::cli
     ///
     /// \param argc the number of arguments passed in the execution.
     /// \param argv an array containing the arguments passed in the execution.
+    /// \param all_options an object of the type \c std::vector containing a
+    /// simple list of pointers to all of the possible options.
     /// \param parsed_indices an object of the type \c std::vector containing
     /// the values and indices of the command line arguments which are already
     /// parsed and, thus, should be skipped when parsing this option.
@@ -365,6 +370,7 @@ namespace ode::cli
     parsed_value_t parse_option(
         const int argc,
         ode::argv_t argv[],
+        const std::vector<option*> all_options,
         const std::vector<parsed_value_t>& parsed_indices) const;
 
     ///

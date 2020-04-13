@@ -464,11 +464,245 @@ namespace ode::cli
       }
     }
 
+    ///
+    /// Parses a single short option when it doesn’t reside in a combination of
+    /// short options and doesn’t contain a separator.
+    ///
+    /// \param opt a pointer to the object of the type \c option to be parsed.
+    /// \param arg_view a \c std::string_view pointing to the argument in
+    /// \c current_index.
+    /// \param name_view a \c std::string_view pointing to the short name of
+    /// the option.
+    /// \param argc the number of arguments passed in the execution.
+    /// \param argv an array containing the arguments passed in the execution.
+    /// \param current_index the index of the current command line argument.
+    /// \param prefix a string which is prefixed to the name of the options.
+    ///
+    /// \return An object of the type \c std::pair, the first element of which
+    /// is an object of the type \c std::optional which contains an object of
+    /// the type \c value_t if the parsing is successful, and the second
+    /// element of which is an object of the type \c std::vector containing the
+    /// indices of the command line arguments that were parsed.
+    ///
+    option::parsed_value_t parse_single_short_option_without_separator(
+        const option* opt,
+        const std::string_view arg_view,
+        const std::string_view name_view,
+        const int argc,
+        ode::argv_t argv[],
+        const int current_index,
+        const std::string_view prefix)
+    {
+      // If combining of the short options and separators isn’t allowed, the
+      // size of the argument must naturally be equal to the sum of the size
+      // of the prefix and the size of the short name of the option. The
+      // argument must also be equal to this combination.
+      if (arg_view.size() == prefix.size() + name_view.size() &&
+          std::string{prefix.data()} + name_view.data() == arg_view)
+      {
+        // Make sure the index isn’t out of bounds.
+        if (current_index + 1 < argc)
+        {
+          // The raw value of the of the option is in the next argument.
+          const std::string raw_value{argv[current_index + 1]};
+
+          const auto value{parse_value(opt, raw_value)};
+
+          return {
+              opt,
+              std::holds_alternative<std::nullptr_t>(value) ?
+                  std::optional<option::value_t>{std::nullopt} :
+                  std::optional<option::value_t>{value},
+              std::holds_alternative<std::nullptr_t>(value) ?
+                  std::vector<int>{current_index} :
+                  std::vector<int>{current_index, current_index + 1}};
+        }
+        else
+        {
+          // The next argument is out of bounds.
+          const std::string raw_value{""};
+
+          const auto value{parse_value(opt, raw_value)};
+
+          return {
+              opt,
+              std::holds_alternative<std::nullptr_t>(value) ?
+                  std::optional<option::value_t>{std::nullopt} :
+                  std::optional<option::value_t>{value},
+              std::vector<int>{current_index}};
+        }
+      }
+
+      // If no value can be parsed, the function returns a value with null
+      // optional, which indicates that the loop should continue.
+      return {opt, std::nullopt, {-1}};
+    }
+
+    ///
+    /// Parses a single short option when it doesn’t reside in a combination of
+    /// short options.
+    ///
+    /// \param opt a pointer to the object of the type \c option to be parsed.
+    /// \param arg_view a \c std::string_view pointing to the argument in
+    /// \c current_index.
+    /// \param name_view a \c std::string_view pointing to the short name of
+    /// the option.
+    /// \param argc the number of arguments passed in the execution.
+    /// \param argv an array containing the arguments passed in the execution.
+    /// \param current_index the index of the current command line argument.
+    /// \param prefix a string which is prefixed to the name of the options.
+    /// \param separator a string which is used to separate the option from its
+    /// value if a space isn’t used to do so.
+    /// \param allow_separator_for_short whether or not allow to use the
+    /// separator to separate the short options from the values.
+    ///
+    /// \return An object of the type \c std::pair, the first element of which
+    /// is an object of the type \c std::optional which contains an object of
+    /// the type \c value_t if the parsing is successful, and the second
+    /// element of which is an object of the type \c std::vector containing the
+    /// indices of the command line arguments that were parsed.
+    ///
+    option::parsed_value_t parse_single_short_option(
+        const option* opt,
+        const std::string_view arg_view,
+        const std::string_view name_view,
+        const int argc,
+        ode::argv_t argv[],
+        const int current_index,
+        const std::string_view prefix,
+        const std::string_view separator,
+        const bool allow_separator_for_short)
+    {
+      if (allow_separator_for_short)
+      {
+        if (arg_view.size() == prefix.size() + name_view.size())
+        {
+          return parse_single_short_option_without_separator(
+              opt,
+              arg_view,
+              name_view,
+              argc,
+              argv,
+              current_index,
+              prefix);
+        }
+        else if (0 == arg_view.rfind(
+            std::string{prefix.data()} + name_view.data() + separator.data(),
+            0))
+        {
+          const std::size_t full_option_size
+            = prefix.size() + name_view.size() + separator.size();
+
+          const std::string raw_value{arg_view.substr(
+              full_option_size,
+              arg_view.size() - full_option_size).data()};
+
+          const auto value{parse_value(opt, raw_value)};
+
+          return {
+              opt,
+              std::holds_alternative<std::nullptr_t>(value) ?
+                  std::optional<option::value_t>{std::nullopt} :
+                  std::optional<option::value_t>{value},
+              std::vector<int>{current_index}};
+        }
+      }
+      else
+      {
+        return parse_single_short_option_without_separator(
+            opt,
+            arg_view,
+            name_view,
+            argc,
+            argv,
+            current_index,
+            prefix);
+      } // !allow_separator_for_short
+
+      // If no value can be parsed, the function returns a value with null
+      // optional, which indicates that the loop should continue.
+      return {opt, std::nullopt, {-1}};
+    }
+
+    ///
+    /// Parses a short option.
+    ///
+    /// \param opt a pointer to the object of the type \c option to be parsed.
+    /// \param arg_view a \c std::string_view pointing to the argument in
+    /// \c current_index.
+    /// \param name_view a \c std::string_view pointing to the short name of
+    /// the option.
+    /// \param argc the number of arguments passed in the execution.
+    /// \param argv an array containing the arguments passed in the execution.
+    /// \param all_options an object of the type \c std::vector containing a
+    /// simple list of pointers to all of the possible options.
+    /// \param current_index the index of the current command line argument.
+    /// \param prefix a string which is prefixed to the name of the options.
+    /// \param separator a string which is used to separate the option from its
+    /// value if a space isn’t used to do so.
+    /// \param allow_separator_for_short whether or not allow to use the
+    /// separator to separate the short options from the values.
+    /// \param allow_combining whether or not it’s allowed to specify multiple
+    /// short, one-character options together.
+    ///
+    /// \return An object of the type \c std::pair, the first element of which
+    /// is an object of the type \c std::optional which contains an object of
+    /// the type \c value_t if the parsing is successful, and the second
+    /// element of which is an object of the type \c std::vector containing the
+    /// indices of the command line arguments that were parsed.
+    ///
+    option::parsed_value_t parse_short_option(
+        const option* opt,
+        const std::string_view arg_view,
+        const std::string_view name_view,
+        const int argc,
+        ode::argv_t argv[],
+        const std::vector<option*> all_options,
+        const int current_index,
+        const std::string_view prefix,
+        const std::string_view separator,
+        const bool allow_separator_for_short,
+        const bool allow_combining)
+    {
+      if (allow_combining)
+      {
+        // TODO Check lenght.
+
+        // TODO Check that the option doesn’t match long name of any other
+        // option by passing a vector of option pointers to this function. This
+        // is especially important for Windows as it uses the same prefix for
+        // both long and short names.
+
+        // TODO If there are combined options, check that all of them are
+        // valid. The check will be done by actually parsing the argument
+        // containing the combination. When the combination is passed on to the
+        // next function for parsing the next option, the current option should
+        // be removed to avoid having an endless loop.
+
+        // Please note that combinations of options can’t be used with
+        // separator characters.
+      }
+      else
+      {
+        return parse_single_short_option(
+            opt,
+            arg_view,
+            name_view,
+            argc,
+            argv,
+            current_index,
+            prefix,
+            separator,
+            allow_separator_for_short);
+      } // !allow_combining
+    }
+
   } // namespace detail
 
   option::parsed_value_t option::parse_option(
       const int argc,
       ode::argv_t argv[],
+      const std::vector<option*> all_options,
       const std::vector<option::parsed_value_t>& parsed_indices,
       const std::string_view prefix,
       const std::string_view short_prefix,
@@ -525,28 +759,59 @@ namespace ode::cli
         }
         else if (short_n.has_value() && 0 == arg_view.rfind(short_prefix, 0))
         {
-          // TODO Take into account that the prefix is the same for long and
-          // short options on Windows.
+          const auto value = detail::parse_short_option(
+              this,
+              arg_view,
+              *short_n,
+              argc,
+              argv,
+              all_options,
+              i,
+              short_prefix,
+              separator,
+              allow_separator_for_short,
+              allow_combining);
 
-          if (allow_combining)
+          // If the parsing yields no value, it’s probably due to the fact that
+          // the short option doesn’t exist in the given index as the check
+          // can’t be done before the parsing like with long option names.
+          // Therefore, the function shouldn’t return but continue the loop. If
+          // it yields no value but the current index is indicated as parsed,
+          // it means that the option was given in an invalid manner, and the
+          // function should return.
+          if (std::get<parsed_value_index>(value).has_value() ||
+              std::get<parsed_indices_index>(value)[0] == i)
           {
-            // TODO Check lenght.
+            return value;
           }
-          else
+        }
+        else if (!alternative_prefix.empty() && short_n.has_value() &&
+            0 == arg_view.rfind(alternative_prefix, 0))
+        {
+          const auto value = detail::parse_short_option(
+              this,
+              arg_view,
+              *short_n,
+              argc,
+              argv,
+              all_options,
+              i,
+              alternative_prefix,
+              separator,
+              allow_separator_for_short,
+              allow_combining);
+
+          // If the parsing yields no value, it’s probably due to the fact that
+          // the short option doesn’t exist in the given index as the check
+          // can’t be done before the parsing like with long option names.
+          // Therefore, the function shouldn’t return but continue the loop. If
+          // it yields no value but the current index is indicated as parsed,
+          // it means that the option was given in an invalid manner, and the
+          // function should return.
+          if (std::get<parsed_value_index>(value).has_value() ||
+              std::get<parsed_indices_index>(value)[0] == i)
           {
-            // If combining of the short options isn’t allowed, the size of the
-            // argument must naturally be equal to the sum of the the size of
-            // the prefix and the size of the short name of the option.
-            if (arg_view.size() == short_prefix.size() + short_n->size())
-            {
-              // The raw value of the of the option is in the next argument.
-              const std::string raw_value{argv[i + 1]};
-
-              // TODO The parsing function should make sure the value isn’t
-              // accidentally parsed from the name of the next option.
-
-              // TODO Parse the value.
-            }
+            return value;
           }
         }
       }
@@ -558,12 +823,14 @@ namespace ode::cli
   option::parsed_value_t option::parse_option(
       const int argc,
       ode::argv_t argv[],
+      const std::vector<option*> all_options,
       const std::vector<option::parsed_value_t>& parsed_indices) const
   {
 #if ODE_WINDOWS
     return parse_option(
         argc,
         argv,
+        all_options,
         parsed_indices,
         "/",
         "/",
@@ -576,6 +843,7 @@ namespace ode::cli
     return parse_option(
         argc,
         argv,
+        all_options,
         parsed_indices,
         "--",
         "-",
