@@ -39,4 +39,10 @@ namespace ode::cli
   {
 
   }
+
+  std::optional<arguments> inclusive_option_group::parse_group(
+      const int argc,
+      ode::argv_t argv[]) const
+  {
+  }
 } // namespace ode::cli

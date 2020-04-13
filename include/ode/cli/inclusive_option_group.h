@@ -99,6 +99,19 @@ namespace ode::cli
     /// \return A reference to \c *this.
     ///
     inclusive_option_group& operator=(inclusive_option_group&& a) = default;
+
+    ///
+    /// Parses the options of this group from the given command line arguments.
+    ///
+    /// \param argc the number of arguments passed in the execution.
+    /// \param argv the array containing the arguments passed in the execution.
+    ///
+    /// \return An object of the type \c std::optional which contains an object
+    /// of the type \c arguments if the parsing is successful.
+    ///
+    std::optional<arguments> parse_group(
+        const int argc,
+        ode::argv_t argv[]) const;
   };
 
 } // namespace ode::cli
