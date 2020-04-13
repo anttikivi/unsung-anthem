@@ -306,8 +306,14 @@ namespace ode::cli
     /// options.
     /// \param short_prefix a string which is prefixed to the long names of the
     /// options.
+    /// \param alternative_prefix a string which is also accepted as a prefix
+    /// for both long and short option.
     /// \param separator a string which is used to separate the option from its
     /// value if a space isn’t used to do so.
+    /// \param use_alternative_name whether or not to use the alternative,
+    /// camel case name of the option.
+    /// \param allow_separator_for_short whether or not allow to use the
+    /// separator to separate the short options from the values.
     /// \param allow_combining whether or not it’s allowed to specify multiple
     /// short, one-character options together.
     ///
@@ -323,8 +329,43 @@ namespace ode::cli
         const std::vector<parsed_value_t>& parsed_indices,
         const std::string_view prefix,
         const std::string_view short_prefix,
+        const std::string_view alternative_prefix,
         const std::string_view separator,
+        const bool use_alternative_name,
+        const bool allow_separator_for_short,
         const bool allow_combining) const;
+
+    ///
+    /// Parses this option from the command line arguments.
+    ///
+    /// This overload of the function should be preferred to the ‘full’ variant
+    /// as it uses correct prefixes, separators, and name variants for the
+    /// current platform.
+    ///
+    /// This function doesn’t do any checks regarding command line option
+    /// requirements nor mutual exclusivity. It simply parses the value of the
+    /// option.
+    ///
+    /// If the option is found but the value given to it is invalid, the first
+    /// element in the return value is set to \c std::nullopt but the second
+    /// element will still contain the parsed indices.
+    ///
+    /// \param argc the number of arguments passed in the execution.
+    /// \param argv an array containing the arguments passed in the execution.
+    /// \param parsed_indices an object of the type \c std::vector containing
+    /// the values and indices of the command line arguments which are already
+    /// parsed and, thus, should be skipped when parsing this option.
+    ///
+    /// \return An object of the type \c std::pair, the first element of which
+    /// is an object of the type \c std::optional which contains an object of
+    /// the type \c value_t if the parsing is successful, and the second
+    /// element of which is an object of the type \c std::vector containing the
+    /// indices of the command line arguments that were parsed.
+    ///
+    parsed_value_t parse_option(
+        const int argc,
+        ode::argv_t argv[],
+        const std::vector<parsed_value_t>& parsed_indices) const;
 
     ///
     /// Gives the long name of this command line option.
@@ -332,6 +373,14 @@ namespace ode::cli
     /// \return An object of the type \c std::string.
     ///
     std::string name() const;
+
+    ///
+    /// Gives the alternative, camel case long name of this command line
+    /// option.
+    ///
+    /// \return An object of the type \c std::string.
+    ///
+    std::string alternative_name() const;
 
     ///
     /// Gives the short, one-character name of this command line option.
@@ -374,6 +423,11 @@ namespace ode::cli
     /// The long name of the command line option.
     ///
     const std::string n;
+
+    ///
+    /// The alternative, Windows-only long name of the command line option.
+    ///
+    const std::string alt_n;
 
     ///
     /// The short, one-character name of the command line option.
