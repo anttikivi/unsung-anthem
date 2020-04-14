@@ -411,7 +411,7 @@ namespace ode::cli
             full_option_size,
             arg_view.size() - full_option_size).data()};
 
-        const auto value{detail::parse_value(opt, raw_value)};
+        const auto value{parse_value(opt, raw_value)};
 
         return {
             opt,
@@ -435,7 +435,7 @@ namespace ode::cli
             // The raw value of the of the option is in the next argument.
             const std::string raw_value{argv[current_index + 1]};
 
-            const auto value{detail::parse_value(opt, raw_value)};
+            const auto value{parse_value(opt, raw_value)};
 
             return {
                 opt,
@@ -451,7 +451,7 @@ namespace ode::cli
             // The next argument is out of bounds.
             const std::string raw_value{""};
 
-            const auto value{detail::parse_value(opt, raw_value)};
+            const auto value{parse_value(opt, raw_value)};
 
             return {
                 opt,
@@ -462,6 +462,8 @@ namespace ode::cli
           }
         }
       }
+
+      return {opt, std::nullopt, {-1}};
     }
 
     ///
@@ -666,7 +668,6 @@ namespace ode::cli
     {
       if (allow_combining)
       {
-        // TODO Check lenght.
         if (arg_view.size() == prefix.size() + name_view.size() ||
             (allow_separator_for_short && 0 == arg_view.rfind(
                 std::string{prefix.data()}
