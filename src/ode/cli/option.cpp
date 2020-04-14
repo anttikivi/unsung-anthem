@@ -667,6 +667,29 @@ namespace ode::cli
       if (allow_combining)
       {
         // TODO Check lenght.
+        if (arg_view.size() == prefix.size() + name_view.size() ||
+            (allow_separator_for_short && 0 == arg_view.rfind(
+                std::string{prefix.data()}
+                + name_view.data()
+                + separator.data(),
+                0)))
+        {
+          return parse_single_short_option(
+              opt,
+              arg_view,
+              name_view,
+              argc,
+              argv,
+              current_index,
+              prefix,
+              separator,
+              allow_separator_for_short);
+        }
+        else
+        {
+          // TODO
+          return {opt, std::nullopt, {-1}};
+        }
 
         // TODO Check that the option doesn’t match long name of any other
         // option by passing a vector of option pointers to this function. This
