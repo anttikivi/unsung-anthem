@@ -376,6 +376,8 @@ namespace ode::cli
     ///
     /// Gives the long name of this command line option.
     ///
+    /// TODO: Contemplate the possibility of making the name case-insensitive.
+    ///
     /// \return An object of the type \c std::string.
     ///
     std::string name() const;
@@ -383,6 +385,9 @@ namespace ode::cli
     ///
     /// Gives the alternative, camel case long name of this command line
     /// option.
+    ///
+    /// TODO: Contemplate the possibility of making the alternative name
+    /// case-insensitive.
     ///
     /// \return An object of the type \c std::string.
     ///

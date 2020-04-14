@@ -627,6 +627,102 @@ namespace ode::cli
     }
 
     ///
+    /// Checks whether or not the given argument is a valid combination of one
+    /// character options.
+    ///
+    /// \param opt a pointer to the object of the type \c option to be parsed.
+    /// \param arg_view a \c std::string_view pointing to the argument in
+    /// \c current_index.
+    /// \param name_view a \c std::string_view pointing to the short name of
+    /// the option.
+    /// \param argc the number of arguments passed in the execution.
+    /// \param argv an array containing the arguments passed in the execution.
+    /// \param all_options an object of the type \c std::vector containing a
+    /// simple list of pointers to all of the possible options.
+    /// \param current_index the index of the current command line argument.
+    /// \param prefix a string which is prefixed to the name of the options.
+    /// \param separator a string which is used to separate the option from its
+    /// value if a space isn’t used to do so.
+    ///
+    /// \return \c true if the option combination in the given argument can be
+    /// parsed, otherwise \c false.
+    ///
+    bool is_valid_option_combination(
+        const option* opt,
+        const std::string_view arg_view,
+        const std::string_view name_view,
+        const int argc,
+        ode::argv_t argv[],
+        const std::vector<option*> all_options,
+        const int current_index,
+        const std::string_view prefix)
+    {
+      // Double-check the prefix.
+      if (0 != arg_view.rfind(prefix, 0))
+      {
+        return false;
+      }
+
+      // Make sure the rest of the characters in the argument are alphabetic
+      // characters.
+      for (const char ch : arg_view.substr(prefix.size()))
+      {
+        if (!std::isalpha(static_cast<unsigned char>(ch)))
+        {
+          return false;
+        }
+      }
+
+      // Check that the option doesn’t match the long name of some option.
+      for (const option* o : all_options)
+      {
+        if (arg_view.substr(prefix.size()) == o->name() ||
+            arg_view.substr(prefix.size()) == o->alternative_name())
+        {
+          return false;
+        }
+      }
+
+      bool found_options = true;
+
+      // Check each of the options in the combination and see if they match
+      // ones that actually exist. Also check that all of the options in the
+      // combination can be parsed into valid values.
+      for (int i = prefix.size(); i < arg_view.size(); ++i)
+      {
+        bool valid_option = false;
+
+        for (const option* o : all_options)
+        {
+          // Check if the current option matches the current option.
+          if (o->short_name().has_value() &&
+              *o->short_name() == std::string{arg_view[i]})
+          {
+            // If this option is the last one in the combination, it requires
+            // different handling as its value can be in the next argument.
+            const std::string raw_value{
+                arg_view.size() - 1 == i && current_index + 1 < argc ?
+                argv[current_index + 1] :
+                ""};
+
+            const auto value = parse_value(o, raw_value);
+
+            // If the value returned from the value parsing function is a value
+            // of the type nullptr_t, the parsing wasn’t successful.
+            valid_option = !std::holds_alternative<std::nullptr_t>(value);
+          }
+        }
+
+        if (!valid_option)
+        {
+          found_options = false;
+        }
+      }
+
+      return found_options;
+    }
+
+    ///
     /// Parses a short option.
     ///
     /// \param opt a pointer to the object of the type \c option to be parsed.
@@ -688,23 +784,59 @@ namespace ode::cli
         }
         else
         {
-          // TODO
-          return {opt, std::nullopt, {-1}};
+          if (is_valid_option_combination(
+              opt,
+              arg_view,
+              name_view,
+              argc,
+              argv,
+              all_options,
+              current_index,
+              prefix))
+          {
+            const auto option_index = arg_view.find(name_view);
+
+            if (std::string_view::npos == option_index)
+            {
+              return {opt, std::nullopt, {-1}};
+            }
+            else if (arg_view.size() - 1 == option_index)
+            {
+              // If this option is the last one in the combination, it requires
+              // different handling as its value can be in the next argument.
+              const std::string raw_value{
+                  current_index + 1 < argc ? argv[current_index + 1] : ""};
+
+              const auto value{parse_value(opt, raw_value)};
+
+              return {
+                  opt,
+                  std::holds_alternative<std::nullptr_t>(value) ?
+                      std::optional<option::value_t>{std::nullopt} :
+                      std::optional<option::value_t>{value},
+                  std::holds_alternative<std::nullptr_t>(value) ?
+                      std::vector<int>{current_index} :
+                      std::vector<int>{current_index, current_index + 1}};
+            }
+            else
+            {
+              const std::string raw_value{""};
+
+              const auto value{parse_value(opt, raw_value)};
+
+              return {
+                  opt,
+                  std::holds_alternative<std::nullptr_t>(value) ?
+                      std::optional<option::value_t>{std::nullopt} :
+                      std::optional<option::value_t>{value},
+                  std::vector<int>{current_index}};
+            }
+          }
+          else
+          {
+            return {opt, std::nullopt, {-1}};
+          }
         }
-
-        // TODO Check that the option doesn’t match long name of any other
-        // option by passing a vector of option pointers to this function. This
-        // is especially important for Windows as it uses the same prefix for
-        // both long and short names.
-
-        // TODO If there are combined options, check that all of them are
-        // valid. The check will be done by actually parsing the argument
-        // containing the combination. When the combination is passed on to the
-        // next function for parsing the next option, the current option should
-        // be removed to avoid having an endless loop.
-
-        // Please note that combinations of options can’t be used with
-        // separator characters.
       }
       else
       {
