@@ -248,6 +248,32 @@ namespace ode::cli
         const bool r);
 
     ///
+    /// Constructs an object of the type \c option which accepts a string
+    /// value.
+    ///
+    /// \param name the long name of the command line option.
+    /// \param short_name the short, one-character name of the command line
+    /// option.
+    /// \param default_v the default value of the command line option.
+    /// \param r whether or not this option is required.
+    ///
+    option(
+        const std::string& name,
+        const std::string& short_name,
+        const char* default_v,
+        const bool r);
+
+    ///
+    /// Constructs an object of the type \c option which accepts a string
+    /// value.
+    ///
+    /// \param name the long name of the command line option.
+    /// \param default_v the default value of the command line option.
+    /// \param r whether or not this option is required.
+    ///
+    option(const std::string& name, const char* default_v, const bool r);
+
+    ///
     /// Constructs an object of the type \c option by copying the given object
     /// of the type \c option.
     ///

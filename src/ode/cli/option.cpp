@@ -232,6 +232,22 @@ namespace ode::cli
     ODE_TRACE("Creating a command line option that accepts string values");
   }
 
+  option::option(
+      const std::string& name,
+      const std::string& short_name,
+      const char* default_v,
+      const bool r)
+  : option{name, short_name, std::string{default_v}, r}
+  {
+    ODE_TRACE("Creating a command line option that accepts string values");
+  }
+
+  option::option(const std::string& name, const char* default_v, const bool r)
+  : option{name, std::string{default_v}, r}
+  {
+    ODE_TRACE("Creating a command line option that accepts string values");
+  }
+
   namespace detail
   {
     ///
@@ -331,35 +347,44 @@ namespace ode::cli
       case option_type::boolean:
         if (is_boolean(raw_value))
         {
+          ODE_TRACE("Parsing the option {} from value {} as a Boolean", opt->name(), raw_value);
+
           // The Boolean value can be given with or without the separator so it
           // may be in the same index.
           return stob(raw_value);
         }
         else
         {
+          ODE_TRACE("Parsing the option {} as a Boolean flag", opt->name());
           return parse_without_value(opt);
         }
       case option_type::integer:
         if (is_integer(raw_value))
         {
+          ODE_TRACE("Parsing the option {} from value {} as an integer", opt->name(), raw_value);
           return std::stoi(raw_value);
         }
         else
         {
+          ODE_TRACE("Parsing the option {} from value {} as an integer yielded no valid value", opt->name(), raw_value);
           return nullptr;
         }
       case option_type::floating_point:
         if (is_number(raw_value))
         {
+          ODE_TRACE("Parsing the option {} from value {} as a floating point number", opt->name(), raw_value);
           return std::stod(raw_value);
         }
         else
         {
+          ODE_TRACE("Parsing the option {} from value {} as a floating point number yielded no valid value", opt->name(), raw_value);
           return nullptr;
         }
       case option_type::string:
+        ODE_TRACE("Parsing the option {} from value {} as a string", opt->name(), raw_value);
         return raw_value;
       default:
+        ODE_TRACE("Parsing the option {} yielded no valid value", opt->name());
         return nullptr;
       }
     }
