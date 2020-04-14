@@ -97,7 +97,7 @@ namespace ode::cli
     ///
     /// \return A reference to \c *this.
     ///
-    option_group& operator=(const option_group& a) = default;
+    option_group& operator=(const option_group& a) = delete;
 
     ///
     /// Assigns the given object of the type \c option_group to this one by
@@ -107,7 +107,7 @@ namespace ode::cli
     ///
     /// \return A reference to \c *this.
     ///
-    option_group& operator=(option_group&& a) = default;
+    option_group& operator=(option_group&& a) = delete;
 
     ///
     /// Parses the options of this group from the given command line arguments.

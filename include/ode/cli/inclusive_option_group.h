@@ -88,7 +88,8 @@ namespace ode::cli
     ///
     /// \return A reference to \c *this.
     ///
-    inclusive_option_group& operator=(const inclusive_option_group& a) = default;
+    inclusive_option_group& operator=(const inclusive_option_group& a)
+        = delete;
 
     ///
     /// Assigns the given object of the type \c inclusive_option_group to this
@@ -98,7 +99,7 @@ namespace ode::cli
     ///
     /// \return A reference to \c *this.
     ///
-    inclusive_option_group& operator=(inclusive_option_group&& a) = default;
+    inclusive_option_group& operator=(inclusive_option_group&& a) = delete;
 
     ///
     /// Parses the options of this group from the given command line arguments.

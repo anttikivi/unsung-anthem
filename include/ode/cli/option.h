@@ -275,7 +275,7 @@ namespace ode::cli
     ///
     /// \return A reference to \c *this.
     ///
-    option& operator=(const option& a) = default;
+    option& operator=(const option& a) = delete;
 
     ///
     /// Assigns the given object of the type \c option to this one by moving.
@@ -284,7 +284,7 @@ namespace ode::cli
     ///
     /// \return A reference to \c *this.
     ///
-    option& operator=(option&& a) = default;
+    option& operator=(option&& a) = delete;
 
     ///
     /// Parses this option from the command line arguments.

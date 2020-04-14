@@ -94,7 +94,7 @@ namespace ode::cli
     /// \return A reference to \c *this.
     ///
     mutually_exclusive_option_group& operator=(
-        const mutually_exclusive_option_group& a) = default;
+        const mutually_exclusive_option_group& a) = delete;
 
     ///
     /// Assigns the given object of the type \c mutually_exclusive_option_group
@@ -106,7 +106,7 @@ namespace ode::cli
     /// \return A reference to \c *this.
     ///
     mutually_exclusive_option_group& operator=(
-        mutually_exclusive_option_group&& a) = default;
+        mutually_exclusive_option_group&& a) = delete;
   };
 
 } // namespace ode::cli
