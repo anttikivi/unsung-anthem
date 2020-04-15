@@ -23,9 +23,8 @@ namespace ode::lua
   ///
   /// \return The error code which the Lua API gives.
   ///
-  int load_script_file(
-      const state_ptr_t state,
-      std::string_view filename) ODE_CONTRACT_NOEXCEPT;
+  int load_script_file(const state_ptr_t state, std::string_view filename)
+      ODE_CONTRACT_NOEXCEPT;
 
 } // namespace ode::lua
 

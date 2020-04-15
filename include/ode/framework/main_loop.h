@@ -9,14 +9,14 @@
 #define ODE_FRAMEWORK_MAIN_LOOP_H
 
 #if ODE_STD_CLOCK
-# include <chrono>
+#  include <chrono>
 #endif // ODE_STD_CLOCK
 
 #include "ode/engine_framework.h"
-#include "ode/window_t.h"
 #include "ode/framework/framework_scene.h"
 #include "ode/framework/platform_manager.h"
 #include "ode/framework/scheduler.h"
+#include "ode/window_t.h"
 
 namespace ode
 {
@@ -61,8 +61,8 @@ namespace ode
 
     auto framework = std::move(engine);
 
-    framework_scene current_scene
-        = std::move(framework.application().first_scene());
+    framework_scene current_scene =
+        std::move(framework.application().first_scene());
 
     state current_state{};
     state previous_state{};
@@ -89,18 +89,17 @@ namespace ode
       t = clock::now();
       delay += std::chrono::duration_cast<std::chrono::nanoseconds>(dt);
 
-# if !ODE_PRINT_LOOP_MILLISECONDS
+#  if !ODE_PRINT_LOOP_MILLISECONDS
 
       ODE_TRACE("The current delay in update time is {}", delay.count());
 
-# else
+#  else
 
       ODE_TRACE(
           "The current delay in update time is {}",
-          std::chrono::duration_cast<std::chrono::milliseconds>(
-              delay).count());
+          std::chrono::duration_cast<std::chrono::milliseconds>(delay).count());
 
-# endif // ODE_PRINT_LOOP_NANOSECONDS
+#  endif // ODE_PRINT_LOOP_NANOSECONDS
 
 #else
 
@@ -131,9 +130,9 @@ namespace ode
 
       using ms = std::chrono::milliseconds;
 
-      const float alpha
-          = static_cast<float>(std::chrono::duration_cast<ms>(delay).count())
-              / time_step.count();
+      const float alpha =
+          static_cast<float>(std::chrono::duration_cast<ms>(delay).count()) /
+          time_step.count();
 
 #else
 
@@ -142,8 +141,7 @@ namespace ode
 #endif // !ODE_STD_CLOCK
 
       ODE_TRACE(
-          "The alpha value for state-rendering interpolation is {}",
-          alpha);
+          "The alpha value for state-rendering interpolation is {}", alpha);
       // auto interpolated_state = interpolate_state(
       //     current_state,
       //     previous_state,

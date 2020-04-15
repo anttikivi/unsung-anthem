@@ -64,9 +64,7 @@ namespace ode::cli
     /// \param opts the options which will be contained by this group.
     ///
     option_group(
-        const std::string& n,
-        const std::string& d,
-        std::vector<option>&& opts);
+        const std::string& n, const std::string& d, std::vector<option>&& opts);
 
     ///
     /// Constructs an object of the type \c option_group by copying the given
@@ -119,8 +117,7 @@ namespace ode::cli
     /// of the type \c arguments if the parsing is successful.
     ///
     virtual std::optional<arguments> parse_group(
-        const int argc,
-        ode::argv_t argv[]) const = 0;
+        const int argc, ode::argv_t argv[]) const = 0;
 
     ///
     /// Gives the options contained by this group.

@@ -11,11 +11,11 @@
 
 #include <string>
 
+// This must be included for the custom logger object to work.
+#include <spdlog/fmt/ostr.h>
+
 #include "ode/argv_t.h"
 #include "ode/pixel_count.h"
-
-#include <spdlog/fmt/ostr.h> // This must be included for the custom logger
-                             // object to work.
 
 namespace anthem
 {
@@ -37,11 +37,11 @@ namespace anthem
 #ifdef ANTHEM_WINDOW_NAME
   constexpr auto default_window_name = ANTHEM_WINDOW_NAME;
 #else
-# ifdef ODE_WINDOW_NAME
+#  ifdef ODE_WINDOW_NAME
   constexpr auto default_window_name = ODE_WINDOW_NAME;
-# else
+#  else
   constexpr auto default_window_name = "anthem";
-# endif // !defined(ODE_WINDOW_NAME)
+#  endif // !defined(ODE_WINDOW_NAME)
 #endif // !defined(ANTHEM_WINDOW_NAME)
 
   ///
@@ -87,12 +87,9 @@ namespace anthem
   /// \return \c true if the member values of the parameters are equal,
   /// otherwise \c false.
   ///
-  constexpr auto operator==(
-      const arguments& lhs,
-      const arguments& rhs) noexcept
+  constexpr auto operator==(const arguments& lhs, const arguments& rhs) noexcept
   {
-    return lhs.parsed == rhs.parsed &&
-        lhs.show_help == rhs.show_help &&
+    return lhs.parsed == rhs.parsed && lhs.show_help == rhs.show_help &&
         lhs.window_width == rhs.window_width &&
         lhs.window_height == rhs.window_height &&
         lhs.window_name == rhs.window_name;
@@ -107,9 +104,7 @@ namespace anthem
   /// \return \c true if the member values of the parameters are not equal,
   /// otherwise \c false.
   ///
-  constexpr auto operator!=(
-      const arguments& lhs,
-      const arguments& rhs) noexcept
+  constexpr auto operator!=(const arguments& lhs, const arguments& rhs) noexcept
   {
     return !(lhs == rhs);
   }

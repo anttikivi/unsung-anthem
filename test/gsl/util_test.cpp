@@ -13,10 +13,7 @@ TEST(gsl_final_action, invoked)
 {
   int i = 0;
 
-  auto f = [&]()
-  {
-    ++i;
-  };
+  auto f = [&]() { ++i; };
 
   // Create a scope where the final_action is so it gets destructed and the
   // function is invoked.
@@ -32,10 +29,7 @@ TEST(gsl_final_action, invoked_twice)
 {
   int i = 0;
 
-  auto f = [&]()
-  {
-    ++i;
-  };
+  auto f = [&]() { ++i; };
 
   // Create a scope where the final_action is so it gets destructed and the
   // function is invoked.
@@ -53,10 +47,7 @@ TEST(gsl_final_action, double_invocation)
 {
   int i = 0;
 
-  auto f = [&]()
-  {
-    ++i;
-  };
+  auto f = [&]() { ++i; };
 
   // Create a scope where the final_action is so it gets destructed and the
   // function is invoked.

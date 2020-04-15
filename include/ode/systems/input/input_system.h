@@ -8,10 +8,10 @@
 #ifndef ODE_SYSTEMS_INPUT_INPUT_SYSTEM_H
 #define ODE_SYSTEMS_INPUT_INPUT_SYSTEM_H
 
+#include <SDL2/SDL.h>
+
 #include "ode/systems/system.h"
 #include "ode/systems/system_type.h"
-
-#include <SDL2/SDL.h>
 
 namespace ode
 {

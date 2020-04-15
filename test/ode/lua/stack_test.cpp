@@ -7,20 +7,18 @@
 
 #include "ode/lua/stack.h"
 
+#include <gtest/gtest.h>
+
 #include "ode/config.h"
 #include "ode/filesystem/path.h"
 #include "ode/lua/script.h"
-
-#include <gtest/gtest.h>
 
 TEST(ode_lua_to_stack, is_set_to_stack)
 {
   lua_State* l = luaL_newstate();
 
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "stack.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "stack.lua";
 
   luaL_openlibs(l);
 
@@ -41,10 +39,8 @@ TEST(ode_lua_push, is_pushed_to_stack)
 {
   lua_State* l = luaL_newstate();
 
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "stack.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "stack.lua";
 
   luaL_openlibs(l);
 

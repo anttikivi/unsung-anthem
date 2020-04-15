@@ -16,7 +16,7 @@ namespace ode
 #ifdef ODE_OPENGL_VERSION_MAJOR
   constexpr int opengl_version_major = ODE_OPENGL_VERSION_MAJOR;
 #else
-# error "ODE_OPENGL_VERSION_MAJOR is not set"
+#  error "ODE_OPENGL_VERSION_MAJOR is not set"
 #endif // !defined(ODE_OPENGL_VERSION_MAJOR)
 
   ///
@@ -25,7 +25,7 @@ namespace ode
 #ifdef ODE_OPENGL_VERSION_MINOR
   constexpr int opengl_version_minor = ODE_OPENGL_VERSION_MINOR;
 #else
-# error "ODE_OPENGL_VERSION_MINOR is not set"
+#  error "ODE_OPENGL_VERSION_MINOR is not set"
 #endif // !defined(ODE_OPENGL_VERSION_MINOR)
 
   ///

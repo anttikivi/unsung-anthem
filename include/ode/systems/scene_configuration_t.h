@@ -35,9 +35,8 @@ namespace ode
     /// \param t the configuration implementation.
     ///
     template <typename T> scene_configuration_t(T t)
-    : config_ptr{std::make_shared<T>(std::move(t))}
+        : config_ptr{std::make_shared<T>(std::move(t))}
     {
-
     }
 
     ///

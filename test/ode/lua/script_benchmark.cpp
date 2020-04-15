@@ -7,17 +7,15 @@
 
 #include "ode/lua/script.h"
 
+#include <benchmark/benchmark.h>
+
 #include "ode/config.h"
 #include "ode/filesystem/path.h"
 
-#include <benchmark/benchmark.h>
-
 static void ode_load_script_file(benchmark::State& state)
 {
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "script.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "script.lua";
 
   lua_State* l = luaL_newstate();
 

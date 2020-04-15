@@ -10,7 +10,7 @@
 #ifndef ODE_GSL_VIEW
 #define ODE_GSL_VIEW
 
-# include <type_traits>
+#include <type_traits>
 
 #include "gsl/assert"
 
@@ -43,7 +43,6 @@ namespace gsl
   template <typename T> class not_null final
   {
   public:
-
     static_assert(
         std::is_assignable_v<T&, std::nullptr_t>,
         "T cannot be assigned nullptr.");
@@ -90,7 +89,6 @@ namespace gsl
         typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
     constexpr not_null(const not_null<U>& o) noexcept : ptr{o.get()}
     {
-
     }
 
     ///
@@ -125,7 +123,6 @@ namespace gsl
         typename D = std::enable_if_t<std::is_convertible_v<U, T>>>
     constexpr not_null(not_null<U>&& o) noexcept : ptr{std::move(o.ptr)}
     {
-
     }
 
     ///
@@ -414,8 +411,8 @@ namespace std
 
 #if defined(_MSC_VER) && _MSC_VER < 1910
 
-# undef constexpr
-# pragma pop_macro("constexpr")
+#  undef constexpr
+#  pragma pop_macro("constexpr")
 
 #endif // defined(_MSC_VER) && _MSC_VER < 1910
 

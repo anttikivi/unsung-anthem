@@ -11,11 +11,10 @@
 
 #include "ode/framework/main_loop.h"
 
-#include "anthem/logger.h"
-
 #include "anthem/application.h"
 #include "anthem/command_line_interface.h"
 #include "anthem/config.h"
+#include "anthem/logger.h"
 #include "anthem/logging_config.h"
 
 namespace anthem
@@ -53,11 +52,7 @@ namespace anthem
     ANTHEM_TRACE("The following values are set to the arguments:\n{}", args);
 
     const auto info = ode::execution_info{
-        argc,
-        argv,
-        args.window_width,
-        args.window_height,
-        args.window_name};
+        argc, argv, args.window_width, args.window_height, args.window_name};
 
     auto app = application{};
     auto engine = ode::make_engine(std::move(app), info);

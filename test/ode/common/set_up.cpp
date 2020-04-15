@@ -9,24 +9,20 @@
 
 #include <stdexcept>
 
+#include "ode/common/window.h"
 #include "ode/config.h"
-#include "ode/logger.h"
 #include "ode/filesystem/path.h"
 #include "ode/framework/platform_manager.h"
 #include "ode/gl/gl_config.h"
-
-#include "ode/common/window.h"
-
+#include "ode/logger.h"
 #include "ode/logging_config.h"
 
 #if ODE_TEST_BENCHMARKING
-# include <benchmark/benchmark.h>
+#  include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
 
 #include <glad/glad.h>
-
 #include <gtest/gtest.h>
-
 #include <spdlog/sinks/null_sink.h>
 
 namespace ode::test
@@ -36,8 +32,7 @@ namespace ode::test
     void create_window()
     {
       SDL_GL_SetAttribute(
-          SDL_GL_CONTEXT_PROFILE_MASK,
-          SDL_GL_CONTEXT_PROFILE_CORE);
+          SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
       SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, opengl_version_major);
       SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, opengl_version_minor);
       SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -51,8 +46,7 @@ namespace ode::test
       if constexpr (ode::platform::macos == ode::current_platform)
       {
         SDL_GL_SetAttribute(
-            SDL_GL_CONTEXT_FLAGS,
-            SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+            SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
       }
 
       ODE_TRACE(
@@ -79,9 +73,8 @@ namespace ode::test
         const std::string error = std::string{SDL_GetError()};
         throw std::runtime_error{
             std::string{
-                "The Simple DirectMedia Layer window creation failed, '"}
-            + error
-            + "'"};
+                "The Simple DirectMedia Layer window creation failed, '"} +
+            error + "'"};
       }
     }
 
@@ -101,26 +94,20 @@ namespace ode::test
       auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
 
       ode::logger = ode::create_logger(
-          "ode_test_logger",
-          ode::logger_pattern,
-          ode::logger_level,
-          null_sink);
+          "ode_test_logger", ode::logger_pattern, ode::logger_level, null_sink);
     }
     else
     {
       ode::logger = ode::create_logger(
-          "ode_test_logger",
-          ode::logger_pattern,
-          ode::logger_level);
+          "ode_test_logger", ode::logger_pattern, ode::logger_level);
     }
 
     if (0 != SDL_Init(SDL_INIT_VIDEO))
     {
       const std::string error = std::string{SDL_GetError()};
       throw std::runtime_error{
-          std::string{"The Simple DirectMedia Layer initialization failed, '"}
-          + error
-          + "'"};
+          std::string{"The Simple DirectMedia Layer initialization failed, '"} +
+          error + "'"};
     }
 
     detail::create_window();

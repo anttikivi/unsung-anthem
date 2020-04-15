@@ -33,10 +33,9 @@ namespace ode
     ///
     /// \param t the scene implementation.
     ///
-    template <typename T>
-    scene_t(T t) : scene_ptr{std::make_unique<T>(std::move(t))}
+    template <typename T> scene_t(T t)
+        : scene_ptr{std::make_unique<T>(std::move(t))}
     {
-
     }
 
     ///

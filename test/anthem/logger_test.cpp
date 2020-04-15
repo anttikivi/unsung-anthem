@@ -47,8 +47,7 @@ TEST(anthem_logger_macro, error)
 TEST(anthem_logger_macro, critical)
 {
   ASSERT_NO_THROW(ANTHEM_CRITICAL(
-      "This is a test {}-level message in a macro",
-      "critical"));
+      "This is a test {}-level message in a macro", "critical"));
   ASSERT_NO_THROW(ANTHEM_CRITICAL(6));
 }
 
@@ -89,8 +88,7 @@ TEST(anthem_logger, error)
 
 TEST(anthem_logger, critical)
 {
-  ASSERT_NO_THROW(anthem::logging::critical(
-      "This is a test {}-level message",
-      "critical"));
+  ASSERT_NO_THROW(
+      anthem::logging::critical("This is a test {}-level message", "critical"));
   ASSERT_NO_THROW(anthem::logging::critical(6));
 }

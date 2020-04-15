@@ -20,7 +20,6 @@ namespace ode::cli
   ///
   struct arguments
   {
-
   };
 } // namespace ode::cli
 

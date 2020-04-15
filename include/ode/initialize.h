@@ -9,10 +9,10 @@
 #define ODE_INITIALIZE_H
 
 #include "ode/execution_info.h"
-#include "ode/logger.h"
-#include "ode/window_t.h"
 #include "ode/gl/data.h"
+#include "ode/logger.h"
 #include "ode/sdl/opengl.h"
+#include "ode/window_t.h"
 
 namespace ode
 {

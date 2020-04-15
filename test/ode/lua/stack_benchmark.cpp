@@ -7,17 +7,15 @@
 
 #include "ode/lua/stack.h"
 
+#include <benchmark/benchmark.h>
+
 #include "ode/config.h"
 #include "ode/filesystem/path.h"
 
-#include <benchmark/benchmark.h>
-
 static void ode_to_stack(benchmark::State& state)
 {
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "stack.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "stack.lua";
 
   lua_State* l = luaL_newstate();
 
@@ -40,10 +38,8 @@ BENCHMARK(ode_to_stack);
 
 static void ode_push_bool(benchmark::State& state)
 {
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "stack_push.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "stack_push.lua";
 
   lua_State* l = luaL_newstate();
 
@@ -60,10 +56,8 @@ BENCHMARK(ode_push_bool);
 
 static void ode_push_float(benchmark::State& state)
 {
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "stack_push.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "stack_push.lua";
 
   lua_State* l = luaL_newstate();
 
@@ -80,10 +74,8 @@ BENCHMARK(ode_push_float);
 
 static void ode_push_int(benchmark::State& state)
 {
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "stack_push.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "stack_push.lua";
 
   lua_State* l = luaL_newstate();
 
@@ -100,10 +92,8 @@ BENCHMARK(ode_push_int);
 
 static void ode_push_string(benchmark::State& state)
 {
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "stack_push.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "stack_push.lua";
 
   lua_State* l = luaL_newstate();
 
@@ -120,10 +110,8 @@ BENCHMARK(ode_push_string);
 
 static void ode_push_string_longer(benchmark::State& state)
 {
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "stack_push.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "stack_push.lua";
 
   lua_State* l = luaL_newstate();
 
@@ -151,10 +139,8 @@ BENCHMARK(ode_push_string_longer);
 
 static void ode_push(benchmark::State& state)
 {
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "stack_push.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "stack_push.lua";
 
   lua_State* l = luaL_newstate();
 

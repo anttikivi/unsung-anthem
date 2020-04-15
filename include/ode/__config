@@ -9,41 +9,41 @@
 #define ODE___CONFIG_H
 
 #if ODE_CXX2A
-# define ODE_CONCEPTS 1
+#  define ODE_CONCEPTS 1
 #else
-# define ODE_CONCEPTS 0
+#  define ODE_CONCEPTS 0
 #endif // !ODE_CXX2A
 
 #if defined(GSL_THROW_ON_CONTRACT_VIOLATION) && GSL_THROW_ON_CONTRACT_VIOLATION
-# define ODE_CONTRACT_NOEXCEPT
+#  define ODE_CONTRACT_NOEXCEPT
 #else
-# define ODE_CONTRACT_NOEXCEPT noexcept
+#  define ODE_CONTRACT_NOEXCEPT noexcept
 #endif // !(defined(GSL_THROW_ON_CONTRACT_VIOLATION) && \
     GSL_THROW_ON_CONTRACT_VIOLATION)
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && \
-    !defined(__CYGWIN__)
-# define ODE_WINDOWS 1
+#if defined(WIN32) || defined(_WIN32) || \
+    defined(__WIN32) && !defined(__CYGWIN__)
+#  define ODE_WINDOWS 1
 #else
-# define ODE_WINDOWS 0
+#  define ODE_WINDOWS 0
 #endif // defined(WIN32) || defined(_WIN32) || defined(__WIN32) && \
     !defined(__CYGWIN__)
 
 #if __APPLE__
-# define ODE_MACOS 1
+#  define ODE_MACOS 1
 #else
-# define ODE_MACOS 0
+#  define ODE_MACOS 0
 #endif // !__APPLE__
 
 #define ODE_OPTION_TYPE_ENUM_TYPE int
 #define ODE_SYSTEM_TYPE_ENUM_TYPE int
 
 #if ODE_PRINT_MULTITHREADING_WARNING
-# if ODE_WINDOWS
-#   pragma message ("Multithreading is not currently supported")
-# else
-#   warning "Multithreading is not currently supported"
-# endif // !ODE_WINDOWS
+#  if ODE_WINDOWS
+#    pragma message("Multithreading is not currently supported")
+#  else
+#    warning "Multithreading is not currently supported"
+#  endif // !ODE_WINDOWS
 #endif // ODE_PRINT_MULTITHREADING_WARNING
 
 #endif // !ODE___CONFIG_H

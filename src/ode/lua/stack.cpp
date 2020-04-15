@@ -14,9 +14,8 @@
 
 namespace ode::lua
 {
-  bool to_stack(
-      const state_ptr_t state,
-      std::string_view var) ODE_CONTRACT_NOEXCEPT
+  bool to_stack(const state_ptr_t state, std::string_view var)
+      ODE_CONTRACT_NOEXCEPT
   {
     int index = 0;
     std::string current = "";

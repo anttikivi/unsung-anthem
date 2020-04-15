@@ -26,9 +26,8 @@ namespace ode::lua
   /// \return \c true if the variable was moved successfully, otherwise
   /// \c false.
   ///
-  bool to_stack(
-      const state_ptr_t state,
-      std::string_view var) ODE_CONTRACT_NOEXCEPT;
+  bool to_stack(const state_ptr_t state, std::string_view var)
+      ODE_CONTRACT_NOEXCEPT;
 
   namespace detail
   {
@@ -81,10 +80,7 @@ namespace ode::lua
   /// \param types the rest of the values to be pushed.
   ///
   template <typename T, typename... Types>
-  constexpr void push(
-      const state_ptr_t state,
-      T&& t,
-      Types&&... types) noexcept
+  constexpr void push(const state_ptr_t state, T&& t, Types&&... types) noexcept
   {
     detail::push(state, std::forward<T>(t));
     push(state, std::forward<Types>(types)...);

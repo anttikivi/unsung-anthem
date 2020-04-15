@@ -7,20 +7,18 @@
 
 #include "ode/lua/script.h"
 
+#include <gtest/gtest.h>
+
 #include "ode/config.h"
 #include "ode/filesystem/path.h"
 #include "ode/lua/state.h"
-
-#include <gtest/gtest.h>
 
 TEST(ode_lua_load_script_file, file_is_loaded)
 {
   auto state = ode::lua::make_state();
 
-  const std::string filename1 =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "script.lua";
+  const std::string filename1 = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "script.lua";
 
   auto error_code = ode::lua::load_script_file(state.get(), filename1);
 
@@ -30,10 +28,8 @@ TEST(ode_lua_load_script_file, file_is_loaded)
   ASSERT_NE(LUA_ERRFILE, error_code);
   ASSERT_EQ(LUA_OK, error_code);
 
-  const std::string filename2 =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "not_script.lua";
+  const std::string filename2 = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "not_script.lua";
 
 #if defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION) && \
     GSL_UNENFORCED_ON_CONTRACT_VIOLATION

@@ -9,19 +9,20 @@
 #define ODE_GSL_UTIL
 
 #include <cstddef>
+
 #include <exception>
-#include <utility>
 #include <type_traits>
+#include <utility>
 
 #if defined(_MSC_VER)
 
-# pragma warning(push)
-# pragma warning(disable : 4127) // conditional expression is constant
+#  pragma warning(push)
+#  pragma warning(disable : 4127) // conditional expression is constant
 
-# if _MSC_VER < 1910
-#   pragma push_macro("constexpr")
-#   define constexpr /* constexpr */
-# endif // _MSC_VER < 1910
+#  if _MSC_VER < 1910
+#    pragma push_macro("constexpr")
+#    define constexpr /* constexpr */
+#  endif // _MSC_VER < 1910
 #endif // defined(_MSC_VER)
 
 namespace gsl
@@ -41,7 +42,6 @@ namespace gsl
   template <typename F> class final_action final
   {
   public:
-
     ///
     /// Constructs an object of the type \c final_action.
     ///
@@ -60,7 +60,6 @@ namespace gsl
     constexpr explicit final_action(F f) noexcept
         : f{std::move(f)}, invoke{true}
     {
-
     }
 
     ///
@@ -133,7 +132,6 @@ namespace gsl
     constexpr final_action& operator=(final_action&& o) noexcept = delete;
 
   private:
-
     ///
     /// The action which shall be executed at the end of the current scope.
     ///
@@ -259,7 +257,6 @@ namespace gsl
     template <typename T, typename U> struct is_same_signedness final
         : public std::bool_constant<std::is_signed_v<T> == std::is_signed_v<U>>
     {
-
     };
 
     template <typename T, typename U>
@@ -308,14 +305,14 @@ namespace gsl
 } // namespace gsl
 
 #if defined(_MSC_VER)
-# if _MSC_VER < 1910
+#  if _MSC_VER < 1910
 
-#   undef constexpr
-#   pragma pop_macro("constexpr")
+#    undef constexpr
+#    pragma pop_macro("constexpr")
 
-# endif // _MSC_VER < 1910
+#  endif // _MSC_VER < 1910
 
-# pragma warning(pop)
+#  pragma warning(pop)
 
 #endif // defined(_MSC_VER)
 

@@ -13,9 +13,7 @@ static void anthem_logger_trace_macro(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ANTHEM_TRACE(
-        "This is a benchmarking {}-level message in a macro",
-        "trace");
+    ANTHEM_TRACE("This is a benchmarking {}-level message in a macro", "trace");
   }
 }
 
@@ -25,9 +23,7 @@ static void anthem_logger_debug_macro(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ANTHEM_DEBUG(
-        "This is a benchmarking {}-level message in a macro",
-        "debug");
+    ANTHEM_DEBUG("This is a benchmarking {}-level message in a macro", "debug");
   }
 }
 
@@ -57,9 +53,7 @@ static void anthem_logger_error_macro(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    ANTHEM_ERROR(
-        "This is a benchmarking {}-level message in a macro",
-        "error");
+    ANTHEM_ERROR("This is a benchmarking {}-level message in a macro", "error");
   }
 }
 
@@ -70,8 +64,7 @@ static void anthem_logger_critical_macro(benchmark::State& state)
   for (auto _ : state)
   {
     ANTHEM_CRITICAL(
-        "This is a benchmarking {}-level message in a macro",
-        "critical");
+        "This is a benchmarking {}-level message in a macro", "critical");
   }
 }
 
@@ -192,8 +185,7 @@ static void anthem_logger_critical(benchmark::State& state)
   for (auto _ : state)
   {
     anthem::logging::critical(
-        "This is a benchmarking {}-level message",
-        "critical");
+        "This is a benchmarking {}-level message", "critical");
   }
 }
 

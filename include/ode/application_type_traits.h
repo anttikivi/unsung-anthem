@@ -51,10 +51,10 @@ namespace ode
       ///
       /// \return This function doesn’t have a definition.
       ///
-      template <typename T> static constexpr auto check(T*)
-      -> typename std::is_same<
-          decltype(std::declval<T>().make_system(std::declval<Args>()...)),
-          Ret>::type;
+      template <typename T> static constexpr auto check(T*) ->
+          typename std::is_same<
+              decltype(std::declval<T>().make_system(std::declval<Args>()...)),
+              Ret>::type;
 
       ///
       /// A specialization of the checking function for the specific case of
@@ -112,8 +112,8 @@ namespace ode
       ///
       /// \return This function doesn’t have a definition.
       ///
-      template <typename T> static constexpr auto check(T*)
-      -> typename std::is_same<
+      template <typename T>
+      static constexpr auto check(T*) -> typename std::is_same<
           decltype(
               std::declval<T>().make_other_systems(std::declval<Args>()...)),
           Ret>::type;
@@ -174,11 +174,10 @@ namespace ode
       ///
       /// \return This function doesn’t have a definition.
       ///
-      template <typename T> static constexpr auto check(T*)
-      -> typename std::is_same<
-          decltype(
-              std::declval<T>().first_scene(std::declval<Args>()...)),
-          Ret>::type;
+      template <typename T> static constexpr auto check(T*) ->
+          typename std::is_same<
+              decltype(std::declval<T>().first_scene(std::declval<Args>()...)),
+              Ret>::type;
 
       ///
       /// A specialization of the checking function for the specific case of
@@ -211,13 +210,11 @@ namespace ode
   /// \tparam T the type to check.
   ///
   template <typename T> struct is_application
-  : public std::bool_constant<
-      detail::has_make_system<T, system_t(const system_type)>::value &&
-      detail::has_make_other_systems<T, std::vector<system_t>()>::value &&
-      detail::has_first_scene<T, scene_configuration_t()>::value
-  >
+      : public std::bool_constant<
+            detail::has_make_system<T, system_t(const system_type)>::value &&
+            detail::has_make_other_systems<T, std::vector<system_t>()>::value &&
+            detail::has_first_scene<T, scene_configuration_t()>::value>
   {
-
   };
 
   ///
@@ -225,8 +222,8 @@ namespace ode
   ///
   /// \tparam T the type to check.
   ///
-  template <typename T>
-  inline constexpr bool is_application_v = is_application<T>::value;
+  template <typename T> inline constexpr bool is_application_v =
+      is_application<T>::value;
 
 } // namespace ode
 

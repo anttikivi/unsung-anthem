@@ -27,10 +27,8 @@ namespace anthem::world
   ///
   /// \return The width of the map in tiles.
   ///
-  int load_map_width(
-      const ode::lua::state_ptr_t state,
-      const std::string& name) ODE_CONTRACT_NOEXCEPT;
-
+  int load_map_width(const ode::lua::state_ptr_t state, const std::string& name)
+      ODE_CONTRACT_NOEXCEPT;
 
   ///
   /// Loads the height of the map in tiles from the scripts.
@@ -47,6 +45,6 @@ namespace anthem::world
       const ode::lua::state_ptr_t state,
       const std::string& name) ODE_CONTRACT_NOEXCEPT;
 
-} // namespace anthem
+} // namespace anthem::world
 
 #endif // !ANTHEM_SYSTEMS_SCENES_WORLD_MAP_LOADING_H

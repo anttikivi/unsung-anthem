@@ -12,25 +12,21 @@
 TEST(anthem_parse_arguments, parsed)
 {
   const anthem::arguments a = {
-      true,
-      false,
-      555_px,
-      13_px,
-      std::string{"window"}};
+      true, false, 555_px, 13_px, std::string{"window"}};
   ode::argv_t argv_b[] = {
       "exe",
       "--window-height=13",
       "--window-width=555",
       "--window-name=window"};
-  ode::argv_t argv_c[] = {
-      "exe",
-      "--window-height=423",
-      "--window-width=22"};
+  ode::argv_t argv_c[] = {"exe", "--window-height=423", "--window-width=22"};
   ode::argv_t argv_d[] = {
       "exe",
-      "--window-height", "13",
-      "--window-width", "555",
-      "--window-name", "window"};
+      "--window-height",
+      "13",
+      "--window-width",
+      "555",
+      "--window-name",
+      "window"};
   ode::argv_t argv_e[] = {"exe"};
   ode::argv_t argv_f[] = {"exe", "--window-height", "13"};
   const auto b = anthem::parse_arguments(4, argv_b);

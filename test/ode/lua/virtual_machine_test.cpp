@@ -9,10 +9,10 @@
 
 #include "gsl/util"
 
+#include <gtest/gtest.h>
+
 #include "ode/config.h"
 #include "ode/filesystem/path.h"
-
-#include <gtest/gtest.h>
 
 TEST(ode_lua_make_state, values_are_got)
 {
@@ -20,10 +20,8 @@ TEST(ode_lua_make_state, values_are_got)
 
   luaL_openlibs(state);
 
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "virtual_machine.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "virtual_machine.lua";
 
   const auto load_error = luaL_loadfile(state, filename.data());
 
@@ -80,10 +78,8 @@ TEST(ode_lua_call, called)
 
   luaL_openlibs(state);
 
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "virtual_machine.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "virtual_machine.lua";
 
   const auto load_error = luaL_loadfile(state, filename.c_str());
 

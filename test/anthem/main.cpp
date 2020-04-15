@@ -5,19 +5,16 @@
 /// \copyright Copyright (c) 2018–2020 Antti Kivi.
 /// Licensed under the Effective Elegy Licence.
 
+#include <SDL2/SDL.h>
+#include <spdlog/sinks/null_sink.h>
+
 #include "ode/common/clean_up.h"
 #include "ode/common/run_test.h"
 #include "ode/common/set_up.h"
-
 #include "ode/config.h"
 
 #include "anthem/logger.h"
-
 #include "anthem/logging_config.h"
-
-#include <SDL2/SDL.h>
-
-#include <spdlog/sinks/null_sink.h>
 
 int main(int argc, char* argv[])
 {
@@ -34,9 +31,7 @@ int main(int argc, char* argv[])
   else
   {
     anthem::logger = ode::create_logger(
-        "anthem_test_logger",
-        anthem::logger_pattern,
-        anthem::logger_level);
+        "anthem_test_logger", anthem::logger_pattern, anthem::logger_level);
   }
 
   ode::test::set_up_tests(argc, argv);

@@ -83,14 +83,14 @@ namespace ode::cli
     ///
     /// The type of the command line option values.
     ///
-    using value_t
-        = std::variant<std::nullptr_t, bool, int, double, std::string>;
+    using value_t =
+        std::variant<std::nullptr_t, bool, int, double, std::string>;
 
     ///
     /// The type of the objects returned when parsing a command line option.
     ///
-    using parsed_value_t
-        = std::tuple<const option*, std::optional<value_t>, std::vector<int>>;
+    using parsed_value_t =
+        std::tuple<const option*, std::optional<value_t>, std::vector<int>>;
 
     ///
     /// Constructs an object of the type \c option.
@@ -242,10 +242,7 @@ namespace ode::cli
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
-    option(
-        const std::string& name,
-        const std::string& default_v,
-        const bool r);
+    option(const std::string& name, const std::string& default_v, const bool r);
 
     ///
     /// Constructs an object of the type \c option which accepts a string
@@ -444,7 +441,8 @@ namespace ode::cli
     value_t default_value() const;
 
     ///
-    /// Gives a Boolean value telling whether or not this command line option is required.
+    /// Gives a Boolean value telling whether or not this command line option is
+    /// required.
     ///
     /// An option group may ignore the value of this Boolean if the group is
     /// for example mutually exclusive.

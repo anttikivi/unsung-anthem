@@ -64,8 +64,7 @@ static void ode_logger_critical_macro(benchmark::State& state)
   for (auto _ : state)
   {
     ODE_CRITICAL(
-        "This is a benchmarking {}-level message in a macro",
-        "critical");
+        "This is a benchmarking {}-level message in a macro", "critical");
   }
 }
 
@@ -186,8 +185,7 @@ static void ode_logger_critical(benchmark::State& state)
   for (auto _ : state)
   {
     ode::logging::critical(
-        "This is a benchmarking {}-level message",
-        "critical");
+        "This is a benchmarking {}-level message", "critical");
   }
 }
 

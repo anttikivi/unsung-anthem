@@ -23,9 +23,8 @@ namespace ode::sdl
       ODE_ERROR("The Simple DirectMedia Layer initialization failed");
       const std::string error = std::string{SDL_GetError()};
       throw std::runtime_error{
-          std::string{"The Simple DirectMedia Layer initialization failed, '"}
-          + error
-          + "'"};
+          std::string{"The Simple DirectMedia Layer initialization failed, '"} +
+          error + "'"};
     }
 
     ODE_DEBUG("Simple DirectMedia Layer is initialized");

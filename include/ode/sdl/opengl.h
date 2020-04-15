@@ -9,9 +9,9 @@
 #ifndef ODE_SDL_OPENGL_H
 #define ODE_SDL_OPENGL_H
 
-#include "ode/sdl/sdl_window_t.h"
-
 #include <SDL2/SDL.h>
+
+#include "ode/sdl/sdl_window_t.h"
 
 namespace ode::sdl
 {

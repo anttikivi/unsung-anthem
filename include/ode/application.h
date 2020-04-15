@@ -13,7 +13,6 @@
 
 namespace ode
 {
-
 #if ODE_CONCEPTS
 
   template <typename T> concept Application = is_application_v<T>;

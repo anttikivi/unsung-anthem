@@ -53,9 +53,7 @@ namespace ode::cli
     /// \param opts the options which will be contained by this group.
     ///
     inclusive_option_group(
-        const std::string& n,
-        const std::string& d,
-        std::vector<option>&& opts);
+        const std::string& n, const std::string& d, std::vector<option>&& opts);
 
     ///
     /// Constructs an object of the type \c inclusive_option_group by copying
@@ -88,8 +86,7 @@ namespace ode::cli
     ///
     /// \return A reference to \c *this.
     ///
-    inclusive_option_group& operator=(const inclusive_option_group& a)
-        = delete;
+    inclusive_option_group& operator=(const inclusive_option_group& a) = delete;
 
     ///
     /// Assigns the given object of the type \c inclusive_option_group to this
@@ -111,8 +108,7 @@ namespace ode::cli
     /// of the type \c arguments if the parsing is successful.
     ///
     std::optional<arguments> parse_group(
-        const int argc,
-        ode::argv_t argv[]) const;
+        const int argc, ode::argv_t argv[]) const;
   };
 
 } // namespace ode::cli

@@ -22,12 +22,12 @@
 namespace ode::cli
 {
   option::option()
-  : n{""},
-  alt_n{""},
-  short_n{std::nullopt},
-  t{option_type::null},
-  default_v{nullptr},
-  req{false}
+      : n{""},
+        alt_n{""},
+        short_n{std::nullopt},
+        t{option_type::null},
+        default_v{nullptr},
+        req{false}
   {
     // The default constructor initializes the option into an invalid state.
   }
@@ -38,7 +38,8 @@ namespace ode::cli
     {
       std::string working_str{str};
       bool convert_next = false;
-      // First use the hyphens in the name to convert the characters to the correct case.
+      // First use the hyphens in the name to convert the characters to the
+      // correct case.
       std::transform(
           working_str.begin(),
           working_str.end(),
@@ -75,12 +76,12 @@ namespace ode::cli
       const option_type type,
       const value_t& default_v,
       const bool r)
-  : n{name},
-  alt_n{detail::create_alternative_name(name)},
-  short_n{short_name},
-  t{type},
-  default_v{default_v},
-  req{r}
+      : n{name},
+        alt_n{detail::create_alternative_name(name)},
+        short_n{short_name},
+        t{type},
+        default_v{default_v},
+        req{r}
   {
     if (option_type::boolean == type)
     {
@@ -125,12 +126,12 @@ namespace ode::cli
       const option_type type,
       const value_t& default_v,
       const bool r)
-  : n{name},
-  alt_n{detail::create_alternative_name(name)},
-  short_n{std::nullopt},
-  t{type},
-  default_v{default_v},
-  req{r}
+      : n{name},
+        alt_n{detail::create_alternative_name(name)},
+        short_n{std::nullopt},
+        t{type},
+        default_v{default_v},
+        req{r}
   {
     if (option_type::boolean == type)
     {
@@ -168,13 +169,13 @@ namespace ode::cli
       const std::string& short_name,
       const bool default_v,
       const bool r)
-  : option{name, short_name, option_type::boolean, default_v, r}
+      : option{name, short_name, option_type::boolean, default_v, r}
   {
     ODE_TRACE("Creating a command line option that accepts Boolean values");
   }
 
   option::option(const std::string& name, const bool default_v, const bool r)
-  : option{name, option_type::boolean, default_v, r}
+      : option{name, option_type::boolean, default_v, r}
   {
     ODE_TRACE("Creating a command line option that accepts Boolean values");
   }
@@ -184,13 +185,13 @@ namespace ode::cli
       const std::string& short_name,
       const int default_v,
       const bool r)
-  : option{name, short_name, option_type::integer, default_v, r}
+      : option{name, short_name, option_type::integer, default_v, r}
   {
     ODE_TRACE("Creating a command line option that accepts integer values");
   }
 
   option::option(const std::string& name, const int default_v, const bool r)
-  : option{name, option_type::integer, default_v, r}
+      : option{name, option_type::integer, default_v, r}
   {
     ODE_TRACE("Creating a command line option that accepts integer values");
   }
@@ -200,14 +201,14 @@ namespace ode::cli
       const std::string& short_name,
       const double default_v,
       const bool r)
-  : option{name, short_name, option_type::floating_point, default_v, r}
+      : option{name, short_name, option_type::floating_point, default_v, r}
   {
     ODE_TRACE(
         "Creating a command line option that accepts floating point values");
   }
 
   option::option(const std::string& name, const double default_v, const bool r)
-  : option{name, option_type::floating_point, default_v, r}
+      : option{name, option_type::floating_point, default_v, r}
   {
     ODE_TRACE(
         "Creating a command line option that accepts floating point values");
@@ -218,16 +219,14 @@ namespace ode::cli
       const std::string& short_name,
       const std::string& default_v,
       const bool r)
-  : option{name, short_name, option_type::string, default_v, r}
+      : option{name, short_name, option_type::string, default_v, r}
   {
     ODE_TRACE("Creating a command line option that accepts string values");
   }
 
   option::option(
-      const std::string& name,
-      const std::string& default_v,
-      const bool r)
-  : option{name, option_type::string, default_v, r}
+      const std::string& name, const std::string& default_v, const bool r)
+      : option{name, option_type::string, default_v, r}
   {
     ODE_TRACE("Creating a command line option that accepts string values");
   }
@@ -237,13 +236,13 @@ namespace ode::cli
       const std::string& short_name,
       const char* default_v,
       const bool r)
-  : option{name, short_name, std::string{default_v}, r}
+      : option{name, short_name, std::string{default_v}, r}
   {
     ODE_TRACE("Creating a command line option that accepts string values");
   }
 
   option::option(const std::string& name, const char* default_v, const bool r)
-  : option{name, std::string{default_v}, r}
+      : option{name, std::string{default_v}, r}
   {
     ODE_TRACE("Creating a command line option that accepts string values");
   }
@@ -286,20 +285,21 @@ namespace ode::cli
             "Going through the parsed options, current the option '{}' which "
             "contains the following source indices: {}",
             std::get<parsed_option_index>(value)->name(),
-            std::get<parsed_indices_index>(value).size() > 1 ? std::accumulate(
-                std::get<parsed_indices_index>(value).cbegin() + 1,
-                std::get<parsed_indices_index>(value).cend(),
-                std::to_string(std::get<parsed_indices_index>(value)[0]),
-                [](const std::string& init, const int first)
-                {
-                  return init + ", " + std::to_string(first);
-                }) : std::to_string(std::get<parsed_indices_index>(value)[0]));
+            std::get<parsed_indices_index>(value).size() > 1
+                ? std::accumulate(
+                      std::get<parsed_indices_index>(value).cbegin() + 1,
+                      std::get<parsed_indices_index>(value).cend(),
+                      std::to_string(std::get<parsed_indices_index>(value)[0]),
+                      [](const std::string& init, const int first) {
+                        return init + ", " + std::to_string(first);
+                      })
+                : std::to_string(std::get<parsed_indices_index>(value)[0]));
 
         if (*std::get<parsed_option_index>(value) == *opt &&
             std::find(
                 std::get<parsed_indices_index>(value).cbegin(),
-                std::get<parsed_indices_index>(value).cend(), index)
-            != std::get<parsed_indices_index>(value).cend())
+                std::get<parsed_indices_index>(value).cend(),
+                index) != std::get<parsed_indices_index>(value).cend())
         {
           return true;
         }
@@ -338,16 +338,17 @@ namespace ode::cli
     ///
     /// \return An object of the type \c option::value_t.
     ///
-    option::value_t parse_value(
-        const option* opt,
-        const std::string& raw_value)
+    option::value_t parse_value(const option* opt, const std::string& raw_value)
     {
       switch (opt->type())
       {
       case option_type::boolean:
         if (is_boolean(raw_value))
         {
-          ODE_TRACE("Parsing the option {} from value {} as a Boolean", opt->name(), raw_value);
+          ODE_TRACE(
+              "Parsing the option {} from value {} as a Boolean",
+              opt->name(),
+              raw_value);
 
           // The Boolean value can be given with or without the separator so it
           // may be in the same index.
@@ -361,27 +362,44 @@ namespace ode::cli
       case option_type::integer:
         if (is_integer(raw_value))
         {
-          ODE_TRACE("Parsing the option {} from value {} as an integer", opt->name(), raw_value);
+          ODE_TRACE(
+              "Parsing the option {} from value {} as an integer",
+              opt->name(),
+              raw_value);
           return std::stoi(raw_value);
         }
         else
         {
-          ODE_TRACE("Parsing the option {} from value {} as an integer yielded no valid value", opt->name(), raw_value);
+          ODE_TRACE(
+              "Parsing the option {} from value {} as an integer yielded no "
+              "valid value",
+              opt->name(),
+              raw_value);
           return nullptr;
         }
       case option_type::floating_point:
         if (is_number(raw_value))
         {
-          ODE_TRACE("Parsing the option {} from value {} as a floating point number", opt->name(), raw_value);
+          ODE_TRACE(
+              "Parsing the option {} from value {} as a floating point number",
+              opt->name(),
+              raw_value);
           return std::stod(raw_value);
         }
         else
         {
-          ODE_TRACE("Parsing the option {} from value {} as a floating point number yielded no valid value", opt->name(), raw_value);
+          ODE_TRACE(
+              "Parsing the option {} from value {} as a floating point number "
+              "yielded no valid value",
+              opt->name(),
+              raw_value);
           return nullptr;
         }
       case option_type::string:
-        ODE_TRACE("Parsing the option {} from value {} as a string", opt->name(), raw_value);
+        ODE_TRACE(
+            "Parsing the option {} from value {} as a string",
+            opt->name(),
+            raw_value);
         return raw_value;
       default:
         ODE_TRACE("Parsing the option {} yielded no valid value", opt->name());
@@ -425,24 +443,24 @@ namespace ode::cli
         const std::string_view separator)
     {
       // See if the argument contains the value separator.
-      if (separator == arg_view.substr(
-          prefix.size() + name_view.size(),
-          separator.size()))
+      if (separator ==
+          arg_view.substr(prefix.size() + name_view.size(), separator.size()))
       {
-        const std::size_t full_option_size
-            = prefix.size() + name_view.size() + separator.size();
+        const std::size_t full_option_size =
+            prefix.size() + name_view.size() + separator.size();
 
-        const std::string raw_value{arg_view.substr(
-            full_option_size,
-            arg_view.size() - full_option_size).data()};
+        const std::string raw_value{
+            arg_view
+                .substr(full_option_size, arg_view.size() - full_option_size)
+                .data()};
 
         const auto value{parse_value(opt, raw_value)};
 
         return {
             opt,
-            std::holds_alternative<std::nullptr_t>(value) ?
-                std::optional<option::value_t>{std::nullopt} :
-                std::optional<option::value_t>{value},
+            std::holds_alternative<std::nullptr_t>(value)
+                ? std::optional<option::value_t>{std::nullopt}
+                : std::optional<option::value_t>{value},
             std::vector<int>{current_index}};
       }
       else
@@ -464,12 +482,12 @@ namespace ode::cli
 
             return {
                 opt,
-                std::holds_alternative<std::nullptr_t>(value) ?
-                    std::optional<option::value_t>{std::nullopt} :
-                    std::optional<option::value_t>{value},
-                std::holds_alternative<std::nullptr_t>(value) ?
-                    std::vector<int>{current_index} :
-                    std::vector<int>{current_index, current_index + 1}};
+                std::holds_alternative<std::nullptr_t>(value)
+                    ? std::optional<option::value_t>{std::nullopt}
+                    : std::optional<option::value_t>{value},
+                std::holds_alternative<std::nullptr_t>(value)
+                    ? std::vector<int>{current_index}
+                    : std::vector<int>{current_index, current_index + 1}};
           }
           else
           {
@@ -480,9 +498,9 @@ namespace ode::cli
 
             return {
                 opt,
-                std::holds_alternative<std::nullptr_t>(value) ?
-                    std::optional<option::value_t>{std::nullopt} :
-                    std::optional<option::value_t>{value},
+                std::holds_alternative<std::nullptr_t>(value)
+                    ? std::optional<option::value_t>{std::nullopt}
+                    : std::optional<option::value_t>{value},
                 std::vector<int>{current_index}};
           }
         }
@@ -537,12 +555,12 @@ namespace ode::cli
 
           return {
               opt,
-              std::holds_alternative<std::nullptr_t>(value) ?
-                  std::optional<option::value_t>{std::nullopt} :
-                  std::optional<option::value_t>{value},
-              std::holds_alternative<std::nullptr_t>(value) ?
-                  std::vector<int>{current_index} :
-                  std::vector<int>{current_index, current_index + 1}};
+              std::holds_alternative<std::nullptr_t>(value)
+                  ? std::optional<option::value_t>{std::nullopt}
+                  : std::optional<option::value_t>{value},
+              std::holds_alternative<std::nullptr_t>(value)
+                  ? std::vector<int>{current_index}
+                  : std::vector<int>{current_index, current_index + 1}};
         }
         else
         {
@@ -553,9 +571,9 @@ namespace ode::cli
 
           return {
               opt,
-              std::holds_alternative<std::nullptr_t>(value) ?
-                  std::optional<option::value_t>{std::nullopt} :
-                  std::optional<option::value_t>{value},
+              std::holds_alternative<std::nullptr_t>(value)
+                  ? std::optional<option::value_t>{std::nullopt}
+                  : std::optional<option::value_t>{value},
               std::vector<int>{current_index}};
         }
       }
@@ -605,45 +623,37 @@ namespace ode::cli
         if (arg_view.size() == prefix.size() + name_view.size())
         {
           return parse_single_short_option_without_separator(
-              opt,
-              arg_view,
-              name_view,
-              argc,
-              argv,
-              current_index,
-              prefix);
+              opt, arg_view, name_view, argc, argv, current_index, prefix);
         }
-        else if (0 == arg_view.rfind(
-            std::string{prefix.data()} + name_view.data() + separator.data(),
-            0))
+        else if (
+            0 ==
+            arg_view.rfind(
+                std::string{prefix.data()} + name_view.data() +
+                    separator.data(),
+                0))
         {
-          const std::size_t full_option_size
-            = prefix.size() + name_view.size() + separator.size();
+          const std::size_t full_option_size =
+              prefix.size() + name_view.size() + separator.size();
 
-          const std::string raw_value{arg_view.substr(
-              full_option_size,
-              arg_view.size() - full_option_size).data()};
+          const std::string raw_value{
+              arg_view
+                  .substr(full_option_size, arg_view.size() - full_option_size)
+                  .data()};
 
           const auto value{parse_value(opt, raw_value)};
 
           return {
               opt,
-              std::holds_alternative<std::nullptr_t>(value) ?
-                  std::optional<option::value_t>{std::nullopt} :
-                  std::optional<option::value_t>{value},
+              std::holds_alternative<std::nullptr_t>(value)
+                  ? std::optional<option::value_t>{std::nullopt}
+                  : std::optional<option::value_t>{value},
               std::vector<int>{current_index}};
         }
       }
       else
       {
         return parse_single_short_option_without_separator(
-            opt,
-            arg_view,
-            name_view,
-            argc,
-            argv,
-            current_index,
-            prefix);
+            opt, arg_view, name_view, argc, argv, current_index, prefix);
       } // !allow_separator_for_short
 
       // If no value can be parsed, the function returns a value with null
@@ -726,9 +736,9 @@ namespace ode::cli
             // If this option is the last one in the combination, it requires
             // different handling as its value can be in the next argument.
             const std::string raw_value{
-                arg_view.size() - 1 == i && current_index + 1 < argc ?
-                argv[current_index + 1] :
-                ""};
+                arg_view.size() - 1 == i && current_index + 1 < argc
+                    ? argv[current_index + 1]
+                    : ""};
 
             const auto value = parse_value(o, raw_value);
 
@@ -790,11 +800,12 @@ namespace ode::cli
       if (allow_combining)
       {
         if (arg_view.size() == prefix.size() + name_view.size() ||
-            (allow_separator_for_short && 0 == arg_view.rfind(
-                std::string{prefix.data()}
-                + name_view.data()
-                + separator.data(),
-                0)))
+            (allow_separator_for_short &&
+             0 ==
+                 arg_view.rfind(
+                     std::string{prefix.data()} + name_view.data() +
+                         separator.data(),
+                     0)))
         {
           return parse_single_short_option(
               opt,
@@ -810,14 +821,14 @@ namespace ode::cli
         else
         {
           if (is_valid_option_combination(
-              opt,
-              arg_view,
-              name_view,
-              argc,
-              argv,
-              all_options,
-              current_index,
-              prefix))
+                  opt,
+                  arg_view,
+                  name_view,
+                  argc,
+                  argv,
+                  all_options,
+                  current_index,
+                  prefix))
           {
             const auto option_index = arg_view.find(name_view);
 
@@ -836,12 +847,12 @@ namespace ode::cli
 
               return {
                   opt,
-                  std::holds_alternative<std::nullptr_t>(value) ?
-                      std::optional<option::value_t>{std::nullopt} :
-                      std::optional<option::value_t>{value},
-                  std::holds_alternative<std::nullptr_t>(value) ?
-                      std::vector<int>{current_index} :
-                      std::vector<int>{current_index, current_index + 1}};
+                  std::holds_alternative<std::nullptr_t>(value)
+                      ? std::optional<option::value_t>{std::nullopt}
+                      : std::optional<option::value_t>{value},
+                  std::holds_alternative<std::nullptr_t>(value)
+                      ? std::vector<int>{current_index}
+                      : std::vector<int>{current_index, current_index + 1}};
             }
             else
             {
@@ -851,9 +862,9 @@ namespace ode::cli
 
               return {
                   opt,
-                  std::holds_alternative<std::nullptr_t>(value) ?
-                      std::optional<option::value_t>{std::nullopt} :
-                      std::optional<option::value_t>{value},
+                  std::holds_alternative<std::nullptr_t>(value)
+                      ? std::optional<option::value_t>{std::nullopt}
+                      : std::optional<option::value_t>{value},
                   std::vector<int>{current_index}};
             }
           }
@@ -921,11 +932,11 @@ namespace ode::cli
               prefix,
               separator);
         }
-        else if (!alternative_prefix.empty() &&
+        else if (
+            !alternative_prefix.empty() &&
             0 == arg_view.rfind(alternative_prefix, 0) &&
-            working_n == arg_view.substr(
-                alternative_prefix.size(),
-                working_n.size()))
+            working_n ==
+                arg_view.substr(alternative_prefix.size(), working_n.size()))
         {
           return detail::parse_long_option(
               this,
@@ -966,7 +977,8 @@ namespace ode::cli
             return value;
           }
         }
-        else if (!alternative_prefix.empty() && short_n.has_value() &&
+        else if (
+            !alternative_prefix.empty() && short_n.has_value() &&
             0 == arg_view.rfind(alternative_prefix, 0))
         {
           const auto value = detail::parse_short_option(
@@ -1068,12 +1080,9 @@ namespace ode::cli
 
   bool operator==(const option& lhs, const option& rhs) noexcept
   {
-    return lhs.n == rhs.n &&
-        lhs.alt_n == rhs.alt_n &&
-        lhs.short_n == rhs.short_n &&
-        lhs.t == rhs.t &&
-        lhs.default_v == rhs.default_v &&
-        lhs.req == rhs.req;
+    return lhs.n == rhs.n && lhs.alt_n == rhs.alt_n &&
+        lhs.short_n == rhs.short_n && lhs.t == rhs.t &&
+        lhs.default_v == rhs.default_v && lhs.req == rhs.req;
   }
 
   bool operator!=(const option& lhs, const option& rhs) noexcept
@@ -1094,7 +1103,8 @@ namespace ode::cli
       case option_type::floating_point:
         return std::to_string(std::get<double>(a.default_value()));
       case option_type::string:
-        return std::get<std::string>(a.default_value());;
+        return std::get<std::string>(a.default_value());
+        ;
       default:
         return "null";
       }
@@ -1106,14 +1116,13 @@ namespace ode::cli
     using namespace std::string_literals;
 
     return os << "{"
-        << "option:" << a.name()
-        << " (" << a.alternative_name() << ","
-        << (a.short_name().has_value() ? *a.short_name() : "no short name"s)
-        << ")"
-        << ", type:" << a.type()
-        << ", default value:" << detail::default_value_to_string(a)
-        << ", required:" << std::to_string(a.required())
-        << "}";
+              << "option:" << a.name() << " (" << a.alternative_name() << ","
+              << (a.short_name().has_value() ? *a.short_name()
+                                             : "no short name"s)
+              << ")"
+              << ", type:" << a.type()
+              << ", default value:" << detail::default_value_to_string(a)
+              << ", required:" << std::to_string(a.required()) << "}";
   }
 
 } // namespace ode::cli

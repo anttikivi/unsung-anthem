@@ -13,11 +13,7 @@
 TEST(ode_cli_option, valid_boolean_invariant)
 {
   ode::cli::option opt_base{
-      "test-option",
-      "t",
-      ode::cli::option_type::boolean,
-      true,
-      false};
+      "test-option", "t", ode::cli::option_type::boolean, true, false};
 
   ode::cli::option opt_1{"test-option", "t", true, false};
 
@@ -27,10 +23,7 @@ TEST(ode_cli_option, valid_boolean_invariant)
 TEST(ode_cli_option, valid_boolean_invariant_without_short_name)
 {
   ode::cli::option opt_base{
-      "test-option",
-      ode::cli::option_type::boolean,
-      true,
-      false};
+      "test-option", ode::cli::option_type::boolean, true, false};
 
   ode::cli::option opt_1{"test-option", true, false};
 
@@ -40,11 +33,7 @@ TEST(ode_cli_option, valid_boolean_invariant_without_short_name)
 TEST(ode_cli_option, valid_integer_invariant)
 {
   ode::cli::option opt_base{
-      "test-option",
-      "t",
-      ode::cli::option_type::integer,
-      3,
-      false};
+      "test-option", "t", ode::cli::option_type::integer, 3, false};
 
   ode::cli::option opt_1{"test-option", "t", 3, false};
 
@@ -54,10 +43,7 @@ TEST(ode_cli_option, valid_integer_invariant)
 TEST(ode_cli_option, valid_integer_invariant_without_short_name)
 {
   ode::cli::option opt_base{
-      "test-option",
-      ode::cli::option_type::integer,
-      7,
-      false};
+      "test-option", ode::cli::option_type::integer, 7, false};
 
   ode::cli::option opt_1{"test-option", 7, false};
 
@@ -67,11 +53,7 @@ TEST(ode_cli_option, valid_integer_invariant_without_short_name)
 TEST(ode_cli_option, valid_float_invariant)
 {
   ode::cli::option opt_base{
-      "test-option",
-      "t",
-      ode::cli::option_type::floating_point,
-      8.73,
-      false};
+      "test-option", "t", ode::cli::option_type::floating_point, 8.73, false};
 
   ode::cli::option opt_1{"test-option", "t", 8.73, false};
 
@@ -81,10 +63,7 @@ TEST(ode_cli_option, valid_float_invariant)
 TEST(ode_cli_option, valid_float_invariant_without_short_name)
 {
   ode::cli::option opt_base{
-      "test-option",
-      ode::cli::option_type::floating_point,
-      13.664,
-      false};
+      "test-option", ode::cli::option_type::floating_point, 13.664, false};
 
   ode::cli::option opt_1{"test-option", 13.664, false};
 
@@ -95,11 +74,7 @@ TEST(ode_cli_option, valid_string_invariant)
 {
   using namespace std::literals::string_literals;
   ode::cli::option opt_base{
-      "test-option",
-      "t",
-      ode::cli::option_type::string,
-      "test value"s,
-      false};
+      "test-option", "t", ode::cli::option_type::string, "test value"s, false};
 
   ode::cli::option opt_1{"test-option", "t", "test value"s, false};
 
@@ -110,10 +85,7 @@ TEST(ode_cli_option, valid_string_invariant_without_short_name)
 {
   using namespace std::literals::string_literals;
   ode::cli::option opt_base{
-      "test-option",
-      ode::cli::option_type::string,
-      "test value 2"s,
-      false};
+      "test-option", ode::cli::option_type::string, "test value 2"s, false};
 
   ode::cli::option opt_1{"test-option", "test value 2"s, false};
 
@@ -125,22 +97,10 @@ TEST(ode_cli_option, parse_boolean_unix)
   ode::cli::option opt_0{"enable-something", "s", false, false};
 
   ode::argv_t argv_0[] = {
-      "exe",
-      "--enable-something",
-      "--some-other-option=555"};
+      "exe", "--enable-something", "--some-other-option=555"};
 
   auto p_0 = opt_0.parse_option(
-      3,
-      argv_0,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      3, argv_0, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_0 = std::get<bool>(*std::get<1>(p_0));
 
   ASSERT_TRUE(v_0);
@@ -148,23 +108,10 @@ TEST(ode_cli_option, parse_boolean_unix)
   ode::cli::option opt_1{"enable-something", "s", false, false};
 
   ode::argv_t argv_1[] = {
-      "exe",
-      "-s",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-s", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_1 = opt_1.parse_option(
-      4,
-      argv_1,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      4, argv_1, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_1 = std::get<bool>(*std::get<1>(p_1));
 
   ASSERT_TRUE(v_1);
@@ -172,22 +119,10 @@ TEST(ode_cli_option, parse_boolean_unix)
   ode::cli::option opt_2{"enable-something", "s", false, false};
 
   ode::argv_t argv_2[] = {
-      "exe",
-      "--enable-something", "true",
-      "--some-other-option=555"};
+      "exe", "--enable-something", "true", "--some-other-option=555"};
 
   auto p_2 = opt_2.parse_option(
-      3,
-      argv_2,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      3, argv_2, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_2 = std::get<bool>(*std::get<1>(p_2));
 
   ASSERT_TRUE(v_2);
@@ -195,23 +130,10 @@ TEST(ode_cli_option, parse_boolean_unix)
   ode::cli::option opt_3{"enable-something", "s", false, false};
 
   ode::argv_t argv_3[] = {
-      "exe",
-      "-s", "true",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-s", "true", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_3 = opt_3.parse_option(
-      4,
-      argv_3,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      4, argv_3, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_3 = std::get<bool>(*std::get<1>(p_3));
 
   ASSERT_TRUE(v_3);
@@ -222,20 +144,11 @@ TEST(ode_cli_option, parse_boolean_unix)
       "exe",
       "--enable-something=true",
       "--some-other-option=555",
-      "--yet-another", "one"};
+      "--yet-another",
+      "one"};
 
   auto p_4 = opt_4.parse_option(
-      5,
-      argv_4,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      5, argv_4, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_4 = std::get<bool>(*std::get<1>(p_4));
 
   ASSERT_TRUE(v_4);
@@ -245,10 +158,7 @@ TEST(ode_cli_option, parse_boolean_unix)
   ode::cli::option opt_7{"this-is-option", "t", false, false};
 
   ode::argv_t argv_5[] = {
-      "exe",
-      "-Cst",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-Cst", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_5 = opt_5.parse_option(
       5,
@@ -271,10 +181,7 @@ TEST(ode_cli_option, parse_boolean_unix)
   ode::cli::option opt_10{"this-is-option", "t", false, false};
 
   ode::argv_t argv_8[] = {
-      "exe",
-      "-Cts", "true",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-Cts", "true", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_8 = opt_8.parse_option(
       6,
@@ -298,22 +205,10 @@ TEST(ode_cli_option, parse_boolean_unix_reverse)
   ode::cli::option opt_0{"disable-something", "s", true, false};
 
   ode::argv_t argv_0[] = {
-      "exe",
-      "--disable-something",
-      "--some-other-option=555"};
+      "exe", "--disable-something", "--some-other-option=555"};
 
   auto p_0 = opt_0.parse_option(
-      3,
-      argv_0,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      3, argv_0, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_0 = std::get<bool>(*std::get<1>(p_0));
 
   ASSERT_FALSE(v_0);
@@ -321,23 +216,10 @@ TEST(ode_cli_option, parse_boolean_unix_reverse)
   ode::cli::option opt_1{"disable-something", "s", true, false};
 
   ode::argv_t argv_1[] = {
-      "exe",
-      "-s",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-s", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_1 = opt_1.parse_option(
-      4,
-      argv_1,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      4, argv_1, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_1 = std::get<bool>(*std::get<1>(p_1));
 
   ASSERT_FALSE(v_1);
@@ -345,22 +227,10 @@ TEST(ode_cli_option, parse_boolean_unix_reverse)
   ode::cli::option opt_2{"disable-something", "s", true, false};
 
   ode::argv_t argv_2[] = {
-      "exe",
-      "--disable-something", "false",
-      "--some-other-option=555"};
+      "exe", "--disable-something", "false", "--some-other-option=555"};
 
   auto p_2 = opt_2.parse_option(
-      3,
-      argv_2,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      3, argv_2, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_2 = std::get<bool>(*std::get<1>(p_2));
 
   ASSERT_FALSE(v_2);
@@ -368,23 +238,10 @@ TEST(ode_cli_option, parse_boolean_unix_reverse)
   ode::cli::option opt_3{"disable-something", "s", true, false};
 
   ode::argv_t argv_3[] = {
-      "exe",
-      "-s", "false",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-s", "false", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_3 = opt_3.parse_option(
-      4,
-      argv_3,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      4, argv_3, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_3 = std::get<bool>(*std::get<1>(p_3));
 
   ASSERT_FALSE(v_3);
@@ -395,20 +252,11 @@ TEST(ode_cli_option, parse_boolean_unix_reverse)
       "exe",
       "--disable-something=false",
       "--some-other-option=555",
-      "--yet-another", "one"};
+      "--yet-another",
+      "one"};
 
   auto p_4 = opt_4.parse_option(
-      4,
-      argv_4,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      4, argv_4, {}, {}, "--", "-", "", "=", false, false, true);
   bool v_4 = std::get<bool>(*std::get<1>(p_4));
 
   ASSERT_FALSE(v_4);
@@ -418,10 +266,7 @@ TEST(ode_cli_option, parse_boolean_unix_reverse)
   ode::cli::option opt_7{"this-is-option", "t", false, false};
 
   ode::argv_t argv_5[] = {
-      "exe",
-      "-Cst",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-Cst", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_5 = opt_5.parse_option(
       5,
@@ -445,9 +290,11 @@ TEST(ode_cli_option, parse_boolean_unix_reverse)
 
   ode::argv_t argv_8[] = {
       "exe",
-      "-Cts", "false",
+      "-Cts",
+      "false",
       "--some-other-option=555",
-      "--yet-another", "one"};
+      "--yet-another",
+      "one"};
 
   auto p_8 = opt_8.parse_option(
       6,
@@ -470,23 +317,10 @@ TEST(ode_cli_option, parse_integer_unix)
 {
   ode::cli::option opt_0{"something", "s", 14, false};
 
-  ode::argv_t argv_0[] = {
-      "exe",
-      "--something", "4",
-      "--some-other-option=555"};
+  ode::argv_t argv_0[] = {"exe", "--something", "4", "--some-other-option=555"};
 
   auto p_0 = opt_0.parse_option(
-      4,
-      argv_0,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      4, argv_0, {}, {}, "--", "-", "", "=", false, false, true);
   int v_0 = std::get<int>(*std::get<1>(p_0));
 
   ASSERT_EQ(v_0, 4);
@@ -494,46 +328,20 @@ TEST(ode_cli_option, parse_integer_unix)
   ode::cli::option opt_1{"something", "s", 8, false};
 
   ode::argv_t argv_1[] = {
-      "exe",
-      "-s", "103",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-s", "103", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_1 = opt_1.parse_option(
-      5,
-      argv_1,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      5, argv_1, {}, {}, "--", "-", "", "=", false, false, true);
   int v_1 = std::get<int>(*std::get<1>(p_1));
 
   ASSERT_EQ(v_1, 103);
 
   ode::cli::option opt_2{"something", "s", 22, false};
 
-  ode::argv_t argv_2[] = {
-      "exe",
-      "--something=34",
-      "--some-other-option=555"};
+  ode::argv_t argv_2[] = {"exe", "--something=34", "--some-other-option=555"};
 
   auto p_2 = opt_2.parse_option(
-      3,
-      argv_2,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      3, argv_2, {}, {}, "--", "-", "", "=", false, false, true);
   int v_2 = std::get<int>(*std::get<1>(p_2));
 
   ASSERT_EQ(v_2, 34);
@@ -543,10 +351,7 @@ TEST(ode_cli_option, parse_integer_unix)
   ode::cli::option opt_5{"this-is-option", "t", false, false};
 
   ode::argv_t argv_3[] = {
-      "exe",
-      "-Cts", "54",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-Cts", "54", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_3 = opt_3.parse_option(
       6,
@@ -570,22 +375,10 @@ TEST(ode_cli_option, parse_double_unix)
   ode::cli::option opt_0{"something", "s", 14.632, false};
 
   ode::argv_t argv_0[] = {
-      "exe",
-      "--something", "4.124",
-      "--some-other-option=555"};
+      "exe", "--something", "4.124", "--some-other-option=555"};
 
   auto p_0 = opt_0.parse_option(
-      4,
-      argv_0,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      4, argv_0, {}, {}, "--", "-", "", "=", false, false, true);
   double v_0 = std::get<double>(*std::get<1>(p_0));
 
   ASSERT_EQ(v_0, 4.124);
@@ -594,45 +387,24 @@ TEST(ode_cli_option, parse_double_unix)
 
   ode::argv_t argv_1[] = {
       "exe",
-      "-s", "103.065",
+      "-s",
+      "103.065",
       "--some-other-option=555",
-      "--yet-another", "one"};
+      "--yet-another",
+      "one"};
 
   auto p_1 = opt_1.parse_option(
-      5,
-      argv_1,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      5, argv_1, {}, {}, "--", "-", "", "=", false, false, true);
   double v_1 = std::get<double>(*std::get<1>(p_1));
 
   ASSERT_EQ(v_1, 103.065);
 
   ode::cli::option opt_2{"something", "s", 22.3, false};
 
-  ode::argv_t argv_2[] = {
-      "exe",
-      "--something=34.5",
-      "--some-other-option=555"};
+  ode::argv_t argv_2[] = {"exe", "--something=34.5", "--some-other-option=555"};
 
   auto p_2 = opt_2.parse_option(
-      3,
-      argv_2,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      3, argv_2, {}, {}, "--", "-", "", "=", false, false, true);
   double v_2 = std::get<double>(*std::get<1>(p_2));
 
   ASSERT_EQ(v_2, 34.5);
@@ -642,10 +414,7 @@ TEST(ode_cli_option, parse_double_unix)
   ode::cli::option opt_5{"this-is-option", "t", false, false};
 
   ode::argv_t argv_3[] = {
-      "exe",
-      "-Cts", "54.7",
-      "--some-other-option=555",
-      "--yet-another", "one"};
+      "exe", "-Cts", "54.7", "--some-other-option=555", "--yet-another", "one"};
 
   auto p_3 = opt_3.parse_option(
       6,
@@ -669,22 +438,10 @@ TEST(ode_cli_option, parse_string_unix)
   ode::cli::option opt_0{"something-zero", "s", "strign", false};
 
   ode::argv_t argv_0[] = {
-      "exe",
-      "--something-zero", "a string",
-      "--some-other-option=555"};
+      "exe", "--something-zero", "a string", "--some-other-option=555"};
 
   auto p_0 = opt_0.parse_option(
-      4,
-      argv_0,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      4, argv_0, {}, {}, "--", "-", "", "=", false, false, true);
   std::string v_0 = std::get<std::string>(*std::get<1>(p_0));
 
   ASSERT_EQ(v_0, "a string");
@@ -693,22 +450,14 @@ TEST(ode_cli_option, parse_string_unix)
 
   ode::argv_t argv_1[] = {
       "exe",
-      "-s", "other value",
+      "-s",
+      "other value",
       "--some-other-option=555",
-      "--yet-another", "one"};
+      "--yet-another",
+      "one"};
 
   auto p_1 = opt_1.parse_option(
-      5,
-      argv_1,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      5, argv_1, {}, {}, "--", "-", "", "=", false, false, true);
   std::string v_1 = std::get<std::string>(*std::get<1>(p_1));
 
   ASSERT_EQ(v_1, "other value");
@@ -716,22 +465,10 @@ TEST(ode_cli_option, parse_string_unix)
   ode::cli::option opt_2{"something-two", "s", "default", false};
 
   ode::argv_t argv_2[] = {
-      "exe",
-      "--something-two=different string",
-      "--some-other-option=555"};
+      "exe", "--something-two=different string", "--some-other-option=555"};
 
   auto p_2 = opt_2.parse_option(
-      3,
-      argv_2,
-      {},
-      {},
-      "--",
-      "-",
-      "",
-      "=",
-      false,
-      false,
-      true);
+      3, argv_2, {}, {}, "--", "-", "", "=", false, false, true);
   std::string v_2 = std::get<std::string>(*std::get<1>(p_2));
 
   ASSERT_EQ(v_2, "different string");
@@ -742,9 +479,11 @@ TEST(ode_cli_option, parse_string_unix)
 
   ode::argv_t argv_3[] = {
       "exe",
-      "-Cts", "after combination",
+      "-Cts",
+      "after combination",
       "--some-other-option=555",
-      "--yet-another", "one"};
+      "--yet-another",
+      "one"};
 
   auto p_3 = opt_3.parse_option(
       6,

@@ -46,8 +46,7 @@ namespace ode::lua
   /// \return the value on the top of the stack.
   ///
   template <typename T> constexpr auto read(
-      const state_ptr_t state,
-      const int index) ODE_CONTRACT_NOEXCEPT
+      const state_ptr_t state, const int index) ODE_CONTRACT_NOEXCEPT
   {
     if constexpr (std::is_same_v<std::remove_cv_t<T>, bool>)
     {
@@ -100,8 +99,7 @@ namespace ode::lua
   /// \return the value of the variable.
   ///
   template <typename T> inline T get(
-      const state_ptr_t state,
-      std::string_view var) ODE_CONTRACT_NOEXCEPT
+      const state_ptr_t state, std::string_view var) ODE_CONTRACT_NOEXCEPT
   {
     T ret;
 
@@ -126,16 +124,14 @@ namespace ode::lua
       using type = std::tuple<Types...>;
 
       template <typename T> static constexpr std::tuple<T> worker(
-          const state_ptr_t state,
-          const int index) noexcept
+          const state_ptr_t state, const int index) noexcept
       {
         return std::make_tuple(read<T>(state, index));
       }
 
       template <typename T1, typename T2, typename... Rest>
       static constexpr std::tuple<T1, T2, Rest...> worker(
-          const state_ptr_t state,
-          const int index) noexcept
+          const state_ptr_t state, const int index) noexcept
       {
         std::tuple<T1> head = std::make_tuple(read<T1>(state, index));
         return std::tuple_cat(head, worker<T2, Rest...>(state, index + 1));
@@ -153,8 +149,7 @@ namespace ode::lua
     {
       using type = T;
 
-      static constexpr type apply(
-          const state_ptr_t state) ODE_CONTRACT_NOEXCEPT
+      static constexpr type apply(const state_ptr_t state) ODE_CONTRACT_NOEXCEPT
       {
         T ret = read<T>(state);
         lua_pop(state, 1);
@@ -168,12 +163,11 @@ namespace ode::lua
 
       static constexpr type apply(const state_ptr_t state) noexcept
       {
-
       }
     };
 
-    template <typename... Types>
-    using pop_t = typename pop<sizeof...(Types), Types...>::type;
+    template <typename... Types> using pop_t =
+        typename pop<sizeof...(Types), Types...>::type;
 
     template <typename... Types> constexpr pop_t<Types...> pop_value(
         const state_ptr_t state) ODE_CONTRACT_NOEXCEPT

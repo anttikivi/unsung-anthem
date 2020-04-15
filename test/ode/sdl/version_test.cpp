@@ -5,9 +5,9 @@
 /// \copyright Copyright (c) 2018–2020 Antti Kivi.
 /// Licensed under the Effective Elegy Licence.
 
-#include "ode/sdl/sdl_version.h"
-
 #include <gtest/gtest.h>
+
+#include "ode/sdl/sdl_version.h"
 
 TEST(ode_sdl_version, compiled)
 {

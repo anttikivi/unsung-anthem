@@ -12,15 +12,15 @@
 #include <iterator>
 #include <utility>
 
+#include <SDL2/SDL.h>
+
 #include "ode/application.h"
 #include "ode/config.h"
-#include "ode/initialize.h"
-#include "ode/type_name.h"
 #include "ode/framework/platform_manager.h"
 #include "ode/framework/state_manager.h"
+#include "ode/initialize.h"
 #include "ode/sdl/initialize_sdl.h"
-
-#include <SDL2/SDL.h>
+#include "ode/type_name.h"
 
 namespace ode
 {
@@ -50,8 +50,7 @@ namespace ode
     /// startup data.
     ///
     engine_framework(A&& a, const execution_info& i)
-    : app{std::forward<A>(a)},
-    w{nullptr, nullptr}
+        : app{std::forward<A>(a)}, w{nullptr, nullptr}
     {
 #if !ODE_CONCEPTS
 
@@ -274,7 +273,6 @@ namespace ode
   template <typename A> auto make_engine(A&& a, const execution_info& i)
 #endif // !ODE_CONCEPTS
   {
-
 #if !ODE_CONCEPTS
 
     static_assert(

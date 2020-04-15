@@ -14,35 +14,27 @@ namespace ode::cli
 {
   inclusive_option_group::inclusive_option_group() : option_group{}
   {
-
   }
 
   inclusive_option_group::inclusive_option_group(std::vector<option>&& opts)
-  : option_group{std::move(opts)}
+      : option_group{std::move(opts)}
   {
-
   }
 
   inclusive_option_group::inclusive_option_group(
-      const std::string& n,
-      std::vector<option>&& opts)
-  : option_group{n, std::move(opts)}
+      const std::string& n, std::vector<option>&& opts)
+      : option_group{n, std::move(opts)}
   {
-
   }
 
   inclusive_option_group::inclusive_option_group(
-      const std::string& n,
-      const std::string& d,
-      std::vector<option>&& opts)
-  : option_group{n, d, std::move(opts)}
+      const std::string& n, const std::string& d, std::vector<option>&& opts)
+      : option_group{n, d, std::move(opts)}
   {
-
   }
 
   std::optional<arguments> inclusive_option_group::parse_group(
-      const int argc,
-      ode::argv_t argv[]) const
+      const int argc, ode::argv_t argv[]) const
   {
   }
 } // namespace ode::cli

@@ -34,7 +34,6 @@ namespace ode
       const spdlog::level::level_enum level,
       const spdlog::sink_ptr sink)
   {
-
     auto logger = detail::make_logger(name, sink);
 
     if (pattern != "NONE")

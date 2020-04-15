@@ -13,9 +13,8 @@
 
 namespace ode::lua
 {
-  int load_script_file(
-      const state_ptr_t state,
-      std::string_view filename) ODE_CONTRACT_NOEXCEPT
+  int load_script_file(const state_ptr_t state, std::string_view filename)
+      ODE_CONTRACT_NOEXCEPT
   {
     ODE_TRACE("Trying to load a Lua script from '{}'", filename.data());
 
@@ -26,17 +25,14 @@ namespace ode::lua
     Ensures(LUA_OK == load_error);
 
     ODE_TRACE(
-        "The script '{}' is loaded with code {}",
-        filename.data(),
-        load_error);
+        "The script '{}' is loaded with code {}", filename.data(), load_error);
 
     const auto call_error = lua_pcall(state, 0, 0, 0);
 
     Ensures(LUA_OK == call_error);
 
-    ODE_TRACE("The script '{}' is called with code {}",
-        filename.data(),
-        call_error);
+    ODE_TRACE(
+        "The script '{}' is called with code {}", filename.data(), call_error);
 
     return load_error;
   }

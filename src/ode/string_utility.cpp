@@ -25,18 +25,16 @@ namespace ode
       if (str.front() == '+' || str.front() == '-')
       {
         return std::find_if(
-            str.cbegin() + 1,
-            str.cend(),
-            [](unsigned char ch) -> bool {return !std::isdigit(ch);}) ==
-                str.cend();
+                   str.cbegin() + 1, str.cend(), [](unsigned char ch) -> bool {
+                     return !std::isdigit(ch);
+                   }) == str.cend();
       }
       else
       {
         return std::find_if(
-            str.cbegin(),
-            str.cend(),
-            [](unsigned char ch) -> bool {return !std::isdigit(ch);}) ==
-                str.cend();
+                   str.cbegin(), str.cend(), [](unsigned char ch) -> bool {
+                     return !std::isdigit(ch);
+                   }) == str.cend();
       }
     }
 
@@ -70,14 +68,15 @@ namespace ode
         std::find_if(
             working_str.begin(),
             working_str.end(),
-            [](unsigned char ch) -> bool {return !std::isspace(ch);}));
+            [](unsigned char ch) -> bool { return !std::isspace(ch); }));
 
     // Erase the whitespace characters from the end of the string.
     working_str.erase(
         std::find_if(
             working_str.rbegin(),
             working_str.rend(),
-            [](unsigned char ch) -> bool {return !std::isspace(ch);}).base(),
+            [](unsigned char ch) -> bool { return !std::isspace(ch); })
+            .base(),
         working_str.end());
 
     return working_str;
@@ -96,10 +95,7 @@ namespace ode
   {
     std::string working_str{trim(str)};
     std::transform(
-        working_str.begin(),
-        working_str.end(),
-        working_str.begin(),
-        ::tolower);
+        working_str.begin(), working_str.end(), working_str.begin(), ::tolower);
     return detail::is_valid_bool(working_str);
   }
 
@@ -107,18 +103,14 @@ namespace ode
   {
     std::string working_str{trim(str)};
     std::transform(
-        working_str.begin(),
-        working_str.end(),
-        working_str.begin(),
-        ::tolower);
+        working_str.begin(), working_str.end(), working_str.begin(), ::tolower);
 
     if (!detail::is_valid_bool(working_str))
     {
       using namespace std::literals::string_literals;
       throw std::invalid_argument{
-          "The value in the string "s
-          + str
-          + " cannot be converted to a Boolean"};
+          "The value in the string "s + str +
+          " cannot be converted to a Boolean"};
     }
 
     if (is_integer(working_str))

@@ -33,10 +33,9 @@ namespace ode
     ///
     /// \param t the object implementation.
     ///
-    template <typename T>
-    object_t(T t) : obj_ptr{std::make_unique<T>(std::move(t))}
+    template <typename T> object_t(T t)
+        : obj_ptr{std::make_unique<T>(std::move(t))}
     {
-
     }
 
     ///

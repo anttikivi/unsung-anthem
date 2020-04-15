@@ -8,11 +8,10 @@
 
 #include "ode/logging_set_up.h"
 
-#include "ode/config.h"
-
-#include "ode/logging_config.h"
-
 #include <spdlog/sinks/null_sink.h>
+
+#include "ode/config.h"
+#include "ode/logging_config.h"
 
 ode::logger_t create_logging_test_logger()
 {
@@ -21,17 +20,12 @@ ode::logger_t create_logging_test_logger()
     auto null_sink = std::make_shared<spdlog::sinks::null_sink_st>();
 
     return ode::create_logger(
-        "test_logger_ode",
-        ode::logger_pattern,
-        ode::logger_level,
-        null_sink);
+        "test_logger_ode", ode::logger_pattern, ode::logger_level, null_sink);
   }
   else
   {
     return ode::create_logger(
-        "test_logger_ode",
-        ode::logger_pattern,
-        ode::logger_level);
+        "test_logger_ode", ode::logger_pattern, ode::logger_level);
   }
 }
 

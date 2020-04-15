@@ -7,9 +7,9 @@
 /// \copyright Copyright (c) 2018–2020 Antti Kivi.
 /// Licensed under the Effective Elegy Licence.
 
-#include <iostream>
-
 #include "gsl/view"
+
+#include <iostream>
 
 #include <gtest/gtest.h>
 

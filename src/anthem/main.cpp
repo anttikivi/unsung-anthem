@@ -5,9 +5,9 @@
 /// \copyright Copyright (c) 2018–2020 Antti Kivi.
 /// Licensed under the Effective Elegy Licence.
 
-#include "anthem/run.h"
-
 #include <SDL2/SDL.h>
+
+#include "anthem/run.h"
 
 ///
 /// Returns the execution status of the program with the arguments passed in.

@@ -9,20 +9,19 @@
 
 #include <stdexcept>
 
-#include "ode/logger.h"
 #include "ode/framework/platform_manager.h"
 #include "ode/gl/gl_config.h"
+#include "ode/logger.h"
 
 namespace ode::sdl
 {
   window_t create_window(const window_creation_info& info)
   {
     SDL_GL_SetAttribute(
-        SDL_GL_CONTEXT_PROFILE_MASK,
-        SDL_GL_CONTEXT_PROFILE_CORE);
+        SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, opengl_version_major);
-	  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, opengl_version_minor);
-	  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, opengl_version_minor);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     // SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 #if ODE_OPENGL_SDL_ACCELERATED_VISUAL
@@ -33,8 +32,7 @@ namespace ode::sdl
     if constexpr (ode::platform::macos == ode::current_platform)
     {
       SDL_GL_SetAttribute(
-          SDL_GL_CONTEXT_FLAGS,
-          SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+          SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
     }
 
     ODE_TRACE(
@@ -64,9 +62,8 @@ namespace ode::sdl
       const std::string error = std::string{SDL_GetError()};
       throw std::runtime_error{
           std::string{
-              "The Simple DirectMedia Layer window creation failed, '"}
-          + error
-          + "'"};
+              "The Simple DirectMedia Layer window creation failed, '"} +
+          error + "'"};
     }
 
     return window;

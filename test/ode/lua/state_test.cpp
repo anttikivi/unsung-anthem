@@ -9,11 +9,11 @@
 
 #include "gsl/util"
 
+#include <gtest/gtest.h>
+
 #include "ode/config.h"
 #include "ode/filesystem/path.h"
 #include "ode/lua/lua_config.h"
-
-#include <gtest/gtest.h>
 
 TEST(ode_lua_make_state, created)
 {
@@ -32,10 +32,8 @@ TEST(ode_lua_clean, cleaned)
 
   luaL_openlibs(state);
 
-  const std::string filename =
-      std::string{ode::test_script_root}
-      + ode::filesystem::path::preferred_separator
-      + "state.lua";
+  const std::string filename = std::string{ode::test_script_root} +
+      ode::filesystem::path::preferred_separator + "state.lua";
 
   const auto load_error = luaL_loadfile(state, filename.c_str());
 

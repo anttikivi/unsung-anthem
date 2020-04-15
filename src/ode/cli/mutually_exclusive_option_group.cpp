@@ -13,32 +13,25 @@
 namespace ode::cli
 {
   mutually_exclusive_option_group::mutually_exclusive_option_group()
-  : option_group{}
+      : option_group{}
   {
-
   }
 
   mutually_exclusive_option_group::mutually_exclusive_option_group(
       std::vector<option>&& opts)
-  : option_group{std::move(opts)}
+      : option_group{std::move(opts)}
   {
-
   }
 
   mutually_exclusive_option_group::mutually_exclusive_option_group(
-      const std::string& n,
-      std::vector<option>&& opts)
-  : option_group{n, std::move(opts)}
+      const std::string& n, std::vector<option>&& opts)
+      : option_group{n, std::move(opts)}
   {
-
   }
 
   mutually_exclusive_option_group::mutually_exclusive_option_group(
-      const std::string& n,
-      const std::string& d,
-      std::vector<option>&& opts)
-  : option_group{n, d, std::move(opts)}
+      const std::string& n, const std::string& d, std::vector<option>&& opts)
+      : option_group{n, d, std::move(opts)}
   {
-
   }
 } // namespace ode::cli

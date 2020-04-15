@@ -16,7 +16,7 @@ namespace ode::cli
 {
   struct arguments;
   class option_group_t;
-}
+} // namespace ode::cli
 
 namespace ode::cli
 {

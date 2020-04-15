@@ -14,36 +14,22 @@ namespace ode::cli
 {
   option_group::option_group() : opts{}, n{std::nullopt}, desc{std::nullopt}
   {
-
   }
 
   option_group::option_group(std::vector<option>&& opts)
-  : opts{std::move(opts)},
-  n{std::nullopt},
-  desc{std::nullopt}
+      : opts{std::move(opts)}, n{std::nullopt}, desc{std::nullopt}
   {
+  }
 
+  option_group::option_group(const std::string& n, std::vector<option>&& opts)
+      : opts{std::move(opts)}, n{n}, desc{std::nullopt}
+  {
   }
 
   option_group::option_group(
-      const std::string& n,
-      std::vector<option>&& opts)
-  : opts{std::move(opts)},
-  n{n},
-  desc{std::nullopt}
+      const std::string& n, const std::string& d, std::vector<option>&& opts)
+      : opts{std::move(opts)}, n{n}, desc{d}
   {
-
-  }
-
-  option_group::option_group(
-      const std::string& n,
-      const std::string& d,
-      std::vector<option>&& opts)
-  : opts{std::move(opts)},
-  n{n},
-  desc{d}
-  {
-
   }
 
   std::vector<option> option_group::options() const

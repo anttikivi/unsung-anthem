@@ -33,10 +33,9 @@ namespace ode
     ///
     /// \param t the system implementation.
     ///
-    template <typename T>
-    system_t(T t) : sys_ptr{std::make_unique<T>(std::move(t))}
+    template <typename T> system_t(T t)
+        : sys_ptr{std::make_unique<T>(std::move(t))}
     {
-
     }
 
     ///

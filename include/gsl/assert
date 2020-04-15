@@ -22,21 +22,22 @@
 // thrown
 // 3. GSL_UNENFORCED_ON_CONTRACT_VIOLATION: nothing happens
 //
-#if !(defined(GSL_THROW_ON_CONTRACT_VIOLATION) || \
-  defined(GSL_TERMINATE_ON_CONTRACT_VIOLATION) || \
-  defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION))
-# define GSL_TERMINATE_ON_CONTRACT_VIOLATION
+#if !( \
+    defined(GSL_THROW_ON_CONTRACT_VIOLATION) || \
+    defined(GSL_TERMINATE_ON_CONTRACT_VIOLATION) || \
+    defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION))
+#  define GSL_TERMINATE_ON_CONTRACT_VIOLATION
 #endif
 
 #define GSL_STRINGIFY_DETAIL(x) #x
 #define GSL_STRINGIFY(x) GSL_STRINGIFY_DETAIL(x)
 
 #if defined(__clang__) || defined(__GNUC__)
-# define GSL_LIKELY(x) __builtin_expect(!!(x), 1)
-# define GSL_UNLIKELY(x) __builtin_expect(!!(x), 0)
+#  define GSL_LIKELY(x) __builtin_expect(!!(x), 1)
+#  define GSL_UNLIKELY(x) __builtin_expect(!!(x), 0)
 #else
-# define GSL_LIKELY(x) (!!(x))
-# define GSL_UNLIKELY(x) (!!(x))
+#  define GSL_LIKELY(x) (!!(x))
+#  define GSL_UNLIKELY(x) (!!(x))
 #endif // !(defined(__clang__) || defined(__GNUC__))
 
 ///
@@ -48,14 +49,14 @@
 /// \def GSL_ASSUME(cond)
 ///
 #if defined(_MSC_VER)
-#define GSL_ASSUME(cond) __assume(cond)
+#  define GSL_ASSUME(cond) __assume(cond)
 #elif defined(__clang__)
-#define GSL_ASSUME(cond) __builtin_assume(cond)
+#  define GSL_ASSUME(cond) __builtin_assume(cond)
 #elif defined(__GNUC__)
-#define GSL_ASSUME(cond) \
-  ((cond) ? static_cast<void>(0) : __builtin_unreachable())
+#  define GSL_ASSUME(cond) \
+    ((cond) ? static_cast<void>(0) : __builtin_unreachable())
 #else
-#define GSL_ASSUME(cond) static_cast<void>(!!(cond))
+#  define GSL_ASSUME(cond) static_cast<void>(!!(cond))
 #endif // !(defined(_MSC_VER) || defined(__clang__) || defined(__GNUC__))
 
 namespace gsl
@@ -73,7 +74,6 @@ namespace gsl
     ///
     explicit fail_fast(char const* const message) : std::logic_error(message)
     {
-
     }
   };
 
@@ -81,22 +81,22 @@ namespace gsl
 
 #if defined(GSL_THROW_ON_CONTRACT_VIOLATION) && GSL_THROW_ON_CONTRACT_VIOLATION
 
-# define GSL_CONTRACT_CHECK(type, cond) \
-  (GSL_LIKELY(cond) ? static_cast<void>(0) : \
-    throw gsl::fail_fast(\
-      "GSL: " type " (" GSL_STRINGIFY(cond) ") failure at " __FILE__ ": " \
-      GSL_STRINGIFY(__LINE__)))
+#  define GSL_CONTRACT_CHECK(type, cond) \
+    (GSL_LIKELY(cond) \
+         ? static_cast<void>(0) \
+         : throw gsl::fail_fast("GSL: " type " (" GSL_STRINGIFY( \
+               cond) ") failure at " __FILE__ ": " GSL_STRINGIFY(__LINE__)))
 
 #elif defined(GSL_TERMINATE_ON_CONTRACT_VIOLATION) && \
     GSL_TERMINATE_ON_CONTRACT_VIOLATION
 
-# define GSL_CONTRACT_CHECK(type, cond) \
-  (GSL_LIKELY(cond) ? static_cast<void>(0) : std::terminate())
+#  define GSL_CONTRACT_CHECK(type, cond) \
+    (GSL_LIKELY(cond) ? static_cast<void>(0) : std::terminate())
 
 #elif defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION) && \
     GSL_UNENFORCED_ON_CONTRACT_VIOLATION
 
-# define GSL_CONTRACT_CHECK(type, cond) GSL_ASSUME(cond)
+#  define GSL_CONTRACT_CHECK(type, cond) GSL_ASSUME(cond)
 
 #endif // defined(GSL_UNENFORCED_ON_CONTRACT_VIOLATION) && \
     GSL_UNENFORCED_ON_CONTRACT_VIOLATION

@@ -14,7 +14,6 @@ namespace ode
 {
   environment_manager::environment_manager() : execute{true}
   {
-
   }
 
   void environment_manager::schedule_termination()

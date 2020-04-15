@@ -249,8 +249,7 @@ namespace ode
     ///
     /// \param msg the logger message.
     ///
-    template <typename T>
-    inline void critical(const T& msg)
+    template <typename T> inline void critical(const T& msg)
     {
       critical(logger, msg);
     }

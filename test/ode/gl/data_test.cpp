@@ -10,10 +10,10 @@
 
 #include <cstring>
 
+#include <gtest/gtest.h>
+
 #include "ode/gl/gl_config.h"
 #include "ode/logger.h"
-
-#include <gtest/gtest.h>
 
 TEST(ode_gl_data, vendor)
 {
@@ -82,8 +82,8 @@ TEST(ode_gl_data, shading_language_version)
   else
   {
     const std::string gl_version = ode::gl::version();
-    const int gl_major_version = std::stoi(
-        gl_version.substr(0, gl_version.find(".")));
+    const int gl_major_version =
+        std::stoi(gl_version.substr(0, gl_version.find(".")));
 
     if (ode::minimum_gl_major_version > gl_major_version)
     {

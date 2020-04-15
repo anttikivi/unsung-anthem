@@ -5,11 +5,11 @@
 /// \copyright Copyright (c) 2018–2020 Antti Kivi.
 /// Licensed under the Effective Elegy Licence.
 
+#include <SDL2/SDL.h>
+
 #include "ode/common/clean_up.h"
 #include "ode/common/run_test.h"
 #include "ode/common/set_up.h"
-
-#include <SDL2/SDL.h>
 
 int main(int argc, char* argv[])
 {

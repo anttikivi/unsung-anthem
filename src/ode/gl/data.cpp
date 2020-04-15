@@ -12,17 +12,16 @@
 
 #include "gsl/assert"
 
-#include "ode/logger.h"
 #include "ode/gl/gl_config.h"
+#include "ode/logger.h"
 
 namespace ode::gl
 {
   std::string get_string(const GLenum name) noexcept
   {
-    Expects(GL_VENDOR == name
-        || GL_RENDERER == name
-        || GL_VERSION == name
-        || GL_SHADING_LANGUAGE_VERSION == name);
+    Expects(
+        GL_VENDOR == name || GL_RENDERER == name || GL_VERSION == name ||
+        GL_SHADING_LANGUAGE_VERSION == name);
 
     if constexpr (disable_gl_calls)
     {
@@ -58,9 +57,8 @@ namespace ode::gl
 
   std::string shading_language_version() noexcept
   {
-    ODE_TRACE(
-        "Getting the OpenGL shading language version "
-        "(GL_SHADING_LANGUAGE_VERSION)");
+    ODE_TRACE("Getting the OpenGL shading language version "
+              "(GL_SHADING_LANGUAGE_VERSION)");
 
     if constexpr (disable_gl_calls)
     {
@@ -69,19 +67,20 @@ namespace ode::gl
     else
     {
       const std::string gl_version = version();
-      const int gl_major_version = std::stoi(
-          gl_version.substr(0, gl_version.find(".")));
+      const int gl_major_version =
+          std::stoi(gl_version.substr(0, gl_version.find(".")));
 
       // The OpenGL shading language isn't supported in OpenGL versions below
       // 2.0
-      if (minimum_gl_major_version > gl_major_version) [[unlikely]]
-      {
-        ODE_TRACE(
-            "The OpenGL shading language version isn't got as the OpenGL "
-            "version {} doesn't support it",
-            gl_version);
-        return std::string{data::disabled_string_value};
-      }
+      if (minimum_gl_major_version > gl_major_version)
+        [[unlikely]]
+        {
+          ODE_TRACE(
+              "The OpenGL shading language version isn't got as the OpenGL "
+              "version {} doesn't support it",
+              gl_version);
+          return std::string{data::disabled_string_value};
+        }
       else
       {
         return get_string(GL_SHADING_LANGUAGE_VERSION);

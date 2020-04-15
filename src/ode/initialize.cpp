@@ -8,7 +8,6 @@
 #include "ode/initialize.h"
 
 #include "ode/config.h"
-
 #include "ode/logging_config.h"
 #include "ode/sdl/window.h"
 
@@ -28,10 +27,8 @@ namespace ode
 
   window_t initialize_window(const execution_info& info)
   {
-    window_t window = sdl::create_window({
-        info.window_width,
-        info.window_height,
-        info.window_name});
+    window_t window = sdl::create_window(
+        {info.window_width, info.window_height, info.window_name});
 
     ODE_DEBUG("The main window of {} is created", ode_name);
 

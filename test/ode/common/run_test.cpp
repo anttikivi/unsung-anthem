@@ -8,7 +8,7 @@
 #include "ode/common/run_test.h"
 
 #if ODE_TEST_BENCHMARKING
-# include <benchmark/benchmark.h>
+#  include <benchmark/benchmark.h>
 #endif // ODE_TEST_BENCHMARKING
 
 #include <gtest/gtest.h>

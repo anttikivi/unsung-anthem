@@ -7,18 +7,16 @@
 
 #include "ode/logging.h"
 
-#include "ode/logging_set_up.h"
-
 #include <benchmark/benchmark.h>
+
+#include "ode/logging_set_up.h"
 
 static void ode_logging_trace(benchmark::State& state)
 {
   for (auto _ : state)
   {
     ode::logging::trace(
-        benchmark_log,
-        "This is a benchmarking {}-level message",
-        "trace");
+        benchmark_log, "This is a benchmarking {}-level message", "trace");
   }
 }
 
@@ -29,9 +27,7 @@ static void ode_logging_debug(benchmark::State& state)
   for (auto _ : state)
   {
     ode::logging::debug(
-        benchmark_log,
-        "This is a benchmarking {}-level message",
-        "debug");
+        benchmark_log, "This is a benchmarking {}-level message", "debug");
   }
 }
 
@@ -42,9 +38,7 @@ static void ode_logging_info(benchmark::State& state)
   for (auto _ : state)
   {
     ode::logging::info(
-        benchmark_log,
-        "This is a benchmarking {}-level message",
-        "info");
+        benchmark_log, "This is a benchmarking {}-level message", "info");
   }
 }
 
@@ -55,9 +49,7 @@ static void ode_logging_warn(benchmark::State& state)
   for (auto _ : state)
   {
     ode::logging::warn(
-        benchmark_log,
-        "This is a benchmarking {}-level message",
-        "warn");
+        benchmark_log, "This is a benchmarking {}-level message", "warn");
   }
 }
 
@@ -68,9 +60,7 @@ static void ode_logging_error(benchmark::State& state)
   for (auto _ : state)
   {
     ode::logging::error(
-        benchmark_log,
-        "This is a benchmarking {}-level message",
-        "error");
+        benchmark_log, "This is a benchmarking {}-level message", "error");
   }
 }
 
@@ -81,9 +71,7 @@ static void ode_logging_critical(benchmark::State& state)
   for (auto _ : state)
   {
     ode::logging::critical(
-        benchmark_log,
-        "This is a benchmarking {}-level message",
-        "critical");
+        benchmark_log, "This is a benchmarking {}-level message", "critical");
   }
 }
 

@@ -44,8 +44,7 @@ namespace ode::cli
     /// \param opts the options which will be contained by this group.
     ///
     mutually_exclusive_option_group(
-        const std::string& n,
-        std::vector<option>&& opts);
+        const std::string& n, std::vector<option>&& opts);
 
     ///
     /// Constructs an object of the type \c mutually_exclusive_option_group.
@@ -55,9 +54,7 @@ namespace ode::cli
     /// \param opts the options which will be contained by this group.
     ///
     mutually_exclusive_option_group(
-        const std::string& n,
-        const std::string& d,
-        std::vector<option>&& opts);
+        const std::string& n, const std::string& d, std::vector<option>&& opts);
 
     ///
     /// Constructs an object of the type \c mutually_exclusive_option_group by
@@ -66,8 +63,8 @@ namespace ode::cli
     /// \param a a \c mutually_exclusive_option_group from which the new one is
     /// constructed.
     ///
-    mutually_exclusive_option_group(const mutually_exclusive_option_group& a)
-        = default;
+    mutually_exclusive_option_group(const mutually_exclusive_option_group& a) =
+        default;
 
     ///
     /// Constructs an object of the type \c mutually_exclusive_option_group by
@@ -76,8 +73,8 @@ namespace ode::cli
     /// \param a a \c mutually_exclusive_option_group from which the new one is
     /// constructed.
     ///
-    mutually_exclusive_option_group(mutually_exclusive_option_group&& a)
-        = default;
+    mutually_exclusive_option_group(mutually_exclusive_option_group&& a) =
+        default;
 
     ///
     /// Destructs an object of the type \c mutually_exclusive_option_group.

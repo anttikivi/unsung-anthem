@@ -32,10 +32,9 @@ namespace ode::cli
     ///
     /// \param t the option_group implementation.
     ///
-    template <typename T>
-    option_group_t(T t) : option_group_ptr{std::make_unique<T>(std::move(t))}
+    template <typename T> option_group_t(T t)
+        : option_group_ptr{std::make_unique<T>(std::move(t))}
     {
-
     }
 
     ///

@@ -7,15 +7,14 @@
 
 #include "ode/framework/platform_manager.h"
 
-#include "ode/logger.h"
-
 #include <SDL2/SDL.h>
+
+#include "ode/logger.h"
 
 namespace ode
 {
   platform_manager::platform_manager(system_t* is) : input_system{is}
   {
-
   }
 
   void platform_manager::poll_events(environment_manager& env)
