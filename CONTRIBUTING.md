@@ -119,14 +119,16 @@ While the prerequisites above must be satisfied prior to having your pull reques
 
 ### Git Commit Messages
 
-* Use the present tense (‘Add feature’, not ‘Added feature’)
-* Use the imperative mood (‘Move cursor to...’ not ‘Moves cursor to...’)
-* Try to limit the first line to 72 characters or fewer
-* Reference issues and pull requests liberally after the first line
+* Use the present tense (‘Add feature’, not ‘Added feature’).
+* Use the imperative mood (‘Move cursor to...’ not ‘Moves cursor to...’).
+* Try to limit the first line to 72 characters or fewer.
+* Reference issues and pull requests liberally after the first line.
 
 ### C++ Style Guide
 
-<!-- TODO -->
+* Follow the [C++ Core Guidelines](https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md) as much as is sensible.
+* Follow the ‘in-house’ [style sheet](docs/cpp_style_sheet.md) for C++.
+* Please note that when the C++ Core Guidelines and the ‘in-house’ style sheet contradict, you must follow the ‘in-house’ style sheet.
 
 ### Python Style Guide
 
