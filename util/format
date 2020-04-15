@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Copyright (c) 2020 Antti Kivi
+# Licensed under the Effective Elegy Licence
+
+current_directory="${0%/*}"
+
+cd $current_directory/..
+
+while IFS= read -r -d '' -u 9
+do
+  if [[ "$REPLY" == "./include/"* ]] || [[ "$REPLY" == "./lib/"* ]] ||
+      [[ "$REPLY" == "./src/"* ]] || [[ "$REPLY" == "./test/"* ]]; then
+
+    if [[ "$REPLY" != *".txt" ]]; then
+      echo "Formatting: $REPLY"
+      clang-format $REPLY
+    fi
+  fi
+done 9< <( find . -type f -exec printf '%s\0' {} + )
