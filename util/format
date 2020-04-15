@@ -14,7 +14,7 @@ do
 
     if [[ "$REPLY" != *".txt" ]]; then
       echo "Formatting: $REPLY"
-      clang-format $REPLY
+      clang-format -i $REPLY
     fi
   fi
 done 9< <( find . -type f -exec printf '%s\0' {} + )
