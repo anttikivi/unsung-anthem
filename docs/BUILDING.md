@@ -383,6 +383,18 @@ Specifies the path to the compiler for the host platform and uses it instead of 
 
 Specifies the path to MSBuild for the host platform and uses it instead of the automatically resolved MSBuild.
 
+**`--clang-tidy-binary EXECUTABLE`**
+
+(Since Couplet Composer 0.11.0)
+
+Specifies the path to `clang-tidy` for the host platform and uses it instead of the automatically resolved `clang-tidy`.
+
+**`--clang-apply-replacements-binary EXECUTABLE`**
+
+(Since Couplet Composer 0.11.0)
+
+Specifies the path to `clang-apply-replacements` for the host platform and uses it instead of the automatically resolved `clang-apply-replacements`.
+
 #### OpenGL Options
 
 **`--opengl-version`**
@@ -462,6 +474,12 @@ Runs `clang-tidy` checks on Obliging Ode and Unsung Anthem and prints its output
 (Since Couplet Composer 0.11.0)
 
 Does otherwise identically the same actions as `--lint` but exits after running `clang-tidy`.
+
+**`--export-linter-fixes PATH`**
+
+(Since Couplet Composer 0.11.0)
+
+Exports the fixes suggested by `clang-tidy` to the given file. The path is relative to the source root of the run.
 
 #### Compose: C++ Standard Options
 
