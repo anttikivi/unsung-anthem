@@ -17,6 +17,8 @@ jobs:
     - run: |
         cd ..
         .\unsung-anthem\util\set_up.bat
+      env:
+        ODE_USE_DEVELOPMENT_COMPOSER: true
     - name: Install Linux dependencies
       if: runner.os == 'Linux'
       run: |
