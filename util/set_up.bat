@@ -78,9 +78,7 @@ echo The directory for %composer_name% doesn't exist and, thus, ^
 
 start "git clone" /w git clone %composer_repo_url% %composer_directory%
 
-start "git rev-parse" /w git -C %composer_directory% rev-parse HEAD > %tmp_file%
-set /p head_sha=<%tmp_file%
-del %tmp_file%
+for /f %%i in ('git -C %composer_directory% rev-parse HEAD') do set head_sha=%%i
 
 echo The SHA1 for the currently cloned HEAD of %composer_name% is %head_sha%
 
