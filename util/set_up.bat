@@ -59,26 +59,24 @@ if defined ODE_USE_DEVELOPMENT_COMPOSER (
       start "git clone" /w git clone %composer_repo_url% !composer_directory!
 
       for /f "tokens=* usebackq" %%f in ^
-      ('git -C !composer_directory! rev-parse HEAD') do set head_sha=%%f
+('git -C !composer_directory! rev-parse HEAD') do set head_sha=%%f
 
       echo The SHA1 for the currently cloned HEAD of %composer_name% is ^
-  %head_sha%
+!head_sha!
     ) else (
 
       for /f "tokens=* usebackq" %%f in ^
-      ('git -C !composer_directory! rev-parse HEAD') do set head_sha=%%f
+('git -C !composer_directory! rev-parse HEAD') do set head_sha=%%f
 
       for /f "tokens=* usebackq" %%f in ^
-      ('git -C !composer_directory! rev-parse origin/develop') do (
-        set origin_sha=%%f
-      )
+('git -C !composer_directory! rev-parse origin/develop') do set origin_sha=%%f
 
       echo The SHA1 for the currently cloned HEAD of %composer_name% is ^
-  %head_sha%
+!head_sha!
 
-      if not %head_sha%==%origin_sha% (
-        echo The SHA1 for origin/develop of %composer_name% is %origin_sha% and, ^
-  thus, the local copy will be reset
+      if not !head_sha!==!origin_sha! (
+        echo The SHA1 for origin/develop of %composer_name% is !origin_sha! ^
+and, thus, the local copy will be reset
         start "git reset" /w git -C !composer_directory! reset --hard HEAD
         start "git clean" /w git -C !composer_directory! clean -xffd
         start "git pull" /w git -C !composer_directory! pull
@@ -93,7 +91,7 @@ if defined ODE_USE_DEVELOPMENT_COMPOSER (
   if not exist !composer_directory! (
     start "git clone" /w git clone %composer_repo_url% !composer_directory!
     start "git checkout" /w git -C !composer_directory! checkout ^
-    tags/%composer_version_tag% -b local_install_%composer_version_tag%
+tags/%composer_version_tag% -b local_install_%composer_version_tag%
   )
 )
 
