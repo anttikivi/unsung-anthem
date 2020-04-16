@@ -58,18 +58,25 @@ if defined ODE_USE_DEVELOPMENT_COMPOSER (
 
       start "git clone" /w git clone %composer_repo_url% !composer_directory!
 
-      for /f "tokens=* usebackq" %%f in ^
-('git -C !composer_directory! rev-parse HEAD') do set head_sha=%%f
+      set tmp_file=%root_dir%\tmp
+
+      start "git rev-parse" /w git -C !composer_directory! rev-parse HEAD > !tmp_file!
+      set /p head_sha=<!tmp_file!
+      del !tmp_file!
 
       echo The SHA1 for the currently cloned HEAD of %composer_name% is ^
 !head_sha!
     ) else (
 
-      for /f "tokens=* usebackq" %%f in ^
-('git -C !composer_directory! rev-parse HEAD') do set head_sha=%%f
+      set tmp_file=%root_dir%\tmp
 
-      for /f "tokens=* usebackq" %%f in ^
-('git -C !composer_directory! rev-parse origin/develop') do set origin_sha=%%f
+      start "git rev-parse" /w git -C !composer_directory! rev-parse HEAD > !tmp_file!
+      set /p head_sha=<!tmp_file!
+      del !tmp_file!
+
+      start "git rev-parse" /w git -C !composer_directory! rev-parse origin/develop > !tmp_file!
+      set /p origin_sha=<!tmp_file!
+      del !tmp_file!
 
       echo The SHA1 for the currently cloned HEAD of %composer_name% is ^
 !head_sha!
@@ -94,7 +101,5 @@ and, thus, the local copy will be reset
 tags/%composer_version_tag% -b local_install_%composer_version_tag%
   )
 )
-
-:install_development_composer
 
 start "pipenv install" /w pipenv install %composer_directory%
