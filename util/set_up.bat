@@ -18,7 +18,7 @@ set composer_repo_name=couplet-composer
 set composer_repo_url=%github_url%/%composer_repo_owner%/^
 %composer_repo_name%.git
 
-set root_dir=%~dp0\..\..
+set root_dir=%cd%
 
 set script_directory_name=script
 set composer_directory_base_name=composer
@@ -38,7 +38,7 @@ if %ERRORLEVEL% neq 0 (
 
 :: Set up the script directory
 
-if not exist "%script_directory%" (
+if not exist %script_directory% (
   md %script_directory%
 )
 
