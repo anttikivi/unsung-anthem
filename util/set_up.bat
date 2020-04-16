@@ -44,46 +44,7 @@ md %script_directory%
 
 if defined ODE_USE_DEVELOPMENT_COMPOSER (
   if %ODE_USE_DEVELOPMENT_COMPOSER%==true (
-    echo Using development version of %composer_name%
-
-    set composer_directory=%script_directory%\%composer_head_directory_name%
-
-    :: If the Composer directory doesn't exist, there is no need to check for the
-    :: remote HEAD SHA1.
-    if not exist %composer_directory% (
-      echo The directory for %composer_name% doesn't exist and, thus, ^
-  %composer_name% will be cloned
-
-      start "git clone" /w git clone %composer_repo_url% %composer_directory%
-
-      for /f "tokens=* usebackq" %%f in ^
-      ('git -C %composer_directory% rev-parse HEAD') do set head_sha=%%f
-
-      echo The SHA1 for the currently cloned HEAD of %composer_name% is ^
-  %head_sha%
-    ) else (
-
-      for /f "tokens=* usebackq" %%f in ^
-      ('git -C %composer_directory% rev-parse HEAD') do set head_sha=%%f
-
-      for /f "tokens=* usebackq" %%f in ^
-      ('git -C %composer_directory% rev-parse origin/develop') do (
-        set origin_sha=%%f
-      )
-
-      echo The SHA1 for the currently cloned HEAD of %composer_name% is ^
-  %head_sha%
-
-      if not %head_sha%==%origin_sha% (
-        echo The SHA1 for origin/develop of %composer_name% is %origin_sha% and, ^
-  thus, the local copy will be reset
-        start "git reset" /w git -C %composer_directory% reset --hard HEAD
-        start "git clean" /w git -C %composer_directory% clean -xffd
-        start "git pull" /w git -C %composer_directory% pull
-      )
-    )
-
-    echo The latest development version of %composer_name% is now set up
+    goto get_development_composer
   )
 ) else (
   set composer_directory=%script_directory%\%composer_directory_name%
@@ -94,5 +55,45 @@ if defined ODE_USE_DEVELOPMENT_COMPOSER (
     tags/%composer_version_tag% -b local_install_%composer_version_tag%
   )
 )
+
+:get_development_composer
+echo Using development version of %composer_name%
+set composer_directory=%script_directory%\%composer_head_directory_name%
+
+:: If the Composer directory doesn't exist, there is no need to check for the
+:: remote HEAD SHA1.
+if not exist %composer_directory% (
+  echo The directory for %composer_name% doesn't exist and, thus, ^
+%composer_name% will be cloned
+
+  start "git clone" /w git clone %composer_repo_url% %composer_directory%
+
+  for /f "tokens=* usebackq" %%f in ^
+  ('git -C %composer_directory% rev-parse HEAD') do set head_sha=%%f
+
+  echo The SHA1 for the currently cloned HEAD of %composer_name% is %head_sha%
+) else (
+  for /f "tokens=* usebackq" %%f in ^
+  ('git -C %composer_directory% rev-parse HEAD') do set head_sha=%%f
+
+  for /f "tokens=* usebackq" %%f in ^
+  ('git -C %composer_directory% rev-parse origin/develop') do (
+    set origin_sha=%%f
+  )
+
+  echo The SHA1 for the currently cloned HEAD of %composer_name% is %head_sha%
+
+  if not %head_sha%==%origin_sha% (
+    echo The SHA1 for origin/develop of %composer_name% is %origin_sha% and, ^
+thus, the local copy will be reset
+    start "git reset" /w git -C %composer_directory% reset --hard HEAD
+    start "git clean" /w git -C %composer_directory% clean -xffd
+    start "git pull" /w git -C %composer_directory% pull
+  )
+)
+
+echo The latest development version of %composer_name% is now set up
+
+:get_composer
 
 start "pipenv install" /w pipenv install %composer_directory%
