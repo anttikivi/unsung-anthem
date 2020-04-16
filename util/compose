@@ -13,14 +13,6 @@ echo "Running the shell script wrapper for $COMPOSER_NAME, the build script \
 of $ODE_NAME and $ANTHEM_NAME"
 echo "$COMPOSER_NAME will be run in composing mode"
 
-readonly PRINT_DEBUG_OPTION="--print-debug"
-
-for arg in "$@"; do
-  if [ "$arg" = "$PRINT_DEBUG_OPTION" ]; then
-    set -x
-  fi
-done
-
 # TODO: Get the root using the current directory of this script.
 readonly ROOT_DIR="."
 readonly BUILD_DIRECTORY_NAME="build"
