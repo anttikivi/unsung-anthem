@@ -1,7 +1,7 @@
 @rem Copyright (c) 2020 Antti Kivi
 @rem Licensed under the Effective Elegy Licence
 
-@echo on
+@echo off
 
 set /p composer_version=<%~dp0\composer-version
 set composer_version_tag=v%composer_version%

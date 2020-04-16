@@ -1,7 +1,7 @@
 @rem Copyright (c) 2020 Antti Kivi
 @rem Licensed under the Effective Elegy Licence
 
-@echo on
+@echo off
 
 set composer_name=Couplet Composer
 set ode_name=Obliging Ode

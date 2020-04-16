@@ -21,6 +21,7 @@ for arg in "$@"; do
   fi
 done
 
+# TODO: Get the root using the current directory of this script.
 readonly ROOT_DIR="."
 readonly BUILD_DIRECTORY_NAME="build"
 readonly PROJECT_DIRECTORY_NAME="unsung-anthem"

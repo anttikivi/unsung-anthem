@@ -13,14 +13,6 @@ echo "Running the shell script wrapper for $COMPOSER_NAME, the build script \
 of $ODE_NAME and $ANTHEM_NAME"
 echo "$COMPOSER_NAME will be run in configuring mode"
 
-readonly PRINT_DEBUG_OPTION="--print-debug"
-
-for arg in "$@"; do
-  if [ "$arg" = "$PRINT_DEBUG_OPTION" ]; then
-    set -x
-  fi
-done
-
 readonly PRESET_MODE_ARGUMENT="preset"
 readonly CONFIGURE_MODE_ARGUMENT="configure"
 
@@ -32,7 +24,7 @@ current_directory="${0%/*}"
 
 $current_directory/set_up "$@"
 
-# Run the script
+# Run Couplet Composer
 
 preset_mode=false
 

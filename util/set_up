@@ -14,14 +14,6 @@ readonly ANTHEM_NAME="Unsung Anthem"
 echo "Running the set-up shell script for $COMPOSER_NAME $COMPOSER_VERSION, \
 the build script of $ODE_NAME and $ANTHEM_NAME"
 
-readonly PRINT_DEBUG_OPTION="--print-debug"
-
-for arg in "$@"; do
-  if [ "$arg" = "$PRINT_DEBUG_OPTION" ]; then
-    set -x
-  fi
-done
-
 readonly GITHUB_URL="https://github.com"
 readonly COMPOSER_REPO_OWNER="anttikivi"
 readonly COMPOSER_REPO_NAME="couplet-composer"
@@ -29,41 +21,67 @@ readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
 $COMPOSER_REPO_NAME.git"
 
 readonly ROOT_DIR="."
-readonly SCRIPT_DIRECTORY_NAME="script"
-readonly COMPOSER_DIRECTORY_NAME="composer"
-readonly SCRIPT_DIRECTORY="$ROOT_DIR/$SCRIPT_DIRECTORY_NAME"
-readonly COMPOSER_DIRECTORY="$SCRIPT_DIRECTORY/$COMPOSER_DIRECTORY_NAME"
 
-readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
+readonly SCRIPT_DIRECTORY_NAME="script"
+readonly COMPOSER_DIRECTORY_BASE_NAME="composer"
+readonly COMPOSER_DIRECTORY_NAME="$COMPOSER_DIRECTORY_BASE_NAME_\
+$COMPOSER_VERSION"
+readonly COMPOSER_HEAD_DIRECTORY_NAME="${COMPOSER_DIRECTORY_BASE_NAME}_HEAD"
+
+readonly SCRIPT_DIRECTORY="$ROOT_DIR/$SCRIPT_DIRECTORY_NAME"
 
 # Install pipenv
 
-pip install pipenv
+command -v pipenv >/dev/null 2>&1 || {
+  echo >&2 "Didn't find pipenv. Installing."
+  pip install pipenv
+}
 
-# Set up the required directories
-
-if [ -d "$COMPOSER_DIRECTORY" ]; then
-  rm -rf $COMPOSER_DIRECTORY
-fi
+# Set up the script directory
 
 if [ ! -d "$SCRIPT_DIRECTORY" ]; then
   mkdir $SCRIPT_DIRECTORY
 fi
 
-# Set up Couplet Composer
+# Clone Couplet Composer
 
-cd $SCRIPT_DIRECTORY
+if [ "$ODE_USE_DEVELOPMENT_COMPOSER" = true ]; then
+  echo "Using development version of $COMPOSER_NAME"
 
-git clone $COMPOSER_REPO_URL $COMPOSER_DIRECTORY_NAME
+  composer_directory="$SCRIPT_DIRECTORY/$COMPOSER_HEAD_DIRECTORY_NAME"
 
-if [ "$ODE_USE_DEVELOPMENT_COMPOSER" != true ]; then
-  cd $COMPOSER_DIRECTORY_NAME
-  git checkout tags/$COMPOSER_VERSION_TAG -b local_install_$COMPOSER_VERSION_TAG
-  cd ..
+  # If the Composer directory doesn't exist, there is no need to check for the
+  # remote HEAD SHA1.
+  if [ ! -d "$composer_directory" ]; then
+    echo "The directory for $COMPOSER_NAME doesn't exist and, thus, \
+$COMPOSER_NAME will be cloned"
+
+    git clone $COMPOSER_REPO_URL $composer_directory
+    head_sha="$(git -C "$composer_directory" rev-parse HEAD)"
+
+    echo "The SHA1 for the currently cloned HEAD of $COMPOSER_NAME is $head_sha"
+  else
+    head_sha="$(git -C $composer_directory rev-parse HEAD)"
+    origin_sha="$(git -C $composer_directory rev-parse origin/develop)"
+
+    echo "The SHA1 for the currently cloned HEAD of $COMPOSER_NAME is $head_sha"
+
+    if [ "$head_sha" != "$origin_sha" ]; then
+      echo "The SHA1 for origin/develop of $COMPOSER_NAME is $origin_sha and, \
+thus, the local copy will be reset"
+      git -C $composer_directory reset --hard HEAD
+      git -C $composer_directory clean -xffd
+      git -C $composer_directory pull
+    fi
+  fi
+  echo "The latest development version of $COMPOSER_NAME is now set up"
 else
-  echo "The development version of $COMPOSER_NAME was installed"
+  composer_directory="$SCRIPT_DIRECTORY/$COMPOSER_DIRECTORY_NAME"
+
+  if [ ! -d "$composer_directory" ]; then
+    git clone $COMPOSER_REPO_URL $composer_directory
+    git -C $composer_directory checkout tags/$COMPOSER_VERSION_TAG -b local_install_$COMPOSER_VERSION_TAG
+  fi
 fi
 
-cd ..
-
-pipenv install $COMPOSER_DIRECTORY
+pipenv install $composer_directory
