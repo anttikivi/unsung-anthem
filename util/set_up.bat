@@ -50,26 +50,26 @@ if defined ODE_USE_DEVELOPMENT_COMPOSER (
 
     set composer_directory=%script_directory%\%composer_head_directory_name%
 
-    :: If the Composer directory doesn't exist, there is no need to check for the
-    :: remote HEAD SHA1.
+    :: If the Composer directory doesn't exist, there is no need to check for
+    :: the remote HEAD SHA1.
     if not exist !composer_directory! (
       echo The directory for %composer_name% doesn't exist and, thus, ^
   %composer_name% will be cloned
 
-      start "git clone" /w git clone %composer_repo_url% %composer_directory%
+      start "git clone" /w git clone %composer_repo_url% !composer_directory!
 
       for /f "tokens=* usebackq" %%f in ^
-      ('git -C %composer_directory% rev-parse HEAD') do set head_sha=%%f
+      ('git -C !composer_directory! rev-parse HEAD') do set head_sha=%%f
 
       echo The SHA1 for the currently cloned HEAD of %composer_name% is ^
   %head_sha%
     ) else (
 
       for /f "tokens=* usebackq" %%f in ^
-      ('git -C %composer_directory% rev-parse HEAD') do set head_sha=%%f
+      ('git -C !composer_directory! rev-parse HEAD') do set head_sha=%%f
 
       for /f "tokens=* usebackq" %%f in ^
-      ('git -C %composer_directory% rev-parse origin/develop') do (
+      ('git -C !composer_directory! rev-parse origin/develop') do (
         set origin_sha=%%f
       )
 
@@ -79,9 +79,9 @@ if defined ODE_USE_DEVELOPMENT_COMPOSER (
       if not %head_sha%==%origin_sha% (
         echo The SHA1 for origin/develop of %composer_name% is %origin_sha% and, ^
   thus, the local copy will be reset
-        start "git reset" /w git -C %composer_directory% reset --hard HEAD
-        start "git clean" /w git -C %composer_directory% clean -xffd
-        start "git pull" /w git -C %composer_directory% pull
+        start "git reset" /w git -C !composer_directory! reset --hard HEAD
+        start "git clean" /w git -C !composer_directory! clean -xffd
+        start "git pull" /w git -C !composer_directory! pull
       )
     )
 
@@ -90,9 +90,9 @@ if defined ODE_USE_DEVELOPMENT_COMPOSER (
 ) else (
   set composer_directory=%script_directory%\%composer_directory_name%
 
-  if not exist %composer_directory% (
-    start "git clone" /w git clone %composer_repo_url% %composer_directory%
-    start "git checkout" /w git -C %composer_directory% checkout ^
+  if not exist !composer_directory! (
+    start "git clone" /w git clone %composer_repo_url% !composer_directory!
+    start "git checkout" /w git -C !composer_directory! checkout ^
     tags/%composer_version_tag% -b local_install_%composer_version_tag%
   )
 )
