@@ -51,7 +51,7 @@ if not exist %in_tree_build_directory% (
 
 set current_directory=%~dp0
 
-call %current_directory%\set_up.bat %*
+call %current_directory%\set_up %*
 
 @rem Run Couplet Composer
 

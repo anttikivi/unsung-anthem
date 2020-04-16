@@ -20,7 +20,7 @@ set composer_executable_name=couplet-composer
 
 set current_directory=%~dp0
 
-call %current_directory%\set_up.bat %*
+call %current_directory%\set_up %*
 
 @rem Run Couplet Composer
 
