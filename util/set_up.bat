@@ -3,8 +3,8 @@
 
 @echo on
 
-set /p composer_name=<%~dp0\composer-version
-set composer_version_tag=v%composer_name%
+set /p composer_version=<%~dp0\composer-version
+set composer_version_tag=v%composer_version%
 set composer_name=Couplet Composer
 set ode_name=Obliging Ode
 set anthem_name=Unsung Anthem
