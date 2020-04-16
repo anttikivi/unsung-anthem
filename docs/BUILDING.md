@@ -451,6 +451,18 @@ Builds the static library of Unsung Anthem.
 
 Builds the shared library of Unsung Anthem.
 
+**`--lint`**
+
+(Since Couplet Composer 0.11.0)
+
+Runs `clang-tidy` checks on Obliging Ode and Unsung Anthem and prints its output.
+
+**`--only-lint`**
+
+(Since Couplet Composer 0.11.0)
+
+Does otherwise identically the same actions as `--lint` but exits after running `clang-tidy`.
+
 #### Compose: C++ Standard Options
 
 You can use only one of the following options.
