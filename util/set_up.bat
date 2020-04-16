@@ -3,6 +3,6 @@
 
 @ECHO ON
 
-SET /P COMPOSER_VERSION<%~dp0\composer-version
+SET /P COMPOSER_VERSION=<%~dp0\composer-version
 
 ECHO %COMPOSER_VERSION%
