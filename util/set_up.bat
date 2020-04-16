@@ -3,8 +3,6 @@
 
 @echo on
 
-setlocal enabledelayedexpansion
-
 set /p composer_version=<%~dp0\composer-version
 set composer_version_tag=v%composer_version%
 set composer_name=Couplet Composer
@@ -46,7 +44,6 @@ md %script_directory%
 
 if defined ODE_USE_DEVELOPMENT_COMPOSER (
   if %ODE_USE_DEVELOPMENT_COMPOSER%==true (
-    set tmp_file=%root_dir%\tmp
     goto get_development_composer
   )
 )
@@ -85,13 +82,11 @@ echo The SHA1 for the currently cloned HEAD of %composer_name% is %head_sha%
 goto finalize_dev_setup
 
 :get_dev_existing_dir
-start "git rev-parse" /w git -C %composer_directory% rev-parse HEAD > %tmp_file%
-set /p head_sha=<%tmp_file%
-del %tmp_file%
+for /f %%i in ('git -C %composer_directory% rev-parse HEAD') do set head_sha=%%i
 
-start "git rev-parse" /w git -C %composer_directory% rev-parse origin/develop > %tmp_file%
-set /p origin_sha=<%tmp_file%
-del %tmp_file%
+for /f %%i in ('git -C %composer_directory% rev-parse origin/develop') do (
+  set origin_sha=%%i
+)
 
 echo The SHA1 for the currently cloned HEAD of %composer_name% is %head_sha%
 
