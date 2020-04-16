@@ -46,60 +46,70 @@ md %script_directory%
 
 if defined ODE_USE_DEVELOPMENT_COMPOSER (
   if %ODE_USE_DEVELOPMENT_COMPOSER%==true (
-    echo Using development version of %composer_name%
-
-    set composer_directory=%script_directory%\%composer_head_directory_name%
-
-    :: If the Composer directory doesn't exist, there is no need to check for
-    :: the remote HEAD SHA1.
-    if not exist !composer_directory! (
-      echo The directory for %composer_name% doesn't exist and, thus, ^
-  %composer_name% will be cloned
-
-      start "git clone" /w git clone %composer_repo_url% !composer_directory!
-
-      set tmp_file=%root_dir%\tmp
-
-      start "git rev-parse" /w git -C !composer_directory! rev-parse HEAD > !tmp_file!
-      set /p head_sha=<!tmp_file!
-      del !tmp_file!
-
-      echo The SHA1 for the currently cloned HEAD of %composer_name% is ^
-!head_sha!
-    ) else (
-
-      set tmp_file=%root_dir%\tmp
-
-      start "git rev-parse" /w git -C !composer_directory! rev-parse HEAD > !tmp_file!
-      set /p head_sha=<!tmp_file!
-      del !tmp_file!
-
-      start "git rev-parse" /w git -C !composer_directory! rev-parse origin/develop > !tmp_file!
-      set /p origin_sha=<!tmp_file!
-      del !tmp_file!
-
-      echo The SHA1 for the currently cloned HEAD of %composer_name% is ^
-!head_sha!
-
-      if not !head_sha!==!origin_sha! (
-        echo The SHA1 for origin/develop of %composer_name% is !origin_sha! ^
-and, thus, the local copy will be reset
-        start "git reset" /w git -C !composer_directory! reset --hard HEAD
-        start "git clean" /w git -C !composer_directory! clean -xffd
-        start "git pull" /w git -C !composer_directory! pull
-      )
-    )
-
-    echo The latest development version of %composer_name% is now set up
-  )
-) else (
-  set composer_directory=%script_directory%\%composer_directory_name%
-
-  if not exist !composer_directory! (
-    start "git clone" /w git clone %composer_repo_url% !composer_directory!
-    start "git checkout" /w git -C !composer_directory! checkout ^
-tags/%composer_version_tag% -b local_install_%composer_version_tag%
+    set tmp_file=%root_dir%\tmp
+    goto get_development_composer
   )
 )
 
+set composer_directory=%script_directory%\%composer_directory_name%
+
+if not exist %composer_directory% (
+  start "git clone" /w git clone %composer_repo_url% %composer_directory%
+  start "git checkout" /w git -C %composer_directory% checkout ^
+tags/%composer_version_tag% -b local_install_%composer_version_tag%
+)
+
+goto install_composer
+
+:get_development_composer
+echo Using development version of %composer_name%
+
+set composer_directory=%script_directory%\%composer_head_directory_name%
+
+if not exist %composer_directory% goto get_dev_no_dir
+
+goto get_dev_existing_dir
+
+:get_dev_no_dir
+:: If the Composer directory doesn't exist, there is no need to check for
+:: the remote HEAD SHA1.
+echo The directory for %composer_name% doesn't exist and, thus, ^
+%composer_name% will be cloned
+
+start "git clone" /w git clone %composer_repo_url% %composer_directory%
+
+start "git rev-parse" /w git -C %composer_directory% rev-parse HEAD > %tmp_file%
+set /p head_sha=<%tmp_file%
+del %tmp_file%
+
+echo The SHA1 for the currently cloned HEAD of %composer_name% is %head_sha%
+
+goto finalize_dev_setup
+
+:get_dev_existing_dir
+start "git rev-parse" /w git -C %composer_directory% rev-parse HEAD > %tmp_file%
+set /p head_sha=<%tmp_file%
+del %tmp_file%
+
+start "git rev-parse" /w git -C %composer_directory% rev-parse origin/develop > %tmp_file%
+set /p origin_sha=<%tmp_file%
+del %tmp_file%
+
+echo The SHA1 for the currently cloned HEAD of %composer_name% is %head_sha%
+
+if not %head_sha%==%origin_sha% (
+  echo The SHA1 for origin/develop of %composer_name% is %origin_sha% and, ^
+thus, the local copy will be reset
+  start "git reset" /w git -C %composer_directory% reset --hard HEAD
+  start "git clean" /w git -C %composer_directory% clean -xffd
+  start "git pull" /w git -C %composer_directory% pull
+)
+
+goto finalize_dev_setup
+
+:finalize_dev_setup
+echo The latest development version of %composer_name% is now set up
+goto install_composer
+
+:install_composer
 start "pipenv install" /w pipenv install %composer_directory%
