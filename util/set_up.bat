@@ -18,7 +18,7 @@ set composer_repo_name=couplet-composer
 set composer_repo_url=%github_url%/%composer_repo_owner%/^
 %composer_repo_name%.git
 
-set root_dir=.
+set root_dir=%~dp0\..\..
 
 set script_directory_name=script
 set composer_directory_base_name=composer
@@ -31,7 +31,7 @@ set script_directory=%root_dir%\%script_directory_name%
 
 where pipenv
 
-if %ERRORLEVEL% neq 0 >nul 2>nul (
+if %ERRORLEVEL% neq 0 (
   echo Didn't find pipenv. Installing.
   start "pip" /w pip install pipenv
 )
@@ -42,7 +42,7 @@ if not exist %script_directory% md %script_directory%
 
 :: Clone Couplet Composer
 
-if %ODE_USE_DEVELOPMENT_COMPOSER%==true (
+if "%ODE_USE_DEVELOPMENT_COMPOSER%"=="true" (
   echo Using development version of %composer_name%
 
   set composer_directory=%script_directory%\%composer_head_directory_name%
