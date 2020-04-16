@@ -39,7 +39,7 @@ if %ERRORLEVEL% neq 0 (
 :: Set up the script directory
 
 if not exist %script_directory% (
-  md %script_directory%
+  md "%script_directory%"
 )
 
 :: Clone Couplet Composer
