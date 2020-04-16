@@ -1,5 +1,5 @@
-:: Copyright (c) 2020 Antti Kivi
-:: Licensed under the Effective Elegy Licence
+@rem Copyright (c) 2020 Antti Kivi
+@rem Licensed under the Effective Elegy Licence
 
 @echo on
 
@@ -27,7 +27,7 @@ set composer_head_directory_name=%composer_directory_base_name%_HEAD
 
 set script_directory=%root_dir%\%script_directory_name%
 
-:: Install pipenv
+@rem Install pipenv
 
 where pipenv
 
@@ -36,11 +36,11 @@ if %ERRORLEVEL% neq 0 (
   start "pip" /w /b pip install pipenv
 )
 
-:: Set up the script directory
+@rem Set up the script directory
 
 md %script_directory%
 
-:: Clone Couplet Composer
+@rem Clone Couplet Composer
 
 if defined ODE_USE_DEVELOPMENT_COMPOSER (
   if not "%ODE_USE_DEVELOPMENT_COMPOSER%"=="" (
@@ -70,8 +70,8 @@ if not exist %composer_directory% goto get_dev_no_dir
 goto get_dev_existing_dir
 
 :get_dev_no_dir
-:: If the Composer directory doesn't exist, there is no need to check for
-:: the remote HEAD SHA1.
+@rem If the Composer directory doesn't exist, there is no need to check for
+@rem the remote HEAD SHA1.
 echo The directory for %composer_name% doesn't exist and, thus, ^
 %composer_name% will be cloned
 

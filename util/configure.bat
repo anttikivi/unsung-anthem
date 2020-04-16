@@ -1,5 +1,5 @@
-:: Copyright (c) 2020 Antti Kivi
-:: Licensed under the Effective Elegy Licence
+@rem Copyright (c) 2020 Antti Kivi
+@rem Licensed under the Effective Elegy Licence
 
 @echo on
 
@@ -16,13 +16,13 @@ set configure_mode_argument=configure
 
 set composer_executable_name=couplet-composer
 
-:: Set up Couplet Composer
+@rem Set up Couplet Composer
 
 set current_directory=%~dp0
 
 call %current_directory%\set_up.bat %*
 
-:: Run Couplet Composer
+@rem Run Couplet Composer
 
 set preset_mode=false
 
