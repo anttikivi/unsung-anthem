@@ -10,8 +10,6 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
 * [Linux](#linux)
 * [macOS](#macos)
 * [Windows](#windows)
-  * [Using Command Prompt](#using-command-prompt)
-  * [Using PowerShell](#using-powershell)
 
 [Configuring the Build](#configuring-the-build)
 
@@ -131,13 +129,9 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
 ### Windows
 
-You can run the commands on Windows by using either [Command Prompt](#using-command-prompt) or [PowerShell](#using-powershell). Below you can find instructions for both.
-
-#### Using Command Prompt
-
 1. Create a directory for the Obliging Ode and Unsung Anthem sources and switch to it.
 
-        mkdir ode-sources
+        md ode-sources
         cd ode-sources
 
     **Note:** This is important because Couplet Composer and the utility scripts check out repositories next to the source directory of Obliging Ode and Unsung Anthem. This means that if you clone Obliging Ode and Unsung Anthem and have some other unrelated repositories or other directories next to it, the build script could fail or modify the repositories.
@@ -148,50 +142,19 @@ You can run the commands on Windows by using either [Command Prompt](#using-comm
 
 3. Set up the build environment by running Couplet Composer in configuring mode.
 
-        .\unsung-anthem\util\configure.ps1
+        .\unsung-anthem\util\configure
 
   * To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
-          .\unsung-anthem\util\configure.ps1 preset --name PRESET_NAME
+          .\unsung-anthem\util\configure preset --name PRESET_NAME
 
 4. Build Obliging Ode and Unsung Anthem by running Couplet Composer in composing mode.
 
-        .\unsung-anthem\util\compose.ps1
+        .\unsung-anthem\util\compose
 
   * To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
-          .\unsung-anthem\util\compose.ps1 preset --name PRESET_NAME
-
-**Note:** The build can be configured by using option presets and command line options. For more information, see the section [Configuring the Build](#configuring-the-build).
-
-#### Using PowerShell
-
-1. Create a directory for the Obliging Ode and Unsung Anthem sources and switch to it.
-
-        New-Item ode-sources -ItemType directory
-        Set-Location ode-sources
-
-    **Note:** This is important because Couplet Composer and the utility scripts check out repositories next to the source directory of Obliging Ode and Unsung Anthem. This means that if you clone Obliging Ode and Unsung Anthem and have some other unrelated repositories or other directories next to it, the build script could fail or modify the repositories.
-
-2. Clone the GitHub repository of Obliging Ode and Unsung Anthem.
-
-        git clone https://github.com/anttikivi/unsung-anthem.git
-
-3. Set up the build environment by running Couplet Composer in configuring mode.
-
-        .\unsung-anthem\util\configure.ps1
-
-  * To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
-
-          .\unsung-anthem\util\configure.ps1 preset --name PRESET_NAME
-
-4. Build Obliging Ode and Unsung Anthem by running Couplet Composer in composing mode.
-
-        .\unsung-anthem\util\compose.ps1
-
-  * To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
-
-          .\unsung-anthem\util\compose.ps1 preset --name PRESET_NAME
+          .\unsung-anthem\util\compose preset --name PRESET_NAME
 
 **Note:** The build can be configured by using option presets and command line options. For more information, see the section [Configuring the Build](#configuring-the-build).
 
