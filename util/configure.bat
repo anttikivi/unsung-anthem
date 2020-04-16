@@ -28,7 +28,10 @@ set preset_mode=false
 
 if "%~1"=="%preset_mode_argument%" set preset_mode=true
 
-if %preset_mode%==true start "%composer_name%" /w /b ^
-pipenv run %composer_executable_name% %* %configure_mode_argument% ^
-else start "%composer_name%" /w /b ^
-pipenv run %composer_executable_name% %configure_mode_argument% %*
+if %preset_mode%==true (
+  start "%composer_name%" /w /b pipenv run %composer_executable_name% %* ^
+%configure_mode_argument%
+) else (
+  start "%composer_name%" /w /b pipenv run %composer_executable_name% ^
+%configure_mode_argument% %*
+)
