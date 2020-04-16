@@ -43,8 +43,10 @@ md %script_directory%
 :: Clone Couplet Composer
 
 if defined ODE_USE_DEVELOPMENT_COMPOSER (
-  if %ODE_USE_DEVELOPMENT_COMPOSER%==true (
-    goto get_development_composer
+  if not [%ODE_USE_DEVELOPMENT_COMPOSER%]==[] (
+    if %ODE_USE_DEVELOPMENT_COMPOSER%==true (
+      goto get_development_composer
+    )
   )
 )
 
