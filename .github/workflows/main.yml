@@ -12,7 +12,7 @@ jobs:
         runs-on: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
-    - name: Checkout the project
+    - name: Check out the project
       uses: actions/checkout@v2.0.0
     - name: Install Linux dependencies
       if: runner.os == 'Linux'
@@ -21,17 +21,6 @@ jobs:
         sudo apt-get install xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libglvnd-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
     - name: Setup Python environment
       uses: actions/setup-python@v1.1.1
-      with:
-        # Version range or exact version of a Python version to use, using semvers version range syntax.
-        python-version: 3.x # optional, default is 3.x
-        # The target architecture (x86, x64) of the Python interpreter.
-        architecture: x64 # optional, default is x64
-    - uses: actions/cache@v1.1.2
-      with:
-        # A directory to store and save the cache
-        path: build/local
-        # An explicit key for restoring and saving the cache
-        key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}
     - name: Set up build environment
       run: |
         cd $GITHUB_WORKSPACE/..
@@ -49,7 +38,6 @@ jobs:
         Get-Location
         .\unsung-anthem\util\configure.bat preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
-      working-directory: ..
     - name: Build Obliging Ode and Unsung Anthem
       run: |
         cd $GITHUB_WORKSPACE/..
@@ -67,7 +55,6 @@ jobs:
         Get-Location
         .\unsung-anthem\util\compose.bat preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
-      working-directory: ..
     - name: Run the tests
       run: |
         cd $GITHUB_WORKSPACE/build/run
