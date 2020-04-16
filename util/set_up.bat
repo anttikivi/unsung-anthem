@@ -9,8 +9,8 @@ set composer_name=Couplet Composer
 set ode_name=Obliging Ode
 set anthem_name=Unsung Anthem
 
-echo Running the set-up shell script for %composer_name% %composer_version%, ^
-the build script of %ode_name% and %anthem_name%
+echo Running the Windows set-up batch file for %composer_name% ^
+%composer_version%, the build script of %ode_name% and %anthem_name%
 
 set github_url=https://github.com
 set composer_repo_owner=anttikivi
