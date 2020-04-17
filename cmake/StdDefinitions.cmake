@@ -3,10 +3,15 @@
 
 function(SET_CXX_DEFINITIONS STD_VERSION)
 
-  if(${STD_VERSION} STREQUAL c++2a)
+  if(${STD_VERSION} STREQUAL c++20)
 
     add_definitions(-DODE_CXX2A=1)
     add_definitions(-DODE_CXX17=0)
+
+  elseif(${STD_VERSION} STREQUAL c++2a)
+
+    add_definitions(-DODE_CXX2A=0)
+    add_definitions(-DODE_CXX17=1)
 
   elseif(${STD_VERSION} STREQUAL c++17)
 

@@ -3,10 +3,16 @@
 
 function(SET_STD_FLAGS STD)
 
-  if (WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:${STD}")
+  if (${STD} STREQUAL c++20)
+    set(STD_FLAG c++2a)
   else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${STD}")
+    set(STD_FLAG ${STD})
+  endif()
+
+  if (WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:${STD_FLAG}")
+  else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${STD_FLAG}")
   endif()
 
   if (DEFINED ODE_STDLIB AND NOT WIN32)
