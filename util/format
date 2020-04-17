@@ -3,11 +3,12 @@
 # Copyright (c) 2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
+echo "Running the shell script helper for formatting Obliging Ode and Unsung \
+Anthem"
+
 current_directory="${0%/*}"
 
 cd $current_directory/..
-
-echo "Changed to directory $current_directory/.."
 
 format_directory() {
   echo "Looking through $1"
@@ -30,5 +31,8 @@ format_directory() {
     fi
   done
 }
+
+
+echo "Starting to format $current_directory/.."
 
 format_directory .
