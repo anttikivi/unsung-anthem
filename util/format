@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Copyright (c) 2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
@@ -7,14 +7,28 @@ current_directory="${0%/*}"
 
 cd $current_directory/..
 
-while IFS= read -r -d '' -u 9
-do
-  if [[ "$REPLY" == "./include/"* ]] || [[ "$REPLY" == "./lib/"* ]] ||
-      [[ "$REPLY" == "./src/"* ]] || [[ "$REPLY" == "./test/"* ]]; then
+echo "Changed to directory $current_directory/.."
 
-    if [[ "$REPLY" != *".txt" ]]; then
-      echo "Formatting: $REPLY"
-      clang-format -i $REPLY
+format_directory() {
+  echo "Looking through $1"
+  for pathname in "$1"/*; do
+    if [ -d "$pathname" ]; then
+      format_directory "$pathname"
+    elif [ -e "$pathname" ]; then
+      case "$pathname" in
+        *.txt)
+        echo "Skipping: $pathname"
+        ;;
+        ./include/*|./lib/*|./src/*|./test/*)
+        echo "Formatting: $pathname"
+        clang-format -i "$pathname"
+        ;;
+        *)
+        echo "Skipping $pathname"
+        ;;
+      esac
     fi
-  fi
-done 9< <( find . -type f -exec printf '%s\0' {} + )
+  done
+}
+
+format_directory .
