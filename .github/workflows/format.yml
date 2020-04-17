@@ -17,6 +17,9 @@ jobs:
     - name: Install macOS dependencies
       run: brew install clang-format
       if: runner.os == 'macOS'
+    - name: Install Windows dependencies
+      run: npm install -g clang-format
+      if: runner.os == 'Windows'
     - name: Run the formatting script
       run: |
         cd $GITHUB_WORKSPACE/..
