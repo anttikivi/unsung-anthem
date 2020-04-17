@@ -11,6 +11,7 @@
 #include <cctype>
 
 #include <algorithm>
+#include <iterator>
 #include <numeric>
 #include <sstream>
 #include <type_traits>

@@ -9,6 +9,7 @@
 #include "ode/cli/option_group.h"
 
 #include <algorithm>
+#include <iterator>
 #include <sstream>
 #include <utility>
 
