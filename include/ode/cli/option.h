@@ -397,6 +397,14 @@ namespace ode::cli
         const std::vector<parsed_value_t>& parsed_indices) const;
 
     ///
+    /// Creates an object of the type \c std::string containing a formatted
+    /// string of the name, description, and usage of this option.
+    ///
+    /// \return An object of the type \c std::string.
+    ///
+    std::string format_help() const;
+
+    ///
     /// Gives the long name of this command line option.
     ///
     /// TODO: Contemplate the possibility of making the name case-insensitive.
@@ -424,6 +432,21 @@ namespace ode::cli
     /// name.
     ///
     std::optional<std::string> short_name() const;
+
+    ///
+    /// Gives the usage desciption of this command line option.
+    ///
+    /// \return An object of the type \c std::string.
+    ///
+    std::string description() const;
+
+    ///
+    /// Gives the placeholder value used when printing the usage of this command
+    /// line option.
+    ///
+    /// \return An object of the type \c std::string.
+    ///
+    std::string meta_variable() const;
 
     ///
     /// Gives an enumerable value representing the type of the values this
@@ -468,6 +491,16 @@ namespace ode::cli
     /// The short, one-character name of the command line option.
     ///
     const std::optional<std::string> short_n;
+
+    ///
+    /// The usage description of the option.
+    ///
+    const std::string desc;
+
+    ///
+    /// The placeholder value used when printing the usage of this option.
+    ///
+    const std::string meta_v;
 
     ///
     /// The enumerable value representing the type of the values this command

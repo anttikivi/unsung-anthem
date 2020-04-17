@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <sstream>
 #include <type_traits>
 
 #include "gsl/assert"
@@ -1048,6 +1049,128 @@ namespace ode::cli
 #endif // !ODE_WINDOWS
   }
 
+  std::string option::format_help() const
+  {
+    std::stringstream builder{};
+
+#if ODE_WINDOWS
+    const std::string prefix{"/"};
+    const std::string short_prefix{"/"};
+    const std::string platform_dependent_name{alt_n};
+#else
+    const std::string prefix{"--"};
+    const std::string short_prefix{"-"};
+    const std::string platform_dependent_name{n};
+#endif // !ODE_WINDOWS
+
+    builder << "  ";
+
+    if (short_n.has_value())
+    {
+      if (option_type::boolean == t)
+      {
+        builder << short_prefix << short_n.value() << ", ";
+      }
+      else
+      {
+        builder << short_prefix << short_n.value() << " " << meta_v << ", ";
+      }
+    }
+
+    if (option_type::boolean == t)
+    {
+      builder << prefix << platform_dependent_name;
+    }
+    else
+    {
+      builder << prefix << platform_dependent_name << " " << meta_v;
+    }
+
+    // The description must be formatted. It must contain two 24 before
+    // each line of text. The code must also start a new line when it
+    // reaches 80 characters. The start of the new line must be before the
+    // word that reaches 80 characters.
+    std::istringstream d_iss{desc};
+    std::vector<std::string> d_words{
+        std::istream_iterator<std::string>{d_iss},
+        std::istream_iterator<std::string>{}};
+    std::stringstream d_ss{};
+
+    const std::string padding{24, ' '};
+
+    if (24 <= builder.str().size() + 1)
+    {
+      builder << "\n";
+
+      for (const auto w : d_words)
+      {
+        if (d_ss.str().empty())
+        {
+          d_ss << padding << w;
+        }
+        else
+        {
+          if (80 >= d_ss.str().size() + 1 + w.size())
+          {
+            d_ss << " " << w;
+          }
+          else
+          {
+            // If the next word doesn’t fit into the line, start a new one.
+            builder << d_ss.str() << "\n";
+            d_ss.str(std::string{});
+            d_ss << padding << w;
+          }
+        }
+      }
+    }
+    else
+    {
+      const std::string::size_type missing_length =
+          24 - static_cast<int>(builder.str().size());
+      const std::string missing_padding(missing_length, ' ');
+      builder << missing_padding;
+
+      for (const auto w : d_words)
+      {
+        // If the beginning of the stream contains something else than spaces,
+        // it’s the first line with the name of the option.
+        if (padding != d_ss.str().substr(0, 24))
+        {
+          if (80 >= 24 + d_ss.str().size() + 1 + w.size())
+          {
+            d_ss << " " << w;
+          }
+          else
+          {
+            // If the next word doesn’t fit into the line, start a new one.
+            builder << d_ss.str() << "\n";
+            d_ss.str(std::string{});
+            d_ss << padding << w;
+          }
+        }
+        else
+        {
+          if (80 >= d_ss.str().size() + 1 + w.size())
+          {
+            d_ss << " " << w;
+          }
+          else
+          {
+            // If the next word doesn’t fit into the line, start a new one.
+            builder << d_ss.str() << "\n";
+            d_ss.str(std::string{});
+            d_ss << padding << w;
+          }
+        }
+      }
+    }
+
+    builder << d_ss.str();
+
+    return builder.str();
+  }
+
   std::string option::name() const
   {
     return n;
@@ -1061,6 +1184,16 @@ namespace ode::cli
   std::optional<std::string> option::short_name() const
   {
     return short_n;
+  }
+
+  std::string option::description() const
+  {
+    return desc;
+  }
+
+  std::string option::meta_variable() const
+  {
+    return meta_v;
   }
 
   option_type option::type() const

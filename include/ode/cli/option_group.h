@@ -115,6 +115,14 @@ namespace ode::cli
         const int argc, ode::argv_t argv[]) const = 0;
 
     ///
+    /// Creates an object of the type \c std::string containing a formatted
+    /// string of the name, description, and options of this group.
+    ///
+    /// \return An object of the type \c std::string.
+    ///
+    virtual std::string format_help() const;
+
+    ///
     /// Gives the options contained by this group.
     ///
     /// \return An object of the type \c std::vector which holds the contained

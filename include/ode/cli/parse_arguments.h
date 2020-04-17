@@ -27,6 +27,11 @@ namespace ode::cli
   /// Returns an object of the type \c arguments which contains the values set
   /// when executing the program from the command line.
   ///
+  /// TODO: Add a check that makes sure there isn’t two groups with the same
+  /// name. A Boolean can be added to the group type that tells if there can be
+  /// multiple of that group as, for example, unnamed mutually exclusive group
+  /// can be common and useful.
+  ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.
   /// \param options a vector of command line option group objects holding the
