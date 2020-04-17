@@ -31,7 +31,7 @@ namespace ode
   /// \tparam A the type of the type of the application implementation.
   ///
 #if ODE_CONCEPTS
-  template <Application A> class engine_framework final
+  template <application A> class engine_framework final
 #else
   template <typename A> class engine_framework final
 #endif // !ODE_CONCEPTS
@@ -268,7 +268,7 @@ namespace ode
   /// \return An object of the type \c engine_framework.
   ///
 #if ODE_CONCEPTS
-  template <Application A> auto make_engine(A&& a, const execution_info& i)
+  template <application A> auto make_engine(A&& a, const execution_info& i)
 #else
   template <typename A> auto make_engine(A&& a, const execution_info& i)
 #endif // !ODE_CONCEPTS
