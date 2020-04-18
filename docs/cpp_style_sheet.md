@@ -20,6 +20,13 @@ If you’re looking to contribute C++ code to Obliging Ode and Unsung Anthem or 
 * [Source Code Width](#source-code-width)
 
 [Styling](#styling)
+* [Naming](#naming)
+  * [Function Naming](#function-naming)
+
+[Semantics](#semantics)
+* [Types](#types)
+  * [Accessors](#accessors)
+  * [Mutators](#mutators)
 
 ## C++ Core Guidelines
 
@@ -107,3 +114,25 @@ The paragraph beginning on the first line of the comment acts as the value for [
 You must make each line of code fit within 80 colums.
 
 ## Styling
+
+### Naming
+
+#### Function Naming
+
+Write all function names in lower case and separate words by underscores (`_`).
+
+The names of accessor functions should start with `get_`.
+
+## Semantics
+
+### Types
+
+#### Accessors
+
+Accessor functions are also know as ‘getters’.
+
+For `struct`s, you shouldn’t use any accessor functions as they are meant for carrying data without an invariant. For `class`es, use accessor functions only for members which must be read from outside the `class`. Avoid unnecessary accessory methods.
+
+#### Mutators
+
+You shouldn’t use mutator functions which are also know as ‘setters’. They greatly hurt the goal of writing code that utilizes as much pure functions and functional paradigm principles as possible.
