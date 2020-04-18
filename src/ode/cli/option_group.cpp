@@ -95,7 +95,7 @@ namespace ode::cli
       // A loop is used as option is not CopyAssignable.
       for (const auto o : opts)
       {
-        if (o.required())
+        if (o.is_required())
         {
           required.push_back(o);
         }

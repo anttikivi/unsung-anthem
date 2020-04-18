@@ -11,6 +11,7 @@
 
 #include <cstddef>
 
+#include <functional>
 #include <iostream>
 #include <optional>
 #include <string>
@@ -20,11 +21,37 @@
 #include <variant>
 #include <vector>
 
+#include "gsl/util"
+
 #include "ode/argv_t.h"
 #include "ode/cli/option_type.h"
 
 namespace ode::cli
 {
+  ///
+  /// The default value used as the meta variable for options which take Boolean
+  /// values.
+  ///
+  constexpr auto boolean_meta_variable{std::nullopt};
+
+  ///
+  /// The default value used as the meta variable for options which take integer
+  /// values.
+  ///
+  constexpr auto integer_meta_variable{"INTEGER"};
+
+  ///
+  /// The default value used as the meta variable for options which take
+  /// floating point number values.
+  ///
+  constexpr auto float_meta_variable{"NUMBER"};
+
+  ///
+  /// The default value used as the meta variable for options which take string
+  /// values.
+  ///
+  constexpr auto string_meta_variable{"STRING"};
+
   ///
   /// The string which is prefixed to the long names of the options.
   ///
@@ -56,22 +83,34 @@ namespace ode::cli
 #endif // !_WIN32
 
   ///
-  /// The index of the element containing pointer to the parsed option in the
-  /// tuple containing information about one parsed command line option.
-  ///
-  constexpr std::size_t parsed_option_index = 0;
-
-  ///
   /// The index of the element containing the value of the parsed option in the
   /// tuple containing information about one parsed command line option.
   ///
-  constexpr std::size_t parsed_value_index = 1;
+  constexpr std::size_t parsed_value_value_index = 0;
 
   ///
   /// The index of the element containing the indices of the parsed option in
   /// the tuple containing information about one parsed command line option.
   ///
-  constexpr std::size_t parsed_indices_index = 2;
+  constexpr std::size_t parsed_value_indices_index = 1;
+
+  ///
+  /// The index of the element containing pointer to the parsed option in the
+  /// tuple containing information about one parsed command line option.
+  ///
+  constexpr std::size_t parsed_options_option_index = 0;
+
+  ///
+  /// The index of the element containing the value of the parsed option in the
+  /// tuple containing information about one parsed command line option.
+  ///
+  constexpr std::size_t parsed_options_value_index = 1;
+
+  ///
+  /// The index of the element containing the indices of the parsed option in
+  /// the tuple containing information about one parsed command line option.
+  ///
+  constexpr std::size_t parsed_options_indices_index = 2;
 
   ///
   /// The type of objects which contain information about one command line
@@ -90,7 +129,16 @@ namespace ode::cli
     /// The type of the objects returned when parsing a command line option.
     ///
     using parsed_value_t =
-        std::tuple<const option*, std::optional<value_t>, std::vector<int>>;
+        std::pair<std::optional<value_t>, std::vector<gsl::index>>;
+
+    ///
+    /// The type of the objects that contain information of the options which
+    /// are already parsed.
+    ///
+    using parsed_options_t = std::vector<std::tuple<
+        std::reference_wrapper<const option>,
+        std::optional<value_t>,
+        std::vector<gsl::index>>>;
 
     ///
     /// Constructs an object of the type \c option.
@@ -103,6 +151,9 @@ namespace ode::cli
     /// \param name the long name of the command line option.
     /// \param short_name the short, one-character name of the command line
     /// option.
+    /// \param description the usage desciption of this command line option.
+    /// \param meta_var the placeholder value used when printing the usage of
+    /// this command line option.
     /// \param type an enumerable value representing type of the values which
     /// this command line option accepts.
     /// \param default_v the default value of the command line option.
@@ -111,14 +162,19 @@ namespace ode::cli
     option(
         const std::string& name,
         const std::string& short_name,
+        const std::string& description,
+        const std::optional<std::string>& meta_var,
         const option_type type,
         const value_t& default_v,
         const bool r);
 
     ///
-    /// Constructs an object of the type \c option.
+    /// Constructs an object of the type \c option without short name.
     ///
     /// \param name the long name of the command line option.
+    /// \param description the usage desciption of this command line option.
+    /// \param meta_var the placeholder value used when printing the usage of
+    /// this command line option.
     /// \param type an enumerable value representing type of the values which
     /// this command line option accepts.
     /// \param default_v the default value of the command line option.
@@ -126,6 +182,8 @@ namespace ode::cli
     ///
     option(
         const std::string& name,
+        const std::string& description,
+        const std::optional<std::string>& meta_var,
         const option_type type,
         const value_t& default_v,
         const bool r);
@@ -142,12 +200,14 @@ namespace ode::cli
     /// \param name the long name of the command line option.
     /// \param short_name the short, one-character name of the command line
     /// option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
     option(
         const std::string& name,
         const std::string& short_name,
+        const std::string& description,
         const bool default_v,
         const bool r);
 
@@ -161,10 +221,15 @@ namespace ode::cli
     /// value.
     ///
     /// \param name the long name of the command line option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
-    option(const std::string& name, const bool default_v, const bool r);
+    option(
+        const std::string& name,
+        const std::string& description,
+        const bool default_v,
+        const bool r);
 
     ///
     /// Constructs an object of the type \c option which accepts an integer
@@ -173,12 +238,14 @@ namespace ode::cli
     /// \param name the long name of the command line option.
     /// \param short_name the short, one-character name of the command line
     /// option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
     option(
         const std::string& name,
         const std::string& short_name,
+        const std::string& description,
         const int default_v,
         const bool r);
 
@@ -187,10 +254,15 @@ namespace ode::cli
     /// value.
     ///
     /// \param name the long name of the command line option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
-    option(const std::string& name, const int default_v, const bool r);
+    option(
+        const std::string& name,
+        const std::string& description,
+        const int default_v,
+        const bool r);
 
     ///
     /// Constructs an object of the type \c option which accepts a double
@@ -199,12 +271,14 @@ namespace ode::cli
     /// \param name the long name of the command line option.
     /// \param short_name the short, one-character name of the command line
     /// option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
     option(
         const std::string& name,
         const std::string& short_name,
+        const std::string& description,
         const double default_v,
         const bool r);
 
@@ -213,10 +287,15 @@ namespace ode::cli
     /// precision floating point value.
     ///
     /// \param name the long name of the command line option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
-    option(const std::string& name, const double default_v, const bool r);
+    option(
+        const std::string& name,
+        const std::string& description,
+        const double default_v,
+        const bool r);
 
     ///
     /// Constructs an object of the type \c option which accepts a string
@@ -225,12 +304,14 @@ namespace ode::cli
     /// \param name the long name of the command line option.
     /// \param short_name the short, one-character name of the command line
     /// option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
     option(
         const std::string& name,
         const std::string& short_name,
+        const std::string& description,
         const std::string& default_v,
         const bool r);
 
@@ -239,10 +320,15 @@ namespace ode::cli
     /// value.
     ///
     /// \param name the long name of the command line option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
-    option(const std::string& name, const std::string& default_v, const bool r);
+    option(
+        const std::string& name,
+        const std::string& description,
+        const std::string& default_v,
+        const bool r);
 
     ///
     /// Constructs an object of the type \c option which accepts a string
@@ -251,12 +337,14 @@ namespace ode::cli
     /// \param name the long name of the command line option.
     /// \param short_name the short, one-character name of the command line
     /// option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
     option(
         const std::string& name,
         const std::string& short_name,
+        const std::string& description,
         const char* default_v,
         const bool r);
 
@@ -265,10 +353,15 @@ namespace ode::cli
     /// value.
     ///
     /// \param name the long name of the command line option.
+    /// \param description the usage desciption of this command line option.
     /// \param default_v the default value of the command line option.
     /// \param r whether or not this option is required.
     ///
-    option(const std::string& name, const char* default_v, const bool r);
+    option(
+        const std::string& name,
+        const std::string& description,
+        const char* default_v,
+        const bool r);
 
     ///
     /// Constructs an object of the type \c option by copying the given object
@@ -351,8 +444,8 @@ namespace ode::cli
     parsed_value_t parse_option(
         const int argc,
         ode::argv_t argv[],
-        const std::vector<option*> all_options,
-        const std::vector<parsed_value_t>& parsed_indices,
+        const std::vector<std::reference_wrapper<const option>>& all_options,
+        const parsed_options_t& parsed_indices,
         const std::string_view prefix,
         const std::string_view short_prefix,
         const std::string_view alternative_prefix,
@@ -393,8 +486,8 @@ namespace ode::cli
     parsed_value_t parse_option(
         const int argc,
         ode::argv_t argv[],
-        const std::vector<option*> all_options,
-        const std::vector<parsed_value_t>& parsed_indices) const;
+        const std::vector<std::reference_wrapper<const option>>& all_options,
+        const parsed_options_t& parsed_indices) const;
 
     ///
     /// Creates an object of the type \c std::string containing a formatted
@@ -411,7 +504,10 @@ namespace ode::cli
     ///
     /// \return An object of the type \c std::string.
     ///
-    std::string name() const;
+    inline std::string get_name() const
+    {
+      return name;
+    }
 
     ///
     /// Gives the alternative, camel case long name of this command line
@@ -422,7 +518,10 @@ namespace ode::cli
     ///
     /// \return An object of the type \c std::string.
     ///
-    std::string alternative_name() const;
+    inline std::string get_alternative_name() const
+    {
+      return alternative_name;
+    }
 
     ///
     /// Gives the short, one-character name of this command line option.
@@ -431,22 +530,10 @@ namespace ode::cli
     /// of the type \c std::string if the option has a short, one-character
     /// name.
     ///
-    std::optional<std::string> short_name() const;
-
-    ///
-    /// Gives the usage desciption of this command line option.
-    ///
-    /// \return An object of the type \c std::string.
-    ///
-    std::string description() const;
-
-    ///
-    /// Gives the placeholder value used when printing the usage of this command
-    /// line option.
-    ///
-    /// \return An object of the type \c std::string.
-    ///
-    std::string meta_variable() const;
+    inline std::optional<const std::string> get_short_name() const
+    {
+      return short_name;
+    }
 
     ///
     /// Gives an enumerable value representing the type of the values this
@@ -454,64 +541,71 @@ namespace ode::cli
     ///
     /// \return A value of the enumerable type \c option_type.
     ///
-    option_type type() const;
+    inline option_type get_type() const
+    {
+      return type;
+    }
 
     ///
     /// Gives the default value of the command line option.
     ///
     /// \return An object of the type \c value_t.
     ///
-    value_t default_value() const;
+    inline value_t get_default_value() const
+    {
+      return default_value;
+    }
 
     ///
-    /// Gives a Boolean value telling whether or not this command line option is
-    /// required.
-    ///
-    /// An option group may ignore the value of this Boolean if the group is
-    /// for example mutually exclusive.
+    /// Tells whether or not this command line option is required.
     ///
     /// \return A value of the type \c bool.
     ///
-    bool required() const;
+    inline bool is_required() const
+    {
+      return required;
+    }
 
   private:
     friend bool operator==(const option& lhs, const option& rhs) noexcept;
 
+    friend std::ostream& operator<<(std::ostream& os, const option& a);
+
     ///
     /// The long name of the command line option.
     ///
-    const std::string n;
+    const std::string name;
 
     ///
     /// The alternative, Windows-only long name of the command line option.
     ///
-    const std::string alt_n;
+    const std::string alternative_name;
 
     ///
     /// The short, one-character name of the command line option.
     ///
-    const std::optional<std::string> short_n;
+    const std::optional<const std::string> short_name;
 
     ///
     /// The usage description of the option.
     ///
-    const std::string desc;
+    const std::string description;
 
     ///
     /// The placeholder value used when printing the usage of this option.
     ///
-    const std::string meta_v;
+    const std::optional<const std::string> meta_variable;
 
     ///
     /// The enumerable value representing the type of the values this command
     /// line option accepts.
     ///
-    const option_type t;
+    const option_type type;
 
     ///
     /// The default value of the command line option.
     ///
-    const value_t default_v;
+    const value_t default_value;
 
     ///
     /// Whether or not this option is required.
@@ -519,7 +613,7 @@ namespace ode::cli
     /// An option group may ignore the value of this Boolean if the group is
     /// for example mutually exclusive.
     ///
-    const bool req;
+    const bool required;
   };
 
   ///
