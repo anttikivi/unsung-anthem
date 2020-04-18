@@ -31,3 +31,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 - Main loop that calls scheduler updates on game state according to a given frame rate.
 - Functions for creating and manipulating Lua states.
 - System for registering user input during game loop.
+
+[unreleased]: https://github.com/anttikivi/unsung-anthem/compare/master...HEAD
