@@ -129,7 +129,7 @@ The names of accessor functions should start with `get_`.
 
 #### Accessors
 
-Accessor functions are also know as ‘getters’.
+Accessor functions are also known as ‘getters’.
 
 For `struct`s, you shouldn’t use any accessor functions as they are meant for carrying data without an invariant. For `class`es, use accessor functions only for members which must be read from outside the `class`. Avoid unnecessary accessory methods.
 
