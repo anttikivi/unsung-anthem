@@ -135,4 +135,4 @@ For `struct`s, you shouldn’t use any accessor functions as they are meant for 
 
 #### Mutators
 
-You shouldn’t use mutator functions which are also know as ‘setters’. They greatly hurt the goal of writing code that utilizes as much pure functions and functional paradigm principles as possible.
+You shouldn’t use mutator functions which are also known as ‘setters’. They greatly hurt the goal of writing code that utilizes as much pure functions and functional paradigm principles as possible.
