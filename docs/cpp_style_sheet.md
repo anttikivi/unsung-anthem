@@ -11,6 +11,8 @@ If you’re looking to contribute C++ code to Obliging Ode and Unsung Anthem or 
 [Files](#files)
 * [File Extensions](#file-extensions)
 * [#include Guards](#include-guards)
+* [`#include` Style](#include-style)
+* [File Headers](#file-headers)
 
 ## C++ Core Guidelines
 
@@ -34,7 +36,7 @@ If you must, for some reason, use C, the C code should target C17, as described 
 
 Each C++ header file should have the `.h` file extension. The so-called C++ source files must have `.cpp` as their file extension. Each `.cpp` file must have its own `.h` file that declares its interface.
 
-### #include Guards
+### `#include` Guards
 
 Use `#include` guards in all `.h` files. The format of the definition should be `<PROJECT>_<PATH>_<FILE>_H`.
 
@@ -48,3 +50,37 @@ You must base the path to the full in-project path of the file. For example, in 
 
 #endif // !ODE_FRAMEWORK_SCHEDULER_H
 ```
+
+### `#include` Style
+
+When including header files, the `#include` directives must be sorted into groups according to the types of the included headers. The order is the following:
+
+1. (in source files) the ‘main’ header of the source file
+2. the C standard library headers
+3. the C++ standard library headers
+4. the guideline support library headers
+5. the headers of other libraries
+6. Obliging Ode headers
+7. Unsung Anthem headers
+
+Separate the groups by one empty line. Order the headers alphabetically inside each group.
+
+Use angle brackets (`<` and `>`) in the `#include` directives for the C standard library includes, C++ standard library includes, and the includes of the headers of other libraries. For all other `#include` directives, use double quotes (`"`).
+
+### File Headers
+
+You should add a header to every file telling basic purpose of the file. The header should also contain standard commands for generating the [Doxygen](http://doxygen.nl) documentation. The form of the header should be like in the following example:
+
+```cpp
+/// The declaration of the type of objects that contain information about one
+/// command line option.
+/// \file
+/// \author Antti Kivi
+/// \date 19 March 2020
+/// \copyright Copyright (c) 2020 Antti Kivi.
+/// Licensed under the Effective Elegy Licence.
+```
+
+The example above is taken from the file `option.h`.
+
+The paragraph beginning on the first line of the comment acts as the value for [Doxygen’s](http://doxygen.nl) `\brief` command so it’s an abstract of the file. Please also note that the header is a [Doxygen](http://doxygen.nl) comment which is identified by `///` instead of the regular `//`.
