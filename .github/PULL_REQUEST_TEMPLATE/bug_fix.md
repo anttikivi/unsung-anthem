@@ -38,6 +38,6 @@ If this change is not user-facing or notable enough to be included in release no
 
 Examples:
 
-- Player can now use the double attack with hammers.
+- Let the player use the double attack with hammers.
 - Fixed an issue where the enemies collision detection didn’t sometimes work when the player was running.
 - Increased the performance of running in-game weather commands.
