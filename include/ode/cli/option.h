@@ -504,7 +504,7 @@ namespace ode::cli
     ///
     /// \return An object of the type \c std::string.
     ///
-    inline std::string get_name() const
+    std::string get_name() const
     {
       return name;
     }
@@ -518,7 +518,7 @@ namespace ode::cli
     ///
     /// \return An object of the type \c std::string.
     ///
-    inline std::string get_alternative_name() const
+    std::string get_alternative_name() const
     {
       return alternative_name;
     }
@@ -530,7 +530,7 @@ namespace ode::cli
     /// of the type \c std::string if the option has a short, one-character
     /// name.
     ///
-    inline std::optional<const std::string> get_short_name() const
+    std::optional<const std::string> get_short_name() const
     {
       return short_name;
     }
@@ -541,7 +541,7 @@ namespace ode::cli
     ///
     /// \return A value of the enumerable type \c option_type.
     ///
-    inline option_type get_type() const
+    option_type get_type() const
     {
       return type;
     }
@@ -551,7 +551,7 @@ namespace ode::cli
     ///
     /// \return An object of the type \c value_t.
     ///
-    inline value_t get_default_value() const
+    value_t get_default_value() const
     {
       return default_value;
     }
@@ -561,7 +561,7 @@ namespace ode::cli
     ///
     /// \return A value of the type \c bool.
     ///
-    inline bool is_required() const
+    bool is_required() const
     {
       return required;
     }
