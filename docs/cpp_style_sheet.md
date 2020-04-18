@@ -52,7 +52,7 @@ In both code and documentation, prefer British English as defined in [Oxford Eng
 
 ## Code Formatting
 
-To help you follow this style sheet, the repository includes a `clang-format` rule set that can be used to automatically format the source code in the repository. To correctly run `clang-format` on all of the files, run `./util/format`. However, please note that `clang-format` can’t take every aspect of formatting into account.
+To help you follow this style sheet, the repository includes a `clang-format` rule set that can be used to automatically format the source code in the repository. To correctly run `clang-format` on all the files, run `./util/format`. However, please note that `clang-format` can’t take every aspect of formatting into account.
 
 ## Files
 
