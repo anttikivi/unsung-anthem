@@ -19,6 +19,8 @@ If you’re looking to contribute C++ code to Obliging Ode and Unsung Anthem or 
 * [File Headers](#file-headers)
 * [Source Code Width](#source-code-width)
 
+[Styling](#styling)
+
 ## C++ Core Guidelines
 
 Follow the [C++ Core Guidelines](https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md). If this style sheet and the C++ Core Guidelines contradict, follow this style sheet.
@@ -103,3 +105,5 @@ The paragraph beginning on the first line of the comment acts as the value for [
 ### Source Code Width
 
 You must make each line of code fit within 80 colums.
+
+## Styling
