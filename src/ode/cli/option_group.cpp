@@ -93,7 +93,7 @@ namespace ode::cli
       std::vector<option> optional{};
 
       // A loop is used as option is not CopyAssignable.
-      for (const auto o : opts)
+      for (const auto& o : opts)
       {
         if (o.is_required())
         {
@@ -110,7 +110,7 @@ namespace ode::cli
         builder << "\n\n"
                 << "required options:";
 
-        for (const auto o : required)
+        for (const auto& o : required)
         {
           builder << "\n" << o.format_help();
         }
@@ -121,7 +121,7 @@ namespace ode::cli
         builder << "\n\n"
                 << "optional options:";
 
-        for (const auto o : optional)
+        for (const auto& o : optional)
         {
           builder << "\n" << o.format_help();
         }
