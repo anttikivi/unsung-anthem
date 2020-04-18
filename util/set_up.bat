@@ -22,7 +22,8 @@ set root_dir=%cd%
 
 set script_directory_name=script
 set composer_directory_base_name=composer
-set composer_directory_name=%composer_directory_base_name%_%composer_version%
+set composer_directory_name=%composer_directory_base_name%_^
+%composer_version:.=_%
 set composer_head_directory_name=%composer_directory_base_name%_HEAD
 
 set script_directory=%root_dir%\%script_directory_name%
