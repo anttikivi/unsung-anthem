@@ -111,7 +111,7 @@ The paragraph beginning on the first line of the comment acts as the value for [
 
 ### Source Code Width
 
-You must make each line of code fit within 80 colums.
+You must make each line of code fit within 80 columns.
 
 ## Styling
 
