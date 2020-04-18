@@ -2,6 +2,8 @@
 
 If you’re looking to contribute C++ code to Obliging Ode and Unsung Anthem or you wish to find the coding style followed in the projects, you’re in the right place. This document contains the coding standards which you must follow when writing C++ code for the projects.
 
+Please note that this document is still in development.
+
 #### Table of Contents
 
 [C++ Core Guidelines](#c-core-guidelines)
