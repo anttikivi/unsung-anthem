@@ -434,6 +434,8 @@ namespace ode::cli
     /// separator to separate the short options from the values.
     /// \param allow_combining whether or not it’s allowed to specify multiple
     /// short, one-character options together.
+    /// \param allow_alternative_booleans whether or not allow to use ‘on’ and
+    /// ‘off’ as Boolean values.
     ///
     /// \return An object of the type \c std::pair, the first element of which
     /// is an object of the type \c std::optional which contains an object of
@@ -452,7 +454,8 @@ namespace ode::cli
         const std::string_view separator,
         const bool use_alternative_name,
         const bool allow_separator_for_short,
-        const bool allow_combining) const;
+        const bool allow_combining,
+        const bool allow_alternative_booleans) const;
 
     ///
     /// Parses this option from the command line arguments.

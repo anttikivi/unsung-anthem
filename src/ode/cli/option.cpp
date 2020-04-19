@@ -417,16 +417,40 @@ namespace ode::cli
     }
 
     ///
+    /// Checks if the given object of the type \c std::string contains an
+    /// alternative, ‘on-or-off’ Boolean value.
+    ///
+    /// \param str the string to classify.
+    ///
+    /// \return \c true if the string contains a valid alternative ‘on-or-off’
+    /// Boolean, otherwise \c false.
+    ///
+    bool is_alternative_boolean(const std::string& str)
+    {
+      std::string working_str{trim(str)};
+      std::transform(
+          working_str.begin(),
+          working_str.end(),
+          working_str.begin(),
+          ::tolower);
+      using namespace std::literals::string_literals;
+      return "off"s == working_str || "on"s == working_str;
+    }
+
+    ///
     /// Parses the value of the command line option by using the possible value
     /// from the next index.
     ///
     /// \param opt the \c option which is parsed.
     /// \param raw_value the raw string value from the next argument if there
     /// is one.
+    /// \param alt_bool whether or not allow to use ‘on’ and ‘off’ as Boolean
+    /// values.
     ///
     /// \return An object of the type \c option::value_t.
     ///
-    option::value_t parse_value(const option& opt, const std::string& raw_value)
+    option::value_t parse_value(
+        const option& opt, const std::string& raw_value, const bool alt_bool)
     {
       switch (opt.get_type())
       {
@@ -441,6 +465,21 @@ namespace ode::cli
           // The Boolean value can be given with or without the separator so it
           // may be in the same index.
           return stob(raw_value);
+        }
+        else if (is_alternative_boolean(raw_value))
+        {
+          ODE_TRACE(
+              "Parsing the option {} from value {} as an alternative Boolean",
+              opt.get_name(),
+              raw_value);
+          std::string working_str{trim(raw_value)};
+          std::transform(
+              working_str.begin(),
+              working_str.end(),
+              working_str.begin(),
+              ::tolower);
+          using namespace std::literals::string_literals;
+          return "off"s == working_str ? false : "on"s == working_str;
         }
         else
         {
@@ -513,6 +552,8 @@ namespace ode::cli
     /// \param prefix a string which is prefixed to the name of the options.
     /// \param separator a string which is used to separate the option from its
     /// value if a space isn’t used to do so.
+    /// \param alt_bool whether or not allow to use ‘on’ and ‘off’ as Boolean
+    /// values.
     ///
     /// \return An object of the type \c std::pair, the first element of which
     /// is an object of the type \c std::optional which contains an object of
@@ -529,7 +570,8 @@ namespace ode::cli
         const gsl::index current_index,
         const option::parsed_options_t& parsed_indices,
         const std::string_view prefix,
-        const std::string_view separator)
+        const std::string_view separator,
+        const bool alt_bool)
     {
       // See if the argument contains the value separator.
       if (separator ==
@@ -543,7 +585,7 @@ namespace ode::cli
                 .substr(full_option_size, arg_view.size() - full_option_size)
                 .data()};
 
-        const auto value{parse_value(opt, raw_value)};
+        const auto value{parse_value(opt, raw_value, alt_bool)};
 
         return {
             std::holds_alternative<std::nullptr_t>(value)
@@ -566,7 +608,7 @@ namespace ode::cli
             // The raw value of the of the option is in the next argument.
             const std::string raw_value{argv[current_index + 1]};
 
-            const auto value{parse_value(opt, raw_value)};
+            const auto value{parse_value(opt, raw_value, alt_bool)};
 
             return {
                 std::holds_alternative<std::nullptr_t>(value)
@@ -582,7 +624,7 @@ namespace ode::cli
             // The next argument is out of bounds.
             const std::string raw_value{""};
 
-            const auto value{parse_value(opt, raw_value)};
+            const auto value{parse_value(opt, raw_value, alt_bool)};
 
             return {
                 std::holds_alternative<std::nullptr_t>(value)
@@ -609,6 +651,8 @@ namespace ode::cli
     /// \param argv an array containing the arguments passed in the execution.
     /// \param current_index the index of the current command line argument.
     /// \param prefix a string which is prefixed to the name of the options.
+    /// \param alt_bool whether or not allow to use ‘on’ and ‘off’ as Boolean
+    /// values.
     ///
     /// \return An object of the type \c std::pair, the first element of which
     /// is an object of the type \c std::optional which contains an object of
@@ -623,7 +667,8 @@ namespace ode::cli
         const int argc,
         ode::argv_t argv[],
         const gsl::index current_index,
-        const std::string_view prefix)
+        const std::string_view prefix,
+        const bool alt_bool)
     {
       // If combining of the short options and separators isn’t allowed, the
       // size of the argument must naturally be equal to the sum of the size
@@ -638,7 +683,7 @@ namespace ode::cli
           // The raw value of the of the option is in the next argument.
           const std::string raw_value{argv[current_index + 1]};
 
-          const auto value{parse_value(opt, raw_value)};
+          const auto value{parse_value(opt, raw_value, alt_bool)};
 
           return {
               std::holds_alternative<std::nullptr_t>(value)
@@ -653,7 +698,7 @@ namespace ode::cli
           // The next argument is out of bounds.
           const std::string raw_value{""};
 
-          const auto value{parse_value(opt, raw_value)};
+          const auto value{parse_value(opt, raw_value, alt_bool)};
 
           return {
               std::holds_alternative<std::nullptr_t>(value)
@@ -685,6 +730,8 @@ namespace ode::cli
     /// value if a space isn’t used to do so.
     /// \param allow_separator_for_short whether or not allow to use the
     /// separator to separate the short options from the values.
+    /// \param alt_bool whether or not allow to use ‘on’ and ‘off’ as Boolean
+    /// values.
     ///
     /// \return An object of the type \c std::pair, the first element of which
     /// is an object of the type \c std::optional which contains an object of
@@ -701,14 +748,22 @@ namespace ode::cli
         const gsl::index current_index,
         const std::string_view prefix,
         const std::string_view separator,
-        const bool allow_separator_for_short)
+        const bool allow_separator_for_short,
+        const bool alt_bool)
     {
       if (allow_separator_for_short)
       {
         if (arg_view.size() == prefix.size() + name_view.size())
         {
           return parse_single_short_option_without_separator(
-              opt, arg_view, name_view, argc, argv, current_index, prefix);
+              opt,
+              arg_view,
+              name_view,
+              argc,
+              argv,
+              current_index,
+              prefix,
+              alt_bool);
         }
         else if (
             0 ==
@@ -725,7 +780,7 @@ namespace ode::cli
                   .substr(full_option_size, arg_view.size() - full_option_size)
                   .data()};
 
-          const auto value{parse_value(opt, raw_value)};
+          const auto value{parse_value(opt, raw_value, alt_bool)};
 
           return {
               std::holds_alternative<std::nullptr_t>(value)
@@ -737,7 +792,14 @@ namespace ode::cli
       else
       {
         return parse_single_short_option_without_separator(
-            opt, arg_view, name_view, argc, argv, current_index, prefix);
+            opt,
+            arg_view,
+            name_view,
+            argc,
+            argv,
+            current_index,
+            prefix,
+            alt_bool);
       } // !allow_separator_for_short
 
       // If no value can be parsed, the function returns a value with null
@@ -762,6 +824,8 @@ namespace ode::cli
     /// \param prefix a string which is prefixed to the name of the options.
     /// \param separator a string which is used to separate the option from its
     /// value if a space isn’t used to do so.
+    /// \param alt_bool whether or not allow to use ‘on’ and ‘off’ as Boolean
+    /// values.
     ///
     /// \return \c true if the option combination in the given argument can be
     /// parsed, otherwise \c false.
@@ -774,7 +838,8 @@ namespace ode::cli
         ode::argv_t argv[],
         const std::vector<std::reference_wrapper<const option>>& all_options,
         const gsl::index current_index,
-        const std::string_view prefix)
+        const std::string_view prefix,
+        const bool alt_bool)
     {
       // Double-check the prefix.
       if (0 != arg_view.rfind(prefix, 0))
@@ -824,7 +889,7 @@ namespace ode::cli
                     ? argv[current_index + 1]
                     : ""};
 
-            const auto value = parse_value(o, raw_value);
+            const auto value = parse_value(o, raw_value, alt_bool);
 
             // If the value returned from the value parsing function is a value
             // of the type nullptr_t, the parsing wasn’t successful.
@@ -861,6 +926,8 @@ namespace ode::cli
     /// separator to separate the short options from the values.
     /// \param allow_combining whether or not it’s allowed to specify multiple
     /// short, one-character options together.
+    /// \param alt_bool whether or not allow to use ‘on’ and ‘off’ as Boolean
+    /// values.
     ///
     /// \return An object of the type \c std::pair, the first element of which
     /// is an object of the type \c std::optional which contains an object of
@@ -879,7 +946,8 @@ namespace ode::cli
         const std::string_view prefix,
         const std::string_view separator,
         const bool allow_separator_for_short,
-        const bool allow_combining)
+        const bool allow_combining,
+        const bool alt_bool)
     {
       if (allow_combining)
       {
@@ -900,7 +968,8 @@ namespace ode::cli
               current_index,
               prefix,
               separator,
-              allow_separator_for_short);
+              allow_separator_for_short,
+              alt_bool);
         }
         else
         {
@@ -912,7 +981,8 @@ namespace ode::cli
                   argv,
                   all_options,
                   current_index,
-                  prefix))
+                  prefix,
+                  alt_bool))
           {
             const auto option_index = arg_view.find(name_view);
 
@@ -927,7 +997,7 @@ namespace ode::cli
               const std::string raw_value{
                   current_index + 1 < argc ? argv[current_index + 1] : ""};
 
-              const auto value{parse_value(opt, raw_value)};
+              const auto value{parse_value(opt, raw_value, alt_bool)};
 
               return {
                   std::holds_alternative<std::nullptr_t>(value)
@@ -942,7 +1012,7 @@ namespace ode::cli
             {
               const std::string raw_value{""};
 
-              const auto value{parse_value(opt, raw_value)};
+              const auto value{parse_value(opt, raw_value, alt_bool)};
 
               return {
                   std::holds_alternative<std::nullptr_t>(value)
@@ -968,7 +1038,8 @@ namespace ode::cli
             current_index,
             prefix,
             separator,
-            allow_separator_for_short);
+            allow_separator_for_short,
+            alt_bool);
       } // !allow_combining
     }
 
@@ -985,7 +1056,8 @@ namespace ode::cli
       const std::string_view separator,
       const bool use_alternative_name,
       const bool allow_separator_for_short,
-      const bool allow_combining) const
+      const bool allow_combining,
+      const bool allow_alternative_booleans) const
   {
     ODE_TRACE("Beginning to parse the command line option '{}'", name);
 
@@ -1014,7 +1086,8 @@ namespace ode::cli
               i,
               parsed_indices,
               prefix,
-              separator);
+              separator,
+              allow_alternative_booleans);
         }
         else if (
             !alternative_prefix.empty() &&
@@ -1031,7 +1104,8 @@ namespace ode::cli
               i,
               parsed_indices,
               alternative_prefix,
-              separator);
+              separator,
+              allow_alternative_booleans);
         }
         else if (short_name.has_value() && 0 == arg_view.rfind(short_prefix, 0))
         {
@@ -1046,7 +1120,8 @@ namespace ode::cli
               short_prefix,
               separator,
               allow_separator_for_short,
-              allow_combining);
+              allow_combining,
+              allow_alternative_booleans);
 
           // If the parsing yields no value, it’s probably due to the fact that
           // the short option doesn’t exist in the given index as the check
@@ -1076,7 +1151,8 @@ namespace ode::cli
               alternative_prefix,
               separator,
               allow_separator_for_short,
-              allow_combining);
+              allow_combining,
+              allow_alternative_booleans);
 
           // If the parsing yields no value, it’s probably due to the fact that
           // the short option doesn’t exist in the given index as the check
@@ -1115,7 +1191,8 @@ namespace ode::cli
         ":",
         true,
         true,
-        false);
+        false,
+        true);
 #else
     return parse_option(
         argc,
@@ -1128,7 +1205,8 @@ namespace ode::cli
         "=",
         false,
         false,
-        true);
+        true,
+        false);
 #endif // !ODE_WINDOWS
   }
 
