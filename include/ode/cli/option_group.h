@@ -11,17 +11,15 @@
 
 #include <optional>
 #include <string>
-#include <vector>
 
 #include "ode/argv_t.h"
 #include "ode/cli/arguments.h"
-#include "ode/cli/option.h"
 
 namespace ode::cli
 {
   ///
-  /// The base type of objects which contain information about a group of
-  /// command line options for the command line parser.
+  /// The abstract base type of objects which contain information about a group
+  /// of command line options for the command line parser.
   ///
   class option_group
   {
@@ -32,34 +30,7 @@ namespace ode::cli
     /// Remarks: This constructor is the default constructor and the resulting
     /// object contains only empty values.
     ///
-    option_group();
-
-    ///
-    /// Constructs an object of the type \c option_group.
-    ///
-    /// The constructed group object doesn’t contain a name nor a description.
-    ///
-    /// \param opts the options which will be contained by this group.
-    ///
-    option_group(std::vector<option>&& opts);
-
-    ///
-    /// Constructs an object of the type \c option_group.
-    ///
-    /// \param n the name of the group.
-    /// \param opts the options which will be contained by this group.
-    ///
-    option_group(const std::string& n, std::vector<option>&& opts);
-
-    ///
-    /// Constructs an object of the type \c option_group.
-    ///
-    /// \param n the name of the group.
-    /// \param d the description of the group.
-    /// \param opts the options which will be contained by this group.
-    ///
-    option_group(
-        const std::string& n, const std::string& d, std::vector<option>&& opts);
+    option_group() = default;
 
     ///
     /// Constructs an object of the type \c option_group by copying the given
@@ -111,8 +82,7 @@ namespace ode::cli
     /// \return An object of the type \c std::optional which contains an object
     /// of the type \c arguments if the parsing is successful.
     ///
-    virtual std::optional<arguments> parse_group(
-        const int argc, ode::argv_t argv[]) const = 0;
+    virtual arguments parse_group(const int argc, ode::argv_t argv[]) const = 0;
 
     ///
     /// Creates an object of the type \c std::string containing a formatted
@@ -120,50 +90,7 @@ namespace ode::cli
     ///
     /// \return An object of the type \c std::string.
     ///
-    virtual std::string format_help() const;
-
-    ///
-    /// Gives the options contained by this group.
-    ///
-    /// \return An object of the type \c std::vector which holds the contained
-    /// \c option objects.
-    ///
-    virtual std::vector<option> options() const;
-
-    ///
-    /// Gives the name of this group.
-    ///
-    /// \return An object of the type \c std::optional which contains an object
-    /// of the type \c std::string if the group has a name.
-    ///
-    virtual std::optional<std::string> name() const;
-
-    ///
-    /// Gives the description of this group.
-    ///
-    /// \return An object of the type \c std::optional which contains an object
-    /// of the type \c std::string if the group has a description.
-    ///
-    virtual std::optional<std::string> description() const;
-
-  private:
-    ///
-    /// The command line options of this group.
-    ///
-    const std::vector<option> opts;
-
-    ///
-    /// The name of the group.
-    ///
-    /// If no name is provided, the options in the group are added to the list
-    /// of root-level options.
-    ///
-    const std::optional<std::string> n;
-
-    ///
-    /// The description of the group.
-    ///
-    const std::optional<std::string> desc;
+    virtual std::string format_help() const = 0;
   };
 
 } // namespace ode::cli

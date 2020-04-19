@@ -8,6 +8,8 @@
 #ifndef ODE_CLI_OPTION_TYPE_H
 #define ODE_CLI_OPTION_TYPE_H
 
+#include <cstddef>
+
 #include <iostream>
 
 #include "ode/__config"
@@ -40,5 +42,27 @@ namespace ode::cli
   ///
   std::ostream& operator<<(std::ostream& os, const option_type& a);
 } // namespace ode::cli
+
+namespace std
+{
+  ///
+  /// The specialization of the function object type \c std::hash for values of
+  /// the type \c ode::cli::option_type.
+  ///
+  template <> struct hash<ode::cli::option_type>
+  {
+    ///
+    /// Calculates the hash of the given \c ode::cli::option_type.
+    ///
+    /// \param o the value for which the hash is calculated.
+    ///
+    /// \return A value of the type \c size_t.
+    ///
+    constexpr size_t operator()(const ode::cli::option_type t) const noexcept
+    {
+      return static_cast<size_t>(t);
+    }
+  };
+} // namespace std
 
 #endif // !ODE_CLI_OPTION_TYPE_H

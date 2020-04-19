@@ -1,6 +1,7 @@
 # Copyright (c) 2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
+list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/arguments_test.cpp)
 list(APPEND ODE_TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/inclusive_option_group_test.cpp)
 list(APPEND ODE_TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/option_test.cpp)

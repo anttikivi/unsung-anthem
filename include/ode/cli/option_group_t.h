@@ -33,7 +33,7 @@ namespace ode::cli
     /// \param t the option_group implementation.
     ///
     template <typename T> option_group_t(T t)
-        : option_group_ptr{std::make_unique<T>(std::move(t))}
+        : group{std::make_unique<T>(std::move(t))}
     {
     }
 
@@ -78,11 +78,30 @@ namespace ode::cli
     ///
     option_group_t& operator=(option_group_t&& a) = default;
 
+    ///
+    /// Parses the options of this group from the given command line arguments.
+    ///
+    /// \param argc the number of arguments passed in the execution.
+    /// \param argv the array containing the arguments passed in the execution.
+    ///
+    /// \return An object of the type \c std::optional which contains an object
+    /// of the type \c arguments if the parsing is successful.
+    ///
+    arguments parse_group(const int argc, ode::argv_t argv[]) const;
+
+    ///
+    /// Creates an object of the type \c std::string containing a formatted
+    /// string of the name, description, and options of this group.
+    ///
+    /// \return An object of the type \c std::string.
+    ///
+    std::string format_help() const;
+
   private:
     ///
-    /// A pointer to the contained option_group implementation.
+    /// A pointer to the contained \c option_group implementation.
     ///
-    std::unique_ptr<option_group> option_group_ptr;
+    std::unique_ptr<option_group> group;
   };
 } // namespace ode::cli
 

@@ -9,6 +9,9 @@
 #ifndef ODE_CLI_INCLUSIVE_OPTION_GROUP_H
 #define ODE_CLI_INCLUSIVE_OPTION_GROUP_H
 
+#include <unordered_set>
+
+#include "ode/cli/option.h"
 #include "ode/cli/option_group.h"
 
 namespace ode::cli
@@ -26,34 +29,37 @@ namespace ode::cli
     /// Remarks: This constructor is the default constructor and the resulting
     /// object contains only empty values.
     ///
-    inclusive_option_group();
+    inclusive_option_group() = default;
+
+    ///
+    /// Constructs an object of the type \c inclusive_option_group.
+    ///
+    /// \param name the name of the group.
+    /// \param description the description of the group.
+    /// \param options the options which will be contained by this group.
+    ///
+    inclusive_option_group(
+        const std::string& name,
+        const std::string& description,
+        std::unordered_set<option>&& options);
+
+    ///
+    /// Constructs an object of the type \c inclusive_option_group.
+    ///
+    /// \param name the name of the group.
+    /// \param options the options which will be contained by this group.
+    ///
+    inclusive_option_group(
+        const std::string& name, std::unordered_set<option>&& options);
 
     ///
     /// Constructs an object of the type \c inclusive_option_group.
     ///
     /// The constructed group object doesn’t contain a name nor a description.
     ///
-    /// \param opts the options which will be contained by this group.
+    /// \param options the options which will be contained by this group.
     ///
-    inclusive_option_group(std::vector<option>&& opts);
-
-    ///
-    /// Constructs an object of the type \c inclusive_option_group.
-    ///
-    /// \param n the name of the group.
-    /// \param opts the options which will be contained by this group.
-    ///
-    inclusive_option_group(const std::string& n, std::vector<option>&& opts);
-
-    ///
-    /// Constructs an object of the type \c inclusive_option_group.
-    ///
-    /// \param n the name of the group.
-    /// \param d the description of the group.
-    /// \param opts the options which will be contained by this group.
-    ///
-    inclusive_option_group(
-        const std::string& n, const std::string& d, std::vector<option>&& opts);
+    inclusive_option_group(std::unordered_set<option>&& options);
 
     ///
     /// Constructs an object of the type \c inclusive_option_group by copying
@@ -107,8 +113,34 @@ namespace ode::cli
     /// \return An object of the type \c std::optional which contains an object
     /// of the type \c arguments if the parsing is successful.
     ///
-    std::optional<arguments> parse_group(
-        const int argc, ode::argv_t argv[]) const;
+    arguments parse_group(const int argc, ode::argv_t argv[]) const;
+
+    ///
+    /// Creates an object of the type \c std::string containing a formatted
+    /// string of the name, description, and options of this group.
+    ///
+    /// \return An object of the type \c std::string.
+    ///
+    std::string format_help() const;
+
+  private:
+    ///
+    /// The command line options of this group.
+    ///
+    const std::unordered_set<option> options;
+
+    ///
+    /// The name of the group.
+    ///
+    /// If no name is provided, the options in the group are added to the list
+    /// of root-level options.
+    ///
+    const std::optional<std::string> name;
+
+    ///
+    /// The description of the group.
+    ///
+    const std::optional<std::string> description;
   };
 
 } // namespace ode::cli

@@ -17,6 +17,7 @@
 #include <string>
 #include <string_view>
 #include <tuple>
+#include <unordered_set>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -120,16 +121,19 @@ namespace ode::cli
   {
   public:
     ///
+    /// The type of the value contained in the option.
+    ///
+    using contained_t = std::variant<bool, int, double, std::string>;
+
+    ///
     /// The type of the command line option values.
     ///
-    using value_t =
-        std::variant<std::nullptr_t, bool, int, double, std::string>;
+    using value_t = std::optional<contained_t>;
 
     ///
     /// The type of the objects returned when parsing a command line option.
     ///
-    using parsed_value_t =
-        std::pair<std::optional<value_t>, std::vector<gsl::index>>;
+    using parsed_value_t = std::pair<value_t, std::vector<gsl::index>>;
 
     ///
     /// The type of the objects that contain information of the options which
@@ -137,8 +141,14 @@ namespace ode::cli
     ///
     using parsed_options_t = std::vector<std::tuple<
         std::reference_wrapper<const option>,
-        std::optional<value_t>,
+        value_t,
         std::vector<gsl::index>>>;
+
+    ///
+    /// The type of the objects that contain all of the options for the parsing
+    /// of the option.
+    ///
+    using options_set_t = std::unordered_set<option>;
 
     ///
     /// Constructs an object of the type \c option.
@@ -165,7 +175,7 @@ namespace ode::cli
         const std::string& description,
         const std::optional<std::string>& meta_var,
         const option_type type,
-        const value_t& default_v,
+        const contained_t& default_v,
         const bool r);
 
     ///
@@ -185,7 +195,7 @@ namespace ode::cli
         const std::string& description,
         const std::optional<std::string>& meta_var,
         const option_type type,
-        const value_t& default_v,
+        const contained_t& default_v,
         const bool r);
 
     ///
@@ -415,10 +425,10 @@ namespace ode::cli
     ///
     /// \param argc the number of arguments passed in the execution.
     /// \param argv an array containing the arguments passed in the execution.
-    /// \param all_options an object of the type \c std::vector containing a
-    /// simple list of pointers to all of the possible options.
-    /// \param parsed_indices an object of the type \c std::vector containing
-    /// the values and indices of the command line arguments which are already
+    /// \param all_options an object of the type \c std::unordered_set
+    /// containing a simple set of all of the possible options. \param
+    /// parsed_indices an object of the type \c std::vector containing the
+    /// values and indices of the command line arguments which are already
     /// parsed and, thus, should be skipped when parsing this option.
     /// \param prefix a string which is prefixed to the long names of the
     /// options.
@@ -446,7 +456,7 @@ namespace ode::cli
     parsed_value_t parse_option(
         const int argc,
         ode::argv_t argv[],
-        const std::vector<std::reference_wrapper<const option>>& all_options,
+        const options_set_t& all_options,
         const parsed_options_t& parsed_indices,
         const std::string_view prefix,
         const std::string_view short_prefix,
@@ -489,7 +499,7 @@ namespace ode::cli
     parsed_value_t parse_option(
         const int argc,
         ode::argv_t argv[],
-        const std::vector<std::reference_wrapper<const option>>& all_options,
+        const options_set_t& all_options,
         const parsed_options_t& parsed_indices) const;
 
     ///
@@ -574,6 +584,8 @@ namespace ode::cli
 
     friend std::ostream& operator<<(std::ostream& os, const option& a);
 
+    friend struct std::hash<option>;
+
     ///
     /// The long name of the command line option.
     ///
@@ -653,5 +665,37 @@ namespace ode::cli
   std::ostream& operator<<(std::ostream& os, const option& a);
 
 } // namespace ode::cli
+
+namespace std
+{
+  ///
+  /// The specialization of the function object type \c std::hash for objects of
+  /// the type \c ode::cli::option.
+  ///
+  template <> struct hash<ode::cli::option>
+  {
+    ///
+    /// Calculates the hash of the given \c ode::cli::option.
+    ///
+    /// \param o the object for which the hash is calculated.
+    ///
+    /// \return A value of the type \c size_t.
+    ///
+    inline size_t operator()(const ode::cli::option& o) const noexcept
+    {
+      size_t h1 = hash<string>{}(o.name);
+      size_t h2 = hash<string>{}(o.alternative_name);
+      size_t h3 = hash<optional<string>>{}(o.short_name);
+      size_t h4 = hash<string>{}(o.description);
+      size_t h5 = hash<optional<string>>{}(o.meta_variable);
+      size_t h6 = hash<ode::cli::option_type>{}(o.type);
+      size_t h7 = hash<ode::cli::option::value_t>{}(o.default_value);
+      size_t h8 = hash<bool>{}(o.required);
+
+      return h1 ^ (h2 << 1) ^ (h3 << 1) ^ (h4 << 1) ^ (h5 << 1) ^ (h6 << 1) ^
+          (h7 << 1) ^ (h8 << 1);
+    }
+  };
+} // namespace std
 
 #endif // !ODE_CLI_OPTION_H

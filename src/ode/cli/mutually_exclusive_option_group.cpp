@@ -12,26 +12,42 @@
 
 namespace ode::cli
 {
-  mutually_exclusive_option_group::mutually_exclusive_option_group()
-      : option_group{}
+  mutually_exclusive_option_group::mutually_exclusive_option_group(
+      const std::string& name,
+      const std::string& description,
+      std::unordered_set<option>&& options)
+      : name{name}, description{description}, options{std::move(options)}
   {
   }
 
   mutually_exclusive_option_group::mutually_exclusive_option_group(
-      std::vector<option>&& opts)
-      : option_group{std::move(opts)}
+      const std::string& name, std::unordered_set<option>&& options)
+      : name{name}, description{std::nullopt}, options{std::move(options)}
   {
   }
 
   mutually_exclusive_option_group::mutually_exclusive_option_group(
-      const std::string& n, std::vector<option>&& opts)
-      : option_group{n, std::move(opts)}
+      std::unordered_set<option>&& options)
+      : name{std::nullopt},
+        description{std::nullopt},
+        options{std::move(options)}
   {
   }
 
-  mutually_exclusive_option_group::mutually_exclusive_option_group(
-      const std::string& n, const std::string& d, std::vector<option>&& opts)
-      : option_group{n, d, std::move(opts)}
+  arguments mutually_exclusive_option_group::parse_group(const int argc, ode::argv_t argv[]) const
   {
+    std::unordered_map<std::string, option::value_t> parsed{};
+    std::unordered_map<std::string, std::string> failed{};
+    std::unordered_set<std::string> missing{};
+    std::unordered_set<std::string> unknown{};
+
+    option::parsed_options_t parsing_values{};
+
+    return {parsed, failed, missing, unknown};
+  }
+
+  std::string mutually_exclusive_option_group::format_help() const
+  {
+    return "builder.str()";
   }
 } // namespace ode::cli
