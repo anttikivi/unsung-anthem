@@ -26,6 +26,10 @@ namespace ode::cli
   struct arguments final
   {
     ///
+    /// An object of the type \c std::string containing the first command line argument.
+    ///
+    const std::string executable;
+    ///
     /// An object of the type \c std::unordered_map containing key-value pairs
     /// where the key is the name of a command line option and the value is its
     /// parsed value.
