@@ -12,6 +12,7 @@
 
 #include "gsl/assert"
 
+#include "ode/__config"
 #include "ode/gl/gl_config.h"
 #include "ode/logger.h"
 
@@ -73,7 +74,7 @@ namespace ode::gl
       // The OpenGL shading language isn't supported in OpenGL versions below
       // 2.0
       if (minimum_gl_major_version > gl_major_version)
-        [[unlikely]]
+        ODE_UNLIKELY
         {
           ODE_TRACE(
               "The OpenGL shading language version isn't got as the OpenGL "

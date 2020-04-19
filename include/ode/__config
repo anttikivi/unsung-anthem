@@ -14,6 +14,12 @@
 #  define ODE_CONCEPTS 0
 #endif // !ODE_CXX2A
 
+#if ODE_CXX2A
+#  define ODE_UNLIKELY [[unlikely]]
+#else
+#  define ODE_UNLIKELY
+#endif
+
 #if defined(GSL_THROW_ON_CONTRACT_VIOLATION) && GSL_THROW_ON_CONTRACT_VIOLATION
 #  define ODE_CONTRACT_NOEXCEPT
 #else
