@@ -1,7 +1,6 @@
 # Copyright (c) 2018–2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
-add_subdirectory(cli)
 add_subdirectory(framework)
 add_subdirectory(gl)
 add_subdirectory(lua)

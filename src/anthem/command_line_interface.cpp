@@ -8,11 +8,13 @@
 #include "anthem/command_line_interface.h"
 
 #include <iostream>
+#include <type_traits>
 
-#include <clara.hpp>
+#include <cxxopts.hpp>
 
 #include "ode/framework/platform_manager.h"
 
+#include "anthem/config.h"
 #include "anthem/logger.h"
 
 namespace anthem
@@ -20,8 +22,6 @@ namespace anthem
   std::ostream& operator<<(std::ostream& os, const arguments& a)
   {
     return os << "{"
-              << "parsed:" << std::to_string(a.parsed)
-              << ", show_help:" << std::to_string(a.show_help)
               << ", window_width:" << std::to_string(a.window_width)
               << ", window_height:" << std::to_string(a.window_height)
               << ", window_name:" << a.window_name << "}";
@@ -31,33 +31,21 @@ namespace anthem
   {
     ANTHEM_DEBUG("Going to parse {} argument(s)", argc - 1);
 
-    bool show_help_flag = false;
-    auto window_width = default_window_width;
-    auto window_height = default_window_height;
-    auto window_name = std::string{default_window_name};
+    cxxopts::Options options{anthem_name, "A game that will receive its description later"};
 
-    auto cli = clara::Help(show_help_flag) |
-        clara::Opt(window_width, "window-width")["--window-width"](
-                   "The width of the window in pixels") |
-        clara::Opt(window_height, "window-height")["--window-height"](
-                   "The height of the window in pixels") |
-        clara::Opt(window_name, "window-name")["--window-name"](
-                   "The name of the game window");
+    options.add_options()
+      ("window-width", "The initial width of the window in pixels", cxxopts::value<int>())
+      ("window-height", "The initial height of the window in pixels", cxxopts::value<int>())
+      ("window-name", "The name of the game window", cxxopts::value<std::string>()->default_value(default_window_name));
+
+    int argc_parsing{argc};
 
 #if ODE_WINDOWS
-    auto result = cli.parse(clara::Args(argc, argv));
+    auto result = options.parse(argc_parsing, argv);
 #else
-    auto result = cli.parse(clara::Args(argc, const_cast<char**>(argv)));
+    auto result = options.parse(argc_parsing, argv);
 #endif
 
-    if (!result)
-    {
-      std::cerr << "Error in command line, '" << result.errorMessage() << "'"
-                << std::endl;
-      return arguments{false};
-    }
-
-    return arguments{
-        true, show_help_flag, window_width, window_height, window_name};
+    return arguments{result["window-width"].as<int>(), result["window-height"].as<int>(), result["window-name"].as<std::string>()};
   }
 } // namespace anthem

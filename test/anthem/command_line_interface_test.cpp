@@ -11,8 +11,7 @@
 
 TEST(anthem_parse_arguments, parsed)
 {
-  const anthem::arguments a = {
-      true, false, 555_px, 13_px, std::string{"window"}};
+  const anthem::arguments a = {555, 13, std::string{"window"}};
   ode::argv_t argv_b[] = {
       "exe",
       "--window-height=13",
@@ -48,17 +47,6 @@ TEST(anthem_parse_arguments, parsed)
   ASSERT_EQ(f.window_width, anthem::default_window_width);
   ASSERT_NE(f.window_height, anthem::default_window_height);
   ASSERT_EQ(f.window_name, default_name);
-}
-
-TEST(anthem_parse_arguments, help_argument)
-{
-  const anthem::arguments a = {true, true};
-  ode::argv_t argv_b[] = {"exe", "--help"};
-  const auto b = anthem::parse_arguments(2, argv_b);
-
-  ASSERT_EQ(b.parsed, a.parsed);
-  ASSERT_EQ(b.show_help, a.show_help);
-  ASSERT_NE(b, a);
 }
 
 TEST(anthem_parse_arguments, parse_error_is_caught)

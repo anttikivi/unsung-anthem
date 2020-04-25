@@ -19,7 +19,7 @@ namespace ode
 #if ODE_WINDOWS
   using argv_t = char*;
 #else
-  using argv_t = const char*;
+  using argv_t = char*;
 #endif // !ODE_WINDOWS
 } // namespace ode
 

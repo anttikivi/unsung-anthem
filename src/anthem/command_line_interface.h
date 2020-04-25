@@ -50,16 +50,6 @@ namespace anthem
   ///
   struct arguments final
   {
-    ///
-    /// Whether or not the arguments were parsed correctly by the parsing
-    /// function.
-    ///
-    const bool parsed = false;
-
-    ///
-    /// Whether or not the help message should be shown.
-    ///
-    const bool show_help = false;
 
     ///
     /// The starting width of the window.
