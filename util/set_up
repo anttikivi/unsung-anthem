@@ -3,7 +3,7 @@
 # Copyright (c) 2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
-set -ex
+set -e
 
 readonly COMPOSER_VERSION="$(cat ${0%/*}/composer-version)"
 readonly COMPOSER_VERSION_TAG="v$COMPOSER_VERSION"
