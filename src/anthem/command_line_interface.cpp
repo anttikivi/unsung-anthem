@@ -31,12 +31,19 @@ namespace anthem
   {
     ANTHEM_DEBUG("Going to parse {} argument(s)", argc - 1);
 
-    cxxopts::Options options{anthem_name, "A game that will receive its description later"};
+    cxxopts::Options options{
+        anthem_name, "A game that will receive its description later"};
 
-    options.add_options()
-      ("window-width", "The initial width of the window in pixels", cxxopts::value<int>())
-      ("window-height", "The initial height of the window in pixels", cxxopts::value<int>())
-      ("window-name", "The name of the game window", cxxopts::value<std::string>()->default_value(default_window_name));
+    options.add_options()(
+        "window-width",
+        "The initial width of the window in pixels",
+        cxxopts::value<int>())(
+        "window-height",
+        "The initial height of the window in pixels",
+        cxxopts::value<int>())(
+        "window-name",
+        "The name of the game window",
+        cxxopts::value<std::string>()->default_value(default_window_name));
 
     int argc_parsing{argc};
 
@@ -46,6 +53,9 @@ namespace anthem
     auto result = options.parse(argc_parsing, argv);
 #endif
 
-    return arguments{result["window-width"].as<int>(), result["window-height"].as<int>(), result["window-name"].as<std::string>()};
+    return arguments{
+        result["window-width"].as<int>(),
+        result["window-height"].as<int>(),
+        result["window-name"].as<std::string>()};
   }
 } // namespace anthem
