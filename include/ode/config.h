@@ -20,6 +20,15 @@ namespace ode
 #endif // !defined(ODE_PRODUCT_NAME)
 
   ///
+  /// The version of the product.
+  ///
+#ifdef ODE_VERSION
+  constexpr auto ode_version = ODE_VERSION;
+#else
+  constexpr auto ode_version = "invalid-version";
+#endif // !defined(ODE_VERSION)
+
+  ///
   /// The root directory of the game scripts.
   ///
 #ifdef ODE_SCRIPT_ROOT

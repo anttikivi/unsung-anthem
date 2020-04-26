@@ -19,7 +19,7 @@
 
 namespace anthem
 {
-  int run(int argc, ode::argv_t argv[])
+  int run(int argc, char* argv[])
   {
     logger = ode::create_logger(logger_name, logger_pattern, logger_level);
 
@@ -47,12 +47,17 @@ namespace anthem
       ANTHEM_ERROR("{} is built for an unknown platform", anthem_name);
     }
 
-    const auto args = parse_arguments(argc, argv);
+    const auto [parsed, args] = parse_arguments(argc, argv);
+
+    if (!parsed)
+    {
+      return EXIT_SUCCESS;
+    }
 
     ANTHEM_TRACE("The following values are set to the arguments:\n{}", args);
 
     const auto info = ode::execution_info{
-        argc, argv, args.window_width, args.window_height, args.window_name};
+        args.window_width, args.window_height, args.window_name};
 
     auto app = application{};
     auto engine = ode::make_engine(std::move(app), info);

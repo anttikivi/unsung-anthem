@@ -12,13 +12,13 @@
 TEST(anthem_parse_arguments, parsed)
 {
   const anthem::arguments a = {555, 13, std::string{"window"}};
-  ode::argv_t argv_b[] = {
+  char* argv_b[] = {
       "exe",
       "--window-height=13",
       "--window-width=555",
       "--window-name=window"};
-  ode::argv_t argv_c[] = {"exe", "--window-height=423", "--window-width=22"};
-  ode::argv_t argv_d[] = {
+  char* argv_c[] = {"exe", "--window-height=423", "--window-width=22"};
+  char* argv_d[] = {
       "exe",
       "--window-height",
       "13",
@@ -26,16 +26,21 @@ TEST(anthem_parse_arguments, parsed)
       "555",
       "--window-name",
       "window"};
-  ode::argv_t argv_e[] = {"exe"};
-  ode::argv_t argv_f[] = {"exe", "--window-height", "13"};
-  const auto b = anthem::parse_arguments(4, argv_b);
-  const auto c = anthem::parse_arguments(3, argv_c);
-  const auto d = anthem::parse_arguments(7, argv_d);
-  const auto e = anthem::parse_arguments(1, argv_e);
-  const auto f = anthem::parse_arguments(3, argv_f);
+  char* argv_e[] = {"exe"};
+  char* argv_f[] = {"exe", "--window-height", "13"};
+  const auto [parsed_b, b] = anthem::parse_arguments(4, argv_b);
+  const auto [parsed_c, c] = anthem::parse_arguments(3, argv_c);
+  const auto [parsed_d, d] = anthem::parse_arguments(7, argv_d);
+  const auto [parsed_e, e] = anthem::parse_arguments(1, argv_e);
+  const auto [parsed_f, f] = anthem::parse_arguments(3, argv_f);
 
   const std::string default_name = std::string{anthem::default_window_name};
 
+  ASSERT_TRUE(parsed_b);
+  ASSERT_TRUE(parsed_c);
+  ASSERT_TRUE(parsed_d);
+  ASSERT_TRUE(parsed_e);
+  ASSERT_TRUE(parsed_f);
   ASSERT_EQ(b, a);
   ASSERT_NE(c, a);
   ASSERT_EQ(b, d);
@@ -51,9 +56,10 @@ TEST(anthem_parse_arguments, parsed)
 
 TEST(anthem_parse_arguments, parse_error_is_caught)
 {
-  const anthem::arguments a = {false};
-  ode::argv_t argv_b[] = {"exe", "--xd"};
-  const auto b = anthem::parse_arguments(2, argv_b);
+  const anthem::arguments a = {};
+  char* argv_b[] = {"exe", "--xd"};
+  const auto [parsed_b, b] = anthem::parse_arguments(2, argv_b);
 
+  ASSERT_FALSE(parsed_b);
   ASSERT_EQ(b, a);
 }

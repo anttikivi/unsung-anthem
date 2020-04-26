@@ -17,7 +17,7 @@
 ///
 /// \return The end code of the program.
 ///
-int main(int argc, ode::argv_t argv[])
+int main(int argc, char* argv[])
 {
   const int r = anthem::run(argc, argv);
   return r;

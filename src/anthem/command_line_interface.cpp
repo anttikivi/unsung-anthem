@@ -27,35 +27,56 @@ namespace anthem
               << ", window_name:" << a.window_name << "}";
   }
 
-  arguments parse_arguments(const int argc, ode::argv_t argv[]) noexcept
+  std::pair<bool, arguments> parse_arguments(
+      const int argc, char* argv[]) noexcept
   {
     ANTHEM_DEBUG("Going to parse {} argument(s)", argc - 1);
 
     cxxopts::Options options{
         anthem_name, "A game that will receive its description later"};
 
-    options.add_options()(
+    options.add_options()("h,help", "Print the program usage and exit")(
+        "version", "Print the program version and exit")(
         "window-width",
-        "The initial width of the window in pixels",
-        cxxopts::value<int>())(
+        "Set the initial width of the window in pixels",
+        cxxopts::value<ode::pixel_t>()->default_value(
+            default_window_width_value))(
         "window-height",
-        "The initial height of the window in pixels",
-        cxxopts::value<int>())(
+        "Set the initial height of the window in pixels",
+        cxxopts::value<ode::pixel_t>()->default_value(
+            default_window_height_value))(
         "window-name",
-        "The name of the game window",
-        cxxopts::value<std::string>()->default_value(default_window_name));
+        "Set the name of the game window",
+        cxxopts::value<std::string>()->default_value(
+            default_window_name_value));
 
-    int argc_parsing{argc};
+    try
+    {
+      int argc_parsing{argc};
+      auto result = options.parse(argc_parsing, argv);
 
-#if ODE_WINDOWS
-    auto result = options.parse(argc_parsing, argv);
-#else
-    auto result = options.parse(argc_parsing, argv);
-#endif
+      if (result.count("help") > 0)
+      {
+        std::cout << options.help() << '\n';
+        return {false, {}};
+      }
 
-    return arguments{
-        result["window-width"].as<int>(),
-        result["window-height"].as<int>(),
-        result["window-name"].as<std::string>()};
+      if (result.count("version") > 0)
+      {
+        std::cout << anthem_version << '\n';
+        return {false, {}};
+      }
+
+      return {
+          true,
+          {result["window-width"].as<ode::pixel_t>(),
+           result["window-height"].as<ode::pixel_t>(),
+           result["window-name"].as<std::string>()}};
+    }
+    catch (const cxxopts::OptionParseException& e)
+    {
+      std::cerr << e.what() << '\n';
+      return {false, {}};
+    }
   }
 } // namespace anthem

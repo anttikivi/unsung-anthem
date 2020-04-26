@@ -10,8 +10,6 @@
 
 #include <cstdlib>
 
-#include "ode/argv_t.h"
-
 namespace anthem
 {
   ///
@@ -25,7 +23,7 @@ namespace anthem
   ///
   /// \return A value which represents the end code of the program.
   ///
-  int run(int argc, ode::argv_t argv[]);
+  int run(int argc, char* argv[]);
 
 } // namespace anthem
 

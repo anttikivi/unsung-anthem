@@ -113,6 +113,7 @@ set_std_flags(${ODE_STD})
 set_linker_flags()
 
 add_name_definitions()
+add_version_definitions()
 add_opengl_definitions()
 add_directory_definitions()
 add_feature_definitions()

@@ -10,12 +10,12 @@
 
 #include <string>
 
-#include "ode/argv_t.h"
-#include "ode/pixel_count.h"
+#include "ode/pixel_t.h"
 
 namespace ode
 {
   using namespace std::literals::string_literals;
+  using namespace literals::number_literals;
 
   ///
   /// The type of the objects which are used to pass information according to
@@ -24,24 +24,14 @@ namespace ode
   struct execution_info final
   {
     ///
-    /// The number of the command line arguments passed to the program.
-    ///
-    const int argc;
-
-    ///
-    /// The command line arguments passed to the program.
-    ///
-    const argv_t* argv;
-
-    ///
     /// The starting width of the window.
     ///
-    const pixel_count window_width = 0_px;
+    const pixel_t window_width = 0_px;
 
     ///
     /// The starting height of the window.
     ///
-    const pixel_count window_height = 0_px;
+    const pixel_t window_height = 0_px;
 
     ///
     /// The name of the window.

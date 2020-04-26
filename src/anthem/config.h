@@ -16,8 +16,17 @@ namespace anthem
 #ifdef ANTHEM_PRODUCT_NAME
   constexpr auto anthem_name = ANTHEM_PRODUCT_NAME;
 #else
-  constexpr auto anthem_name = "Unsung Anthem";
+  constexpr auto anthem_name = "anthem";
 #endif // !defined(ANTHEM_PRODUCT_NAME)
+
+  ///
+  /// The version of the product.
+  ///
+#ifdef ANTHEM_VERSION
+  constexpr auto anthem_version = ANTHEM_VERSION;
+#else
+  constexpr auto anthem_version = "invalid-version";
+#endif // !defined(ANTHEM_VERSION)
 
   ///
   /// The root directory of the game scripts.

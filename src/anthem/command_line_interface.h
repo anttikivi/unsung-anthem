@@ -10,24 +10,29 @@
 #define ANTHEM_COMMAND_LINE_INTERFACE_H
 
 #include <string>
+#include <utility>
 
 // This must be included for the custom logger object to work.
 #include <spdlog/fmt/ostr.h>
 
-#include "ode/argv_t.h"
-#include "ode/pixel_count.h"
+#include "ode/pixel_t.h"
 
 namespace anthem
 {
   using namespace std::literals::string_literals;
+  using namespace ode::literals::number_literals;
+
+  //===--------------------------------------------------------------------===//
+  //===--- Default literal values -----------------------------------------===//
+  //===--------------------------------------------------------------------===//
 
   ///
-  /// The default width of the window in pixels.
+  /// The default initial width of the window in pixels.
   ///
   constexpr auto default_window_width = 400_px;
 
   ///
-  /// The default height of the window in pixels.
+  /// The default initial height of the window in pixels.
   ///
   constexpr auto default_window_height = 240_px;
 
@@ -44,6 +49,28 @@ namespace anthem
 #  endif // !defined(ODE_WINDOW_NAME)
 #endif // !defined(ANTHEM_WINDOW_NAME)
 
+  //===--------------------------------------------------------------------===//
+  //===--- Default values for command line options ------------------------===//
+  //===--------------------------------------------------------------------===//
+
+  ///
+  /// The default value passed for the the command line option for the initial
+  /// width of the window in pixels.
+  ///
+  constexpr auto default_window_width_value = "400";
+
+  ///
+  /// The default value passed for the the command line option for the initial
+  /// height of the window in pixels.
+  ///
+  constexpr auto default_window_height_value = "240";
+
+  ///
+  /// The default value passed for the the command line option for the name of
+  /// the window.
+  ///
+  constexpr auto default_window_name_value = default_window_name;
+
   ///
   /// The type of the objects which hold the parsed information of command line
   /// arguments.
@@ -53,12 +80,12 @@ namespace anthem
     ///
     /// The starting width of the window.
     ///
-    const ode::pixel_count window_width = 0_px;
+    const ode::pixel_t window_width = 0_px;
 
     ///
     /// The starting height of the window.
     ///
-    const ode::pixel_count window_height = 0_px;
+    const ode::pixel_t window_height = 0_px;
 
     ///
     /// The name of the window.
@@ -109,15 +136,19 @@ namespace anthem
   std::ostream& operator<<(std::ostream& os, const arguments& a);
 
   ///
-  /// Returns an object of the type \c arguments which contains the values set
-  /// when executing the program from the command line.
+  /// Returns an object of the type \c std::pair, the first element of which
+  /// contains a Boolean value telling whether the command line arguments were
+  /// parsed properly and the second element of which contains an object of the
+  /// type \c arguments which contains the values set when executing the program
+  /// from the command line.
   ///
   /// \param argc the number of arguments passed in the execution.
   /// \param argv the array containing the arguments passed in the execution.
   ///
-  /// \return An object of the type \c arguments.
+  /// \return An object of the type \c std::pair.
   ///
-  arguments parse_arguments(const int argc, ode::argv_t argv[]) noexcept;
+  std::pair<bool, arguments> parse_arguments(
+      const int argc, char* argv[]) noexcept;
 
 } // namespace anthem
 

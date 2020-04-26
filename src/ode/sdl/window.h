@@ -10,12 +10,13 @@
 
 #include <string>
 
-#include "ode/pixel_count.h"
+#include "ode/pixel_t.h"
 #include "ode/sdl/sdl_window_t.h"
 
 namespace ode::sdl
 {
   using namespace std::literals::string_literals;
+  using namespace literals::number_literals;
 
   ///
   /// The type of the objects which hold the data which are used to create a
@@ -26,12 +27,12 @@ namespace ode::sdl
     ///
     /// The initial width of the window.
     ///
-    const pixel_count window_width = 0_px;
+    const pixel_t window_width = 0_px;
 
     ///
     /// The initial height of the window.
     ///
-    const pixel_count window_height = 0_px;
+    const pixel_t window_height = 0_px;
 
     ///
     /// The initial name of the window.
