@@ -22,10 +22,8 @@ set composer_repo_url=%github_url%/%composer_repo_owner%/^
 
 if defined ODE_SOURCE_ROOT (
   if not "%ODE_SOURCE_ROOT%"=="" (
-    if "%ODE_SOURCE_ROOT%"==true (
-      cd %ODE_SOURCE_ROOT%
-      goto run_with_working_dir
-    )
+    cd %ODE_SOURCE_ROOT%
+    goto run_with_working_dir
   )
 )
 

@@ -22,10 +22,10 @@ $COMPOSER_REPO_NAME.git"
 
 # Switch to the correct directory.
 
-if [ "$ODE_SOURCE_ROOT" = true ]; then
-  cd $ODE_SOURCE_ROOT
-else
+if [ -z "$ODE_SOURCE_ROOT" ]; then
   cd ..
+else
+  cd $ODE_SOURCE_ROOT
 fi
 
 echo "The working directory is set to $PWD"
