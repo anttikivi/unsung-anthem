@@ -61,4 +61,4 @@ When the configuring script has finished, run the build script.
 
 ## Roadmap
 
-For details on our planned features and future direction please refer to the [roadmap (not available yet)](https://github.com/anttikivi/unsung-anthem) project.
+For details on our planned features and future direction please refer to the [roadmap (not available yet)](#) project.
