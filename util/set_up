@@ -70,14 +70,16 @@ $COMPOSER_NAME will be cloned"
 
     echo "The SHA1 for the currently cloned HEAD of $COMPOSER_NAME is $head_sha"
   else
+    git -C $composer_directory fetch
     head_sha="$(git -C $composer_directory rev-parse HEAD)"
     origin_sha="$(git -C $composer_directory rev-parse origin/develop)"
 
     echo "The SHA1 for the currently cloned HEAD of $COMPOSER_NAME is $head_sha"
+    echo "The SHA1 for origin/develop of $COMPOSER_NAME is $origin_sha"
 
     if [ "$head_sha" != "$origin_sha" ]; then
-      echo "The SHA1 for origin/develop of $COMPOSER_NAME is $origin_sha and, \
-thus, the local copy will be reset"
+      echo "The SHA1's for origin/develop and local HEAD of $COMPOSER_NAME \
+don't match and thus the local copy will be reset"
       git -C $composer_directory reset --hard HEAD
       git -C $composer_directory clean -xffd
       git -C $composer_directory pull

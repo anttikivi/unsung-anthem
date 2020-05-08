@@ -101,6 +101,8 @@ echo The SHA1 for the currently cloned HEAD of %composer_name% is %head_sha%
 goto finalize_dev_setup
 
 :get_dev_existing_dir
+start "git fetch" /w /b git -C %composer_directory% fetch
+
 for /f %%i in ('git -C %composer_directory% rev-parse HEAD') do set head_sha=%%i
 
 for /f %%i in ('git -C %composer_directory% rev-parse origin/develop') do (
@@ -108,10 +110,11 @@ for /f %%i in ('git -C %composer_directory% rev-parse origin/develop') do (
 )
 
 echo The SHA1 for the currently cloned HEAD of %composer_name% is %head_sha%
+echo The SHA1 for origin/develop of %composer_name% is %origin_sha%
 
 if not %head_sha%==%origin_sha% (
-  echo The SHA1 for origin/develop of %composer_name% is %origin_sha% and, ^
-thus, the local copy will be reset
+  echo The SHA1's for origin/develop and local HEAD of %composer_name% don't ^
+match and thus the local copy will be reset
   start "git reset" /w /b git -C %composer_directory% reset --hard HEAD
   start "git clean" /w /b git -C %composer_directory% clean -xffd
   start "git pull" /w /b git -C %composer_directory% pull
