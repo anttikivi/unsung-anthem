@@ -11,14 +11,33 @@ echo Running the Windows batch file wrapper for %composer_name%, the build ^
 script of %ode_name% and %anthem_name%
 echo %composer_name% will be run in composing mode
 
-set root_dir=%cd%
+@rem Set the current directory to the source root while setting the directory constants.
+
+set current_working_directory=%cd%
+
+if defined ODE_SOURCE_ROOT (
+  if not "%ODE_SOURCE_ROOT%"=="" (
+    cd %ODE_SOURCE_ROOT%
+    goto set_directories
+  )
+)
+
+cd ..
+
+goto set_directories
+
+:set_directories
+echo The working directory is set to %cd%
 
 set build_directory_name=build
 set project_directory_name=unsung-anthem
 
-set build_directory=%root_dir%\%build_directory_name%
-set in_tree_build_directory=%root_dir%\%project_directory_name%\^
-%build_directory_name%
+set build_directory=%cd%\%build_directory_name%
+set in_tree_build_directory=%cd%\%project_directory_name%\%build_directory_name%
+
+cd %current_working_directory%
+
+echo The working directory is set to %cd%
 
 set in_tree_build_option=--in-tree-build
 
@@ -50,11 +69,33 @@ if not exist %in_tree_build_directory% (
 @rem Set up Couplet Composer
 
 set current_directory=%~dp0
+set current_working_directory=%cd%
 
-call %current_directory%\set_up %*
+call %current_directory%\util\set_up %*
+
+@rem Change back to the directory of this script to prevent the set-up script
+@rem from messing up the working directory.
+
+cd %current_working_directory%
+echo The working directory is set to %cd%
+
+@rem Switch to the correct directory.
+
+if defined ODE_SOURCE_ROOT (
+  if not "%ODE_SOURCE_ROOT%"=="" (
+    cd %ODE_SOURCE_ROOT%
+    goto run_composer
+  )
+)
+
+cd ..
+set ODE_SOURCE_ROOT=%cd%
+
+goto run_composer
 
 @rem Run Couplet Composer
 
+:run_composer
 set preset_mode=false
 
 if "%~1"=="%preset_mode_argument%" set preset_mode=true

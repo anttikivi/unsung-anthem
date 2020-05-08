@@ -13,13 +13,27 @@ echo "Running the shell script wrapper for $COMPOSER_NAME, the build script \
 of $ODE_NAME and $ANTHEM_NAME"
 echo "$COMPOSER_NAME will be run in composing mode"
 
-# TODO: Get the root using the current directory of this script.
-readonly ROOT_DIR="."
+# Set the current directory to the source root while setting the directory constants.
+
+current_working_directory=$PWD
+
+if [ -z "$ODE_SOURCE_ROOT" ]; then
+  cd ..
+else
+  cd $ODE_SOURCE_ROOT
+fi
+
+echo "The working directory is set to $PWD"
+
 readonly BUILD_DIRECTORY_NAME="build"
 readonly PROJECT_DIRECTORY_NAME="unsung-anthem"
-readonly BUILD_DIRECTORY="$ROOT_DIR/$BUILD_DIRECTORY_NAME"
-readonly IN_TREE_BUILD_DIRECTORY="$ROOT_DIR/$PROJECT_DIRECTORY_NAME\
+readonly BUILD_DIRECTORY="$PWD/$BUILD_DIRECTORY_NAME"
+readonly IN_TREE_BUILD_DIRECTORY="$PWD/$PROJECT_DIRECTORY_NAME\
 /$BUILD_DIRECTORY_NAME"
+
+cd $current_working_directory
+
+echo "The working directory is set to $PWD"
 
 readonly IN_TREE_BUILD_OPTION="--in-tree-build"
 
@@ -58,10 +72,28 @@ fi
 # Set up Couplet Composer
 
 current_directory="${0%/*}"
+current_working_directory=$PWD
 
-$current_directory/set_up "$@"
+$current_directory/util/set_up "$@"
 
-# Run the script
+# Change back to the directory of this script to prevent the set-up script from
+# messing up the working directory.
+
+cd $current_working_directory
+echo "The working directory is set to $PWD"
+
+# Switch to the correct directory.
+
+if [ -z "$ODE_SOURCE_ROOT" ]; then
+  cd ..
+  ODE_SOURCE_ROOT=$PWD
+else
+  cd $ODE_SOURCE_ROOT
+fi
+
+echo "The working directory is set to $PWD"
+
+# Run Couplet Composer
 
 preset_mode=false
 
