@@ -5,5 +5,4 @@ extraction:
   cpp:
     configure:
       command:
-      - cd ..
-      - ./unsung-anthem/util/configure preset --name main_workflow_linux --in-tree-build
+      - ./util/configure preset --name main_workflow_linux --in-tree-build
