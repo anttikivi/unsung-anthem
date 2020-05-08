@@ -54,7 +54,7 @@ fi
 
 # Clone Couplet Composer
 
-if [ "$ODE_USE_DEVELOPMENT_COMPOSER" = true ]; then
+if [ "$ODE_DEVELOPMENT_COMPOSER" = true ]; then
   echo "Using development version of $COMPOSER_NAME"
 
   composer_directory="$SCRIPT_DIRECTORY/$COMPOSER_HEAD_DIRECTORY_NAME"

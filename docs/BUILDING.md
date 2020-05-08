@@ -522,6 +522,6 @@ Enables writing of the logger output in the tests if the tests are built.
 
 In addition to the command line options, Couplet Composer and the utility scripts can be configured by a couple of environment variables. The environment variables are not for standard everyday use but rather for miscellaneous debugging and testing.
 
-**`ODE_USE_DEVELOPMENT_COMPOSER`**
+**`ODE_DEVELOPMENT_COMPOSER`**
 
-If `ODE_USE_DEVELOPMENT_COMPOSER` is set to `true`, the utility script uses the latest development version of Couplet Composer instead of the release version it normally would.
+If `ODE_DEVELOPMENT_COMPOSER` is set to `true`, the utility script uses the latest development version of Couplet Composer instead of the release version it normally would.

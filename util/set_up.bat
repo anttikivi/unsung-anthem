@@ -59,9 +59,9 @@ echo Created the directory '%script_directory%'
 
 @rem Clone Couplet Composer
 
-if defined ODE_USE_DEVELOPMENT_COMPOSER (
-  if not "%ODE_USE_DEVELOPMENT_COMPOSER%"=="" (
-    if "%ODE_USE_DEVELOPMENT_COMPOSER%"==true (
+if defined ODE_DEVELOPMENT_COMPOSER (
+  if not "%ODE_DEVELOPMENT_COMPOSER%"=="" (
+    if "%ODE_DEVELOPMENT_COMPOSER%"==true (
       goto get_development_composer
     )
   )
