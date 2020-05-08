@@ -12,6 +12,12 @@ jobs:
         os: [ubuntu-18.04, macos-10.15, windows-2019]
         lint: [false]
         include:
+          - os: ubuntu-18.04
+            artefact-platform: ubuntu-18.04
+          - os: macos-10.15
+            artefact-platform: macos-catalina
+          - os: windows-2019
+            artefact-platform: windows
           - lint: true
             os: ubuntu-18.04
 
@@ -69,5 +75,5 @@ jobs:
     - name: Upload artefacts
       uses: actions/upload-artifact@v2
       with:
-        name: anthem-build-${{ runner.os }}
+        name: anthem-actions-${{ matrix.artefact-platform }}.zip
         path: build/artefacts/anthem-*
