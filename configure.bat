@@ -19,13 +19,15 @@ set composer_executable_name=couplet-composer
 @rem Set up Couplet Composer
 
 set current_directory=%~dp0
+set current_working_directory=%cd%
 
 call %current_directory%\util\set_up %*
 
 @rem Change back to the directory of this script to prevent the set-up script
 @rem from messing up the working directory.
 
-cd %current_directory%
+cd %current_working_directory%
+echo The working directory is set to %cd%
 
 @rem Switch to the correct directory.
 

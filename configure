@@ -21,13 +21,15 @@ readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
 # Set up Couplet Composer
 
 current_directory="${0%/*}"
+current_working_directory=$PWD
 
 $current_directory/util/set_up "$@"
 
 # Change back to the directory of this script to prevent the set-up script from
 # messing up the working directory.
 
-cd $current_directory
+cd $current_working_directory
+echo "The working directory is set to $PWD"
 
 # Switch to the correct directory.
 
