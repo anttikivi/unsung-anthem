@@ -63,7 +63,7 @@ jobs:
         .\\test-anthem.exe
       if: runner.os == 'Windows' && matrix.lint == false
       shell: bash
-    - name: Run linter
+    - name: Lint the code
       run: ./compose preset --name main_workflow_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: matrix.lint == true
     - name: Upload Linux artefacts
