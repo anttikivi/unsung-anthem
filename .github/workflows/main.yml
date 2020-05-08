@@ -31,21 +31,14 @@ jobs:
       run: .\configure preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       shell: cmd
-    - name: Build Obliging Ode and Unsung Anthem
-      run: |
-        cd $GITHUB_WORKSPACE/..
-        if [ "${{ runner.os }}" = "Linux" ]; then
-          preset_name="main_workflow_linux"
-        else
-          preset_name="main_workflow_unix"
-        fi
-        ./unsung-anthem/util/compose preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      if: runner.os != 'Windows'
+    - name: Build Obliging Ode and Unsung Anthem on Linux
+      run: ./compose preset --name main_workflow_linux --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      if: runner.os == 'Linux'
+    - name: Build Obliging Ode and Unsung Anthem on Darwin
+      run: ./compose preset --name main_workflow_unix --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      if: runner.os == 'macOS'
     - name: Build Obliging Ode and Unsung Anthem on Windows
-      run: |
-        cd %GITHUB_WORKSPACE%\..
-        echo %cd%
-        .\unsung-anthem\util\compose preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: .\compose preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       shell: cmd
     - name: Run the tests
