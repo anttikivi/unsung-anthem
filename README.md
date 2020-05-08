@@ -48,11 +48,12 @@ Then clone the GitHub repository of Obliging Ode and Unsung Anthem.
 
 After cloning the source, run the configuring script to set up the build environment.
 
-    ./unsung-anthem/util/configure
+    cd unsung-anthem
+    ./configure
 
 When the configuring script has finished, run the build script.
 
-    ./unsung-anthem/util/compose
+    ./compose
 
 
 ## Roadmap

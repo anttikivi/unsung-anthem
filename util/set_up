@@ -20,7 +20,17 @@ readonly COMPOSER_REPO_NAME="couplet-composer"
 readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
 $COMPOSER_REPO_NAME.git"
 
-readonly ROOT_DIR="."
+# $WORKING_DIR is the directory that the script switches to before installing
+# the script. $ROOT_DIR is the value used as the root for paths while operating
+# in $WORKING_DIR.
+
+if [ "$ODE_SOURCE_ROOT" = true ]; then
+  readonly WORKING_DIR="$ODE_SOURCE_ROOT"
+  readonly ROOT_DIR="$ODE_SOURCE_ROOT"
+else
+  readonly WORKING_DIR=".."
+  readonly ROOT_DIR="."
+fi
 
 readonly SCRIPT_DIRECTORY_NAME="script"
 readonly COMPOSER_DIRECTORY_BASE_NAME="composer"
@@ -36,6 +46,10 @@ command -v pipenv >/dev/null 2>&1 || {
   echo >&2 "Didn't find pipenv. Installing."
   pip install pipenv
 }
+
+# Switch to the correct directory.
+
+cd $WORKING_DIR
 
 # Set up the script directory
 

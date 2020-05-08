@@ -18,8 +18,27 @@ set composer_repo_name=couplet-composer
 set composer_repo_url=%github_url%/%composer_repo_owner%/^
 %composer_repo_name%.git
 
+@rem $working_dir is the directory that the script switches to before
+@rem installing the script. $root_dir is the value used as the root for paths
+@rem while operating in $working_dir.
+
 set root_dir=%cd%
 
+if defined ODE_SOURCE_ROOT (
+  if not "%ODE_SOURCE_ROOT%"=="" (
+    if "%ODE_SOURCE_ROOT%"==true (
+      set working_dir=%ODE_SOURCE_ROOT%
+      set root_dir=%ODE_SOURCE_ROOT%
+      goto run_with_working_and_root_dirs
+    )
+  )
+)
+
+set working_dir=..
+set root_dir=.
+goto run_with_working_and_root_dirs
+
+:run_with_working_and_root_dirs
 set script_directory_name=script
 set composer_directory_base_name=composer
 set composer_directory_name=%composer_directory_base_name%_^
@@ -36,6 +55,10 @@ if %ERRORLEVEL% neq 0 (
   echo Didn't find pipenv. Installing.
   start "pip" /w /b pip install pipenv
 )
+
+@rem Switch to the correct directory.
+
+cd %working_dir%
 
 @rem Set up the script directory
 

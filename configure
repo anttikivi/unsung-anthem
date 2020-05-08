@@ -22,7 +22,7 @@ readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
 
 current_directory="${0%/*}"
 
-$current_directory/set_up "$@"
+$current_directory/util/set_up "$@"
 
 # Run Couplet Composer
 
