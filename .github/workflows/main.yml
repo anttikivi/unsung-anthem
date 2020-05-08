@@ -23,19 +23,15 @@ jobs:
       uses: actions/setup-python@v1.1.1
     - name: Set up build environment
       run: |
-        cd $GITHUB_WORKSPACE/..
         if [ "${{ runner.os }}" = "Linux" ]; then
           preset_name="main_workflow_linux"
         else
           preset_name="main_workflow_unix"
         fi
-        ./unsung-anthem/util/configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+        ./configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os != 'Windows'
     - name: Set up build environment on Windows
-      run: |
-        cd %GITHUB_WORKSPACE%\..
-        echo %cd%
-        .\unsung-anthem\util\configure preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: .\configure preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       shell: cmd
     - name: Build Obliging Ode and Unsung Anthem
