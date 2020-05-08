@@ -21,15 +21,12 @@ jobs:
         sudo apt-get install xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libglvnd-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
     - name: Setup Python environment
       uses: actions/setup-python@v1.1.1
-    - name: Set up build environment
-      run: |
-        if [ "${{ runner.os }}" = "Linux" ]; then
-          preset_name="main_workflow_linux"
-        else
-          preset_name="main_workflow_unix"
-        fi
-        ./configure preset --name $preset_name --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      if: runner.os != 'Windows'
+    - name: Set up build environment on Linux
+      run: ./configure preset --name main_workflow_linux --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      if: runner.os == 'Linux'
+    - name: Set up build environment on Darwin
+      run: ./configure preset --name main_workflow_unix --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      if: runner.os == 'macOS'
     - name: Set up build environment on Windows
       run: .\configure preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
