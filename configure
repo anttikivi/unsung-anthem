@@ -24,6 +24,11 @@ current_directory="${0%/*}"
 
 $current_directory/util/set_up "$@"
 
+# Change back to the directory of this script to prevent the set-up script from
+# messing up the working directory.
+
+cd $current_directory
+
 # Switch to the correct directory.
 
 if [ -z "$ODE_SOURCE_ROOT" ]; then

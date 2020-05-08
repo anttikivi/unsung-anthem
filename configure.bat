@@ -22,6 +22,11 @@ set current_directory=%~dp0
 
 call %current_directory%\util\set_up %*
 
+@rem Change back to the directory of this script to prevent the set-up script
+@rem from messing up the working directory.
+
+cd %current_directory%
+
 @rem Switch to the correct directory.
 
 if defined ODE_SOURCE_ROOT (
