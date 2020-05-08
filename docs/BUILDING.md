@@ -38,7 +38,7 @@ To build Obliging Ode and Unsung Anthem on any platform, you’ll need at least 
 
 * [Git](https://git-scm.com)
 * [Python](https://python.org)
-  * You should prefer Python 3 over Python 2.7 as the support for Python 2 has ended. However, the build script also works with Python 2.7 for compatibility reasons.
+  * You should prefer Python 3 over Python 2.7 as the support for Python 2 has ended. However, the build script also works with Python 2.7 to be backwards compatible.
 * A C++ compiler toolchain that supports at least C++17
   * **Linux**
     * `make`
@@ -78,21 +78,25 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
         git clone https://github.com/anttikivi/unsung-anthem.git
 
-3. Set up the build environment by running Couplet Composer in configuring mode.
+3. Switch to the cloned directory.
 
-        ./unsung-anthem/util/configure
+        cd unsung-anthem
+
+4. Set up the build environment by running Couplet Composer in configuring mode.
+
+        ./configure
 
   * To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
-          ./unsung-anthem/util/configure preset --name PRESET_NAME
+          ./configure preset --name PRESET_NAME
 
-4. Build Obliging Ode and Unsung Anthem by running Couplet Composer in composing mode.
+5. Build Obliging Ode and Unsung Anthem by running Couplet Composer in composing mode.
 
-        ./unsung-anthem/util/compose
+        ./compose
 
   * To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
-          ./unsung-anthem/util/compose preset --name PRESET_NAME
+          ./compose preset --name PRESET_NAME
 
 **Note:** The build can be configured by using option presets and command line options. For more information, see the section [Configuring the Build](#configuring-the-build).
 
@@ -109,21 +113,25 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
         git clone https://github.com/anttikivi/unsung-anthem.git
 
-3. Set up the build environment by running Couplet Composer in configuring mode.
+3. Switch to the cloned directory.
 
-        ./unsung-anthem/util/configure
+        cd unsung-anthem
+
+4. Set up the build environment by running Couplet Composer in configuring mode.
+
+        ./configure
 
   * To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
-          ./unsung-anthem/util/configure preset --name PRESET_NAME
+          ./configure preset --name PRESET_NAME
 
-4. Build Obliging Ode and Unsung Anthem by running Couplet Composer in composing mode.
+5. Build Obliging Ode and Unsung Anthem by running Couplet Composer in composing mode.
 
-        ./unsung-anthem/util/compose
+        ./compose
 
   * To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
-          ./unsung-anthem/util/compose preset --name PRESET_NAME
+          ./compose preset --name PRESET_NAME
 
 **Note:** The build can be configured by using option presets and command line options. For more information, see the section [Configuring the Build](#configuring-the-build).
 
@@ -140,21 +148,25 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
         git clone https://github.com/anttikivi/unsung-anthem.git
 
-3. Set up the build environment by running Couplet Composer in configuring mode.
+3. Switch to the cloned directory.
 
-        .\unsung-anthem\util\configure
+        cd unsung-anthem
+
+4. Set up the build environment by running Couplet Composer in configuring mode.
+
+        .\configure
 
   * To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
-          .\unsung-anthem\util\configure preset --name PRESET_NAME
+          .\configure preset --name PRESET_NAME
 
-4. Build Obliging Ode and Unsung Anthem by running Couplet Composer in composing mode.
+5. Build Obliging Ode and Unsung Anthem by running Couplet Composer in composing mode.
 
-        .\unsung-anthem\util\compose
+        .\compose
 
   * To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
-          .\unsung-anthem\util\compose preset --name PRESET_NAME
+          .\compose preset --name PRESET_NAME
 
 **Note:** The build can be configured by using option presets and command line options. For more information, see the section [Configuring the Build](#configuring-the-build).
 
@@ -164,13 +176,13 @@ Couplet Composer and the build of Obliging Ode and Unsung Anthem can naturally b
 
 In preset mode, the command line only specifies the preset name. The actual options come from the selected preset in `util/composer-presets.ini`. For example, if you want to run the generic developer build, your configuring mode call looks something like this:
 
-    ./unsung-anthem/util/configure preset --name dev
+    ./configure preset --name dev
 
 and you composing mode call looks something like this:
 
-    ./unsung-anthem/util/compose preset --name dev
+    ./compose preset --name dev
 
-On Windows the calls should of course use the PowerShell script variants.
+On Windows the calls should of course use the Window batch file script variants.
 
 If you take a look into `util/composer-presets.ini`, you can see how the preset is specified in the preset file.
 
@@ -194,7 +206,7 @@ To find out more about the command line options, please read more in the section
 
 You can also your own local files containing presets for Couplet Composer. To add a path to the list of files from which Couplet Composer looks for preset, use the `--file` options.
 
-    ./unsung-anthem/util/compose preset --file /path/to/my/file/presets.ini --name some_preset
+    ./compose preset --file /path/to/my/file/presets.ini --name some_preset
 
 You can specify the `--file` option multiple times to add more paths to the list of files.
 
