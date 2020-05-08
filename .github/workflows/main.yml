@@ -66,21 +66,8 @@ jobs:
     - name: Lint the code
       run: ./compose preset --name main_workflow_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: matrix.lint == true
-    - name: Upload Linux artefacts
-      uses: actions/upload-artifact@v1.0.0
+    - name: Upload artefacts
+      uses: actions/upload-artifact@v2
       with:
-        name: anthem-0.1.0-dev.1-Linux-x86_64.tar.gz
+        name: anthem-*
         path: build/artefacts
-      if: runner.os == 'Linux'
-    - name: Upload macOS artefacts
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: anthem-0.1.0-dev.1-Darwin-x86_64.tar.gz
-        path: build/artefacts
-      if: runner.os == 'macOS'
-    - name: Upload Windows artefacts
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: anthem-0.1.0-dev.1-Windows-AMD64.zip
-        path: build/artefacts
-      if: runner.os == 'Windows'
