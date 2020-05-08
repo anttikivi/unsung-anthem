@@ -10,6 +10,10 @@ jobs:
       fail-fast: false
       matrix:
         runs-on: [ubuntu-latest, macos-latest, windows-latest]
+        run-linter: [false]
+        include:
+          - run-linter: false
+            runs-on: ubuntu-latest
 
     steps:
     - name: Check out the project
@@ -51,14 +55,17 @@ jobs:
         else
           ./test-anthem
         fi
-      if: runner.os != 'Windows'
+      if: runner.os != 'Windows' && matrix.run-linter == false
     - name: Run the tests on Windows
       run: |
         cd $GITHUB_WORKSPACE\\build\\run
         export PATH="$GITHUB_WORKSPACE\\build\\run;$PATH"
         .\\test-anthem.exe
-      if: runner.os == 'Windows'
+      if: runner.os == 'Windows' && matrix.run-linter == false
       shell: bash
+    - name: Run linter
+      run: ./compose preset --name main_workflow_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      if: matrix.run-linter == true
     - name: Upload Linux artefacts
       uses: actions/upload-artifact@v1.0.0
       with:
