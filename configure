@@ -24,6 +24,17 @@ current_directory="${0%/*}"
 
 $current_directory/util/set_up "$@"
 
+# Switch to the correct directory.
+
+if [ -z "$ODE_SOURCE_ROOT" ]; then
+  cd ..
+  ODE_SOURCE_ROOT=$PWD
+else
+  cd $ODE_SOURCE_ROOT
+fi
+
+echo "The working directory is set to $PWD"
+
 # Run Couplet Composer
 
 preset_mode=false

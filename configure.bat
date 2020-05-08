@@ -22,7 +22,24 @@ set current_directory=%~dp0
 
 call %current_directory%\util\set_up %*
 
+@rem Switch to the correct directory.
+
+if defined ODE_SOURCE_ROOT (
+  if not "%ODE_SOURCE_ROOT%"=="" (
+    cd %ODE_SOURCE_ROOT%
+    goto run_composer
+  )
+)
+
+cd ..
+set ODE_SOURCE_ROOT=%cd%
+
+goto run_composer
+
 @rem Run Couplet Composer
+
+:run_composer
+echo "The working directory is set to %cd%"
 
 set preset_mode=false
 
