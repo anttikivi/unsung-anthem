@@ -47,7 +47,6 @@ jobs:
       run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Build Obliging Ode and Unsung Anthem
       run: ./compose preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      if: runner.os == 'Linux'
     - name: Run the tests on Linux
       run: |
         export SDL_VIDEODRIVER=x11
