@@ -25,6 +25,8 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
   * [OpenGL Options](#opengl-options)
   * [Build Generator Options](#build-generator-options)
 * [Preset Mode Options](#preset-mode-options)
+* [Configuring Mode Options](#configuring-mode-options)
+  * [Configure: Toolchain Installation Options](#configure-toolchain-installation-options)
 * [Composing Mode Options](#composing-mode-options)
   * [Compose: Common Options](#compose-common-options)
   * [Compose: C++ Standard Options](#compose-c-standard-options)
@@ -416,6 +418,18 @@ Shows the available presets in the preset files and exits.
 
 Prints the build script invocation composed from the preset given using `--name` and exits without running it.
 
+### Configuring Mode Options
+
+These options are only usable in configuring mode.
+
+#### Configure: Toolchain Installation Options
+
+**`--llvm-toolchain-variant NAME`**
+
+(Since Couplet Composer 0.13.0)
+
+Installs the LLVM toolchain for the given system if LLVM tools are installed.
+
 ### Composing Mode Options
 
 These options are only usable in composing mode.
@@ -455,6 +469,12 @@ Does otherwise identically the same actions as `--lint` but exits after running 
 (Since Couplet Composer 0.11.0)
 
 Exports the fixes suggested by `clang-tidy` to the given file. The path is relative to the source root of the run.
+
+**`--use-artefact-directory`**
+
+(Since Couplet Composer 0.13.0)
+
+Copies the artefact files to a directory instead of archiving them. Especially useful with GitHub Actions.
 
 #### Compose: C++ Standard Options
 
