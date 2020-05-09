@@ -68,7 +68,7 @@ jobs:
       run: $GITHUB_WORKSPACE/build/run/launch_test
       if: runner.os == 'macOS' && matrix.lint == false
     - name: Run the tests on Windows
-      run: \%GITHUB_WORKSPACE\%\build\run\launch_test.bat
+      run: call %GITHUB_WORKSPACE%\build\run\launch_test
       if: runner.os == 'Windows' && matrix.lint == false
       shell: cmd
     - name: Lint the code
