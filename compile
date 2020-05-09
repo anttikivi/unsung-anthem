@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Copyright (c) 2020 Antti Kivi
+# Licensed under the Effective Elegy Licence
+
+set -e
+
+readonly COMPOSER_NAME="Couplet Composer"
+readonly ODE_NAME="Obliging Ode"
+readonly ANTHEM_NAME="Unsung Anthem"
+
+echo "Running the shell script wrapper for $COMPOSER_NAME, the build script \
+of $ODE_NAME and $ANTHEM_NAME"
+echo "This is a wrapper for both the configuring and composing modes of \
+$COMPOSER_NAME"
+
+current_directory="${0%/*}"
+
+$current_directory/configure "$@"
+
+$current_directory/compose "$@"
+
+echo "Finished running the wrapper for both the configuration and composition \
+of $ODE_NAME and $ANTHEM_NAME"

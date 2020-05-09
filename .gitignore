@@ -31,12 +31,6 @@
 *.out
 *.app
 
-# CMake and other build files
-build/
-
-# CLion CMake files
-cmake-build-*
-
 # IntelliJ
 .idea
 
