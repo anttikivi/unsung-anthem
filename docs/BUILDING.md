@@ -279,6 +279,12 @@ Builds the benchmarks of Obliging Ode and Unsung Anthem with the tests.
 
 Builds the documentation of Obliging Ode and Unsung Anthem. This option requires Doxygen, and you must install it manually—Couplet Composer cannot install it for the time being.
 
+**`--lint`**
+
+(Since Couplet Composer 0.13.3)
+
+Runs `clang-tidy` checks on Obliging Ode and Unsung Anthem and prints its output.
+
 **`--ode-version VERSION`**
 
 Sets the version number of Obliging Ode. The default value is the version number specified in `util/values.json`.
@@ -443,17 +449,11 @@ Builds the static library of Unsung Anthem.
 
 Builds the shared library of Unsung Anthem.
 
-**`--lint`**
+**`--skip-build`**
 
-(Since Couplet Composer 0.11.0)
+(Since Couplet Composer 0.13.3)
 
-Runs `clang-tidy` checks on Obliging Ode and Unsung Anthem and prints its output.
-
-**`--only-lint`**
-
-(Since Couplet Composer 0.11.0)
-
-Does otherwise identically the same actions as `--lint` but exits after running `clang-tidy`.
+Only generates the build files for Obliging Ode and Unsung Anthem without compiling them. Especially useful if you want to run linter without compiling the binaries.
 
 **`--export-linter-fixes PATH`**
 
