@@ -14,13 +14,18 @@ jobs:
         include:
           - os: ubuntu-18.04
             artefact-platform: ubuntu-18.04
+            composer-preset: main_workflow_linux
           - os: ubuntu-16.04
             artefact-platform: ubuntu-16.04
+            composer-preset: main_workflow_linux
           - os: macos-10.15
             artefact-platform: macos-catalina
+            composer-preset: main_workflow_unix
           - os: windows-2019
             artefact-platform: windows-2019
+            composer-preset: main_workflow_windows
           - lint: true
+            composer-preset: main_workflow_linux_lint
             os: ubuntu-18.04
 
     steps:
@@ -38,26 +43,11 @@ jobs:
       if: runner.os == 'Linux' && matrix.os == 'ubuntu-16.04'
     - name: Setup Python environment
       uses: actions/setup-python@v1.1.1
-    - name: Set up build environment on Linux
-      run: ./configure preset --name main_workflow_linux --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Set up build environment
+      run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Build Obliging Ode and Unsung Anthem
+      run: ./compose preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Linux'
-    - name: Set up build environment on Darwin
-      run: ./configure preset --name main_workflow_unix --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      if: runner.os == 'macOS'
-    - name: Set up build environment on Windows
-      run: .\configure preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      if: runner.os == 'Windows'
-      shell: cmd
-    - name: Build Obliging Ode and Unsung Anthem on Linux
-      run: ./compose preset --name main_workflow_linux --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      if: runner.os == 'Linux'
-    - name: Build Obliging Ode and Unsung Anthem on Darwin
-      run: ./compose preset --name main_workflow_unix --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      if: runner.os == 'macOS'
-    - name: Build Obliging Ode and Unsung Anthem on Windows
-      run: .\compose preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      if: runner.os == 'Windows'
-      shell: cmd
     - name: Run the tests on Linux
       run: |
         export SDL_VIDEODRIVER=x11
