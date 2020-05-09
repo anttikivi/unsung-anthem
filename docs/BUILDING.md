@@ -26,7 +26,6 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
   * [Build Generator Options](#build-generator-options)
 * [Preset Mode Options](#preset-mode-options)
 * [Configuring Mode Options](#configuring-mode-options)
-  * [Configure: Toolchain Installation Options](#configure-toolchain-installation-options)
 * [Composing Mode Options](#composing-mode-options)
   * [Compose: Common Options](#compose-common-options)
   * [Compose: C++ Standard Options](#compose-c-standard-options)
@@ -421,14 +420,6 @@ Prints the build script invocation composed from the preset given using `--name`
 ### Configuring Mode Options
 
 These options are only usable in configuring mode.
-
-#### Configure: Toolchain Installation Options
-
-**`--llvm-toolchain-variant NAME`**
-
-(Since Couplet Composer 0.13.0)
-
-Installs the LLVM toolchain for the given system if LLVM tools are installed.
 
 ### Composing Mode Options
 
