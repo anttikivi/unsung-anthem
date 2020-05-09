@@ -127,6 +127,16 @@ The names of accessor functions should start with `get_`.
 
 ## Semantics
 
+### Paradigm
+
+You should aim for code that follows the functional programming paradigm. Writing code that follows purely functional programming paradigm isn’t by any means a requirement, but your code must strive for utilizing as many pure functions as possible. Also functions that cannot be pure must try to be as pure as possible.
+
+A pure function is a function that has the following properties:
+1. Its return value is the same for the same arguments.
+2. Its evaluation has no side effects.
+
+(The source of the above is [Wikipedia](https://en.wikipedia.org/wiki/Pure_function).)
+
 ### Types
 
 #### Accessors
