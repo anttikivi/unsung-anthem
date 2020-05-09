@@ -58,24 +58,19 @@ jobs:
       run: .\compose preset --name main_workflow_windows --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: runner.os == 'Windows'
       shell: cmd
-    - name: Run the tests
+    - name: Run the tests on Linux
       run: |
-        cd $GITHUB_WORKSPACE/build/run
-        if [ "${{ runner.os }}" = "Linux" ]; then
-          export SDL_VIDEODRIVER=x11
-          export DISPLAY=:99.0
-          /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout ./test-anthem
-        else
-          ./test-anthem
-        fi
-      if: runner.os != 'Windows' && matrix.lint == false
+        export SDL_VIDEODRIVER=x11
+        export DISPLAY=:99.0
+        /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout $GITHUB_WORKSPACE/build/run/launch_test
+      if: runner.os == 'Linux' && matrix.lint == false
+    - name: Run the tests on Darwin
+      run: $GITHUB_WORKSPACE/build/run/launch_test
+      if: runner.os == 'macOS' && matrix.lint == false
     - name: Run the tests on Windows
-      run: |
-        cd $GITHUB_WORKSPACE\\build\\run
-        export PATH="$GITHUB_WORKSPACE\\build\\run;$PATH"
-        .\\test-anthem.exe
+      run: \%GITHUB_WORKSPACE\%\build\run\launch_test.bat
       if: runner.os == 'Windows' && matrix.lint == false
-      shell: bash
+      shell: cmd
     - name: Lint the code
       run: ./compose preset --name main_workflow_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       if: matrix.lint == true
