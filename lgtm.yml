@@ -5,7 +5,7 @@ extraction:
   cpp:
     configure:
       command:
-      - ./configure preset --name main_workflow_linux --in-tree-build
+      - sudo ./configure preset --name main_workflow_linux --in-tree-build
     index:
       build_command:
-      - ./compose preset --name main_workflow_linux --in-tree-build
+      - sudo ./compose preset --name main_workflow_linux --in-tree-build
