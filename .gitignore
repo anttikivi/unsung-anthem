@@ -60,3 +60,6 @@ token
 
 # Local helper files
 replace
+
+# Utilities to include
+!util/bin/

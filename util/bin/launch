@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Copyright (c) 2020 Antti Kivi
+# Licensed under the Effective Elegy Licence
+
+set -e
+
+readonly ODE_NAME="Obliging Ode"
+readonly ANTHEM_NAME="Unsung Anthem"
+
+echo "Running the shell script launcher for $ODE_NAME and $ANTHEM_NAME"
+
+current_directory="${0%/*}"
+
+cd $current_directory
+
+echo "Launching $PWD/anthem"
+
+$PWD/anthem "$@"
