@@ -43,9 +43,9 @@ jobs:
       if: runner.os == 'Linux' && matrix.os == 'ubuntu-16.04'
     - name: Setup Python environment
       uses: actions/setup-python@v1.1.1
-    - name: Set up build environment
+    - name: Run the configuration
       run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-    - name: Build Obliging Ode and Unsung Anthem
+    - name: Run the composition
       run: ./compose preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the tests on Linux
       run: |
@@ -60,9 +60,6 @@ jobs:
       run: call %GITHUB_WORKSPACE%\build\run\launch_test
       if: runner.os == 'Windows' && matrix.lint == false
       shell: cmd
-    - name: Lint the code
-      run: ./compose preset --name main_workflow_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      if: matrix.lint == true
     - name: Upload artefacts
       uses: actions/upload-artifact@v2
       with:
