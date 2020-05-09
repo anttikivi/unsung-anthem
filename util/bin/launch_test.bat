@@ -16,3 +16,5 @@ cd %current_directory%
 echo Launching %cd%\test-anthem.exe
 
 start "Test %anthem_name%" /w /b %cd%\test-anthem.exe %*
+
+echo Finished running %cd%\test-anthem.exe

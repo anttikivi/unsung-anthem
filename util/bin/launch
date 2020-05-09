@@ -17,3 +17,5 @@ cd $current_directory
 echo "Launching $PWD/anthem"
 
 $PWD/anthem "$@"
+
+echo "Finished running $PWD/anthem"
