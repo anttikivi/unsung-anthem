@@ -42,6 +42,8 @@ option(ODE_USE_SDL_DEBUG_SUFFIX
     "Link Obliging Ode against SDL with debug suffix on Windows builds" OFF)
 option(ODE_ADD_GOOGLE_TEST_SOURCE
     "Build Google Test source files with the Obliging Ode sources" OFF)
+option(ODE_SKIP_BUILD
+    "Indicate that the binaries won't be actually compiled" OFF)
 
 #==- Unsung Anthem Build Options -------------------------------------------===#
 
@@ -232,7 +234,9 @@ add_subdirectory(src)
 add_subdirectory(script)
 add_subdirectory(test)
 
-set_glad_sources()
+if(NOT CMAKE_EXPORT_COMPILE_COMMANDS AND NOT ODE_SKIP_BUILD)
+  set_glad_sources()
+endif()
 
 if(ODE_ADD_GOOGLE_TEST_SOURCE)
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
