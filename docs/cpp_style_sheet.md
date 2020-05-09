@@ -26,6 +26,7 @@ Please note that this document is still in development.
   * [Function Naming](#function-naming)
 
 [Semantics](#semantics)
+* [Paradigm](#paradigm)
 * [Types](#types)
   * [Accessors](#accessors)
   * [Mutators](#mutators)
