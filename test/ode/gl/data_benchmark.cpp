@@ -14,7 +14,7 @@ static void ode_gl_data_vendor(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    auto r = ode::gl::vendor();
+    auto r = ode::gl::get_vendor();
   }
 }
 
@@ -24,7 +24,7 @@ static void ode_gl_data_renderer(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    auto r = ode::gl::renderer();
+    auto r = ode::gl::get_renderer();
   }
 }
 
@@ -34,7 +34,7 @@ static void ode_gl_data_version(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    auto r = ode::gl::version();
+    auto r = ode::gl::get_version();
   }
 }
 
@@ -44,7 +44,7 @@ static void ode_gl_data_shading_language_version(benchmark::State& state)
 {
   for (auto _ : state)
   {
-    auto r = ode::gl::shading_language_version();
+    auto r = ode::gl::get_shading_language_version();
   }
 }
 

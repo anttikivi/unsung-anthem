@@ -27,8 +27,7 @@ namespace anthem
               << ", window_name:" << a.window_name << "}";
   }
 
-  std::pair<bool, arguments> parse_arguments(
-      const int argc, char* argv[]) noexcept
+  std::pair<bool, arguments> parse_arguments(const int argc, char* argv[])
   {
     ANTHEM_DEBUG("Going to parse {} argument(s)", argc - 1);
 

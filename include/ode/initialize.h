@@ -48,12 +48,12 @@ namespace ode
     auto context = sdl::create_gl_context(window);
 
     ODE_DEBUG("OpenGL is loaded");
-    ODE_DEBUG("The OpenGL vendor is {}", gl::vendor());
-    ODE_DEBUG("The OpenGL renderer is {}", gl::renderer());
-    ODE_DEBUG("The OpenGL version is {}", gl::version());
+    ODE_DEBUG("The OpenGL vendor is {}", gl::get_vendor());
+    ODE_DEBUG("The OpenGL renderer is {}", gl::get_renderer());
+    ODE_DEBUG("The OpenGL version is {}", gl::get_version());
     ODE_DEBUG(
         "The OpenGL shading language version is {}",
-        gl::shading_language_version());
+        gl::get_shading_language_version());
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 

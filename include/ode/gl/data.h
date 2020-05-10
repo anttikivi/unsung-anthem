@@ -31,28 +31,28 @@ namespace ode::gl
   ///
   /// \return An object of type \c std::string.
   ///
-  std::string get_string(const GLenum name) noexcept;
+  std::string get_string(const GLenum name);
 
   ///
   /// Gives the vendor of the currently used OpenGL.
   ///
   /// \return An object of type \c std::string which represents the vendor.
   ///
-  std::string vendor() noexcept;
+  std::string get_vendor();
 
   ///
   /// Gives the renderer of the currently used OpenGL.
   ///
   /// \return An object of type \c std::string which represents the renderer.
   ///
-  std::string renderer() noexcept;
+  std::string get_renderer();
 
   ///
   /// Gives the version of the currently used OpenGL.
   ///
   /// \return An object of type \c std::string which represents the version.
   ///
-  std::string version() noexcept;
+  std::string get_version();
 
   ///
   /// Gives the shading language version of the currently used OpenGL.
@@ -60,7 +60,7 @@ namespace ode::gl
   /// \return An object of type \c std::string which represents the shading
   /// language version.
   ///
-  std::string shading_language_version() noexcept;
+  std::string get_shading_language_version();
 
 } // namespace ode::gl
 

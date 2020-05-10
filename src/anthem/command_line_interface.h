@@ -147,8 +147,7 @@ namespace anthem
   ///
   /// \return An object of the type \c std::pair.
   ///
-  std::pair<bool, arguments> parse_arguments(
-      const int argc, char* argv[]) noexcept;
+  std::pair<bool, arguments> parse_arguments(const int argc, char* argv[]);
 
 } // namespace anthem
 

@@ -18,7 +18,7 @@
 
 namespace ode::gl
 {
-  std::string get_string(const GLenum name) noexcept
+  std::string get_string(const GLenum name)
   {
     Expects(
         GL_VENDOR == name || GL_RENDERER == name || GL_VERSION == name ||
@@ -38,25 +38,25 @@ namespace ode::gl
     }
   }
 
-  std::string vendor() noexcept
+  std::string get_vendor()
   {
     ODE_TRACE("Getting the OpenGL vendor (GL_VENDOR)");
     return get_string(GL_VENDOR);
   }
 
-  std::string renderer() noexcept
+  std::string get_renderer()
   {
     ODE_TRACE("Getting the OpenGL renderer (GL_RENDERER)");
     return get_string(GL_RENDERER);
   }
 
-  std::string version() noexcept
+  std::string get_version()
   {
     ODE_TRACE("Getting the OpenGL version (GL_VERSION)");
     return get_string(GL_VERSION);
   }
 
-  std::string shading_language_version() noexcept
+  std::string get_shading_language_version()
   {
     ODE_TRACE("Getting the OpenGL shading language version "
               "(GL_SHADING_LANGUAGE_VERSION)");
@@ -67,9 +67,9 @@ namespace ode::gl
     }
     else
     {
-      const std::string gl_version = version();
+      const std::string gl_version = get_version();
       const int gl_major_version =
-          std::stoi(gl_version.substr(0, gl_version.find(".")));
+          std::stoi(gl_version.substr(0, gl_version.find('.')));
 
       // The OpenGL shading language isn't supported in OpenGL versions below
       // 2.0
