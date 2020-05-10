@@ -120,7 +120,7 @@ namespace ode
     else
     {
       std::istringstream is{working_str};
-      bool b;
+      bool b{};
       is >> std::boolalpha >> b;
       return b;
     }
