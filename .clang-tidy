@@ -1,7 +1,7 @@
 # Copyright (c) 2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
-Checks: '-*,bugprone-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-'
+Checks: '-*,bugprone-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,performance-*,portability-*,readability-'
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
