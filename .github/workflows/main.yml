@@ -30,7 +30,7 @@ jobs:
 
     steps:
     - name: Check out the project
-      uses: actions/checkout@v2.0.0
+      uses: actions/checkout@v2.1.0
     - name: Install Linux dependencies on Ubuntu 18.04
       run: |
         sudo apt-get update
