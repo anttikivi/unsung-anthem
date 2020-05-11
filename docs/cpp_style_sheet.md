@@ -4,7 +4,7 @@ If you’re looking to contribute C++ code to Obliging Ode and Unsung Anthem or 
 
 As stated in section ‘[C++ Core Guidelines](#c-core-guidelines)’, you should chiefly follow the C++ Core Guidelines. Therefore this document focuses on specifying project-specific guidelines for Obliging Ode and Unsung Anthem.
 
-Please note that this document is still in development.
+Please note that this document is constantly evolving.
 
 #### Table of Contents
 
@@ -24,7 +24,7 @@ Please note that this document is still in development.
 * [File Headers](#file-headers)
 * [Source Code Width](#source-code-width)
 
-[Styling](#styling)
+[Styling and Formatting](#styling-and-formatting)
 * [Naming](#naming)
   * [Function Naming](#function-naming)
 
@@ -35,6 +35,8 @@ Please note that this document is still in development.
   * [Mutators](#mutators)
 * [Functions](#functions)
   * [`inline` Functions](#inline-functions)
+
+[Tools](#tools)
 
 ## C++ Core Guidelines
 
@@ -125,9 +127,15 @@ The paragraph beginning on the first line of the comment acts as the value for [
 
 You must make each line of code fit within 80 columns.
 
-## Styling
+## Styling and Formatting
 
 ### Naming
+
+#### General Naming Rules
+
+Prefer readable and self-explanatory names to short ones. Use names that describe the purpose or intent of the object. Don’t worry about saving horizontal space as it is far more important to make your code immediately understandable by a new reader. Minimize the use of abbreviations. Don’t abbreviate by deleting letters within a word. Generally speaking, descriptiveness should be proportional to the name’s scope of visibility. For example, n may be a fine name within a 5-line function, but within the scope of a class, it’s likely too vague.
+
+Don’t encode type information into names.
 
 #### Function Naming
 
@@ -158,3 +166,19 @@ For `struct`s, you shouldn’t use any accessor functions as they are meant for 
 #### Mutators
 
 You shouldn’t use mutator functions which are also known as ‘setters’. They greatly hurt the goal of writing code that utilizes as much pure functions and functional paradigm principles as possible.
+
+## Tools
+
+While you must follow these guidelines when you write code, there are also some tools that help you comply with the style sheet.
+
+To enforce the correct formatting on your code, the repository contains a set of `clang-format` rules in [`.clang-format`](.clang-format) along with a utility script that runs `clang-format` on the code in the repository. To run `clang-format` on the code, run the formatting utility script.
+
+    ./util/format
+
+Please be careful when running the script as it edits the source code files in place.
+
+To enforce the coding standards, the repository contains a set of rules for `clang-tidy`, too. The rules are situated in [`.clang-tidy`](.clang-tidy). You can run `clang-tidy` by using [Couplet Composer](https://github.com/anttikivi/couplet-composer).
+
+    ./compose --lint
+
+For more information on how to use Couplet Composer, please see the [building manual](docs/BUILDING.md).
