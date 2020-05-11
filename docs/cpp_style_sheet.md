@@ -2,6 +2,8 @@
 
 If you’re looking to contribute C++ code to Obliging Ode and Unsung Anthem or you wish to find the coding style followed in the projects, you’re in the right place. This document contains the coding standards which you must follow when writing C++ code for the projects.
 
+As stated in section ‘[C++ Core Guidelines](#c-core-guidelines)’, you should chiefly follow the C++ Core Guidelines. Therefore this document focuses on specifying project-specific guidelines for Obliging Ode and Unsung Anthem.
+
 Please note that this document is still in development.
 
 #### Table of Contents
@@ -18,6 +20,7 @@ Please note that this document is still in development.
 * [File Extensions](#file-extensions)
 * [#include Guards](#include-guards)
 * [`#include` Style](#include-style)
+* [Forward Declarations](#forward-declarations)
 * [File Headers](#file-headers)
 * [Source Code Width](#source-code-width)
 
@@ -30,6 +33,8 @@ Please note that this document is still in development.
 * [Types](#types)
   * [Accessors](#accessors)
   * [Mutators](#mutators)
+* [Functions](#functions)
+  * [`inline` Functions](#inline-functions)
 
 ## C++ Core Guidelines
 
@@ -93,6 +98,10 @@ When including header files, the `#include` directives must be sorted into group
 Separate the groups by one empty line. Order the headers alphabetically inside each group.
 
 Use angle brackets (`<` and `>`) in the `#include` directives for the C standard library includes, C++ standard library includes, and the includes of the headers of other libraries. For all other `#include` directives, use double quotes (`"`).
+
+### Forward Declarations
+
+You should utilize forward declarations whenever it’s sensible.
 
 ### File Headers
 

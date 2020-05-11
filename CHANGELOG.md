@@ -32,5 +32,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 - Functions for creating and manipulating Lua states.
 - System for registering user input during game loop.
 - Utility scripts for running the built binaries and the built tests binaries.
+- Style sheet for C++ code.
 
 [unreleased]: https://github.com/anttikivi/unsung-anthem/compare/master...HEAD
