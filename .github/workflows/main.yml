@@ -31,16 +31,11 @@ jobs:
     steps:
     - name: Check out the project
       uses: actions/checkout@v2.1.0
-    - name: Install APT dependencies (Ubuntu 18.04)
-      run: |
-        sudo apt-get update
-        sudo apt-get install xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libglvnd-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
-      if: runner.os == 'Linux' && matrix.os == 'ubuntu-18.04'
-    - name: Install APT dependencies (Ubuntu 16.04)
+    - name: Install APT dependencies
       run: |
         sudo apt-get update
         sudo apt-get install xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
-      if: runner.os == 'Linux' && matrix.os == 'ubuntu-16.04'
+      if: runner.os == 'Linux'
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
