@@ -171,14 +171,14 @@ You shouldn’t use mutator functions which are also known as ‘setters’. The
 
 While you must follow these guidelines when you write code, there are also some tools that help you comply with the style sheet.
 
-To enforce the correct formatting on your code, the repository contains a set of `clang-format` rules in [`.clang-format`](.clang-format) along with a utility script that runs `clang-format` on the code in the repository. To run `clang-format` on the code, run the formatting utility script.
+To enforce the correct formatting on your code, the repository contains a set of `clang-format` rules in [`.clang-format`](../.clang-format) along with a utility script that runs `clang-format` on the code in the repository. To run `clang-format` on the code, run the formatting utility script.
 
     ./util/format
 
 Please be careful when running the script as it edits the source code files in place.
 
-To enforce the coding standards, the repository contains a set of rules for `clang-tidy`, too. The rules are situated in [`.clang-tidy`](.clang-tidy). You can run `clang-tidy` by using [Couplet Composer](https://github.com/anttikivi/couplet-composer).
+To enforce the coding standards, the repository contains a set of rules for `clang-tidy`, too. The rules are situated in [`.clang-tidy`](../.clang-tidy). You can run `clang-tidy` by using [Couplet Composer](https://github.com/anttikivi/couplet-composer).
 
     ./compose --lint
 
-For more information on how to use Couplet Composer, please see the [building manual](docs/BUILDING.md).
+For more information on how to use Couplet Composer, please see the [building manual](BUILDING.md).
