@@ -247,7 +247,7 @@ Prints debug-level logging output.
 
 **`--in-tree-build`**
 
-Creates the build directory inside the project directory. **Note:** This option should chiefly be used only on automated environments!
+Creates the build directory inside the project directory. **Note:** This option should chiefly be used only on automated environments! Also, this option must be used through the command line instead of a preset in order for it to work properly.
 
 #### GitHub Options
 
