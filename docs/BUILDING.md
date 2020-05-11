@@ -487,17 +487,25 @@ Compiles Obliging Ode and Unsung Anthem using `c++20` as the C++ standard. This 
 
 **`--ode-window-name NAME`**
 
+(Removed in Couplet Composer 0.15.0)
+
 Sets the default name of the default window of Obliging Ode.
 
 **`--anthem-window-name NAME`**
+
+(Removed in Couplet Composer 0.15.0)
 
 Sets the default name of the default window of Unsung Anthem.
 
 **`--ode-logger-name NAME`**
 
+(Removed in Couplet Composer 0.15.0)
+
 Sets the default name of the default logger of Obliging Ode.
 
 **`--anthem-logger-name NAME`**
+
+(Removed in Couplet Composer 0.15.0)
 
 Sets the default name of the default logger of Unsung Anthem.
 
