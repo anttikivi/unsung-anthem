@@ -30,22 +30,23 @@ jobs:
             composer-preset: main_workflow_windows
           - os: ubuntu-18.04
             composer-preset: main_workflow_linux_lint
+            python-version: 3.x
             lint: true
 
     steps:
     - name: Check out the project
       uses: actions/checkout@v2.1.0
-    - name: Install Linux dependencies on Ubuntu 18.04
+    - name: Install APT dependencies (Ubuntu 18.04)
       run: |
         sudo apt-get update
         sudo apt-get install xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libglvnd-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
       if: runner.os == 'Linux' && matrix.os == 'ubuntu-18.04'
-    - name: Install Linux dependencies on Ubuntu 16.04
+    - name: Install APT dependencies (Ubuntu 16.04)
       run: |
         sudo apt-get update
         sudo apt-get install xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
       if: runner.os == 'Linux' && matrix.os == 'ubuntu-16.04'
-    - name: Setup Python
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
@@ -53,20 +54,20 @@ jobs:
       run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the composition
       run: ./compose preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-    - name: Run the tests on Linux
+    - name: Run the tests (Linux)
       run: |
         export SDL_VIDEODRIVER=x11
         export DISPLAY=:99.0
         /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout $GITHUB_WORKSPACE/build/run/launch_test
       if: runner.os == 'Linux' && matrix.lint == false
-    - name: Run the tests on Darwin
+    - name: Run the tests (Darwin)
       run: $GITHUB_WORKSPACE/build/run/launch_test
       if: runner.os == 'macOS' && matrix.lint == false
-    - name: Run the tests on Windows
+    - name: Run the tests (Windows)
       run: call %GITHUB_WORKSPACE%\build\run\launch_test
       if: runner.os == 'Windows' && matrix.lint == false
       shell: cmd
-    - name: Upload artefacts
+    - name: Upload build artefacts
       uses: actions/upload-artifact@v2
       with:
         name: anthem-actions-${{ matrix.artefact-platform }}
