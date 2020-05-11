@@ -1,6 +1,6 @@
 name: Main workflow
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -41,6 +41,11 @@ jobs:
       with:
         python-version: 3.x
         architecture: x64
+    - name: Cache the dependencies
+      uses: actions/cache@v1.1.2
+      with:
+        path: build/local
+        key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}
     - name: Run the configuration
       run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the composition
