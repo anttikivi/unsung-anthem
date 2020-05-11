@@ -52,8 +52,8 @@ unsung-anthem.xcodeproj
 token
 .github_api
 
-# Local helper files
-replace
+# Build files
+build/
 
 # Utilities to include
 !util/bin/
