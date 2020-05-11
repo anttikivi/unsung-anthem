@@ -9,8 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, ubuntu-16.04, macos-10.15, windows-2019, windows-2016]
-        python-version: [3.x]
+        os: [ubuntu-18.04, ubuntu-16.04, macos-10.15, windows-2019]
         lint: [false]
         include:
           - os: ubuntu-18.04
@@ -25,12 +24,8 @@ jobs:
           - os: windows-2019
             artefact-platform: windows-2019
             composer-preset: main_workflow_windows
-          - os: windows-2016
-            artefact-platform: windows-2016
-            composer-preset: main_workflow_windows
           - os: ubuntu-18.04
             composer-preset: main_workflow_linux_lint
-            python-version: 3.x
             lint: true
 
     steps:
@@ -49,7 +44,8 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.x
+        architecture: x64
     - name: Run the configuration
       run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the composition
