@@ -16,6 +16,14 @@ set configure_mode_argument=configure
 
 set composer_executable_name=couplet-composer
 
+set in_tree_build_option=--in-tree-build
+
+@rem See if the build should be done in tree.
+
+set in_tree_build=false
+
+if "%~1"=="%in_tree_build_option%" set in_tree_build=true
+
 @rem Set up Couplet Composer
 
 set current_directory=%~dp0
@@ -38,7 +46,10 @@ if defined ODE_SOURCE_ROOT (
   )
 )
 
-cd ..
+if %in_tree_build_option%==false (
+  cd ..
+)
+
 set ODE_SOURCE_ROOT=%cd%
 
 goto run_composer

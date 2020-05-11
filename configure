@@ -18,6 +18,18 @@ readonly CONFIGURE_MODE_ARGUMENT="configure"
 
 readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
 
+readonly IN_TREE_BUILD_OPTION="--in-tree-build"
+
+# See if the build should be done in tree.
+
+in_tree_build=false
+
+for arg in "$@"; do
+  if [ "$arg" = "$IN_TREE_BUILD_OPTION" ]; then
+    in_tree_build=true
+  fi
+done
+
 # Set up Couplet Composer
 
 current_directory="${0%/*}"
@@ -34,7 +46,9 @@ echo "The working directory is set to $PWD"
 # Switch to the correct directory.
 
 if [ -z "$ODE_SOURCE_ROOT" ]; then
-  cd ..
+  if [ "$in_tree_build" = false ]; then
+    cd ..
+  fi
   ODE_SOURCE_ROOT=$PWD
 else
   cd $ODE_SOURCE_ROOT

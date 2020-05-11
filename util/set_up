@@ -20,12 +20,26 @@ readonly COMPOSER_REPO_NAME="couplet-composer"
 readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
 $COMPOSER_REPO_NAME.git"
 
+readonly IN_TREE_BUILD_OPTION="--in-tree-build"
+
+# See if the build should be done in tree.
+
+in_tree_build=false
+
+for arg in "$@"; do
+  if [ "$arg" = "$IN_TREE_BUILD_OPTION" ]; then
+    in_tree_build=true
+  fi
+done
+
 # Switch to the correct directory.
 
-if [ -z "$ODE_SOURCE_ROOT" ]; then
-  cd ..
-else
-  cd $ODE_SOURCE_ROOT
+if [ "$in_tree_build_directory" = false ]; then
+  if [ -z "$ODE_SOURCE_ROOT" ]; then
+    cd ..
+  else
+    cd $ODE_SOURCE_ROOT
+  fi
 fi
 
 echo "The working directory is set to $PWD"
@@ -36,7 +50,18 @@ readonly COMPOSER_DIRECTORY_NAME="${COMPOSER_DIRECTORY_BASE_NAME}_\
 $(echo $COMPOSER_VERSION | tr '.' '_')"
 readonly COMPOSER_HEAD_DIRECTORY_NAME="${COMPOSER_DIRECTORY_BASE_NAME}_head"
 
-readonly SCRIPT_DIRECTORY="$PWD/$SCRIPT_DIRECTORY_NAME"
+if [ "$in_tree_build" = true ]; then
+  readonly BUILD_DIRECTORY_NAME="build"
+  readonly BUILD_DIRECTORY="$PWD/$BUILD_DIRECTORY_NAME"
+  readonly SCRIPT_DIRECTORY="$BUILD_DIRECTORY/$SCRIPT_DIRECTORY_NAME"
+
+  if [ ! -d "$BUILD_DIRECTORY" ]; then
+    mkdir $BUILD_DIRECTORY
+    echo "Created the directory '$BUILD_DIRECTORY'"
+  fi
+else
+  readonly SCRIPT_DIRECTORY="$PWD/$SCRIPT_DIRECTORY_NAME"
+fi
 
 # Install pipenv
 
