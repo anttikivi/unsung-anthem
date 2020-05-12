@@ -65,7 +65,7 @@ jobs:
         ODE_DEVELOPMENT_COMPOSER: true
     - name: Upload code coverage report
       run: |
-        cd $GITHUB_WORKSPACE/build/build/dest/0.1.0-dev.1/linux-x86_64-debug-unix_makefiles
+        cd $GITHUB_WORKSPACE/build/build/linux-x86_64-debug-unix_makefiles
         bash <(curl -s https://codecov.io/bash) -f anthem_coverage.info
       if: matrix.coverage == true
       env:
