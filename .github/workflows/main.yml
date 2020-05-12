@@ -15,6 +15,9 @@ jobs:
           - os: ubuntu-18.04
             artefact-platform: ubuntu-18.04
             composer-preset: main_workflow_linux
+          - os: ubuntu-18.04
+            artefact-platform: ubuntu-18.04
+            composer-preset: main_workflow_linux_coverage
           - os: ubuntu-16.04
             artefact-platform: ubuntu-16.04
             composer-preset: main_workflow_linux
@@ -48,8 +51,18 @@ jobs:
         key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}
     - name: Run the configuration
       run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      env:
+        ODE_DEVELOPMENT_COMPOSER: true
     - name: Run the composition
       run: ./compose preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      env:
+        ODE_DEVELOPMENT_COMPOSER: true
+    - name: Upload code coverage report
+      run: |
+        cd $GITHUB_WORKSPACE/unsung-anthem/build/build/dest/0.1.0-dev.1/linux-x86_64-debug-unix_makefiles
+        bash <(curl -s https://codecov.io/bash) -f anthem_coverage.info
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     - name: Run the tests (Linux)
       run: |
         export SDL_VIDEODRIVER=x11
