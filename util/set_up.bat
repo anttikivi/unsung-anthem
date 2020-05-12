@@ -57,26 +57,17 @@ if %in_tree_build%==true (
   set build_directory_name=build
   set build_directory=%cd%\%build_directory_name%
   set script_directory=%build_directory%\%script_directory_name%
+) else (
+  set script_directory=%cd%\%script_directory_name%
 )
 
 if %in_tree_build%==true (
-  goto make_build_directory
+  md %build_directory%
+  echo Created the directory '%build_directory%'
 )
-
-set script_directory=%cd%\%script_directory_name%
-
-goto install_pipenv
-
-:make_build_directory
-md %build_directory%
-
-echo Created the directory '%build_directory%'
-
-goto install_pipenv
 
 @rem Install pipenv
 
-:install_pipenv
 where pipenv
 
 if %ERRORLEVEL% neq 0 (
