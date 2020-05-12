@@ -53,18 +53,20 @@ set composer_directory_name=%composer_directory_base_name%_^
 %composer_version:.=_%
 set composer_head_directory_name=%composer_directory_base_name%_head
 
+setlocal enabledelayedexpansion
+
 if %in_tree_build%==true (
   set build_directory_name=build
-  set build_directory=%cd%\%build_directory_name%
-  set script_directory=%build_directory%\%script_directory_name%
+  set build_directory=%cd%\!build_directory_name!
+  set script_directory=!build_directory!\%script_directory_name%
+
+  md !build_directory!
+  echo Created the directory '!build_directory!'
 ) else (
   set script_directory=%cd%\%script_directory_name%
 )
 
-if %in_tree_build%==true (
-  md %build_directory%
-  echo Created the directory '%build_directory%'
-)
+setlocal disabledelayedexpansion
 
 @rem Install pipenv
 
