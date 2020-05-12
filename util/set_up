@@ -13,6 +13,7 @@ readonly ANTHEM_NAME="Unsung Anthem"
 
 echo "Running the set-up shell script for $COMPOSER_NAME $COMPOSER_VERSION, \
 the build script of $ODE_NAME and $ANTHEM_NAME"
+echo "The arguments passed to the script are $@"
 
 readonly GITHUB_URL="https://github.com"
 readonly COMPOSER_REPO_OWNER="anttikivi"

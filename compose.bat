@@ -10,6 +10,7 @@ set anthem_name=Unsung Anthem
 echo Running the Windows batch file wrapper for %composer_name%, the build ^
 script of %ode_name% and %anthem_name%
 echo %composer_name% will be run in composing mode
+echo The arguments passed to the script are %~1
 
 @rem Set the current directory to the source root while setting the directory constants.
 

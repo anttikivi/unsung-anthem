@@ -13,6 +13,7 @@ echo "Running the shell script wrapper for $COMPOSER_NAME, the build script \
 of $ODE_NAME and $ANTHEM_NAME"
 echo "This is a wrapper for both the configuring and composing modes of \
 $COMPOSER_NAME"
+echo "The arguments passed to the script are $@"
 
 current_directory="${0%/*}"
 

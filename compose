@@ -12,6 +12,7 @@ readonly ANTHEM_NAME="Unsung Anthem"
 echo "Running the shell script wrapper for $COMPOSER_NAME, the build script \
 of $ODE_NAME and $ANTHEM_NAME"
 echo "$COMPOSER_NAME will be run in composing mode"
+echo "The arguments passed to the script are $@"
 
 # Set the current directory to the source root while setting the directory constants.
 
