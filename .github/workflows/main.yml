@@ -80,7 +80,7 @@ jobs:
       run: $GITHUB_WORKSPACE/build/run/launch_test
       if: runner.os == 'macOS' && matrix.lint == false
     - name: Run the tests (Windows)
-      run: call %GITHUB_WORKSPACE%\build\run\launch_test
+      run: call %GITHUB_WORKSPACE%\unsung-anthem\build\run\launch_test
       if: runner.os == 'Windows' && matrix.lint == false
       shell: cmd
     - name: Upload build artefacts
