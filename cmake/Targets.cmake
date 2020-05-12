@@ -136,27 +136,9 @@ function(CREATE_COVERAGE_TARGETS)
   append_coverage_compiler_flags()
 
   set(COVERAGE_EXCLUDES
-      ${ODE_DEPENDENCY_PREFIX}/include/*
-      ${ODE_DEPENDENCY_PREFIX}/include/benchmark/*
-      ${ODE_DEPENDENCY_PREFIX}/include/glad/*
-      ${ODE_DEPENDENCY_PREFIX}/include/GLFW/*
-      ${ODE_DEPENDENCY_PREFIX}/include/gtest/*
-      ${ODE_DEPENDENCY_PREFIX}/include/gtest/internal/*
-      ${ODE_DEPENDENCY_PREFIX}/include/hayai/*
-      ${ODE_DEPENDENCY_PREFIX}/include/KHR/*
-      ${ODE_DEPENDENCY_PREFIX}/include/SDL2/*
-      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/*
-      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/details/*
-      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/fmt/*
-      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/fmt/bundled/*
-      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/sinks/*
-      ${ODE_DEPENDENCY_PREFIX}/src/*
-      ${ODE_DEPENDENCY_PREFIX}/src/benchmark/*
-      ${ODE_DEPENDENCY_PREFIX}/src/gtest/src/*
-      /usr/include/*
-      /usr/include/c++*
-      *v1*
-      *7*)
+      ${ODE_DEPENDENCY_PREFIX}/*
+      /usr/*
+      /Applications/Xcode.app/*)
 
   setup_target_for_coverage_lcov(NAME ${ANTHEM_NAME}_coverage
       EXECUTABLE ${ANTHEM_TEST_NAME}
