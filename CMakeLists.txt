@@ -111,6 +111,10 @@ print_status(ODE_STD "Obliging Ode C++ standard")
 set_std_flags(${ODE_STD})
 set_linker_flags()
 
+if(ODE_CODE_COVERAGE)
+  set_coverage_flags()
+endif()
+
 add_version_definitions()
 add_opengl_definitions()
 add_directory_definitions()
