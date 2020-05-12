@@ -24,6 +24,8 @@ set in_tree_build=false
 
 if "%~1"=="%in_tree_build_option%" set in_tree_build=true
 
+echo The value for in-tree build is set to %in_tree_build%
+
 @rem Switch to the correct directory.
 
 if %in_tree_build%==false (
