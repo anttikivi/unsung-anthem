@@ -26,7 +26,7 @@ if "%~1"=="%in_tree_build_option%" set in_tree_build=true
 
 @rem Switch to the correct directory.
 
-if %in_tree_build_option%==false (
+if %in_tree_build%==false (
   if defined ODE_SOURCE_ROOT (
     if not "%ODE_SOURCE_ROOT%"=="" (
       cd %ODE_SOURCE_ROOT%
@@ -48,7 +48,7 @@ set composer_directory_name=%composer_directory_base_name%_^
 %composer_version:.=_%
 set composer_head_directory_name=%composer_directory_base_name%_head
 
-if %in_tree_build_option%==true (
+if %in_tree_build%==true (
   set build_directory_name=build
   set build_directory=%cd%\%build_directory_name%
   set script_directory=%build_directory%\%script_directory_name%
