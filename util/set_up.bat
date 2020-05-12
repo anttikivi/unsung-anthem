@@ -57,7 +57,9 @@ if %in_tree_build%==true (
   set build_directory_name=build
   set build_directory=%cd%\%build_directory_name%
   set script_directory=%build_directory%\%script_directory_name%
+)
 
+if %in_tree_build%==true (
   goto make_build_directory
 )
 
