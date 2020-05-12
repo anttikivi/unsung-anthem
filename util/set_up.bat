@@ -11,7 +11,7 @@ set anthem_name=Unsung Anthem
 
 echo Running the Windows set-up batch file for %composer_name% ^
 %composer_version%, the build script of %ode_name% and %anthem_name%
-echo The arguments passed to the script are %~1
+echo The arguments passed to the script are %*
 
 set github_url=https://github.com
 set composer_repo_owner=anttikivi
@@ -25,7 +25,7 @@ set in_tree_build_option=--in-tree-build
 
 set in_tree_build=false
 
-if "%~1"=="%in_tree_build_option%" set in_tree_build=true
+for %%g in (%*) do if /i "%%~g"=="%in_tree_build_option%" set in_tree_build=true
 
 echo The value for in-tree build is set to %in_tree_build%
 
