@@ -124,13 +124,43 @@ function(CREATE_ANTHEM_TEST_EXECUTABLE)
   endif()
   target_link_libraries(${ANTHEM_TEST_NAME} ${ODE_LIBRARIES})
 
-  # Add the coverage settings.
-  target_link_libraries(${ANTHEM_TEST_NAME} ode_coverage_config)
-
   if(DEFINED ODE_MSVC_RUNTIME_LIBRARY)
     set_property(TARGET ${ANTHEM_TEST_NAME} PROPERTY
         MSVC_RUNTIME_LIBRARY "${ODE_MSVC_RUNTIME_LIBRARY}")
   endif()
+endfunction()
+
+function(CREATE_COVERAGE_TARGETS)
+  message(STATUS "Going to create the code coverage target")
+
+  append_coverage_compiler_flags()
+
+  set(COVERAGE_EXCLUDES
+      ${ODE_DEPENDENCY_PREFIX}/include/*
+      ${ODE_DEPENDENCY_PREFIX}/include/benchmark/*
+      ${ODE_DEPENDENCY_PREFIX}/include/glad/*
+      ${ODE_DEPENDENCY_PREFIX}/include/GLFW/*
+      ${ODE_DEPENDENCY_PREFIX}/include/gtest/*
+      ${ODE_DEPENDENCY_PREFIX}/include/gtest/internal/*
+      ${ODE_DEPENDENCY_PREFIX}/include/hayai/*
+      ${ODE_DEPENDENCY_PREFIX}/include/KHR/*
+      ${ODE_DEPENDENCY_PREFIX}/include/SDL2/*
+      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/*
+      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/details/*
+      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/fmt/*
+      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/fmt/bundled/*
+      ${ODE_DEPENDENCY_PREFIX}/include/spdlog/sinks/*
+      ${ODE_DEPENDENCY_PREFIX}/src/*
+      ${ODE_DEPENDENCY_PREFIX}/src/benchmark/*
+      ${ODE_DEPENDENCY_PREFIX}/src/gtest/src/*
+      /usr/include/*
+      /usr/include/c++*
+      *v1*
+      *7*)
+
+  setup_target_for_coverage_lcov(NAME ${ANTHEM_NAME}_coverage
+      EXECUTABLE ${ANTHEM_TEST_NAME}
+      DEPENDECIES ${ANTHEM_TEST_NAME})
 endfunction()
 
 function(CREATE_TARGETS)
@@ -149,5 +179,9 @@ function(CREATE_TARGETS)
   endif()
   if(ODE_BUILD_TEST)
     create_anthem_test_executable()
+  endif()
+  if(ODE_CODE_COVERAGE)
+    include(CodeCoverage)
+    create_coverage_targets()
   endif()
 endfunction()

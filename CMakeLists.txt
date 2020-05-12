@@ -12,7 +12,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 #==- Modules ---------------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-include(CodeCoverage)
 include(CompilerFlags)
 include(Definitions)
 include(ExternalSources)
@@ -71,6 +70,7 @@ assert_variable(ODE_VERSION "Obliging Ode version")
 assert_variable(ANTHEM_VERSION "Unsung Anthem version")
 assert_variable(ODE_OPENGL_VERSION_MAJOR "OpenGL major version")
 assert_variable(ODE_OPENGL_VERSION_MINOR "OpenGL minor version")
+assert_variable(ODE_SCRIPTS_BASE_DIRECTORY "Lua scripts base directory name")
 
 #===------------------------------------------------------------------------===#
 #==- Conditional Variable Assertions ---------------------------------------===#
@@ -250,7 +250,6 @@ endif()
 default_value(ODE_DYNAMIC_MARK d "dynamic library mark")
 default_value(ODE_COVERAGE_MARK c "coverage target mark")
 
-add_coverage_target()
 create_targets()
 
 #===------------------------------------------------------------------------===#
