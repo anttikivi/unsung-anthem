@@ -47,6 +47,8 @@ unsung-anthem.xcodeproj
 
 # Python
 *.pyc
+Pipfile
+Pipfile.lock
 
 # GitHub Authorization Token
 token

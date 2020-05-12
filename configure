@@ -45,13 +45,8 @@ echo "The working directory is set to $PWD"
 
 # Switch to the correct directory.
 
-if [ -z "$ODE_SOURCE_ROOT" ]; then
-  if [ "$in_tree_build" = false ]; then
-    cd ..
-  fi
-  ODE_SOURCE_ROOT=$PWD
-else
-  cd $ODE_SOURCE_ROOT
+if [ "$in_tree_build" = false ]; then
+  cd ..
 fi
 
 echo "The working directory is set to $PWD"

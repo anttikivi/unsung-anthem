@@ -38,11 +38,7 @@ echo "The value for in-tree build is set to $in_tree_build"
 # Switch to the correct directory.
 
 if [ "$in_tree_build" = false ]; then
-  if [ -z "$ODE_SOURCE_ROOT" ]; then
-    cd ..
-  else
-    cd $ODE_SOURCE_ROOT
-  fi
+  cd ..
 fi
 
 echo "The working directory is set to $PWD"

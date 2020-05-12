@@ -32,19 +32,9 @@ echo The value for in-tree build is set to %in_tree_build%
 @rem Switch to the correct directory.
 
 if %in_tree_build%==false (
-  if defined ODE_SOURCE_ROOT (
-    if not "%ODE_SOURCE_ROOT%"=="" (
-      cd %ODE_SOURCE_ROOT%
-      goto run_with_working_dir
-    )
-  )
-
   cd ..
 )
 
-goto run_with_working_dir
-
-:run_with_working_dir
 echo The working directory is set to %cd%
 
 set script_directory_name=script
