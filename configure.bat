@@ -40,24 +40,25 @@ echo The working directory is set to %cd%
 
 @rem Switch to the correct directory.
 
+set is_source_root_set=false
+
 if defined ODE_SOURCE_ROOT (
   if not "%ODE_SOURCE_ROOT%"=="" (
-    cd %ODE_SOURCE_ROOT%
-    goto run_composer
+    set is_source_root_set=true
   )
 )
 
-if %in_tree_build_option%==false (
-  cd ..
+if "%is_source_root_set%"==false (
+  if %in_tree_build%==false (
+    cd ..
+  )
+  set ODE_SOURCE_ROOT=%cd%
+) else (
+  cd %ODE_SOURCE_ROOT%
 )
-
-set ODE_SOURCE_ROOT=%cd%
-
-goto run_composer
 
 @rem Run Couplet Composer
 
-:run_composer
 echo "The working directory is set to %cd%"
 
 set preset_mode=false
