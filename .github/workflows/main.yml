@@ -10,6 +10,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-18.04, ubuntu-16.04, macos-10.15, windows-2019]
+        build-system: [ninja]
         lint: [false]
         coverage: [false]
         include:
@@ -25,11 +26,13 @@ jobs:
           - os: windows-2019
             artefact-platform: windows-2019
             composer-preset: main_workflow_windows
+            build-system: visual-studio-16
           - os: ubuntu-18.04
             composer-preset: main_workflow_linux_lint
             lint: true
           - os: ubuntu-18.04
             composer-preset: main_workflow_linux_coverage
+            build-system: make
             coverage: true
 
     steps:
@@ -49,7 +52,7 @@ jobs:
       uses: actions/cache@v1.1.2
       with:
         path: build/local
-        key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}
+        key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}-${{ matrix.build-system }}
     - name: Run the configuration
       run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
       env:
