@@ -67,6 +67,7 @@ goto install_pipenv
 
 :make_build_directory
 md %build_directory%
+
 echo Created the directory '%build_directory%'
 
 goto install_pipenv
