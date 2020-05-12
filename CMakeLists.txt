@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 #==- Modules ---------------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
+include(CodeCoverage)
 include(CompilerFlags)
 include(Definitions)
 include(ExternalSources)
@@ -35,7 +36,7 @@ set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
 option(ODE_BUILD_TEST "Build the tests" OFF)
 option(ODE_TEST_BENCHMARKING "Build the benchmarkings" OFF)
 option(ODE_BUILD_DOCS "Build the documentation" OFF)
-option(ODE_ENABLE_GCOV "Add target for gcov code coverage" OFF)
+option(ODE_CODE_COVERAGE "Enable code coverage reporting" OFF)
 option(ODE_BUILD_STATIC "Build the static Obliging Ode library" OFF)
 option(ODE_BUILD_SHARED "Build the shared Obliging Ode library" OFF)
 option(ODE_USE_SDL_DEBUG_SUFFIX
@@ -70,10 +71,6 @@ assert_variable(ODE_VERSION "Obliging Ode version")
 assert_variable(ANTHEM_VERSION "Unsung Anthem version")
 assert_variable(ODE_OPENGL_VERSION_MAJOR "OpenGL major version")
 assert_variable(ODE_OPENGL_VERSION_MINOR "OpenGL minor version")
-assert_variable(ODE_LOGGER_NAME "engine logger name")
-assert_variable(ODE_WINDOW_NAME "engine window name")
-assert_variable(ANTHEM_LOGGER_NAME "program logger name")
-assert_variable(ANTHEM_WINDOW_NAME "program window name")
 
 #===------------------------------------------------------------------------===#
 #==- Conditional Variable Assertions ---------------------------------------===#
@@ -114,7 +111,6 @@ print_status(ODE_STD "Obliging Ode C++ standard")
 set_std_flags(${ODE_STD})
 set_linker_flags()
 
-add_name_definitions()
 add_version_definitions()
 add_opengl_definitions()
 add_directory_definitions()
@@ -254,6 +250,7 @@ endif()
 default_value(ODE_DYNAMIC_MARK d "dynamic library mark")
 default_value(ODE_COVERAGE_MARK c "coverage target mark")
 
+add_coverage_target()
 create_targets()
 
 #===------------------------------------------------------------------------===#

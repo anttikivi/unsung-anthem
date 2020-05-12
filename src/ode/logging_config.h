@@ -15,11 +15,7 @@ namespace ode
   ///
   /// The name of the engine logger.
   ///
-#ifdef ODE_LOGGER_NAME
-  constexpr auto logger_name = ODE_LOGGER_NAME;
-#else
   constexpr auto logger_name = "ode";
-#endif // !defined(ODE_LOGGER_NAME)
 
   ///
   /// The logging pattern of the engine logger.

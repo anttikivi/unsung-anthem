@@ -15,11 +15,7 @@ namespace anthem
   ///
   /// The name of the program logger.
   ///
-#ifdef ANTHEM_LOGGER_NAME
-  constexpr auto logger_name = ANTHEM_LOGGER_NAME;
-#else
   constexpr auto logger_name = "anthem";
-#endif // !defined(ANTHEM_LOGGER_NAME)
 
   ///
   /// The logging pattern of the program logger.

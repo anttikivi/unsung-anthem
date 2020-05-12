@@ -39,15 +39,7 @@ namespace anthem
   ///
   /// The default name of the window.
   ///
-#ifdef ANTHEM_WINDOW_NAME
-  constexpr auto default_window_name = ANTHEM_WINDOW_NAME;
-#else
-#  ifdef ODE_WINDOW_NAME
-  constexpr auto default_window_name = ODE_WINDOW_NAME;
-#  else
-  constexpr auto default_window_name = "anthem";
-#  endif // !defined(ODE_WINDOW_NAME)
-#endif // !defined(ANTHEM_WINDOW_NAME)
+  constexpr auto default_window_name = "Unsung Anthem";
 
   //===--------------------------------------------------------------------===//
   //===--- Default values for command line options ------------------------===//

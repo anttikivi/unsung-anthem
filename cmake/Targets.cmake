@@ -124,6 +124,9 @@ function(CREATE_ANTHEM_TEST_EXECUTABLE)
   endif()
   target_link_libraries(${ANTHEM_TEST_NAME} ${ODE_LIBRARIES})
 
+  # Add the coverage settings.
+  target_link_libraries(${ANTHEM_TEST_NAME} ode_coverage_config)
+
   if(DEFINED ODE_MSVC_RUNTIME_LIBRARY)
     set_property(TARGET ${ANTHEM_TEST_NAME} PROPERTY
         MSVC_RUNTIME_LIBRARY "${ODE_MSVC_RUNTIME_LIBRARY}")
@@ -146,8 +149,5 @@ function(CREATE_TARGETS)
   endif()
   if(ODE_BUILD_TEST)
     create_anthem_test_executable()
-  endif()
-  if(ODE_ENABLE_GCOV)
-    set_up_coverage(${ANTHEM_NAME} ${ANTHEM_TEST_NAME})
   endif()
 endfunction()
