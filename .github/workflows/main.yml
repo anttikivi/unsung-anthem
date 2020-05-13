@@ -88,4 +88,4 @@ jobs:
       with:
         name: anthem-actions-${{ matrix.artefact-platform }}
         path: build/artefacts/anthem-*
-      if: matrix.lint != true
+      if: matrix.lint == false && matrix.coverage == false
