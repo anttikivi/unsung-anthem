@@ -1,7 +1,7 @@
 # Unsung Anthem
 **with Obliging Ode**
 
-![](https://github.com/anttikivi/unsung-anthem/workflows/Main%20workflow/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/anttikivi/unsung-anthem/badge.svg?branch=develop)](https://coveralls.io/github/anttikivi/unsung-anthem?branch=develop)
+![](https://github.com/anttikivi/unsung-anthem/workflows/Main%20workflow/badge.svg) [![codecov](https://codecov.io/gh/anttikivi/unsung-anthem/branch/develop/graph/badge.svg)](https://codecov.io/gh/anttikivi/unsung-anthem)
 
 *Unsung Anthem* is a video game with its own game engine, *Obliging Ode*. The development of the project is still in very early stage. This repository contains the source code for both Unsung Anthem and Obliging Ode.
 
