@@ -1,40 +1,40 @@
 # Copyright (c) 2019–2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
-function(CREATE_ODE_STATIC_LIB)
-  message(STATUS "Creating target '${ODE_NAME}'")
-  add_library(${ODE_NAME} STATIC
+function(CREATE_ODE_STATIC_LIB_TARGET)
+  message(STATUS "Creating target '${ODE_STATIC_NAME}'")
+  add_library(${ODE_STATIC_NAME} STATIC
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
       ${ODE_SOURCES})
-  target_link_libraries(${ODE_NAME} ${ODE_LIBRARIES})
+  target_link_libraries(${ODE_STATIC_NAME} ${ODE_LIBRARIES})
 
-  set_target_properties(${ODE_NAME} PROPERTIES
+  set_target_properties(${ODE_STATIC_NAME} PROPERTIES
       PUBLIC_HEADER "${ODE_LIB_INCLUDES}")
-  set_target_properties(${ODE_NAME} PROPERTIES
+  set_target_properties(${ODE_STATIC_NAME} PROPERTIES
       PRIVATE_HEADER "${ODE_INCLUDES}")
 endfunction()
 
-function(CREATE_ODE_SHARED_LIB)
-  message(STATUS "Creating target '${ODE_NAME}${ODE_DYNAMIC_MARK}'")
-  add_library(${ODE_NAME}${ODE_DYNAMIC_MARK} SHARED
+function(CREATE_ODE_SHARED_LIB_TARGET)
+  message(STATUS "Creating target '${ODE_SHARED_NAME}'")
+  add_library(${ODE_SHARED_NAME} SHARED
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
       ${ODE_SOURCES})
-  target_link_libraries(${ODE_NAME}${ODE_DYNAMIC_MARK} ${ODE_LIBRARIES})
+  target_link_libraries(${ODE_SHARED_NAME} ${ODE_LIBRARIES})
 
-  set_target_properties(${ODE_NAME}${ODE_DYNAMIC_MARK} PROPERTIES
+  set_target_properties(${ODE_SHARED_NAME} PROPERTIES
       PUBLIC_HEADER "${ODE_LIB_INCLUDES}")
-  set_target_properties(${ODE_NAME}${ODE_DYNAMIC_MARK} PROPERTIES
+  set_target_properties(${ODE_SHARED_NAME} PROPERTIES
       PRIVATE_HEADER "${ODE_INCLUDES}")
 
   if(UNIX)
-    set_target_properties(${ODE_NAME}${ODE_DYNAMIC_MARK} PROPERTIES
-        OUTPUT_NAME ${ODE_NAME})
+    set_target_properties(${ODE_SHARED_NAME} PROPERTIES
+        OUTPUT_NAME ${ODE_SHARED_NAME})
   endif()
 endfunction()
 
-function(CREATE_ANTHEM_EXECUTABLE)
+function(CREATE_ANTHEM_EXECUTABLE_TARGET)
   message(STATUS "Creating target '${ANTHEM_NAME}'")
   add_executable(${ANTHEM_NAME}
       ${ODE_LIB_INCLUDES}
@@ -52,44 +52,44 @@ function(CREATE_ANTHEM_EXECUTABLE)
   endif()
 endfunction()
 
-function(CREATE_ANTHEM_STATIC_LIB)
-  message(STATUS "Creating target '${ANTHEM_LIB_NAME}'")
-  add_library(${ANTHEM_LIB_NAME} STATIC
+function(CREATE_ANTHEM_STATIC_LIB_TARGET)
+  message(STATUS "Creating target '${ANTHEM_STATIC_NAME}'")
+  add_library(${ANTHEM_STATIC_NAME} STATIC
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
       ${ODE_SOURCES}
       ${ANTHEM_LIB_INCLUDES}
       ${ANTHEM_LIB_SOURCES})
-  target_link_libraries(${ANTHEM_LIB_NAME} ${ODE_LIBRARIES})
+  target_link_libraries(${ANTHEM_STATIC_NAME} ${ODE_LIBRARIES})
 
-  set_target_properties(${ANTHEM_LIB_NAME} PROPERTIES
+  set_target_properties(${ANTHEM_STATIC_NAME} PROPERTIES
       PUBLIC_HEADER "${ANTHEM_LIB_INCLUDES}")
-  set_target_properties(${ANTHEM_LIB_NAME} PROPERTIES
+  set_target_properties(${ANTHEM_STATIC_NAME} PROPERTIES
       PRIVATE_HEADER "${ANTHEM_INCLUDES}")
 endfunction()
 
-function(CREATE_ANTHEM_SHARED_LIB)
-  message(STATUS "Creating target '${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK}'")
-  add_library(${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK} SHARED
+function(CREATE_ANTHEM_SHARED_LIB_TARGET)
+  message(STATUS "Creating target '${ANTHEM_SHARED_NAME}'")
+  add_library(${ANTHEM_SHARED_NAME} SHARED
       ${ODE_LIB_INCLUDES}
       ${ODE_INCLUDES}
       ${ODE_SOURCES}
       ${ANTHEM_LIB_INCLUDES}
       ${ANTHEM_LIB_SOURCES})
-  target_link_libraries(${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK} ${ODE_LIBRARIES})
+  target_link_libraries(${ANTHEM_SHARED_NAME} ${ODE_LIBRARIES})
 
-  set_target_properties(${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK} PROPERTIES
+  set_target_properties(${ANTHEM_SHARED_NAME} PROPERTIES
       PUBLIC_HEADER "${ANTHEM_LIB_INCLUDES}")
-  set_target_properties(${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK} PROPERTIES
+  set_target_properties(${ANTHEM_SHARED_NAME} PROPERTIES
       PRIVATE_HEADER "${ANTHEM_INCLUDES}")
 
   if(UNIX)
-    set_target_properties(${ANTHEM_LIB_NAME}${ODE_DYNAMIC_MARK} PROPERTIES
-        OUTPUT_NAME ${ANTHEM_LIB_NAME})
+    set_target_properties(${ANTHEM_SHARED_NAME} PROPERTIES
+        OUTPUT_NAME ${ANTHEM_SHARED_NAME})
   endif()
 endfunction()
 
-function(CREATE_ANTHEM_TEST_EXECUTABLE)
+function(CREATE_ANTHEM_TEST_EXECUTABLE_TARGET)
   list(REMOVE_ITEM ODE_TEST_SOURCES
       ${CMAKE_CURRENT_SOURCE_DIR}/test/ode/main.cpp)
   list(REMOVE_ITEM ANTHEM_SOURCES
@@ -147,20 +147,20 @@ endfunction()
 
 function(CREATE_TARGETS)
   if(ODE_BUILD_STATIC)
-    create_ode_static_lib()
+    create_ode_static_lib_target()
   endif()
   if(ODE_BUILD_SHARED)
-    create_ode_shared_lib()
+    create_ode_shared_lib_target()
   endif()
-  create_anthem_executable()
+  create_anthem_executable_target()
   if(ANTHEM_BUILD_STATIC)
-    create_anthem_static_lib()
+    create_anthem_static_lib_target()
   endif()
   if(ANTHEM_BUILD_SHARED)
-    create_anthem_shared_lib()
+    create_anthem_shared_lib_target()
   endif()
   if(ODE_BUILD_TEST)
-    create_anthem_test_executable()
+    create_anthem_test_executable_target()
   endif()
   if(ODE_CODE_COVERAGE)
     include(CodeCoverage)

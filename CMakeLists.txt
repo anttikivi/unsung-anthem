@@ -85,10 +85,16 @@ endif()
 #===------------------------------------------------------------------------===#
 
 default_value(ODE_NAME ode-name_not_set "Obliging Ode binaries name")
-default_value(ODE_LIB_NAME ${ODE_NAME} "Obliging Ode library name")
+default_value(ODE_STATIC_NAME
+    ${ODE_NAME}-static "Obliging Ode static library name")
+default_value(ODE_SHARED_NAME
+    ${ODE_NAME}-shared "Obliging Ode shared library name")
 
 default_value(ANTHEM_NAME anthem-name_not_set "executable name")
-default_value(ANTHEM_LIB_NAME ${ANTHEM_NAME} "Unsung Anthem library name")
+default_value(ANTHEM_STATIC_NAME
+    ${ANTHEM_NAME}-static "Unsung Anthem static library name")
+default_value(ANTHEM_SHARED_NAME
+    ${ANTHEM_NAME}-shared "Unsung Anthem shared library name")
 default_value(ANTHEM_TEST_NAME test-${ANTHEM_NAME}
     "Unsung Anthem test executable name")
 
@@ -250,9 +256,6 @@ endif()
 if(DEFINED ODE_RPATH AND APPLE)
   set(CMAKE_MACOSX_RPATH 1)
 endif()
-
-default_value(ODE_DYNAMIC_MARK d "dynamic library mark")
-default_value(ODE_COVERAGE_MARK c "coverage target mark")
 
 create_targets()
 
