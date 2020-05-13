@@ -13,7 +13,6 @@ readonly ANTHEM_NAME="Unsung Anthem"
 
 echo "Running the set-up shell script for $COMPOSER_NAME $COMPOSER_VERSION, \
 the build script of $ODE_NAME and $ANTHEM_NAME"
-echo "The arguments passed to the script are $@"
 
 readonly GITHUB_URL="https://github.com"
 readonly COMPOSER_REPO_OWNER="anttikivi"
@@ -86,7 +85,7 @@ if [ "$ODE_DEVELOPMENT_COMPOSER" = true ]; then
   # If the Composer directory doesn't exist, there is no need to check for the
   # remote HEAD SHA1.
   if [ ! -d "$composer_directory" ]; then
-    echo "The directory for $COMPOSER_NAME doesn't exist and, thus, \
+    echo "The directory '$composer_directory' doesn't exist and, thus, \
 $COMPOSER_NAME will be cloned"
 
     git clone $COMPOSER_REPO_URL $composer_directory

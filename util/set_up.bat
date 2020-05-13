@@ -11,7 +11,6 @@ set anthem_name=Unsung Anthem
 
 echo Running the Windows set-up batch file for %composer_name% ^
 %composer_version%, the build script of %ode_name% and %anthem_name%
-echo The arguments passed to the script are %*
 
 set github_url=https://github.com
 set composer_repo_owner=anttikivi
@@ -31,9 +30,7 @@ echo The value for in-tree build is set to %in_tree_build%
 
 @rem Switch to the correct directory.
 
-if %in_tree_build%==false (
-  cd ..
-)
+if %in_tree_build%==false cd ..
 
 echo The working directory is set to %cd%
 
@@ -76,8 +73,8 @@ echo Created the directory '%script_directory%'
 @rem Clone Couplet Composer
 
 if defined ODE_DEVELOPMENT_COMPOSER (
-  if not "%ODE_DEVELOPMENT_COMPOSER%"=="" (
-    if "%ODE_DEVELOPMENT_COMPOSER%"==true (
+  if not [%ODE_DEVELOPMENT_COMPOSER%]==[] (
+    if %ODE_DEVELOPMENT_COMPOSER%==true (
       goto get_development_composer
     )
   )
@@ -98,14 +95,16 @@ echo Using development version of %composer_name%
 
 set composer_directory=%script_directory%\%composer_head_directory_name%
 
-if not exist %composer_directory% goto get_dev_no_dir
-
-goto get_dev_existing_dir
+if not exist %composer_directory% (
+  goto get_dev_no_dir
+) else (
+  goto get_dev_existing_dir
+)
 
 :get_dev_no_dir
 @rem If the Composer directory doesn't exist, there is no need to check for
 @rem the remote HEAD SHA1.
-echo The directory for %composer_name% doesn't exist and, thus, ^
+echo The directory for '%composer_directory%' doesn't exist and, thus, ^
 %composer_name% will be cloned
 
 start "git clone" /w /b git clone %composer_repo_url% %composer_directory%

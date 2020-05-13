@@ -10,7 +10,6 @@ set anthem_name=Unsung Anthem
 echo Running the Windows batch file wrapper for %composer_name%, the build ^
 script of %ode_name% and %anthem_name%
 echo %composer_name% will be run in configuring mode
-echo The arguments passed to the script are %*
 
 set preset_mode_argument=preset
 set configure_mode_argument=configure
@@ -40,7 +39,7 @@ echo The working directory is set to %cd%
 
 @rem Switch to the correct directory.
 
-if %in_tree_build%==false cd ..
+if /i %in_tree_build%==false cd ..
 
 @rem Run Couplet Composer
 
@@ -48,7 +47,7 @@ echo The working directory is set to %cd%
 
 set preset_mode=false
 
-if "%~1"=="%preset_mode_argument%" set preset_mode=true
+for %%g in (%*) do if /i "%%~g"=="%preset_mode_argument%" set preset_mode=true
 
 if %preset_mode%==true (
   start "%composer_name%" /w /b pipenv run %composer_executable_name% %* ^
