@@ -44,7 +44,7 @@ if %in_tree_build%==false cd ..
 
 @rem Run Couplet Composer
 
-echo "The working directory is set to %cd%"
+echo The working directory is set to %cd%
 
 set preset_mode=false
 
