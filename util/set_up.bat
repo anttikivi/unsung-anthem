@@ -53,7 +53,7 @@ if %in_tree_build%==true (
   set script_directory=%cd%\%script_directory_name%
 )
 
-@rem setlocal disabledelayedexpansion
+setlocal disabledelayedexpansion
 
 @rem Install pipenv
 
@@ -71,6 +71,8 @@ md %script_directory%
 echo Created the directory '%script_directory%'
 
 @rem Clone Couplet Composer
+
+setlocal enableextensions
 
 if defined ODE_DEVELOPMENT_COMPOSER (
   if not [%ODE_DEVELOPMENT_COMPOSER%]==[] (
