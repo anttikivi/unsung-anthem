@@ -34,7 +34,53 @@ p.reference, p.definition {
   text-align: center;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Inter", -apple-system, blinkmacsystemfont, "Helvetica Neue",
+    helvetica, sans-serif;
+}
+
 /* @end */
+
+/* these are for tree view inside a (index) page */
+
+table.directory {
+  font-family: "Fira Code", monospace;
+}
+
+td.desc {
+  font-family: "Noto Serif", "Times New Roman", serif;
+}
+
+/* @end */
+
+code {
+  font-family: "Fira Code", monospace;
+}
+
+.contents a, .contents a:visited {
+  color: var(--primary-accent);
+}
+
+.contents a:focus, .contents a:hover, .contents a:active {
+  color: var(--primary-accent-additional);
+}
+
+a, a:visited {
+  color: var(--primary-accent);
+}
+
+a:focus, a:hover, a:active {
+  color: var(--primary-accent-additional);
+}
+
+a.el, a:visited.el {
+  font-weight: 400;
+  color: var(--text-main);
+}
+
+a:focus.el, a:hover.el, a:active.el {
+  color: var(--primary-accent);
+}
 
 .sm-dox {
   background-image: none;
@@ -47,15 +93,34 @@ p.reference, p.definition {
   text-shadow: none;
 }
 
-.sm-dox a:focus, .sm-dox a:hover, .sm-dox a:active {
+.sm-dox a:focus,
+.sm-dox a:hover,
+.sm-dox a:active,
+.sm-dox ul li a:focus,
+.sm-dox ul li a:hover,
+.sm-dox ul li a:active {
   background: none;
   background-color: var(--primary-accent);
   color: var(--text-inverted);
   text-shadow: none;
 }
 
+.sm-dox ul {
+  border: none;
+}
+
+div.header {
+  background: none;
+}
+
 div.contents {
-	margin: 1rem 6rem;
+	margin: 1rem 2rem;
+}
+
+@media all and (min-width: 768px) {
+  div.contents {
+    margin: 1rem 6rem;
+  }
 }
 
 #projectname {
@@ -82,4 +147,8 @@ div.contents {
   margin: 0.5rem auto;
   clear: both;
   text-align: center;
+}
+
+#main-nav {
+  border-bottom: 1px solid #C4CFE5;
 }
