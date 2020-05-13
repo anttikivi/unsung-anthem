@@ -285,6 +285,12 @@ Builds the documentation of Obliging Ode and Unsung Anthem. This option requires
 
 Runs `clang-tidy` checks on Obliging Ode and Unsung Anthem and prints its output.
 
+**`--coverage`**
+
+(Since Couplet Composer 0.15.0)
+
+Generates the code coverage reports from the tests.
+
 **`--ode-version VERSION`**
 
 Sets the version number of Obliging Ode. The default value is the version number specified in `util/values.json`.
@@ -376,6 +382,12 @@ Specifies the path to `clang-tidy` for the host platform and uses it instead of 
 (Since Couplet Composer 0.11.0)
 
 Specifies the path to `clang-apply-replacements` for the host platform and uses it instead of the automatically resolved `clang-apply-replacements`.
+
+**`--enable-xvfb`**
+
+(Since Couplet Composer 0.15.0)
+
+Uses X virtual frame buffer when running the code coverage generation.
 
 #### OpenGL Options
 
