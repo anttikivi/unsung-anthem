@@ -5,7 +5,7 @@ extraction:
   cpp:
     configure:
       command:
-      - ./configure preset --name lgtm_build --in-tree-build
+      - ODE_DEVELOPMENT_COMPOSER=true ./configure preset --name lgtm_build --in-tree-build
     index:
       build_command:
-      - ./compose preset --name lgtm_build --in-tree-build
+      - ODE_DEVELOPMENT_COMPOSER=true ./compose preset --name lgtm_build --in-tree-build
