@@ -3,6 +3,9 @@
 
 extraction:
   cpp:
+    prepare:
+      packages:
+        - g++-9
     configure:
       command:
       - ODE_DEVELOPMENT_COMPOSER=true ./configure preset --name lgtm_build --in-tree-build
