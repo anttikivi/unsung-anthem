@@ -72,23 +72,17 @@ echo Created the directory '%script_directory%'
 
 @rem Clone Couplet Composer
 
-@rem if defined ODE_DEVELOPMENT_COMPOSER (
-@rem   if not [%ODE_DEVELOPMENT_COMPOSER%]==[] (
-@rem     if %ODE_DEVELOPMENT_COMPOSER%==true (
-@rem       goto get_development_composer
-@rem     )
-@rem   )
-@rem )
-
-if not [%ODE_DEVELOPMENT_COMPOSER%]==[] (
-  if %ODE_DEVELOPMENT_COMPOSER%==true (
-    goto get_development_composer
+if defined ODE_DEVELOPMENT_COMPOSER (
+  if not [%ODE_DEVELOPMENT_COMPOSER%]==[] (
+    if %ODE_DEVELOPMENT_COMPOSER%==true (
+      goto get_development_composer
+    )
   )
 )
 
 set composer_directory=%script_directory%\%composer_directory_name%
 
-if not exist %composer_directory% (
+if not exist "%composer_directory%" (
   start "git clone" /w /b git clone %composer_repo_url% %composer_directory%
   start "git checkout" /w /b git -C %composer_directory% checkout ^
 tags/%composer_version_tag% -b local_install_%composer_version_tag%
