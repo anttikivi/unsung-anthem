@@ -72,13 +72,17 @@ echo Created the directory '%script_directory%'
 
 @rem Clone Couplet Composer
 
-setlocal enableextensions
+@rem if defined ODE_DEVELOPMENT_COMPOSER (
+@rem   if not [%ODE_DEVELOPMENT_COMPOSER%]==[] (
+@rem     if %ODE_DEVELOPMENT_COMPOSER%==true (
+@rem       goto get_development_composer
+@rem     )
+@rem   )
+@rem )
 
-if defined ODE_DEVELOPMENT_COMPOSER (
-  if not [%ODE_DEVELOPMENT_COMPOSER%]==[] (
-    if %ODE_DEVELOPMENT_COMPOSER%==true (
-      goto get_development_composer
-    )
+if not [%ODE_DEVELOPMENT_COMPOSER%]==[] (
+  if %ODE_DEVELOPMENT_COMPOSER%==true (
+    goto get_development_composer
   )
 )
 
