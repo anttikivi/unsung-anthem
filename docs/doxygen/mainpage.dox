@@ -1,15 +1,15 @@
-/// @mainpage Anthem
+/// \mainpage Unsung Anthem and Obliging Ode
 ///
-/// @section main_intro Introduction
+/// \section main_intro Introduction
 /// Welcome to Obliging Ode and Unsung Anthem.
 ///
-/// This documentation describes the @b internal software that makes up
-/// Obliging Ode and Unsung Anthem, not the @b external use of them. There are
+/// This documentation describes the \b internal software that makes up
+/// Obliging Ode and Unsung Anthem, not the \b external use of them. There are
 /// no instructions here on how to use Obliging Ode and Unsung Anthem, only the
 /// APIs that make up the software. For usage instructions, please see the
 /// programmer's guide or reference manual.
 ///
-/// @section main_caveat Caveat
+/// \section main_caveat Caveat
 /// This documentation is generated directly from the source code with Doxygen.
 /// Since Obliging Ode and Unsung Anthem is constantly under active
 /// development, what you're about to read is out of date! However, it may

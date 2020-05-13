@@ -1,7 +1,7 @@
 # Copyright (c) 2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
-if(ODE_BUILD_DOCS AND DOXYGEN_FOUND)
+if(ODE_BUILD_DOCS AND DOXYGEN_FOUND AND NOT ODE_SKIP_BUILD)
   set(docs_srcdir ${CMAKE_CURRENT_SOURCE_DIR})
   set(docs_builddir ${CMAKE_CURRENT_BINARY_DIR})
 

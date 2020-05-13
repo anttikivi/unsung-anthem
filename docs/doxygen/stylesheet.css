@@ -1,0 +1,85 @@
+/* Copyright (c) 2020 Antti Kivi */
+/* Licensed under the Effective Elegy Licence */
+
+:root {
+  --primary-accent: #e74c3c;
+  --primary-accent-additional: #943126;
+
+  --secondary-accent: #48c9b0;
+  --secondary-accent-additional: #117864;
+
+  --background-site: #fdf2e9;
+  --background-header: #fdfefe;
+
+  --text-main: #17202a;
+  --text-inverted: #eaecee;
+  --text-weak: #808b96;
+}
+
+body, table, div, p, dl {
+	font-family: "Noto Serif", "Times New Roman", serif;
+}
+
+p.reference, p.definition {
+	font-family: "Noto Serif", "Times New Roman", serif;
+}
+
+/* @group Heading Levels */
+
+.title {
+	font-family: "Inter", -apple-system, blinkmacsystemfont, "Helvetica Neue",
+    helvetica, sans-serif;
+  font-weight: 700;
+  clear: both;
+  text-align: center;
+}
+
+/* @end */
+
+.sm-dox {
+  background-image: none;
+}
+
+.sm-dox a {
+  font-family: "Inter", -apple-system, blinkmacsystemfont, "Helvetica Neue",
+    helvetica, sans-serif;
+  color: var(--text-main);
+  text-shadow: none;
+}
+
+.sm-dox a:focus, .sm-dox a:hover, .sm-dox a:active {
+  background: none;
+  background-color: var(--primary-accent);
+  color: var(--text-inverted);
+  text-shadow: none;
+}
+
+div.contents {
+	margin: 1rem 6rem;
+}
+
+#projectname {
+	font-family: "Inter", -apple-system, blinkmacsystemfont, "Helvetica Neue",
+    helvetica, sans-serif;
+  font-weight: 700;
+  margin: 0.5rem auto;
+  clear: both;
+  text-align: center;
+}
+
+#projectnumber {
+	font-family: "Inter", -apple-system, blinkmacsystemfont, "Helvetica Neue",
+    helvetica, sans-serif;
+  font-size: 150%;
+  margin: 0.5rem auto;
+  clear: both;
+  text-align: center;
+}
+
+#projectbrief {
+	font-family: "Inter", -apple-system, blinkmacsystemfont, "Helvetica Neue",
+    helvetica, sans-serif;
+  margin: 0.5rem auto;
+  clear: both;
+  text-align: center;
+}

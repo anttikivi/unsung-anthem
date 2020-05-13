@@ -32,13 +32,13 @@ DOXYFILE_ENCODING      = UTF-8
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = unsung-anthem
+PROJECT_NAME           = "Unsung Anthem"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = @PACKAGE_VERSION@
+PROJECT_NUMBER         = @ANTHEM_VERSION@
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -831,11 +831,8 @@ WARN_LOGFILE           =
 
 INPUT                  = @docs_srcdir@/../include \
                          @docs_srcdir@/../lib \
-                         @docs_srcdir@/../src
-# INPUT                  = @docs_srcdir@/../include \
-#                          @docs_srcdir@/../lib \
-#                          @docs_srcdir@/../src \
-#                          @docs_srcdir@/doxygen.intro
+                         @docs_srcdir@/../src \
+                         @docs_srcdir@/doxygen/mainpage.dox
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1195,8 +1192,7 @@ HTML_FILE_EXTENSION    = .html
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_HEADER            =
-# TODO HTML_HEADER            = @docs_srcdir@/doxygen.header
+HTML_HEADER            = @docs_srcdir@/doxygen/header.html
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
 # generated HTML page. If the tag is left blank doxygen will generate a standard
@@ -1206,8 +1202,7 @@ HTML_HEADER            =
 # that doxygen normally uses.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_FOOTER            =
-# TODO HTML_FOOTER            = @docs_srcdir@/doxygen.footer
+HTML_FOOTER            = @docs_srcdir@/doxygen/footer.html
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading style
 # sheet that is used by each HTML page. It can be used to fine-tune the look of
@@ -1220,7 +1215,6 @@ HTML_FOOTER            =
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 HTML_STYLESHEET        =
-# TODO HTML_STYLESHEET        = @docs_srcdir@/doxygen.css
 
 # The HTML_EXTRA_STYLESHEET tag can be used to specify additional user-defined
 # cascading style sheets that are included after the standard style sheets
@@ -1233,7 +1227,7 @@ HTML_STYLESHEET        =
 # list). For an example see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  =
+HTML_EXTRA_STYLESHEET  = @docs_srcdir@/doxygen/stylesheet.css
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
