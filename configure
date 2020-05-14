@@ -30,7 +30,7 @@ for arg in "$@"; do
   fi
 done
 
-# Set up Couplet Composer
+# Set up Couplet Composer.
 
 current_directory="${0%/*}"
 current_working_directory=$PWD
@@ -51,7 +51,7 @@ fi
 
 echo "The working directory is set to $PWD"
 
-# Run Couplet Composer
+# Run Couplet Composer.
 
 preset_mode=false
 

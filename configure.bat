@@ -24,7 +24,7 @@ set in_tree_build=false
 
 for %%g in (%*) do if /i "%%~g"=="%in_tree_build_option%" set in_tree_build=true
 
-@rem Set up Couplet Composer
+@rem Set up Couplet Composer.
 
 set current_directory=%~dp0
 set current_working_directory=%cd%
@@ -41,9 +41,9 @@ echo The working directory is set to %cd%
 
 if /i %in_tree_build%==false cd ..
 
-@rem Run Couplet Composer
-
 echo The working directory is set to %cd%
+
+@rem Run Couplet Composer.
 
 set preset_mode=false
 

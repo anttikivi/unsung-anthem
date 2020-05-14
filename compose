@@ -70,7 +70,7 @@ if [ ! -d "$IN_TREE_BUILD_DIRECTORY" ] && [ "$in_tree_build" = true ]; then
   exit_for_missing_configuration
 fi
 
-# Set up Couplet Composer
+# Set up Couplet Composer.
 
 current_directory="${0%/*}"
 current_working_directory=$PWD
@@ -91,7 +91,7 @@ fi
 
 echo "The working directory is set to $PWD"
 
-# Run Couplet Composer
+# Run Couplet Composer.
 
 preset_mode=false
 

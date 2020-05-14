@@ -61,21 +61,21 @@ else
   readonly SCRIPT_DIRECTORY="$PWD/$SCRIPT_DIRECTORY_NAME"
 fi
 
-# Install pipenv
+# Install pipenv.
 
 command -v pipenv >/dev/null 2>&1 || {
   echo >&2 "Didn't find pipenv. Installing."
   pip install pipenv
 }
 
-# Set up the script directory
+# Set up the script directory.
 
 if [ ! -d "$SCRIPT_DIRECTORY" ]; then
   mkdir $SCRIPT_DIRECTORY
   echo "Created the directory '$SCRIPT_DIRECTORY'"
 fi
 
-# Clone Couplet Composer
+# Clone Couplet Composer.
 
 if [ "$ODE_DEVELOPMENT_COMPOSER" = true ]; then
   echo "Using development version of $COMPOSER_NAME"

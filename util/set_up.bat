@@ -55,7 +55,7 @@ if %in_tree_build%==true (
 
 setlocal disabledelayedexpansion
 
-@rem Install pipenv
+@rem Install pipenv.
 
 where pipenv
 
@@ -64,12 +64,12 @@ if %ERRORLEVEL% neq 0 (
   start "pip" /w /b pip install pipenv
 )
 
-@rem Set up the script directory
+@rem Set up the script directory.
 
 md %script_directory%
 echo Created the directory '%script_directory%'
 
-@rem Clone Couplet Composer
+@rem Clone Couplet Composer.
 
 if defined ODE_DEVELOPMENT_COMPOSER (
   goto development_variable_is_defined
