@@ -56,3 +56,8 @@ if %preset_mode%==true (
   start "%composer_name%" /w /b pipenv run %composer_executable_name% ^
 %configure_mode_argument% %*
 )
+
+if %ERRORLEVEL% neq 0 (
+  echo %composer_name% failed to run
+  exit 1
+)
