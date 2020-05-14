@@ -35,7 +35,7 @@ done
 
 current_working_directory=$PWD
 
-[ "$in_tree_build" = false ]; then
+if [ "$in_tree_build" = false ]; then
   cd ..
 fi
 
