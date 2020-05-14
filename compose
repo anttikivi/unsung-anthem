@@ -42,10 +42,7 @@ fi
 echo "The working directory is set to $PWD"
 
 readonly BUILD_DIRECTORY_NAME="build"
-readonly PROJECT_DIRECTORY_NAME="unsung-anthem"
 readonly BUILD_DIRECTORY="$PWD/$BUILD_DIRECTORY_NAME"
-readonly IN_TREE_BUILD_DIRECTORY="$PWD/$PROJECT_DIRECTORY_NAME\
-/$BUILD_DIRECTORY_NAME"
 
 cd $current_working_directory
 
@@ -60,13 +57,8 @@ Anthem" 1>&2
   exit 1
 }
 
-if [ ! -d "$BUILD_DIRECTORY" ] && [ "$in_tree_build" = false ]; then
+if [ ! -d "$BUILD_DIRECTORY" ]; then
   echo "The directory $BUILD_DIRECTORY is missing"
-  exit_for_missing_configuration
-fi
-
-if [ ! -d "$IN_TREE_BUILD_DIRECTORY" ] && [ "$in_tree_build" = true ]; then
-  echo "The directory $IN_TREE_BUILD_DIRECTORY is missing"
   exit_for_missing_configuration
 fi
 
