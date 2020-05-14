@@ -67,7 +67,6 @@ if %ERRORLEVEL% neq 0 (
 @rem Set up the script directory
 
 md %script_directory%
-
 echo Created the directory '%script_directory%'
 
 @rem Clone Couplet Composer
@@ -82,7 +81,7 @@ if defined ODE_DEVELOPMENT_COMPOSER (
 
 set composer_directory=%script_directory%\%composer_directory_name%
 
-if not exist "%composer_directory%" (
+if not exist %composer_directory% (
   start "git clone" /w /b git clone %composer_repo_url% %composer_directory%
   start "git checkout" /w /b git -C %composer_directory% checkout ^
 tags/%composer_version_tag% -b local_install_%composer_version_tag%
