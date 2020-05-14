@@ -72,13 +72,26 @@ echo Created the directory '%script_directory%'
 @rem Clone Couplet Composer
 
 if defined ODE_DEVELOPMENT_COMPOSER (
-  if not [%ODE_DEVELOPMENT_COMPOSER%]==[] (
-    if %ODE_DEVELOPMENT_COMPOSER%==true (
-      goto get_development_composer
-    )
-  )
+  goto development_variable_is_defined
+else (
+  goto get_composer_release
 )
 
+:development_variable_is_defined
+if [%ODE_DEVELOPMENT_COMPOSER%]==[] (
+  goto get_composer_release
+) else (
+  goto development_variable_is_set
+)
+
+:development_variable_is_set
+if %ODE_DEVELOPMENT_COMPOSER%==true (
+  goto get_development_composer
+) else (
+  goto get_composer_release
+)
+
+:get_composer_release
 set composer_directory=%script_directory%\%composer_directory_name%
 
 if not exist %composer_directory% (
