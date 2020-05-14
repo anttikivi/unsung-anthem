@@ -56,11 +56,9 @@ jobs:
         path: build/local
         key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}-${{ matrix.build-system }}
     - name: Run the configuration
-      run: ./configure preset --name ${{ matrix.composer-preset }} --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-      env:
-        ODE_DEVELOPMENT_COMPOSER: true
+      run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the composition
-      run: ./compose preset --name ${{ matrix.composer-preset }} --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: ./compose preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Upload code coverage report
       run: |
         cd $GITHUB_WORKSPACE/build/build/linux-x86_64-debug-unix_makefiles
