@@ -36,9 +36,9 @@ echo The working directory is set to %cd%
 
 set script_directory_name=script
 set composer_directory_base_name=composer
-@rem TODO Also replace hyphens by underscores.
+set composer_version_temporary=%composer_version:.=_%
 set composer_directory_name=%composer_directory_base_name%_^
-%composer_version:.=_%
+%composer_version:-=_%
 set composer_head_directory_name=%composer_directory_base_name%_head
 
 setlocal enabledelayedexpansion
