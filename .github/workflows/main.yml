@@ -54,7 +54,7 @@ jobs:
       uses: actions/cache@v1.1.2
       with:
         path: build/local
-        key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}-${{ matrix.build-system }}
+        key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}-${{ matrix.build-system }}-${{ github.run_id }}
     - name: Run the configuration
       run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the composition
