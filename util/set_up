@@ -44,7 +44,6 @@ echo "The working directory is set to $PWD"
 
 readonly SCRIPT_DIRECTORY_NAME="script"
 readonly COMPOSER_DIRECTORY_BASE_NAME="composer"
-# TODO Also replace hyphens by underscores.
 readonly COMPOSER_DIRECTORY_NAME="${COMPOSER_DIRECTORY_BASE_NAME}_\
 $(echo $COMPOSER_VERSION | tr '.' '_' | tr '-' '_')"
 readonly COMPOSER_HEAD_DIRECTORY_NAME="${COMPOSER_DIRECTORY_BASE_NAME}_head"
