@@ -51,7 +51,7 @@ jobs:
         python-version: 3.x
         architecture: x64
     - name: Cache the dependencies
-      uses: actions/cache@v1.1.2
+      uses: actions/cache@v2.1.0
       with:
         path: build/local
         key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}-${{ matrix.build-system }}-${{ github.run_id }}
