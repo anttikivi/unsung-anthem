@@ -1,10 +1,10 @@
 {
   "ode": {
-    "version": "0.1.0-dev.1",
+    "version": "0.1.0-dev.{env.ODE_DEVELOPMENT_VERSION}",
     "name": "Obliging Ode"
   },
   "anthem": {
-    "version": "0.1.0-dev.1",
+    "version": "0.1.0-dev.{env.ODE_DEVELOPMENT_VERSION}",
     "name": "Unsung Anthem"
   },
   "opengl": {
