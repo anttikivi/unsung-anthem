@@ -46,6 +46,9 @@ jobs:
         values=`cat ./util/values.json`
         echo "The JSON file's contents are:"
         echo "$values"
+        values="${values//'%'/'%25'}"
+        values="${values//$'\n'/'%0A'}"
+        values="${values//$'\r'/'%0D'}"
         echo "::set-output name=value_json::$values"
     - id: create_version
       name: Create the version
