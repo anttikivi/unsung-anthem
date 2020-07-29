@@ -206,6 +206,7 @@ jobs:
   
   upload_version:
     name: Upload the development version
+    needs: [download_version]
     runs-on: ubuntu-18.04
     env:
       ODE_DEVELOPMENT_VERSION: ${{ needs.download_version.outputs.development_version }}
