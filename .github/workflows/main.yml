@@ -218,7 +218,7 @@ jobs:
         aws --version
     - name: Set the development version to the file
       run: |
-        echo $ODE_DEVELOPMENT_VERSION >> dev_version.txt
+        echo $ODE_DEVELOPMENT_VERSION > dev_version.txt
     - name: Delete the old development version from the bucket
       run: aws s3 rm s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt
       env:
