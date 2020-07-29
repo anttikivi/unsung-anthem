@@ -31,9 +31,29 @@ jobs:
         echo "The development version number for the current run is $dev_version_current"
         echo "::set-output name=dev_version::$dev_version_current"
 
+  set_version:
+    name: Set the full version
+    needs: [download_version]
+    runs-on: ubuntu-18.04
+    outputs:
+      version: ${{ steps.create_version.outputs.version }}
+    steps:
+    - name: Check out the project
+      uses: actions/checkout@v2.3.1
+    - id: read_values
+      name: Read project values
+      run: |
+        value_file=`cat util/values.json`
+        echo "::set-output name=value_json::$value_file"
+    - id: create_version
+      name: Create the version
+      run: |
+        echo "The version got from the value JSON file is ${{ fromJSON(steps.read_values.outputs.value_json).anthem.version }}"
+      
+
   linux:
     name: Build on Linux
-    needs: [download_version]
+    needs: [set_version]
     runs-on: ${{ matrix.os }}
     env:
       ODE_DEVELOPMENT_VERSION: ${{ needs.download_version.outputs.development_version }}
@@ -75,7 +95,7 @@ jobs:
   
   darwin:
     name: Build on macOS
-    needs: [download_version]
+    needs: [set_version]
     runs-on: ${{ matrix.os }}
     env:
       ODE_DEVELOPMENT_VERSION: ${{ needs.download_version.outputs.development_version }}
@@ -109,7 +129,7 @@ jobs:
         
   windows:
     name: Build on Windows
-    needs: [download_version]
+    needs: [set_version]
     runs-on: ${{ matrix.os }}
     env:
       ODE_DEVELOPMENT_VERSION: ${{ needs.download_version.outputs.development_version }}
