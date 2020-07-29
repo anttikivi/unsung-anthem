@@ -55,7 +55,7 @@ jobs:
       run: |
         echo "The version got from the value JSON file is ${{ fromJSON(steps.read_values.outputs.value_json).anthem.version }}"
         version="${{ fromJSON(steps.read_values.outputs.value_json).anthem.version }}"
-        expanded_version="${version/{env.ODE_DEVELOPMENT_VERSION}/${{ needs.download_version.outputs.development_version }}}"
+        expanded_version="${version/\{env.ODE_DEVELOPMENT_VERSION\}/${{ needs.download_version.outputs.development_version }}}"
         echo "The expanded version is $expanded_version"
         echo "::set-output name=version::$expanded_version"
 
