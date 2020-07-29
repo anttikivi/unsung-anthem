@@ -4,39 +4,12 @@ on: [push, pull_request]
 
 jobs:
   build:
-
+    name: Build
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-18.04, ubuntu-16.04, macos-10.15, windows-2019]
-        lint: [false]
-        coverage: [false]
-        include:
-          - os: ubuntu-18.04
-            artefact-platform: ubuntu-18.04
-            composer-preset: main_workflow_linux
-            build-system: ninja
-          - os: ubuntu-16.04
-            artefact-platform: ubuntu-16.04
-            composer-preset: main_workflow_linux
-            build-system: ninja
-          - os: macos-10.15
-            artefact-platform: macos-catalina
-            composer-preset: main_workflow_unix
-            build-system: ninja
-          - os: windows-2019
-            artefact-platform: windows-2019
-            composer-preset: main_workflow_windows
-            build-system: visual-studio-16
-          - os: ubuntu-18.04
-            composer-preset: main_workflow_linux_lint
-            lint: true
-          - os: ubuntu-18.04
-            composer-preset: main_workflow_linux_coverage
-            build-system: make
-            coverage: true
-
     steps:
     - name: Check out the project
       uses: actions/checkout@v2.3.1
@@ -54,34 +27,82 @@ jobs:
       uses: actions/cache@v2.1.0
       with:
         path: build/local
-        key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}-${{ matrix.build-system }}-${{ github.run_id }}
+        key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
     - name: Run the configuration
-      run: ./configure preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: ./configure preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the composition
-      run: ./compose preset --name ${{ matrix.composer-preset }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-    - name: Upload code coverage report
-      run: |
-        cd $GITHUB_WORKSPACE/build/build/linux-x86_64-debug-unix_makefiles
-        bash <(curl -s https://codecov.io/bash) -f anthem_coverage.info
-      if: matrix.coverage == true
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: ./compose preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the tests (Linux)
       run: |
         export SDL_VIDEODRIVER=x11
         export DISPLAY=:99.0
         /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout $GITHUB_WORKSPACE/build/run/launch_test
-      if: runner.os == 'Linux' && matrix.lint == false && matrix.coverage == false
+      if: runner.os == 'Linux'
     - name: Run the tests (Darwin)
       run: $GITHUB_WORKSPACE/build/run/launch_test
-      if: runner.os == 'macOS' && matrix.lint == false
+      if: runner.os == 'macOS'
     - name: Run the tests (Windows)
       run: call %GITHUB_WORKSPACE%\build\run\launch_test
-      if: runner.os == 'Windows' && matrix.lint == false
+      if: runner.os == 'Windows'
       shell: cmd
     - name: Upload build artefacts
       uses: actions/upload-artifact@v2
       with:
         name: anthem-actions-${{ matrix.artefact-platform }}
         path: build/artefacts/anthem-*
-      if: matrix.lint == false && matrix.coverage == false
+
+  lint:
+    name: Run linter
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Check out the project
+      uses: actions/checkout@v2.3.1
+    - name: Install APT dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+        architecture: x64
+    - name: Cache the dependencies
+      uses: actions/cache@v2.1.0
+      with:
+        path: build/local
+        key: ubuntu-18.04-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
+    - name: Run the configuration
+      run: ./configure preset --name main_workflow_${{ runner.os }}_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Run the composition
+      run: ./compose preset --name main_workflow_${{ runner.os }}_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+
+  coverage:
+    name: Upload code coverage
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Check out the project
+      uses: actions/checkout@v2.3.1
+    - name: Install APT dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+        architecture: x64
+    - name: Cache the dependencies
+      uses: actions/cache@v2.1.0
+      with:
+        path: build/local
+        key: ubuntu-18.04-ode-${{ hashFiles('util/dependencies.json') }}-make-${{ github.run_id }}
+    - name: Run the configuration
+      run: ./configure preset --name main_workflow_${{ runner.os }}_coverage --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Run the composition
+      run: ./compose preset --name main_workflow_${{ runner.os }}_coverage --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Upload code coverage report
+      run: |
+        cd $GITHUB_WORKSPACE/build/build/linux-x86_64-debug-unix_makefiles
+        bash <(curl -s https://codecov.io/bash) -f anthem_coverage.info
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
