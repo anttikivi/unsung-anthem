@@ -44,6 +44,8 @@ jobs:
       name: Read project values
       run: |
         values=`cat ./util/values.json`
+        echo "The JSON file's contents are:"
+        echo "$values"
         echo "::set-output name=value_json::$values"
     - id: create_version
       name: Create the version
