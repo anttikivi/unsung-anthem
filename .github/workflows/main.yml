@@ -48,7 +48,7 @@ jobs:
     - name: Upload build artefacts
       uses: actions/upload-artifact@v2
       with:
-        name: anthem-actions-${{ matrix.artefact-platform }}
+        name: anthem-actions-${{ matrix.os }}
         path: build/artefacts/anthem-*
 
   lint:
