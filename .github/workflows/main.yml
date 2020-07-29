@@ -70,7 +70,7 @@ jobs:
     - name: Upload build artefacts
       uses: actions/upload-artifact@v2
       with:
-        name: anthem-${{ matrix.os }}-${{ env.ODE_DEVELOPMENT_VERSION }}
+        name: anthem-${{ env.ODE_DEVELOPMENT_VERSION }}-${{ matrix.os }}
         path: build/artefacts/anthem-*
   
   darwin:
@@ -104,7 +104,7 @@ jobs:
     - name: Upload build artefacts
       uses: actions/upload-artifact@v2
       with:
-        name: anthem-${{ matrix.os }}-${{ env.ODE_DEVELOPMENT_VERSION }}
+        name: anthem-${{ env.ODE_DEVELOPMENT_VERSION }}-${{ matrix.os }}
         path: build/artefacts/anthem-*
         
   windows:
@@ -139,7 +139,7 @@ jobs:
     - name: Upload build artefacts
       uses: actions/upload-artifact@v2
       with:
-        name: anthem-${{ matrix.os }}-${{ env.ODE_DEVELOPMENT_VERSION }}
+        name: anthem-${{ env.ODE_DEVELOPMENT_VERSION }}-${{ matrix.os }}
         path: build/artefacts/anthem-*
 
   lint:
@@ -210,6 +210,9 @@ jobs:
     runs-on: ubuntu-18.04
     env:
       ODE_DEVELOPMENT_VERSION: ${{ needs.download_version.outputs.development_version }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
     steps:
     - name: Install the AWS command line interface
       run: |
@@ -222,13 +225,5 @@ jobs:
         echo $ODE_DEVELOPMENT_VERSION > dev_version.txt
     - name: Delete the old development version from the bucket
       run: aws s3 rm s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
     - name: Upload the development version to the bucket
       run: aws s3 cp dev_version.txt s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
