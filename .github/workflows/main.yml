@@ -4,22 +4,22 @@ on: [push, pull_request]
 
 jobs:
   download_version:
-    name: Download development version
+    name: Download the development version
     runs-on: ubuntu-18.04
     steps:
-    - name: Install AWS command line interface
+    - name: Install the AWS command line interface
       run: |
         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
         unzip awscliv2.zip
         sudo ./aws/install
         aws --version
-    - name: Download development version from bucket
+    - name: Download the development version from the bucket
       run: aws s3 cp s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt dev_version.txt
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-    - name: Set the development version environment variable
+    - name: Set the development version to an environment variable
       run: |
         dev_version=`cat dev_version.txt`
         expr $dev_version + 1 > dev_version_current.txt
@@ -188,3 +188,29 @@ jobs:
         bash <(curl -s https://codecov.io/bash) -f anthem_coverage.info
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  
+  upload_version:
+    name: Upload the development version
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Install the AWS command line interface
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+        aws --version
+    - name: Set the development version to the file
+      run: |
+        echo $ODE_DEVELOPMENT_VERSION >> dev_version.txt
+    - name: Delete the old development version from the bucket
+      run: aws s3 rm s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+    - name: Upload the development version to the bucket
+      run: aws s3 cp dev_version.txt s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
