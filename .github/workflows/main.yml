@@ -22,8 +22,10 @@ jobs:
     - name: Set the development version to an environment variable
       run: |
         dev_version=`cat dev_version.txt`
+        echo "The development version number downloaded from the S3 bucket is $dev_version"
         expr $dev_version + 1 > dev_version_current.txt
         dev_version_current=`cat dev_version_current.txt`
+        echo "The development version number for the current run is $dev_version_current"
         echo "::set-env name=ODE_DEVELOPMENT_VERSION::$dev_version_current"
 
   linux:
