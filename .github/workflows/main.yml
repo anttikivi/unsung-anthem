@@ -3,8 +3,32 @@ name: Main workflow
 on: [push, pull_request]
 
 jobs:
+  download_version:
+    name: Download development version
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Install AWS command line interface
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install
+        aws --version
+    - name: Download development version from bucket
+      run: aws s3 cp s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt dev_version.txt
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-1
+    - name: Set the development version environment variable
+      run: |
+        dev_version=`cat dev_version.txt`
+        expr $dev_version + 1 > dev_version_current.txt
+        dev_version_current=`cat dev_version_current.txt`
+        echo "::set-env name=ODE_DEVELOPMENT_VERSION::$dev_version_current"
+
   linux:
     name: Build on Linux
+    needs: [download_version]
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -44,6 +68,7 @@ jobs:
   
   darwin:
     name: Build on macOS
+    needs: [download_version]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -75,6 +100,7 @@ jobs:
         
   windows:
     name: Build on Windows
+    needs: [download_version]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -107,6 +133,7 @@ jobs:
 
   lint:
     name: Run linter
+    needs: [download_version]
     runs-on: ubuntu-18.04
     steps:
     - name: Check out the project
@@ -132,6 +159,7 @@ jobs:
 
   coverage:
     name: Upload code coverage
+    needs: [download_version]
     runs-on: ubuntu-18.04
     steps:
     - name: Check out the project
