@@ -43,13 +43,12 @@ jobs:
     - id: read_values
       name: Read project values
       run: |
-        value_file=`cat util/values.json`
-        echo "::set-output name=value_json::$value_file"
+        values=`cat ./util/values.json`
+        echo "::set-output name=value_json::$values"
     - id: create_version
       name: Create the version
       run: |
         echo "The version got from the value JSON file is ${{ fromJSON(steps.read_values.outputs.value_json).anthem.version }}"
-      
 
   linux:
     name: Build on Linux
