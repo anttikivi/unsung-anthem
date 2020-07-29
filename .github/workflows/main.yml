@@ -3,13 +3,13 @@ name: Main workflow
 on: [push, pull_request]
 
 jobs:
-  build:
-    name: Build
+  linux:
+    name: Build on Linux
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, ubuntu-16.04, macos-10.15, windows-2019]
+        os: [ubuntu-18.04, ubuntu-16.04]
     steps:
     - name: Check out the project
       uses: actions/checkout@v2.3.1
@@ -17,7 +17,6 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
-      if: runner.os == 'Linux'
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -27,23 +26,78 @@ jobs:
       uses: actions/cache@v2.1.0
       with:
         path: build/local
-        key: ${{ matrix.os }}-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
+        key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
     - name: Run the configuration
       run: ./configure preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the composition
       run: ./compose preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-    - name: Run the tests (Linux)
+    - name: Run the tests
       run: |
         export SDL_VIDEODRIVER=x11
         export DISPLAY=:99.0
         /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout $GITHUB_WORKSPACE/build/run/launch_test
-      if: runner.os == 'Linux'
-    - name: Run the tests (Darwin)
+    - name: Upload build artefacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: anthem-actions-${{ matrix.os }}
+        path: build/artefacts/anthem-*
+  
+  darwin:
+    name: Build on macOS
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-10.15]
+    steps:
+    - name: Check out the project
+      uses: actions/checkout@v2.3.1
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+        architecture: x64
+    - name: Cache the dependencies
+      uses: actions/cache@v2.1.0
+      with:
+        path: build/local
+        key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
+    - name: Run the configuration
+      run: ./configure preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Run the composition
+      run: ./compose preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Run the tests
       run: $GITHUB_WORKSPACE/build/run/launch_test
-      if: runner.os == 'macOS'
-    - name: Run the tests (Windows)
+    - name: Upload build artefacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: anthem-actions-${{ matrix.os }}
+        path: build/artefacts/anthem-*
+        
+  windows:
+    name: Build on Windows
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-2019]
+    steps:
+    - name: Check out the project
+      uses: actions/checkout@v2.3.1
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+        architecture: x64
+    - name: Cache the dependencies
+      uses: actions/cache@v2.1.0
+      with:
+        path: build/local
+        key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
+    - name: Run the configuration
+      run: ./configure preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Run the composition
+      run: ./compose preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Run the tests
       run: call %GITHUB_WORKSPACE%\build\run\launch_test
-      if: runner.os == 'Windows'
       shell: cmd
     - name: Upload build artefacts
       uses: actions/upload-artifact@v2
