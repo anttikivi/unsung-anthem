@@ -7,29 +7,29 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
 [Prerequisites](#prerequisites)
 
 [Building](#building)
-* [Linux](#linux)
-* [macOS](#macos)
-* [Windows](#windows)
+- [Linux](#linux)
+- [macOS](#macos)
+- [Windows](#windows)
 
 [Configuring the Build](#configuring-the-build)
 
 [Command Line Options](#command-line-options)
-* [Common Top-level Options](#common-top-level-options)
-  * [Special Options](#special-options)
-  * [Top-level Options](#top-level-options)
-  * [GitHub Options](#github-options)
-* [Common Options](#common-options)
-  * [Build Variant Options](#build-variant-options)
-  * [Build Target Options](#build-target-options)
-  * [Toolchain Options](#toolchain-options)
-  * [OpenGL Options](#opengl-options)
-  * [Build Generator Options](#build-generator-options)
-* [Preset Mode Options](#preset-mode-options)
-* [Configuring Mode Options](#configuring-mode-options)
-* [Composing Mode Options](#composing-mode-options)
-  * [Compose: Common Options](#compose-common-options)
-  * [Compose: C++ Standard Options](#compose-c-standard-options)
-  * [Compose: Feature Options](#compose-feature-options)
+- [Common Top-level Options](#common-top-level-options)
+  - [Special Options](#special-options)
+  - [Top-level Options](#top-level-options)
+  - [GitHub Options](#github-options)
+- [Common Options](#common-options)
+  - [Build Variant Options](#build-variant-options)
+  - [Build Target Options](#build-target-options)
+  - [Toolchain Options](#toolchain-options)
+  - [OpenGL Options](#opengl-options)
+  - [Build Generator Options](#build-generator-options)
+- [Preset Mode Options](#preset-mode-options)
+- [Configuring Mode Options](#configuring-mode-options)
+- [Composing Mode Options](#composing-mode-options)
+  - [Compose: Common Options](#compose-common-options)
+  - [Compose: C++ Standard Options](#compose-c-standard-options)
+  - [Compose: Feature Options](#compose-feature-options)
 
 [Environment Variables](#environment-variables)
 
@@ -37,28 +37,28 @@ Whether you want to contribute to Obliging Ode and Unsung Anthem or simply try o
 
 To build Obliging Ode and Unsung Anthem on any platform, you’ll need at least the following tools:
 
-* [Git](https://git-scm.com)
-* [Python](https://python.org)
-  * You should prefer Python 3 over Python 2.7 as the support for Python 2 has ended. However, the build script also works with Python 2.7 to be backwards compatible.
-* A C++ compiler toolchain that supports at least C++17
-  * **Linux**
-    * `make`
-    * [LLVM](https://llvm.org) or [GCC](https://gcc.gnu.org)
-      * LLVM includes pre-built binaries for some platforms
-      * GCC can be installed using your systems package manager
-  * **macOS**
-    * [Xcode](https://developer.apple.com/xcode) and the Command Line Tools as they will install `clang` and `gcc` and its related toolchain also containing `make`
-      * Run `xcode-select --install` to install the Command Line Tools
-  * **Windows**
-    * Install a compiler by using one of the two options
+- [Git](https://git-scm.com)
+- [Python](https://python.org)
+  - You should prefer Python 3 over Python 2.7 as the support for Python 2 has ended. However, the build script also works with Python 2.7 to be backwards compatible.
+- A C++ compiler toolchain that supports at least C++17
+  - **Linux**
+    - `make`
+    - [LLVM](https://llvm.org) or [GCC](https://gcc.gnu.org)
+      - LLVM includes pre-built binaries for some platforms
+      - GCC can be installed using your systems package manager
+  - **macOS**
+    - [Xcode](https://developer.apple.com/xcode) and the Command Line Tools as they will install `clang` and `gcc` and its related toolchain also containing `make`
+      - Run `xcode-select --install` to install the Command Line Tools
+  - **Windows**
+    - Install a compiler by using one of the two options
       1. The first options is to use the Windows Build Tools npm module
-        * Start PowerShell as Administrator and install the [Windows Build Tools npm module](https://github.com/felixrieseberg/windows-build-tools)
+        - Start PowerShell as Administrator and install the [Windows Build Tools npm module](https://github.com/felixrieseberg/windows-build-tools)
 
                 npm install --global windows-build-tools
 
-        * This method requires [Node.js](https://nodejs.org)
+        - This method requires [Node.js](https://nodejs.org)
       2. The second options is to use Visual Studio 2019 Community Edition
-        * Install [Visual Studio 2019](https://visualstudio.microsoft.com) Community Edition, which should install all the required tools
+        - Install [Visual Studio 2019](https://visualstudio.microsoft.com) Community Edition, which should install all the required tools
 
 ## Building
 
@@ -87,7 +87,7 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
         ./configure
 
-  * To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
+  - To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
           ./configure preset --name PRESET_NAME
 
@@ -95,7 +95,7 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
         ./compose
 
-  * To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
+  - To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
           ./compose preset --name PRESET_NAME
 
@@ -122,7 +122,7 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
         ./configure
 
-  * To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
+  - To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
           ./configure preset --name PRESET_NAME
 
@@ -130,7 +130,7 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
         ./compose
 
-  * To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
+  - To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
           ./compose preset --name PRESET_NAME
 
@@ -157,7 +157,7 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
         .\configure
 
-  * To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
+  - To invoke the configuring mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
           .\configure preset --name PRESET_NAME
 
@@ -165,7 +165,7 @@ Couplet Composer has two main modes: configuring mode and composing mode. The co
 
         .\compose
 
-  * To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
+  - To invoke the composing mode of Couplet Composer through an option preset, use the following command where `PRESET_NAME` is the name of the option preset you want to use. For more information, see the section [Configuring the Build](#configuring-the-build).
 
           .\compose preset --name PRESET_NAME
 
