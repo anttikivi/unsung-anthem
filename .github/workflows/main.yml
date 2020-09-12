@@ -3,193 +3,59 @@ name: Main workflow
 on: [push, pull_request]
 
 jobs:
-  download_version:
-    name: Download the development version
-    runs-on: ubuntu-18.04
-    outputs:
-      development_version: ${{ steps.version_increment.outputs.dev_version }}
-    steps:
-    - name: Install the AWS command line interface
-      run: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install
-        aws --version
-    - name: Download the development version from the bucket
-      run: aws s3 cp s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt dev_version.txt
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-    - id: version_increment
-      name: Create the development version
-      run: |
-        dev_version=`cat dev_version.txt`
-        echo "The development version number downloaded from the S3 bucket is $dev_version"
-        expr $dev_version + 1 > dev_version_current.txt
-        dev_version_current=`cat dev_version_current.txt`
-        echo "The development version number for the current run is $dev_version_current"
-        echo "::set-output name=dev_version::$dev_version_current"
-
-  set_version:
-    name: Set the full version
-    needs: [download_version]
-    runs-on: ubuntu-18.04
-    outputs:
-      version: ${{ steps.create_version.outputs.version }}
-    steps:
-    - name: Check out the project
-      uses: actions/checkout@v2.3.2
-    - id: read_values
-      name: Read project values
-      run: |
-        values=`cat ./util/values.json`
-        echo "The JSON file's contents are:"
-        echo "$values"
-        values="${values//'%'/'%25'}"
-        values="${values//$'\n'/'%0A'}"
-        values="${values//$'\r'/'%0D'}"
-        echo "::set-output name=value_json::$values"
-    - id: create_version
-      name: Create the version
-      run: |
-        echo "The version got from the value JSON file is ${{ fromJSON(steps.read_values.outputs.value_json).anthem.version }}"
-        version="${{ fromJSON(steps.read_values.outputs.value_json).anthem.version }}"
-        expanded_version="${version/\{env.ODE_DEVELOPMENT_VERSION_NUMBER\}/${{ needs.download_version.outputs.development_version }}}"
-        echo "The expanded version is $expanded_version"
-        echo "::set-output name=version::$expanded_version"
-
-  linux:
-    name: Build on Linux
-    needs: [download_version, set_version]
+  build:
+    name: Build
     runs-on: ${{ matrix.os }}
     env:
-      ODE_DEVELOPMENT_VERSION_NUMBER: ${{ needs.download_version.outputs.development_version }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      LOCAL_VERSION_NUMBER_FILE: build_version.txt
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, ubuntu-16.04]
+        os: [ubuntu-18.04, ubuntu-16.04, macos-10.15, windows-2019]
     steps:
     - name: Check out the project
       uses: actions/checkout@v2.3.2
+    - name: Set up Python
+      uses: actions/setup-python@v2.1.2
+      with:
+        python-version: 3.x
+        architecture: x64
+    - name: Determine project version
+      id: version
+      uses: anttikivi/maintain-revision@v0.6.0
+      with:
+        type: json
+        file: util/values.json
     - name: Install APT dependencies
       run: |
         sudo apt-get update
         sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
-        architecture: x64
-    - name: Cache the dependencies
-      uses: actions/cache@v2.1.1
-      with:
-        path: build/local
-        key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
+      if: runner.os == 'Linux'
     - name: Run the configuration
       run: ./configure preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the composition
       run: ./compose preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
     - name: Run the tests
+      id: test_linux
       run: |
         export SDL_VIDEODRIVER=x11
         export DISPLAY=:99.0
         /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout $GITHUB_WORKSPACE/build/run/launch_test
-    - name: Upload build artefacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: anthem-${{ needs.set_version.outputs.version }}-${{ matrix.os }}
-        path: build/artefacts/anthem-*
-  
-  darwin:
-    name: Build on macOS
-    needs: [download_version, set_version]
-    runs-on: ${{ matrix.os }}
-    env:
-      ODE_DEVELOPMENT_VERSION_NUMBER: ${{ needs.download_version.outputs.development_version }}
-    strategy:
-      matrix:
-        os: [macos-10.15]
-    steps:
-    - name: Check out the project
-      uses: actions/checkout@v2.3.2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
-        architecture: x64
-    - name: Cache the dependencies
-      uses: actions/cache@v2.1.1
-      with:
-        path: build/local
-        key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
-    - name: Run the configuration
-      run: ./configure preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-    - name: Run the composition
-      run: ./compose preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      if: runner.os == 'Linux'
     - name: Run the tests
+      id: test_macos
       run: $GITHUB_WORKSPACE/build/run/launch_test
-    - name: Upload build artefacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: anthem-${{ needs.set_version.outputs.version }}-${{ matrix.os }}
-        path: build/artefacts/anthem-*
-        
-  windows:
-    name: Build on Windows
-    needs: [download_version, set_version]
-    runs-on: ${{ matrix.os }}
-    env:
-      ODE_DEVELOPMENT_VERSION_NUMBER: ${{ needs.download_version.outputs.development_version }}
-    strategy:
-      matrix:
-        os: [windows-2019]
-    steps:
-    - name: Check out the project
-      uses: actions/checkout@v2.3.2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
-        architecture: x64
-    - name: Cache the dependencies
-      uses: actions/cache@v2.1.1
-      with:
-        path: build/local
-        key: ${{ runner.os }}-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
-    - name: Run the configuration
-      run: ./configure preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
-    - name: Run the composition
-      run: ./compose preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      if: runner.os == 'macOS'
     - name: Run the tests
+      id: test_windows
       run: call %GITHUB_WORKSPACE%\build\run\launch_test
+      if: runner.os == 'Windows'
       shell: cmd
     - name: Upload build artefacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2.1.4
       with:
-        name: anthem-${{ needs.set_version.outputs.version }}-${{ matrix.os }}
+        name: anthem-${{ steps.version.outputs.version }}-${{ matrix.os }}
         path: build/artefacts/anthem-*
-
-  upload_version:
-    name: Upload the development version
-    needs: [download_version]
-    runs-on: ubuntu-18.04
-    env:
-      ODE_DEVELOPMENT_VERSION_NUMBER: ${{ needs.download_version.outputs.development_version }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-    steps:
-    - name: Install the AWS command line interface
-      run: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install
-        aws --version
-    - name: Set the development version to the file
-      run: |
-        echo $ODE_DEVELOPMENT_VERSION_NUMBER > dev_version.txt
-    - name: Delete the old development version from the bucket
-      run: aws s3 rm s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt
-    - name: Upload the development version to the bucket
-      run: aws s3 cp dev_version.txt s3://anthem-workflows/main_workflow/unsung_anthem/dev_version.txt
