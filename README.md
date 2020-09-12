@@ -12,6 +12,7 @@ The guidelines and other documentation hosted in this repository are also applie
 * Couplet Composer ([couplet-composer](https://github.com/anttikivi/couplet-composer))
 * Effective Elegy ([effective-elegy](https://github.com/anttikivi/effective-elegy))
 * Shared Sonnet ([shared-sonnet](https://github.com/anttikivi/shared-sonnet))
+* Maintain Revision ([maintain-revision](https://github.com/anttikivi/maintain-revision))
 
 ## Installing
 
