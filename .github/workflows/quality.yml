@@ -43,7 +43,7 @@ jobs:
       ODE_DEVELOPMENT_VERSION_NUMBER: ${{ needs.download_version.outputs.development_version }}
     steps:
     - name: Check out the project
-      uses: actions/checkout@v2.3.1
+      uses: actions/checkout@v2.3.2
     - name: Install APT dependencies
       run: |
         sudo apt-get update
@@ -54,7 +54,7 @@ jobs:
         python-version: 3.x
         architecture: x64
     - name: Cache the dependencies
-      uses: actions/cache@v2.1.0
+      uses: actions/cache@v2.1.1
       with:
         path: build/local
         key: ubuntu-18.04-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
@@ -71,7 +71,7 @@ jobs:
       ODE_DEVELOPMENT_VERSION_NUMBER: ${{ needs.download_version.outputs.development_version }}
     steps:
     - name: Check out the project
-      uses: actions/checkout@v2.3.1
+      uses: actions/checkout@v2.3.2
     - name: Install APT dependencies
       run: |
         sudo apt-get update
@@ -82,7 +82,7 @@ jobs:
         python-version: 3.x
         architecture: x64
     - name: Cache the dependencies
-      uses: actions/cache@v2.1.0
+      uses: actions/cache@v2.1.1
       with:
         path: build/local
         key: ubuntu-18.04-ode-${{ hashFiles('util/dependencies.json') }}-make-${{ github.run_id }}
