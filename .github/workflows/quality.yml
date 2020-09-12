@@ -54,7 +54,7 @@ jobs:
         python-version: 3.x
         architecture: x64
     - name: Cache the dependencies
-      uses: actions/cache@v2.1.0
+      uses: actions/cache@v2.1.1
       with:
         path: build/local
         key: ubuntu-18.04-ode-${{ hashFiles('util/dependencies.json') }}-ninja-${{ github.run_id }}
@@ -82,7 +82,7 @@ jobs:
         python-version: 3.x
         architecture: x64
     - name: Cache the dependencies
-      uses: actions/cache@v2.1.0
+      uses: actions/cache@v2.1.1
       with:
         path: build/local
         key: ubuntu-18.04-ode-${{ hashFiles('util/dependencies.json') }}-make-${{ github.run_id }}
