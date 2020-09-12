@@ -1,13 +1,1 @@
-# This file is a list of the people responsible for ensuring that patches for a
-# particular part of Obliging Ode and Unsung Anthem are reviewed, either by
-# themselves or by someone else. They are also the gatekeepers for their part
-# of Obliging Ode and Unsung Anthem, with the final word on what goes in and
-# what doesn't.
-
-# For more information on CODEOWNERS, see
-# https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners
-
-# These owners will be the default owners for everything in the repository.
-# Unless a later match takes precedence, @anttikivi will be requested for
-# review when someone opens a pull request.
 * @anttikivi
