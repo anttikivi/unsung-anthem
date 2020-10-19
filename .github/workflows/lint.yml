@@ -25,7 +25,7 @@ jobs:
         architecture: x64
     - name: Determine project version
       id: version
-      uses: anttikivi/maintain-revision@v0.6.0
+      uses: anttikivi/maintain-revision@v0.7.1
       with:
         type: json
         file: util/values.json
