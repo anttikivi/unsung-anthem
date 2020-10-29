@@ -17,9 +17,9 @@ jobs:
         os: [ubuntu-18.04, ubuntu-16.04, macos-10.15, windows-2019]
     steps:
     - name: Check out the project
-      uses: actions/checkout@v2.3.2
+      uses: actions/checkout@v2.3.3
     - name: Set up Python
-      uses: actions/setup-python@v2.1.2
+      uses: actions/setup-python@v2.1.3
       with:
         python-version: 3.x
         architecture: x64
@@ -55,7 +55,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: cmd
     - name: Upload build artefacts
-      uses: actions/upload-artifact@v2.1.4
+      uses: actions/upload-artifact@v2.2.0
       with:
         name: anthem-${{ steps.version.outputs.version }}-${{ matrix.os }}
         path: build/artefacts/anthem-*
