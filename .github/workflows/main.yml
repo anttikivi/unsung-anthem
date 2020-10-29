@@ -30,7 +30,7 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: anttikivi/maintain-revision@v0.6.0
+      uses: anttikivi/maintain-revision@v0.8.2
       with:
         type: json
         file: util/values.json
