@@ -47,6 +47,10 @@ Then clone the GitHub repository of Obliging Ode and Unsung Anthem.
 
     git clone git@github.com:anttikivi/unsung-anthem.git
 
+**Via GitHub CLI:** If you work chiefly with GitHub, using the official [GitHub CLI](https://cli.github.com) may provide the best experience.
+
+    gh repo clone anttikivi/unsung-anthem
+
 After cloning the source, make sure to change to the cloned directory.
 
     cd unsung-anthem
