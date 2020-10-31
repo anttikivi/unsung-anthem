@@ -5,15 +5,6 @@
 
 *Unsung Anthem* is a video game with its own game engine, *Obliging Ode*. The development of the project is still in very early stage. This repository contains the source code for both Unsung Anthem and Obliging Ode.
 
-The guidelines and other documentation hosted in this repository are also applied to other projects that support Unsung Anthem and Obliging Ode. Those projects include the build script, the licence, and the website of Unsung Anthem and Obliging Ode. All of the projects and their Git repositories are:
-
-* Unsung Anthem ([unsung-anthem](https://github.com/anttikivi/unsung-anthem))
-* Obliging Ode ([unsung-anthem](https://github.com/anttikivi/unsung-anthem))
-* Couplet Composer ([couplet-composer](https://github.com/anttikivi/couplet-composer))
-* Effective Elegy ([effective-elegy](https://github.com/anttikivi/effective-elegy))
-* Shared Sonnet ([shared-sonnet](https://github.com/anttikivi/shared-sonnet))
-* Maintain Revision ([maintain-revision](https://github.com/anttikivi/maintain-revision))
-
 ## Installing
 
 There are no pre-built binaries available yet. To use Unsung Anthem, please follow the building instructions down below.
