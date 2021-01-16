@@ -1,0 +1,191 @@
+{
+  "shared_version": "0.1.0-dev",
+  "ode": {
+    "version": "shared",
+    "name": "Obliging Ode"
+  },
+  "anthem": {
+    "version": "shared",
+    "name": "Unsung Anthem"
+  },
+  "opengl": {
+    "version": "3.2"
+  },
+  "dependencies": {
+    "benchmark": {
+      "version": "1.5.0",
+      "name": "Google Benchmark",
+      "testOnly": true,
+      "benchmarkOnly": true,
+      "repository": "google/benchmark",
+      "cmakeOptions": {
+        "BENCHMARK_ENABLE_GTEST_TESTS": false
+      },
+      "binary": true,
+      "platforms": {
+        "windows": {
+          "files": {
+            "lib": ["benchmark.lib", "benchmarkd.lib"]
+          }
+        },
+        "linux": {
+          "files": {
+            "lib": ["libbenchmark.a", "libbenchmarkd.a"]
+          }
+        },
+        "darwin": {
+          "files": {
+            "lib": ["libbenchmark.a", "libbenchmarkd.a"]
+          }
+        }
+      }
+    },
+    "cxxopts": {
+      "version": "2.2.0",
+      "name": "cxxopts",
+      "files": "include/cxxopts.hpp",
+      "testOnly": false,
+      "benchmarkOnly": false,
+      "repository": "jarro2783/cxxopts"
+    },
+    "glad": {
+      "version": "0.1.33",
+      "name": "Glad",
+      "module": "glad",
+      "className": "GladDependency",
+      "files": "src/glad.c",
+      "testOnly": false,
+      "benchmarkOnly": false,
+      "repository": "Dav1dde/glad"
+    },
+    "googletest": {
+      "version": "1.10.0",
+      "name": "Google Test",
+      "testOnly": true,
+      "benchmarkOnly": false,
+      "cmakeOptions": {
+        "BUILD_GMOCK": false
+      },
+      "binary": true,
+      "platforms": {
+        "windows": {
+          "files": {
+            "include": {"src": "googletest/include/gtest", "dest": "gtest"},
+            "lib": [
+              "gtest_main.lib",
+              "gtest_maind.lib",
+              "gtest.lib",
+              "gtestd.lib"
+            ]
+          }
+        },
+        "linux": {
+          "files": {
+            "include": {"src": "googletest/include/gtest", "dest": "gtest"},
+            "lib": [
+              "libgtest_main.a",
+              "libgtest_maind.a",
+              "libgtest.a",
+              "libgtestd.a"
+            ]
+          }
+        },
+        "darwin": {
+          "files": {
+            "include": {"src": "googletest/include/gtest", "dest": "gtest"},
+            "lib": [
+              "libgtest_main.a",
+              "libgtest_maind.a",
+              "libgtest.a",
+              "libgtestd.a"
+            ]
+          }
+        }
+      }
+    },
+    "lua": {
+      "version": "5.3.5",
+      "name": "Lua",
+      "module": "lua",
+      "className": "LuaDependency",
+      "testOnly": false,
+      "benchmarkOnly": false,
+      "repository": "https://www.lua.org/ftp",
+      "platforms": {
+        "windows": {
+          "files": {
+            "lib": "lua.lib"
+          }
+        },
+        "linux": {
+          "files": {
+            "lib": "liblua.a"
+          }
+        },
+        "darwin": {
+          "files": {
+            "lib": "liblua.a"
+          }
+        }
+      }
+    },
+    "sdl": {
+      "version": "2.0.12",
+      "name": "Simple DirectMedia Layer",
+      "testOnly": false,
+      "benchmarkOnly": false,
+      "repository": "https://www.libsdl.org/release",
+      "platforms": {
+        "windows": {
+          "files": {
+            "lib": [
+              "SDL2main.lib",
+              "SDL2.lib",
+              "SDL2.dll",
+              "SDL2maind.lib",
+              "SDL2d.lib",
+              "SDL2d.dll"
+            ]
+          }
+        },
+        "linux": {
+          "files": {
+            "lib": [
+              "libSDL2main.a",
+              "libSDL2.a",
+              "libSDL2maind.a",
+              "libSDL2d.a"
+            ]
+          }
+        },
+        "darwin": {
+          "files": {
+            "lib": [
+              "libSDL2main.a",
+              "libSDL2.a",
+              "libSDL2maind.a",
+              "libSDL2d.a"
+            ]
+          }
+        }
+      }
+    },
+    "spdlog": {
+      "version": "1.5.0",
+      "name": "spdlog",
+      "files": "include/spdlog",
+      "testOnly": false,
+      "benchmarkOnly": false,
+      "repository": "gabime/spdlog"
+    },
+    "stb_image": {
+      "version": "2.26",
+      "name": "stb_image",
+      "commit": "314d0a6f9af5af27e585336eecea333e95c5a2d8",
+      "files": {"src": "stb_image.h", "dest": "include/stb_image.h"},
+      "testOnly": false,
+      "benchmarkOnly": false,
+      "repository": "nothings/stb"
+    }
+  }
+}
