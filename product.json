@@ -133,6 +133,8 @@
     "sdl": {
       "version": "2.0.12",
       "name": "Simple DirectMedia Layer",
+      "module": "sdl",
+      "className": "SdlDependency",
       "testOnly": false,
       "benchmarkOnly": false,
       "platforms": {
