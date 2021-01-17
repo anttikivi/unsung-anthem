@@ -100,9 +100,9 @@ for arg in "$@"; do
 done
 
 if [ "$preset_mode" = true ]; then
-  pipenv --python $COMPOSER_PYTHON_VERSION run $COMPOSER_EXECUTABLE_NAME "$@" \
-$COMPOSE_MODE_ARGUMENT
+  pipenv run $COMPOSER_EXECUTABLE_NAME "$@" $COMPOSE_MODE_ARGUMENT --python \
+$COMPOSER_PYTHON_VERSION
 else
-  pipenv run --python $COMPOSER_PYTHON_VERSION $COMPOSER_EXECUTABLE_NAME \
-$COMPOSE_MODE_ARGUMENT "$@"
+  pipenv run $COMPOSER_EXECUTABLE_NAME $COMPOSE_MODE_ARGUMENT "$@" --python \
+$COMPOSER_PYTHON_VERSION
 fi

@@ -180,4 +180,4 @@ else
   fi
 fi
 
-pipenv --python $COMPOSER_PYTHON_VERSION install $composer_directory
+pipenv install $composer_directory --python $COMPOSER_PYTHON_VERSION

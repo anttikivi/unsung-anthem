@@ -259,5 +259,5 @@ echo The latest local development version of %composer_name% is now set up
 goto install_composer
 
 :install_composer
-start "pipenv install" /w /b pipenv --python %COMPOSER_PYTHON_VERSION% install ^
-%composer_directory%
+start "pipenv install" /w /b pipenv install %composer_directory% --python ^
+%COMPOSER_PYTHON_VERSION%

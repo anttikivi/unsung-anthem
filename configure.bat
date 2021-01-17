@@ -58,11 +58,11 @@ set preset_mode=false
 for %%g in (%*) do if /i "%%~g"=="%preset_mode_argument%" set preset_mode=true
 
 if %preset_mode%==true (
-  start "%composer_name%" /w /b pipenv --python %COMPOSER_PYTHON_VERSION% run ^
-%composer_executable_name% %* %configure_mode_argument%
+  start "%composer_name%" /w /b pipenv run %composer_executable_name% %* ^
+%configure_mode_argument% --python %COMPOSER_PYTHON_VERSION%
 ) else (
-  start "%composer_name%" /w /b pipenv --python %COMPOSER_PYTHON_VERSION% run ^
-%composer_executable_name% %configure_mode_argument% %*
+  start "%composer_name%" /w /b pipenv run %composer_executable_name% ^
+%configure_mode_argument% %* --python %COMPOSER_PYTHON_VERSION%
 )
 
 if %ERRORLEVEL% neq 0 (
