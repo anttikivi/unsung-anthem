@@ -20,6 +20,14 @@ readonly COMPOSER_REPO_NAME="couplet-composer"
 readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
 $COMPOSER_REPO_NAME.git"
 
+# Set the required version of Python.
+
+if [ -z "${COMPOSER_PYTHON_VERSION+x}" ]; then
+  COMPOSER_PYTHON_VERSION="3"
+fi
+
+echo "The Python version is set to $COMPOSER_PYTHON_VERSION"
+
 readonly IN_TREE_BUILD_OPTION="--in-tree-build"
 
 # See if the build should be done in tree.
@@ -172,4 +180,4 @@ else
   fi
 fi
 
-pipenv install $composer_directory
+pipenv --python $COMPOSER_PYTHON_VERSION install $composer_directory

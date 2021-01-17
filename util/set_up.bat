@@ -18,6 +18,14 @@ set composer_repo_name=couplet-composer
 set composer_repo_url=%github_url%/%composer_repo_owner%/^
 %composer_repo_name%.git
 
+@rem Set the required version of Python.
+
+if not defined COMPOSER_PYTHON_VERSION (
+  set COMPOSER_PYTHON_VERSION=3
+)
+
+echo The Python version is set to %COMPOSER_PYTHON_VERSION%
+
 set in_tree_build_option=--in-tree-build
 
 @rem See if the build should be done in tree.
@@ -251,4 +259,5 @@ echo The latest local development version of %composer_name% is now set up
 goto install_composer
 
 :install_composer
-start "pipenv install" /w /b pipenv install %composer_directory%
+start "pipenv install" /w /b pipenv --python %COMPOSER_PYTHON_VERSION% install ^
+%composer_directory%

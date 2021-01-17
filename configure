@@ -18,6 +18,12 @@ readonly CONFIGURE_MODE_ARGUMENT="configure"
 
 readonly COMPOSER_EXECUTABLE_NAME="couplet-composer"
 
+# Set the required version of Python.
+
+if [ -z "${COMPOSER_PYTHON_VERSION+x}" ]; then
+  COMPOSER_PYTHON_VERSION="3"
+fi
+
 readonly IN_TREE_BUILD_OPTION="--in-tree-build"
 
 # See if the build should be done in tree.
@@ -62,7 +68,9 @@ for arg in "$@"; do
 done
 
 if [ "$preset_mode" = true ]; then
-  pipenv run $COMPOSER_EXECUTABLE_NAME "$@" $CONFIGURE_MODE_ARGUMENT
+  pipenv --python $COMPOSER_PYTHON_VERSION run $COMPOSER_EXECUTABLE_NAME "$@" \
+$CONFIGURE_MODE_ARGUMENT
 else
-  pipenv run $COMPOSER_EXECUTABLE_NAME $CONFIGURE_MODE_ARGUMENT "$@"
+  pipenv --python $COMPOSER_PYTHON_VERSION run $COMPOSER_EXECUTABLE_NAME \
+$CONFIGURE_MODE_ARGUMENT "$@"
 fi
