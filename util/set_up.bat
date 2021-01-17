@@ -75,7 +75,7 @@ echo Created the directory '%script_directory%'
 
 if defined ODE_DEVELOPMENT_COMPOSER (
   goto development_variable_is_defined
-else (
+) else (
   goto check_local_variable
 )
 
