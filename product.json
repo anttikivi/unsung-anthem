@@ -63,6 +63,8 @@
       "name": "Google Test",
       "testOnly": true,
       "benchmarkOnly": false,
+      "repository": "google/googletest",
+      "tagPrefix": "release-",
       "cmakeOptions": {
         "BUILD_GMOCK": false
       },
@@ -110,7 +112,6 @@
       "className": "LuaDependency",
       "testOnly": false,
       "benchmarkOnly": false,
-      "repository": "https://www.lua.org/ftp",
       "platforms": {
         "windows": {
           "files": {
@@ -134,7 +135,6 @@
       "name": "Simple DirectMedia Layer",
       "testOnly": false,
       "benchmarkOnly": false,
-      "repository": "https://www.libsdl.org/release",
       "platforms": {
         "windows": {
           "files": {
