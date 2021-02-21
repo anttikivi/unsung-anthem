@@ -10,7 +10,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      AWS_DEFAULT_REGION: us-east-1
       LOCAL_VERSION_NUMBER_FILE: build_version.txt
 
     strategy:
@@ -40,12 +40,17 @@ jobs:
         sudo apt-get update
         sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
       if: runner.os == 'Linux'
+    
+    - name: Set the correct CMake list file
+      run: |
+        rm -f CMakeLists.txt
+        mv CMakeLists-1.txt CMakeLists.txt
 
     - name: Configure the environment
-      run: ./configure preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: ./configure-1 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
 
     - name: Compile
-      run: ./compose preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: ./compose-1 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
 
     - name: Run tests
       id: test_linux
