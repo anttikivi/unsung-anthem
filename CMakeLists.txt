@@ -30,12 +30,14 @@ set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
 #==- Options ---------------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
+#==- Build Options Added by the Composer -----------------------------------===#
+option(COMPOSER_BUILD_TEST "Build the tests" OFF)
+option(COMPOSER_BUILD_BENCHMARK "Build the benchmarkings" OFF)
+option(COMPOSER_BUILD_DOCS "Build the documentation" OFF)
+option(COMPOSER_CODE_COVERAGE "Enable code coverage reporting" OFF)
+
 #==- Obliging Ode Build Options --------------------------------------------===#
 
-option(ODE_BUILD_TEST "Build the tests" OFF)
-option(ODE_TEST_BENCHMARKING "Build the benchmarkings" OFF)
-option(ODE_BUILD_DOCS "Build the documentation" OFF)
-option(ODE_CODE_COVERAGE "Enable code coverage reporting" OFF)
 option(ODE_BUILD_STATIC "Build the static Obliging Ode library" OFF)
 option(ODE_BUILD_SHARED "Build the shared Obliging Ode library" OFF)
 option(ODE_USE_SDL_DEBUG_SUFFIX
@@ -146,11 +148,11 @@ if(NOT WIN32)
   list(APPEND ODE_LIBRARIES ${SDL2_LIBRARIES})
 endif()
 
-if(ODE_BUILD_TEST AND NOT ODE_ADD_GOOGLE_TEST_SOURCE)
+if(COMPOSER_BUILD_TEST AND NOT ODE_ADD_GOOGLE_TEST_SOURCE)
   message(STATUS "Looking for Google Test libraries")
   find_library(GTEST_LIBRARY gtestd HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
   list(APPEND ODE_LIBRARIES ${GTEST_LIBRARY})
-elseif(ODE_BUILD_TEST AND ODE_ADD_GOOGLE_TEST_SOURCE)
+elseif(COMPOSER_BUILD_TEST AND ODE_ADD_GOOGLE_TEST_SOURCE)
   list(APPEND ODE_LIBRARIES "gtest")
 endif()
 
@@ -205,7 +207,7 @@ include_directories(include)
 include_directories(lib)
 include_directories(src)
 
-if(ODE_BUILD_TEST)
+if(COMPOSER_BUILD_TEST)
   include_directories(test)
 endif()
 

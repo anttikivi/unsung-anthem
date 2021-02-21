@@ -77,12 +77,17 @@ command -v pipenv >/dev/null 2>&1 || {
   pip install pipenv
 }
 
+rm ./Pipfile
+rm ./Pipfile.lock
+
 # Set up the script directory.
 
 if [ ! -d "$SCRIPT_DIRECTORY" ]; then
   mkdir $SCRIPT_DIRECTORY
   echo "Created the directory '$SCRIPT_DIRECTORY'"
 fi
+
+reset_pipfile=false
 
 # Clone Couplet Composer.
 
@@ -177,7 +182,13 @@ else
     git clone $COMPOSER_REPO_URL $composer_directory
     git -C $composer_directory checkout tags/$COMPOSER_VERSION_TAG \
 -b local_install_$COMPOSER_VERSION_TAG
+    reset_pipfile=true
   fi
 fi
 
+# if pipenv graph | grep -q 'couplet-composer'; then
+#    echo "matched"
+# fi
+
+# TODO Run install only if the correct version of Couplet Composer isn't already installed
 pipenv install $composer_directory --python $COMPOSER_PYTHON_VERSION
