@@ -45,6 +45,7 @@ jobs:
       run: |
         rm -f CMakeLists.txt
         mv CMakeLists-1.txt CMakeLists.txt
+      shell: bash
 
     - name: Configure the environment
       run: ./configure-1 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
