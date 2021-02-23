@@ -54,6 +54,8 @@ When the configuring script has finished, run the build script.
 
     ./compose
 
+Please note that while Couplet Composer 2 is in development, there are multiple versions of `configure` and `compose`. `configure-1` and `compose-1` are used to run version 1 of Couplet Composer while `configure-2` and `compose-2` are work-in-progress scripts that can be used with Couplet Composer 2 once it’s released. `configure` and `compose` are used in local development environment.
+
 
 ## Roadmap
 
