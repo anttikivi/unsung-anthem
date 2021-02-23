@@ -77,8 +77,13 @@ command -v pipenv >/dev/null 2>&1 || {
   pip install pipenv
 }
 
-rm ./Pipfile
-rm ./Pipfile.lock
+if [ -e "./Pipfile" ]; then
+  rm ./Pipfile
+fi
+
+if [ -e "./Pipfile.lock" ]; then
+  rm ./Pipfile.lock
+fi
 
 # Set up the script directory.
 
