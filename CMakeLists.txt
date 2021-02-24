@@ -40,17 +40,17 @@ option(COMPOSER_CODE_COVERAGE "Enable code coverage reporting" OFF)
 
 option(ODE_BUILD_STATIC "Build the static Obliging Ode library" OFF)
 option(ODE_BUILD_SHARED "Build the shared Obliging Ode library" OFF)
-option(ODE_USE_SDL_DEBUG_SUFFIX
-    "Link Obliging Ode against SDL with debug suffix on Windows builds" OFF)
-option(ODE_ADD_GOOGLE_TEST_SOURCE
-    "Build Google Test source files with the Obliging Ode sources" OFF)
-option(ODE_SKIP_BUILD
-    "Indicate that the binaries won't be actually compiled" OFF)
+# # option(ODE_USE_SDL_DEBUG_SUFFIX
+# #     "Link Obliging Ode against SDL with debug suffix on Windows builds" OFF)
+# # option(ODE_ADD_GOOGLE_TEST_SOURCE
+#     "Build Google Test source files with the Obliging Ode sources" OFF)
+# option(ODE_SKIP_BUILD
+#     "Indicate that the binaries won't be actually compiled" OFF)
 
 #==- Unsung Anthem Build Options -------------------------------------------===#
 
-option(ANTHEM_BUILD_STATIC "Build the static Unsung Anthem library" OFF)
-option(ANTHEM_BUILD_SHARED "Build the shared Unsung Anthem library" OFF)
+# option(ANTHEM_BUILD_STATIC "Build the static Unsung Anthem library" OFF)
+# option(ANTHEM_BUILD_SHARED "Build the shared Unsung Anthem library" OFF)
 
 #==- Obliging Ode Feature Options ------------------------------------------===#
 
@@ -66,44 +66,44 @@ option(ODE_DISABLE_GL_CALLS "Disable the OpenGL calls in Obliging Ode" OFF)
 #==- Variable Assertions ---------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-assert_variable(ODE_CXX_VERSION "C++ standard version" "c++2a and c++17")
-assert_variable(ODE_DEPENDENCY_PREFIX "dependency installation directory")
-assert_variable(ODE_VERSION "Obliging Ode version")
-assert_variable(ANTHEM_VERSION "Unsung Anthem version")
-assert_variable(ODE_OPENGL_VERSION_MAJOR "OpenGL major version")
-assert_variable(ODE_OPENGL_VERSION_MINOR "OpenGL minor version")
-assert_variable(ODE_SCRIPTS_BASE_DIRECTORY "Lua scripts base directory name")
+assert_variable(COMPOSER_CPP_STD "C++ standard version" "c++2a and c++17")
+assert_variable(COMPOSER_LOCAL_PREFIX "dependency installation directory")
+assert_variable(COMPOSER_ODE_VERSION "Obliging Ode version")
+assert_variable(COMPOSER_ANTHEM_VERSION "Unsung Anthem version")
+assert_variable(COMPOSER_OPENGL_VERSION_MAJOR "OpenGL major version")
+assert_variable(COMPOSER_OPENGL_VERSION_MINOR "OpenGL minor version")
+# assert_variable(ODE_SCRIPTS_BASE_DIRECTORY "Lua scripts base directory name")
 
 #===------------------------------------------------------------------------===#
 #==- Conditional Variable Assertions ---------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-if(ODE_ADD_GOOGLE_TEST_SOURCE)
-  assert_variable(ODE_GOOGLE_TEST_DIRECTORY "Google Test source directory")
-endif()
+# if(ODE_ADD_GOOGLE_TEST_SOURCE)
+#   assert_variable(ODE_GOOGLE_TEST_DIRECTORY "Google Test source directory")
+# endif()
 
 #===------------------------------------------------------------------------===#
 #==- Variable Statuses -----------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-default_value(ODE_NAME ode-name_not_set "Obliging Ode binaries name")
-default_value(ODE_STATIC_NAME
-    ${ODE_NAME}-static "Obliging Ode static library name")
-default_value(ODE_SHARED_NAME
-    ${ODE_NAME}-shared "Obliging Ode shared library name")
+default_value(COMPOSER_ODE_NAME ode-name_not_set "Obliging Ode binaries name")
+# default_value(ODE_STATIC_NAME
+#     ${ODE_NAME}-static "Obliging Ode static library name")
+# default_value(ODE_SHARED_NAME
+#     ${ODE_NAME}-shared "Obliging Ode shared library name")
 
-default_value(ANTHEM_NAME anthem-name_not_set "executable name")
-default_value(ANTHEM_STATIC_NAME
-    ${ANTHEM_NAME}-static "Unsung Anthem static library name")
-default_value(ANTHEM_SHARED_NAME
-    ${ANTHEM_NAME}-shared "Unsung Anthem shared library name")
+default_value(COMPOSER_ANTHEM_NAME anthem-name_not_set "executable name")
+# default_value(ANTHEM_STATIC_NAME
+#     ${ANTHEM_NAME}-static "Unsung Anthem static library name")
+# default_value(ANTHEM_SHARED_NAME
+#     ${ANTHEM_NAME}-shared "Unsung Anthem shared library name")
 default_value(ANTHEM_TEST_NAME test-${ANTHEM_NAME}
     "Unsung Anthem test executable name")
 
-print_status_if_defined(ODE_STDLIB "C++ standard library")
-print_status_if_defined(ODE_RPATH "the rpath")
+# print_status_if_defined(ODE_STDLIB "C++ standard library")
+# print_status_if_defined(ODE_RPATH "the rpath")
 
-print_status_if_defined(ODE_MSVC_RUNTIME_LIBRARY "the MSVC runtime library")
+# print_status_if_defined(ODE_MSVC_RUNTIME_LIBRARY "the MSVC runtime library")
 
 #===------------------------------------------------------------------------===#
 #==- Definitions and Flags -------------------------------------------------===#

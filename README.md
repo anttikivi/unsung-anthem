@@ -48,14 +48,13 @@ After cloning the source, make sure to change to the cloned directory.
 
 Then run the configuring script to set up the build environment.
 
-    ./configure
+    ./configure-14
 
 When the configuring script has finished, run the build script.
 
-    ./compose
+    ./compose-14
 
-Please note that while Couplet Composer 2 is in development, there are multiple versions of `configure` and `compose`. `configure-1` and `compose-1` are used to run version 1 of Couplet Composer while `configure-2` and `compose-2` are work-in-progress scripts that can be used with Couplet Composer 2 once it’s released. `configure` and `compose` are used in local development environment.
-
+Please note that there are currently multiple versions of `configure` and `compose`. `configure-14` and `compose-14` are used for Couplet Composer v1.4 and older. It also has support installing and using the local development version of the composer. Meanwhile `configure` and `compose` are the work-in-progress scripts for Couplet Composer v1.5 and v2.0.
 
 ## Roadmap
 
