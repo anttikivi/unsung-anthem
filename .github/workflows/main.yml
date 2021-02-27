@@ -45,6 +45,8 @@ jobs:
       run: |
         rm -f CMakeLists.txt
         mv CMakeLists-1.txt CMakeLists.txt
+        rm -rf cmake
+        mv ./cmake-1 ./cmake
       shell: bash
 
     - name: Configure the environment
