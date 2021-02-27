@@ -50,22 +50,22 @@ jobs:
       shell: bash
 
     - name: Configure the environment
-      run: ./configure preset --name main_workflow_${{ runner.os }} --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: ./configure-14 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
 
     - name: Compile
-      run: ./compose preset --name main_workflow_${{ runner.os }} --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: ./compose-14 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
 
     - name: Run tests
       id: test_linux
       run: |
         export SDL_VIDEODRIVER=x11
         export DISPLAY=:99.0
-        /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout $GITHUB_WORKSPACE/../build/run/launch_test
+        /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout $GITHUB_WORKSPACE/build/run/launch_test
       if: runner.os == 'Linux'
 
     - name: Run tests
       id: test_macos
-      run: $GITHUB_WORKSPACE/../build/run/launch_test
+      run: $GITHUB_WORKSPACE/build/run/launch_test
       if: runner.os == 'macOS'
 
     - name: Run tests
