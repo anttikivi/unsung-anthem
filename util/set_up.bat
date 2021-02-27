@@ -97,6 +97,9 @@ call %cd%\env\Scripts\activate
 start "python" /w /b py -m pip install --upgrade pip
 deactivate
 
+if not defined is_dev goto install
+if not defined is_local goto install
+
 @rem Set up the script directory if it is needed.
 
 if defined is_dev md %script_directory%
@@ -107,8 +110,6 @@ if defined is_local echo Created the directory '%script_directory%'
 @rem Clone Couplet Composer.
 if defined is_dev goto get_dev
 if defined is_local goto get_local
-
-goto install
 
 :get_dev
 echo Using the development copy of %composer_name%
