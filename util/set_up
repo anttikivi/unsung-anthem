@@ -4,3 +4,152 @@
 # Licensed under the Effective Elegy Licence
 
 set -e
+
+readonly COMPOSER_NAME="Couplet Composer"
+readonly ODE_NAME="Obliging Ode"
+readonly ANTHEM_NAME="Unsung Anthem"
+
+echo "Running the set-up shell script for $COMPOSER_NAME, the build utility \
+of $ODE_NAME and $ANTHEM_NAME"
+
+readonly GITHUB_URL="https://github.com"
+readonly COMPOSER_REPO_OWNER="anttikivi"
+readonly COMPOSER_REPO_NAME="couplet-composer"
+readonly COMPOSER_REPO_URL="$GITHUB_URL/$COMPOSER_REPO_OWNER/\
+$COMPOSER_REPO_NAME.git"
+
+current_working_directory=$PWD
+
+# Switch to the correct directory.
+cd ..
+
+echo "The working directory is set to $PWD"
+
+readonly SCRIPT_DIRECTORY_NAME="script"
+readonly COMPOSER_DIRECTORY_BASE_NAME="composer"
+readonly COMPOSER_DIRECTORY_NAME="${COMPOSER_DIRECTORY_BASE_NAME}_\
+$(echo $COMPOSER_VERSION | tr '.' '_' | tr '-' '_')"
+readonly COMPOSER_HEAD_DIRECTORY_NAME="${COMPOSER_DIRECTORY_BASE_NAME}_head"
+readonly COMPOSER_LOCAL_DIRECTORY_NAME="${COMPOSER_DIRECTORY_BASE_NAME}_local"
+readonly SCRIPT_DIRECTORY="$PWD/$SCRIPT_DIRECTORY_NAME"
+
+# Set up the virtual environment.
+if [ "$DEVELOPMENT_COMPOSER" = true ] || [ "$LOCAL_COMPOSER" = true ]; then
+  rm -rf $PWD/env
+fi
+
+python3 -m venv env
+source $PWD/env/bin/activate
+python3 -m pip install --upgrade pip
+deactivate
+
+# Set up the script directory if it is needed.
+
+if [ "$DEVELOPMENT_COMPOSER" = true ] || [ "$LOCAL_COMPOSER" = true ]; then
+  if [ ! -d "$SCRIPT_DIRECTORY" ]; then
+    mkdir $SCRIPT_DIRECTORY
+    echo "Created the directory '$SCRIPT_DIRECTORY'"
+  fi
+fi
+
+# Clone Couplet Composer.
+
+if [ "$DEVELOPMENT_COMPOSER" = true ]; then
+  echo "Using the development copy of $COMPOSER_NAME"
+
+  composer_directory="$SCRIPT_DIRECTORY/$COMPOSER_HEAD_DIRECTORY_NAME"
+  composer_remote="origin"
+  composer_remote_branch="$composer_remote/develop"
+
+  # If the Composer directory doesn't exist, there is no need to check for the
+  # remote HEAD SHA1.
+  if [ ! -d "$composer_directory" ]; then
+    echo "The directory '$composer_directory' doesn't exist and, thus, \
+$COMPOSER_NAME will be cloned"
+
+    git clone $COMPOSER_REPO_URL $composer_directory
+    head_sha="$(git -C "$composer_directory" rev-parse HEAD)"
+
+    echo "The SHA1 for the currently cloned HEAD of $COMPOSER_NAME is $head_sha"
+  else
+    git -C $composer_directory fetch
+    head_sha="$(git -C $composer_directory rev-parse HEAD)"
+    remote_sha="$(git -C $composer_directory rev-parse $composer_remote_branch)"
+
+    echo "The SHA1 for the currently cloned HEAD of $COMPOSER_NAME is $head_sha"
+    echo "The SHA1 for $composer_remote_branch of $COMPOSER_NAME is $remote_sha"
+
+    if [ "$head_sha" != "$remote_sha" ]; then
+      echo "The SHA1's for $composer_remote_branch and local HEAD of \
+$COMPOSER_NAME don't match and thus the local copy will be reset"
+      git -C $composer_directory reset --hard HEAD
+      git -C $composer_directory clean -xffd
+      git -C $composer_directory pull
+    fi
+  fi
+
+  echo "The latest development copy of $COMPOSER_NAME is now set up"
+elif [ "$LOCAL_COMPOSER" = true ]; then
+  echo "Using the local development copy of $COMPOSER_NAME"
+
+  composer_directory="$SCRIPT_DIRECTORY/$COMPOSER_LOCAL_DIRECTORY_NAME"
+  composer_local_repo="$PWD/couplet-composer"
+  composer_remote="origin"
+
+  # If the Composer directory doesn't exist, there is no need to check for the
+  # local repository HEAD SHA1.
+  if [ ! -d "$composer_directory" ]; then
+    echo "The directory '$composer_directory' doesn't exist and, thus, \
+$COMPOSER_NAME will be cloned from the local repository"
+
+    git clone $composer_local_repo $composer_directory
+    head_sha="$(git -C "$composer_directory" rev-parse HEAD)"
+
+    echo "The SHA1 for the currently cloned local HEAD of $COMPOSER_NAME is \
+$head_sha"
+  else
+    current_branch="$(git -C $composer_directory rev-parse --abbrev-ref HEAD)"
+    local_branch="$(git -C $composer_local_repo rev-parse --abbrev-ref HEAD)"
+
+    echo "The current branch in $composer_directory is $current_branch"
+    echo "The current branch of the remote $composer_remote is $local_branch"
+
+    if [ "$current_branch" != "$local_branch" ]; then
+      git -C $composer_directory fetch $composer_remote
+      git -C $composer_directory checkout -b $local_branch \
+$composer_remote/$local_branch
+    fi
+
+    git -C $composer_directory fetch $composer_remote
+    head_sha="$(git -C $composer_directory rev-parse HEAD)"
+    remote_sha="$(git -C $composer_directory rev-parse \
+$composer_remote/$local_branch)"
+
+    echo "The SHA1 for the currently cloned local HEAD of $COMPOSER_NAME is \
+$head_sha"
+    echo "The SHA1 for $composer_remote/$local_branch of $COMPOSER_NAME is \
+$remote_sha"
+
+    if [ "$head_sha" != "$remote_sha" ]; then
+      echo "The SHA1's for $composer_remote/$local_branch and local HEAD of \
+$COMPOSER_NAME don't match and thus the copy will be reset"
+      git -C $composer_directory reset --hard HEAD
+      git -C $composer_directory clean -xffd
+      git -C $composer_directory pull
+    fi
+  fi
+
+  echo "The latest local development version of $COMPOSER_NAME is now set up"
+fi
+
+# Install the correct Couplet Composer.
+
+source $PWD/env/bin/activate
+
+if [ "$DEVELOPMENT_COMPOSER" = true ] || [ "$LOCAL_COMPOSER" = true ]; then
+  pip install $composer_directory
+else
+  pip install -r $current_working_directory/requirements.txt
+fi
+
+deactivate
