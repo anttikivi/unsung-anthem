@@ -97,9 +97,6 @@ call %cd%\env\Scripts\activate
 start "python" /w /b py -m pip install --upgrade pip
 call deactivate
 
-if not defined is_dev goto install
-if not defined is_local goto install
-
 @rem Set up the script directory if it is needed.
 
 if defined is_dev md %script_directory%
@@ -245,12 +242,12 @@ call %cd%\env\Scripts\activate
 if defined is_dev goto install_dir
 if defined is_local goto install_dir
 
-start "pip install" /w /b pip install %composer_directory%
+start "pip install" /w /b pip install -r %current_working_directory%\requirements.txt
 
 goto finalize
 
 :install_dir
-start "pip install" /w /b pip install -r %current_working_directory%/requirements.txt
+start "pip install" /w /b pip install %composer_directory%
 
 :finalize
-deactivate
+call deactivate
