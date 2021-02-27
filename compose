@@ -76,7 +76,7 @@ for arg in "$@"; do
   fi
 done
 
-source $PWD/env/bin/activate
+. $PWD/env/bin/activate
 
 if [ "$preset_mode" = true ]; then
   $COMPOSER_EXECUTABLE_NAME "$@" $COMPOSE_MODE_ARGUMENT

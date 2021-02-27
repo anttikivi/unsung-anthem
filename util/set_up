@@ -39,7 +39,7 @@ if [ "$DEVELOPMENT_COMPOSER" = true ] || [ "$LOCAL_COMPOSER" = true ]; then
 fi
 
 python3 -m venv env
-source $PWD/env/bin/activate
+. $PWD/env/bin/activate
 python3 -m pip install --upgrade pip
 deactivate
 
@@ -144,7 +144,7 @@ fi
 
 # Install the correct Couplet Composer.
 
-source $PWD/env/bin/activate
+. $PWD/env/bin/activate
 
 if [ "$DEVELOPMENT_COMPOSER" = true ] || [ "$LOCAL_COMPOSER" = true ]; then
   pip install $composer_directory
