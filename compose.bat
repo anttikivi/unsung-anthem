@@ -36,7 +36,9 @@ echo The working directory is set to %cd%
 
 if not exist %build_directory% (
   echo The directory %build_directory% is missing
-  goto exit_for_missing_configuration
+  echo The build directory wasn't found; please make sure to run the ^
+configuring script before attempting to build %ode_name% and %anthem_name% 1>&2
+  exit 1
 )
 
 @rem Set up Couplet Composer.
@@ -66,10 +68,10 @@ for %%g in (%*) do if /i "%%~g"=="%preset_mode_argument%" set preset_mode=true
 call %cd%\env\Scripts\activate
 
 if %preset_mode%==true (
-  start "%composer_name%" /w /b pipenv run %composer_executable_name% %* ^
+  start "%composer_name%" /w /b %composer_executable_name% %* ^
 %compose_mode_argument%
 ) else (
-  start "%composer_name%" /w /b pipenv run %composer_executable_name% ^
+  start "%composer_name%" /w /b %composer_executable_name% ^
 %compose_mode_argument% %*
 )
 
@@ -79,10 +81,3 @@ if %ERRORLEVEL% neq 0 (
 )
 
 call deactivate
-
-goto :eof
-
-:exit_for_missing_configuration
-echo The build directory wasn't found; please make sure to run the cofiguring ^
-script before attempting to build %ode_name% and %anthem_name% 1>&2
-exit 1
