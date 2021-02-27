@@ -108,6 +108,8 @@ if defined is_local echo Created the directory '%script_directory%'
 if defined is_dev goto get_dev
 if defined is_local goto get_local
 
+goto install
+
 :get_dev
 echo Using the development copy of %composer_name%
 
