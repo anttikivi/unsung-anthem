@@ -63,7 +63,7 @@ set preset_mode=false
 
 for %%g in (%*) do if /i "%%~g"=="%preset_mode_argument%" set preset_mode=true
 
-%cd%\env\Scripts\activate
+call %cd%\env\Scripts\activate
 
 if %preset_mode%==true (
   start "%composer_name%" /w /b pipenv run %composer_executable_name% %* ^
@@ -78,7 +78,7 @@ if %ERRORLEVEL% neq 0 (
   exit 1
 )
 
-deactivate
+call deactivate
 
 goto :eof
 
