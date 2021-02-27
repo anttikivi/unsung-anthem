@@ -97,7 +97,7 @@ default_value(COMPOSER_ANTHEM_NAME anthem-name_not_set "executable name")
 #     ${ANTHEM_NAME}-static "Unsung Anthem static library name")
 # default_value(ANTHEM_SHARED_NAME
 #     ${ANTHEM_NAME}-shared "Unsung Anthem shared library name")
-default_value(ANTHEM_TEST_NAME test-${ANTHEM_NAME}
+default_value(COMPOSER_ANTHEM_TEST_NAME test-${COMPOSER_ANTHEM_NAME}
     "Unsung Anthem test executable name")
 
 # print_status_if_defined(ODE_STDLIB "C++ standard library")
