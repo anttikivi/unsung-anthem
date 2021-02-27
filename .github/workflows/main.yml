@@ -48,10 +48,10 @@ jobs:
       shell: bash
 
     - name: Configure the environment
-      run: ./configure-14 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: ./configure preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
 
     - name: Compile
-      run: ./compose-14 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+      run: ./compose preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
 
     - name: Run tests
       id: test_linux
