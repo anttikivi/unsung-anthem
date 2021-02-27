@@ -93,7 +93,7 @@ if defined is_dev rmdir /s /q "%cd%\env"
 if defined is_local rmdir /s /q "%cd%\env"
 
 start "python" /w /b py -m venv env
-%cd%\env\Scripts\activate
+call %cd%\env\Scripts\activate
 start "python" /w /b py -m pip install --upgrade pip
 deactivate
 
