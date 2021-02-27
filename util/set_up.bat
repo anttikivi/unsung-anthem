@@ -237,7 +237,7 @@ goto install
 
 @rem Install the correct Couplet Composer.
 
-%cd%\env\Scripts\activate
+call %cd%\env\Scripts\activate
 
 if defined is_dev goto install_dir
 if defined is_local goto install_dir
