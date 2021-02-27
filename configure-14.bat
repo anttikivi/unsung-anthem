@@ -29,7 +29,7 @@ for %%g in (%*) do if /i "%%~g"=="%in_tree_build_option%" set in_tree_build=true
 set current_directory=%~dp0
 set current_working_directory=%cd%
 
-call %current_directory%\util\set_up-1 %*
+call %current_directory%\util\set_up-14 %*
 
 @rem Change back to the directory of this script to prevent the set-up script
 @rem from messing up the working directory.

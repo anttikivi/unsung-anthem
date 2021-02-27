@@ -35,7 +35,7 @@ done
 current_directory="${0%/*}"
 current_working_directory=$PWD
 
-$current_directory/util/set_up-1 "$@"
+$current_directory/util/set_up-14 "$@"
 
 # Change back to the directory of this script to prevent the set-up script from
 # messing up the working directory.
