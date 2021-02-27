@@ -2,13 +2,13 @@
 # Licensed under the Effective Elegy Licence
 
 function(ADD_VERSION_DEFINITIONS)
-  add_definitions(-DODE_VERSION="${ODE_VERSION}")
-  add_definitions(-DANTHEM_VERSION="${ANTHEM_VERSION}")
+  add_definitions(-DODE_VERSION="${COMPOSER_ODE_VERSION}")
+  add_definitions(-DANTHEM_VERSION="${COMPOSER_ANTHEM_VERSION}")
 endfunction()
 
 function(ADD_OPENGL_DEFINITIONS)
-  add_definitions(-DODE_OPENGL_VERSION_MAJOR=${ODE_OPENGL_VERSION_MAJOR})
-  add_definitions(-DODE_OPENGL_VERSION_MINOR=${ODE_OPENGL_VERSION_MINOR})
+  add_definitions(-DODE_OPENGL_VERSION_MAJOR=${COMPOSER_OPENGL_VERSION_MAJOR})
+  add_definitions(-DODE_OPENGL_VERSION_MINOR=${COMPOSER_OPENGL_VERSION_MINOR})
 endfunction()
 
 function(ADD_DIRECTORY_DEFINITIONS)
