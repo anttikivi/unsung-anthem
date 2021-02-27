@@ -95,7 +95,7 @@ if defined is_local rmdir /s /q "%cd%\env"
 start "python" /w /b py -m venv env
 call %cd%\env\Scripts\activate
 start "python" /w /b py -m pip install --upgrade pip
-deactivate
+call deactivate
 
 if not defined is_dev goto install
 if not defined is_local goto install
