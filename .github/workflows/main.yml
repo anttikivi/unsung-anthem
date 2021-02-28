@@ -47,6 +47,8 @@ jobs:
         mv CMakeLists-1.txt CMakeLists.txt
         rm -rf cmake
         mv ./cmake-1 ./cmake
+        rm -f ./util/composer-presets.ini
+        mv ./util/composer-presets-1.ini ./util/composer-presets.ini
       shell: bash
 
     - name: Configure the environment
