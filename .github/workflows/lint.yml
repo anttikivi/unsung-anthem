@@ -39,6 +39,8 @@ jobs:
         mv CMakeLists-1.txt CMakeLists.txt
         rm -rf cmake
         mv ./cmake-1 ./cmake
+        rm -f ./util/composer-presets.ini
+        mv ./util/composer-presets-1.ini ./util/composer-presets.ini
       shell: bash
     - name: Run the configuration
       run: ./configure-14 preset --name main_workflow_${{ runner.os }}_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
