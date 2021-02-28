@@ -1,17 +1,23 @@
 name: Main workflow
 
-on: [push, pull_request]
+on:
+  schedule:
+  - cron: '0 12 * * 0'
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-east-1
+  LOCAL_VERSION_NUMBER_FILE: build_version.txt
 
 jobs:
   build:
     name: Build
     runs-on: ${{ matrix.os }}
-
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: us-east-1
-      LOCAL_VERSION_NUMBER_FILE: build_version.txt
 
     strategy:
       fail-fast: false
@@ -24,9 +30,6 @@ jobs:
 
     - name: Set up Python environment
       uses: actions/setup-python@v2.2.1
-      with:
-        python-version: 3.x
-        architecture: x64
 
     - name: Determine the project’s version
       id: version
@@ -40,7 +43,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
       if: runner.os == 'Linux'
-    
+
     - name: Set the correct CMake list file
       run: |
         rm -f CMakeLists.txt
@@ -81,3 +84,42 @@ jobs:
       with:
         name: anthem-${{ steps.version.outputs.version }}-${{ matrix.os }}
         path: build/artefacts/anthem-*
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2.3.4
+
+    - name: Set up Python environment
+      uses: actions/setup-python@v2.2.1
+
+    - name: Determine the project’s version
+      id: version
+      uses: anttikivi/maintain-revision@v0.10.1
+      with:
+        type: json
+        file: util/values.json
+
+    - name: Install APT packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
+
+    - name: Set the correct CMake list file
+      run: |
+        rm -f CMakeLists.txt
+        mv CMakeLists-1.txt CMakeLists.txt
+        rm -rf cmake
+        mv ./cmake-1 ./cmake
+        rm -f ./util/composer-presets.ini
+        mv ./util/composer-presets-1.ini ./util/composer-presets.ini
+
+    - name: Configure the environment
+      run: ./configure-14 preset --name main_workflow_${{ runner.os }}_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+
+    - name: Compile and lint
+      run: ./compose-14 preset --name main_workflow_${{ runner.os }}_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
