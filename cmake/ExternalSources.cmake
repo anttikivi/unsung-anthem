@@ -3,7 +3,7 @@
 
 function(SET_GLAD_SOURCES)
 
-  list(APPEND ODE_SOURCES ${ODE_DEPENDENCY_PREFIX}/src/glad.c)
+  list(APPEND ODE_SOURCES ${COMPOSER_LOCAL_PREFIX}/src/glad.c)
   set(ODE_SOURCES ${ODE_SOURCES} PARENT_SCOPE)
 
 endfunction()

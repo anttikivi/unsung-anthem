@@ -31,6 +31,7 @@ set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
 #===------------------------------------------------------------------------===#
 
 #==- Build Options Added by the Composer -----------------------------------===#
+
 option(COMPOSER_BUILD_TEST "Build the tests" OFF)
 option(COMPOSER_BUILD_BENCHMARK "Build the benchmarkings" OFF)
 option(COMPOSER_BUILD_DOCS "Build the documentation" OFF)
@@ -54,17 +55,19 @@ option(ODE_BUILD_SHARED "Build the shared Obliging Ode library" OFF)
 
 #==- Obliging Ode Feature Options ------------------------------------------===#
 
-option(ODE_ENABLE_ASSERTIONS "Option for enabling assertions" ON)
-option(ODE_DEVELOPER "Enable developer mode" OFF)
-option(ODE_STD_CLOCK
+option(ENABLE_ASSERTIONS "Option for enabling assertions" ON)
+option(DEVELOPER_BUILD "Enable developer mode" OFF)
+option(STD_CLOCK
     "Use the C++ standard library clock instead of the SDL clock" OFF)
-option(ODE_TEST_USE_NULL_SINK "Log the tests to a null sink" ON)
-option(ODE_MULTITHREADING "Enable multithreading in the product" ON)
-option(ODE_DISABLE_GL_CALLS "Disable the OpenGL calls in Obliging Ode" OFF)
+option(NULL_TEST_SINK "Log the tests to a null sink" ON)
+option(MULTITHREADING "Enable multithreading in the product" ON)
+option(DISABLE_GL_CALLS "Disable the OpenGL calls in Obliging Ode" OFF)
 
 #===------------------------------------------------------------------------===#
 #==- Variable Assertions ---------------------------------------------------===#
 #===------------------------------------------------------------------------===#
+
+#==- Composer Variable Assertions ------------------------------------------===#
 
 assert_variable(COMPOSER_CPP_STD "C++ standard version" "c++2a and c++17")
 assert_variable(COMPOSER_LOCAL_PREFIX "dependency installation directory")
@@ -72,7 +75,10 @@ assert_variable(COMPOSER_ODE_VERSION "Obliging Ode version")
 assert_variable(COMPOSER_ANTHEM_VERSION "Unsung Anthem version")
 assert_variable(COMPOSER_OPENGL_VERSION_MAJOR "OpenGL major version")
 assert_variable(COMPOSER_OPENGL_VERSION_MINOR "OpenGL minor version")
-# assert_variable(ODE_SCRIPTS_BASE_DIRECTORY "Lua scripts base directory name")
+
+#==- Obliging Ode Variable Assertions --------------------------------------===#
+
+assert_variable(SCRIPTS_DIRECTORY "Lua scripts base directory name")
 
 #===------------------------------------------------------------------------===#
 #==- Conditional Variable Assertions ---------------------------------------===#
@@ -86,18 +92,20 @@ assert_variable(COMPOSER_OPENGL_VERSION_MINOR "OpenGL minor version")
 #==- Variable Statuses -----------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-default_value(COMPOSER_ODE_NAME ode-name_not_set "Obliging Ode binaries name")
+default_value(COMPOSER_ODE_NAME ode_name_not_set "Obliging Ode name")
+default_value(COMPOSER_ODE_TARGET ode_name_not_set "Obliging Ode binaries name")
 # default_value(ODE_STATIC_NAME
 #     ${ODE_NAME}-static "Obliging Ode static library name")
 # default_value(ODE_SHARED_NAME
 #     ${ODE_NAME}-shared "Obliging Ode shared library name")
 
-default_value(COMPOSER_ANTHEM_NAME anthem-name_not_set "executable name")
+default_value(COMPOSER_ANTHEM_NAME anthem_name_not_set "name")
+default_value(COMPOSER_ANTHEM_TARGET anthem_name_not_set "executable name")
 # default_value(ANTHEM_STATIC_NAME
 #     ${ANTHEM_NAME}-static "Unsung Anthem static library name")
 # default_value(ANTHEM_SHARED_NAME
 #     ${ANTHEM_NAME}-shared "Unsung Anthem shared library name")
-default_value(COMPOSER_ANTHEM_TEST_NAME test-${COMPOSER_ANTHEM_NAME}
+default_value(COMPOSER_ANTHEM_TEST_TARGET test-${COMPOSER_ANTHEM_TARGET}
     "Unsung Anthem test executable name")
 
 # print_status_if_defined(ODE_STDLIB "C++ standard library")
@@ -109,17 +117,17 @@ default_value(COMPOSER_ANTHEM_TEST_NAME test-${COMPOSER_ANTHEM_NAME}
 #==- Definitions and Flags -------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-set(ODE_STD)
+set(CPP_STD)
 
-set_cxx_definitions(${ODE_CXX_VERSION})
-set_std_feature_definitions(${ODE_CXX_VERSION})
+set_cpp_definitions(${COMPOSER_CPP_STD})
+set_cpp_feature_definitions()
 
-print_status(ODE_STD "Obliging Ode C++ standard")
+print_status(CPP_STD "Obliging Ode C++ standard")
 
-set_std_flags(${ODE_STD})
+set_cpp_std_flags(${CPP_STD})
 set_linker_flags()
 
-if(ODE_CODE_COVERAGE)
+if(COMPOSER_CODE_COVERAGE)
   set_coverage_flags()
 endif()
 
@@ -132,7 +140,7 @@ add_feature_definitions()
 #==- Tools -----------------------------------------------------------------===#
 #===------------------------------------------------------------------------===#
 
-if(ODE_BUILD_DOCS)
+if(COMPOSER_BUILD_DOCS)
   find_package(Doxygen REQUIRED)
 endif()
 
@@ -144,13 +152,13 @@ set(ODE_LIBRARIES)
 
 if(NOT WIN32)
   message(STATUS "Looking for SDL libraries")
-  find_package(SDL2 REQUIRED HINTS ${ODE_DEPENDENCY_PREFIX})
+  find_package(SDL2 REQUIRED HINTS ${COMPOSER_LOCAL_PREFIX})
   list(APPEND ODE_LIBRARIES ${SDL2_LIBRARIES})
 endif()
 
 if(COMPOSER_BUILD_TEST AND NOT ODE_ADD_GOOGLE_TEST_SOURCE)
   message(STATUS "Looking for Google Test libraries")
-  find_library(GTEST_LIBRARY gtestd HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
+  find_library(GTEST_LIBRARY gtestd HINTS "${COMPOSER_LOCAL_PREFIX}/lib")
   list(APPEND ODE_LIBRARIES ${GTEST_LIBRARY})
 elseif(COMPOSER_BUILD_TEST AND ODE_ADD_GOOGLE_TEST_SOURCE)
   list(APPEND ODE_LIBRARIES "gtest")
@@ -162,7 +170,7 @@ if(ODE_TEST_BENCHMARKING)
   endif()
   message(STATUS "Looking for Google Benchmark libraries")
   find_library(BENCHMARK_LIBRARY benchmark
-      HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
+      HINTS "${COMPOSER_LOCAL_PREFIX}/lib")
   list(APPEND ODE_LIBRARIES ${BENCHMARK_LIBRARY})
 endif()
 
@@ -183,7 +191,7 @@ else()
   endif()
 endif()
 
-find_library(LUA_LIBRARY lua HINTS "${ODE_DEPENDENCY_PREFIX}/lib")
+find_library(LUA_LIBRARY lua HINTS "${COMPOSER_LOCAL_PREFIX}/lib")
 
 list(APPEND ODE_LIBRARIES ${LUA_LIBRARY})
 
@@ -194,14 +202,14 @@ print_status_plural(ODE_LIBRARIES "libraries")
 #===------------------------------------------------------------------------===#
 
 if(WIN32)
-  link_directories(${ODE_DEPENDENCY_PREFIX}/lib)
+  link_directories(${COMPOSER_LOCAL_PREFIX}/lib)
 endif()
 
 if(NOT WIN32)
   include_directories(${SDL2_INCLUDE_DIRS})
 endif()
 
-include_directories(${ODE_DEPENDENCY_PREFIX}/include)
+include_directories(${COMPOSER_LOCAL_PREFIX}/include)
 
 include_directories(include)
 include_directories(lib)

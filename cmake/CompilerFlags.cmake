@@ -1,18 +1,14 @@
 # Copyright (c) 2017–2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
-function(SET_STD_FLAGS STD)
+function(SET_CPP_STD_FLAGS CPP_STD)
 
-  if (${STD} STREQUAL c++20)
-    set(STD_FLAG c++2a)
-  else()
-    set(STD_FLAG ${STD})
-  endif()
+  set(CPP_STD_FLAG ${CPP_STD})
 
   if (WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:${STD_FLAG}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:${CPP_STD_FLAG}")
   else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${STD_FLAG}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${CPP_STD_FLAG}")
   endif()
 
   if (DEFINED ODE_STDLIB AND NOT WIN32)
@@ -39,4 +35,3 @@ function(SET_COVERAGE_FLAGS)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage" PARENT_SCOPE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage" PARENT_SCOPE)
 endfunction()
-
