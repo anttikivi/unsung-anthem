@@ -80,7 +80,7 @@ jobs:
       shell: cmd
 
     - name: Upload build artefacts
-      uses: actions/upload-artifact@v2.2.2
+      uses: actions/upload-artifact@v2.2.3
       with:
         name: anthem-${{ steps.version.outputs.version }}-${{ matrix.os }}
         path: build/artefacts/anthem-*
