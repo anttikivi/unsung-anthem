@@ -1,7 +1,7 @@
 # Copyright (c) 2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
-if(COMPOSER_BUILD_DOCS AND DOXYGEN_FOUND)
+if(ODE_BUILD_DOCS AND DOXYGEN_FOUND AND NOT ODE_SKIP_BUILD)
   set(docs_srcdir ${CMAKE_CURRENT_SOURCE_DIR})
   set(docs_builddir ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -14,5 +14,5 @@ if(COMPOSER_BUILD_DOCS AND DOXYGEN_FOUND)
       COMMENT "Generating Obliging Ode and Unsung Anthem Doxygen documentation."
       VERBATIM)
 
-      add_dependencies(${COMPOSER_ANTHEM_TARGET} doxygen-anthem)
+      add_dependencies(${ANTHEM_NAME} doxygen-anthem)
 endif()

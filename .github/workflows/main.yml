@@ -48,6 +48,8 @@ jobs:
       run: |
         rm -f CMakeLists.txt
         mv CMakeLists-1.txt CMakeLists.txt
+        rm -f docs/CMakeLists.txt
+        mv docs/CMakeLists-1.txt docs/CMakeLists.txt
         rm -rf cmake
         mv ./cmake-1 ./cmake
         rm -f ./util/composer-presets.ini
@@ -114,6 +116,8 @@ jobs:
       run: |
         rm -f CMakeLists.txt
         mv CMakeLists-1.txt CMakeLists.txt
+        rm -f docs/CMakeLists.txt
+        mv docs/CMakeLists-1.txt docs/CMakeLists.txt
         rm -rf cmake
         mv ./cmake-1 ./cmake
         rm -f ./util/composer-presets.ini
