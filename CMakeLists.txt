@@ -250,9 +250,11 @@ add_subdirectory(src)
 add_subdirectory(script)
 add_subdirectory(test)
 
-if(NOT CMAKE_EXPORT_COMPILE_COMMANDS AND NOT ODE_SKIP_BUILD)
-  set_glad_sources()
-endif()
+# if(NOT CMAKE_EXPORT_COMPILE_COMMANDS AND NOT ODE_SKIP_BUILD)
+#   set_glad_sources()
+# endif()
+
+set_glad_sources()
 
 if(ODE_ADD_GOOGLE_TEST_SOURCE)
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
