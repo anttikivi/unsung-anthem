@@ -70,9 +70,9 @@ function(CREATE_COVERAGE_TARGETS)
       /usr/*
       /Applications/Xcode.app/*)
 
-  setup_target_for_coverage_lcov(NAME ${ANTHEM_NAME}_coverage
-      EXECUTABLE ${ANTHEM_TEST_NAME}
-      DEPENDECIES ${ANTHEM_TEST_NAME})
+  setup_target_for_coverage_lcov(NAME ${COMPOSER_ANTHEM_TARGET}_coverage
+      EXECUTABLE ${COMPOSER_ANTHEM_TEST_TARGET}
+      DEPENDECIES ${COMPOSER_ANTHEM_TEST_TARGET})
 endfunction()
 
 function(CREATE_TARGETS)

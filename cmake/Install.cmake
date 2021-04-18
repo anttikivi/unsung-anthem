@@ -1,48 +1,12 @@
 # Copyright (c) 2019–2020 Antti Kivi
 # Licensed under the Effective Elegy Licence
 
-function(CREATE_ODE_STATIC_INSTALL_TARGET)
-  install(TARGETS ${ODE_STATIC_NAME}
-      RUNTIME DESTINATION bin
-      PUBLIC_HEADER DESTINATION include
-      PRIVATE_HEADER DESTINATION include
-      LIBRARY DESTINATION lib
-      ARCHIVE DESTINATION lib)
-endfunction()
-
-function(CREATE_ODE_SHARED_INSTALL_TARGET)
-  install(TARGETS ${ODE_SHARED_NAME}
-      RUNTIME DESTINATION bin
-      PUBLIC_HEADER DESTINATION include
-      PRIVATE_HEADER DESTINATION include
-      LIBRARY DESTINATION lib
-      ARCHIVE DESTINATION lib)
-endfunction()
-
 function(CREATE_ANTHEM_EXECUTABLE_INSTALL_TARGET)
-  install(TARGETS ${ANTHEM_NAME} RUNTIME DESTINATION bin)
-endfunction()
-
-function(CREATE_ANTHEM_STATIC_INSTALL_TARGET)
-  install(TARGETS ${ANTHEM_STATIC_NAME}
-      RUNTIME DESTINATION bin
-      PUBLIC_HEADER DESTINATION include
-      PRIVATE_HEADER DESTINATION include
-      LIBRARY DESTINATION lib
-      ARCHIVE DESTINATION lib)
-endfunction()
-
-function(CREATE_ANTHEM_SHARED_INSTALL_TARGET)
-  install(TARGETS ${ANTHEM_SHARED_NAME}
-      RUNTIME DESTINATION bin
-      PUBLIC_HEADER DESTINATION include
-      PRIVATE_HEADER DESTINATION include
-      LIBRARY DESTINATION lib
-      ARCHIVE DESTINATION lib)
+  install(TARGETS ${COMPOSER_ANTHEM_TARGET} RUNTIME DESTINATION bin)
 endfunction()
 
 function(CREATE_ANTHEM_TEST_EXECUTABLE_INSTALL_TARGET)
-  install(TARGETS ${ANTHEM_TEST_NAME} RUNTIME DESTINATION bin)
+  install(TARGETS ${COMPOSER_ANTHEM_TEST_TARGET} RUNTIME DESTINATION bin)
 endfunction()
 
 function(CREATE_ODE_SCRIPTS_INSTALL_TARGET)
@@ -92,23 +56,23 @@ function(CREATE_ANTHEM_TEST_SCRIPTS_INSTALL_TARGET)
 endfunction()
 
 function(CREATE_INSTALL_TARGETS)
-  if(ODE_BUILD_STATIC)
-    create_ode_static_install_target()
-  endif()
-  if(ODE_BUILD_SHARED)
-    create_ode_shared_install_target()
-  endif()
+  # if(ODE_BUILD_STATIC)
+  #   create_ode_static_install_target()
+  # endif()
+  # if(ODE_BUILD_SHARED)
+  #   create_ode_shared_install_target()
+  # endif()
   create_anthem_executable_install_target()
-  if(ANTHEM_BUILD_STATIC)
-    create_anthem_static_install_target()
-  endif()
-  if(ANTHEM_BUILD_SHARED)
-    create_anthem_shared_install_target()
-  endif()
+  # if(ANTHEM_BUILD_STATIC)
+  #   create_anthem_static_install_target()
+  # endif()
+  # if(ANTHEM_BUILD_SHARED)
+  #   create_anthem_shared_install_target()
+  # endif()
   create_ode_scripts_install_target()
   create_anthem_scripts_install_target()
   create_anthem_lib_scripts_install_target()
-  if(ODE_BUILD_TEST)
+  if(COMPOSER_BUILD_TEST)
     create_anthem_test_executable_install_target()
     create_ode_test_scripts_install_target()
     create_anthem_test_scripts_install_target()
