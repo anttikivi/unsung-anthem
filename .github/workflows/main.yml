@@ -33,8 +33,9 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: anttikivi/maintain-revision@v0.10.1
+      uses: anttikivi/maintain-revision@v0.12.1
       with:
+        bucket: 'anthem-workflows'
         type: json
         file: util/values.json
 
@@ -102,8 +103,9 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: anttikivi/maintain-revision@v0.10.1
+      uses: anttikivi/maintain-revision@v0.12.1
       with:
+        bucket: 'anthem-workflows'
         type: json
         file: util/values.json
 
