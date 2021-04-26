@@ -103,7 +103,7 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: anttikivi/maintain-revision@v0.11.0
+      uses: anttikivi/maintain-revision@v0.12.0
       with:
         bucket: 'anthem-workflows'
         type: json
