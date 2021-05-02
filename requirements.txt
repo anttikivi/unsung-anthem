@@ -1,1 +1,1 @@
-couplet-composer==1.8.0
+couplet-composer==1.9.0
