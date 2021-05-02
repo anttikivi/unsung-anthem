@@ -41,7 +41,7 @@ fi
 python3 -m venv env
 . $PWD/env/bin/activate
 python3 -m pip install --upgrade pip
-pip install wheel
+pip install wheel --use-feature=in-tree-build
 deactivate
 
 # Set up the script directory if it is needed.
@@ -148,9 +148,9 @@ fi
 . $PWD/env/bin/activate
 
 if [ "$DEVELOPMENT_COMPOSER" = true ] || [ "$LOCAL_COMPOSER" = true ]; then
-  pip install $composer_directory
+  pip install $composer_directory --use-feature=in-tree-build
 else
-  pip install -r $current_working_directory/requirements.txt
+  pip install -r $current_working_directory/requirements.txt --use-feature=in-tree-build
 fi
 
 deactivate

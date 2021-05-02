@@ -95,7 +95,7 @@ if defined is_local rmdir /s /q "%cd%\env"
 start "python" /w /b py -m venv env
 call %cd%\env\Scripts\activate
 start "python" /w /b py -m pip install --upgrade pip
-start "pip install" /w /b pip install wheel
+start "pip install" /w /b pip install wheel --use-feature=in-tree-build
 call deactivate
 
 @rem Set up the script directory if it is needed.
@@ -245,12 +245,12 @@ call %cd%\env\Scripts\activate
 if defined is_dev goto install_dir
 if defined is_local goto install_dir
 
-start "pip install" /w /b pip install -r %current_working_directory%\requirements.txt
+start "pip install" /w /b pip install -r %current_working_directory%\requirements.txt --use-feature=in-tree-build
 
 goto finalize
 
 :install_dir
-start "pip install" /w /b pip install %composer_directory%
+start "pip install" /w /b pip install %composer_directory% --use-feature=in-tree-build
 
 :finalize
 call deactivate
