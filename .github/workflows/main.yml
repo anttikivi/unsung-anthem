@@ -35,7 +35,7 @@ jobs:
   #     id: version
   #     uses: visiosto/maintain-revision@v0.13.0
   #     with:
-  #       storage: s3
+  #       storage: 's3'
   #       bucket: 'anthem-workflows'
   #       type: json
   #       file: util/values.json
@@ -106,7 +106,7 @@ jobs:
   #     id: version
   #     uses: visiosto/maintain-revision@v0.13.0
   #     with:
-  #       storage: s3
+  #       storage: 's3'
   #       bucket: 'anthem-workflows'
   #       type: json
   #       file: util/values.json
@@ -156,7 +156,7 @@ jobs:
       id: version
       uses: visiosto/maintain-revision@v0.13.0
       with:
-        storage: s3
+        storage: 's3'
         bucket: 'anthem-workflows'
         type: json
         file: product.json
@@ -218,7 +218,7 @@ jobs:
       id: version
       uses: visiosto/maintain-revision@v0.13.0
       with:
-        storage: s3
+        storage: 's3'
         bucket: 'anthem-workflows'
         type: json
         file: product.json
