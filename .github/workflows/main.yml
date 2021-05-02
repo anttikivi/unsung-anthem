@@ -33,7 +33,7 @@ jobs:
 
   #   - name: Determine the project’s version
   #     id: version
-  #     uses: anttikivi/maintain-revision@v0.12.1
+  #     uses: visiosto/maintain-revision@v0.12.2
   #     with:
   #       bucket: 'anthem-workflows'
   #       type: json
@@ -103,7 +103,7 @@ jobs:
 
   #   - name: Determine the project’s version
   #     id: version
-  #     uses: anttikivi/maintain-revision@v0.12.1
+  #     uses: visiosto/maintain-revision@v0.12.2
   #     with:
   #       bucket: 'anthem-workflows'
   #       type: json
@@ -152,7 +152,7 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: anttikivi/maintain-revision@v0.12.1
+      uses: visiosto/maintain-revision@v0.12.2
       with:
         bucket: 'anthem-workflows'
         type: json
@@ -213,7 +213,7 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: anttikivi/maintain-revision@v0.12.1
+      uses: visiosto/maintain-revision@v0.12.2
       with:
         bucket: 'anthem-workflows'
         type: json
