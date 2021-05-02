@@ -33,8 +33,9 @@ jobs:
 
   #   - name: Determine the project’s version
   #     id: version
-  #     uses: visiosto/maintain-revision@v0.12.2
+  #     uses: visiosto/maintain-revision@v0.13.0
   #     with:
+  #       storage: s3
   #       bucket: 'anthem-workflows'
   #       type: json
   #       file: util/values.json
@@ -103,8 +104,9 @@ jobs:
 
   #   - name: Determine the project’s version
   #     id: version
-  #     uses: visiosto/maintain-revision@v0.12.2
+  #     uses: visiosto/maintain-revision@v0.13.0
   #     with:
+  #       storage: s3
   #       bucket: 'anthem-workflows'
   #       type: json
   #       file: util/values.json
@@ -152,8 +154,9 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: visiosto/maintain-revision@v0.12.2
+      uses: visiosto/maintain-revision@v0.13.0
       with:
+        storage: s3
         bucket: 'anthem-workflows'
         type: json
         file: product.json
@@ -213,8 +216,9 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: visiosto/maintain-revision@v0.12.2
+      uses: visiosto/maintain-revision@v0.13.0
       with:
+        storage: s3
         bucket: 'anthem-workflows'
         type: json
         file: product.json
