@@ -41,6 +41,7 @@ fi
 python3 -m venv env
 . $PWD/env/bin/activate
 python3 -m pip install --upgrade pip
+pip install wheel
 deactivate
 
 # Set up the script directory if it is needed.
