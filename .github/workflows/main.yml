@@ -33,7 +33,7 @@ jobs:
 
   #   - name: Determine the project’s version
   #     id: version
-  #     uses: visiosto/maintain-revision@v0.14.0
+  #     uses: visiosto/maintain-revision@develop
   #     with:
   #       service: s3
   #       bucket: 'anthem-workflows'
@@ -104,7 +104,7 @@ jobs:
 
   #   - name: Determine the project’s version
   #     id: version
-  #     uses: visiosto/maintain-revision@v0.14.0
+  #     uses: visiosto/maintain-revision@develop
   #     with:
   #       service: s3
   #       bucket: 'anthem-workflows'
@@ -154,7 +154,7 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: visiosto/maintain-revision@v0.14.0
+      uses: visiosto/maintain-revision@develop
       with:
         service: s3
         bucket: 'anthem-workflows'
@@ -216,7 +216,7 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: visiosto/maintain-revision@v0.14.0
+      uses: visiosto/maintain-revision@develop
       with:
         service: s3
         bucket: 'anthem-workflows'
