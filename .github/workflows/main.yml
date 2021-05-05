@@ -222,7 +222,7 @@ jobs:
         service: s3
         bucket: 'anthem-workflows'
         type: json
-        file: product.json
+        file: 'product.json'
         variable: shared_version
 
     - name: Install APT packages
