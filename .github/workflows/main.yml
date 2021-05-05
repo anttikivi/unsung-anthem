@@ -160,6 +160,7 @@ jobs:
         bucket: 'anthem-workflows'
         type: json
         file: product.json
+        variable: shared_version
 
     - name: Install APT packages
       run: |
@@ -222,6 +223,7 @@ jobs:
         bucket: 'anthem-workflows'
         type: json
         file: product.json
+        variable: shared_version
 
     - name: Install APT packages
       run: |
