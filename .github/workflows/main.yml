@@ -15,123 +15,137 @@ env:
   LOCAL_VERSION_NUMBER_FILE: build_version.txt
 
 jobs:
-  # build:
-  #   name: Build
-  #   runs-on: ${{ matrix.os }}
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
 
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os: [ubuntu-18.04, ubuntu-16.04, macos-10.15, windows-2019]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-18.04, ubuntu-16.04, macos-10.15, windows-2019]
 
-  #   steps:
-  #   - name: Check out the repository
-  #     uses: actions/checkout@v2.3.4
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2.3.4
 
-  #   - name: Set up Python environment
-  #     uses: actions/setup-python@v2.2.2
+    - name: Set up Python environment
+      uses: actions/setup-python@v2.2.2
 
-  #   - name: Determine the project’s version
-  #     id: version
-  #     uses: visiosto/maintain-revision@develop
-  #     with:
-  #       service: s3
-  #       bucket: 'anthem-workflows'
-  #       type: json
-  #       file: util/values.json
+    - name: Determine the project’s version
+      id: version
+      uses: visiosto/maintain-revision@v0.15.0
+      with:
+        service: s3
+        bucket: anthem-workflows
+        type: json
+        file: util/values.json
 
-  #   - name: Install APT packages
-  #     run: |
-  #       sudo apt-get update
-  #       sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
-  #     if: runner.os == 'Linux'
+    - name: Replace the project’s version
+      uses: visiosto/replace-value@v0.1.0
+      with:
+        file: util/values.json
+        replaced: ${{ steps.version.outputs.package-version }}
+        value: ${{ steps.version.outputs.version }}
 
-  #   - name: Set the correct CMake list file
-  #     run: |
-  #       rm -f CMakeLists.txt
-  #       mv CMakeLists-1.txt CMakeLists.txt
-  #       rm -f docs/CMakeLists.txt
-  #       mv docs/CMakeLists-1.txt docs/CMakeLists.txt
-  #       rm -rf cmake
-  #       mv ./cmake-1 ./cmake
-  #       rm -f ./util/composer-presets.ini
-  #       mv ./util/composer-presets-1.ini ./util/composer-presets.ini
-  #     shell: bash
+    - name: Install APT packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
+      if: runner.os == 'Linux'
 
-  #   - name: Configure the environment
-  #     run: ./configure-14 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Set the correct CMake list file
+      run: |
+        rm -f CMakeLists.txt
+        mv CMakeLists-1.txt CMakeLists.txt
+        rm -f docs/CMakeLists.txt
+        mv docs/CMakeLists-1.txt docs/CMakeLists.txt
+        rm -rf cmake
+        mv ./cmake-1 ./cmake
+        rm -f ./util/composer-presets.ini
+        mv ./util/composer-presets-1.ini ./util/composer-presets.ini
+      shell: bash
 
-  #   - name: Compile
-  #     run: ./compose-14 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Configure the environment
+      run: ./configure-14 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
 
-  #   - name: Run tests
-  #     id: test_linux
-  #     run: |
-  #       export SDL_VIDEODRIVER=x11
-  #       export DISPLAY=:99.0
-  #       /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout $GITHUB_WORKSPACE/build/run/launch_test
-  #     if: runner.os == 'Linux'
+    - name: Compile
+      run: ./compose-14 preset --name main_workflow_${{ runner.os }} --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
 
-  #   - name: Run tests
-  #     id: test_macos
-  #     run: $GITHUB_WORKSPACE/build/run/launch_test
-  #     if: runner.os == 'macOS'
+    - name: Run tests
+      id: test_linux
+      run: |
+        export SDL_VIDEODRIVER=x11
+        export DISPLAY=:99.0
+        /usr/bin/xvfb-run -n 99 --server-args "-screen 0 1920x1080x24 +extension GLX" -e /dev/stdout $GITHUB_WORKSPACE/build/run/launch_test
+      if: runner.os == 'Linux'
 
-  #   - name: Run tests
-  #     id: test_windows
-  #     run: call %GITHUB_WORKSPACE%\build\run\launch_test
-  #     if: runner.os == 'Windows'
-  #     shell: cmd
+    - name: Run tests
+      id: test_macos
+      run: $GITHUB_WORKSPACE/build/run/launch_test
+      if: runner.os == 'macOS'
 
-  #   - name: Upload build artefacts
-  #     uses: actions/upload-artifact@v2.2.3
-  #     with:
-  #       name: anthem-${{ steps.version.outputs.version }}-${{ matrix.os }}
-  #       path: build/artefacts/anthem-*
+    - name: Run tests
+      id: test_windows
+      run: call %GITHUB_WORKSPACE%\build\run\launch_test
+      if: runner.os == 'Windows'
+      shell: cmd
 
-  # lint:
-  #   name: Lint
-  #   runs-on: ubuntu-18.04
-  #   if: always()
-  #   needs: [build]
+    - name: Upload build artefacts
+      uses: actions/upload-artifact@v2.2.3
+      with:
+        name: anthem-${{ steps.version.outputs.version }}-${{ matrix.os }}
+        path: build/artefacts/anthem-*
 
-  #   steps:
-  #   - name: Check out the repository
-  #     uses: actions/checkout@v2.3.4
+  lint:
+    name: Lint
+    runs-on: ubuntu-18.04
+    if: always()
+    needs: [build]
 
-  #   - name: Set up Python environment
-  #     uses: actions/setup-python@v2.2.2
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2.3.4
 
-  #   - name: Determine the project’s version
-  #     id: version
-  #     uses: visiosto/maintain-revision@develop
-  #     with:
-  #       service: s3
-  #       bucket: 'anthem-workflows'
-  #       type: json
-  #       file: util/values.json
+    - name: Set up Python environment
+      uses: actions/setup-python@v2.2.2
 
-  #   - name: Install APT packages
-  #     run: |
-  #       sudo apt-get update
-  #       sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
+    - name: Determine the project’s version
+      id: version
+      uses: visiosto/maintain-revision@v0.15.0
+      with:
+        service: s3
+        bucket: anthem-workflows
+        type: json
+        file: util/values.json
 
-  #   - name: Set the correct CMake list file
-  #     run: |
-  #       rm -f CMakeLists.txt
-  #       mv CMakeLists-1.txt CMakeLists.txt
-  #       rm -f docs/CMakeLists.txt
-  #       mv docs/CMakeLists-1.txt docs/CMakeLists.txt
-  #       rm -rf cmake
-  #       mv ./cmake-1 ./cmake
-  #       rm -f ./util/composer-presets.ini
-  #       mv ./util/composer-presets-1.ini ./util/composer-presets.ini
+    - name: Replace the project’s version
+      uses: visiosto/replace-value@v0.1.0
+      with:
+        file: util/values.json
+        replaced: ${{ steps.version.outputs.package-version }}
+        value: ${{ steps.version.outputs.version }}
 
-  #   - name: Configure the environment
-  #     run: ./configure-14 preset --name main_workflow_${{ runner.os }}_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Install APT packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install lcov libreadline-dev xorg-dev xvfb xserver-xorg-core xserver-xorg xserver-xorg-video-all xserver-xorg-input-all libasound2-dev libpulse-dev libaudio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev libxxf86vm-dev libxss-dev libgl1-mesa-dev libdbus-1-dev libudev-dev libgles2-mesa-dev libegl1-mesa-dev libibus-1.0-dev fcitx-libs-dev libsamplerate0-dev libsndio-dev
 
-  #   - name: Compile and lint
-  #     run: ./compose-14 preset --name main_workflow_${{ runner.os }}_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+    - name: Set the correct CMake list file
+      run: |
+        rm -f CMakeLists.txt
+        mv CMakeLists-1.txt CMakeLists.txt
+        rm -f docs/CMakeLists.txt
+        mv docs/CMakeLists-1.txt docs/CMakeLists.txt
+        rm -rf cmake
+        mv ./cmake-1 ./cmake
+        rm -f ./util/composer-presets.ini
+        mv ./util/composer-presets-1.ini ./util/composer-presets.ini
+
+    - name: Configure the environment
+      run: ./configure-14 preset --name main_workflow_${{ runner.os }}_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
+
+    - name: Compile and lint
+      run: ./compose-14 preset --name main_workflow_${{ runner.os }}_lint --in-tree-build --github-user-agent anttikivi --github-api-token ${{ secrets.GITHUB_TOKEN }} --print-debug
 
   build_new:
     name: Build with new Composer
@@ -154,13 +168,20 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: visiosto/maintain-revision@develop
+      uses: visiosto/maintain-revision@v0.15.0
       with:
         service: s3
-        bucket: 'anthem-workflows'
+        bucket: anthem-workflows
         type: json
         file: product.json
         variable: shared_version
+
+    - name: Replace the project’s version
+      uses: visiosto/replace-value@v0.1.0
+      with:
+        file: product.json
+        replaced: ${{ steps.version.outputs.package-version }}
+        value: ${{ steps.version.outputs.version }}
 
     - name: Install APT packages
       run: |
@@ -217,13 +238,20 @@ jobs:
 
     - name: Determine the project’s version
       id: version
-      uses: visiosto/maintain-revision@develop
+      uses: visiosto/maintain-revision@v0.15.0
       with:
         service: s3
-        bucket: 'anthem-workflows'
+        bucket: anthem-workflows
         type: json
-        file: 'product.json'
+        file: product.json
         variable: shared_version
+
+    - name: Replace the project’s version
+      uses: visiosto/replace-value@v0.1.0
+      with:
+        file: product.json
+        replaced: ${{ steps.version.outputs.package-version }}
+        value: ${{ steps.version.outputs.version }}
 
     - name: Install APT packages
       run: |
