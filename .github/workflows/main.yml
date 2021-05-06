@@ -42,7 +42,7 @@ jobs:
         variable: version
 
     - name: Replace the project’s version
-      uses: visiosto/replace-value@v0.2.1
+      uses: visiosto/replace-value@v0.2.2
       with:
         file: util/values.json
         replaced: ${{ steps.version.outputs.package-version }}
@@ -121,7 +121,7 @@ jobs:
         variable: version
 
     - name: Replace the project’s version
-      uses: visiosto/replace-value@v0.2.1
+      uses: visiosto/replace-value@v0.2.2
       with:
         file: util/values.json
         replaced: ${{ steps.version.outputs.package-version }}
@@ -179,7 +179,7 @@ jobs:
         variable: shared_version
 
     - name: Replace the project’s version
-      uses: visiosto/replace-value@v0.2.1
+      uses: visiosto/replace-value@v0.2.2
       with:
         file: product.json
         replaced: ${{ steps.version.outputs.package-version }}
@@ -249,7 +249,7 @@ jobs:
         variable: shared_version
 
     - name: Replace the project’s version
-      uses: visiosto/replace-value@v0.2.1
+      uses: visiosto/replace-value@v0.2.2
       with:
         file: product.json
         replaced: ${{ steps.version.outputs.package-version }}
